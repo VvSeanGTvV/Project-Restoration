@@ -1,5 +1,5 @@
 #the mod name as displayed in-game
-displayName: "Java Mod Template"
+displayName: "V5 Reborn Java Editon"
 
 #the internal name of your mod
 name: "example-java-mod"
@@ -14,7 +14,7 @@ main: "example.ExampleJavaMod"
 description: "A Mindustry Java mod template."
 
 #the mod version
-version: 1.0
+version: 0.1.0 Beta
 
 #the minimum game build required to run this mod
 minGameVersion: 138
