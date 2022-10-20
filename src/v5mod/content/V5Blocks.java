@@ -47,7 +47,7 @@ public class V5Blocks{
     //Mech Pad
     omegaPad
     ;
-    public static void load(){
+    public void load(){
         omegaPad = new MechPad("omega-pad"){{
             size = 3;
             hasPower = true;
