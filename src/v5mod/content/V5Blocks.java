@@ -53,6 +53,7 @@ public class V5Blocks{
             hasPower = true;
             unitType = UnitTypes.alpha;
 
+            mechReqs = with(mindustry.content.Items.copper, 0);
             consumePower(1f);
 
         }};
