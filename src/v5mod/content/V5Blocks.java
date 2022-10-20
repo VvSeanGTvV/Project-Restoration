@@ -49,6 +49,7 @@ public class V5Blocks{
     ;
     public void load(){
         omegaPad = new MechPad("omega-pad"){{
+            requirements(Category.effect, with(mindustry.content.Items.copper, 6));
             size = 3;
             hasPower = true;
             unitType = UnitTypes.alpha;
