@@ -2,13 +2,13 @@
 displayName: "V5 Reborn Java Editon"
 
 #the internal name of your mod
-name: "example-java-mod"
+name: "v5-java-mod"
 
 #your name
 author: "You"
 
 #the fully qualified main class of the mod
-main: "example.ExampleJavaMod"
+main: "v5mod.V5RebornMod"
 
 #the mod description as seen in the mod dialog
 description: "A Mindustry Java mod template."
