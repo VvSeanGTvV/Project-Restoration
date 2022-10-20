@@ -8,6 +8,7 @@ import mindustry.game.EventType.*;
 import mindustry.gen.*;
 import mindustry.mod.*;
 import mindustry.ui.dialogs.*;
+import v5mod.content.*;
 //v5-java-mod is the current use
 
 public class V5RebornMod extends Mod{
@@ -33,6 +34,8 @@ public class V5RebornMod extends Mod{
     @Override
     public void loadContent(){
         Log.info("Loading some example content.");
+        new V5RebornMod().loadContent();
+        //new v5modBlocks.load();
     }
 
 }
