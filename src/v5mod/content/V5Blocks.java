@@ -41,7 +41,7 @@ import v5mod.lib.*;
 import static mindustry.Vars.*;
 import static mindustry.type.ItemStack.*;
 
-public class Blocks{
+public class V5Blocks{
     public static Block
 
     //Mech Pad
@@ -57,5 +57,7 @@ public class Blocks{
 
         }};
 
+    }
+    public class load {
     }
 }
