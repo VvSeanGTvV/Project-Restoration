@@ -11,7 +11,7 @@ author: "You"
 main: "v5mod.V5RebornMod"
 
 #the mod description as seen in the mod dialog
-description: "A Mindustry Java mod template."
+description: "A Mindustry V5-Classic Mod imported for Java, currently it has more functions than v5 mod in hjson"
 
 #the mod version
 version: 0.1.0 Beta
