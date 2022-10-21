@@ -64,7 +64,7 @@ public class MechPad extends Block{
 
                 t.table(req -> {
                     req.right();
-                    if(mechReqs != null){
+                    if(mechReqs != null){ //Check if the requirements are avaliable for mech!
                         for(int i = 0; i < mechReqs.length; i++){
                             if(i % 6 == 0){
                                 req.row();
@@ -83,7 +83,7 @@ public class MechPad extends Block{
     @Override
     public void init(){
         glowRegion = Core.atlas.find(name + "-glow");
-        if(mechReqs != null){
+        if(mechReqs != null){ //Check if the requirements are avaliable for mech!
             capacities = new int[Vars.content.items().size];
             for(ItemStack stack : mechReqs){
                 capacities[stack.item.id] = Math.max(capacities[stack.item.id], stack.amount * 2);
@@ -214,7 +214,7 @@ public class MechPad extends Block{
                 Draw.reset();
 
                 Draw.color(0f, 0f, 0f, fraction());
-                Draw.rect("circle-shadow", x, y, shadowSize, shadowSize);
+                //Draw.rect("circle-shadow", x, y, shadowSize, shadowSize);
                 Draw.color();
 
                 Draw.draw(Layer.blockOver, () -> {
