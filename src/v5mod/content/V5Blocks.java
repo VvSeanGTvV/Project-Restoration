@@ -36,7 +36,9 @@ import mindustry.world.blocks.units.*;
 import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
+
 import v5mod.lib.*;
+import v5mod.content.*;
 
 import static mindustry.Vars.*;
 import static mindustry.type.ItemStack.*;
@@ -52,14 +54,12 @@ public class V5Blocks{
             requirements(Category.effect, with(mindustry.content.Items.copper, 6));
             size = 3;
             hasPower = true;
-            unitType = UnitTypes.alpha;
+            unitType = V5UnitTypes.omega;
 
             //mechReqs = with(mindustry.content.Items.copper, 0);
             consumePower(1f);
 
         }};
 
-    }
-    public class load {
     }
 }

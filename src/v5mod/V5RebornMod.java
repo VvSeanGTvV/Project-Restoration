@@ -24,7 +24,7 @@ public class V5RebornMod extends Mod{
                 BaseDialog dialog = new BaseDialog("Welcome to V5 Java Edition!");
                 //dialog.cont.add("behold").row();
                 //mod sprites are prefixed with the mod name (this mod is called 'example-java-mod' in its config)
-                dialog.cont.image(Core.atlas.find("projectclassicmindustry-mod-logoMod")).pad(20f).row();
+                dialog.cont.image(Core.atlas.find("projectv5-mod-logoMod")).pad(20f).row();
                 dialog.cont.add("Welcome to Beta of V5 Java Edition! Currently this is not fully finished or fully ported over!").row();
                 dialog.cont.button("Continue", dialog::hide).size(130f, 50f);
                 dialog.show();
