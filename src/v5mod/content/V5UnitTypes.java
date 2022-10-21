@@ -28,10 +28,43 @@ public class V5UnitTypes {
 
     public static void load(){
 
-        omega = new UnitType("omega"){{
+        omega = new UnitType("omega-mech"){{
             speed = 0.5f;
             hitSize = 8f;
             health = 150;
+            weapons.add(new Weapon("swarmer"){{
+                x = 1f;
+                y = 0f;
+                top = false;
+                ejectEffect = Fx.casing1;
+
+                recoil = 4f;
+                reload = 38f;
+                shoot.shots = 4;
+                inaccuracy = 8f;
+                alternate = true;
+                ejectEffect = Fx.none;
+                shake = 3f;
+                shootSound = Sounds.shootBig;
+
+                bullet = new MissileBulletType(2.7f, 12){{
+                    width = 8f;
+                    height = 8f;
+                    drag = -0.003f;
+                    homingRange = 60f;
+                    keepVelocity = false;
+                    splashDamageRadius = 25f;
+                    splashDamage = 10f;
+                    lifetime = 120f;
+                    trailColor = Color.gray;
+                    backColor = Pal.bulletYellowBack;
+                    frontColor = Pal.bulletYellow;
+                    hitEffect = Fx.blastExplosion;
+                    despawnEffect = Fx.blastExplosion;
+                    weaveScale = 8f;
+                    weaveMag = 2f;
+                }};
+            }});
         }};
     }
     

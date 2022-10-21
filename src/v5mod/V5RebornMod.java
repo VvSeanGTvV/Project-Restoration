@@ -36,6 +36,7 @@ public class V5RebornMod extends Mod{
     public void loadContent(){
         Log.info("Loading some example content.");
         new V5Blocks().load();
+        new V5UnitTypes().load();
     }
 
 }
