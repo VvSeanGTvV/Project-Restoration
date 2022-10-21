@@ -83,15 +83,16 @@ public class MechPad extends Block{
     @Override
     public void init(){
         glowRegion = Core.atlas.find(name + "-glow");
+        if(mechReqs != null){
+            capacities = new int[Vars.content.items().size];
+            for(ItemStack stack : mechReqs){
+                capacities[stack.item.id] = Math.max(capacities[stack.item.id], stack.amount * 2);
+                itemCapacity = Math.max(itemCapacity, stack.amount * 2);
+            }
 
-        capacities = new int[Vars.content.items().size];
-        for(ItemStack stack : mechReqs){
-            capacities[stack.item.id] = Math.max(capacities[stack.item.id], stack.amount * 2);
-            itemCapacity = Math.max(itemCapacity, stack.amount * 2);
-        }
-
-        consumeItems(mechReqs);
-        consumeBuilder.each(c -> c.multiplier = b -> state.rules.unitCost(b.team));
+            consumeItems(mechReqs);
+            consumeBuilder.each(c -> c.multiplier = b -> state.rules.unitCost(b.team));
+        };
 
         super.init();
     }
@@ -234,7 +235,7 @@ public class MechPad extends Block{
                 Lines.stroke(1.5f);
                 Lines.poly(tile.drawx(), tile.drawy(), 4, polyRad - 2f);
                 Draw.reset();
-            } else if(potentialEfficiency > 0){
+            } else if(potentialEfficiency > 0 && glowRegion != null){
                 Drawf.additive(glowRegion, Pal.accent, /*warmup * */(1f - 0.5f + Mathf.absin(Time.time, 8f, 0.5f)), x, y, 0f, Layer.blockAdditive);
             }
         }
