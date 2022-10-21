@@ -214,7 +214,7 @@ public class MechPad extends Block{
                 Draw.reset();
 
                 Draw.color(0f, 0f, 0f, fraction());
-                //Draw.rect("circle-shadow", x, y, shadowSize, shadowSize);
+                Draw.rect("circle-shadow", x, y, shadowSize, shadowSize);
                 Draw.color();
 
                 Draw.draw(Layer.blockOver, () -> {
@@ -235,7 +235,7 @@ public class MechPad extends Block{
                 Lines.stroke(1.5f);
                 Lines.poly(tile.drawx(), tile.drawy(), 4, polyRad - 2f);
                 Draw.reset();
-            } else if(potentialEfficiency > 0 && glowRegion != null){
+            } else if(potentialEfficiency > 0 && Core.atlas.isFound(glowRegion)){
                 Drawf.additive(glowRegion, Pal.accent, /*warmup * */(1f - 0.5f + Mathf.absin(Time.time, 8f, 0.5f)), x, y, 0f, Layer.blockAdditive);
             }
         }
