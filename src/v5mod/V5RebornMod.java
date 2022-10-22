@@ -35,8 +35,9 @@ public class V5RebornMod extends Mod{
     @Override
     public void loadContent(){
         Log.info("Loading some example content.");
+        new V5UnitTypes();
+        V5UnitTypes.load();
         new V5Blocks().load();
-        new V5UnitTypes().load();
     }
 
 }

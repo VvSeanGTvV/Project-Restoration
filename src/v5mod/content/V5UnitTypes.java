@@ -45,7 +45,7 @@ public class V5UnitTypes {
 
             constructor = MechUnit::create; //Due to because of contrustor => null for no reason
             
-            weapons.add(new Weapon("swarmer"){{
+            weapons.add(new Weapon("swarmer-equip"){{
                 x = 1f;
                 y = 0f;
                 top = false;
