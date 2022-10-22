@@ -1,26 +1,32 @@
 package v5mod.content;
 
-import arc.func.Prov;
-import arc.graphics.Color;
-import arc.math.Mathf;
-import arc.math.geom.Rect;
+import arc.*;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.math.geom.*;
 import arc.struct.*;
-import arc.struct.ObjectMap.Entry;
+import arc.util.*;
+import mindustry.ai.*;
+import mindustry.ai.types.*;
 import mindustry.content.*;
-import mindustry.entities.abilities.MoveEffectAbility;
+import mindustry.entities.*;
+import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
-import mindustry.entities.part.RegionPart;
-import mindustry.entities.pattern.ShootAlternate;
+import mindustry.entities.part.*;
+import mindustry.entities.pattern.*;
 import mindustry.gen.*;
-import mindustry.graphics.Pal;
+import mindustry.graphics.*;
 import mindustry.type.*;
-import mindustry.type.ammo.ItemAmmoType;
-import mindustry.type.weapons.PointDefenseWeapon;
-import mindustry.world.blocks.payloads.PayloadSource;
-import mindustry.world.meta.BlockFlag;
-import rhino.ast.ParseProblem.Type;
+import mindustry.type.ammo.*;
+import mindustry.type.unit.*;
+import mindustry.type.weapons.*;
+import mindustry.world.meta.*;
 
+import static arc.graphics.g2d.Draw.*;
+import static arc.graphics.g2d.Lines.*;
+import static arc.math.Angles.*;
 import static mindustry.Vars.*;
 
 public class V5UnitTypes {
@@ -42,9 +48,10 @@ public class V5UnitTypes {
             buildSpeed = 1.5f;
             engineColor = Color.valueOf("feb380");
             canBoost = true;
-            //constructor = MechUnit::create; //meh
+            constructor = MechUnit::create;
             
             weapons.add(new Weapon("swarmer-equip"){{
+                region = Core.atlas.find("swarmer-equip");
                 x = 1f;
                 y = 0f;
                 top = true;
