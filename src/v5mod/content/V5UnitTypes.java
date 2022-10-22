@@ -42,7 +42,7 @@ public class V5UnitTypes {
             buildSpeed = 1.5f;
             engineColor = Color.valueOf("feb380");
             canBoost = true;
-            //constructor = MechUnit::create;
+            //constructor = MechUnit::create; //meh
             
             weapons.add(new Weapon("swarmer-equip"){{
                 x = 1f;
