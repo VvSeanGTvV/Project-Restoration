@@ -19,19 +19,32 @@ import mindustry.type.ammo.ItemAmmoType;
 import mindustry.type.weapons.PointDefenseWeapon;
 import mindustry.world.blocks.payloads.PayloadSource;
 import mindustry.world.meta.BlockFlag;
+import rhino.ast.ParseProblem.Type;
+
 import static mindustry.Vars.*;
 
 public class V5UnitTypes {
-    public static UnitType 
+    public static UnitType
     //Mech
     omega;
 
     public static void load(){
 
         omega = new UnitType("omega-mech"){{
-            speed = 0.5f;
             hitSize = 8f;
-            health = 150;
+            mineTier = 2;
+            mineSpeed = 1.5f;
+            itemCapacity = 80;
+            speed = 0.36f;
+            boostMultiplier = 0.6f;
+            mechLandShake = 4f;
+            health = 350f;
+            buildSpeed = 1.5f;
+            engineColor = Color.valueOf("feb380");
+            canBoost = true;
+
+            constructor = MechUnit::create; //Due to because of contrustor => null for no reason
+            
             weapons.add(new Weapon("swarmer"){{
                 x = 1f;
                 y = 0f;
@@ -46,6 +59,7 @@ public class V5UnitTypes {
                 ejectEffect = Fx.none;
                 shake = 3f;
                 shootSound = Sounds.shootBig;
+                mirror = true;
 
                 bullet = new MissileBulletType(2.7f, 12){{
                     width = 8f;
