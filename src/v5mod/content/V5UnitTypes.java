@@ -42,8 +42,7 @@ public class V5UnitTypes {
             buildSpeed = 1.5f;
             engineColor = Color.valueOf("feb380");
             canBoost = true;
-
-            constructor = MechUnit::create; //Due to because of contrustor => null for no reason
+            //constructor = MechUnit::create;
             
             weapons.add(new Weapon("swarmer-equip"){{
                 x = 1f;
