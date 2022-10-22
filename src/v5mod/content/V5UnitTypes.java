@@ -48,8 +48,7 @@ public class V5UnitTypes {
             weapons.add(new Weapon("swarmer-equip"){{
                 x = 1f;
                 y = 0f;
-                top = false;
-                ejectEffect = Fx.casing1;
+                top = true;
 
                 recoil = 4f;
                 reload = 38f;
@@ -65,7 +64,7 @@ public class V5UnitTypes {
                     width = 8f;
                     height = 8f;
                     drag = -0.003f;
-                    homingRange = 60f;
+                    //homingRange = 60f;
                     keepVelocity = false;
                     splashDamageRadius = 25f;
                     splashDamage = 10f;
