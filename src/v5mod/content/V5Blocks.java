@@ -36,9 +36,10 @@ import mindustry.world.blocks.units.*;
 import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
+import mindustry.content.*;
 
-import v5mod.lib.*;
-import v5mod.content.*;
+import v5mod.lib.blocks.*; //library contents for blocks extended
+import v5mod.lib.blocks.LegacyUnitFactory;
 
 import static mindustry.Vars.*;
 import static mindustry.type.ItemStack.*;
@@ -47,19 +48,130 @@ public class V5Blocks{
     public static Block
 
     //Mech Pad
-    omegaPad
+    omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad,
+
+    //UnitFactory
+    wraithFactory, ghoulFactory, revenantFactory, draugFactory, spiritFactory
     ;
     public void load(){
+        //--- Mech Pad Region ---
         omegaPad = new MechPad("omega-pad"){{
-            requirements(Category.effect, with(mindustry.content.Items.copper, 6));
+            requirements(Category.effect, with(Items.lead, 225, Items.graphite, 275, Items.silicon, 325, Items.thorium, 300, Items.surgeAlloy, 120));
             size = 3;
             hasPower = true;
             unitType = V5UnitTypes.omega;
 
             //mechReqs = with(mindustry.content.Items.copper, 0);
-            consumePower(1f);
-
+            consumePower(1.2f);
         }};
 
+        deltaPad = new MechPad("delta-pad"){{
+            requirements(Category.effect, with(Items.lead, 175, Items.titanium, 175, Items.copper, 200, Items.silicon, 225, Items.thorium, 150));
+            size = 2;
+            hasPower = true;
+            unitType = V5UnitTypes.delta;
+
+            consumePower(0.7f);
+        }};
+
+        javelinPad = new MechPad("javelin-pad"){{
+            requirements(Category.effect, with(Items.lead, 175, Items.silicon, 225, Items.titanium, 250, Items.plastanium, 200, Items.phaseFabric, 100));
+            size = 2;
+            hasPower = true;
+            unitType = V5UnitTypes.javelin;
+
+            consumePower(0.8f);
+        }};
+
+        tridentPad = new MechPad("trident-pad"){{
+            requirements(Category.effect, with(Items.lead, 125, Items.copper, 125, Items.silicon, 125, Items.titanium, 150, Items.plastanium, 100));
+            size = 2;
+            hasPower = true;
+            unitType = V5UnitTypes.trident;
+
+            consumePower(1f);
+        }};
+
+        alphaPad = new MechPad("dart-pad"){{
+            requirements(Category.effect, with(Items.lead, 100, Items.graphite, 50, Items.copper, 75));
+            size = 2;
+            hasPower = true;
+            unitType = V5UnitTypes.alpha;
+
+            consumePower(0.5f);
+        }};
+
+        tauPad = new MechPad("tau-pad"){{
+            requirements(Category.effect, with(Items.lead, 125, Items.titanium, 125, Items.copper, 125, Items.silicon, 125));
+            size = 2;
+            hasPower = true;
+            unitType = V5UnitTypes.tau;
+
+            consumePower(1f);
+        }};
+
+        glaivePad = new MechPad("glaive-pad"){{
+            requirements(Category.effect, with(Items.lead, 225, Items.silicon, 325, Items.titanium, 350, Items.plastanium, 300, Items.surgeAlloy, 100));
+            size = 3;
+            hasPower = true;
+            unitType = V5UnitTypes.glaive;
+
+            consumePower(1.2f);
+        }};
+        //--- Mech Pad Region End ---
+
+        //--- Unit Factory Region ---
+        wraithFactory = new LegacyUnitFactory("wraith-factory"){{
+            requirements(Category.units, ItemStack.with(Items.titanium, 30, Items.lead, 40, Items.silicon, 45));
+            size = 2;
+            produceTime = 700;
+
+            consumePower(0.5f);
+            requirement = with(Items.silicon, 10, Items.titanium, 5);
+            unitType = V5UnitTypes.wraith;
+        }};
+
+        ghoulFactory = new LegacyUnitFactory("ghoul-factory"){{
+            requirements(Category.units, ItemStack.with(Items.titanium, 75, Items.lead, 65, Items.silicon, 110));
+            size = 3;
+            produceTime = 1150;
+
+            consumePower(1.2f);
+            requirement = with(Items.silicon, 15, Items.titanium, 10);
+            unitType = V5UnitTypes.ghoul;
+        }};
+
+        revenantFactory = new LegacyUnitFactory("revenant-factory"){{
+            requirements(Category.units, ItemStack.with(Items.plastanium, 50, Items.titanium, 150, Items.lead, 150, Items.silicon, 200));
+            size = 4;
+            produceTime = 2000;
+
+            consumePower(3f);
+            requirement = with(Items.silicon, 40, Items.titanium, 30);
+            unitType = V5UnitTypes.revenant;
+        }};
+
+        draugFactory = new LegacyUnitFactory("draug-factory"){{
+            requirements(Category.units, ItemStack.with(Items.copper, 30, Items.lead, 70));
+            size = 2;
+            produceTime = 2500;
+            maxSpawn = 1;
+
+            consumePower(1.2f);
+            //requirement = with(Items.silicon, 40, Items.titanium, 30);
+            unitType = V5UnitTypes.draug;
+        }};
+
+        spiritFactory = new LegacyUnitFactory("spirit-factory"){{
+            requirements(Category.units, ItemStack.with(Items.metaglass, 45, Items.lead, 55, Items.silicon, 45));
+            size = 2;
+            produceTime = 4000;
+            maxSpawn = 1;
+
+            consumePower(1.2f);
+            requirement = with(Items.silicon, 30, Items.lead, 30);
+            unitType = V5UnitTypes.spirit;
+        }};
+        //--- Unit Factory Region End ---
     }
 }

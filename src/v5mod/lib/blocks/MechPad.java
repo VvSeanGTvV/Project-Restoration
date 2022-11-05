@@ -1,6 +1,7 @@
-package v5mod.lib;
+package v5mod.lib.blocks;
 
 import arc.*;
+import arc.audio.Sound;
 import arc.graphics.*;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
@@ -27,6 +28,7 @@ import static mindustry.Vars.*;
 public class MechPad extends Block{
 
     TextureRegion glowRegion;
+    protected Sound finishedSounds;
 
     public UnitType unitType;
     public float buildTime = 60 * 5;
@@ -146,6 +148,7 @@ public class MechPad extends Block{
         solid = false;
         hasPower = true;
         ambientSound = Sounds.respawning;
+        finishedSounds = Vars.tree.loadSound("v5_sounds_respawn");
     }
 
     public class MechPadBuild extends Building implements ControlBlock{
@@ -171,12 +174,14 @@ public class MechPad extends Block{
                 progress += edelta() * Vars.state.rules.unitBuildSpeed(team);
                 speedScl = Mathf.lerpDelta(speedScl, 1f, 0.05f);
                 unit.ammo(unit.type().ammoCapacity * fraction());
+                //ambientSound.at(unit);
             }else{
                 speedScl = Mathf.lerpDelta(speedScl, 0f, 0.05f);
                 if(!isControlled()) { progress = 0f;}
             }
 
             if(progress >= buildTime) {
+                finishedSounds.at(unit);
                 progress %= 1f;
 
                 Player player = unit.getPlayer();
@@ -203,7 +208,7 @@ public class MechPad extends Block{
             super.draw();
 
             if(isControlled() && efficiency > 0.001f){
-                float polyRad = unitType.hitSize + 6f;
+                float polyRad = unitType.hitSize + 3f; //pad.hitSize()/2f;
                 float pos = Mathf.sin(time, polyRad,polyRad - 2f);
                 TextureRegion full = unitType.fullIcon;
                 float shadowSize = Math.max(full.height, full.width) / 2f;

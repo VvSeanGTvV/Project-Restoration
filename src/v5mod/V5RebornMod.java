@@ -13,28 +13,28 @@ import v5mod.content.*;
 //v5-java-mod is the current use
 
 public class V5RebornMod extends Mod{
-
     public V5RebornMod(){
         Log.info("Loaded V5Constructor constructor.");
 
         //listen for game load event
         Events.on(ClientLoadEvent.class, e -> {
+            Vars.ui.showOkText("@mod.disclaimer.title", "@mod.disclaimer.text", () -> {});
             //show dialog upon startup
-            Time.runTask(10f, () -> {
-                BaseDialog dialog = new BaseDialog("Welcome to V5 Java Edition!");
+            //Time.runTask(10f, () -> {
+            //    BaseDialog dialog = new BaseDialog("Welcome to V5 Java Edition!");
                 //dialog.cont.add("behold").row();
                 //mod sprites are prefixed with the mod name (this mod is called 'example-java-mod' in its config)
-                dialog.cont.image(Core.atlas.find("projectv5-mod-logoMod")).pad(20f).row();
-                dialog.cont.add("Welcome to Beta of V5 Java Edition! Currently this is not fully finished or fully ported over!").row();
-                dialog.cont.button("Continue", dialog::hide).size(130f, 50f);
-                dialog.show();
-            });
+            //    dialog.cont.image(Core.atlas.find("projectv5-mod-logoMod")).pad(20f).row();
+            //    dialog.cont.add("Welcome to Beta of V5 Java Edition! Currently this is not fully finished or fully ported over!").row();
+            //    dialog.cont.button("Continue", dialog::hide).size(130f, 50f);
+            //    dialog.show();
+            //});
         });
     }
 
     @Override
     public void loadContent(){
-        Log.info("Loading some example content.");
+        Log.info("Loading contents...");
         new V5UnitTypes().load();
         new V5Blocks().load();
     }
