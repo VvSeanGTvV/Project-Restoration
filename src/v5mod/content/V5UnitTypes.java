@@ -612,7 +612,7 @@ public class V5UnitTypes {
         draug = new UnitType("draug"){{
             outlines = false;
             speed = 1.2f;
-            accel = 0.03f * 2f;
+            accel = 0.03f * 3f;
             drag = 0.01f;
             health = 80;
             flying = true;
@@ -622,12 +622,14 @@ public class V5UnitTypes {
             constructor = UnitEntity::create;
             controller = u -> new MinerAI();
             mineItems = with(Items.copper, Items.lead);
+
+            //place weapon called: "you have incurred my wrath. prepare to die." plz he need one, he poor
         }};
 
         spirit = new UnitType("spirit"){{
             outlines = false;
             speed = 1.6f;
-            accel = 0.042f * 2f;
+            accel = 0.042f * 3f;
             drag = 0.01f;
             flying = true;
             range = 50f;
@@ -654,11 +656,70 @@ public class V5UnitTypes {
                 
                 bullet = new BasicBulletType(5.2f, 15f){{ //adjust the format of v5 for v7
                     healPercent = 5.5f;
+                    shootEffect = Fx.shootHeal;
+                    smokeEffect = Fx.hitLaser;
+                    hitEffect = Fx.hitLaser;
+                    despawnEffect = Fx.hitLaser;
                     collidesTeam = true;
+                    healEffect = Fx.healBlockFull;
+                    sprite = "projectv5-mod-laser";
+                    width = 7f;
+                    height = 5f;
+                    rotationOffset = 90f; //Sprite rotate cause it is way off lolz.
+                    frontColor = Pal.heal;
+                    backColor = Pal.heal;
                 }};
             }});
         }};
-       
+
+        phantom = new UnitType("phantom"){{
+            outlines = false;
+            speed = 1.9f;
+            accel = 0.045f * 3f;
+            drag = 0.01f;
+            flying = true;
+            range = 70f;
+            itemCapacity = 70;
+            health = 100;
+            engineSize = 1.8f;
+            engineOffset = 5.7f;
+            constructor = UnitEntity::create;
+            mineItems = with(Items.copper, Items.lead, Items.titanium);
+            controller = u -> new BuilderAI();
+
+            weapons.add(new Weapon("projectv5-mod-nullTexture"){{
+                x = 0f;
+                y = 0f;
+                top = true;
+
+                reload = 10f;
+                alternate = true;
+                ejectEffect = Fx.none;
+                shootCone = 100f;
+                rotateSpeed = 0.06f * 12f;
+                recoil = 2f;
+                inaccuracy = 3f;
+                shootSound = pew;
+                mirror = true;
+
+                bullet = new BasicBulletType(5.2f, 13f){{ //adjust the format of v5 for v7
+                    healPercent = 3f;
+                    shootEffect = Fx.shootHeal;
+                    smokeEffect = Fx.hitLaser;
+                    hitEffect = Fx.hitLaser;
+                    despawnEffect = Fx.hitLaser;
+                    collidesTeam = true;
+                    healEffect = Fx.healBlockFull;
+                    sprite = "projectv5-mod-laser";
+                    width = 7f;
+                    height = 5f;
+                    rotationOffset = 90f; //Sprite rotate cause it is way off lolz.
+                    frontColor = Pal.heal;
+                    backColor = Pal.heal;
+                }};
+            }});
+        }};
+        
     }
     
 }
