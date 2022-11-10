@@ -48,7 +48,9 @@ public class V5UnitTypes {
 
     //Unit Region
     wraith, ghoul, revenant, lich, reaper, //Unit - Air
-    draug, phantom, spirit //Unit - Air - Support
+    draug, phantom, spirit, //Unit - Air - Support
+
+    crawler, dagger, titan, fortress, eruptor, chaosArray, eradicator //Unit - Ground
     ;
 
     public static void load(){
@@ -392,10 +394,9 @@ public class V5UnitTypes {
             health = 75;
             engineOffset = 5.5f;
             range = 140f;
-            flying = true;
             circleTarget = true;
             constructor = UnitEntity::create;
-            aiController = FlyingAI::new;
+            controller = u -> new FlyingAI();
             
             weapons.add(new Weapon("projectv5-mod-nullTexture"){{
                 x = 2f;
@@ -432,7 +433,7 @@ public class V5UnitTypes {
             circleTarget = true;
             targetAir = false;
             constructor = UnitEntity::create;
-            aiController = FlyingAI::new;
+            controller = u -> new FlyingAI();
             
             weapons.add(new Weapon("projectv5-mod-nullTexture"){{
                 x = 0f;
@@ -472,7 +473,7 @@ public class V5UnitTypes {
             engineOffset = 12f;
             engineSize = 3f;
             constructor = UnitEntity::create;
-            aiController = FlyingAI::new;
+            controller = u -> new FlyingAI();
             
             weapons.add(new Weapon("projectv5-mod-revenant-missiles-equip"){{
                 x = 9f;
@@ -527,7 +528,7 @@ public class V5UnitTypes {
             engineSize = 5.3f;
             rotateSpeed = 0.06f * 22f;
             constructor = UnitEntity::create;
-            aiController = FlyingAI::new;
+            controller = u -> new FlyingAI();
             
             weapons.add(new Weapon("projectv5-mod-lich-missiles-equip"){{
                 x = 21f;
@@ -581,7 +582,7 @@ public class V5UnitTypes {
             engineSize = 7.3f;
             rotateSpeed = 0.04f * 22f;
             constructor = UnitEntity::create;
-            aiController = FlyingAI::new;
+            controller = u -> new FlyingAI();
             
             weapons.add(new Weapon("projectv5-mod-reaper-gun-equip"){{
                 x = 31f;
@@ -684,6 +685,7 @@ public class V5UnitTypes {
             engineSize = 1.8f;
             engineOffset = 5.7f;
             constructor = UnitEntity::create;
+            buildSpeed = 0.4f;
             mineItems = with(Items.copper, Items.lead, Items.titanium);
             controller = u -> new BuilderAI();
 
@@ -719,7 +721,290 @@ public class V5UnitTypes {
                 }};
             }});
         }};
-        
+        // --- Flying Units Region (Support) End ---
+        // --- Flying Units Region End ---
+
+        // --- Ground Units Region ---
+        crawler = new UnitType("crawler"){{
+            outlines = false;
+            mechSideSway = 0f;
+            mechFrontSway = 0f;
+            hitSize = 8f;
+            accel = 0.0285f *6;
+            speed = 1.27f *3;
+            drag = 0.4f;
+            health = 120f;
+            canBoost = false;
+            constructor = MechUnit::create;
+            controller = u -> new SuicideAI();
+
+            weapons.add(new Weapon("projectv5-mod-nullTexture-equip"){{
+                reload = 6f;
+                ejectEffect = Fx.none;
+                shootSound = Sounds.explosion;
+
+                bullet = new BombBulletType(2f, 3f){{
+                    hitEffect = Fx.pulverize;
+                    lifetime = 30f;
+                    speed = 1.1f;
+                    splashDamageRadius = 55f;
+                    instantDisappear = true;
+                    splashDamage = 30f;
+                    killShooter = true;
+                }};
+            }});
+        }};
+
+        dagger = new UnitType("dagger"){{
+            outlines = false;
+            mechSideSway = 0f;
+            mechFrontSway = 0f;
+            hitSize = 8f;
+            accel = 0.02f *6;
+            speed = 1.1f *3;
+            drag = 0.4f;
+            health = 130f;
+            canBoost = false;
+            constructor = MechUnit::create;
+            controller = u -> new GroundAI();
+
+            weapons.add(new Weapon("projectv5-mod-chain-blaster-equip"){{
+                shootSound = pew;
+                outlines = false;
+                x = -4.5f;
+                y = 0f;
+                top = true;
+
+                reload = 14f;
+                alternate = true;
+                ejectEffect = Fx.casing1;
+                shootX = 0f;
+                mirror = true;
+
+                bullet = new BasicBulletType(2.5f, 9f){{
+                    width = 7f;
+                    height = 9f;
+                    lifetime = 60f;
+                    shootEffect = Fx.shootSmall;
+                    smokeEffect = Fx.shootSmallSmoke;
+                    ammoMultiplier = 2;
+                }};
+            }});
+        }};
+
+        titan = new UnitType("titan"){{
+            outlines = false;
+            mechSideSway = 0f;
+            mechFrontSway = 0f;
+            hitSize = 10f;
+            accel = 0.022f *6;
+            speed = 0.8f *3;
+            drag = 0.4f;
+            health = 460f;
+            rotateSpeed = 0.1f *30;
+            targetAir = false;
+            canBoost = false;
+            immunities = ObjectSet.with(StatusEffects.burning);
+            constructor = MechUnit::create;
+            controller = u -> new GroundAI();
+
+            weapons.add(new Weapon("projectv5-mod-flamethrower-equip"){{
+                shootSound = Sounds.flame;
+                outlines = false;
+                x = -4f;
+                y = 0f;
+                top = true;
+
+                reload = 7f;
+                alternate = true;
+                ejectEffect = Fx.none;
+                shootX = 0f;
+                recoil = 1f;
+                mirror = true;
+
+                bullet = new BasicBulletType(3f, 6f){{
+                    ammoMultiplier =3f;
+                    hitSize =7f;
+                    lifetime =42f;
+                    pierce =true;
+                    drag =0.05f;
+                    statusDuration =60f*4;
+                    shootEffect =Fx.shootSmallFlame;
+                    hitEffect =Fx.hitFlameSmall;
+                    despawnEffect =Fx.none;
+                    status =StatusEffects.burning;
+                    sprite = "projectv5-mod-nullTexture";
+                }};
+            }});
+        }};
+
+        fortress = new UnitType("fortress"){{
+            outlines = false;
+            mechSideSway = 0f;
+            mechFrontSway = 0f;
+            hitSize = 10f;
+            accel = 0.015f *6;
+            speed = 0.78f *3;
+            drag = 0.4f;
+            health = 750f;
+            rotateSpeed = 0.06f *30;
+            targetAir = false;
+            canBoost = false;
+            immunities = ObjectSet.with(StatusEffects.burning, StatusEffects.melting);
+            constructor = MechUnit::create;
+            controller = u -> new GroundAI();
+
+            weapons.add(new Weapon("projectv5-mod-artillery-equip"){{
+                shootSound = Sounds.artillery;
+                outlines = false;
+                x = -10f;
+                y = 0f;
+                top = true;
+
+                reload = 30f;
+                alternate = true;
+                ejectEffect = Fx.none;
+                shootX = 0f;
+                mirror = true;
+                shake = 2f;
+                recoil = 4f;
+
+                bullet = new ArtilleryBulletType(2f, 0f){{
+                    hitEffect = Fx.blastExplosion;
+                    knockback = 0.8f;
+                    lifetime = 90f;
+                    width = height = 14f;
+                    collides = true;
+                    collidesTiles = true;
+                    splashDamageRadius = 20f;
+                    splashDamage = 38f;
+                    backColor = Pal.bulletYellowBack;
+                    frontColor = Pal.bulletYellow;
+                }};
+            }});
+        }};
+
+        eruptor = new UnitType("eruptor"){{
+            outlines = false;
+            mechSideSway = 0f;
+            mechFrontSway = 0f;
+            hitSize = 9f;
+            accel = 0.016f *6;
+            speed = 0.81f *3;
+            drag = 0.4f;
+            health = 600f;
+            rotateSpeed = 0.05f *30;
+            targetAir = false;
+            canBoost = false;
+            immunities = ObjectSet.with(StatusEffects.burning, StatusEffects.melting);
+            constructor = MechUnit::create;
+            controller = u -> new GroundAI();
+
+            weapons.add(new Weapon("projectv5-mod-eruption-equip"){{
+                shootSound = Sounds.flame;
+                outlines = false;
+                x = -7f;
+                y = 0f;
+                top = true;
+
+                reload = 5f;
+                alternate = true;
+                ejectEffect = Fx.none;
+                shootX = 0f;
+                mirror = true;
+                recoil = 1f;
+
+                bullet = new LiquidBulletType(Liquids.slag){{
+                    damage = 2;
+                    speed = 2.1f;
+                    drag = 0.02f;;
+                }};
+            }});
+        }};
+
+        chaosArray = new UnitType("chaos-array"){{
+            outlines = false;
+            mechSideSway = 0f;
+            mechFrontSway = 0f;
+            hitSize = 20f;
+            accel = 0.012f *6;
+            speed = 0.68f *3;
+            drag = 0.4f;
+            health = 3000f;
+            rotateSpeed = 0.06f *30;
+            canBoost = false;
+            constructor = MechUnit::create;
+            controller = u -> new GroundAI();
+
+            weapons.add(new Weapon("projectv5-mod-chaos-equip"){{
+                shootSound = Sounds.shootBig;
+                outlines = false;
+                x = -17f;
+                y = 0f;
+                top = true;
+
+                reload = 25f;
+                alternate = true;
+                ejectEffect = Fx.casing2;
+                shootX = 0f;
+                mirror = true;
+                recoil = 3f;
+                shake = 2f;
+                inaccuracy = 3f;
+
+                shoot.shots = 4;
+                shoot.shotDelay = 5;
+
+                bullet = new FlakBulletType(4f, 7f){{
+                    splashDamage = 33f;
+                    lightning = 2;
+                    lightningLength = 12;
+                    shootEffect = Fx.shootBig;
+                }};
+            }});
+        }};
+
+        eradicator = new UnitType("eradicator"){{
+            outlines = false;
+            mechSideSway = 0f;
+            mechFrontSway = 0f;
+            hitSize = 20f;
+            accel = 0.012f *6;
+            speed = 0.68f *3;
+            drag = 0.4f;
+            health = 9000f;
+            rotateSpeed = 0.06f *30;
+            canBoost = false;
+            constructor = MechUnit::create;
+            controller = u -> new GroundAI();
+
+            weapons.add(new Weapon("projectv5-mod-eradication-equip"){{
+                shootSound = Sounds.shootBig;
+                outlines = false;
+                x = -21.5f;
+                y = 0f;
+                top = true;
+
+                reload = 15f;
+                alternate = true;
+                ejectEffect = Fx.casing2;
+                shootX = 0f;
+                mirror = true;
+                recoil = 3f;
+                shake = 2f;
+                inaccuracy = 3f;
+
+                shoot.shots = 4;
+                shoot.shotDelay = 3;
+
+                bullet = new BasicBulletType(8f, 65f){{
+                    width = 16f;
+                    height = 23f;
+                    shootEffect = Fx.shootBig;
+                }};
+            }});
+        }};
+       
     }
     
 }

@@ -47,11 +47,12 @@ import static mindustry.type.ItemStack.*;
 public class V5Blocks{
     public static Block
 
-    //Mech Pad
-    omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad,
+    omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad
 
-    //UnitFactory
-    wraithFactory, ghoulFactory, revenantFactory, draugFactory, spiritFactory
+    wraithFactory, ghoulFactory, revenantFactory, //Air Unit Factory
+    crawlerFactory,daggerFactory, titanFactory, fortressFactory, //Ground Unit Factory
+
+    draugFactory, spiritFactory, phantomFactory //Unit Support Factory
     ;
     public void load(){
         //--- Mech Pad Region ---
@@ -125,6 +126,7 @@ public class V5Blocks{
             requirements(Category.units, ItemStack.with(Items.titanium, 30, Items.lead, 40, Items.silicon, 45));
             size = 2;
             produceTime = 700;
+            maxSpawn = 4;
 
             consumePower(0.5f);
             requirement = with(Items.silicon, 10, Items.titanium, 5);
@@ -135,6 +137,7 @@ public class V5Blocks{
             requirements(Category.units, ItemStack.with(Items.titanium, 75, Items.lead, 65, Items.silicon, 110));
             size = 3;
             produceTime = 1150;
+            maxSpawn = 4;
 
             consumePower(1.2f);
             requirement = with(Items.silicon, 15, Items.titanium, 10);
@@ -145,17 +148,20 @@ public class V5Blocks{
             requirements(Category.units, ItemStack.with(Items.plastanium, 50, Items.titanium, 150, Items.lead, 150, Items.silicon, 200));
             size = 4;
             produceTime = 2000;
+            maxSpawn = 4;
 
             consumePower(3f);
             requirement = with(Items.silicon, 40, Items.titanium, 30);
             unitType = V5UnitTypes.revenant;
         }};
+        //--- Unit Factory Region ---
 
+        //--- Unit Support Factory Region ---
         draugFactory = new LegacyUnitFactory("draug-factory"){{
             requirements(Category.units, ItemStack.with(Items.copper, 30, Items.lead, 70));
             size = 2;
             produceTime = 2500;
-            maxSpawn = 1;
+            //maxSpawn = 1;
 
             consumePower(1.2f);
             //requirement = with(Items.silicon, 40, Items.titanium, 30);
@@ -166,12 +172,68 @@ public class V5Blocks{
             requirements(Category.units, ItemStack.with(Items.metaglass, 45, Items.lead, 55, Items.silicon, 45));
             size = 2;
             produceTime = 4000;
-            maxSpawn = 1;
+            //maxSpawn = 1;
 
             consumePower(1.2f);
             requirement = with(Items.silicon, 30, Items.lead, 30);
             unitType = V5UnitTypes.spirit;
         }};
-        //--- Unit Factory Region End ---
+
+        phantomFactory = new LegacyUnitFactory("phantom-factory"){{
+            requirements(Category.units, ItemStack.with(Items.titanium, 50, Items.thorium, 60, Items.lead, 65, Items.silicon, 105));
+            size = 2;
+            produceTime = 4400;
+            //maxSpawn = 1;
+
+            consumePower(2.5f);
+            requirement = with(Items.silicon, 50, Items.lead, 30, Items.titanium, 20);
+            unitType = V5UnitTypes.phantom;
+        }};
+        //--- Unit Support Factory Region End ---
+
+        // --- Unit Ground Factory Region ---
+        crawlerFactory = new LegacyUnitFactory("crawler-factory"){{
+            requirements(Category.units, ItemStack.with(Items.lead, 45, Items.silicon, 30));
+            size = 2;
+            produceTime = 300;
+            maxSpawn = 6;
+
+            consumePower(0.5f);
+            requirement = with(Items.coal, 10);
+            unitType = V5UnitTypes.crawler;
+        }};
+
+        daggerFactory = new LegacyUnitFactory("dagger-factory"){{
+            requirements(Category.units, ItemStack.with(Items.lead, 55, Items.silicon, 35));
+            size = 2;
+            produceTime = 850;
+            maxSpawn = 4;
+
+            consumePower(0.5f);
+            requirement = with(Items.silicon, 6);
+            unitType = V5UnitTypes.dagger;
+        }};
+
+        titanFactory = new LegacyUnitFactory("titan-factory"){{
+            requirements(Category.units, ItemStack.with(Items.graphite, 50, Items.lead, 50, Items.silicon, 45));
+            size = 3;
+            produceTime = 1050;
+            maxSpawn = 4;
+
+            consumePower(0.6f);
+            requirement = with(Items.silicon, 12);
+            unitType = V5UnitTypes.titan;
+        }};
+
+        fortressFactory = new LegacyUnitFactory("fortress-factory"){{
+            requirements(Category.units, ItemStack.with(Items.thorium, 40, Items.lead, 110, Items.silicon, 75));
+            size = 3;
+            produceTime = 2000;
+            maxSpawn = 3;
+
+            consumePower(1.2f);
+            requirement = with(Items.silicon, 20, Items.graphite, 10);
+            unitType = V5UnitTypes.fortress;
+        }};
     }
 }
