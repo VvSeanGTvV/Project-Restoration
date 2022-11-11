@@ -231,7 +231,7 @@ public class V5Blocks{
             produceTime = 2000;
             maxSpawn = 3;
 
-            consumePower(1.2f);
+            consumePower(1.21f);
             requirement = with(Items.silicon, 20, Items.graphite, 10);
             unitType = V5UnitTypes.fortress;
         }};
