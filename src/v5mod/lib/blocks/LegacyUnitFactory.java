@@ -29,6 +29,7 @@ import static mindustry.Vars.*;
 public class LegacyUnitFactory extends Block {
     public UnitType unitType;
     public float produceTime = 60f;
+    public int originCap = 0;
     //public float launchVelocity = 0f; //never used who knows why
     public TextureRegion topRegion;
     public int maxSpawn = 8; //Default by 4
@@ -36,8 +37,6 @@ public class LegacyUnitFactory extends Block {
     public int[] capacities = {};
     public ItemStack[] requirement; //Requirements for the unit
     protected boolean varRuleSet = false; //If it is already setted and multiplied by the rules unitcap.
-    protected boolean varCapSet = false; //If over the limit of the unit cap.
-    protected boolean setStat = false; //If it is setted already (to rpevent duplicates too)
 
     public LegacyUnitFactory(String name){
         super(name);
@@ -57,7 +56,7 @@ public class LegacyUnitFactory extends Block {
     public void setStats(){
         stats.remove(Stat.itemCapacity);
         stats.add(Stat.productionTime, produceTime/60f, StatUnit.seconds);
-        stats.add(Stat.maxUnits, originMax, StatUnit.none);
+        stats.add(Stat.maxUnits, maxSpawn, StatUnit.none);
 
         super.setStats();
     }
@@ -68,7 +67,8 @@ public class LegacyUnitFactory extends Block {
             stats.remove(Stat.maxUnits);
 
             stats.add(Stat.productionTime, produceTime / 60f, StatUnit.seconds);
-            stats.add(Stat.maxUnits, originMax, StatUnit.none);
+            stats.add(Stat.maxUnits, maxSpawn, StatUnit.none);
+            
         }
 
         //super.setStats();
@@ -108,28 +108,37 @@ public class LegacyUnitFactory extends Block {
     public class LegacyUnitFactoryBuild extends Building {
         public float progress, time, speedScl;
         public int FactoryunitCap, temp1;
-        public int originCap = 0;
+        public int maximumINT = 2147483647;
         public float buildTime = produceTime;
         //public @Nullable BlockUnitc unit;
 
         public float fraction(){ return progress / buildTime; }
         public float fractionUnitCap(){ return (float)team.data().countType(unitType) / (FactoryunitCap); }
 
+
         @Override
         public void updateTile(){
-            temp1 = player.team().core().block.unitCapModifier * maxSpawn;
-            temp1 = temp1 * maxSpawn / 2 - (player.team().core().block.unitCapModifier + maxSpawn);
-            if(originCap > 8){FactoryunitCap = temp1 / (maxSpawn * 4);}else{FactoryunitCap = maxSpawn;}
+            if(Units.getCap(team) < maximumINT) {
+                temp1 = Units.getCap(team) * maxSpawn;
+                temp1 = temp1 * maxSpawn / 2 - (Units.getCap(team) + maxSpawn);
+                if (originCap > 8) {
+                    FactoryunitCap = temp1 / (maxSpawn * 4);
+                } else {
+                    FactoryunitCap = maxSpawn;
+                }
+            } else {
+               FactoryunitCap = 2147483647;
+            }
             originMax = FactoryunitCap;
             updateStats();
             //varCapSet = true;
-            originCap = player.team().core().block.unitCapModifier;
+            originCap = Units.getCap(team);
 
             if(state.rules.unitCap > 0 && !varRuleSet){
                 FactoryunitCap = FactoryunitCap * state.rules.unitCap;
                 originMax = FactoryunitCap;
                 updateStats();
-                varCapSet = true;
+                varRuleSet = true;
             }
 
             if(efficiency > 0 && ((float)team.data().countType(unitType) < FactoryunitCap)){
