@@ -44,9 +44,8 @@ public class V5UnitTypes {
     
     //Mech Region
     omega, delta, alpha, tau, //Mech - Ground
-    javelin, trident, glaive, //Mech - Air
+    javelin, trident, glaive, dart, //Mech - Air
 
-    //Unit Region
     wraith, ghoul, revenant, lich, reaper, //Unit - Air
     draug, phantom, spirit, //Unit - Air - Support
 
@@ -252,6 +251,44 @@ public class V5UnitTypes {
         // --- Ground Units Region End ---
 
         // --- Air Units Region ---
+        dart = new UnitType("dart-ship"){{
+            outlines = false;
+            hitSize = 8f;
+            mineTier = 2;
+            speed = 3f;
+            accel = 0.05f * 3f;
+            drag = 0.034f;
+            health = 200f;
+            flying = true;
+            itemCapacity = 30;
+            engineColor = Pal.lightTrail;
+            buildSpeed = 1.1f;
+            constructor = UnitEntity::create;
+
+            weapons.add(new Weapon("projectv5-mod-blaster-equip"){{
+                x = 0.8f;
+                y = -1f;
+                top = true;
+
+                reload = 7.5f;
+                alternate = true;
+                ejectEffect = Fx.casing1;
+                mirror = true;
+                shootSound = pew;
+                shootX = -2.5f;
+
+
+                bullet = new BasicBulletType(2.5f, 9f){{ //adjust the format of v5 for v7
+                    width = 7f;
+                    height = 9f;
+                    lifetime = 60f;
+                    shootEffect = Fx.shootSmall;
+                    smokeEffect = Fx.shootSmallSmoke;
+                    ammoMultiplier = 2;
+                }};
+            }});
+        }};
+
         trident = new UnitType("trident-ship"){{
             outlines = false;
             hitSize = 8f;
@@ -734,6 +771,7 @@ public class V5UnitTypes {
             speed = 1.27f *3;
             drag = 0.4f;
             health = 120f;
+            range = 50f;
             canBoost = false;
             constructor = MechUnit::create;
             controller = u -> new SuicideAI();
@@ -750,6 +788,9 @@ public class V5UnitTypes {
                     splashDamageRadius = 55f;
                     instantDisappear = true;
                     splashDamage = 30f;
+                    collidesAir = true;
+                    collidesGround = true;
+
                     killShooter = true;
                 }};
             }});
