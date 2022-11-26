@@ -18,7 +18,7 @@ public class V5RebornMod extends Mod{
 
         //listen for game load event
         Events.on(ClientLoadEvent.class, e -> {
-            Vars.ui.showOkText("@mod.disclaimer.title", "@mod.disclaimer.text", () -> {});
+            Vars.ui.showOkText("@mod.v5disclaimer.title", "@mod.v5disclaimer.text", () -> {});
             //show dialog upon startup
             //Time.runTask(10f, () -> {
             //    BaseDialog dialog = new BaseDialog("Welcome to V5 Java Edition!");
