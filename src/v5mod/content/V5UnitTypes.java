@@ -1060,7 +1060,7 @@ public class V5UnitTypes {
             speed = 0.8f *3;
             drag = 0.4f;
             health = 100f;
-            //rotateSpeed = 0.06f *30;
+            rotateSpeed = 0.1f *30;
             canBoost = false;
             constructor = UnitWaterMove::create;
             weapons.add(new Weapon("projectv5-mod-mount-weapon"){{
@@ -1075,14 +1075,14 @@ public class V5UnitTypes {
                     ejectEffect = Fx.casing1;
                     shootX = 0f;
                     mirror = true;
-                    recoil = 3f;
-                    shake = 2f;
+                    rotate = true;
+                    rotateSpeed = 0.8f *3f;
                     inaccuracy = 3f;
 
                     bullet = new BasicBulletType(8f, 5f) {{
                         width = 16f;
                         height = 23f;
-                        shootEffect = Fx.shootBig;
+                        shootEffect = Fx.shootSmall;
                     }};
                 }});
         }};
