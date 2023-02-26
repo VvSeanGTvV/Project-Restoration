@@ -1056,21 +1056,21 @@ public class V5UnitTypes {
         // --- Ground Units Region ---
         vanguard = new UnitType("vanguard"){{
             outlines = false;
-            accel = 0.012f *6;
-            speed = 0.68f *3;
+            accel = 0.05f *6;
+            speed = 0.8f *3;
             drag = 0.4f;
-            health = 9000f;
-            rotateSpeed = 0.06f *30;
+            health = 100f;
+            //rotateSpeed = 0.06f *30;
             canBoost = false;
             constructor = UnitWaterMove::create;
             weapons.add(new Weapon("projectv5-mod-mount-weapon"){{
                     shootSound = pew;
                     outlines = false;
-                    x = -3;
+                    x = -1;
                     y = 0f;
                     top = true;
 
-                    reload = 5f;
+                    reload = 10f;
                     alternate = true;
                     ejectEffect = Fx.casing1;
                     shootX = 0f;
