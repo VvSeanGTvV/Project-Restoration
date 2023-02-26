@@ -1066,7 +1066,7 @@ public class V5UnitTypes {
             weapons.add(new Weapon("projectv5-mod-mount-weapon"){{
                     shootSound = pew;
                     outlines = false;
-                    x = -1;
+                    x = 1;
                     y = 0f;
                     top = true;
 
