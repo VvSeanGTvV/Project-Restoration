@@ -38,22 +38,26 @@ import javax.swing.ImageIcon;
 import v5mod.lib.ability.*;
 
 public class V5UnitTypes {
-    public static Sound pew = Vars.tree.loadSound("v5_sounds_pew");
+    public static Sound pew = Vars.tree.loadSound("v5_sounds_pew"); //just pew lol
 
     public static UnitType 
     
     //Mech Region
-    omega, delta, alpha, tau, //Mech - Ground
-    javelin, trident, glaive, dart, //Mech - Air
+    omega, delta, alpha, tau, //Mech - Ground [v5]
+    javelin, trident, glaive, dart, //Mech - Air [v5]
 
-    wraith, ghoul, revenant, lich, reaper, //Unit - Air
-    draug, phantom, spirit, //Unit - Air - Support
+    //Normal Units
+    wraith, ghoul, revenant, lich, reaper, //Unit - Air [v5]
+    draug, phantom, spirit, //Unit - Air - Support [v5]
 
-    crawler, dagger, titan, fortress, eruptor, chaosArray, eradicator //Unit - Ground
+    vanguard, //Unit - Naval - Unfinished [v6]
+
+    crawler, dagger, titan, fortress, eruptor, chaosArray, eradicator //Unit - Ground [v5]
     ;
 
     public static void load(){
 
+        // --- v5 Zone ---
         // --- Mech Region ---
         // --- Ground Units Region ---
         alpha = new UnitType("alpha-mech"){{
@@ -1044,6 +1048,43 @@ public class V5UnitTypes {
                     shootEffect = Fx.shootBig;
                 }};
             }});
+        }};
+        // --- Ground Units Region End ---
+        // --- v5 Zone End ---
+
+        // --- v6 Zone ---
+        // --- Ground Units Region ---
+        vanguard = new UnitType("vanguard"){{
+            outlines = false;
+            accel = 0.012f *6;
+            speed = 0.68f *3;
+            drag = 0.4f;
+            health = 9000f;
+            rotateSpeed = 0.06f *30;
+            canBoost = false;
+            constructor = UnitWaterMove::create;
+            weapons.add(new Weapon("projectv5-mod-mount-weapon"){{
+                    shootSound = pew;
+                    outlines = false;
+                    x = -3;
+                    y = 0f;
+                    top = true;
+
+                    reload = 5f;
+                    alternate = true;
+                    ejectEffect = Fx.casing1;
+                    shootX = 0f;
+                    mirror = true;
+                    recoil = 3f;
+                    shake = 2f;
+                    inaccuracy = 3f;
+
+                    bullet = new BasicBulletType(8f, 5f) {{
+                        width = 16f;
+                        height = 23f;
+                        shootEffect = Fx.shootBig;
+                    }};
+                }});
         }};
        
     }

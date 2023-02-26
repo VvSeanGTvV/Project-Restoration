@@ -3,22 +3,25 @@
 # [JAVA EDITION]
 Similar to the first v5 reborn mod but is made in java!
 Much more advance scripting, and more classic buildings.
+This mod will change name later! Because, I wanted to merge older version like v4 and v6 early previews here!
 
 ## --- Mod Includes ---
 
-Legacy Mechpad
+v5 Mechpad
 
-Legacy Unit Factory
+v5 Unit Factory
 
-Legacy Units
+v5 Units
+
+v6 Early Units (Vanguard)
 
 ## --- Future Contents ---
 
-Legacy Maps
+v5 Maps
 
-Legacy Cores
+v5 Cores
 
-Legacy Blocks
+v5 Blocks
 
 ## --- Credits ---
 
