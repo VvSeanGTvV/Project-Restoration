@@ -1054,10 +1054,10 @@ public class V5UnitTypes {
 
         // --- v6 Zone ---
         // --- Ground Units Region ---
-        vanguard = new UnitType("vanguard"){{
+        vanguard = new UnitType("vanguard"){{ //Matchup to Creslex's Video: Mindustry v6 Early Preview
             outlines = false;
-            accel = 0.05f *6;
-            speed = 0.8f *3;
+            accel = 0.03f *6;
+            speed = 0.3f *3;
             drag = 0.4f;
             health = 100f;
             rotateSpeed = 0.1f *30;
@@ -1066,7 +1066,7 @@ public class V5UnitTypes {
             weapons.add(new Weapon("projectv5-mod-mount-weapon"){{
                     shootSound = pew;
                     outlines = false;
-                    x = 0.3f;
+                    x = -0.5f;
                     y = 1f;
                     top = true;
 
@@ -1079,7 +1079,7 @@ public class V5UnitTypes {
                     rotateSpeed = 1f *3f;
                     //inaccuracy = 3f;
 
-                    bullet = new BasicBulletType(8f, 5f) {{
+                    bullet = new BasicBulletType(5f, 7f) {{ //Damage aren't found in the origin stats
                         width = 8f;
                         height = 11.5f;
                         shootEffect = Fx.shootSmall;
