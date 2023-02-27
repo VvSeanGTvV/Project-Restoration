@@ -1057,7 +1057,7 @@ public class V5UnitTypes {
         vanguard = new UnitType("vanguard"){{ //Matchup to Creslex's Video: Mindustry v6 Early Preview
             outlines = false;
             accel = 0.03f *6;
-            speed = 0.3f *3;
+            speed = 0.1f *3;
             drag = 0.4f;
             health = 100f;
             rotateSpeed = 0.1f *30;
@@ -1076,10 +1076,10 @@ public class V5UnitTypes {
                     shootX = 0f;
                     mirror = true;
                     rotate = true;
-                    rotateSpeed = 1f *3f;
+                    rotateSpeed = 3f *3f;
                     //inaccuracy = 3f;
 
-                    bullet = new BasicBulletType(5f, 7f) {{ //Damage aren't found in the origin stats
+                    bullet = new BasicBulletType(3f, 7f) {{ //Damage aren't found in the origin stats
                         width = 8f;
                         height = 11.5f;
                         shootEffect = Fx.shootSmall;
