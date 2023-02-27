@@ -259,6 +259,7 @@ public class V5Blocks{
             requirements(Category.defense, ItemStack.mult(insulatorWall.requirements, 4));
             health = 90 * wallHealthMultiplier * 4 / 3;
             insulated = true;
+            size = 2;
         }};
     }
 }
