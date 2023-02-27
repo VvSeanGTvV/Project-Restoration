@@ -1,5 +1,5 @@
 #the mod name as displayed in-game
-displayName: "Classic Java Editon"
+displayName: "Project: Classic"
 
 #the internal name of your mod
 name: "projectv5-mod"
@@ -14,10 +14,10 @@ main: "v5mod.V5RebornMod"
 description: "A Mindustry V5-Classic Mod imported for Java, currently it has more functions than v5 mod in hjson, currently contains v6 early preview things lolz!"
 
 #the mod version
-version: 0.1.1 Preview Beta
+version: 0.2.0 Preview Beta
 
 #the minimum game build required to run this mod
-minGameVersion: 138
+minGameVersion: 142
 
 #this is a java mod
 java: true

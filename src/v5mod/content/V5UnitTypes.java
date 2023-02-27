@@ -1056,21 +1056,25 @@ public class V5UnitTypes {
         // --- Ground Units Region ---
         vanguard = new UnitType("vanguard"){{ //Matchup to Creslex's Video: Mindustry v6 Early Preview
             outlines = false;
+            mineTier = 1;
+            mineSpeed = 4f;
+            buildSpeed = 1.2f;
             accel = 0.01f *6;
-            speed = 0.9f *3;
-            drag = 0.4f;
+            speed = 0.5f *3;
+            drag = 0.09f;
             health = 100f;
-            rotateSpeed = 0.5f *30;
+            rotateSpeed = 0.1f *30;
             canBoost = false;
             constructor = UnitWaterMove::create;
+            engineColor = Pal.lightTrail;
             weapons.add(new Weapon("projectv5-mod-mount-weapon"){{
                     shootSound = pew;
                     outlines = false;
-                    x = 0.5f;
-                    y = 1f;
+                    x = -1f;
+                    y = -1f;
                     top = true;
 
-                    reload = 10f;
+                    reload = 20f;
                     alternate = true;
                     ejectEffect = Fx.casing1;
                     shootX = 0f;
@@ -1079,10 +1083,11 @@ public class V5UnitTypes {
                     rotateSpeed = 3f *3f;
                     //inaccuracy = 3f;
 
-                    bullet = new BasicBulletType(5f, 7f) {{ //Damage aren't found in the origin stats
-                        width = 8f;
-                        height = 11.5f;
-                        shootEffect = Fx.shootSmall;
+                    bullet = new BasicBulletType() {{ //Damage aren't found in the origin stats
+                        homingPower = 5f;
+                        damage = 3f;
+                        width = 4f;
+                        height = 4f;
                     }};
                 }});
         }};
