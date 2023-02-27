@@ -47,12 +47,13 @@ import static mindustry.type.ItemStack.*;
 public class V5Blocks{
     public static Block
 
-    omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad
+    dartPad, omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad
 
     wraithFactory, ghoulFactory, revenantFactory, //Air Unit Factory
     crawlerFactory,daggerFactory, titanFactory, fortressFactory, //Ground Unit Factory
+    draugFactory, spiritFactory, phantomFactory, //Unit Support Factory
 
-    draugFactory, spiritFactory, phantomFactory //Unit Support Factory
+    insulatorWall, insulatorWallLarge
     ;
     public void load(){
         //--- Mech Pad Region ---
@@ -93,7 +94,16 @@ public class V5Blocks{
             consumePower(1f);
         }};
 
-        alphaPad = new MechPad("dart-pad"){{
+        dartPad = new MechPad("dart-pad"){{
+            requirements(Category.effect, with(Items.lead, 100, Items.graphite, 50, Items.copper, 75));
+            size = 2;
+            hasPower = true;
+            unitType = V5UnitTypes.dart;
+
+            consumePower(0.5f);
+        }};
+
+        alphaPad = new MechPad("alpha-pad"){{
             requirements(Category.effect, with(Items.lead, 100, Items.graphite, 50, Items.copper, 75));
             size = 2;
             hasPower = true;
@@ -234,6 +244,21 @@ public class V5Blocks{
             consumePower(1.2f);
             requirement = with(Items.silicon, 20, Items.graphite, 10);
             unitType = V5UnitTypes.fortress;
+        }};
+        //--- Unit Ground Factory Region End ---
+
+        //--- Wall ---
+        int wallHealthMultiplier = 4;
+        insulatorWall = new Wall("insulator-wall"){{
+            requirements(Category.defense, ItemStack.with(Items.graphite, 10, Items.lead, 4));
+            health = 90 * wallHealthMultiplier / 3;
+            insulated = true;
+        }};
+
+        insulatorWallLarge = new Wall("insulator-wall-large"){{
+            requirements(Category.defense, ItemStack.mult(insulatorWall.requirements, 4));
+            health = 90 * wallHealthMultiplier * 4 / 3;
+            insulated = true;
         }};
     }
 }

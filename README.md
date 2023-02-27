@@ -1,9 +1,9 @@
 ![Logo](assets/sprites-override/ui/logo.png)
 
 # [JAVA EDITION]
-Similar to the first v5 reborn mod but is made in java!
 Much more advance scripting, and more classic buildings.
-This mod will change name later! Because, I wanted to merge older version like v4 and v6 early previews here!
+This mod will change name later! Because, I wanted to merge older version like v6 early previews here!
+Disclaimer: Some blocks/units might not have their final stats from older builds.
 
 ## --- Mod Includes ---
 
@@ -13,11 +13,17 @@ v5 Unit Factory
 
 v5 Units
 
+## --- In Progress ---
+
 v6 Early Units (Vanguard)
 
-## --- Future Contents ---
+v6 Early Blocks (Insulator)
 
 v5 Maps
+
+Tech Tree (plz help meh)
+
+## --- Future Contents ---
 
 v5 Cores
 

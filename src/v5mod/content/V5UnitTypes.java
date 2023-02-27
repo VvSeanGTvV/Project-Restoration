@@ -1067,6 +1067,7 @@ public class V5UnitTypes {
             canBoost = false;
             constructor = UnitWaterMove::create;
             engineColor = Pal.lightTrail;
+            abilities.add(new SurroundRegenAbility(10f, 200f, 60f));
             weapons.add(new Weapon("projectv5-mod-mount-weapon"){{
                     shootSound = pew;
                     outlines = false;
@@ -1074,7 +1075,7 @@ public class V5UnitTypes {
                     y = -1f;
                     top = true;
 
-                    reload = 20f;
+                    reload = 15f;
                     alternate = true;
                     ejectEffect = Fx.casing1;
                     shootX = 0f;
@@ -1084,10 +1085,18 @@ public class V5UnitTypes {
                     //inaccuracy = 3f;
 
                     bullet = new BasicBulletType() {{ //Damage aren't found in the origin stats
-                        homingPower = 5f;
-                        damage = 3f;
-                        width = 4f;
+                        healPercent = 3f;
+                        collidesTeam = true;
+                        healEffect = Fx.healBlockFull;
+                        homingPower = 20f;
+                        backColor = engineColor;
+                        width = 1.5f;
                         height = 4f;
+                        damage = 3f;
+                        speed = 4f;
+                        lifetime = 40f;
+                        shootEffect = Fx.shootHealYellow;
+                        smokeEffect = hitEffect = despawnEffect = Fx.hitLaser;
                     }};
                 }});
         }};
