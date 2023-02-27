@@ -1066,8 +1066,8 @@ public class V5UnitTypes {
             weapons.add(new Weapon("projectv5-mod-mount-weapon"){{
                     shootSound = pew;
                     outlines = false;
-                    x = 1;
-                    y = 0f;
+                    x = 0.3f;
+                    y = 1f;
                     top = true;
 
                     reload = 10f;
@@ -1076,12 +1076,12 @@ public class V5UnitTypes {
                     shootX = 0f;
                     mirror = true;
                     rotate = true;
-                    rotateSpeed = 0.8f *3f;
-                    inaccuracy = 3f;
+                    rotateSpeed = 1f *3f;
+                    //inaccuracy = 3f;
 
                     bullet = new BasicBulletType(8f, 5f) {{
-                        width = 16f;
-                        height = 23f;
+                        width = 8f;
+                        height = 11.5f;
                         shootEffect = Fx.shootSmall;
                     }};
                 }});
