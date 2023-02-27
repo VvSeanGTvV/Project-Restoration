@@ -1057,10 +1057,10 @@ public class V5UnitTypes {
         vanguard = new UnitType("vanguard"){{ //Matchup to Creslex's Video: Mindustry v6 Early Preview
             outlines = false;
             accel = 0.01f *6;
-            speed = 0.7f *3;
+            speed = 0.9f *3;
             drag = 0.4f;
             health = 100f;
-            rotateSpeed = 3f *30;
+            rotateSpeed = 0.5f *30;
             canBoost = false;
             constructor = UnitWaterMove::create;
             weapons.add(new Weapon("projectv5-mod-mount-weapon"){{
