@@ -14,7 +14,7 @@ main: "v5mod.V5RebornMod"
 description: "A Mindustry V5-Classic Mod imported for Java, currently it has more functions than v5 mod in hjson, currently contains v6 early preview things lolz!"
 
 #the mod version
-version: 0.2.0 Preview Beta
+version: 0.1.2 Preview Beta
 
 #the minimum game build required to run this mod
 minGameVersion: 142
