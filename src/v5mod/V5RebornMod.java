@@ -37,6 +37,7 @@ public class V5RebornMod extends Mod{
         Log.info("Loading contents...");
         new V5UnitTypes().load();
         new V5Blocks().load();
+        new V5TechTree().load();
     }
 
 }
