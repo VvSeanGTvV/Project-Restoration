@@ -1054,7 +1054,7 @@ public class V5UnitTypes {
 
         // --- v6 Zone ---
         // --- Ground Units Region ---
-        vanguard = new UnitType("vanguard"){{ //Matchup to Creslex's Video: Mindustry v6 Early Preview
+        vanguard = new UnitType("vanguard"){{ //Matched with commit: 4c7259843c Mindustry v105
             outlines = false;
             mineTier = 1;
             mineSpeed = 4f;
@@ -1071,7 +1071,7 @@ public class V5UnitTypes {
             weapons.add(new Weapon("projectv5-mod-mount-weapon"){{
                     shootSound = pew;
                     outlines = false;
-                    x = -1f;
+                    x = 1.5f -1f;
                     y = -1f;
                     top = true;
 
@@ -1082,9 +1082,10 @@ public class V5UnitTypes {
                     mirror = true;
                     rotate = true;
                     rotateSpeed = 3f *3f;
-                    //inaccuracy = 3f;
+                    inaccuracy = 6f;
+                    velocityRnd = 0.1f;
 
-                    bullet = new BasicBulletType() {{ //Damage aren't found in the origin stats
+                    bullet = new BasicBulletType() {{
                         healPercent = 3f;
                         collidesTeam = true;
                         healEffect = Fx.healBlockFull;
@@ -1095,8 +1096,8 @@ public class V5UnitTypes {
                         damage = 3f;
                         speed = 4f;
                         lifetime = 40f;
-                        shootEffect = Fx.shootHealYellow;
-                        smokeEffect = hitEffect = despawnEffect = Fx.hitLaser;
+                        //shootEffect = Fx.shootHealYellow;
+                        //smokeEffect = hitEffect = despawnEffect = Fx.hitLaser;
                     }};
                 }});
         }};
