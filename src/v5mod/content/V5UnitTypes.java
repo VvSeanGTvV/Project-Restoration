@@ -1121,7 +1121,7 @@ public class V5UnitTypes {
                         collidesTeam = true;
                         healEffect = Fx.healBlockFull;
                         homingPower = 20f;
-                        backColor = engineColor;
+                        backColor = Pal.lightTrail;
                         width = 1.5f;
                         height = 4f;
                         damage = 3f;
