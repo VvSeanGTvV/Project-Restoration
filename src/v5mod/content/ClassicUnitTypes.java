@@ -376,7 +376,7 @@ public class ClassicUnitTypes {
                 shootSound = Sounds.missile;
                 mirror = true;
 
-                bullet = ClassicBullets.missileJavelin
+                bullet = ClassicBullets.missileJavelin;
             }});
         }};
         // --- Air Units Region End ---
