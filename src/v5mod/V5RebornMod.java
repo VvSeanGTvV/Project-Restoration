@@ -3,12 +3,8 @@ package v5mod;
 import arc.*;
 import arc.util.*;
 import mindustry.*;
-import mindustry.content.*;
 import mindustry.game.EventType.*;
-import mindustry.gen.*;
 import mindustry.mod.*;
-import mindustry.mod.Mods.LoadedMod;
-import mindustry.ui.dialogs.*;
 import v5mod.content.*;
 //v5-java-mod is the current use
 
@@ -35,9 +31,10 @@ public class V5RebornMod extends Mod{
     @Override
     public void loadContent(){
         Log.info("Loading contents...");
-        new V5UnitTypes().load();
-        new V5Blocks().load();
-        new V5TechTree().load();
+        new ClassicBullets().load();
+        new ClassicUnitTypes().load();
+        new ClassicBlocks().load();
+        new ClassicTechTree().load();
     }
 
 }

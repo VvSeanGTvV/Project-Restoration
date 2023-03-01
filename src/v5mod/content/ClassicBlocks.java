@@ -1,50 +1,16 @@
 package v5mod.content;
 
-import arc.graphics.*;
-import arc.math.*;
-import arc.struct.*;
-import mindustry.*;
-import mindustry.content.UnitTypes;
-import mindustry.entities.*;
-import mindustry.entities.abilities.*;
-import mindustry.entities.bullet.*;
-import mindustry.entities.effect.*;
-import mindustry.entities.part.DrawPart.*;
-import mindustry.entities.part.*;
-import mindustry.entities.pattern.*;
-import mindustry.gen.*;
-import mindustry.graphics.*;
 import mindustry.type.*;
-import mindustry.type.unit.*;
 import mindustry.world.*;
-import mindustry.world.blocks.*;
-import mindustry.world.blocks.campaign.*;
 import mindustry.world.blocks.defense.*;
-import mindustry.world.blocks.defense.turrets.*;
-import mindustry.world.blocks.distribution.*;
-import mindustry.world.blocks.environment.*;
-import mindustry.world.blocks.heat.*;
-import mindustry.world.blocks.legacy.*;
-import mindustry.world.blocks.liquid.*;
-import mindustry.world.blocks.logic.*;
-import mindustry.world.blocks.payloads.*;
-import mindustry.world.blocks.power.*;
-import mindustry.world.blocks.production.*;
-import mindustry.world.blocks.sandbox.*;
-import mindustry.world.blocks.storage.*;
-import mindustry.world.blocks.units.*;
-import mindustry.world.consumers.*;
-import mindustry.world.draw.*;
-import mindustry.world.meta.*;
 import mindustry.content.*;
 
 import v5mod.lib.blocks.*; //library contents for blocks extended
 import v5mod.lib.blocks.LegacyUnitFactory;
 
-import static mindustry.Vars.*;
 import static mindustry.type.ItemStack.*;
 
-public class V5Blocks{
+public class ClassicBlocks {
     public static Block
 
     dartPad, omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad
@@ -61,7 +27,7 @@ public class V5Blocks{
             requirements(Category.effect, with(Items.lead, 225, Items.graphite, 275, Items.silicon, 325, Items.thorium, 300, Items.surgeAlloy, 120));
             size = 3;
             hasPower = true;
-            unitType = V5UnitTypes.omega;
+            unitType = ClassicUnitTypes.omega;
 
             //mechReqs = with(mindustry.content.Items.copper, 0);
             consumePower(1.2f);
@@ -71,7 +37,7 @@ public class V5Blocks{
             requirements(Category.effect, with(Items.lead, 175, Items.titanium, 175, Items.copper, 200, Items.silicon, 225, Items.thorium, 150));
             size = 2;
             hasPower = true;
-            unitType = V5UnitTypes.delta;
+            unitType = ClassicUnitTypes.delta;
 
             consumePower(0.7f);
         }};
@@ -80,7 +46,7 @@ public class V5Blocks{
             requirements(Category.effect, with(Items.lead, 175, Items.silicon, 225, Items.titanium, 250, Items.plastanium, 200, Items.phaseFabric, 100));
             size = 2;
             hasPower = true;
-            unitType = V5UnitTypes.javelin;
+            unitType = ClassicUnitTypes.javelin;
 
             consumePower(0.8f);
         }};
@@ -89,7 +55,7 @@ public class V5Blocks{
             requirements(Category.effect, with(Items.lead, 125, Items.copper, 125, Items.silicon, 125, Items.titanium, 150, Items.plastanium, 100));
             size = 2;
             hasPower = true;
-            unitType = V5UnitTypes.trident;
+            unitType = ClassicUnitTypes.trident;
 
             consumePower(1f);
         }};
@@ -98,7 +64,7 @@ public class V5Blocks{
             requirements(Category.effect, with(Items.lead, 100, Items.graphite, 50, Items.copper, 75));
             size = 2;
             hasPower = true;
-            unitType = V5UnitTypes.dart;
+            unitType = ClassicUnitTypes.dart;
 
             consumePower(0.5f);
         }};
@@ -107,7 +73,7 @@ public class V5Blocks{
             requirements(Category.effect, with(Items.lead, 100, Items.graphite, 50, Items.copper, 75));
             size = 2;
             hasPower = true;
-            unitType = V5UnitTypes.alpha;
+            unitType = ClassicUnitTypes.alpha;
 
             consumePower(0.5f);
         }};
@@ -116,7 +82,7 @@ public class V5Blocks{
             requirements(Category.effect, with(Items.lead, 125, Items.titanium, 125, Items.copper, 125, Items.silicon, 125));
             size = 2;
             hasPower = true;
-            unitType = V5UnitTypes.tau;
+            unitType = ClassicUnitTypes.tau;
 
             consumePower(1f);
         }};
@@ -125,7 +91,7 @@ public class V5Blocks{
             requirements(Category.effect, with(Items.lead, 225, Items.silicon, 325, Items.titanium, 350, Items.plastanium, 300, Items.surgeAlloy, 100));
             size = 3;
             hasPower = true;
-            unitType = V5UnitTypes.glaive;
+            unitType = ClassicUnitTypes.glaive;
 
             consumePower(1.2f);
         }};
@@ -140,7 +106,7 @@ public class V5Blocks{
 
             consumePower(0.5f);
             requirement = with(Items.silicon, 10, Items.titanium, 5);
-            unitType = V5UnitTypes.wraith;
+            unitType = ClassicUnitTypes.wraith;
         }};
 
         ghoulFactory = new LegacyUnitFactory("ghoul-factory"){{
@@ -151,7 +117,7 @@ public class V5Blocks{
 
             consumePower(1.2f);
             requirement = with(Items.silicon, 15, Items.titanium, 10);
-            unitType = V5UnitTypes.ghoul;
+            unitType = ClassicUnitTypes.ghoul;
         }};
 
         revenantFactory = new LegacyUnitFactory("revenant-factory"){{
@@ -162,7 +128,7 @@ public class V5Blocks{
 
             consumePower(3f);
             requirement = with(Items.silicon, 40, Items.titanium, 30);
-            unitType = V5UnitTypes.revenant;
+            unitType = ClassicUnitTypes.revenant;
         }};
         //--- Unit Factory Region ---
 
@@ -175,7 +141,7 @@ public class V5Blocks{
 
             consumePower(1.2f);
             //requirement = with(Items.silicon, 40, Items.titanium, 30);
-            unitType = V5UnitTypes.draug;
+            unitType = ClassicUnitTypes.draug;
         }};
 
         spiritFactory = new LegacyUnitFactory("spirit-factory"){{
@@ -186,7 +152,7 @@ public class V5Blocks{
 
             consumePower(1.2f);
             requirement = with(Items.silicon, 30, Items.lead, 30);
-            unitType = V5UnitTypes.spirit;
+            unitType = ClassicUnitTypes.spirit;
         }};
 
         phantomFactory = new LegacyUnitFactory("phantom-factory"){{
@@ -197,7 +163,7 @@ public class V5Blocks{
 
             consumePower(2.5f);
             requirement = with(Items.silicon, 50, Items.lead, 30, Items.titanium, 20);
-            unitType = V5UnitTypes.phantom;
+            unitType = ClassicUnitTypes.phantom;
         }};
         //--- Unit Support Factory Region End ---
 
@@ -210,7 +176,7 @@ public class V5Blocks{
 
             consumePower(0.5f);
             requirement = with(Items.coal, 10);
-            unitType = V5UnitTypes.crawler;
+            unitType = ClassicUnitTypes.crawler;
         }};
 
         daggerFactory = new LegacyUnitFactory("dagger-factory"){{
@@ -221,7 +187,7 @@ public class V5Blocks{
 
             consumePower(0.5f);
             requirement = with(Items.silicon, 6);
-            unitType = V5UnitTypes.dagger;
+            unitType = ClassicUnitTypes.dagger;
         }};
 
         titanFactory = new LegacyUnitFactory("titan-factory"){{
@@ -232,7 +198,7 @@ public class V5Blocks{
 
             consumePower(0.6f);
             requirement = with(Items.silicon, 12);
-            unitType = V5UnitTypes.titan;
+            unitType = ClassicUnitTypes.titan;
         }};
 
         fortressFactory = new LegacyUnitFactory("fortress-factory"){{
@@ -243,7 +209,7 @@ public class V5Blocks{
 
             consumePower(1.2f);
             requirement = with(Items.silicon, 20, Items.graphite, 10);
-            unitType = V5UnitTypes.fortress;
+            unitType = ClassicUnitTypes.fortress;
         }};
         //--- Unit Ground Factory Region End ---
 

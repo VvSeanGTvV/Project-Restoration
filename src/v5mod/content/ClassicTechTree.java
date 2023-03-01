@@ -6,12 +6,11 @@ import mindustry.ctype.*;
 import mindustry.game.Objectives.*;
 import mindustry.type.*;
 
-import static mindustry.content.Items.*;
 import static mindustry.content.Blocks.*;
 import static mindustry.content.TechTree.*;
-import static v5mod.content.V5Blocks.*;
+import static v5mod.content.ClassicBlocks.*;
 
-public class V5TechTree {
+public class ClassicTechTree {
     static TechTree.TechNode context = null;
 
     public static void load() {

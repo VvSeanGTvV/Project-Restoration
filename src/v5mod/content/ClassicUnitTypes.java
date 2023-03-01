@@ -1,43 +1,23 @@
 package v5mod.content;
 
-import arc.*;
 import arc.audio.Sound;
 import arc.graphics.*;
-import arc.graphics.g2d.*;
 import arc.math.*;
-import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import mindustry.Vars;
-import mindustry.ai.*;
 import mindustry.ai.types.*;
 import mindustry.content.*;
-import mindustry.entities.*;
-import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
-import mindustry.entities.effect.*;
-import mindustry.entities.part.*;
-import mindustry.entities.pattern.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
-import mindustry.type.ammo.*;
-import mindustry.type.unit.*;
-import mindustry.type.weapons.*;
-import mindustry.world.meta.*;
 
-import static arc.graphics.g2d.Draw.*;
-import static arc.graphics.g2d.Lines.*;
-import static arc.math.Angles.*;
 import static arc.struct.SnapshotSeq.with;
-import static mindustry.Vars.*;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 import v5mod.lib.ability.*;
 
-public class V5UnitTypes {
+public class ClassicUnitTypes {
     public static Sound pew = Vars.tree.loadSound("v5_sounds_pew"); //just pew lol
 
     public static UnitType 
@@ -537,7 +517,7 @@ public class V5UnitTypes {
                 reload = 35f;
                 
 
-                bullet = new MissileBulletType(2.7f, 12f){{ //adjust the format of v5 for v7
+                bullet = ClassicBullets.missileSwarm; /*new MissileBulletType(2.7f, 12f){{ //adjust the format of v5 for v7
                     width = 8f;
                     height = 8f;
                     drag = -0.003f;
@@ -554,7 +534,7 @@ public class V5UnitTypes {
                     despawnEffect = Fx.blastExplosion;
                     weaveScale = 6f;
                     weaveMag = 1f;
-                }};
+                }};*/
             }});
         }};
 
@@ -1071,13 +1051,9 @@ public class V5UnitTypes {
             //rotateShooting = false;
             legExtension = -15;
             legBaseOffset = 10f;
-            mechLandShake = 2f;
-            //legSpeed = 0.1f;
-            legLengthScl = 1f;
-            rippleScale = 2f;
-            legSpeed = 0.2f;
-            legSplashDamage = 32;
-            legSplashRange = 30;
+            //landShake = 0f;
+            legSpeed = 0.1f;
+
 
             for(boolean b : Mathf.booleans){
                 weapons.add(
@@ -1088,7 +1064,7 @@ public class V5UnitTypes {
                             mirror = false;
                             flipSprite = !b;
                             shake = 1f;
-                            bullet = new MissileBulletType(2.7f, 12, "missile"){{
+                            bullet = ClassicBullets.missileSwarm; /*new MissileBulletType(2.7f, 12, "missile"){{
                                 width = 8f;
                                 height = 8f;
                                 shrinkX = shrinkY = 0f;
@@ -1104,8 +1080,8 @@ public class V5UnitTypes {
                                 hitEffect = Fx.blastExplosion;
                                 despawnEffect = Fx.blastExplosion;
                                 weaveScale = 8f;
-                                weaveMag = 2f;
-                            }};
+                                weaveMag = 2f;8
+                            }};*/
                         }});
             }
         }};
