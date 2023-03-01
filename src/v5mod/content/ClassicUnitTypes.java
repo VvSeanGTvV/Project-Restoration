@@ -1019,7 +1019,7 @@ public class ClassicUnitTypes {
                             reload = 20f;
                             x = 4f * Mathf.sign(b);
                             rotate = true;
-                            mirror = false;
+                            mirror = true;
                             flipSprite = !b;
                             shake = 1f;
                             bullet = ClassicBullets.missileSwarm;
