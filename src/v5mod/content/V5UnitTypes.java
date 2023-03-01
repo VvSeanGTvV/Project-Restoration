@@ -1056,6 +1056,59 @@ public class V5UnitTypes {
 
         // --- v6 Zone ---
         // --- Ground Units Region ---
+        cix = new UnitType("cix"){{
+            constructor = LegsUnit::create;
+            drag = 0.1f;
+            speed = 0.5f;
+            hitSize = 9f;
+            health = 140;
+            //baseElevation = 0.51f;
+
+            legCount = 6;
+            legMoveSpace = 1f;
+            legPairOffset = 3;
+            legLength = 34f;
+            //rotateShooting = false;
+            legExtension = -15;
+            legBaseOffset = 10f;
+            mechLandShake = 2f;
+            //legSpeed = 0.1f;
+            legLengthScl = 1f;
+            rippleScale = 2f;
+            legSpeed = 0.2f;
+            legSplashDamage = 32;
+            legSplashRange = 30;
+
+            for(boolean b : Mathf.booleans){
+                weapons.add(
+                        new Weapon("projectv5-mod-missiles-mount"){{
+                            reload = 20f;
+                            x = 4f * Mathf.sign(b);
+                            rotate = true;
+                            mirror = false;
+                            flipSprite = !b;
+                            shake = 1f;
+                            bullet = new MissileBulletType(2.7f, 12, "missile"){{
+                                width = 8f;
+                                height = 8f;
+                                shrinkX = shrinkY = 0f;
+                                drag = -0.003f;
+                                homingRange = 60f;
+                                keepVelocity = false;
+                                splashDamageRadius = 25f;
+                                splashDamage = 10f;
+                                lifetime = 120f;
+                                trailColor = Color.gray;
+                                backColor = Pal.bulletYellowBack;
+                                frontColor = Pal.bulletYellow;
+                                hitEffect = Fx.blastExplosion;
+                                despawnEffect = Fx.blastExplosion;
+                                weaveScale = 8f;
+                                weaveMag = 2f;
+                            }};
+                        }});
+            }
+        }};
         oculon = new UnitType("oculon"){{
             mineTier = 1;
             hitSize = 10f;
