@@ -1057,20 +1057,21 @@ public class V5UnitTypes {
         // --- v6 Zone ---
         // --- Ground Units Region ---
         oculon = new UnitType("oculon"){{
-            mineTier = -1;
-            speed = 0.6f;
-            hitSize = 9f;
+            mineTier = 1;
+            hitSize = 10f;
             boostMultiplier = 2f;
-            itemCapacity = 15;
-            health = 160f;
-            buildSpeed = 0.9f;
+            itemCapacity = 20;
+            health = 230f;
+            buildSpeed = 1.5f;
             canBoost = true;
+
+            speed = 0.4f;
             constructor = MechUnit::create;
             weapons.add(new Weapon("projectv5-mod-beam-weapon"){{
                 shake = 2f;
-                shootY = 1f;
-                x = 1f;
-                shootX = 3f;
+                shootY = 4f;
+                shootX = 6f;
+                x = 0.25f;
                 reload = 50f;
                 alternate = true;
                 recoil = 4f;
