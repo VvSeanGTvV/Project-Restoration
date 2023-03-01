@@ -50,7 +50,9 @@ public class V5UnitTypes {
     wraith, ghoul, revenant, lich, reaper, //Unit - Air [v5]
     draug, phantom, spirit, //Unit - Air - Support [v5]
 
-    vanguard, //Unit - Naval - Unfinished [v6]
+    oculon, //Unit - Ground - Prototype [v6]
+    cix, //Unit - Legs - Prototype [v6]
+    vanguard, //Unit - Naval - Prototype [v6]
 
     crawler, dagger, titan, fortress, eruptor, chaosArray, eradicator //Unit - Ground [v5]
     ;
@@ -1054,36 +1056,65 @@ public class V5UnitTypes {
 
         // --- v6 Zone ---
         // --- Ground Units Region ---
-        vanguard = new UnitType("vanguard"){{ //Matched with commit: 4c7259843c Mindustry v105
+        oculon = new UnitType("oculon"){{
+            mineTier = -1;
+            speed = 0.6f;
+            hitSize = 9f;
+            boostMultiplier = 2f;
+            itemCapacity = 15;
+            health = 160f;
+            buildSpeed = 0.9f;
+            canBoost = true;
+            constructor = MechUnit::create;
+            weapons.add(new Weapon("projectv5-mod-beam-weapon"){{
+                shake = 2f;
+                shootY = 1f;
+                x = 1f;
+                shootX = 3f;
+                reload = 50f;
+                alternate = true;
+                recoil = 4f;
+                shootSound = Sounds.laser;
+
+                bullet = new LaserBulletType(){{
+                    damage = 20f;
+                    recoil = 1f;
+                    sideAngle = 45f;
+                    sideWidth = 1f;
+                    sideLength = 70f;
+                    colors = new Color[]{Pal.heal.cpy().a(0.4f), Pal.heal, Color.white};
+                }};
+            }});
+        }};
+        // --- Ground Units Region End ---
+
+        // --- Naval Units Region ---
+        vanguard = new UnitType("vanguard"){{
+            //Matched with commit: 4c7259843c & 402fe88c Mindustry v105
+            //TODO: fixing Vanguard's Stats for v6
             outlines = false;
             mineTier = 1;
             mineSpeed = 4f;
             buildSpeed = 1.2f;
             accel = 0.01f *6;
-            speed = 0.5f *3;
-            drag = 0.09f;
-            health = 100f;
+            speed = 1.3f;
+            drag = 0.1f;
+            health = 130;
+            immunities = ObjectSet.with(StatusEffects.wet);
             rotateSpeed = 0.1f *30;
-            canBoost = false;
             constructor = UnitWaterMove::create;
-            engineColor = Pal.lightTrail;
+            //engineColor = Pal.lightTrail; --Was used to be a mech in v6
             abilities.add(new SurroundRegenAbility(10f, 200f, 60f));
             weapons.add(new Weapon("projectv5-mod-mount-weapon"){{
                     shootSound = pew;
                     outlines = false;
-                    x = 1.5f -1f;
-                    y = -1f;
                     top = true;
 
-                    reload = 15f;
+                    reload = 5f;
+                    x = 1.25f;
                     alternate = true;
-                    ejectEffect = Fx.casing1;
-                    shootX = 0f;
-                    mirror = true;
                     rotate = true;
-                    rotateSpeed = 3f *3f;
-                    inaccuracy = 6f;
-                    velocityRnd = 0.1f;
+                    ejectEffect = Fx.casing1;
 
                     bullet = new BasicBulletType() {{
                         healPercent = 3f;

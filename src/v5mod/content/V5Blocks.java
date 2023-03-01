@@ -251,13 +251,13 @@ public class V5Blocks{
         int wallHealthMultiplier = 4;
         insulatorWall = new Wall("insulator-wall"){{
             requirements(Category.defense, ItemStack.with(Items.graphite, 10, Items.lead, 4));
-            health = 90 * wallHealthMultiplier / 3;
+            health = 95 * wallHealthMultiplier;
             insulated = true;
         }};
 
         insulatorWallLarge = new Wall("insulator-wall-large"){{
             requirements(Category.defense, ItemStack.mult(insulatorWall.requirements, 4));
-            health = 90 * wallHealthMultiplier * 4 / 3;
+            health = 95 * wallHealthMultiplier * 4;
             insulated = true;
             size = 2;
         }};

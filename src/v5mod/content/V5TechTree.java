@@ -15,6 +15,12 @@ public class V5TechTree {
     static TechTree.TechNode context = null;
 
     public static void load() {
+        margeNode(copperWall, () -> {
+            node(insulatorWall, () -> {
+               node(insulatorWallLarge);
+            });
+        });
+
         margeNode(combustionGenerator, () -> {
             node(draugFactory, () -> {
                 node(spiritFactory, () -> {
