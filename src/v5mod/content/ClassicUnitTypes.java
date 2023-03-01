@@ -1027,18 +1027,16 @@ public class ClassicUnitTypes {
             }
         }};
         oculon = new UnitType("oculon"){{
+            constructor = MechUnit::create;
             mineTier = 1;
-            hitSize = 9f;
+            hitsize = 9f;
             boostMultiplier = 2f;
             itemCapacity = 20;
             health = 230f;
             buildSpeed = 1.5f;
             canBoost = true;
-
             speed = 0.4f;
-            hitSize = 10f;
-            constructor = MechUnit::create;
-
+            hitsize = 10f;
             weapons.add(new Weapon("projectv5-mod-beam-weapon"){{
                 shake = 2f;
                 shootY = 4f;
@@ -1046,7 +1044,6 @@ public class ClassicUnitTypes {
                 reload = 50f;
                 recoil = 4f;
                 shootSound = Sounds.laser;
-
                 bullet = new LaserBulletType(){{
                     damage = 20f;
                     recoil = 1f;
@@ -1055,6 +1052,7 @@ public class ClassicUnitTypes {
                     sideLength = 70f;
                     colors = new Color[]{Pal.heal.cpy().a(0.4f), Pal.heal, Color.white};
                 }};
+
             }});
         }};
         // --- Ground Units Region End ---
@@ -1067,7 +1065,7 @@ public class ClassicUnitTypes {
                 health = 130;
                 immunities = ObjectSet.with(StatusEffects.wet);
                 constructor = UnitWaterMove::create;
-                weapons.add(new Weapon("mount-weapon") {{
+                weapons.add(new Weapon("projectv5-mod-mount-weapon") {{
                     reload = 10f;
                     x = 1.25f;
                     rotate = true;
