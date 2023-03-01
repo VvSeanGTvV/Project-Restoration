@@ -23,7 +23,7 @@ public class ClassicBullets {
     flakScrap, flakLead, flakPlastic, flakExplosive, flakSurge, flakGlass, glassFrag,
 
     //missiles
-    missileExplosive, missileIncendiary, missileSurge, missileJavelin, missileSwarm,
+    missileExplosive, missileIncendiary, missileSurge, missileJavelin, missileSwarm, OldmissileSwarm,
 
     //standard
     standardCopper, standardDense, standardThorium, standardHoming, standardIncendiary, standardMechSmall,
@@ -278,6 +278,25 @@ public class ClassicBullets {
             despawnEffect = Fx.blastExplosion;
             weaveScale = 8f;
             weaveMag = 2f;
+        }};
+
+        OldmissileSwarm = new MissileBulletType(2.7f, 12f){{ //adjust the format of v5 for v7
+                    width = 8f;
+                    height = 8f;
+                    drag = -0.003f;
+                    homingRange = 60f;
+                    homingDelay = 5f;
+                    keepVelocity = false;
+                    splashDamageRadius = 25f;
+                    splashDamage = 10f;
+                    lifetime = 60f;
+                    trailColor = Pal.unitBack;
+                    backColor = Pal.unitBack;
+                    frontColor = Pal.unitFront;
+                    hitEffect = Fx.blastExplosion;
+                    despawnEffect = Fx.blastExplosion;
+                    weaveScale = 6f;
+                    weaveMag = 1f;
         }};
 
         standardCopper = new BasicBulletType(2.5f, 9, "bullet"){{

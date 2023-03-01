@@ -345,14 +345,7 @@ public class ClassicUnitTypes {
                 mirror = true;
                 
 
-                bullet = new BasicBulletType(4f, 7.5f){{ //adjust the format of v5 for v7
-                    width = 10f;
-                    height = 12f;
-                    frontColor = Color.valueOf("feb380");
-                    backColor = Color.valueOf("ea8878");
-                    status = StatusEffects.burning;
-                    lifetime = 60f;
-                }};
+                bullet = ClassicBullets.standardGlaive;
             }});
         }};
 
@@ -382,26 +375,8 @@ public class ClassicUnitTypes {
                 velocityRnd = 0.2f;
                 shootSound = Sounds.missile;
                 mirror = true;
-                
 
-                bullet = new MissileBulletType(5f, 10.5f){{ //adjust the format of v5 for v7
-                    width = 8f;
-                    height = 8f;
-                    drag = -0.003f;
-                    keepVelocity = false;
-                    homingRange = 60f;
-                    homingDelay = 5f;
-                    splashDamageRadius = 20f;
-                    splashDamage = 1f;
-                    lifetime = 90f;
-                    trailColor = Color.valueOf("b6c6fd");
-                    hitEffect = Fx.blastExplosion;
-                    despawnEffect = Fx.blastExplosion;
-                    backColor = Pal.bulletYellowBack;
-                    frontColor = Pal.bulletYellow;
-                    weaveScale = 8f;
-                    weaveMag = 2f;
-                }};
+                bullet = ClassicBullets.missileJavelin
             }});
         }};
         // --- Air Units Region End ---
@@ -517,24 +492,7 @@ public class ClassicUnitTypes {
                 reload = 35f;
                 
 
-                bullet = ClassicBullets.missileSwarm; /*new MissileBulletType(2.7f, 12f){{ //adjust the format of v5 for v7
-                    width = 8f;
-                    height = 8f;
-                    drag = -0.003f;
-                    homingRange = 60f;
-                    homingDelay = 5f;
-                    keepVelocity = false;
-                    splashDamageRadius = 25f;
-                    splashDamage = 10f;
-                    lifetime = 60f;
-                    trailColor = Pal.unitBack;
-                    backColor = Pal.unitBack;
-                    frontColor = Pal.unitFront;
-                    hitEffect = Fx.blastExplosion;
-                    despawnEffect = Fx.blastExplosion;
-                    weaveScale = 6f;
-                    weaveMag = 1f;
-                }};*/
+                bullet = ClassicBullets.OldmissileSwarm;
             }});
         }};
 
@@ -1064,24 +1022,7 @@ public class ClassicUnitTypes {
                             mirror = false;
                             flipSprite = !b;
                             shake = 1f;
-                            bullet = ClassicBullets.missileSwarm; /*new MissileBulletType(2.7f, 12, "missile"){{
-                                width = 8f;
-                                height = 8f;
-                                shrinkX = shrinkY = 0f;
-                                drag = -0.003f;
-                                homingRange = 60f;
-                                keepVelocity = false;
-                                splashDamageRadius = 25f;
-                                splashDamage = 10f;
-                                lifetime = 120f;
-                                trailColor = Color.gray;
-                                backColor = Pal.bulletYellowBack;
-                                frontColor = Pal.bulletYellow;
-                                hitEffect = Fx.blastExplosion;
-                                despawnEffect = Fx.blastExplosion;
-                                weaveScale = 8f;
-                                weaveMag = 2f;8
-                            }};*/
+                            bullet = ClassicBullets.missileSwarm;
                         }});
             }
         }};
