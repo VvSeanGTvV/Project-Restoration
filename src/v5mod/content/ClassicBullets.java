@@ -57,7 +57,7 @@ public class ClassicBullets {
         artilleryPlasticFrag = new BasicBulletType(2.5f, 10, "bullet"){{
             width = 10f;
             height = 12f;
-            bulletShrink = 1f;
+            shrinkX = shrinkY = 1f;
             lifetime = 15f;
             backColor = Pal.plastaniumBack;
             frontColor = Pal.plastaniumFront;
@@ -125,7 +125,7 @@ public class ClassicBullets {
         glassFrag = new BasicBulletType(3f, 5, "bullet"){{
             width = 5f;
             height = 12f;
-            bulletShrink = 1f;
+            shrinkX = shrinkY = 1f;
             lifetime = 20f;
             backColor = Pal.gray;
             frontColor = Color.white;
@@ -201,7 +201,7 @@ public class ClassicBullets {
         missileExplosive = new MissileBulletType(2.7f, 10, "missile"){{
             width = 8f;
             height = 8f;
-            bulletShrink = 0f;
+            shrinkX = shrinkY = 0f;
             drag = -0.01f;
             splashDamageRadius = 30f;
             splashDamage = 30f;
@@ -219,7 +219,7 @@ public class ClassicBullets {
             backColor = Pal.lightOrange;
             width = 7f;
             height = 8f;
-            bulletShrink = 0f;
+            shrinkX = shrinkY = 0f;
             drag = -0.01f;
             homingPower = 0.08f;
             splashDamageRadius = 20f;
@@ -232,7 +232,7 @@ public class ClassicBullets {
         missileSurge = new MissileBulletType(4.4f, 20, "bullet"){{
             width = 8f;
             height = 8f;
-            bulletShrink = 0f;
+            shrinkX = shrinkY = 0f;
             drag = -0.01f;
             splashDamageRadius = 28f;
             splashDamage = 40f;
@@ -246,7 +246,7 @@ public class ClassicBullets {
         missileJavelin = new MissileBulletType(5f, 10.5f, "missile"){{
             width = 8f;
             height = 8f;
-            bulletShrink = 0f;
+            shrinkX = shrinkY = 0f;
             drag = -0.003f;
             keepVelocity = false;
             splashDamageRadius = 20f;
@@ -264,7 +264,7 @@ public class ClassicBullets {
         missileSwarm = new MissileBulletType(2.7f, 12, "missile"){{
             width = 8f;
             height = 8f;
-            bulletShrink = 0f;
+            shrinkX = shrinkY = 0f;
             drag = -0.003f;
             homingRange = 60f;
             keepVelocity = false;
@@ -372,99 +372,13 @@ public class ClassicBullets {
             hittable = false;
         }};
 
-        healBullet = new HealBulletType(5.2f, 13){{
+        healBullet = new BasicBulletType(5.2f, 13){{
             healPercent = 3f;
         }};
 
-        healBulletBig = new HealBulletType(5.2f, 15){{
+        healBulletBig = new BasicBulletType(5.2f, 15){{
             healPercent = 5.5f;
         }};
-
-        fireball = new BulletType(1f, 4){
-            {
-                pierce = true;
-                collidesTiles = false;
-                collides = false;
-                drag = 0.03f;
-                hitEffect = despawnEffect = Fx.none;
-            }
-
-            @Override
-            public void init(Bulletc b){
-                b.vel().setLength(0.6f + Mathf.random(2f));
-            }
-
-            @Override
-            public void draw(Bulletc b){
-                Draw.color(Pal.lightFlame, Pal.darkFlame, Color.gray, b.fin());
-                Fill.circle(b.x(), b.y(), 3f * b.fout());
-                Draw.reset();
-            }
-
-            @Override
-            public void update(Bulletc b){
-                if(Mathf.chance(0.04 * Time.delta())){
-                    Tile tile = world.tileWorld(b.x(), b.y());
-                    if(tile != null){
-                        Fires.create(tile);
-                    }
-                }
-
-                if(Mathf.chance(0.1 * Time.delta())){
-                    Fx.fireballsmoke.at(b.x(), b.y());
-                }
-
-                if(Mathf.chance(0.1 * Time.delta())){
-                    Fx.ballfire.at(b.x(), b.y());
-                }
-            }
-        };
-
-        basicFlame = new BulletType(3f, 30f){
-            {
-                ammoMultiplier = 3f;
-                hitSize = 7f;
-                lifetime = 42f;
-                pierce = true;
-                drag = 0.05f;
-                statusDuration = 60f * 4;
-                shootEffect = Fx.shootSmallFlame;
-                hitEffect = Fx.hitFlameSmall;
-                despawnEffect = Fx.none;
-                status = StatusEffects.burning;
-                keepVelocity = false;
-                hittable = false;
-            }
-
-            @Override
-            public float range(){
-                return 50f;
-            }
-
-            @Override
-            public void draw(Bulletc b){
-            }
-        };
-
-        pyraFlame = new BulletType(3.3f, 45f){
-            {
-                ammoMultiplier = 4f;
-                hitSize = 7f;
-                lifetime = 42f;
-                pierce = true;
-                drag = 0.05f;
-                statusDuration = 60f * 6;
-                shootEffect = Fx.shootPyraFlame;
-                hitEffect = Fx.hitFlameSmall;
-                despawnEffect = Fx.none;
-                status = StatusEffects.burning;
-                hittable = false;
-            }
-
-            @Override
-            public void draw(Bulletc b){
-            }
-        };
 
         lancerLaser = new LaserBulletType(140){{
             colors = new Color[]{Pal.lancerLaser.cpy().mul(1f, 1f, 1f, 0.4f), Pal.lancerLaser, Color.white};
@@ -512,7 +426,7 @@ public class ClassicBullets {
         frag = new BasicBulletType(5f, 8, "bullet"){{
             width = 8f;
             height = 9f;
-            bulletShrink = 0.5f;
+            shrinkX = shrinkY = 0.5f;
             lifetime = 50f;
             drag = 0.04f;
         }};
@@ -538,25 +452,5 @@ public class ClassicBullets {
             incendAmount = 3;
             incendSpread = 10f;
         }};
-
-        bombOil = new BombBulletType(2f, 3f, "shell"){
-            {
-                width = 8f;
-                height = 12f;
-                hitEffect = Fx.pulverize;
-                backColor = new Color(0x4f4f4fff);
-                frontColor = Color.gray;
-            }
-
-            @Override
-            public void hit(Bulletc b, float x, float y){
-                super.hit(b, x, y);
-
-                for(int i = 0; i < 3; i++){
-                    Tile tile = world.tileWorld(x + Mathf.range(8f), y + Mathf.range(8f));
-                    Puddles.deposit(tile, Liquids.oil, 5f);
-                }
-            }
-        };
     }
 }
