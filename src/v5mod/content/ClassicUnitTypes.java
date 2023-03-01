@@ -1037,6 +1037,7 @@ public class ClassicUnitTypes {
 
             speed = 0.4f;
             hitSize = 10f;
+            constructor = MechUnit::create;
 
             weapons.add(new Weapon("projectv5-mod-beam-weapon"){{
                 shake = 2f;
@@ -1065,6 +1066,7 @@ public class ClassicUnitTypes {
                 hitSize = 8f;
                 health = 130;
                 immunities = ObjectSet.with(StatusEffects.wet);
+                constructor = UnitWaterMove::create;
                 weapons.add(new Weapon("mount-weapon") {{
                     reload = 10f;
                     x = 1.25f;
