@@ -1029,14 +1029,14 @@ public class ClassicUnitTypes {
         oculon = new UnitType("oculon"){{
             constructor = MechUnit::create;
             mineTier = 1;
-            hitsize = 9f;
+            hitSize = 9f;
             boostMultiplier = 2f;
             itemCapacity = 20;
             health = 230f;
             buildSpeed = 1.5f;
             canBoost = true;
             speed = 0.4f;
-            hitsize = 10f;
+            hitSize = 10f;
             weapons.add(new Weapon("projectv5-mod-beam-weapon"){{
                 shake = 2f;
                 shootY = 4f;
@@ -1052,7 +1052,6 @@ public class ClassicUnitTypes {
                     sideLength = 70f;
                     colors = new Color[]{Pal.heal.cpy().a(0.4f), Pal.heal, Color.white};
                 }};
-
             }});
         }};
         // --- Ground Units Region End ---
