@@ -1028,7 +1028,7 @@ public class ClassicUnitTypes {
         }};
         oculon = new UnitType("oculon"){{
             mineTier = 1;
-            hitSize = 10f;
+            hitSize = 9f;
             boostMultiplier = 2f;
             itemCapacity = 20;
             health = 230f;
@@ -1036,14 +1036,13 @@ public class ClassicUnitTypes {
             canBoost = true;
 
             speed = 0.4f;
-            constructor = MechUnit::create;
+            hitSize = 10f;
+
             weapons.add(new Weapon("projectv5-mod-beam-weapon"){{
                 shake = 2f;
                 shootY = 4f;
-                shootX = 6f;
-                x = 0.25f;
+                x = 6.5f;
                 reload = 50f;
-                alternate = true;
                 recoil = 4f;
                 shootSound = Sounds.laser;
 
@@ -1061,46 +1060,17 @@ public class ClassicUnitTypes {
 
         // --- Naval Units Region ---
         vanguard = new UnitType("vanguard"){{
-            //Matched with commit: 4c7259843c & 402fe88c Mindustry v105
-            //TODO: fixing Vanguard's Stats for v6
-            outlines = false;
-            mineTier = 1;
-            mineSpeed = 4f;
-            buildSpeed = 1.2f;
-            accel = 0.01f *6;
-            speed = 1.3f;
-            drag = 0.1f;
-            health = 130;
-            immunities = ObjectSet.with(StatusEffects.wet);
-            rotateSpeed = 0.1f *30;
-            constructor = UnitWaterMove::create;
-            //engineColor = Pal.lightTrail; --Was used to be a mech in v6
-            abilities.add(new SurroundRegenAbility(10f, 200f, 60f));
-            weapons.add(new Weapon("projectv5-mod-mount-weapon"){{
-                    shootSound = pew;
-                    outlines = false;
-                    top = true;
-
-                    reload = 5f;
+                speed = 1.3f;
+                drag = 0.1f;
+                hitSize = 8f;
+                health = 130;
+                immunities = ObjectSet.with(StatusEffects.wet);
+                weapons.add(new Weapon("mount-weapon") {{
+                    reload = 10f;
                     x = 1.25f;
-                    alternate = true;
                     rotate = true;
                     ejectEffect = Fx.casing1;
-
-                    bullet = new BasicBulletType() {{
-                        healPercent = 3f;
-                        collidesTeam = true;
-                        healEffect = Fx.healBlockFull;
-                        homingPower = 20f;
-                        backColor = Pal.lightTrail;
-                        width = 1.5f;
-                        height = 4f;
-                        damage = 3f;
-                        speed = 4f;
-                        lifetime = 40f;
-                        //shootEffect = Fx.shootHealYellow;
-                        //smokeEffect = hitEffect = despawnEffect = Fx.hitLaser;
-                    }};
+                    bullet = ClassicBullets.standardCopper;
                 }});
         }};
        
