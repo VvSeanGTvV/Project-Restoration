@@ -13,7 +13,7 @@ import static mindustry.Vars.indexer;
 public class OldAIcontroller extends AIController {
     protected static final Vec2 vec = new Vec2();
     protected static final int timerTarget = 0;
-    protected Unit unit;
+    //protected Unit unit;
     protected Teamc target;
     protected Interval timer = new Interval(4);
 
