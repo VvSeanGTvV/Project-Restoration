@@ -9,6 +9,7 @@ import mindustry.Vars;
 import mindustry.ai.types.*;
 import mindustry.content.*;
 import mindustry.entities.bullet.*;
+import mindustry.entities.units.UnitController;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
@@ -16,6 +17,7 @@ import mindustry.type.*;
 import static arc.struct.SnapshotSeq.with;
 
 import v5mod.lib.ability.*;
+import v5mod.lib.ai.type.*;
 
 public class ClassicUnitTypes {
     public static Sound pew = Vars.tree.loadSound("v5_sounds_pew"); //just pew lol
@@ -509,7 +511,7 @@ public class ClassicUnitTypes {
             engineSize = 5.3f;
             rotateSpeed = 0.06f * 22f;
             constructor = UnitEntity::create;
-            controller = u -> new FlyingAI();
+            controller = u -> (UnitController) new OldFlyingAI();
             
             weapons.add(new Weapon("projectv5-mod-lich-missiles-equip"){{
                 x = 21f;
@@ -1012,19 +1014,16 @@ public class ClassicUnitTypes {
             //landShake = 0f;
             legSpeed = 0.1f;
 
-
-            for(boolean b : Mathf.booleans){
-                weapons.add(
-                        new Weapon("projectv5-mod-missiles-mount"){{
-                            reload = 20f;
-                            x = 4f * Mathf.sign(b);
-                            rotate = true;
-                            mirror = true;
-                            flipSprite = !b;
-                            shake = 1f;
-                            bullet = ClassicBullets.missileSwarm;
-                        }});
-            }
+            weapons.add(
+                    new Weapon("projectv5-mod-missiles-mount"){{
+                        reload = 20f;
+                        x = 4f;
+                        rotate = true;
+                        mirror = true;
+                        //flipSprite = !b;
+                        shake = 1f;
+                        bullet = ClassicBullets.missileSwarm;
+                    }});
         }};
         oculon = new UnitType("oculon"){{
             constructor = MechUnit::create;
