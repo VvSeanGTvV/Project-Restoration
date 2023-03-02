@@ -6,8 +6,12 @@ import arc.util.*;
 import mindustry.ai.types.*;
 import mindustry.entities.*;
 import mindustry.entities.units.*;
+import mindustry.gen.Building;
+import mindustry.gen.Teamc;
 import mindustry.world.meta.*;
 import v5mod.lib.ai.*;
+
+import static mindustry.Vars.indexer;
 
 public class OldFlyingAI extends OldAIcontroller {
 

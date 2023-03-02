@@ -38,17 +38,4 @@ public class OldAIcontroller extends AIController {
             target = newTarget;
         }
     }
-
-    @Override
-    public void unit(Unit unit){
-        if(this.unit == unit) return;
-
-        this.unit = unit;
-        init();
-    }
-
-    @Override
-    public Unit unit(){
-        return unit;
-    }
 }
