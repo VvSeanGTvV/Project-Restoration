@@ -12,7 +12,7 @@ import v5mod.lib.ai.*;
 public class OldFlyingAI extends OldAIcontroller {
 
     @Override
-    public void update(){
+    public void updateMovement(){
         if(unit.moving()){
             unit.rotation(unit.vel().angle());
         }

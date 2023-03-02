@@ -10,11 +10,9 @@ import mindustry.world.meta.*;
 
 import static mindustry.Vars.indexer;
 
-public class OldAIcontroller implements UnitController {
+public class OldAIcontroller extends AIController {
     protected static final Vec2 vec = new Vec2();
     protected static final int timerTarget = 0;
-
-    protected Unitc unitc;
     protected Unit unit;
     protected Teamc target;
     protected Interval timer = new Interval(4);
@@ -23,7 +21,8 @@ public class OldAIcontroller implements UnitController {
         timer.reset(0, Mathf.random(40f));
     }
 
-    protected boolean retarget(){
+    @Override
+    public boolean retarget(){
         return timer.get(timerTarget, 30);
     }
 
@@ -38,10 +37,6 @@ public class OldAIcontroller implements UnitController {
         if(newTarget != null){
             target = newTarget;
         }
-    }
-
-    protected void init(){
-        // :I idk why this exist in Mindustry v6
     }
 
     @Override
