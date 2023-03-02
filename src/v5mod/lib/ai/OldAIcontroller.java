@@ -4,12 +4,13 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
 import mindustry.entities.*;
+import mindustry.entities.units.*;
 import mindustry.gen.*;
 import mindustry.world.meta.*;
 
 import static mindustry.Vars.indexer;
 
-public class OldAIcontroller implements OldUnitController {
+public class OldAIcontroller implements UnitController {
     protected static final Vec2 vec = new Vec2();
     protected static final int timerTarget = 0;
 
@@ -40,7 +41,7 @@ public class OldAIcontroller implements OldUnitController {
     }
 
     protected void init(){
-
+        // :I idk why this exist in Mindustry v6
     }
 
     @Override
@@ -49,11 +50,6 @@ public class OldAIcontroller implements OldUnitController {
 
         this.unit = unit;
         init();
-    }
-
-    @Override
-    public void unit(Unitc unit) {
-
     }
 
     @Override
