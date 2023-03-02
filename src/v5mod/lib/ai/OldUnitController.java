@@ -1,11 +1,12 @@
 package v5mod.lib.ai;
 
 import mindustry.ai.*;
+import mindustry.entities.units.*;
 import mindustry.gen.*;
 
-public interface OldUnitController {
+public interface OldUnitController extends UnitController {
     void unit(Unitc unit);
-    Unitc unit();
+    Unit unit();
 
     default void command(UnitCommand command){
 

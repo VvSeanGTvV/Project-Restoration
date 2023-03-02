@@ -1,12 +1,10 @@
 package v5mod.lib.ai;
 
-import mindustry.entities.units.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
 import mindustry.entities.*;
 import mindustry.gen.*;
-import mindustry.world.*;
 import mindustry.world.meta.*;
 
 import static mindustry.Vars.indexer;
@@ -15,7 +13,8 @@ public class OldAIcontroller implements OldUnitController {
     protected static final Vec2 vec = new Vec2();
     protected static final int timerTarget = 0;
 
-    protected Unitc unit;
+    protected Unitc unitc;
+    protected Unit unit;
     protected Teamc target;
     protected Interval timer = new Interval(4);
 
@@ -45,13 +44,20 @@ public class OldAIcontroller implements OldUnitController {
     }
 
     @Override
-    public void unit(Unitc unit){
+    public void unit(Unit unit){
+        if(this.unit == unit) return;
+
         this.unit = unit;
         init();
     }
 
     @Override
-    public Unitc unit(){
+    public void unit(Unitc unit) {
+
+    }
+
+    @Override
+    public Unit unit(){
         return unit;
     }
 }
