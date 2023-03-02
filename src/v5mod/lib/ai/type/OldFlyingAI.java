@@ -21,9 +21,9 @@ public class OldFlyingAI extends OldAIcontroller {
             unit.rotation(unit.vel().angle());
         }
 
-        /*if(unit.isFlying()){
+        if(unit.isFlying()){
             unit.wobble();
-        }*/
+        }
 
         if(Units.invalidateTarget(target, unit.team(), unit.x(), unit.y())){
             target = null;

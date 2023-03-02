@@ -511,7 +511,7 @@ public class ClassicUnitTypes {
             engineSize = 5.3f;
             rotateSpeed = 0.06f * 22f;
             constructor = UnitEntity::create;
-            controller = u -> (UnitController) new OldFlyingAI();
+            controller = u -> new testAI();
             
             weapons.add(new Weapon("projectv5-mod-lich-missiles-equip"){{
                 x = 21f;
