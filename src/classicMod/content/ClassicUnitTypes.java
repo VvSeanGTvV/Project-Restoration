@@ -14,8 +14,9 @@ import mindustry.type.*;
 
 import static arc.struct.SnapshotSeq.with;
 
+//Library Stuff
 import classicMod.lib.ability.*;
-import classicMod.lib.ai.OldFlyingAI;
+import classicMod.lib.ai.*;
 
 public class ClassicUnitTypes {
     public static Sound pew = Vars.tree.loadSound("v5_sounds_pew"); //just pew lol
@@ -394,7 +395,7 @@ public class ClassicUnitTypes {
             range = 140f;
             circleTarget = true;
             constructor = UnitEntity::create;
-            controller = u -> new FlyingAI();
+            controller = u -> new OldFlyingAI();
             
             weapons.add(new Weapon("projectv5-mod-nullTexture"){{
                 x = 2f;
@@ -431,7 +432,7 @@ public class ClassicUnitTypes {
             circleTarget = true;
             targetAir = false;
             constructor = UnitEntity::create;
-            controller = u -> new FlyingAI();
+            controller = u -> new OldFlyingAI();
             
             weapons.add(new Weapon("projectv5-mod-nullTexture"){{
                 x = 0f;
@@ -471,7 +472,7 @@ public class ClassicUnitTypes {
             engineOffset = 12f;
             engineSize = 3f;
             constructor = UnitEntity::create;
-            controller = u -> new FlyingAI();
+            controller = u -> new OldFlyingAI();
             
             weapons.add(new Weapon("projectv5-mod-revenant-missiles-equip"){{
                 x = 9f;
@@ -563,7 +564,7 @@ public class ClassicUnitTypes {
             engineSize = 7.3f;
             rotateSpeed = 0.04f * 22f;
             constructor = UnitEntity::create;
-            controller = u -> new FlyingAI();
+            controller = u -> new OldFlyingAI();
             
             weapons.add(new Weapon("projectv5-mod-reaper-gun-equip"){{
                 x = 31f;
