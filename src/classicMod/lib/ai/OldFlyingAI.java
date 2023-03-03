@@ -5,17 +5,19 @@ import arc.math.geom.*;
 import arc.util.*;
 import mindustry.Vars;
 import mindustry.entities.*;
-import mindustry.entities.bullet.BulletType;
+import mindustry.entities.bullet.*;
 import mindustry.entities.units.*;
-import mindustry.gen.Teamc;
+import mindustry.gen.*;
 import mindustry.type.Weapon;
+import mindustry.world.*;
 import mindustry.world.meta.*;
 
 
 import static arc.math.Mathf.dst;
 import static mindustry.Vars.indexer;
+import static mindustry.Vars.*;
 
-public class testAI extends AIController {
+public class OldFlyingAI extends AIController {
     protected float[] weaponAngles = {0,0};
 
     @Override
@@ -34,15 +36,14 @@ public class testAI extends AIController {
             if(target == null) targetClosestEnemyFlag(BlockFlag.turret);
         }
 
-        if(getClosestSpawner() == null && getClosestSpawner() != null && target == null){
+        if(getClosestSpawner() == null && getSpawner() != null && target == null){
             target = unit.closestEnemyCore();
             circle(80f + Mathf.randomSeed(unit.id) * 120);
         }else if(target != null){
             attack(unit.range());
 
             float rotation = unit.rotation;
-            if((Angles.near(unit.angleTo(target), rotation, getWeapon().shootCone) || getWeapon().ignoreRotation) //bombers and such don't care about rotation
-                    && dst(target.x(), target.y()) < getWeapon().bullet.range){
+            if((Angles.near(unit.angleTo(target), rotation, getWeapon().shootCone) || getWeapon().ignoreRotation) && dst(target.x(), target.y()) < getWeapon().bullet.range){ //bombers and such don't care about rotation
                 BulletType ammo = getWeapon().bullet;
 
                 if(unit.isRotate()){
@@ -62,6 +63,7 @@ public class testAI extends AIController {
                 }else{
                     Vec2 to = Predict.intercept(unit, target, ammo.speed);
                     unit.aim(to);
+                    getWeapon().update(unit, new WeaponMount(getWeapon()));
                 }
             }
         }else{
@@ -144,5 +146,9 @@ public class testAI extends AIController {
         if(newTarget != null){
             target = newTarget;
         }
+    }
+
+    Tile getSpawner(){
+        return world.tile(spawner.getFirstSpawn().pos());
     }
 }

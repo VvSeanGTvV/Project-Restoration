@@ -15,7 +15,7 @@ import mindustry.type.*;
 import static arc.struct.SnapshotSeq.with;
 
 import classicMod.lib.ability.*;
-import classicMod.lib.ai.testAI;
+import classicMod.lib.ai.OldFlyingAI;
 
 public class ClassicUnitTypes {
     public static Sound pew = Vars.tree.loadSound("v5_sounds_pew"); //just pew lol
@@ -509,7 +509,7 @@ public class ClassicUnitTypes {
             engineSize = 5.3f;
             rotateSpeed = 0.06f * 22f;
             constructor = UnitEntity::create;
-            controller = u -> new testAI();
+            controller = u -> new OldFlyingAI();
             
             weapons.add(new Weapon("projectv5-mod-lich-missiles-equip"){{
                 x = 21f;
