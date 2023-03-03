@@ -14,19 +14,23 @@ import mindustry.world.meta.*;
 
 
 import static arc.math.Mathf.dst;
+import static arc.scene.actions.Actions.moveBy;
 import static mindustry.Vars.indexer;
 import static mindustry.Vars.*;
 
 public class OldFlyingAI extends AIController {
-    protected float[] weaponAngles = {0,0};
+    protected float[] weaponAngles = {0,0}; //it's old lolz
 
     @Override
     public void updateMovement(){
         if(unit.isFlying()){
-            unit.wobble();
+            wobble(); //old wobble
         }
         if(Units.invalidateTarget(target,unit.team(),unit.x,unit.y)){
             target = null;
+        }
+        if(!net.client()){
+            updateRotation();
         }
 
         if(retarget()){
@@ -62,7 +66,7 @@ public class OldFlyingAI extends AIController {
                     }
                 }else{
                     Vec2 to = Predict.intercept(unit, target, ammo.speed);
-                    unit.aim(to);
+                    unit.aim(to.x, to.y);
                     getWeapon().update(unit, new WeaponMount(getWeapon()));
                 }
             }
@@ -72,7 +76,7 @@ public class OldFlyingAI extends AIController {
         }
     }
 
-    public Weapon getWeapon() {
+    public Weapon getWeapon() { //hehe updated getweapon() to modernize list
         if(unit.mounts.length > 0) {
             for (int i = 1; i <= unit.mounts.length; i++) {
                 return unit.mounts[i].weapon;
@@ -81,6 +85,21 @@ public class OldFlyingAI extends AIController {
             return null;
         }
         return unit.mounts[1].weapon;
+    }
+
+    protected void wobble(){
+        if(net.client()) return;
+
+        unit.x = Mathf.sin(Time.time + unit.id * 999, 25f, 0.05f) * Time.delta;
+        unit.y += Mathf.cos(Time.time + unit.id * 999, 25f, 0.05f) * Time.delta;
+
+        if(unit.vel.len() <= 0.05f){
+            //rotation += Mathf.sin(Time.time() + id * 99, 10f, 2f * type.speed)*Time.delta(); uh why this exist
+        }
+    }
+
+    protected void updateRotation(){
+        unit.rotation = unit.vel.angle();
     }
 
     protected void circle(float circleLength){
@@ -98,7 +117,7 @@ public class OldFlyingAI extends AIController {
 
         vec.setLength(speed * Time.delta);
 
-        unit.moveAt(vec);
+        unit.move(vec);
     }
 
     protected void moveTo(float circleLength){
@@ -115,7 +134,7 @@ public class OldFlyingAI extends AIController {
             vec.setZero();
         }
 
-        unit.moveAt(vec);
+        unit.move(vec);
     }
 
     protected void attack(float circleLength){
@@ -132,7 +151,7 @@ public class OldFlyingAI extends AIController {
 
         vec.setLength(unit.type().speed * Time.delta);
 
-        unit.moveAt(vec);
+        unit.move(vec);
     }
 
     protected void targetClosestEnemyFlag(BlockFlag flag){
@@ -141,14 +160,17 @@ public class OldFlyingAI extends AIController {
     }
 
     protected void targetClosest(){
-        //TODO optimize!
         Teamc newTarget = Units.closestTarget(unit.team(), unit.x(), unit.y(), Math.max(unit.range(), unit.type().range), u -> (unit.type().targetAir && u.isFlying()) || (unit.type().targetGround && !u.isFlying()));
         if(newTarget != null){
             target = newTarget;
         }
     }
 
-    Tile getSpawner(){
+    public void move(float x, float y){ //uh this doesn't exist anymore lolz
+        moveBy(x, y);
+    }
+
+    Tile getSpawner(){ //spawner old
         return world.tile(spawner.getFirstSpawn().pos());
     }
 }
