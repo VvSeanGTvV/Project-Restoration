@@ -1,16 +1,16 @@
-package v5mod;
+package classicMod;
 
 import arc.*;
 import arc.util.*;
 import mindustry.*;
 import mindustry.game.EventType.*;
 import mindustry.mod.*;
-import v5mod.content.*;
+import classicMod.content.*;
 //v5-java-mod is the current use
 
-public class V5RebornMod extends Mod{
-    public V5RebornMod(){
-        Log.info("Loaded V5Constructor constructor.");
+public class ClassicMod extends Mod{
+    public ClassicMod(){
+        //Log.info("Loaded Classic constructor.");
 
         //listen for game load event
         Events.on(ClientLoadEvent.class, e -> {

@@ -1,19 +1,16 @@
-package v5mod.lib.blocks;
+package classicMod.lib.blocks;
 
 import arc.*;
-import arc.graphics.*;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.*;
 import arc.struct.EnumSet;
-import arc.util.*;
 import arc.util.io.*;
 import mindustry.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.game.EventType.*;
-import mindustry.game.Team;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;

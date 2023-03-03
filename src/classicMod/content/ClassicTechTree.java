@@ -1,4 +1,4 @@
-package v5mod.content;
+package classicMod.content;
 
 import arc.struct.*;
 import mindustry.content.*;
@@ -8,7 +8,7 @@ import mindustry.type.*;
 
 import static mindustry.content.Blocks.*;
 import static mindustry.content.TechTree.*;
-import static v5mod.content.ClassicBlocks.*;
+import static classicMod.content.ClassicBlocks.*;
 
 public class ClassicTechTree {
     static TechTree.TechNode context = null;

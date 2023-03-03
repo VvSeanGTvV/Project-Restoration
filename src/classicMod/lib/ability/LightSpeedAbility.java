@@ -1,21 +1,16 @@
-package v5mod.lib.ability;
+package classicMod.lib.ability;
 import arc.Core;
-import arc.audio.Sound;
 import arc.graphics.Blending;
 import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
-import arc.scene.actions.ColorAction;
-import arc.struct.Seq;
 import arc.util.*;
 import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.abilities.Ability;
-import mindustry.game.Team;
 import mindustry.gen.*;
 import mindustry.graphics.*;
-import mindustry.type.StatusEffect;
 
 public class LightSpeedAbility extends Ability { //Combined of V5 and V7 coding just formatted to be compatible!
     public float damage;

@@ -8,7 +8,7 @@ name: "projectv5-mod"
 author: "VvSeanGtvV"
 
 #the fully qualified main class of the mod
-main: "v5mod.V5RebornMod"
+main: "classicMod.ClassicMod"
 
 #the mod description as seen in the mod dialog
 description: "A Mindustry Classic Mod for Mindustry v7, currently contains v5 and v6 early preview things lolz!"

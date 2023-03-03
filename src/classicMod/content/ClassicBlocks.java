@@ -1,12 +1,12 @@
-package v5mod.content;
+package classicMod.content;
 
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.content.*;
 
-import v5mod.lib.blocks.*; //library contents for blocks extended
-import v5mod.lib.blocks.LegacyUnitFactory;
+import classicMod.lib.blocks.*; //library contents for blocks extended
+import classicMod.lib.blocks.LegacyUnitFactory;
 
 import static mindustry.type.ItemStack.*;
 

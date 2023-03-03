@@ -1,4 +1,4 @@
-package v5mod.lib.blocks;
+package classicMod.lib.blocks;
 
 import arc.*;
 import arc.audio.Sound;

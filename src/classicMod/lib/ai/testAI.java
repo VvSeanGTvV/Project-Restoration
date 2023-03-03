@@ -1,18 +1,15 @@
-package v5mod.lib.ai.type;
+package classicMod.lib.ai;
 
 import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
 import mindustry.Vars;
-import mindustry.ai.types.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.BulletType;
 import mindustry.entities.units.*;
-import mindustry.gen.Building;
 import mindustry.gen.Teamc;
 import mindustry.type.Weapon;
 import mindustry.world.meta.*;
-import v5mod.lib.ai.*;
 
 
 import static arc.math.Mathf.dst;

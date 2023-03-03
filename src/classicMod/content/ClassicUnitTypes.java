@@ -1,23 +1,21 @@
-package v5mod.content;
+package classicMod.content;
 
 import arc.audio.Sound;
 import arc.graphics.*;
-import arc.math.*;
 import arc.struct.*;
 import arc.util.*;
 import mindustry.Vars;
 import mindustry.ai.types.*;
 import mindustry.content.*;
 import mindustry.entities.bullet.*;
-import mindustry.entities.units.UnitController;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 
 import static arc.struct.SnapshotSeq.with;
 
-import v5mod.lib.ability.*;
-import v5mod.lib.ai.type.*;
+import classicMod.lib.ability.*;
+import classicMod.lib.ai.testAI;
 
 public class ClassicUnitTypes {
     public static Sound pew = Vars.tree.loadSound("v5_sounds_pew"); //just pew lol
