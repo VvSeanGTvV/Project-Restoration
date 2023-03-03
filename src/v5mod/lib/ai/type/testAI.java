@@ -38,7 +38,7 @@ public class testAI extends AIController {
         }
 
         if(getClosestSpawner() == null && getClosestSpawner() != null && target == null){
-            target = (Teamc) getClosestSpawner().team();
+            target = unit.closestEnemyCore();
             circle(80f + Mathf.randomSeed(unit.id) * 120);
         }else if(target != null){
             attack(unit.range());
@@ -68,7 +68,7 @@ public class testAI extends AIController {
                 }
             }
         }else{
-            target = (Teamc) getClosestSpawner().team();
+            target = unit.closestEnemyCore();
             moveTo(Vars.state.rules.dropZoneRadius + 120f);
         }
     }
