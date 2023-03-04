@@ -1030,6 +1030,7 @@ public class ClassicUnitTypes {
                     }});
         }};
         oculon = new UnitType("oculon"){{
+            outlines = false;
             constructor = MechUnit::create;
             mineTier = 1;
             hitSize = 9f;
@@ -1061,6 +1062,7 @@ public class ClassicUnitTypes {
 
         // --- Naval Units Region ---
         vanguard = new UnitType("vanguard"){{
+            outlines = false;
                 speed = 1.3f;
                 drag = 0.1f;
                 hitSize = 8f;
