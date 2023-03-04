@@ -5,6 +5,7 @@ import mindustry.world.blocks.payloads.*;
 
 public class BallisticSilo extends PayloadBlock {
 
+
     public BallisticSilo(String name){
         super(name);
     }

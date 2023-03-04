@@ -1,8 +1,10 @@
 package classicMod.library.blocks;
 
 import arc.math.*;
-import mindustry.content.Liquids;
+import mindustry.content.*;
+import mindustry.graphics.*;
 import mindustry.type.*;
+import mindustry.ui.Bar;
 import mindustry.world.blocks.production.*;
 import mindustry.world.consumers.*;
 import mindustry.world.meta.*;
@@ -46,7 +48,15 @@ public class LiquidConverter extends GenericCrafter {
         stats.add(Stat.output, outputLiquid.liquid, outputLiquid.amount * 60f, true);
     }
 
+    @Override
+    public void setBars(){
+        super.setBars();
+
+        addBar("progress", (LiquidConverterBuild entity) -> new Bar("bar.progress",Pal.ammo, entity::fraction));
+    }
+
     public class LiquidConverterBuild extends GenericCrafterBuild{
+        public float fraction(){ return progress / craftTime; }
         @Override
         public void drawLight(){
             if(hasLiquids && drawLiquidLight && outputLiquid.liquid.lightColor.a > 0.001f){
@@ -56,6 +66,7 @@ public class LiquidConverter extends GenericCrafter {
 
         @Override
         public void updateTile(){
+            fraction();
             ConsumeLiquid cl = consumeLiquid(k1, k2);
 
             if(consumesLiquid(k1)){
