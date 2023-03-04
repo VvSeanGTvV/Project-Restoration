@@ -1,4 +1,4 @@
-package classicMod.lib.blocks;
+package classicMod.library.blocks;
 
 import arc.*;
 import arc.audio.Sound;

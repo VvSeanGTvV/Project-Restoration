@@ -5,21 +5,24 @@ import mindustry.world.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.content.*;
 
-import classicMod.lib.blocks.*; //library contents for blocks extended
-import classicMod.lib.blocks.LegacyUnitFactory;
+import classicMod.library.blocks.*; //library contents for blocks extended
+import mindustry.world.blocks.production.*;
+import mindustry.world.meta.*;
 
 import static mindustry.type.ItemStack.*;
 
 public class ClassicBlocks {
     public static Block
 
-    dartPad, omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad
+    dartPad, omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad [v5]
 
-    wraithFactory, ghoulFactory, revenantFactory, //Air Unit Factory
-    crawlerFactory,daggerFactory, titanFactory, fortressFactory, //Ground Unit Factory
-    draugFactory, spiritFactory, phantomFactory, //Unit Support Factory
+    wraithFactory, ghoulFactory, revenantFactory, //Air - Unit Factory [v5]
+    crawlerFactory,daggerFactory, titanFactory, fortressFactory, //Ground - Unit Factory [v5]
+    draugFactory, spiritFactory, phantomFactory, //Support - Unit Factory [v5]
 
-    insulatorWall, insulatorWallLarge
+    insulatorWall, insulatorWallLarge, //Wall - Insulator - Testing-candidate [v6-dev]
+
+    warheadAssembler, ballisticSilo, nuclearWarhead //Nuclear - Prototype [v7-dev]
     ;
     public void load(){
         //--- Mech Pad Region ---
@@ -227,5 +230,25 @@ public class ClassicBlocks {
             insulated = true;
             size = 2;
         }};
+        //--- Wall Region End ---
+
+        //--- Nuclear Region ---
+        warheadAssembler = new SingleBlockProducer("warhead-assembler"){{
+            requirements(Category.crafting, with(Items.thorium, 100));
+            result = nuclearWarhead;
+            size = 3;
+            buildSpeed = 0.3f;
+        }};
+
+        ballisticSilo = new BallisticSilo("ballistic-silo"){{
+            requirements(Category.crafting, with(Items.thorium, 100));
+            size = 5;
+        }};
+
+        nuclearWarhead = new NuclearWarhead("nuclear-warhead"){{
+            requirements(Category.crafting, BuildVisibility.debugOnly, with(Items.thorium, 40));
+            size = 2;
+        }};
+        //--- Nuclear Region End ---
     }
 }

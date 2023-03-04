@@ -1,4 +1,4 @@
-package classicMod.lib.ability;
+package classicMod.library.ability;
 import arc.Core;
 import arc.graphics.Blending;
 import arc.graphics.Color;

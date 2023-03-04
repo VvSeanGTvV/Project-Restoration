@@ -1,4 +1,4 @@
-package classicMod.lib.ability;
+package classicMod.library.ability;
 
 import arc.*;
 import arc.util.*;

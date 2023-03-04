@@ -1,4 +1,4 @@
-package classicMod.lib.ai;
+package classicMod.library.ai;
 
 import arc.math.*;
 import arc.math.geom.*;
