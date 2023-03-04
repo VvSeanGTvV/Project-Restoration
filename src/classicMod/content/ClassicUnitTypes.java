@@ -1078,6 +1078,7 @@ public class ClassicUnitTypes {
 
         // --- Worm Based Units ---
         krepost = new testUnitType("krepost"){{
+            constructor = LegsUnit::create;
             drag = 0.1f;
             speed = 1f;
             hitSize = 19f;

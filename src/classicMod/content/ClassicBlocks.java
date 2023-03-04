@@ -244,10 +244,10 @@ public class ClassicBlocks {
             buildSpeed = 0.3f;
         }};
 
-        /*ballisticSilo = new BallisticSilo("ballistic-silo"){{
+        ballisticSilo = new BallisticSilo("ballistic-silo"){{
             requirements(Category.crafting, with(Items.thorium, 100));
             size = 5;
-        }};*/
+        }};
 
         nuclearWarhead = new NuclearWarhead("nuclear-warhead"){{
             requirements(Category.crafting, with(Items.thorium, 40));
