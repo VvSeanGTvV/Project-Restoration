@@ -1,5 +1,9 @@
 package classicMod.content;
 
+import arc.graphics.*;
+import classicMod.library.blocks.legacyBlocks.LegacyUnitFactory;
+import classicMod.library.blocks.legacyBlocks.MechPad;
+import mindustry.gen.Building;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.*;
@@ -7,7 +11,7 @@ import mindustry.content.*;
 
 import classicMod.library.blocks.*; //library contents for blocks extended
 import mindustry.world.blocks.production.*;
-import mindustry.world.meta.*;
+import mindustry.world.draw.*;
 
 import static mindustry.type.ItemStack.*;
 
@@ -15,14 +19,14 @@ public class ClassicBlocks {
     public static Block
 
     dartPad, omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad [v5]
-
     wraithFactory, ghoulFactory, revenantFactory, //Air - Unit Factory [v5]
     crawlerFactory,daggerFactory, titanFactory, fortressFactory, //Ground - Unit Factory [v5]
     draugFactory, spiritFactory, phantomFactory, //Support - Unit Factory [v5]
 
     insulatorWall, insulatorWallLarge, //Wall - Insulator - Testing-candidate [v6-dev]
 
-    warheadAssembler, ballisticSilo, nuclearWarhead //Nuclear - Prototype [v7-dev]
+    warheadAssembler, ballisticSilo, nuclearWarhead, //Nuclear - Prototype [v7-dev]
+    cellSynthesisChamber //Liquid Converter - Prototype [v7-dev]
     ;
     public void load(){
         //--- Mech Pad Region ---
@@ -246,9 +250,44 @@ public class ClassicBlocks {
         }};
 
         nuclearWarhead = new NuclearWarhead("nuclear-warhead"){{
-            requirements(Category.crafting, BuildVisibility.debugOnly, with(Items.thorium, 40));
+            requirements(Category.crafting, with(Items.thorium, 40));
             size = 2;
         }};
         //--- Nuclear Region End ---
+
+        //--- Converter Region ---
+        cellSynthesisChamber = new LiquidConverter("cell-synthesis-chamber"){{
+            //TODO booster mechanics?
+            requirements(Category.crafting, with(Items.thorium, 100, Items.phaseFabric, 120, Items.titanium, 150, Items.surgeAlloy, 70));
+            outputLiquid = new LiquidStack(Liquids.neoplasm, 0.4f);
+            craftTime = 200f;
+            size = 3;
+            hasPower = true;
+            hasItems = true;
+            hasLiquids = true;
+            rotate = false;
+            solid = true;
+            outputsLiquid = true;
+            drawer = new DrawCells(){{
+                color = Color.valueOf("9e172c");
+                particleColorFrom = Color.valueOf("9e172c");
+                particleColorTo = Color.valueOf("f98f4a");
+                radius = 2.5f;
+                lifetime = 1400f;
+                recurrence = 2f;
+                particles = 20;
+                range = 3f;
+            }};
+            liquidCapacity = 30f;
+
+            consumeLiquids(Liquids.water, 8);
+            consumePower(2f);
+            consumeItems(with(Items.sporePod, 3, Items.phaseFabric, 1));
+
+            /* consumes.power(2f);
+            consumes.items(with(Items.sporePod, 3, Items.phaseFabric, 1));
+            consumes.liquid(Liquids.water, 0.8f);*/
+        }};
+        //--- Converter Region End---
     }
 }

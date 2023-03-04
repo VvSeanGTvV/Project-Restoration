@@ -1,4 +1,4 @@
-package classicMod.library.blocks;
+package classicMod.library.blocks.legacyBlocks;
 
 import arc.*;
 import arc.graphics.g2d.Draw;
