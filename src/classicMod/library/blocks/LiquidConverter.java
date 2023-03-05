@@ -2,17 +2,18 @@ package classicMod.library.blocks;
 
 import arc.*;
 import arc.graphics.g2d.*;
-import arc.math.Mathf;
+import arc.math.*;
 import classicMod.library.blocks.legacyBlocks.LegacyUnitFactory;
 import mindustry.Vars;
-import mindustry.content.Liquids;
-import mindustry.graphics.Pal;
+import mindustry.content.*;
+import mindustry.graphics.*;
+import mindustry.graphics.*;
 import mindustry.type.*;
-import mindustry.ui.Bar;
+import mindustry.ui.*;
 import mindustry.ui.Fonts;
 import mindustry.world.blocks.production.*;
-import mindustry.world.consumers.ConsumeLiquid;
-import mindustry.world.meta.Stat;
+import mindustry.world.consumers.*;
+import mindustry.world.meta.*;
 
 public class LiquidConverter extends GenericCrafter { //TODO fix this old converter
     public float ConvertTime = 10f;
@@ -56,7 +57,6 @@ public class LiquidConverter extends GenericCrafter { //TODO fix this old conver
     }
 
     public class LiquidConverterBuild extends GenericCrafterBuild{
-        public float speedScl;
         public float fractionTime(){ return progress / ConvertTime; }
         @Override
         public void drawLight(){
@@ -71,8 +71,12 @@ public class LiquidConverter extends GenericCrafter { //TODO fix this old conver
             TextureRegion bottomRegion = Core.atlas.find(name + "-bottom");
             TextureRegion liquidRegion = Core.atlas.find(name + "-liquid");
 
-            Draw.rect(region, x, y);
+
             Draw.rect(bottomRegion, x, y);
+            if(liquids.currentAmount() > 0.001f){
+                Drawf.liquid(liquidRegion, x, y, liquids.currentAmount() / liquidCapacity, liquids.current().color);
+            }
+            Draw.rect(region, x, y);
 
         }
 
