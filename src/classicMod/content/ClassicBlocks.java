@@ -3,7 +3,6 @@ package classicMod.content;
 import arc.graphics.*;
 import classicMod.library.blocks.legacyBlocks.LegacyUnitFactory;
 import classicMod.library.blocks.legacyBlocks.MechPad;
-import mindustry.gen.Building;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.*;
@@ -260,7 +259,7 @@ public class ClassicBlocks {
             //TODO booster mechanics?
             requirements(Category.crafting, with(Items.thorium, 100, Items.phaseFabric, 120, Items.titanium, 150, Items.surgeAlloy, 70));
             outputLiquid = new LiquidStack(Liquids.neoplasm, 0.4f);
-            craftTime = 200f;
+            ConvertTime = 200f;
             size = 3;
             hasPower = true;
             hasItems = true;
@@ -279,6 +278,9 @@ public class ClassicBlocks {
                 range = 3f;
             }};
             liquidCapacity = 30f;
+
+            ConvertLiquid = Liquids.water;
+            ConvertLiquidAmount = 8f;
 
             //consumeLiquid(Liquids.water, 8f);
             consumePower(2f);
