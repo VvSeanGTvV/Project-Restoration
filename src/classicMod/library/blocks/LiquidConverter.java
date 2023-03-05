@@ -56,7 +56,7 @@ public class LiquidConverter extends GenericCrafter { //TODO fix this old conver
 
     @Override
     public TextureRegion[] icons() {
-        return new TextureRegion[]{Core.atlas.find(name), Core.atlas.find(name + "-bottom")};
+        return new TextureRegion[]{Core.atlas.find(name + "-bottom"), Core.atlas.find(name)};
     }
 
     public class LiquidConverterBuild extends GenericCrafterBuild{
@@ -70,13 +70,15 @@ public class LiquidConverter extends GenericCrafter { //TODO fix this old conver
         @Override
         public void draw() {
             super.draw();
+            region = Core.atlas.find(name);
+            bottomRegion = Core.atlas.find(name + "-bottom");
+            liquidRegion = Core.atlas.find(name + "-liquid");
 
-
-            Draw.rect(bottomRegion, tile.drawx(), tile.drawy());
+            Draw.rect(region, tile.drawx(), tile.drawy());
             if(liquids.currentAmount() > 0.001f){
                 Drawf.liquid(liquidRegion, tile.drawx(), tile.drawy(), liquids.currentAmount() / liquidCapacity, liquids.current().color);
             }
-            Draw.rect(region, tile.drawx(), tile.drawy());
+            Draw.rect(bottomRegion, tile.drawx(), tile.drawy());
 
         }
 
