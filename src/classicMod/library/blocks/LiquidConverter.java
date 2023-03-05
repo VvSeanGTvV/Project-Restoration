@@ -82,7 +82,7 @@ public class LiquidConverter extends GenericCrafter { //TODO fix this old conver
             if(liquids.currentAmount() > 0.001f){
                 Drawf.liquid(liquidRegion, tile.drawx(), tile.drawy(), liquids.currentAmount() / liquidCapacity, liquids.current().color);
             }
-            Draw.rect(bottomRegion, tile.drawx(), tile.drawy());
+            //Draw.rect(bottomRegion, tile.drawx(), tile.drawy());
 
         }
 
