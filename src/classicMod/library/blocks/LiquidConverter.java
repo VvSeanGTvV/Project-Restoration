@@ -33,6 +33,10 @@ public class LiquidConverter extends GenericCrafter { //TODO fix this old conver
         if(!hasLiquids){throw new RuntimeException("LiquidConverters must have: hasLiquids = true");}
         if(cl != null){throw new RuntimeException("Unable to convert Null to consumeLiquid");}
         cl = consumeLiquid(ConvertLiquid, ConvertLiquidAmount);
+        region = Core.atlas.find(name);
+        bottomRegion = Core.atlas.find(name + "-bottom");
+        liquidRegion = Core.atlas.find(name + "-liquid");
+        
         super.init();
     }
 
