@@ -96,6 +96,9 @@ public class LiquidConverter extends GenericCrafter { //TODO fix this old conver
 
                 consume();
             }
+            if(outputLiquid != null){
+                dumpLiquid(outputLiquid.liquid);
+            }
         }
     }
 }
