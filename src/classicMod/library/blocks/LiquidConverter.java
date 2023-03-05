@@ -19,6 +19,9 @@ public class LiquidConverter extends GenericCrafter { //TODO fix this old conver
     public float ConvertTime = 10f;
     public Liquid ConvertLiquid = Liquids.water;
     public float ConvertLiquidAmount = 5f;
+    TextureRegion region = Core.atlas.find(name);
+    TextureRegion bottomRegion = Core.atlas.find(name + "-bottom");
+    TextureRegion liquidRegion = Core.atlas.find(name + "-liquid");
     ConsumeLiquid cl;
     public LiquidConverter(String name) {
         super(name);
@@ -67,16 +70,13 @@ public class LiquidConverter extends GenericCrafter { //TODO fix this old conver
         @Override
         public void draw() {
             super.draw();
-            TextureRegion region = Core.atlas.find(name);
-            TextureRegion bottomRegion = Core.atlas.find(name + "-bottom");
-            TextureRegion liquidRegion = Core.atlas.find(name + "-liquid");
 
 
-            Draw.rect(bottomRegion, x, y);
+            Draw.rect(bottomRegion, tile.drawx(), tile.drawy());
             if(liquids.currentAmount() > 0.001f){
-                Drawf.liquid(liquidRegion, x, y, liquids.currentAmount() / liquidCapacity, liquids.current().color);
+                Drawf.liquid(liquidRegion, tile.drawx(), tile.drawy(), liquids.currentAmount() / liquidCapacity, liquids.current().color);
             }
-            Draw.rect(region, x, y);
+            Draw.rect(region, tile.drawx(), tile.drawy());
 
         }
 
