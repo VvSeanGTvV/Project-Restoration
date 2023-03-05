@@ -280,7 +280,7 @@ public class ClassicBlocks {
             }};
             liquidCapacity = 30f;
 
-            consumeLiquid(Liquids.water, 8f);
+            //consumeLiquid(Liquids.water, 8f);
             consumePower(2f);
             consumeItems(with(Items.sporePod, 3, Items.phaseFabric, 1));
 
