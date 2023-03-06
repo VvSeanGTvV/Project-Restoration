@@ -1,35 +1,45 @@
 package classicMod.content;
 
 import arc.graphics.*;
-import classicMod.library.blocks.legacyBlocks.LegacyUnitFactory;
-import classicMod.library.blocks.legacyBlocks.MechPad;
+import arc.math.Interp;
+
+import classicMod.library.blocks.legacyBlocks.*;
+import classicMod.library.blocks.*;
+import classicMod.library.blocks.v6devBlocks.*;
+
+import mindustry.entities.bullet.*;
+import mindustry.graphics.Pal;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.content.*;
 
-import classicMod.library.blocks.*; //library contents for blocks extended
+import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.blocks.production.*;
 import mindustry.world.draw.*;
+import mindustry.world.meta.Env;
 
 import static mindustry.type.ItemStack.*;
 
 public class ClassicBlocks {
     public static Block
 
-    dartPad, omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad [v5]
-    wraithFactory, ghoulFactory, revenantFactory, //Air - Unit Factory [v5]
-    crawlerFactory,daggerFactory, titanFactory, fortressFactory, //Ground - Unit Factory [v5]
-    draugFactory, spiritFactory, phantomFactory, //Support - Unit Factory [v5]
+            dartPad, omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad [v5]
+            wraithFactory, ghoulFactory, revenantFactory, //Air - Unit Factory [v5]
+            crawlerFactory, daggerFactory, titanFactory, fortressFactory, //Ground - Unit Factory [v5]
+            draugFactory, spiritFactory, phantomFactory, //Support - Unit Factory [v5]
 
     insulatorWall, insulatorWallLarge, //Wall - Insulator - Testing-candidate [v6-dev]
 
     warheadAssembler, ballisticSilo, nuclearWarhead, //Nuclear - Prototype [v7-dev]
-    cellSynthesisChamber //Liquid Converter - Prototype [v7-dev]
-    ;
-    public void load(){
+            cellSynthesisChamber, //Liquid Converter - Erekir - Prototype [v7-dev]
+
+    fracture //Turrets - Erekir - Prototype [v7-dev]
+            ;
+
+    public void load() {
         //--- Mech Pad Region ---
-        omegaPad = new MechPad("omega-pad"){{
+        omegaPad = new MechPad("omega-pad") {{
             requirements(Category.effect, with(Items.lead, 225, Items.graphite, 275, Items.silicon, 325, Items.thorium, 300, Items.surgeAlloy, 120));
             size = 3;
             hasPower = true;
@@ -39,7 +49,7 @@ public class ClassicBlocks {
             consumePower(1.2f);
         }};
 
-        deltaPad = new MechPad("delta-pad"){{
+        deltaPad = new MechPad("delta-pad") {{
             requirements(Category.effect, with(Items.lead, 175, Items.titanium, 175, Items.copper, 200, Items.silicon, 225, Items.thorium, 150));
             size = 2;
             hasPower = true;
@@ -48,7 +58,7 @@ public class ClassicBlocks {
             consumePower(0.7f);
         }};
 
-        javelinPad = new MechPad("javelin-pad"){{
+        javelinPad = new MechPad("javelin-pad") {{
             requirements(Category.effect, with(Items.lead, 175, Items.silicon, 225, Items.titanium, 250, Items.plastanium, 200, Items.phaseFabric, 100));
             size = 2;
             hasPower = true;
@@ -57,7 +67,7 @@ public class ClassicBlocks {
             consumePower(0.8f);
         }};
 
-        tridentPad = new MechPad("trident-pad"){{
+        tridentPad = new MechPad("trident-pad") {{
             requirements(Category.effect, with(Items.lead, 125, Items.copper, 125, Items.silicon, 125, Items.titanium, 150, Items.plastanium, 100));
             size = 2;
             hasPower = true;
@@ -66,7 +76,7 @@ public class ClassicBlocks {
             consumePower(1f);
         }};
 
-        dartPad = new MechPad("dart-pad"){{
+        dartPad = new MechPad("dart-pad") {{
             requirements(Category.effect, with(Items.lead, 100, Items.graphite, 50, Items.copper, 75));
             size = 2;
             hasPower = true;
@@ -75,7 +85,7 @@ public class ClassicBlocks {
             consumePower(0.5f);
         }};
 
-        alphaPad = new MechPad("alpha-pad"){{
+        alphaPad = new MechPad("alpha-pad") {{
             requirements(Category.effect, with(Items.lead, 100, Items.graphite, 50, Items.copper, 75));
             size = 2;
             hasPower = true;
@@ -84,7 +94,7 @@ public class ClassicBlocks {
             consumePower(0.5f);
         }};
 
-        tauPad = new MechPad("tau-pad"){{
+        tauPad = new MechPad("tau-pad") {{
             requirements(Category.effect, with(Items.lead, 125, Items.titanium, 125, Items.copper, 125, Items.silicon, 125));
             size = 2;
             hasPower = true;
@@ -93,7 +103,7 @@ public class ClassicBlocks {
             consumePower(1f);
         }};
 
-        glaivePad = new MechPad("glaive-pad"){{
+        glaivePad = new MechPad("glaive-pad") {{
             requirements(Category.effect, with(Items.lead, 225, Items.silicon, 325, Items.titanium, 350, Items.plastanium, 300, Items.surgeAlloy, 100));
             size = 3;
             hasPower = true;
@@ -104,7 +114,7 @@ public class ClassicBlocks {
         //--- Mech Pad Region End ---
 
         //--- Unit Factory Region ---
-        wraithFactory = new LegacyUnitFactory("wraith-factory"){{
+        wraithFactory = new LegacyUnitFactory("wraith-factory") {{
             requirements(Category.units, ItemStack.with(Items.titanium, 30, Items.lead, 40, Items.silicon, 45));
             size = 2;
             produceTime = 700;
@@ -115,7 +125,7 @@ public class ClassicBlocks {
             unitType = ClassicUnitTypes.wraith;
         }};
 
-        ghoulFactory = new LegacyUnitFactory("ghoul-factory"){{
+        ghoulFactory = new LegacyUnitFactory("ghoul-factory") {{
             requirements(Category.units, ItemStack.with(Items.titanium, 75, Items.lead, 65, Items.silicon, 110));
             size = 3;
             produceTime = 1150;
@@ -126,7 +136,7 @@ public class ClassicBlocks {
             unitType = ClassicUnitTypes.ghoul;
         }};
 
-        revenantFactory = new LegacyUnitFactory("revenant-factory"){{
+        revenantFactory = new LegacyUnitFactory("revenant-factory") {{
             requirements(Category.units, ItemStack.with(Items.plastanium, 50, Items.titanium, 150, Items.lead, 150, Items.silicon, 200));
             size = 4;
             produceTime = 2000;
@@ -139,7 +149,7 @@ public class ClassicBlocks {
         //--- Unit Factory Region ---
 
         //--- Unit Support Factory Region ---
-        draugFactory = new LegacyUnitFactory("draug-factory"){{
+        draugFactory = new LegacyUnitFactory("draug-factory") {{
             requirements(Category.units, ItemStack.with(Items.copper, 30, Items.lead, 70));
             size = 2;
             produceTime = 2500;
@@ -150,7 +160,7 @@ public class ClassicBlocks {
             unitType = ClassicUnitTypes.draug;
         }};
 
-        spiritFactory = new LegacyUnitFactory("spirit-factory"){{
+        spiritFactory = new LegacyUnitFactory("spirit-factory") {{
             requirements(Category.units, ItemStack.with(Items.metaglass, 45, Items.lead, 55, Items.silicon, 45));
             size = 2;
             produceTime = 4000;
@@ -161,7 +171,7 @@ public class ClassicBlocks {
             unitType = ClassicUnitTypes.spirit;
         }};
 
-        phantomFactory = new LegacyUnitFactory("phantom-factory"){{
+        phantomFactory = new LegacyUnitFactory("phantom-factory") {{
             requirements(Category.units, ItemStack.with(Items.titanium, 50, Items.thorium, 60, Items.lead, 65, Items.silicon, 105));
             size = 2;
             produceTime = 4400;
@@ -174,7 +184,7 @@ public class ClassicBlocks {
         //--- Unit Support Factory Region End ---
 
         // --- Unit Ground Factory Region ---
-        crawlerFactory = new LegacyUnitFactory("crawler-factory"){{
+        crawlerFactory = new LegacyUnitFactory("crawler-factory") {{
             requirements(Category.units, ItemStack.with(Items.lead, 45, Items.silicon, 30));
             size = 2;
             produceTime = 300;
@@ -185,7 +195,7 @@ public class ClassicBlocks {
             unitType = ClassicUnitTypes.crawler;
         }};
 
-        daggerFactory = new LegacyUnitFactory("dagger-factory"){{
+        daggerFactory = new LegacyUnitFactory("dagger-factory") {{
             requirements(Category.units, ItemStack.with(Items.lead, 55, Items.silicon, 35));
             size = 2;
             produceTime = 850;
@@ -196,7 +206,7 @@ public class ClassicBlocks {
             unitType = ClassicUnitTypes.dagger;
         }};
 
-        titanFactory = new LegacyUnitFactory("titan-factory"){{
+        titanFactory = new LegacyUnitFactory("titan-factory") {{
             requirements(Category.units, ItemStack.with(Items.graphite, 50, Items.lead, 50, Items.silicon, 45));
             size = 3;
             produceTime = 1050;
@@ -207,7 +217,7 @@ public class ClassicBlocks {
             unitType = ClassicUnitTypes.titan;
         }};
 
-        fortressFactory = new LegacyUnitFactory("fortress-factory"){{
+        fortressFactory = new LegacyUnitFactory("fortress-factory") {{
             requirements(Category.units, ItemStack.with(Items.thorium, 40, Items.lead, 110, Items.silicon, 75));
             size = 3;
             produceTime = 2000;
@@ -221,13 +231,13 @@ public class ClassicBlocks {
 
         //--- Wall ---
         int wallHealthMultiplier = 4;
-        insulatorWall = new Wall("insulator-wall"){{
+        insulatorWall = new Wall("insulator-wall") {{
             requirements(Category.defense, ItemStack.with(Items.graphite, 10, Items.lead, 4));
             health = 95 * wallHealthMultiplier;
             insulated = true;
         }};
 
-        insulatorWallLarge = new Wall("insulator-wall-large"){{
+        insulatorWallLarge = new Wall("insulator-wall-large") {{
             requirements(Category.defense, ItemStack.mult(insulatorWall.requirements, 4));
             health = 95 * wallHealthMultiplier * 4;
             insulated = true;
@@ -236,26 +246,26 @@ public class ClassicBlocks {
         //--- Wall Region End ---
 
         //--- Nuclear Region ---
-        warheadAssembler = new SingleBlockProducer("warhead-assembler"){{
+        warheadAssembler = new SingleBlockProducer("warhead-assembler") {{
             requirements(Category.crafting, with(Items.thorium, 100));
             result = nuclearWarhead;
             size = 3;
             buildSpeed = 0.3f;
         }};
 
-        ballisticSilo = new BallisticSilo("ballistic-silo"){{
+        ballisticSilo = new BallisticSilo("ballistic-silo") {{
             requirements(Category.crafting, with(Items.thorium, 100));
             size = 5;
         }};
 
-        nuclearWarhead = new NuclearWarhead("nuclear-warhead"){{
+        nuclearWarhead = new NuclearWarhead("nuclear-warhead") {{
             requirements(Category.crafting, with(Items.thorium, 40));
             size = 2;
         }};
         //--- Nuclear Region End ---
 
         //--- Converter Region ---
-        cellSynthesisChamber = new LiquidConverter("cell-synthesis-chamber"){{
+        cellSynthesisChamber = new LiquidConverter("cell-synthesis-chamber") {{
             //TODO booster mechanics?
             requirements(Category.crafting, with(Items.thorium, 100, Items.phaseFabric, 120, Items.titanium, 150, Items.surgeAlloy, 70));
             outputLiquid = new LiquidStack(Liquids.neoplasm, 0.4f);
@@ -267,7 +277,7 @@ public class ClassicBlocks {
             rotate = false;
             solid = true;
             outputsLiquid = true;
-            drawer = new DrawCells(){{
+            drawer = new DrawCells() {{
                 color = Color.valueOf("9e172c");
                 particleColorFrom = Color.valueOf("9e172c");
                 particleColorTo = Color.valueOf("f98f4a");
@@ -291,5 +301,58 @@ public class ClassicBlocks {
             consumes.liquid(Liquids.water, 0.8f);*/
         }};
         //--- Converter Region End---
+
+        //--- Turrets Region ---
+
+        fracture = new ItemTurretV6("fracture") {
+            {
+                requirements(Category.turret, with(Items.tungsten, 35, Items.silicon, 35));
+                ammo(
+                        Items.tungsten, new ContinuousFlameBulletType(45f) {
+                            {
+                                length = 105f;
+                                shootEffect = Fx.randLifeSpark;
+                                width = 4.5f;
+                                colors = new Color[]{Color.valueOf("e8e6ff").a(0.55f), Color.valueOf("819aeb").a(0.7f), Color.valueOf("786bed").a(0.8f), Color.valueOf("c3cdfa"), Color.white};
+                                smokeEffect = Fx.shootBigSmoke;
+                                continuous = false;
+                                ammoMultiplier = 2;
+                                pierce = true;
+                                knockback = 4f;
+                                status = StatusEffects.slow;
+                                hitColor = Items.tungsten.color;
+                                lifetime = 19f;
+                                despawnEffect = Fx.none;
+                                drawFlare = false;
+                                collidesAir = true;
+                                Interp in = new Interp.PowIn(1.6f);
+                                lengthInterp = f -> in.apply(1f - f);
+                                hitEffect = Fx.hitBulletColor;
+                            }
+                        }
+                );
+
+                //acceptCoolant = false; this is old
+                consumeLiquid(Liquids.hydrogen, 1.5f / 60f);
+                shoot.shots = 1;
+
+                //TODO cool reload animation
+                drawer = new DrawTurret("reinforced-");
+                shake = 1f;
+                shootLength = 5f;
+                outlineColor = Pal.darkOutline;
+                size = 2;
+                envEnabled |= Env.space;
+                reload = 25f;
+                restitution = 0.1f;
+                recoil = 2.5f;
+                range = 90;
+                shootCone = 15f;
+                inaccuracy = 0f;
+                health = 300 * size * size;
+                rotateSpeed = 3f;
+            }
+        };
+        //--- Turrets Region End ---
     }
 }
