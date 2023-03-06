@@ -277,6 +277,7 @@ public class ClassicBlocks {
             rotate = false;
             solid = true;
             outputsLiquid = true;
+            envEnabled |= Env.space; //because it was on erekir lolz
             drawer = new DrawCells() {{
                 color = Color.valueOf("9e172c");
                 particleColorFrom = Color.valueOf("9e172c");
