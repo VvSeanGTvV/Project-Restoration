@@ -62,6 +62,10 @@ public class ClassicTechTree {
                 });
             });
         });
+
+        margeNode(launchPad, () -> {
+            node(ClassicBlocks.interplanetaryAccelerator, () -> {}); //Endgame bois
+        });
     }
 
     private static void margeNode(UnlockableContent parent, Runnable children){
