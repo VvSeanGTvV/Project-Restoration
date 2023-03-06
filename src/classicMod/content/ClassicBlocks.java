@@ -1,20 +1,22 @@
 package classicMod.content;
 
 import arc.graphics.*;
-import arc.math.Interp;
+import arc.math.*;
 
 import classicMod.library.blocks.legacyBlocks.*;
 import classicMod.library.blocks.*;
 import classicMod.library.blocks.v6devBlocks.*;
 
 import mindustry.entities.bullet.*;
-import mindustry.graphics.Pal;
+import mindustry.entities.effect.*;
+import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.content.*;
 
 import mindustry.world.blocks.defense.turrets.ItemTurret;
+import mindustry.world.blocks.heat.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.Env;
@@ -32,6 +34,8 @@ public class ClassicBlocks {
     insulatorWall, insulatorWallLarge, //Wall - Insulator - Testing-candidate [v6-dev]
 
     warheadAssembler, ballisticSilo, nuclearWarhead, //Nuclear - Prototype [v7-dev]
+    barrierProjector, //Projectors - Erekir - Prototype [v7-dev]
+    heatReactor, //Heat Producers - Erekir - Prototype [v7-dev]
     cellSynthesisChamber, //Liquid Converter - Erekir - Prototype [v7-dev]
 
     fracture, horde //Turrets - Erekir - Prototype [v7-dev]
@@ -264,6 +268,36 @@ public class ClassicBlocks {
         }};*/
         //--- Nuclear Region End ---
 
+        //--- Projectors Region ---
+        barrierProjector = new DirectionalForceProjector("barrier-projector"){{
+            //TODO
+            requirements(Category.effect, with(Items.surgeAlloy, 100, Items.silicon, 125));
+            size = 3;
+            width = 50f;
+            length = 36;
+            shieldHealth = 2000f;
+            cooldownNormal = 3f;
+            cooldownBrokenBase = 0.35f;
+
+            consumePower(4f);
+        }};
+        //--- Projectors Region End ---
+
+        //--- Heat Producers Region ---
+        heatReactor = new HeatProducer("heat-reactor"){{
+            //TODO gas/liquid requirement?
+            requirements(Category.crafting, with(Items.oxide, 70, Items.graphite, 20, Items.carbide, 10, Items.thorium, 80));
+            size = 3;
+            craftTime = 60f * 10f;
+
+            craftEffect = new RadialEffect(Fx.heatReactorSmoke, 4, 90f, 7f);
+
+            itemCapacity = 20;
+            consumeItem(Items.thorium, 2);
+            outputItem = new ItemStack(Items.fissileMatter, 1);
+        }};
+        //--- Heat Producers Region End ---
+
         //--- Converter Region ---
         cellSynthesisChamber = new LiquidConverter("cell-synthesis-chamber") {{
             //TODO find the original requirement and fix, because it is not compatible with erekir!
@@ -277,7 +311,7 @@ public class ClassicBlocks {
             rotate = false;
             solid = true;
             outputsLiquid = true;
-            envEnabled |= Env.scorching; //because it was on erekir lolz
+            envEnabled |= Env.space; //because it was on erekir lolz
             drawer = new DrawCells() {{
                 color = Color.valueOf("9e172c");
                 particleColorFrom = Color.valueOf("9e172c");
