@@ -245,8 +245,8 @@ public class ClassicBlocks {
         }};
         //--- Wall Region End ---
 
-        //--- Nuclear Region ---
-        warheadAssembler = new SingleBlockProducer("warhead-assembler") {{
+        //--- Nuclear Region --- //TODO: do this later and work on some missing stuff
+        /*warheadAssembler = new SingleBlockProducer("warhead-assembler") {{
             requirements(Category.crafting, with(Items.thorium, 100));
             result = nuclearWarhead;
             size = 3;
@@ -261,7 +261,7 @@ public class ClassicBlocks {
         nuclearWarhead = new NuclearWarhead("nuclear-warhead") {{
             requirements(Category.crafting, with(Items.thorium, 40));
             size = 2;
-        }};
+        }};*/
         //--- Nuclear Region End ---
 
         //--- Converter Region ---
@@ -277,7 +277,7 @@ public class ClassicBlocks {
             rotate = false;
             solid = true;
             outputsLiquid = true;
-            envEnabled |= Env.space; //because it was on erekir lolz
+            envEnabled |= Env.scorching; //because it was on erekir lolz
             drawer = new DrawCells() {{
                 color = Color.valueOf("9e172c");
                 particleColorFrom = Color.valueOf("9e172c");
@@ -343,7 +343,7 @@ public class ClassicBlocks {
                 shootLength = 5f;
                 outlineColor = Pal.darkOutline;
                 size = 2;
-                envEnabled |= Env.space;
+                envEnabled |= Env.scorching;
                 reload = 25f;
                 restitution = 0.1f;
                 recoil = 2.5f;
