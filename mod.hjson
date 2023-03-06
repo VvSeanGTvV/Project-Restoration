@@ -1,8 +1,8 @@
 #the mod name as displayed in-game
-displayName: "Project: Classic"
+displayName: "Project: Restoration"
 
 #the internal name of your mod
-name: "projectv5-mod"
+name: "restored-mind" #projectv5-mod
 
 #your name
 author: "VvSeanGtvV"
@@ -11,10 +11,10 @@ author: "VvSeanGtvV"
 main: "classicMod.ClassicMod"
 
 #the mod description as seen in the mod dialog
-description: "A Mindustry Classic Mod for Mindustry v7, currently contains v5 and v6 early preview things lolz!"
+description: "A Mindustry builds including some classic ones are added to Mindustry v7! \nShout out to Mythril#0197 for the idea of v7 builds!"
 
 #the mod version
-version: 0.1.2 Preview Beta
+version: 0.2.0 Preview Beta
 
 #the minimum game build required to run this mod
 minGameVersion: 142

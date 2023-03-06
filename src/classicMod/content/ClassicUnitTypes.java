@@ -65,7 +65,7 @@ public class ClassicUnitTypes {
             constructor = MechUnit::create;
             abilities.add(new RegenerationAbility(Time.delta * 0.09f));
 
-            weapons.add(new Weapon("projectv5-mod-blaster-equip"){{
+            weapons.add(new Weapon("restored-mind-blaster-equip"){{
                 outlines = false;
                 shootSound = pew;
                 x = 0f;
@@ -104,7 +104,7 @@ public class ClassicUnitTypes {
             constructor = MechUnit::create;
             abilities.add(new LightLandingAbility(17f)); //Since it doesn't exist in vanilla, so i created it for one.
 
-            weapons.add(new Weapon("projectv5-mod-shockgun-equip"){{
+            weapons.add(new Weapon("restored-mind-shockgun-equip"){{
                 outlines = false;
                 x = 1.2f;
                 y = -1f;
@@ -154,7 +154,7 @@ public class ClassicUnitTypes {
             constructor = MechUnit::create;
             abilities.add(new SurroundRegenAbility(10f, 160f, 60f)); //Just reformat of the v5
 
-            weapons.add(new Weapon("projectv5-mod-heal-blaster-equip"){{
+            weapons.add(new Weapon("restored-mind-heal-blaster-equip"){{
                 outlines = false;
                 x = -1f;
                 y = 0f;
@@ -176,7 +176,7 @@ public class ClassicUnitTypes {
                     despawnEffect = Fx.hitLaser;
                     collidesTeam = true;
                     healEffect = Fx.healBlockFull;
-                    sprite = "projectv5-mod-laser";
+                    sprite = "restored-mind-laser";
                     width = 7f;
                     height = 5f;
                     rotationOffset = 90f; //Sprite rotate cause it is way off lolz.
@@ -203,7 +203,7 @@ public class ClassicUnitTypes {
             constructor = MechUnit::create;
             abilities.add(new ArmorAbility(30f)); //Modify armor abilty for 2nd texture (static)
             
-            weapons.add(new Weapon("projectv5-mod-swarmer-equip"){{
+            weapons.add(new Weapon("restored-mind-swarmer-equip"){{
                 outlines = false;
                 x = -1f;
                 y = 0f;
@@ -257,7 +257,7 @@ public class ClassicUnitTypes {
             buildSpeed = 1.1f;
             constructor = UnitEntity::create;
 
-            weapons.add(new Weapon("projectv5-mod-blaster-equip"){{
+            weapons.add(new Weapon("restored-mind-blaster-equip"){{
                 x = 0.8f;
                 y = -1f;
                 top = true;
@@ -295,7 +295,7 @@ public class ClassicUnitTypes {
             buildSpeed = 2.5f;
             constructor = UnitEntity::create;
             
-            weapons.add(new Weapon("projectv5-mod-nullTexture"){{
+            weapons.add(new Weapon("restored-mind-nullTexture"){{
                 x = 0f;
                 y = 2f;
                 top = true;
@@ -338,7 +338,7 @@ public class ClassicUnitTypes {
             flying = true;
             constructor = UnitEntity::create;
             
-            weapons.add(new Weapon("projectv5-mod-nullTexture"){{
+            weapons.add(new Weapon("restored-mind-nullTexture"){{
                 x = 2f;
                 y = 0f;
                 top = true;
@@ -368,7 +368,7 @@ public class ClassicUnitTypes {
             constructor = UnitEntity::create;
             abilities.add(new LightSpeedAbility(10f, 3.6f, 6f)); //Modify armor abilty for 2nd texture (static)
             
-            weapons.add(new Weapon("projectv5-mod-nullTexture"){{
+            weapons.add(new Weapon("restored-mind-nullTexture"){{
                 x = 2f;
                 y = 0.2f;
                 top = true;
@@ -402,7 +402,7 @@ public class ClassicUnitTypes {
             constructor = UnitEntity::create;
             controller = u -> new OldFlyingAI();
             
-            weapons.add(new Weapon("projectv5-mod-nullTexture"){{
+            weapons.add(new Weapon("restored-mind-nullTexture"){{
                 x = 2f;
                 y = 0f;
                 top = true;
@@ -439,7 +439,7 @@ public class ClassicUnitTypes {
             constructor = UnitEntity::create;
             controller = u -> new OldFlyingAI();
             
-            weapons.add(new Weapon("projectv5-mod-nullTexture"){{
+            weapons.add(new Weapon("restored-mind-nullTexture"){{
                 x = 0f;
                 y = 0f;
                 top = true;
@@ -479,7 +479,7 @@ public class ClassicUnitTypes {
             constructor = UnitEntity::create;
             controller = u -> new OldFlyingAI();
             
-            weapons.add(new Weapon("projectv5-mod-revenant-missiles-equip"){{
+            weapons.add(new Weapon("restored-mind-revenant-missiles-equip"){{
                 x = 9f;
                 y = 0f;
                 top = true;
@@ -517,7 +517,7 @@ public class ClassicUnitTypes {
             constructor = UnitEntity::create;
             controller = u -> new OldFlyingAI();
             
-            weapons.add(new Weapon("projectv5-mod-lich-missiles-equip"){{
+            weapons.add(new Weapon("restored-mind-lich-missiles-equip"){{
                 x = 21f;
                 y = 0f;
                 top = true;
@@ -571,7 +571,7 @@ public class ClassicUnitTypes {
             constructor = UnitEntity::create;
             controller = u -> new OldFlyingAI();
             
-            weapons.add(new Weapon("projectv5-mod-reaper-gun-equip"){{
+            weapons.add(new Weapon("restored-mind-reaper-gun-equip"){{
                 x = 31f;
                 y = 0f;
                 top = true;
@@ -627,7 +627,7 @@ public class ClassicUnitTypes {
             constructor = UnitEntity::create;
             controller = u -> new RepairAI();
 
-            weapons.add(new Weapon("projectv5-mod-nullTexture"){{
+            weapons.add(new Weapon("restored-mind-nullTexture"){{
                 x = 0f;
                 y = 0f;
                 top = true;
@@ -650,7 +650,7 @@ public class ClassicUnitTypes {
                     despawnEffect = Fx.hitLaser;
                     collidesTeam = true;
                     healEffect = Fx.healBlockFull;
-                    sprite = "projectv5-mod-laser";
+                    sprite = "restored-mind-laser";
                     width = 7f;
                     height = 5f;
                     rotationOffset = 90f; //Sprite rotate cause it is way off lolz.
@@ -676,7 +676,7 @@ public class ClassicUnitTypes {
             mineItems = with(Items.copper, Items.lead, Items.titanium);
             controller = u -> new BuilderAI();
 
-            weapons.add(new Weapon("projectv5-mod-nullTexture"){{
+            weapons.add(new Weapon("restored-mind-nullTexture"){{
                 x = 0f;
                 y = 0f;
                 top = true;
@@ -699,7 +699,7 @@ public class ClassicUnitTypes {
                     despawnEffect = Fx.hitLaser;
                     collidesTeam = true;
                     healEffect = Fx.healBlockFull;
-                    sprite = "projectv5-mod-laser";
+                    sprite = "restored-mind-laser";
                     width = 7f;
                     height = 5f;
                     rotationOffset = 90f; //Sprite rotate cause it is way off lolz.
@@ -726,7 +726,7 @@ public class ClassicUnitTypes {
             constructor = MechUnit::create;
             controller = u -> new SuicideAI();
 
-            weapons.add(new Weapon("projectv5-mod-nullTexture-equip"){{
+            weapons.add(new Weapon("restored-mind-nullTexture-equip"){{
                 reload = 6f;
                 ejectEffect = Fx.none;
                 shootSound = Sounds.explosion;
@@ -759,7 +759,7 @@ public class ClassicUnitTypes {
             constructor = MechUnit::create;
             controller = u -> new GroundAI();
 
-            weapons.add(new Weapon("projectv5-mod-chain-blaster-equip"){{
+            weapons.add(new Weapon("restored-mind-chain-blaster-equip"){{
                 shootSound = pew;
                 outlines = false;
                 x = -4.5f;
@@ -799,7 +799,7 @@ public class ClassicUnitTypes {
             constructor = MechUnit::create;
             controller = u -> new GroundAI();
 
-            weapons.add(new Weapon("projectv5-mod-flamethrower-equip"){{
+            weapons.add(new Weapon("restored-mind-flamethrower-equip"){{
                 shootSound = Sounds.flame;
                 outlines = false;
                 x = -4f;
@@ -824,7 +824,7 @@ public class ClassicUnitTypes {
                     hitEffect =Fx.hitFlameSmall;
                     despawnEffect =Fx.none;
                     status =StatusEffects.burning;
-                    sprite = "projectv5-mod-nullTexture";
+                    sprite = "restored-mind-nullTexture";
                 }};
             }});
         }};
@@ -845,7 +845,7 @@ public class ClassicUnitTypes {
             constructor = MechUnit::create;
             controller = u -> new GroundAI();
 
-            weapons.add(new Weapon("projectv5-mod-artillery-equip"){{
+            weapons.add(new Weapon("restored-mind-artillery-equip"){{
                 shootSound = Sounds.artillery;
                 outlines = false;
                 x = -10f;
@@ -891,7 +891,7 @@ public class ClassicUnitTypes {
             constructor = MechUnit::create;
             controller = u -> new GroundAI();
 
-            weapons.add(new Weapon("projectv5-mod-eruption-equip"){{
+            weapons.add(new Weapon("restored-mind-eruption-equip"){{
                 shootSound = Sounds.flame;
                 outlines = false;
                 x = -7f;
@@ -927,7 +927,7 @@ public class ClassicUnitTypes {
             constructor = MechUnit::create;
             controller = u -> new GroundAI();
 
-            weapons.add(new Weapon("projectv5-mod-chaos-equip"){{
+            weapons.add(new Weapon("restored-mind-chaos-equip"){{
                 shootSound = Sounds.shootBig;
                 outlines = false;
                 x = -17f;
@@ -969,7 +969,7 @@ public class ClassicUnitTypes {
             constructor = MechUnit::create;
             controller = u -> new GroundAI();
 
-            weapons.add(new Weapon("projectv5-mod-eradication-equip"){{
+            weapons.add(new Weapon("restored-mind-eradication-equip"){{
                 shootSound = Sounds.shootBig;
                 outlines = false;
                 x = -21.5f;
@@ -1019,7 +1019,7 @@ public class ClassicUnitTypes {
             legSpeed = 0.1f;
 
             weapons.add(
-                    new Weapon("projectv5-mod-missiles-mount"){{
+                    new Weapon("restored-mind-missiles-mount"){{
                         reload = 20f;
                         x = 4f;
                         rotate = true;
@@ -1041,7 +1041,7 @@ public class ClassicUnitTypes {
             canBoost = true;
             speed = 0.4f;
             hitSize = 10f;
-            weapons.add(new Weapon("projectv5-mod-beam-weapon"){{
+            weapons.add(new Weapon("restored-mind-beam-weapon"){{
                 shake = 2f;
                 shootY = 4f;
                 x = 6.5f;
@@ -1069,7 +1069,7 @@ public class ClassicUnitTypes {
                 health = 130;
                 immunities = ObjectSet.with(StatusEffects.wet);
                 constructor = UnitWaterMove::create;
-                weapons.add(new Weapon("projectv5-mod-mount-weapon") {{
+                weapons.add(new Weapon("restored-mind-mount-weapon") {{
                     reload = 10f;
                     x = 1.25f;
                     rotate = true;
