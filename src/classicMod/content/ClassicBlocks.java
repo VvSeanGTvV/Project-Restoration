@@ -32,10 +32,10 @@ public class ClassicBlocks {
     insulatorWall, insulatorWallLarge, //Wall - Insulator - Testing-candidate [v6-dev]
 
     warheadAssembler, ballisticSilo, nuclearWarhead, //Nuclear - Prototype [v7-dev]
-            cellSynthesisChamber, //Liquid Converter - Erekir - Prototype [v7-dev]
+    cellSynthesisChamber, //Liquid Converter - Erekir - Prototype [v7-dev]
 
-    fracture //Turrets - Erekir - Prototype [v7-dev]
-            ;
+    fracture, horde //Turrets - Erekir - Prototype [v7-dev]
+    ;
 
     public void load() {
         //--- Mech Pad Region ---
@@ -266,7 +266,7 @@ public class ClassicBlocks {
 
         //--- Converter Region ---
         cellSynthesisChamber = new LiquidConverter("cell-synthesis-chamber") {{
-            //TODO booster mechanics?
+            //TODO find the original requirement and fix, because it is not compatible with erekir!
             requirements(Category.crafting, with(Items.thorium, 100, Items.phaseFabric, 120, Items.titanium, 150, Items.surgeAlloy, 70));
             outputLiquid = new LiquidStack(Liquids.neoplasm, 0.4f);
             ConvertTime = 200f;
@@ -291,7 +291,7 @@ public class ClassicBlocks {
             liquidCapacity = 30f;
 
             ConvertLiquid = Liquids.water;
-            ConvertLiquidAmount = 8f;
+            ConvertLiquidAmount = 0.8f;
 
             //consumeLiquid(Liquids.water, 8f);
             consumePower(2f);
@@ -304,6 +304,58 @@ public class ClassicBlocks {
         //--- Converter Region End---
 
         //--- Turrets Region ---
+        horde = new ItemTurretV6("horde"){{
+            requirements(Category.turret, with(Items.tungsten, 35, Items.silicon, 35));
+            ammo(
+                    Items.scrap, new MissileBulletType(4.2f, 15){{
+                        //velocityInaccuracy = 0.2f;
+                        shootEffect = Fx.colorSpark;
+                        smokeEffect = Fx.shootBigSmoke;
+                        ammoMultiplier = 1;
+                        hitColor = backColor = trailColor = Color.valueOf("ea8878");
+                        frontColor = Color.valueOf("feb380");
+                        trailWidth = 2f;
+                        trailLength = 12;
+
+                        splashDamage = 15f;
+                        splashDamageRadius = 30f;
+
+                        weaveMag = 5;
+                        weaveScale = 4;
+                        //Inaccuracy = 0.1f;
+                        ammoMultiplier = 3f;
+
+                        //TODO different effect?
+                        hitEffect = despawnEffect = Fx.blastExplosion;
+                    }}
+            );
+
+            //acceptCoolant = false;
+            //TODO
+            consumeLiquid(Liquids.hydrogen, 1.5f / 60f);
+            shoot.shots = 9;
+            shoot.shotDelay = 2f;
+
+            //TODO this works but looks bad
+            //spread = 0f;
+            shootLength = 6.5f;
+            xRand = 13f;
+            recoil = 0f;
+
+            drawer = new DrawTurret("reinforced-");
+            outlineColor = Pal.darkOutline;
+            size = 3;
+            envEnabled |= Env.space;
+            reload = 60f * 1.5f;
+            range = 190;
+            shootCone = 15f;
+            inaccuracy = 20f;
+            health = 300 * size * size;
+            rotateSpeed = 3f;
+
+            //???
+            //limitRange();
+        }};
 
         fracture = new ItemTurretV6("fracture") {
             {
