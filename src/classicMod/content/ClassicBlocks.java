@@ -12,6 +12,7 @@ import mindustry.entities.effect.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.*;
+import mindustry.world.blocks.campaign.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.content.*;
 
@@ -19,6 +20,7 @@ import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.blocks.heat.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.draw.*;
+import mindustry.world.meta.*;
 import mindustry.world.meta.Env;
 
 import static mindustry.type.ItemStack.*;
@@ -38,7 +40,9 @@ public class ClassicBlocks {
     heatReactor, //Heat Producers - Erekir - Prototype [v7-dev]
     cellSynthesisChamber, //Liquid Converter - Erekir - Prototype [v7-dev]
 
-    fracture, horde //Turrets - Erekir - Prototype [v7-dev]
+    fracture, horde, //Turrets - Erekir - Prototype [v7-dev]
+
+    interplanetaryAccelerator //Endgame - Mindustry
     ;
 
     public void load() {
@@ -441,5 +445,16 @@ public class ClassicBlocks {
             }
         };
         //--- Turrets Region End ---
+
+        //--- Endgame ---
+        interplanetaryAccelerator = new NewAccelerator("interplanetary-accelerator"){{
+            requirements(Category.effect, BuildVisibility.campaignOnly, with(Items.copper, 16000, Items.silicon, 11000, Items.thorium, 13000, Items.titanium, 12000, Items.surgeAlloy, 6000, Items.phaseFabric, 5000));
+            researchCostMultiplier = 0.1f;
+            size = 7;
+            hasPower = true;
+            consumePower(10f);
+            buildCostMultiplier = 0.5f;
+            scaledHealth = 80;
+        }};
     }
 }
