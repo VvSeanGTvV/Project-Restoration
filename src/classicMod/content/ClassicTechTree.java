@@ -7,6 +7,7 @@ import mindustry.game.Objectives.*;
 import mindustry.type.*;
 
 import static mindustry.content.Blocks.*;
+import static mindustry.content.SectorPresets.*;
 import static mindustry.content.TechTree.*;
 import static classicMod.content.ClassicBlocks.*;
 
@@ -64,11 +65,11 @@ public class ClassicTechTree {
         });
 
         margeNode(launchPad, () -> {
-            node(ClassicBlocks.interplanetaryAccelerator, () -> {}); //Endgame bois
+            node(ClassicBlocks.interplanetaryAccelerator, Seq.with(new SectorComplete(planetaryTerminal)), () -> {}); //Endgame bois
         });
     }
 
-    private static void margeNode(UnlockableContent parent, Runnable children){
+    private static void margeNode(UnlockableContent parent, Runnable children){ //from betamindy!
         context = TechTree.all.find(t -> t.content == parent);
         children.run();
     }

@@ -12,12 +12,13 @@ import mindustry.game.EventType.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
+import mindustry.ui.dialogs.PlanetDialog;
 import mindustry.world.*;
 
 import static mindustry.Vars.*;
 
 public class NewAccelerator extends Block{
-    public TextureRegion arrowRegion = Core.atlas.find(name + "launch-arrow");
+    public TextureRegion arrowRegion = Core.atlas.find("launch-arrow");
 
     //TODO dynamic
     public Block launching = Blocks.coreNucleus;
@@ -111,9 +112,10 @@ public class NewAccelerator extends Block{
 
             //ui.showInfo("This block doesn't work properly in the beta/alpha. It maybe removed, or reworked. Check back in a later update.");
 
-            if(true)
+            ui.campaignComplete.show(Planets.serpulo);
+            if(false)
                 ui.planet.showPlanetLaunch(state.rules.sector, sector -> {
-                    //TODO cutscene remake idk where to start
+                    //TODO make cutscene from scratch
 
                     //TODO should consume resources based on destination schem
                     consume();
