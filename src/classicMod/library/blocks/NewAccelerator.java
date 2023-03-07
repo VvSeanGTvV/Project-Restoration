@@ -12,6 +12,7 @@ import mindustry.game.EventType.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
+import mindustry.ui.*;
 import mindustry.ui.dialogs.PlanetDialog;
 import mindustry.world.*;
 
@@ -112,9 +113,18 @@ public class NewAccelerator extends Block{
 
             //ui.showInfo("This block doesn't work properly in the beta/alpha. It maybe removed, or reworked. Check back in a later update.");
 
-            ui.campaignComplete.show(Planets.serpulo);
+            //ui.campaignComplete.show(Planets.serpulo);
             if(false)
-                ui.planet.showPlanetLaunch(state.rules.sector, sector -> {
+                table.button(Icon.upOpen, Styles.cleari, () -> {
+                    ui.planet.showPlanetLaunch(state.rules.sector, sector -> {
+                        if(state.isCampaign()){
+                            universe.clearLoadoutInfo();
+                            universe.updateLoadout(sector.planet.generator.defaultLoadout.findCore(), sector.planet.generator.defaultLoadout);
+                        }
+                    });
+                    deselect();
+                }).size(40f);
+                /*ui.planet.showPlanetLaunch(state.rules.sector, sector -> {
                     //TODO make cutscene from scratch
 
                     //TODO should consume resources based on destination schem
@@ -122,7 +132,7 @@ public class NewAccelerator extends Block{
 
                     universe.clearLoadoutInfo();
                     universe.updateLoadout(sector.planet.generator.defaultLoadout.findCore(), sector.planet.generator.defaultLoadout);
-                });
+                });*/
 
             Events.fire(Trigger.acceleratorUse);
         }
