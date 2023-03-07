@@ -460,6 +460,7 @@ public class ClassicBlocks {
 
         shieldBreaker = new ShieldBreaker("shield-breaker"){{
             requirements(Category.effect, with());
+            envEnabled |= Env.space;
 
             size = 5;
 
