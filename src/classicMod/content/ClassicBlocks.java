@@ -463,7 +463,7 @@ public class ClassicBlocks {
             envEnabled |= Env.space;
 
             size = 5;
-            itemCapacity = 100
+            itemCapacity = 100;
 
             consumeItem(Items.tungsten, 100);
         }};
