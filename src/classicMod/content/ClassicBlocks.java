@@ -41,6 +41,7 @@ public class ClassicBlocks {
     cellSynthesisChamber, //Liquid Converter - Erekir - Prototype [v7-dev]
 
     fracture, horde, //Turrets - Erekir - Prototype [v7-dev]
+    shieldProjector, shieldBreaker, //Shield - Erekir - Prototype [v7-dev]
 
     interplanetaryAccelerator //Endgame - Mindustry
     ;
@@ -445,6 +446,26 @@ public class ClassicBlocks {
             }
         };
         //--- Turrets Region End ---
+
+        //--- Shield Blocks Region ---
+        shieldProjector = new BaseShield("shield-projector"){{
+            category = Category.effect;
+            requirements(Category.effect, with(Items.tungsten, 10));
+            //buildVisibility = BuildVisibility.editorOnly;
+
+            size = 3;
+
+            consumePower(5f);
+        }};
+
+        shieldBreaker = new ShieldBreaker("shield-breaker"){{
+            requirements(Category.effect, with());
+
+            size = 5;
+
+            consumeItem(Items.tungsten, 100);
+        }};
+        //--- Shield Blocks Region End ---
 
         //--- Endgame ---
         interplanetaryAccelerator = new NewAccelerator("interplanetary-accelerator"){{
