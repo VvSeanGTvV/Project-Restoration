@@ -39,7 +39,7 @@ public class ShieldBreaker extends Block{
                 for(var other : Vars.state.teams.active){
                     if(team != other.team){
                         other.getBuildings(toDestroy).copy().each(b -> {
-                            BlockClassIndication = block.getClass();
+                            BlockClassIndication = b.block.getClass();
                             if (BlockClassIndication == toDestroy.getClass()) {
                                 NoBlock = false;
                             }else {
@@ -57,13 +57,10 @@ public class ShieldBreaker extends Block{
                 if(toDestroy != null){
                     effect.at(this);
                     for(var other : Vars.state.teams.active){
-                        if(team != other.team && other.active()){
+                        if(team != other.team && !NoBlock){
                             other.getBuildings(toDestroy).copy().each(b -> {
-                                BlockClassIndication = block.getClass();
-                                if(BlockClassIndication == toDestroy.getClass()) {
-                                    breakEffect.at(b);
-                                    b.kill();
-                                }
+                                breakEffect.at(b);
+                                b.kill();
                             });
                         }
                     }
