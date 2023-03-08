@@ -123,7 +123,7 @@ public class NewAccelerator extends Block{
             //ui.campaignComplete.show(Planets.serpulo);
             if(true)
                 table.button(Icon.upOpen, Styles.cleari, () -> {
-                    ui.planet.showSelect(state.rules.sector, sector -> {
+                    ui.planet.showPlanetLaunch(state.rules.sector, sector -> {
                         if(state.isCampaign()){
                             universe.clearLoadoutInfo();
                             universe.updateLoadout(sector.planet.generator.defaultLoadout.findCore(), sector.planet.generator.defaultLoadout);
