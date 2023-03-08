@@ -12,6 +12,17 @@ import mindustry.gen.Building;
 import mindustry.graphics.Layer;
 import mindustry.world.Block;
 import mindustry.world.Tile;
+import mindustry.Vars;
+import mindustry.content.*;
+import mindustry.graphics.*;
+import mindustry.graphics.*;
+import mindustry.type.*;
+import mindustry.ui.*;
+import mindustry.ui.Fonts;
+import mindustry.world.blocks.production.*;
+import mindustry.world.consumers.*;
+
+import mindustry.world.meta.*;
 
 public class ShieldBreaker extends Block{
     public @Nullable Block toDestroy;
