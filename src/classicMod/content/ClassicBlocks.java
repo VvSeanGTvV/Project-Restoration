@@ -1,29 +1,35 @@
 package classicMod.content;
 
-import arc.graphics.*;
-import arc.math.*;
-
-import classicMod.library.blocks.legacyBlocks.*;
-import classicMod.library.blocks.*;
-import classicMod.library.blocks.v6devBlocks.*;
-
-import mindustry.entities.bullet.*;
-import mindustry.entities.effect.*;
-import mindustry.graphics.*;
-import mindustry.type.*;
-import mindustry.world.*;
-import mindustry.world.blocks.campaign.*;
-import mindustry.world.blocks.defense.*;
-import mindustry.content.*;
-
-import mindustry.world.blocks.defense.turrets.ItemTurret;
-import mindustry.world.blocks.heat.*;
-import mindustry.world.blocks.production.*;
-import mindustry.world.draw.*;
-import mindustry.world.meta.*;
+import arc.graphics.Color;
+import arc.math.Interp;
+import classicMod.library.blocks.LiquidConverter;
+import classicMod.library.blocks.NewAccelerator;
+import classicMod.library.blocks.ShieldBreaker;
+import classicMod.library.blocks.legacyBlocks.LegacyUnitFactory;
+import classicMod.library.blocks.legacyBlocks.MechPad;
+import classicMod.library.blocks.v6devBlocks.ItemTurretV6;
+import mindustry.content.Fx;
+import mindustry.content.Items;
+import mindustry.content.Liquids;
+import mindustry.content.StatusEffects;
+import mindustry.entities.bullet.ContinuousFlameBulletType;
+import mindustry.entities.bullet.MissileBulletType;
+import mindustry.entities.effect.RadialEffect;
+import mindustry.graphics.Pal;
+import mindustry.type.Category;
+import mindustry.type.ItemStack;
+import mindustry.type.LiquidStack;
+import mindustry.world.Block;
+import mindustry.world.blocks.defense.BaseShield;
+import mindustry.world.blocks.defense.DirectionalForceProjector;
+import mindustry.world.blocks.defense.Wall;
+import mindustry.world.blocks.heat.HeatProducer;
+import mindustry.world.draw.DrawCells;
+import mindustry.world.draw.DrawTurret;
+import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
 
-import static mindustry.type.ItemStack.*;
+import static mindustry.type.ItemStack.with;
 
 public class ClassicBlocks {
     public static Block
@@ -461,6 +467,7 @@ public class ClassicBlocks {
         shieldBreaker = new ShieldBreaker("shield-breaker"){{
             requirements(Category.effect, with());
             envEnabled |= Env.space;
+            toDestroy = shieldProjector;
 
             size = 5;
             itemCapacity = 100;

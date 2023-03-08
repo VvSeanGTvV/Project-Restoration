@@ -1,20 +1,27 @@
 package classicMod.library.blocks;
 
-import arc.*;
-import arc.Graphics.*;
-import arc.Graphics.Cursor.*;
-import arc.graphics.g2d.*;
-import arc.math.*;
-import arc.scene.ui.layout.*;
-import arc.util.*;
-import mindustry.content.*;
-import mindustry.game.EventType.*;
-import mindustry.gen.*;
-import mindustry.graphics.*;
-import mindustry.type.*;
-import mindustry.ui.*;
-import mindustry.ui.dialogs.PlanetDialog;
-import mindustry.world.*;
+import arc.Core;
+import arc.Events;
+import arc.Graphics.Cursor;
+import arc.Graphics.Cursor.SystemCursor;
+import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.Lines;
+import arc.graphics.g2d.TextureRegion;
+import arc.math.Angles;
+import arc.math.Mathf;
+import arc.scene.ui.layout.Table;
+import arc.util.Time;
+import arc.util.Tmp;
+import mindustry.content.Blocks;
+import mindustry.game.EventType.Trigger;
+import mindustry.gen.Building;
+import mindustry.gen.Icon;
+import mindustry.graphics.Layer;
+import mindustry.graphics.Pal;
+import mindustry.type.Item;
+import mindustry.type.ItemStack;
+import mindustry.ui.Styles;
+import mindustry.world.Block;
 
 import static mindustry.Vars.*;
 
@@ -107,7 +114,7 @@ public class NewAccelerator extends Block{
 
         @Override
         public void buildConfiguration(Table table){
-            deselect();
+            //deselect();
 
             if(!state.isCampaign() || efficiency <= 0f) return;
 
@@ -116,7 +123,7 @@ public class NewAccelerator extends Block{
             //ui.campaignComplete.show(Planets.serpulo);
             if(true)
                 table.button(Icon.upOpen, Styles.cleari, () -> {
-                    ui.planet.showPlanetLaunch(state.rules.sector, sector -> {
+                    ui.planet.showSelect(state.rules.sector, sector -> {
                         if(state.isCampaign()){
                             universe.clearLoadoutInfo();
                             universe.updateLoadout(sector.planet.generator.defaultLoadout.findCore(), sector.planet.generator.defaultLoadout);
