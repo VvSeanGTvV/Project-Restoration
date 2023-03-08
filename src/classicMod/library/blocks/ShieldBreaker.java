@@ -15,19 +15,20 @@ import mindustry.world.Block;
 import mindustry.world.Tile;
 
 public class ShieldBreaker extends Block{
-    public @Nullable Block toDestroy;
     public TextureRegion notify;
+    public Block[] toDestroy = {};
     public Effect effect = Fx.shockwave, breakEffect = Fx.reactorExplosion, selfKillEffect = Fx.massiveExplosion;
 
     public ShieldBreaker(String name){
         super(name);
 
         solid = update = true;
+        rebuildable = false;
     }
 
     @Override
     public boolean canBreak(Tile tile){
-        return false;
+        return Vars.state.isEditor();
     }
 
     public class ShieldBreakerBuild extends Building{
@@ -38,14 +39,16 @@ public class ShieldBreaker extends Block{
             if(toDestroy != null){
                 for(var other : Vars.state.teams.active){
                     if(team != other.team){
-                        other.getBuildings(toDestroy).copy().each(b -> {
-                            BlockClassIndication = b.block.getClass();
-                            if (BlockClassIndication == toDestroy.getClass()) {
-                                NoBlock = false;
-                            }else {
-                                NoBlock = true;
-                            }
-                        });
+                        for(var blockC : toDestroy){
+                            other.getBuildings(block).copy().each(b -> {
+                                BlockClassIndication = b.block.getClass();
+                                if (BlockClassIndication == blockC.getClass()) {
+                                    NoBlock = false;
+                                }else {
+                                    NoBlock = true;
+                                }
+                            });
+                        }
                     }else{
                         NoBlock = true;
                     }
@@ -58,10 +61,12 @@ public class ShieldBreaker extends Block{
                     effect.at(this);
                     for(var other : Vars.state.teams.active){
                         if(team != other.team && !NoBlock){
-                            other.getBuildings(toDestroy).copy().each(b -> {
-                                breakEffect.at(b);
-                                b.kill();
-                            });
+                            for(var blockC : toDestroy){
+                                other.getBuildings(blockC).copy().each(b -> {
+                                    breakEffect.at(b);
+                                    b.kill();
+                                });
+                            }
                         }
                     }
                     selfKillEffect.at(this);
