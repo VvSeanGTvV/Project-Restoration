@@ -78,9 +78,9 @@ public class ShieldBreaker extends Block{
             Draw.rect(region, tile.drawx(), tile.drawy());
             Draw.z(Layer.blockOver);
             if(NoBlock){
-                Draw.color(new Color(221,146,126,255));
+                Draw.color(new Color(221,146/2,126/2,255));
             }else{
-                Draw.color(new Color(146,221,126,255));
+                Draw.color(new Color(146/2,221,126/2,255));
             }
             Draw.rect(notify, tile.drawx(), tile.drawy());
             Draw.reset();
