@@ -1,27 +1,19 @@
 package classicMod.library.blocks;
 
-import arc.Core;
-import arc.Events;
-import arc.Graphics.Cursor;
-import arc.Graphics.Cursor.SystemCursor;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Lines;
-import arc.graphics.g2d.TextureRegion;
-import arc.math.Angles;
-import arc.math.Mathf;
-import arc.scene.ui.layout.Table;
-import arc.util.Time;
-import arc.util.Tmp;
-import mindustry.content.Blocks;
-import mindustry.game.EventType.Trigger;
-import mindustry.gen.Building;
-import mindustry.gen.Icon;
-import mindustry.graphics.Layer;
-import mindustry.graphics.Pal;
-import mindustry.type.Item;
-import mindustry.type.ItemStack;
-import mindustry.ui.Styles;
-import mindustry.world.Block;
+import arc.*;
+import arc.Graphics.*;
+import arc.Graphics.Cursor.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.scene.ui.layout.*;
+import arc.util.*;
+import mindustry.content.*;
+import mindustry.game.EventType.*;
+import mindustry.gen.*;
+import mindustry.graphics.*;
+import mindustry.type.*;
+import mindustry.ui.*;
+import mindustry.world.*;
 
 import static mindustry.Vars.*;
 

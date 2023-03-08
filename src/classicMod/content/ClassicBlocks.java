@@ -1,18 +1,23 @@
 package classicMod.content;
 
 import arc.graphics.*;
-import arc.math.Interp;
+import arc.math.*;
+import classicMod.library.*;
 import classicMod.library.blocks.*;
 import classicMod.library.blocks.legacyBlocks.*;
 import classicMod.library.blocks.v6devBlocks.*;
 import mindustry.content.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
+import mindustry.entities.part.*;
+import mindustry.entities.pattern.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.*;
+import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.blocks.heat.*;
+import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
@@ -33,7 +38,7 @@ public class ClassicBlocks {
     heatReactor, //Heat Producers - Erekir - Prototype [v7-dev]
     cellSynthesisChamber, //Liquid Converter - Erekir - Prototype [v7-dev]
 
-    fracture, horde, //Turrets - Erekir - Prototype [v7-dev]
+    fracture, horde, ravage, //Turrets - Erekir - Prototype [v7-dev]
     shieldProjector, shieldBreaker, largeShieldProjector, //Shield - Erekir - Prototype [v7-dev]
 
     interplanetaryAccelerator //Endgame - Mindustry
@@ -438,6 +443,169 @@ public class ClassicBlocks {
                 rotateSpeed = 3f;
             }
         };
+
+        ravage = new ItemTurret("ravage"){{
+            requirements(Category.turret, with(Items.beryllium, 150, Items.silicon, 150, Items.carbide, 250, Items.phaseFabric, 100));
+
+            ammo(
+                    //this is really lazy
+                    Items.surgeAlloy, new BasicBulletType(7f, 250){{
+                        width = 16f;
+                        hitSize = 7f;
+                        height = 20f;
+                        shootEffect = new MultiEffect(Fx.shootTitan, Fx.colorSparkBig, new WaveEffect(){{
+                            colorFrom = colorTo = Pal.accent;
+                            lifetime = 12f;
+                            sizeTo = 20f;
+                            strokeFrom = 3f;
+                            strokeTo = 0.3f;
+                        }});
+                        smokeEffect = ExtendedFx.shootSmokeRavage;
+                        ammoMultiplier = 1;
+                        pierceCap = 4;
+                        pierce = true;
+                        pierceBuilding = true;
+                        hitColor = backColor = trailColor = Pal.accent;
+                        frontColor = Color.white;
+                        trailWidth = 2.8f;
+                        trailLength = 9;
+                        hitEffect = despawnEffect = Fx.hitBulletBig;
+                        buildingDamageMultiplier = 0.3f;
+
+                        //TODO
+                        intervalBullet = new LightningBulletType(){{
+                            damage = 30;
+                            collidesAir = false;
+                            ammoMultiplier = 1f;
+                            lightningColor = Pal.accent;
+                            lightningLength = 5;
+                            lightningLengthRand = 10;
+
+                            //for visual stats only.
+                            buildingDamageMultiplier = 0.25f;
+
+                            lightningType = new BulletType(0.0001f, 0f){{
+                                lifetime = Fx.lightning.lifetime;
+                                hitEffect = Fx.hitLancer;
+                                despawnEffect = Fx.none;
+                                status = StatusEffects.shocked;
+                                statusDuration = 10f;
+                                hittable = false;
+                                lightColor = Color.white;
+                                buildingDamageMultiplier = 0.25f;
+                            }};
+                        }};
+
+                        bulletInterval = 3f;
+                    }}
+            );
+
+            shoot = new ShootAlternate(){{
+                spread = 3.3f;
+                barrels = 9;
+                shots = 9;
+            }};
+
+            minWarmup = 0.99f;
+            coolantMultiplier = 6f;
+
+            shake = 2f;
+            ammoPerShot = 2;
+            drawer = new DrawTurret("reinforced-"){{
+                parts.addAll(
+
+                        new RegionPart("-mid"){{
+                            heatProgress = PartProgress.heat.blend(PartProgress.warmup, 0.5f);
+                            mirror = false;
+                        }},
+                        new RegionPart("-blade"){{
+                            progress = PartProgress.warmup;
+                            heatProgress = PartProgress.warmup;
+                            mirror = true;
+                            moveX = 5.5f;
+                            moves.add(new PartMove(PartProgress.recoil, 0f, -3f, 0f));
+                        }},
+                        new RegionPart("-front"){{
+                            progress = PartProgress.warmup;
+                            heatProgress = PartProgress.recoil;
+                            mirror = true;
+                            under = true;
+                            moveY = 4f;
+                            moveX = 6.5f;
+                            moves.add(new PartMove(PartProgress.recoil, 0f, -5.5f, 0f));
+                        }},
+                        new RegionPart("-back"){{
+                            progress = PartProgress.warmup;
+                            heatProgress = PartProgress.warmup;
+                            mirror = true;
+                            under = true;
+                            moveX = 5.5f;
+                        }},
+                        new ShapePart(){{
+                            progress = PartProgress.warmup.delay(0.5f);
+                            color = Pal.accent;
+                            sides = 6;
+                            hollow = true;
+                            stroke = 0f;
+                            strokeTo = 3f;
+                            radius = 10f;
+                            layer = Layer.effect;
+                            y = -15f;
+                            rotateSpeed = 2f;
+                        }}
+                );
+
+                for(int i = 0; i < 3; i++){
+                    int fi = i;
+                    parts.add(new RegionPart("-blade-bar"){{
+                        progress = PartProgress.warmup;
+                        heatProgress = PartProgress.warmup;
+                        mirror = true;
+                        under = true;
+                        outline = false;
+                        layerOffset = -0.3f;
+                        turretHeatLayer = Layer.turret - 0.2f;
+                        y = 44f / 4f - fi * 38f / 4f;
+                        moveX = 2f;
+
+                        color = Pal.accent;
+                    }});
+                }
+
+                for(int i = 0; i < 4; i++){
+                    int fi = i;
+                    parts.add(new RegionPart("-spine"){{
+                        progress = PartProgress.warmup.delay(fi / 5f);
+                        heatProgress = PartProgress.warmup;
+                        mirror = true;
+                        under = true;
+                        layerOffset = -0.3f;
+                        turretHeatLayer = Layer.turret - 0.2f;
+                        moveY = -22f / 4f - fi * 3f;
+                        moveX = 52f / 4f - fi * 1f + 2f;
+                        moveRot = -fi * 30f;
+
+                        color = Pal.accent;
+                        moves.add(new PartMove(PartProgress.recoil.delay(fi / 5f), 0f, 0f, 35f));
+                    }});
+                }
+            }};
+
+            shootWarmupSpeed = 0.05f;
+            shootY = 15f;
+            outlineColor = Pal.darkOutline;
+            size = 5;
+            envEnabled |= Env.space;
+            reload = 100f;
+            recoil = 2f;
+            range = 300;
+            shootCone = 7f;
+            scaledHealth = 350;
+            rotateSpeed = 1.5f;
+
+            coolant = consume(new ConsumeLiquid(Liquids.water, 15f / 60f));
+            limitRange();
+        }};
         //--- Turrets Region End ---
 
         //--- Shield Blocks Region ---

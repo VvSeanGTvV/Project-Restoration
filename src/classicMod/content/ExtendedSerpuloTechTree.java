@@ -6,10 +6,10 @@ import mindustry.ctype.*;
 import mindustry.game.Objectives.*;
 import mindustry.type.*;
 
+import static classicMod.content.ClassicBlocks.*;
 import static mindustry.content.Blocks.*;
 import static mindustry.content.SectorPresets.*;
 import static mindustry.content.TechTree.*;
-import static classicMod.content.ClassicBlocks.*;
 
 public class ExtendedSerpuloTechTree {
     static TechTree.TechNode context = null;

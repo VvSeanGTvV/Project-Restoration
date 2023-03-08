@@ -1,11 +1,9 @@
 package classicMod.library.blocks.legacyBlocks;
 
 import arc.*;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Lines;
-import arc.graphics.g2d.TextureRegion;
+import arc.graphics.g2d.*;
 import arc.math.*;
-import arc.struct.EnumSet;
+import arc.struct.*;
 import arc.util.io.*;
 import mindustry.*;
 import mindustry.content.*;
