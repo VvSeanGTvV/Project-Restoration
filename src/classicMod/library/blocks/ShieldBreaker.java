@@ -62,6 +62,7 @@ public class ShieldBreaker extends Block{
         @Override
         public void draw() {
             super.draw();
+            notify = Core.atlas.find(name + "-notify");
             Draw.z(Layer.block);
             Draw.rect(region, tile.drawx(), tile.drawy());
             Draw.z(Layer.blockOver);
