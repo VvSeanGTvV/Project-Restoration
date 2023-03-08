@@ -1,10 +1,10 @@
 package classicMod.content;
 
-import arc.struct.Seq;
-import mindustry.content.TechTree;
-import mindustry.ctype.UnlockableContent;
-import mindustry.game.Objectives;
-import mindustry.type.ItemStack;
+import arc.struct.*;
+import mindustry.content.*;
+import mindustry.ctype.*;
+import mindustry.game.*;
+import mindustry.type.*;
 
 import static classicMod.content.ClassicBlocks.*;
 import static mindustry.content.Blocks.*;
@@ -16,7 +16,7 @@ public class ExtendedErekirTechTree {
         margeNode(breach, () -> {
             node(fracture, () -> {});
             node(horde, () -> {});
-            node(ClassicBlocks.barrierProjector, () -> {
+            node(ClassicBlocks.barrierProjector, Seq.with(new Objectives.Research(shieldedWall)), () -> {
                 node(ClassicBlocks.shieldProjector, () -> {
                     node(ClassicBlocks.largeShieldProjector, () -> {});
                 });
