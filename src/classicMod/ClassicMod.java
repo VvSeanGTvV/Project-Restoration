@@ -34,7 +34,8 @@ public class ClassicMod extends Mod{
         new ClassicBullets().load();
         new ClassicUnitTypes().load();
         new ClassicBlocks().load();
-        new ClassicTechTree().load();
+        new ExtendedSerpuloTechTree().load();
+        new ExtendedErekirTechTree().load();
     }
 
 }

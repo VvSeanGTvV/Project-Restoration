@@ -34,7 +34,7 @@ public class ClassicBlocks {
     cellSynthesisChamber, //Liquid Converter - Erekir - Prototype [v7-dev]
 
     fracture, horde, //Turrets - Erekir - Prototype [v7-dev]
-    shieldProjector, shieldBreaker, //Shield - Erekir - Prototype [v7-dev]
+    shieldProjector, shieldBreaker, largeShieldProjector, //Shield - Erekir - Prototype [v7-dev]
 
     interplanetaryAccelerator //Endgame - Mindustry
     ;
@@ -461,6 +461,15 @@ public class ClassicBlocks {
             itemCapacity = 100;
 
             consumeItem(Items.tungsten, 100);
+        }};
+
+        largeShieldProjector = new BaseShield("large-shield-projector"){{
+            requirements(Category.effect, with());
+
+            size = 4;
+            radius = 400f;
+
+            consumePower(5f);
         }};
         //--- Shield Blocks Region End ---
 

@@ -11,7 +11,7 @@ import static mindustry.content.SectorPresets.*;
 import static mindustry.content.TechTree.*;
 import static classicMod.content.ClassicBlocks.*;
 
-public class ClassicTechTree {
+public class ExtendedSerpuloTechTree {
     static TechTree.TechNode context = null;
 
     public static void load() {
