@@ -623,10 +623,11 @@ public class ClassicBlocks {
         shieldBreaker = new ShieldBreaker("shield-breaker"){{
             requirements(Category.effect, with());
             envEnabled |= Env.space;
-            toDestroy = shieldProjector;
+            toDestroy = new Block[]{Blocks.shieldProjector, Blocks.largeShieldProjector};
 
             size = 5;
             itemCapacity = 100;
+            scaledHealth = 120f;
 
             consumeItem(Items.tungsten, 100);
         }};
