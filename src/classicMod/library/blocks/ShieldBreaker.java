@@ -1,18 +1,15 @@
 package classicMod.library.blocks;
 
-import arc.Core;
-import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.TextureRegion;
-import arc.math.Mathf;
-import arc.util.Nullable;
-import mindustry.Vars;
-import mindustry.content.Fx;
-import mindustry.entities.Effect;
-import mindustry.gen.Building;
-import mindustry.graphics.Layer;
-import mindustry.world.Block;
-import mindustry.world.Tile;
+import arc.*;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import mindustry.*;
+import mindustry.content.*;
+import mindustry.entities.*;
+import mindustry.gen.*;
+import mindustry.graphics.*;
+import mindustry.world.*;
 
 public class ShieldBreaker extends Block{
     public TextureRegion notify;
@@ -83,9 +80,9 @@ public class ShieldBreaker extends Block{
             Draw.rect(region, tile.drawx(), tile.drawy());
             Draw.z(Layer.blockOver);
             if(NoBlock){
-                Draw.color(new Color(221,146/2,126/2,255));
+                Draw.color(new Color(221,0,0,255));
             }else{
-                Draw.color(new Color(146/2,221,126/2,255));
+                Draw.color(new Color(0,221,0,255));
             }
             Draw.rect(notify, tile.drawx(), tile.drawy());
             Draw.reset();

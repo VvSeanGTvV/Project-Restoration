@@ -14,9 +14,11 @@ import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.heat.*;
+import mindustry.world.blocks.units.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
+import static classicMod.content.ClassicUnitTypes.*;
 import static mindustry.type.ItemStack.*;
 
 public class ClassicBlocks {
@@ -33,6 +35,8 @@ public class ClassicBlocks {
     barrierProjector, //Projectors - Erekir - Prototype [v7-dev]
     heatReactor, //Heat Producers - Erekir - Prototype [v7-dev]
     cellSynthesisChamber, //Liquid Converter - Erekir - Prototype [v7-dev]
+
+    droneCenter,
 
     fracture, horde, //Turrets - Erekir - Prototype [v7-dev]
     shieldProjector, shieldBreaker, largeShieldProjector, //Shield - Erekir - Prototype [v7-dev]
@@ -645,6 +649,17 @@ public class ClassicBlocks {
             consumePower(5f);
         }};
         //--- Shield Blocks Region End ---
+
+        //--- Drone Center Region ---
+        droneCenter = new DroneCenter("drone-center"){{
+            requirements(Category.units, with(Items.graphite, 10));
+
+            size = 3;
+            consumePower(3f);
+
+            droneType = effectDrone;
+        }};
+        //--- Drone Center Region End ---
 
         //--- Endgame ---
         interplanetaryAccelerator = new NewAccelerator("interplanetary-accelerator"){{

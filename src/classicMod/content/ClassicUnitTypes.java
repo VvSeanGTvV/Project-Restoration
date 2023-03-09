@@ -13,6 +13,7 @@ import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
+import mindustry.type.unit.*;
 
 import static arc.struct.SnapshotSeq.*;
 
@@ -31,9 +32,11 @@ public class ClassicUnitTypes {
 
     crawler, dagger, titan, fortress, eruptor, chaosArray, eradicator, //Unit - Ground [v5]
 
-    oculon, //Unit - Ground - Prototype [v6]
-    cix, //Unit - Legs - Prototype [v6]
-    vanguard //Unit - Naval - Prototype [v6]
+    oculon, //Unit - Ground - Prototype [v6-dev]
+    cix, //Unit - Legs - Prototype [v6-dev]
+    vanguard, //Unit - Naval - Prototype [v7-dev]
+
+    effectDrone //Unit - Unknown - Prototype [v7-dev]
     ;
 
     public static void load(){
@@ -1069,6 +1072,24 @@ public class ClassicUnitTypes {
                     ejectEffect = Fx.casing1;
                     bullet = ClassicBullets.standardCopper;
                 }});
+        }};
+        // --- Naval Units Region End ---
+
+        effectDrone = new ErekirUnitType("effect-drone"){{
+            flying = true;
+            drag = 0.08f;
+            speed = 3f;
+            drawCell = false;
+            logicControllable = playerControllable = allowedInPayloads = false;
+            hidden = true;
+
+            engineSize = 0f;
+            float es = 2.5f, ew = 14.5f / 4f;
+
+            setEnginesMirror(
+                    new UnitEngine(ew, ew, es, 45f),
+                    new UnitEngine(ew, -ew, es, 315f)
+            );
         }};
     }
     
