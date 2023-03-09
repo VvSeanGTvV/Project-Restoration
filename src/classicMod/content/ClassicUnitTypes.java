@@ -2,6 +2,8 @@ package classicMod.content;
 
 import arc.audio.*;
 import arc.graphics.*;
+import arc.math.*;
+import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import classicMod.library.ability.*;
@@ -14,8 +16,10 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.type.unit.*;
+import mindustry.type.weapons.*;
 
 import static arc.struct.SnapshotSeq.*;
+import static mindustry.Vars.*;
 
 public class ClassicUnitTypes {
     public static Sound pew = Vars.tree.loadSound("v5_sounds_pew"); //just pew lol
@@ -36,15 +40,17 @@ public class ClassicUnitTypes {
     cix, //Unit - Legs - Prototype [v6-dev]
     vanguard, //Unit - Naval - Prototype [v7-dev]
 
+    Oldincite, Oldemanate, //Unit - Core Units - Prototype [v7-dev]
+
     effectDrone //Unit - Unknown - Prototype [v7-dev]
     ;
 
-    public static void load(){
+    public static void load() {
 
         // --- v5 Zone ---
         // --- Mech Region ---
         // --- Ground Units Region ---
-        alpha = new UnitType("alpha-mech"){{
+        alpha = new UnitType("alpha-mech") {{
             outlines = false;
             mechSideSway = 0f;
             mechFrontSway = 0f;
@@ -61,7 +67,7 @@ public class ClassicUnitTypes {
             constructor = MechUnit::create;
             abilities.add(new RegenerationAbility(Time.delta * 0.09f));
 
-            weapons.add(new Weapon("restored-mind-blaster-equip"){{
+            weapons.add(new Weapon("restored-mind-blaster-equip") {{
                 outlines = false;
                 shootSound = pew;
                 x = 0f;
@@ -73,7 +79,7 @@ public class ClassicUnitTypes {
                 ejectEffect = Fx.casing1;
                 shootX = -2.6f;
                 mirror = true;
-                bullet = new BasicBulletType(2.5f, 9f){{ //reformat v5 coding into v7
+                bullet = new BasicBulletType(2.5f, 9f) {{ //reformat v5 coding into v7
                     width = 7f;
                     height = 9f;
                     lifetime = 60f;
@@ -82,9 +88,9 @@ public class ClassicUnitTypes {
                     ammoMultiplier = 2;
                 }};
             }});
-         }};
+        }};
 
-        delta = new UnitType("delta-mech"){{
+        delta = new UnitType("delta-mech") {{
             outlines = false;
             hitSize = 8f;
             mineTier = -1;
@@ -100,7 +106,7 @@ public class ClassicUnitTypes {
             constructor = MechUnit::create;
             abilities.add(new LightLandingAbility(17f)); //Since it doesn't exist in vanilla, so i created it for one.
 
-            weapons.add(new Weapon("restored-mind-shockgun-equip"){{
+            weapons.add(new Weapon("restored-mind-shockgun-equip") {{
                 outlines = false;
                 x = 1.2f;
                 y = -1f;
@@ -113,10 +119,11 @@ public class ClassicUnitTypes {
                 shoot.shots = 2;
                 inaccuracy = 0f;
                 ejectEffect = Fx.none;
-                shootSound = Sounds.spark;;
+                shootSound = Sounds.spark;
+                ;
                 shootX = -2.6f;
                 mirror = true;
-                bullet = new LightningBulletType(){{ //reformat v5 coding into v7
+                bullet = new LightningBulletType() {{ //reformat v5 coding into v7
                     damage = 12f;
                     lifetime = 1f;
                     shootEffect = Fx.hitLancer;
@@ -129,9 +136,9 @@ public class ClassicUnitTypes {
                     range = 70f;
                 }};
             }});
-         }};
+        }};
 
-         tau = new UnitType("tau-mech"){{
+        tau = new UnitType("tau-mech") {{
             outlines = false;
             mechSideSway = 0f;
             mechFrontSway = 0f;
@@ -150,7 +157,7 @@ public class ClassicUnitTypes {
             constructor = MechUnit::create;
             abilities.add(new SurroundRegenAbility(10f, 160f, 60f)); //Just reformat of the v5
 
-            weapons.add(new Weapon("restored-mind-heal-blaster-equip"){{
+            weapons.add(new Weapon("restored-mind-heal-blaster-equip") {{
                 outlines = false;
                 x = -1f;
                 y = 0f;
@@ -164,7 +171,7 @@ public class ClassicUnitTypes {
                 shootSound = pew;
                 shootX = -2.6f;
                 mirror = true;
-                bullet = new BasicBulletType(5.2f, 13f){{ //reformat v5 coding into v7
+                bullet = new BasicBulletType(5.2f, 13f) {{ //reformat v5 coding into v7
                     healPercent = 3f;
                     shootEffect = Fx.shootHeal;
                     smokeEffect = Fx.hitLaser;
@@ -180,9 +187,9 @@ public class ClassicUnitTypes {
                     backColor = Pal.heal;
                 }};
             }});
-         }};
+        }};
 
-         omega = new UnitType("omega-mech"){{
+        omega = new UnitType("omega-mech") {{
             outlines = false;
             hitSize = 8f;
             mineTier = 2;
@@ -198,8 +205,8 @@ public class ClassicUnitTypes {
             canBoost = true;
             constructor = MechUnit::create;
             abilities.add(new ArmorAbility(30f)); //Modify armor abilty for 2nd texture (static)
-            
-            weapons.add(new Weapon("restored-mind-swarmer-equip"){{
+
+            weapons.add(new Weapon("restored-mind-swarmer-equip") {{
                 outlines = false;
                 x = -1f;
                 y = 0f;
@@ -216,7 +223,7 @@ public class ClassicUnitTypes {
                 shootSound = Sounds.shootBig;
                 mirror = true;
 
-                bullet = new MissileBulletType(2.7f, 12){{ //adjust the format of v5 for v7
+                bullet = new MissileBulletType(2.7f, 12) {{ //adjust the format of v5 for v7
                     despawnSound = Vars.tree.loadSound("v5_sounds_boom");
                     width = 8f;
                     height = 8f;
@@ -239,7 +246,7 @@ public class ClassicUnitTypes {
         // --- Ground Units Region End ---
 
         // --- Air Units Region ---
-        dart = new UnitType("dart-ship"){{
+        dart = new UnitType("dart-ship") {{
             outlines = false;
             hitSize = 8f;
             mineTier = 2;
@@ -253,7 +260,7 @@ public class ClassicUnitTypes {
             buildSpeed = 1.1f;
             constructor = UnitEntity::create;
 
-            weapons.add(new Weapon("restored-mind-blaster-equip"){{
+            weapons.add(new Weapon("restored-mind-blaster-equip") {{
                 x = 0.8f;
                 y = -1f;
                 top = true;
@@ -266,7 +273,7 @@ public class ClassicUnitTypes {
                 shootX = -2.5f;
 
 
-                bullet = new BasicBulletType(2.5f, 9f){{ //adjust the format of v5 for v7
+                bullet = new BasicBulletType(2.5f, 9f) {{ //adjust the format of v5 for v7
                     width = 7f;
                     height = 9f;
                     lifetime = 60f;
@@ -277,7 +284,7 @@ public class ClassicUnitTypes {
             }});
         }};
 
-        trident = new UnitType("trident-ship"){{
+        trident = new UnitType("trident-ship") {{
             outlines = false;
             hitSize = 8f;
             mineTier = 2;
@@ -290,8 +297,8 @@ public class ClassicUnitTypes {
             engineColor = Color.valueOf("84f491");
             buildSpeed = 2.5f;
             constructor = UnitEntity::create;
-            
-            weapons.add(new Weapon("restored-mind-nullTexture"){{
+
+            weapons.add(new Weapon("restored-mind-nullTexture") {{
                 x = 0f;
                 y = 2f;
                 top = true;
@@ -306,9 +313,9 @@ public class ClassicUnitTypes {
                 inaccuracy = 20f;
                 ignoreRotation = true;
                 mirror = true;
-                
 
-                bullet = new BombBulletType(16f, 25f){{ //adjust the format of v5 for v7
+
+                bullet = new BombBulletType(16f, 25f) {{ //adjust the format of v5 for v7
                     width = 10f;
                     height = 14f;
                     hitEffect = Fx.flakExplosion;
@@ -319,7 +326,7 @@ public class ClassicUnitTypes {
             }});
         }};
 
-        glaive = new UnitType("glaive-ship"){{
+        glaive = new UnitType("glaive-ship") {{
             outlines = false;
             hitSize = 8f;
             mineTier = 4;
@@ -333,8 +340,8 @@ public class ClassicUnitTypes {
             buildSpeed = 1.2f;
             flying = true;
             constructor = UnitEntity::create;
-            
-            weapons.add(new Weapon("restored-mind-nullTexture"){{
+
+            weapons.add(new Weapon("restored-mind-nullTexture") {{
                 x = 2f;
                 y = 0f;
                 top = true;
@@ -345,13 +352,13 @@ public class ClassicUnitTypes {
                 ejectEffect = Fx.casing1;
                 shootSound = Sounds.shootSnap;
                 mirror = true;
-                
+
 
                 bullet = ClassicBullets.standardGlaive;
             }});
         }};
 
-        javelin = new UnitType("javelin-ship"){{
+        javelin = new UnitType("javelin-ship") {{
             outlines = false;
             hitSize = 8f;
             mineTier = -1;
@@ -363,8 +370,8 @@ public class ClassicUnitTypes {
             flying = true;
             constructor = UnitEntity::create;
             abilities.add(new LightSpeedAbility(10f, 3.6f, 6f)); //Modify armor abilty for 2nd texture (static)
-            
-            weapons.add(new Weapon("restored-mind-nullTexture"){{
+
+            weapons.add(new Weapon("restored-mind-nullTexture") {{
                 x = 2f;
                 y = 0.2f;
                 top = true;
@@ -385,7 +392,7 @@ public class ClassicUnitTypes {
         // --- Mech Region End ---
 
         // --- Flying Units Region ---
-        wraith = new UnitType("wraith"){{
+        wraith = new UnitType("wraith") {{
             outlines = false;
             speed = 1.9f;
             accel = 0.03f * 3f;
@@ -397,8 +404,8 @@ public class ClassicUnitTypes {
             circleTarget = true;
             constructor = UnitEntity::create;
             controller = u -> new OldFlyingAI();
-            
-            weapons.add(new Weapon("restored-mind-nullTexture"){{
+
+            weapons.add(new Weapon("restored-mind-nullTexture") {{
                 x = 2f;
                 y = 0f;
                 top = true;
@@ -408,9 +415,9 @@ public class ClassicUnitTypes {
                 ejectEffect = Fx.casing1;
                 shootSound = Sounds.shoot;
                 mirror = true;
-                
 
-                bullet = new BasicBulletType(2.5f, 9f){{ //adjust the format of v5 for v7
+
+                bullet = new BasicBulletType(2.5f, 9f) {{ //adjust the format of v5 for v7
                     width = 7f;
                     height = 9f;
                     lifetime = 60f;
@@ -421,7 +428,7 @@ public class ClassicUnitTypes {
             }});
         }};
 
-        ghoul = new UnitType("ghoul"){{
+        ghoul = new UnitType("ghoul") {{
             outlines = false;
             speed = 2.4f;
             accel = 0.02f * 3f;
@@ -434,8 +441,8 @@ public class ClassicUnitTypes {
             targetAir = false;
             constructor = UnitEntity::create;
             controller = u -> new OldFlyingAI();
-            
-            weapons.add(new Weapon("restored-mind-nullTexture"){{
+
+            weapons.add(new Weapon("restored-mind-nullTexture") {{
                 x = 0f;
                 y = 0f;
                 top = true;
@@ -449,9 +456,9 @@ public class ClassicUnitTypes {
                 ignoreRotation = true;
                 shootSound = Sounds.none;
                 mirror = true;
-                
 
-                bullet = new  BombBulletType(10f, 20f){{ //adjust the format of v5 for v7
+
+                bullet = new BombBulletType(10f, 20f) {{ //adjust the format of v5 for v7
                     width = 9f;
                     height = 13f;
                     hitEffect = Fx.flakExplosion;
@@ -461,7 +468,7 @@ public class ClassicUnitTypes {
             }});
         }};
 
-        revenant = new UnitType("revenant"){{
+        revenant = new UnitType("revenant") {{
             outlines = false;
             speed = 2f;
             accel = 0.01f * 3f;
@@ -474,8 +481,8 @@ public class ClassicUnitTypes {
             engineSize = 3f;
             constructor = UnitEntity::create;
             controller = u -> new OldFlyingAI();
-            
-            weapons.add(new Weapon("restored-mind-revenant-missiles-equip"){{
+
+            weapons.add(new Weapon("restored-mind-revenant-missiles-equip") {{
                 x = 9f;
                 y = 0f;
                 top = true;
@@ -492,13 +499,13 @@ public class ClassicUnitTypes {
                 velocityRnd = 0.2f;
                 shoot.shots = 2;
                 reload = 35f;
-                
+
 
                 bullet = ClassicBullets.OldmissileSwarm;
             }});
         }};
 
-        lich = new UnitType("lich"){{
+        lich = new UnitType("lich") {{
             outlines = false;
             speed = 0.6f;
             accel = 0.01f * 2f;
@@ -512,8 +519,8 @@ public class ClassicUnitTypes {
             rotateSpeed = 0.06f * 22f;
             constructor = UnitEntity::create;
             controller = u -> new OldFlyingAI();
-            
-            weapons.add(new Weapon("restored-mind-lich-missiles-equip"){{
+
+            weapons.add(new Weapon("restored-mind-lich-missiles-equip") {{
                 x = 21f;
                 y = 0f;
                 top = true;
@@ -530,8 +537,8 @@ public class ClassicUnitTypes {
                 rotate = true;
                 shootSound = Sounds.artillery;
                 mirror = true;
-                
-                bullet = new MissileBulletType(2.7f, 12f){{ //adjust the format of v5 for v7
+
+                bullet = new MissileBulletType(2.7f, 12f) {{ //adjust the format of v5 for v7
                     width = 8f;
                     height = 8f;
                     drag = -0.003f;
@@ -552,7 +559,7 @@ public class ClassicUnitTypes {
             }});
         }};
 
-        reaper = new UnitType("reaper"){{
+        reaper = new UnitType("reaper") {{
             outlines = false;
             speed = 0.6f;
             accel = 0.01f * 2f;
@@ -566,8 +573,8 @@ public class ClassicUnitTypes {
             rotateSpeed = 0.04f * 22f;
             constructor = UnitEntity::create;
             controller = u -> new OldFlyingAI();
-            
-            weapons.add(new Weapon("restored-mind-reaper-gun-equip"){{
+
+            weapons.add(new Weapon("restored-mind-reaper-gun-equip") {{
                 x = 31f;
                 y = 0f;
                 top = true;
@@ -582,8 +589,8 @@ public class ClassicUnitTypes {
                 rotate = true;
                 shootSound = Sounds.shootBig;
                 mirror = true;
-                
-                bullet = new BasicBulletType(7f, 42f){{ //adjust the format of v5 for v7
+
+                bullet = new BasicBulletType(7f, 42f) {{ //adjust the format of v5 for v7
                     width = 15f;
                     height = 21f;
                     shootEffect = Fx.shootBig;
@@ -593,7 +600,7 @@ public class ClassicUnitTypes {
         }};
 
         // --- Flying Units Region (Support) ---
-        draug = new UnitType("draug"){{
+        draug = new UnitType("draug") {{
             outlines = false;
             speed = 1.2f;
             accel = 0.03f * 3f;
@@ -610,7 +617,7 @@ public class ClassicUnitTypes {
             //place weapon called: "you have incurred my wrath. prepare to die." plz he need one, he poor
         }};
 
-        spirit = new UnitType("spirit"){{
+        spirit = new UnitType("spirit") {{
             outlines = false;
             speed = 1.6f;
             accel = 0.042f * 3f;
@@ -623,7 +630,7 @@ public class ClassicUnitTypes {
             constructor = UnitEntity::create;
             controller = u -> new RepairAI();
 
-            weapons.add(new Weapon("restored-mind-nullTexture"){{
+            weapons.add(new Weapon("restored-mind-nullTexture") {{
                 x = 0f;
                 y = 0f;
                 top = true;
@@ -637,8 +644,8 @@ public class ClassicUnitTypes {
                 inaccuracy = 3f;
                 shootSound = pew;
                 mirror = true;
-                
-                bullet = new BasicBulletType(5.2f, 15f){{ //adjust the format of v5 for v7
+
+                bullet = new BasicBulletType(5.2f, 15f) {{ //adjust the format of v5 for v7
                     healPercent = 5.5f;
                     shootEffect = Fx.shootHeal;
                     smokeEffect = Fx.hitLaser;
@@ -656,7 +663,7 @@ public class ClassicUnitTypes {
             }});
         }};
 
-        phantom = new UnitType("phantom"){{
+        phantom = new UnitType("phantom") {{
             outlines = false;
             speed = 1.9f;
             accel = 0.045f * 3f;
@@ -672,7 +679,7 @@ public class ClassicUnitTypes {
             mineItems = with(Items.copper, Items.lead, Items.titanium);
             controller = u -> new BuilderAI();
 
-            weapons.add(new Weapon("restored-mind-nullTexture"){{
+            weapons.add(new Weapon("restored-mind-nullTexture") {{
                 x = 0f;
                 y = 0f;
                 top = true;
@@ -687,7 +694,7 @@ public class ClassicUnitTypes {
                 shootSound = pew;
                 mirror = true;
 
-                bullet = new BasicBulletType(5.2f, 13f){{ //adjust the format of v5 for v7
+                bullet = new BasicBulletType(5.2f, 13f) {{ //adjust the format of v5 for v7
                     healPercent = 3f;
                     shootEffect = Fx.shootHeal;
                     smokeEffect = Fx.hitLaser;
@@ -708,13 +715,13 @@ public class ClassicUnitTypes {
         // --- Flying Units Region End ---
 
         // --- Ground Units Region ---
-        crawler = new UnitType("crawler"){{
+        crawler = new UnitType("crawler") {{
             outlines = false;
             mechSideSway = 0f;
             mechFrontSway = 0f;
             hitSize = 8f;
-            accel = 0.0285f *6;
-            speed = 1.27f *3;
+            accel = 0.0285f * 6;
+            speed = 1.27f * 3;
             drag = 0.4f;
             health = 120f;
             range = 50f;
@@ -722,12 +729,12 @@ public class ClassicUnitTypes {
             constructor = MechUnit::create;
             controller = u -> new SuicideAI();
 
-            weapons.add(new Weapon("restored-mind-nullTexture-equip"){{
+            weapons.add(new Weapon("restored-mind-nullTexture-equip") {{
                 reload = 6f;
                 ejectEffect = Fx.none;
                 shootSound = Sounds.explosion;
 
-                bullet = new BombBulletType(2f, 3f){{
+                bullet = new BombBulletType(2f, 3f) {{
                     hitEffect = Fx.pulverize;
                     lifetime = 30f;
                     speed = 1.1f;
@@ -742,20 +749,20 @@ public class ClassicUnitTypes {
             }});
         }};
 
-        dagger = new UnitType("dagger"){{
+        dagger = new UnitType("dagger") {{
             outlines = false;
             mechSideSway = 0f;
             mechFrontSway = 0f;
             hitSize = 8f;
-            accel = 0.02f *6;
-            speed = 1.1f *3;
+            accel = 0.02f * 6;
+            speed = 1.1f * 3;
             drag = 0.4f;
             health = 130f;
             canBoost = false;
             constructor = MechUnit::create;
             controller = u -> new GroundAI();
 
-            weapons.add(new Weapon("restored-mind-chain-blaster-equip"){{
+            weapons.add(new Weapon("restored-mind-chain-blaster-equip") {{
                 shootSound = pew;
                 outlines = false;
                 x = -4.5f;
@@ -768,7 +775,7 @@ public class ClassicUnitTypes {
                 shootX = 0f;
                 mirror = true;
 
-                bullet = new BasicBulletType(2.5f, 9f){{
+                bullet = new BasicBulletType(2.5f, 9f) {{
                     width = 7f;
                     height = 9f;
                     lifetime = 60f;
@@ -779,23 +786,23 @@ public class ClassicUnitTypes {
             }});
         }};
 
-        titan = new UnitType("titan"){{
+        titan = new UnitType("titan") {{
             outlines = false;
             mechSideSway = 0f;
             mechFrontSway = 0f;
             hitSize = 10f;
-            accel = 0.022f *6;
-            speed = 0.8f *3;
+            accel = 0.022f * 6;
+            speed = 0.8f * 3;
             drag = 0.4f;
             health = 460f;
-            rotateSpeed = 0.1f *30;
+            rotateSpeed = 0.1f * 30;
             targetAir = false;
             canBoost = false;
             immunities = ObjectSet.with(StatusEffects.burning);
             constructor = MechUnit::create;
             controller = u -> new GroundAI();
 
-            weapons.add(new Weapon("restored-mind-flamethrower-equip"){{
+            weapons.add(new Weapon("restored-mind-flamethrower-equip") {{
                 shootSound = Sounds.flame;
                 outlines = false;
                 x = -4f;
@@ -809,39 +816,39 @@ public class ClassicUnitTypes {
                 recoil = 1f;
                 mirror = true;
 
-                bullet = new BasicBulletType(3f, 6f){{
-                    ammoMultiplier =3f;
-                    hitSize =7f;
-                    lifetime =42f;
-                    pierce =true;
-                    drag =0.05f;
-                    statusDuration =60f*4;
-                    shootEffect =Fx.shootSmallFlame;
-                    hitEffect =Fx.hitFlameSmall;
-                    despawnEffect =Fx.none;
-                    status =StatusEffects.burning;
+                bullet = new BasicBulletType(3f, 6f) {{
+                    ammoMultiplier = 3f;
+                    hitSize = 7f;
+                    lifetime = 42f;
+                    pierce = true;
+                    drag = 0.05f;
+                    statusDuration = 60f * 4;
+                    shootEffect = Fx.shootSmallFlame;
+                    hitEffect = Fx.hitFlameSmall;
+                    despawnEffect = Fx.none;
+                    status = StatusEffects.burning;
                     sprite = "restored-mind-nullTexture";
                 }};
             }});
         }};
 
-        fortress = new UnitType("fortress"){{
+        fortress = new UnitType("fortress") {{
             outlines = false;
             mechSideSway = 0f;
             mechFrontSway = 0f;
             hitSize = 10f;
-            accel = 0.015f *6;
-            speed = 0.78f *3;
+            accel = 0.015f * 6;
+            speed = 0.78f * 3;
             drag = 0.4f;
             health = 750f;
-            rotateSpeed = 0.06f *30;
+            rotateSpeed = 0.06f * 30;
             targetAir = false;
             canBoost = false;
             immunities = ObjectSet.with(StatusEffects.burning, StatusEffects.melting);
             constructor = MechUnit::create;
             controller = u -> new GroundAI();
 
-            weapons.add(new Weapon("restored-mind-artillery-equip"){{
+            weapons.add(new Weapon("restored-mind-artillery-equip") {{
                 shootSound = Sounds.artillery;
                 outlines = false;
                 x = -10f;
@@ -856,7 +863,7 @@ public class ClassicUnitTypes {
                 shake = 2f;
                 recoil = 4f;
 
-                bullet = new ArtilleryBulletType(2f, 0f){{
+                bullet = new ArtilleryBulletType(2f, 0f) {{
                     hitEffect = Fx.blastExplosion;
                     knockback = 0.8f;
                     lifetime = 90f;
@@ -871,23 +878,23 @@ public class ClassicUnitTypes {
             }});
         }};
 
-        eruptor = new UnitType("eruptor"){{
+        eruptor = new UnitType("eruptor") {{
             outlines = false;
             mechSideSway = 0f;
             mechFrontSway = 0f;
             hitSize = 9f;
-            accel = 0.016f *6;
-            speed = 0.81f *3;
+            accel = 0.016f * 6;
+            speed = 0.81f * 3;
             drag = 0.4f;
             health = 600f;
-            rotateSpeed = 0.05f *30;
+            rotateSpeed = 0.05f * 30;
             targetAir = false;
             canBoost = false;
             immunities = ObjectSet.with(StatusEffects.burning, StatusEffects.melting);
             constructor = MechUnit::create;
             controller = u -> new GroundAI();
 
-            weapons.add(new Weapon("restored-mind-eruption-equip"){{
+            weapons.add(new Weapon("restored-mind-eruption-equip") {{
                 shootSound = Sounds.flame;
                 outlines = false;
                 x = -7f;
@@ -901,29 +908,30 @@ public class ClassicUnitTypes {
                 mirror = true;
                 recoil = 1f;
 
-                bullet = new LiquidBulletType(Liquids.slag){{
+                bullet = new LiquidBulletType(Liquids.slag) {{
                     damage = 2;
                     speed = 2.1f;
-                    drag = 0.02f;;
+                    drag = 0.02f;
+                    ;
                 }};
             }});
         }};
 
-        chaosArray = new UnitType("chaos-array"){{
+        chaosArray = new UnitType("chaos-array") {{
             outlines = false;
             mechSideSway = 0f;
             mechFrontSway = 0f;
             hitSize = 20f;
-            accel = 0.012f *6;
-            speed = 0.68f *3;
+            accel = 0.012f * 6;
+            speed = 0.68f * 3;
             drag = 0.4f;
             health = 3000f;
-            rotateSpeed = 0.06f *30;
+            rotateSpeed = 0.06f * 30;
             canBoost = false;
             constructor = MechUnit::create;
             controller = u -> new GroundAI();
 
-            weapons.add(new Weapon("restored-mind-chaos-equip"){{
+            weapons.add(new Weapon("restored-mind-chaos-equip") {{
                 shootSound = Sounds.shootBig;
                 outlines = false;
                 x = -17f;
@@ -942,7 +950,7 @@ public class ClassicUnitTypes {
                 shoot.shots = 4;
                 shoot.shotDelay = 5;
 
-                bullet = new FlakBulletType(4f, 7f){{
+                bullet = new FlakBulletType(4f, 7f) {{
                     splashDamage = 33f;
                     lightning = 2;
                     lightningLength = 12;
@@ -951,21 +959,21 @@ public class ClassicUnitTypes {
             }});
         }};
 
-        eradicator = new UnitType("eradicator"){{
+        eradicator = new UnitType("eradicator") {{
             outlines = false;
             mechSideSway = 0f;
             mechFrontSway = 0f;
             hitSize = 20f;
-            accel = 0.012f *6;
-            speed = 0.68f *3;
+            accel = 0.012f * 6;
+            speed = 0.68f * 3;
             drag = 0.4f;
             health = 9000f;
-            rotateSpeed = 0.06f *30;
+            rotateSpeed = 0.06f * 30;
             canBoost = false;
             constructor = MechUnit::create;
             controller = u -> new GroundAI();
 
-            weapons.add(new Weapon("restored-mind-eradication-equip"){{
+            weapons.add(new Weapon("restored-mind-eradication-equip") {{
                 shootSound = Sounds.shootBig;
                 outlines = false;
                 x = -21.5f;
@@ -984,7 +992,7 @@ public class ClassicUnitTypes {
                 shoot.shots = 4;
                 shoot.shotDelay = 3;
 
-                bullet = new BasicBulletType(8f, 65f){{
+                bullet = new BasicBulletType(8f, 65f) {{
                     width = 16f;
                     height = 23f;
                     shootEffect = Fx.shootBig;
@@ -996,7 +1004,7 @@ public class ClassicUnitTypes {
 
         // --- v6 Zone ---
         // --- Ground Units Region ---
-        cix = new UnitType("cix"){{
+        cix = new UnitType("cix") {{
             constructor = LegsUnit::create;
             drag = 0.1f;
             speed = 0.5f;
@@ -1015,7 +1023,7 @@ public class ClassicUnitTypes {
             legSpeed = 0.1f;
 
             weapons.add(
-                    new Weapon("restored-mind-missiles-mount"){{
+                    new Weapon("restored-mind-missiles-mount") {{
                         reload = 20f;
                         x = 4f;
                         rotate = true;
@@ -1025,7 +1033,7 @@ public class ClassicUnitTypes {
                         bullet = ClassicBullets.missileSwarm;
                     }});
         }};
-        oculon = new UnitType("oculon"){{
+        oculon = new UnitType("oculon") {{
             outlines = false;
             constructor = MechUnit::create;
             mineTier = 1;
@@ -1037,14 +1045,14 @@ public class ClassicUnitTypes {
             canBoost = true;
             speed = 0.4f;
             hitSize = 10f;
-            weapons.add(new Weapon("restored-mind-beam-weapon"){{
+            weapons.add(new Weapon("restored-mind-beam-weapon") {{
                 shake = 2f;
                 shootY = 4f;
                 x = 6.5f;
                 reload = 50f;
                 recoil = 4f;
                 shootSound = Sounds.laser;
-                bullet = new LaserBulletType(){{
+                bullet = new LaserBulletType() {{
                     damage = 20f;
                     recoil = 1f;
                     sideAngle = 45f;
@@ -1055,6 +1063,136 @@ public class ClassicUnitTypes {
             }});
         }};
         // --- Ground Units Region End ---
+        // --- v6 Zone End ---
+
+        // --- v7 Zone ---
+        // --- Core Units Region ---
+        Oldincite = new UnitType("incite") {{
+            controller = u -> new BuilderAI();
+            //isCounted = false;
+            envDisabled = 0;
+
+            outlineColor = Pal.darkOutline;
+            lowAltitude = false;
+            flying = true;
+            targetAir = false;
+            mineSpeed = 8f;
+            mineTier = 2;
+            buildSpeed = 1.4f;
+            drag = 0.06f;
+            speed = 2.6f;
+            rotateSpeed = 5f;
+            accel = 0.11f;
+            itemCapacity = 70;
+            health = 600f;
+            armor = 2f;
+            hitSize = 18f;
+            //commandLimit = 7;
+            buildBeamOffset = 10f;
+            engineSize = 0;
+            payloadCapacity = Mathf.sqr(2f) * tilePayload;
+
+            setEnginesMirror(
+                    new UnitEngine(34 / 4f, 31 / 4f, 3f, 45f),
+                    new UnitEngine(35 / 4f, -38 / 4f, 3f, 315f)
+            );
+
+            weapons.add(new Weapon("restored-mind-incite-weapon") {{
+                reload = 30f;
+                x = 4f;
+                y = 6.25f;
+                shootY = 5.75f;
+                recoil = 2f;
+                top = false;
+                layerOffset = -0.01f;
+                rotate = false;
+
+                bullet = new BasicBulletType(5f, 15) {{
+                    width = 7f;
+                    height = 12f;
+                    shootEffect = Fx.sparkShoot;
+                    smokeEffect = Fx.shootBigSmoke;
+                    pierceCap = 2;
+                    pierce = true;
+                    pierceBuilding = true;
+                    hitColor = backColor = trailColor = Pal.bulletYellowBack;
+                    frontColor = Color.white;
+                    trailWidth = 1.5f;
+                    trailLength = 7;
+                    hitEffect = despawnEffect = Fx.hitBulletColor;
+                }};
+            }});
+        }};
+
+        Oldemanate = new UnitType("emanate") {
+            {
+                controller = u -> new BuilderAI();
+                //isCounted = false;
+                envDisabled = 0;
+
+                outlineColor = Pal.darkOutline;
+                lowAltitude = false;
+                flying = true;
+                targetAir = false;
+                mineSpeed = 8f;
+                mineTier = 3;
+                buildSpeed = 2f;
+                drag = 0.06f;
+                speed = 2.6f;
+                rotateSpeed = 3f;
+                accel = 0.11f;
+                itemCapacity = 140;
+                health = 1300f;
+                armor = 3f;
+                hitSize = 36f;
+                //commandLimit = 9;
+                buildBeamOffset = 72f / 4f;
+                engineSize = 0;
+                payloadCapacity = Mathf.sqr(3f) * tilePayload;
+
+                drawBuildBeam = false;
+                rotateToBuilding = false;
+
+                float es = 3.8f;
+
+                setEnginesMirror(
+                        new UnitEngine(49 / 4f, 51 / 4f, es, 45f),
+                        new UnitEngine(67 / 4f, -30 / 4f, es, 315f),
+                        new UnitEngine(49 / 4f, -62 / 4f, es, 315f)
+                );
+
+                //TODO repair weapon
+                Vec2[] positions = {/*new Vec2(30f, 50f), */new Vec2(60f, -15f)};
+                int i = 0;
+
+                for (var pos : positions) {
+                    int fi = i;
+                    //TODO change to BuildWeapon properly, remove standard build beam and rotation
+                    weapons.add(new BuildWeapon("incite-weapon") {{
+                        rotate = true;
+                        reload = fi == 0 ? 25f : 35f;
+                        rotateSpeed = 7f;
+                        x = pos.x / 4f;
+                        y = pos.y / 4f;
+                        shootY = 5.75f;
+                        recoil = 2f;
+
+                        bullet = new BasicBulletType(5f, 17) {{
+                            width = 7f;
+                            height = 12f;
+                            shootEffect = Fx.sparkShoot;
+                            smokeEffect = Fx.shootBigSmoke;
+                            hitColor = backColor = trailColor = Pal.bulletYellowBack;
+                            frontColor = Color.white;
+                            trailWidth = 1.5f;
+                            trailLength = 7;
+                            hitEffect = despawnEffect = Fx.hitBulletColor;
+                        }};
+                    }});
+                    i++;
+                }
+            }
+        };
 
         // --- Naval Units Region ---
         vanguard = new UnitType("vanguard"){{
