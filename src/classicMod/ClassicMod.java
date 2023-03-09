@@ -2,6 +2,7 @@ package classicMod;
 
 import arc.*;
 import arc.util.*;
+import classicMod.library.uiCustom.*;
 import mindustry.*;
 import mindustry.game.EventType.*;
 import mindustry.mod.*;
@@ -36,6 +37,8 @@ public class ClassicMod extends Mod{
         new ClassicBlocks().load();
         new ExtendedSerpuloTechTree().load();
         new ExtendedErekirTechTree().load();
+
+        new UIExtended().init();
     }
 
 }
