@@ -1,25 +1,20 @@
 package classicMod.content;
 
-import arc.audio.Sound;
+import arc.audio.*;
 import arc.graphics.*;
 import arc.struct.*;
 import arc.util.*;
-import classicMod.library.testUnitType;
-import mindustry.Vars;
+import classicMod.library.ability.*;
+import classicMod.library.ai.*;
+import mindustry.*;
 import mindustry.ai.types.*;
 import mindustry.content.*;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
-import mindustry.type.ammo.*;
 
-import static arc.struct.SnapshotSeq.with;
-
-//Library Stuff
-import classicMod.library.ability.*;
-import classicMod.library.ai.*;
-import mindustry.world.meta.Env;
+import static arc.struct.SnapshotSeq.*;
 
 public class ClassicUnitTypes {
     public static Sound pew = Vars.tree.loadSound("v5_sounds_pew"); //just pew lol
@@ -34,13 +29,11 @@ public class ClassicUnitTypes {
     wraith, ghoul, revenant, lich, reaper, //Unit - Air [v5]
     draug, phantom, spirit, //Unit - Air - Support [v5]
 
+    crawler, dagger, titan, fortress, eruptor, chaosArray, eradicator, //Unit - Ground [v5]
+
     oculon, //Unit - Ground - Prototype [v6]
     cix, //Unit - Legs - Prototype [v6]
-    vanguard, //Unit - Naval - Prototype [v6]
-
-    krepost,
-
-    crawler, dagger, titan, fortress, eruptor, chaosArray, eradicator //Unit - Ground [v5]
+    vanguard //Unit - Naval - Prototype [v6]
     ;
 
     public static void load(){
@@ -1076,44 +1069,6 @@ public class ClassicUnitTypes {
                     ejectEffect = Fx.casing1;
                     bullet = ClassicBullets.standardCopper;
                 }});
-        }};
-
-        // --- Worm Based Units ---
-        krepost = new testUnitType("krepost"){{
-            constructor = LegsUnit::create;
-            drag = 0.1f;
-            speed = 1f;
-            hitSize = 19f;
-            health = 7300;
-            armor = 5f;
-            outlineColor = Pal.darkOutline;
-            envDisabled = Env.space;
-            rotateSpeed = 1.8f;
-            lockLegBase = true;
-            legStraightness = 1f;
-            baseLegStraightness = 0.6f;
-
-            legCount = 8;
-            legLength = 30f;
-            legTrns = 2f;
-            legMoveSpace = 1.05f;
-            rippleScale = 1.2f;
-            landShake = 0.5f;
-            legGroupSize = 2;
-            legExtension = -5f;
-            legBaseOffset = 19f;
-            legStraightLength = 0.9f;
-            maxStretch = 1.2f;
-
-            ammoType = new PowerAmmoType(2000);
-
-            legSplashDamage = 32;
-            legSplashRange = 32;
-            drownTimeMultiplier = 2f;
-
-            hovering = true;
-            visualElevation = 0.4f;
-            groundLayer = Layer.legUnit;
         }};
     }
     
