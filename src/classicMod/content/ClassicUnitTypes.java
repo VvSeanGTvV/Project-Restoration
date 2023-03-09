@@ -1214,6 +1214,7 @@ public class ClassicUnitTypes {
         // --- Naval Units Region End ---
 
         effectDrone = new ErekirUnitType("effect-drone"){{
+            constructor = UnitEntity::create;
             flying = true;
             drag = 0.08f;
             speed = 3f;
