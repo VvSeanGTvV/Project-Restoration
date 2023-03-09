@@ -7,6 +7,7 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
+import classicMod.library.uiCustom.*;
 import mindustry.content.*;
 import mindustry.game.EventType.*;
 import mindustry.gen.*;
@@ -115,12 +116,13 @@ public class NewAccelerator extends Block{
             //ui.campaignComplete.show(Planets.serpulo);
             if(true)
                 table.button(Icon.upOpen, Styles.cleari, () -> {
-                    ui.planet.showPlanetLaunch(state.rules.sector, sector -> {
+                    /*ui.planet.showPlanetLaunch(state.rules.sector, sector -> {
                         if(state.isCampaign()){
                             universe.clearLoadoutInfo();
                             universe.updateLoadout(sector.planet.generator.defaultLoadout.findCore(), sector.planet.generator.defaultLoadout);
                         }
-                    });
+                    });*/
+                    UIExtended.cutsceneEnding.runCutscene(Planets.serpulo);
                     deselect();
                 }).size(40f);
                 /*ui.planet.showPlanetLaunch(state.rules.sector, sector -> {
