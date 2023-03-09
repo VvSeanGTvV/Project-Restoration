@@ -15,6 +15,7 @@ public class ClassicMod extends Mod{
 
         //listen for game load event
         Events.on(ClientLoadEvent.class, e -> {
+            Core.app.post(UIExtended::init);
             Vars.ui.showOkText("@mod.v5disclaimer.title", "@mod.v5disclaimer.text", () -> {});
             //show dialog upon startup
             //Time.runTask(10f, () -> {
@@ -37,8 +38,6 @@ public class ClassicMod extends Mod{
         new ClassicBlocks().load();
         new ExtendedSerpuloTechTree().load();
         new ExtendedErekirTechTree().load();
-
-        new UIExtended().init();
     }
 
 }

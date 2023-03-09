@@ -5,7 +5,7 @@ import arc.*;
 public class UIExtended {
     public static CutsceneEnding cutsceneEnding;
 
-    public void init(){
+    public static void init(){
         cutsceneEnding = new CutsceneEnding();
 
     }
