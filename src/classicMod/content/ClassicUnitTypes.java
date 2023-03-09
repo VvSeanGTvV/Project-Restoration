@@ -1068,6 +1068,7 @@ public class ClassicUnitTypes {
         // --- v7 Zone ---
         // --- Core Units Region ---
         Oldincite = new UnitType("incite") {{
+            constructor = UnitEntity::create;
             controller = u -> new BuilderAI();
             //isCounted = false;
             envDisabled = 0;
@@ -1126,6 +1127,7 @@ public class ClassicUnitTypes {
 
         Oldemanate = new UnitType("emanate") {
             {
+                constructor = UnitEntity::create;
                 controller = u -> new BuilderAI();
                 //isCounted = false;
                 envDisabled = 0;
