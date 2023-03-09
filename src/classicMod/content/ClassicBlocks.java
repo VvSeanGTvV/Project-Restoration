@@ -2,7 +2,6 @@ package classicMod.content;
 
 import arc.graphics.*;
 import arc.math.*;
-import classicMod.library.*;
 import classicMod.library.blocks.*;
 import classicMod.library.blocks.legacyBlocks.*;
 import classicMod.library.blocks.v6devBlocks.*;
@@ -10,14 +9,11 @@ import mindustry.content.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
 import mindustry.entities.part.*;
-import mindustry.entities.pattern.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.*;
-import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.blocks.heat.*;
-import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
@@ -38,7 +34,7 @@ public class ClassicBlocks {
     heatReactor, //Heat Producers - Erekir - Prototype [v7-dev]
     cellSynthesisChamber, //Liquid Converter - Erekir - Prototype [v7-dev]
 
-    fracture, horde, ravage, //Turrets - Erekir - Prototype [v7-dev]
+    fracture, horde, //Turrets - Erekir - Prototype [v7-dev]
     shieldProjector, shieldBreaker, largeShieldProjector, //Shield - Erekir - Prototype [v7-dev]
 
     interplanetaryAccelerator //Endgame - Mindustry
@@ -427,7 +423,15 @@ public class ClassicBlocks {
                 shoot.shots = 1;
 
                 //TODO cool reload animation
-                drawer = new DrawTurret("reinforced-");
+                drawer = new DrawTurret("reinforced-"){{
+                    parts.addAll(new RegionPart("-glow"){{
+                        drawRegion = false;
+                        heatColor = Color.valueOf("768a9a");
+                        //useReload = false;
+                        //useProgressHeat = true;
+                        heatProgress = PartProgress.heat.blend(PartProgress.warmup, 0.5f);
+                    }});
+                }};
                 shake = 1f;
                 shootLength = 5f;
                 outlineColor = Pal.darkOutline;
@@ -444,7 +448,7 @@ public class ClassicBlocks {
             }
         };
 
-        ravage = new ItemTurret("ravage"){{
+        /*ravage = new ItemTurret("ravage"){{
             requirements(Category.turret, with(Items.beryllium, 150, Items.silicon, 150, Items.carbide, 250, Items.phaseFabric, 100));
 
             ammo(
@@ -605,7 +609,7 @@ public class ClassicBlocks {
 
             coolant = consume(new ConsumeLiquid(Liquids.water, 15f / 60f));
             limitRange();
-        }};
+        }};*/
         //--- Turrets Region End ---
 
         //--- Shield Blocks Region ---
