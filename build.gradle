@@ -37,7 +37,7 @@ allprojects{
 
 dependencies{
     //implementation project(":src")
-    api "com.badlogicgames.gdx:gdx:$gdxVersion"
+    //api "com.badlogicgames.gdx:gdx:$gdxVersion"
     implementation "com.badlogicgames.gdx-video:gdx-video:$gdxVideo"
     implementation "com.badlogicgames.gdx-video:gdx-video-lwjgl3:$gdxVideo"
     implementation "com.badlogicgames.gdx-video:gdx-video-android:$gdxVideo"
