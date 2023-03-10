@@ -45,7 +45,7 @@ dependencies{
     //api "com.badlogicgames.gdx:gdx:$gdxVersion"
     implementation "com.badlogicgames.gdx-video:gdx-video:$gdxVideo"
     implementation "com.badlogicgames.gdx-video:gdx-video-lwjgl3:$gdxVideo"
-    implementation "com.badlogicgames.gdx-video:gdx-video-android:$gdxVideo"
+    //implementation "com.badlogicgames.gdx-video:gdx-video-android:$gdxVideo"
 
     compileOnly "com.github.Anuken.Arc:arc-core:$mindustryVersion"
     compileOnly "com.github.Anuken.Mindustry:core:$mindustryVersion"
