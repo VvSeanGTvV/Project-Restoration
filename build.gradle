@@ -32,7 +32,7 @@ allprojects{
 }
 
 dependencies{
-    implementation project(":src")
+    //implementation project(":src")
     api "com.badlogicgames.gdx:gdx:$gdxVersion"
     implementation "com.badlogicgames.gdx-video:gdx-video:$gdxVersion"
     implementation "com.badlogicgames.gdx-video:gdx-video-lwjgl3:$gdxVersion"
