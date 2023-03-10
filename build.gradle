@@ -27,6 +27,10 @@ allprojects{
 }
 
 dependencies{
+    implementation("com.badlogicgames.gdx-video:gdx-video:1.3.2")
+    implementation("com.badlogicgames.gdx-video:gdx-video-lwjgl:1.3.2")
+    implementation("com.badlogicgames.gdx-video:gdx-video-android:1.3.2")
+
     compileOnly "com.github.Anuken.Arc:arc-core:$mindustryVersion"
     compileOnly "com.github.Anuken.Mindustry:core:$mindustryVersion"
 
