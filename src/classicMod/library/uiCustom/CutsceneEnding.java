@@ -13,6 +13,7 @@ import static arc.scene.actions.Actions.*;
 import static mindustry.Vars.*;
 
 public class CutsceneEnding extends BaseDialog {
+    protected Drawable[] videoMemoryArray; //TODO load memory?
     public CutsceneEnding() {
         super("");
 
@@ -37,12 +38,12 @@ public class CutsceneEnding extends BaseDialog {
 
         show(Core.scene, Actions.sequence(parallel(fadeIn(1.1f, Interp.fade), translateBy(0f, Core.graphics.getHeight(), 6f, Interp.pow5Out))));
 
-        int framesTotal = 200; //TODO idk automate the video to screenshot
-        int DelayperFrame = 10;
+        int framesTotal = 200;
+        int DelayPerFrame = 1000; //TODO figure out the timing all right.
         for(int i = 0; i < framesTotal ; ) { //TODO 60 FPS or 30 FPS video ;)
             int c = 0;
-            if(c<DelayperFrame) {
-                for (c = 0; c < DelayperFrame; c++) {
+            if(c<DelayPerFrame) {
+                for (c = 0; c < DelayPerFrame; c++) {
                 }
                 i++;
                 c = 0;
