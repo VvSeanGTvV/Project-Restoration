@@ -38,9 +38,9 @@ public class CutsceneEnding extends BaseDialog {
 
         show(Core.scene, Actions.sequence(parallel(fadeIn(1.1f, Interp.fade), translateBy(0f, Core.graphics.getHeight(), 6f, Interp.pow5Out))));
 
-        int framesTotal = 200;
+        int framesTotal = 2648;
         int DelayPerFrame = 1000; //TODO figure out the timing all right.
-        for(int i = 0; i < framesTotal ; ) { //TODO 60 FPS or 30 FPS video ;)
+        for(int i = 1; i < framesTotal ; ) { //TODO 60 FPS or 30 FPS video ;)
             int c = 0;
             if(c<DelayPerFrame) {
                 for (c = 0; c < DelayPerFrame; c++) {
