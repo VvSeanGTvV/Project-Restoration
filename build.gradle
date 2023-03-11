@@ -21,7 +21,7 @@ repositories{
 ext{
     //libGDX Version Properties
     gdxVersion = '1.11.0' //Latest Snpahshot or Release
-    gdxVideo = '1.3.2-SNAPSHOT' //Latest Snapshot or Release
+    gdxVideo = '1.3.2-SNAPSHOT' //Latest Snapshot or Release TODO plz request this from ANUKE
 
     //the build number that this mod is made for
     mindustryVersion = 'v142'
@@ -31,9 +31,9 @@ ext{
 
 //java 8 backwards compatibility flag
 allprojects{
-    tasks.withType(org.gradle.jvm.tasks.Jar){
+    /*tasks.withType(org.gradle.jvm.tasks.Jar){
         duplicatesStrategy = DuplicatesStrategy.INCLUDE
-    }
+    }*/
     tasks.withType(JavaCompile){
         options.compilerArgs.addAll(['--release', '8'])
     }
@@ -42,9 +42,9 @@ allprojects{
 dependencies{
 
     //implementation project(":src")
-    api "com.badlogicgames.gdx:gdx:$gdxVersion"
-    implementation "com.badlogicgames.gdx-video:gdx-video:$gdxVideo"
-    implementation "com.badlogicgames.gdx-video:gdx-video-lwjgl3:$gdxVideo"
+    //api "com.badlogicgames.gdx:gdx:$gdxVersion"
+    //implementation "com.badlogicgames.gdx-video:gdx-video:$gdxVideo"
+    //implementation "com.badlogicgames.gdx-video:gdx-video-lwjgl3:$gdxVideo"
     //implementation "com.badlogicgames.gdx-video:gdx-video-android:$gdxVideo"
 
     compileOnly "com.github.Anuken.Arc:arc-core:$mindustryVersion"

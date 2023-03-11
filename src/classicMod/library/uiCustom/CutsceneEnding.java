@@ -44,21 +44,16 @@ public class CutsceneEnding extends BaseDialog {
         show(Core.scene, Actions.sequence(parallel(fadeIn(1.1f, Interp.fade), translateBy(0f, Core.graphics.getHeight(), 6f, Interp.pow5Out))));
 
         int framesTotal = 1059;
-        int DelayPerFrame = 1000000;
-        for(int i = 1; i < framesTotal ; ) {
-            int c = 0;
-            if(c<DelayPerFrame) {
-                for (c = 0; c < DelayPerFrame; c++) {
-                }
-                i++;
-                c = 0;
-            }
+        int DelayPerFrame = 1000000; //TODO functionality
+        for(int i = 0; i < framesTotal ; ) {
+            i++;
+            delay(1000);
             Drawable frameI = atlas.drawable("restored-mind-frameEnd" + i);
             frameI.draw(Core.graphics.getWidth() / 2, Core.graphics.getHeight() / 2, Core.graphics.getWidth(), Core.graphics.getHeight());
 
         }
 
-        //videoDemo.create();
+        //videoDemo.create(); //TODO plz request this to Anuke THX!
         //videoDemo.render();
 
         this.hide();
