@@ -3,7 +3,6 @@ package classicMod.library.uiCustom;
 import arc.*;
 import arc.math.*;
 import arc.scene.actions.*;
-import classicMod.library.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.video.*;
 import mindustry.gen.*;
@@ -11,6 +10,7 @@ import mindustry.type.*;
 import mindustry.ui.dialogs.*;
 
 import static arc.scene.actions.Actions.*;
+import static classicMod.library.uiCustom.UIExtended.*;
 import static mindustry.Vars.*;
 
 
@@ -57,7 +57,8 @@ public class CutsceneEnding extends BaseDialog {
 
         }*/
 
-        new VideoDemo();
+        videoDemo.create();
+        videoDemo.render();
 
         //this.hide();
         //ui.campaignComplete.show(planet);
