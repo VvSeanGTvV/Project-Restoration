@@ -1,12 +1,14 @@
 package classicMod.library.uiCustom;
 
 import arc.*;
-import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.scene.actions.*;
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.files.*;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.video.*;
+import com.badlogic.gdx.video.VideoPlayer.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.dialogs.*;
@@ -40,6 +42,7 @@ public class CutsceneEnding extends BaseDialog {
         //TODO make a video runnable in Mindustry *pain*
         cont.clear();
         videoPlayer = VideoPlayerCreator.createVideoPlayer();
+        batch = new SpriteBatch();
 
         setTranslation(0f, -Core.graphics.getHeight());
         color.a = 255f;
@@ -69,14 +72,26 @@ public class CutsceneEnding extends BaseDialog {
             throw new RuntimeException(e);
         }
         render();
-        this.hide();
-        ui.campaignComplete.show(planet);
+        videoPlayer.setOnCompletionListener(new CompletionListener() {
+            @Override
+            public void onCompletionListener(FileHandle file) {
+                UIExtended.cutsceneEnding.hide();
+                ui.campaignComplete.show(planet);
+            }
+        });
+        //this.hide();
+        //ui.campaignComplete.show(planet);
     }
 
     public void render(){
         Texture frame = videoPlayer.getTexture();
+
+        videoPlayer.update();
+
+        batch.begin();
         if(frame!=null){
-            batch.draw(frame);
+            batch.draw(frame, 0, 0, getWidth(), getHeight());
         }
+        batch.end();
     }
 }
