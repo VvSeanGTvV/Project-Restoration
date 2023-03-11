@@ -37,12 +37,12 @@ public class CutsceneEnding extends BaseDialog {
 
         show(Core.scene, Actions.sequence(parallel(fadeIn(1.1f, Interp.fade), translateBy(0f, Core.graphics.getHeight(), 6f, Interp.pow5Out))));
 
-        int framesTotal = 1059;
+        int framesTotal = 530;
         int DelayPerFrame = 1000000; //TODO functionality
         int i;
         for(i=0; i < framesTotal;) {
             i++;
-            delay(10000);
+            delay(100000);
 
             cont.image(Core.atlas.find("restored-min-frameEnd"+i)).size(Core.graphics.getWidth(),Core.graphics.getHeight());
 

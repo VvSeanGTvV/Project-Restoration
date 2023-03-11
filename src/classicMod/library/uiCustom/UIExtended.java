@@ -11,11 +11,11 @@ public class UIExtended {
         //videoDemo = new VideoDemo();
 
     }
-    public static float getWidth(){
+    public static int getWidth(){
         return Core.graphics.getWidth();
     }
 
-    public static float getHeight(){
+    public static int getHeight(){
         return Core.graphics.getHeight();
     }
 }

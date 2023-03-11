@@ -31,9 +31,9 @@ ext{
 
 //java 8 backwards compatibility flag
 allprojects{
-    /*tasks.withType(org.gradle.jvm.tasks.Jar){
+    tasks.withType(org.gradle.jvm.tasks.Jar){
         duplicatesStrategy = DuplicatesStrategy.INCLUDE
-    }*/
+    }
     tasks.withType(JavaCompile){
         options.compilerArgs.addAll(['--release', '8'])
     }
