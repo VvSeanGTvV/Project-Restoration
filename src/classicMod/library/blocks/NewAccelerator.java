@@ -16,6 +16,8 @@ import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
 
+import java.io.*;
+
 import static mindustry.Vars.*;
 
 public class NewAccelerator extends Block{
@@ -125,6 +127,8 @@ public class NewAccelerator extends Block{
                     try {
                         UIExtended.cutsceneEnding.runCutscene(Planets.serpulo);
                     } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                     deselect();

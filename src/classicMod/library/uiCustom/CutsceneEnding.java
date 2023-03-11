@@ -1,11 +1,11 @@
 package classicMod.library.uiCustom;
 
 import arc.*;
-import arc.math.*;
-import arc.scene.actions.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.dialogs.*;
+
+import java.io.*;
 
 import static arc.scene.actions.Actions.*;
 import static mindustry.Vars.*;
@@ -28,21 +28,24 @@ public class CutsceneEnding extends BaseDialog {
         buttons.button("@continue", Icon.ok, this::hide);
     }
 
-    public void runCutscene(Planet planet) throws InterruptedException {
+    public void runCutscene(Planet planet) throws IOException {
         //TODO make a video runnable in Mindustry *pain*
         cont.clear();
 
-        setTranslation(0f, -Core.graphics.getHeight());
-        color.a = 255f;
+        //setTranslation(0f, -Core.graphics.getHeight());
+        //color.a = 255f;
+        show();
 
-        show(Core.scene, Actions.sequence(parallel(fadeIn(1.1f, Interp.fade), translateBy(0f, Core.graphics.getHeight(), 6f, Interp.pow5Out))));
+        //show(Core.scene, Actions.sequence(parallel(fadeIn(1.1f, Interp.fade), translateBy(0f, Core.graphics.getHeight(), 6f, Interp.pow5Out))));
 
         int framesTotal = 530;
         int DelayPerFrame = 1000000; //TODO functionality
         int i;
         for(i=0; i < framesTotal;) {
             i++;
-            wait(6000);
+            delay(6000000);
+            //RenderedImage image = ;
+            //ImageIO.write(image, "png", new File("new output file name"));
 
             cont.image(Core.atlas.find("restored-min-frameEnd"+i)).size(Core.graphics.getWidth(),Core.graphics.getHeight());
 
