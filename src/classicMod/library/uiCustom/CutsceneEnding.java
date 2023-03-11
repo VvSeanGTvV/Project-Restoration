@@ -42,7 +42,7 @@ public class CutsceneEnding extends BaseDialog {
         int i;
         for(i=0; i < framesTotal;) {
             i++;
-            delay(1000);
+            delay(10000);
 
             cont.image(Core.atlas.find("restored-min-frameEnd"+i)).size(Core.graphics.getWidth(),Core.graphics.getHeight());
 
