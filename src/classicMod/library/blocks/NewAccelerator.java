@@ -122,7 +122,11 @@ public class NewAccelerator extends Block{
                             universe.updateLoadout(sector.planet.generator.defaultLoadout.findCore(), sector.planet.generator.defaultLoadout);
                         }
                     });*/
-                    UIExtended.cutsceneEnding.runCutscene(Planets.serpulo);
+                    try {
+                        UIExtended.cutsceneEnding.runCutscene(Planets.serpulo);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                     deselect();
                 }).size(40f);
                 /*ui.planet.showPlanetLaunch(state.rules.sector, sector -> {

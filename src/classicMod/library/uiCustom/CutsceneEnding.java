@@ -28,7 +28,7 @@ public class CutsceneEnding extends BaseDialog {
         buttons.button("@continue", Icon.ok, this::hide);
     }
 
-    public void runCutscene(Planet planet) {
+    public void runCutscene(Planet planet) throws InterruptedException {
         //TODO make a video runnable in Mindustry *pain*
         cont.clear();
 
@@ -42,7 +42,7 @@ public class CutsceneEnding extends BaseDialog {
         int i;
         for(i=0; i < framesTotal;) {
             i++;
-            delay(100000);
+            wait(6000);
 
             cont.image(Core.atlas.find("restored-min-frameEnd"+i)).size(Core.graphics.getWidth(),Core.graphics.getHeight());
 
