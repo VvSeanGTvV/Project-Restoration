@@ -1,15 +1,14 @@
 package classicMod.library.uiCustom;
 
 import arc.*;
-import classicMod.library.*;
 
 public class UIExtended {
     public static CutsceneEnding cutsceneEnding;
-    public static VideoDemo videoDemo;
+    //public static VideoDemo videoDemo; TODO plz request this from Anuke not meh
 
     public static void init(){
         cutsceneEnding = new CutsceneEnding();
-        videoDemo = new VideoDemo();
+        //videoDemo = new VideoDemo();
 
     }
     public static float getWidth(){
