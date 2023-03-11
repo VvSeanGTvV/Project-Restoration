@@ -4,8 +4,6 @@ import arc.*;
 import arc.math.*;
 import arc.scene.actions.*;
 import arc.scene.style.*;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.video.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.dialogs.*;
@@ -17,8 +15,6 @@ import static mindustry.Vars.*;
 
 
 public class CutsceneEnding extends BaseDialog {
-    protected VideoPlayer videoPlayer; //TODO video stuff
-    protected SpriteBatch batch;
     public CutsceneEnding() {
         super("");
 
