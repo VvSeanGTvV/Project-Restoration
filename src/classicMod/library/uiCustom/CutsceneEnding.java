@@ -1,9 +1,11 @@
 package classicMod.library.uiCustom;
 
 import arc.*;
+import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.scene.actions.*;
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.video.*;
 import mindustry.gen.*;
 import mindustry.type.*;
@@ -18,6 +20,7 @@ import static mindustry.Vars.*;
 
 public class CutsceneEnding extends BaseDialog {
     protected VideoPlayer videoPlayer; //TODO video stuff
+    protected SpriteBatch batch;
     public CutsceneEnding() {
         super("");
 
@@ -57,12 +60,23 @@ public class CutsceneEnding extends BaseDialog {
             frameI.draw(Core.graphics.getWidth() / 2, Core.graphics.getHeight() / 2, Core.graphics.getWidth(), Core.graphics.getHeight());
 
         }*/
+
+
+
         try {
             videoPlayer.play(Gdx.files.local("assets/cutscene/cutscenEnd.mp4"));
         } catch (FileNotFoundException e){
             throw new RuntimeException(e);
         }
+        render();
         this.hide();
         ui.campaignComplete.show(planet);
+    }
+
+    public void render(){
+        Texture frame = videoPlayer.getTexture();
+        if(frame!=null){
+            batch.draw(frame);
+        }
     }
 }
