@@ -8,7 +8,7 @@ import com.badlogic.gdx.video.*;
 import java.io.*;
 
 public class VideoDemo extends ApplicationAdapter {
-    SpriteBatch batch;
+    private SpriteBatch batch;
     private VideoPlayer videoPlayer;
 
     @Override
@@ -29,10 +29,8 @@ public class VideoDemo extends ApplicationAdapter {
         videoPlayer.update();
 
         batch.begin();
-
         Texture frame = videoPlayer.getTexture();
         if(frame!=null){batch.draw(frame,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());}
-
         batch.end();
     }
 
