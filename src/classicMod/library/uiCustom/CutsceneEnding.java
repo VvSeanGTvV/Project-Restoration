@@ -43,7 +43,7 @@ public class CutsceneEnding extends BaseDialog {
         show(Core.scene, Actions.sequence(parallel(fadeIn(1.1f, Interp.fade), translateBy(0f, Core.graphics.getHeight(), 6f, Interp.pow5Out))));
 
         /*int framesTotal = 2648;
-        int DelayPerFrame = 1000; //TODO remove this junk
+        int DelayPerFrame = 1000;
         for(int i = 1; i < framesTotal ; ) {
             int c = 0;
             if(c<DelayPerFrame) {

@@ -8,12 +8,12 @@ import com.badlogic.gdx.video.*;
 import java.io.*;
 
 public class VideoDemo extends ApplicationAdapter {
-    private SpriteBatch batch;
+    SpriteBatch batch;
     private VideoPlayer videoPlayer;
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
+        //batch = new SpriteBatch();
 
         videoPlayer = VideoPlayerCreator.createVideoPlayer();
 
@@ -28,10 +28,18 @@ public class VideoDemo extends ApplicationAdapter {
     public void render() {
         videoPlayer.update();
 
-        batch.begin();
+        //batch.begin();
         Texture frame = videoPlayer.getTexture();
-        if(frame!=null){batch.draw(frame,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());}
-        batch.end();
+        //if(frame!=null){batch.draw(frame,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());}
+        File file = new File("cutscene/photod.png");
+        try {
+            FileWriter writer = new FileWriter(file);
+            writer.write(frame.getTextureData().toString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        //batch.end();
     }
 
     @Override
