@@ -3,14 +3,15 @@ package classicMod.library.uiCustom;
 import arc.*;
 import arc.math.*;
 import arc.scene.actions.*;
+import arc.scene.style.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.video.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.dialogs.*;
 
+import static arc.Core.*;
 import static arc.scene.actions.Actions.*;
-import static classicMod.library.uiCustom.UIExtended.*;
 import static mindustry.Vars.*;
 
 
@@ -42,7 +43,7 @@ public class CutsceneEnding extends BaseDialog {
 
         show(Core.scene, Actions.sequence(parallel(fadeIn(1.1f, Interp.fade), translateBy(0f, Core.graphics.getHeight(), 6f, Interp.pow5Out))));
 
-        /*int framesTotal = 2648;
+        int framesTotal = 2648;
         int DelayPerFrame = 1000;
         for(int i = 1; i < framesTotal ; ) {
             int c = 0;
@@ -55,12 +56,12 @@ public class CutsceneEnding extends BaseDialog {
             Drawable frameI = atlas.drawable("restored-mind-frameEnd" + i);
             frameI.draw(Core.graphics.getWidth() / 2, Core.graphics.getHeight() / 2, Core.graphics.getWidth(), Core.graphics.getHeight());
 
-        }*/
+        }
 
-        videoDemo.create();
-        videoDemo.render();
+        //videoDemo.create();
+        //videoDemo.render();
 
-        //this.hide();
-        //ui.campaignComplete.show(planet);
+        this.hide();
+        ui.campaignComplete.show(planet);
     }
 }

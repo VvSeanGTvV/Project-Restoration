@@ -13,7 +13,7 @@ public class VideoDemo extends ApplicationAdapter {
 
     @Override
     public void create() {
-        //batch = new SpriteBatch();
+        batch = new SpriteBatch();
 
         videoPlayer = VideoPlayerCreator.createVideoPlayer();
 
@@ -28,9 +28,9 @@ public class VideoDemo extends ApplicationAdapter {
     public void render() {
         videoPlayer.update();
 
-        //batch.begin();
+        batch.begin();
         Texture frame = videoPlayer.getTexture();
-        //if(frame!=null){batch.draw(frame,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());}
+        if(frame!=null){batch.draw(frame,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());}
         File file = new File("cutscene/photod.png");
         try {
             FileWriter writer = new FileWriter(file);
@@ -39,7 +39,7 @@ public class VideoDemo extends ApplicationAdapter {
             throw new RuntimeException(e);
         }
 
-        //batch.end();
+        batch.end();
     }
 
     @Override
