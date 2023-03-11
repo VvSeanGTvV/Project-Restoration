@@ -126,8 +126,6 @@ public class NewAccelerator extends Block{
                     });*/
                     try {
                         UIExtended.cutsceneEnding.runCutscene(Planets.serpulo);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
