@@ -41,18 +41,19 @@ public class CutsceneEnding extends BaseDialog {
 
         int framesTotal = 1059;
         int DelayPerFrame = 1000000; //TODO functionality
-        for(int i = 0; i < framesTotal ; ) {
+        int i;
+        for(i=0; i < framesTotal;) {
             i++;
             delay(1000);
             Drawable frameI = atlas.drawable("restored-mind-frameEnd" + i);
             frameI.draw(Core.graphics.getWidth() / 2, Core.graphics.getHeight() / 2, Core.graphics.getWidth(), Core.graphics.getHeight());
-
+        }
+        if(i>framesTotal){
+            this.hide();
+            ui.campaignComplete.show(planet);
         }
 
         //videoDemo.create(); //TODO plz request this to Anuke THX!
         //videoDemo.render();
-
-        this.hide();
-        ui.campaignComplete.show(planet);
     }
 }
