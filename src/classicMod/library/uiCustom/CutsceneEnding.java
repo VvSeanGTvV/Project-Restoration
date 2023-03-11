@@ -3,12 +3,10 @@ package classicMod.library.uiCustom;
 import arc.*;
 import arc.math.*;
 import arc.scene.actions.*;
-import arc.scene.style.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.dialogs.*;
 
-import static arc.Core.*;
 import static arc.scene.actions.Actions.*;
 import static mindustry.Vars.*;
 
@@ -45,10 +43,13 @@ public class CutsceneEnding extends BaseDialog {
         for(i=0; i < framesTotal;) {
             i++;
             delay(1000);
-            Drawable frameI = atlas.drawable("restored-mind-frameEnd" + i);
-            frameI.draw(Core.graphics.getWidth() / 2, Core.graphics.getHeight() / 2, Core.graphics.getWidth(), Core.graphics.getHeight());
+
+            cont.image(Core.atlas.find("restored-min-frameEnd"+i)).size(Core.graphics.getWidth(),Core.graphics.getHeight());
+
+            //Drawable frameI = atlas.drawable("restored-mind-frameEnd" + i);
+            //frameI.draw(Core.graphics.getWidth() / 2, Core.graphics.getHeight() / 2, Core.graphics.getWidth(), Core.graphics.getHeight());
         }
-        if(i>framesTotal){
+        if(i>=framesTotal){
             this.hide();
             ui.campaignComplete.show(planet);
         }
