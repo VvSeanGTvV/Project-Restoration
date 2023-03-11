@@ -5,9 +5,10 @@ import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.dialogs.*;
 
+import javax.imageio.*;
+import java.awt.image.*;
 import java.io.*;
 
-import static arc.scene.actions.Actions.*;
 import static mindustry.Vars.*;
 
 
@@ -40,17 +41,24 @@ public class CutsceneEnding extends BaseDialog {
 
         int framesTotal = 530;
         int DelayPerFrame = 1000000; //TODO functionality
-        int i;
+        int i, c = 0;
         for(i=0; i < framesTotal;) {
-            i++;
-            delay(6000000);
-            //RenderedImage image = ;
-            //ImageIO.write(image, "png", new File("new output file name"));
+            if (c >= DelayPerFrame) {
+                cont.clear();
+                c=0;
+                i++;
+                //--- CONVERTER ---
+                String inputFile = "./assets/cutscene/frameEnd/frameEnd" + i + ".jpg";
+                BufferedImage bufferedImage = ImageIO.read(new File(inputFile));
+                ImageIO.write(bufferedImage, "png", new File("./assets/TemporaryFiles/imgFrame.png"));
 
-            cont.image(Core.atlas.find("restored-min-frameEnd"+i)).size(Core.graphics.getWidth(),Core.graphics.getHeight());
+                cont.image(Core.atlas.find("restored-mind-imgFrame")).size(Core.graphics.getWidth(), Core.graphics.getHeight());
 
-            //Drawable frameI = atlas.drawable("restored-mind-frameEnd" + i);
-            //frameI.draw(Core.graphics.getWidth() / 2, Core.graphics.getHeight() / 2, Core.graphics.getWidth(), Core.graphics.getHeight());
+                //Drawable frameI = atlas.drawable("restored-mind-frameEnd" + i);
+                //frameI.draw(Core.graphics.getWidth() / 2, Core.graphics.getHeight() / 2, Core.graphics.getWidth(), Core.graphics.getHeight());
+            }else{
+                c++;
+            }
         }
         if(i>=framesTotal){
             this.hide();
