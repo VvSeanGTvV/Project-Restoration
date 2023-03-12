@@ -7,6 +7,8 @@ import classicMod.library.ui.*;
 import classicMod.library.ui.menu.*;
 import mindustry.game.EventType.*;
 import mindustry.mod.*;
+import mindustry.mod.Mods.*;
+import mindustry.type.*;
 import mindustry.ui.fragments.*;
 
 import static classicMod.library.ui.menu.MenuUI.*;
@@ -16,13 +18,12 @@ import static mindustry.Vars.*;
 public class ClassicMod extends Mod{
     public ClassicMod(){
         //Log.info("Loaded Classic constructor.");
-
         //listen for game load event
         Events.on(ClientLoadEvent.class, e -> {
             Core.app.post(UIExtended::init);
-
+            Planet LastPlanet = state.getPlanet();
             Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(Serpulo));
-            ui.showOkText("@mod.v5disclaimer.title", "@mod.v5disclaimer.text", () -> {});
+            ui.showOkText("@mod.classicwarning.title", "@mod.classicwarning.text", () -> {});
             //show dialog upon startup
             //Time.runTask(10f, () -> {
             //    BaseDialog dialog = new BaseDialog("Welcome to V5 Java Edition!");
@@ -34,6 +35,8 @@ public class ClassicMod extends Mod{
             //    dialog.show();
             //});
         });
+        LoadedMod lastModVer = mods.locateMod("classicv5");
+        if(lastModVer != null){ui.showCustomConfirm("@mod.conflictwarning.title", "@mod.conflictwarning.text", "@mods.browser.remove", "@no", ()->{},()->{});}
 
         //MenuBackground bg = (tn == 2 ? Erekir : tn == 3 ? Serpulo : tn == 4 ? random : tn == 5 ? solarSystem : null);
         
