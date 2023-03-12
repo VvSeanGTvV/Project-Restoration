@@ -21,6 +21,7 @@ public class MenuUI {
         Serpulo = new SpaceMenuBackground() {{
             params = new PlanetParams() {{
                 planet = Planets.serpulo;
+                zoom = 0.7f;
             }};
         }};
         random = new SpaceMenuBackground() {{
