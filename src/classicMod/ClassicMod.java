@@ -36,6 +36,11 @@ public class ClassicMod extends Mod{
         //MenuBackground bg = (tn == 2 ? Erekir : tn == 3 ? Serpulo : tn == 4 ? random : tn == 5 ? solarSystem : null);
         Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(solarSystem));
     }
+    
+    @Override
+    public void init() {
+        MenuUI.load()
+    }
 
     @Override
     public void loadContent(){
