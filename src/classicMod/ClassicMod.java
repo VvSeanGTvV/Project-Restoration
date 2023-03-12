@@ -20,6 +20,7 @@ public class ClassicMod extends Mod{
         //listen for game load event
         Events.on(ClientLoadEvent.class, e -> {
             Core.app.post(UIExtended::init);
+            Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(solarSystem));
             ui.showOkText("@mod.v5disclaimer.title", "@mod.v5disclaimer.text", () -> {});
             //show dialog upon startup
             //Time.runTask(10f, () -> {
@@ -34,7 +35,7 @@ public class ClassicMod extends Mod{
         });
 
         //MenuBackground bg = (tn == 2 ? Erekir : tn == 3 ? Serpulo : tn == 4 ? random : tn == 5 ? solarSystem : null);
-        Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(solarSystem));
+        
     }
     
     @Override
