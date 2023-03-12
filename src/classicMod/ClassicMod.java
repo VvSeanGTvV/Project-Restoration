@@ -39,7 +39,7 @@ public class ClassicMod extends Mod{
     
     @Override
     public void init() {
-        MenuUI.load()
+        MenuUI.load();
     }
 
     @Override
