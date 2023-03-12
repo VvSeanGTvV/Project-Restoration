@@ -20,7 +20,8 @@ public class ClassicMod extends Mod{
         //listen for game load event
         Events.on(ClientLoadEvent.class, e -> {
             Core.app.post(UIExtended::init);
-            Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(solarSystem));
+            
+            Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(Serpulo));
             ui.showOkText("@mod.v5disclaimer.title", "@mod.v5disclaimer.text", () -> {});
             //show dialog upon startup
             //Time.runTask(10f, () -> {
