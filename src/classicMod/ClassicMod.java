@@ -21,8 +21,9 @@ public class ClassicMod extends Mod{
         //listen for game load event
         Events.on(ClientLoadEvent.class, e -> {
             Core.app.post(UIExtended::init);
-            Planet LastPlanet = state.getPlanet();
-            Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(Serpulo));
+            Planet lastPlanet = state.getPlanet();
+            MenuBackground bg = (lastPlanet.name == "Erekir" ? Erekir : lastPlanet.name == "Serpulo" ? Serpulo : null);
+            Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(bg));
             ui.showOkText("@mod.classicwarning.title", "@mod.classicwarning.text", () -> {});
             //show dialog upon startup
             //Time.runTask(10f, () -> {
