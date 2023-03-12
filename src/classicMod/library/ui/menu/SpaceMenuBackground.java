@@ -1,6 +1,5 @@
 package classicMod.library.ui.menu;
 
-import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.graphics.gl.*;
@@ -32,9 +31,7 @@ public class SpaceMenuBackground extends MenuBackground {
             menuParams = params;
         }
 
-        if (Core.settings.getBool("fos-rotatemenucamera")){
-            menuParams.camPos.rotate(Vec3.Y, 0.1f);
-        }
+        menuParams.camPos.rotate(Vec3.Y, 0.05f);
 
         renderer.planets.render(menuParams);
 
