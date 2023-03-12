@@ -5,6 +5,7 @@ import arc.util.*;
 import classicMod.content.*;
 import classicMod.library.ui.*;
 import classicMod.library.ui.menu.*;
+import mindustry.content.*;
 import mindustry.game.EventType.*;
 import mindustry.mod.*;
 import mindustry.mod.Mods.*;
@@ -22,7 +23,7 @@ public class ClassicMod extends Mod{
         Events.on(ClientLoadEvent.class, e -> {
             Core.app.post(UIExtended::init);
             Planet lastPlanet = state.getPlanet();
-            MenuBackground bg = (lastPlanet.name == "Erekir" ? Erekir : lastPlanet.name == "Serpulo" ? Serpulo : null);
+            MenuBackground bg = (lastPlanet == Planets.erekir ? Erekir : lastPlanet == Planets.serpulo ? Serpulo : solarSystem);
             Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(bg));
             ui.showOkText("@mod.classicwarning.title", "@mod.classicwarning.text", () -> {});
             //show dialog upon startup
