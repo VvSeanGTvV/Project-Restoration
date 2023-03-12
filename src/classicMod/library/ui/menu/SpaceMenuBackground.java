@@ -19,13 +19,14 @@ import static mindustry.Vars.*;
 public class SpaceMenuBackground extends MenuBackground {
     public static FrameBuffer menuBuffer;
     public static PlanetParams menuParams;
+    Planet lastPlanet = null;
     public PlanetParams params;
 
     @Override
     public void render() {
         int size = Math.max(graphics.getWidth(), graphics.getHeight());
 
-        if(menuBuffer == null){
+        if (menuBuffer == null) {
             menuBuffer = new FrameBuffer(size, size);
         }
 
@@ -34,14 +35,16 @@ public class SpaceMenuBackground extends MenuBackground {
         params.alwaysDrawAtmosphere = true;
         params.drawUi = false;
 
-        if (menuParams == null){
+        if (menuParams == null) {
             menuParams = params;
         }
 
         menuParams.camPos.rotate(Vec3.Y, 0.05f);
-        Planet lastPlanet = content.getByName(ContentType.planet, Core.settings.getString("lastplanet", "serpulo"));
-        MenuBackground bg = (lastPlanet == Planets.erekir ? Erekir : lastPlanet == Planets.serpulo ? Serpulo : solarSystem);
-        Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(bg));
+        if (lastPlanet != content.getByName(ContentType.planet, Core.settings.getString("lastplanet", "serpulo"))){
+            lastPlanet = content.getByName(ContentType.planet, Core.settings.getString("lastplanet", "serpulo"));
+            MenuBackground bg = (lastPlanet == Planets.erekir ? Erekir : lastPlanet == Planets.serpulo ? Serpulo : solarSystem);
+            Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(bg));
+        }
 
         renderer.planets.render(menuParams);
 
