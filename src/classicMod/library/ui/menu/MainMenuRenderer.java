@@ -1,8 +1,15 @@
 package classicMod.library.ui.menu;
 
+import arc.*;
+import arc.util.*;
+import mindustry.content.*;
+import mindustry.ctype.*;
 import mindustry.graphics.*;
+import mindustry.type.*;
+import mindustry.ui.fragments.*;
 
-import static mindustry.Vars.mobile;
+import static classicMod.library.ui.menu.MenuUI.*;
+import static mindustry.Vars.*;
 
 public class MainMenuRenderer extends MenuRenderer {
     private final int width = !mobile ? 100 : 60, height = !mobile ? 50 : 40;
@@ -28,5 +35,9 @@ public class MainMenuRenderer extends MenuRenderer {
     public void render() {
         super.render();
         background.render();
+
+        Planet lastPlanet = content.getByName(ContentType.planet, Core.settings.getString("lastplanet", "serpulo"));
+        MenuBackground bg = (lastPlanet == Planets.erekir ? Erekir : lastPlanet == Planets.serpulo ? Serpulo : solarSystem);
+        Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(bg));
     }
 }

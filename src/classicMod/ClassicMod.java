@@ -5,14 +5,10 @@ import arc.util.*;
 import classicMod.content.*;
 import classicMod.library.ui.*;
 import classicMod.library.ui.menu.*;
-import mindustry.content.*;
 import mindustry.game.EventType.*;
 import mindustry.mod.*;
 import mindustry.mod.Mods.*;
-import mindustry.type.*;
-import mindustry.ui.fragments.*;
 
-import static classicMod.library.ui.menu.MenuUI.*;
 import static mindustry.Vars.*;
 //v5-java-mod is the current use
 
@@ -22,9 +18,9 @@ public class ClassicMod extends Mod{
         //listen for game load event
         Events.on(ClientLoadEvent.class, e -> {
             Core.app.post(UIExtended::init);
-            Planet lastPlanet = state.getPlanet();
-            MenuBackground bg = (lastPlanet == Planets.erekir ? Erekir : lastPlanet == Planets.serpulo ? Serpulo : solarSystem);
-            Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(bg));
+            //Planet lastPlanet = content.getByName(ContentType.planet, Core.settings.getString("lastplanet", "serpulo"));
+            //MenuBackground bg = (lastPlanet == Planets.erekir ? Erekir : lastPlanet == Planets.serpulo ? Serpulo : solarSystem);
+            //Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(bg));
             ui.showOkText("@mod.classicwarning.title", "@mod.classicwarning.text", () -> {});
             //show dialog upon startup
             //Time.runTask(10f, () -> {
