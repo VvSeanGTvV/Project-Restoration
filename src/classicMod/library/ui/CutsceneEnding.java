@@ -1,12 +1,9 @@
-package classicMod.library.uiCustom;
+package classicMod.library.ui;
 
-import arc.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.dialogs.*;
 
-import javax.imageio.*;
-import java.awt.image.*;
 import java.io.*;
 
 import static mindustry.Vars.*;
@@ -39,7 +36,7 @@ public class CutsceneEnding extends BaseDialog {
 
         //show(Core.scene, Actions.sequence(parallel(fadeIn(1.1f, Interp.fade), translateBy(0f, Core.graphics.getHeight(), 6f, Interp.pow5Out))));
 
-        int framesTotal = 530;
+        /*int framesTotal = 530;
         int DelayPerFrame = 1000000; //TODO functionality
         int i, c = 0;
         for(i=0; i < framesTotal;) {
@@ -63,7 +60,7 @@ public class CutsceneEnding extends BaseDialog {
         if(i>=framesTotal){
             this.hide();
             ui.campaignComplete.show(planet);
-        }
+        }*/
 
         //videoDemo.create(); //TODO plz request this to Anuke THX!
         //videoDemo.render();

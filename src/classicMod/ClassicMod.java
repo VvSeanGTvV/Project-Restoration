@@ -2,11 +2,15 @@ package classicMod;
 
 import arc.*;
 import arc.util.*;
-import classicMod.library.uiCustom.*;
-import mindustry.*;
+import classicMod.content.*;
+import classicMod.library.ui.*;
+import classicMod.library.ui.menu.*;
 import mindustry.game.EventType.*;
 import mindustry.mod.*;
-import classicMod.content.*;
+import mindustry.ui.fragments.*;
+
+import static classicMod.library.ui.menu.MenuUI.*;
+import static mindustry.Vars.*;
 //v5-java-mod is the current use
 
 public class ClassicMod extends Mod{
@@ -16,7 +20,7 @@ public class ClassicMod extends Mod{
         //listen for game load event
         Events.on(ClientLoadEvent.class, e -> {
             Core.app.post(UIExtended::init);
-            Vars.ui.showOkText("@mod.v5disclaimer.title", "@mod.v5disclaimer.text", () -> {});
+            ui.showOkText("@mod.v5disclaimer.title", "@mod.v5disclaimer.text", () -> {});
             //show dialog upon startup
             //Time.runTask(10f, () -> {
             //    BaseDialog dialog = new BaseDialog("Welcome to V5 Java Edition!");
@@ -28,6 +32,9 @@ public class ClassicMod extends Mod{
             //    dialog.show();
             //});
         });
+
+        //MenuBackground bg = (tn == 2 ? Erekir : tn == 3 ? Serpulo : tn == 4 ? random : tn == 5 ? solarSystem : null);
+        Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(solarSystem));
     }
 
     @Override

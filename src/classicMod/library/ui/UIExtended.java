@@ -1,4 +1,4 @@
-package classicMod.library.uiCustom;
+package classicMod.library.ui;
 
 import arc.*;
 
