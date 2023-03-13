@@ -5,11 +5,15 @@ import arc.math.geom.*;
 import arc.struct.*;
 import mindustry.*;
 import mindustry.content.*;
+import mindustry.ctype.*;
 import mindustry.graphics.g3d.*;
 import mindustry.type.*;
 
+import static arc.Core.settings;
+import static mindustry.Vars.content;
+
 public class MenuUI {
-    public static MenuBackground Tantros, Erekir, Serpulo, random, solarSystem;
+    public static MenuBackground Tantros, Erekir, Serpulo, random, solarSystem, SortedPlanet;
 
     public static void load() {
         Erekir = new SpaceMenuBackground() {{
@@ -37,6 +41,21 @@ public class MenuUI {
             params = new PlanetParams() {{
                 Seq<Planet> visible = Vars.content.planets().copy().filter(p -> p.visible);
                 planet = visible.get(Mathf.floor((float) (Math.random() * visible.size)));
+            }};
+        }};
+
+        SortedPlanet = new SpaceMenuBackground() {{
+            params = new PlanetParams() {{ //Support test for modded planets! +it's sorted into planets so ;)
+                Planet lastPlanet = content.getByName(ContentType.planet, settings.getString("lastplanet", "serpulo"));
+                Seq<Planet> visible = Vars.content.planets().copy().filter(p -> {
+                    return p.visible && p.accessible;
+                });
+                visible.forEach(c->{
+                    if(c.name==lastPlanet.name){
+                        planet = c;
+                        zoom = 0.6f;
+                    }
+                });
             }};
         }};
         solarSystem = new SpaceMenuBackground() {{

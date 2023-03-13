@@ -37,7 +37,7 @@ public class ClassicMod extends Mod{
             MenuBackground bg = (lastPlanet.name == Planets.erekir.name ? Erekir : lastPlanet.name == Planets.serpulo.name ? Serpulo : lastPlanet.name == Planets.tantros.name ? Tantros : solarSystem);
             boolean usePlanetBG = settings.getBool("@mod.restored-mind.use-planetmenu");
             boolean uselastPlanet = settings.getBool("@mod.restored-mind.use-lastplanet-bg");
-            if(bg != null && usePlanetBG){if(uselastPlanet){Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(bg));}else{Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(random));}}
+            if(bg != null && usePlanetBG){if(uselastPlanet){Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(SortedPlanet));}else{Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(random));}}
 
             LoadedMod lastModVer = mods.locateMod("classicv5");
             if(lastModVer != null){ui.showCustomConfirm("@mod.restored-mind.conflictwarning.title", "@mod.restored-mind.conflictwarning.text", "@yes", "@no", ()->{lastModVer.meta.hidden = true;},()->{});}
