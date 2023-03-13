@@ -23,15 +23,17 @@ public class ClassicMod extends Mod{
         //listen for game load event
         Events.on(ClientLoadEvent.class, e -> {
             Core.app.post(UIExtended::init);
+            LoadedMod mod = mods.locateMod("restored-mind");
+            String Version = mod.meta.version;
             ui.showOkText("@mod.classicwarning.title", "@mod.classicwarning.text", () -> {});
             Planet lastPlanet;
             //MenuBackground bg = solarSystem;
             lastPlanet = content.getByName(ContentType.planet, Core.settings.getString("lastplanet", "serpulo"));
-            MenuBackground bg = (lastPlanet.name == Planets.erekir.name ? Erekir : lastPlanet.name == Planets.serpulo.name ? Serpulo : solarSystem);
+            MenuBackground bg = (lastPlanet.name == Planets.erekir.name ? Erekir : lastPlanet.name == Planets.serpulo.name ? Serpulo : lastPlanet.name == Planets.tantros.name ? Tantros : solarSystem);
             Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(bg));
 
             LoadedMod lastModVer = mods.locateMod("classicv5");
-            if(lastModVer != null){ui.showCustomConfirm("@mod.conflictwarning.title", "@mod.conflictwarning.text", "@mods.browser.remove", "@no", ()->{},()->{});}
+            if(lastModVer != null){ui.showCustomConfirm("@mod.conflictwarning.title", "@mod.conflictwarning.text", "@yes", "@no", ()->{lastModVer.meta.hidden = true;},()->{});}
 
             //show dialog upon startup
             //Time.runTask(10f, () -> {

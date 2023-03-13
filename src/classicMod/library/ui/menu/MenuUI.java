@@ -9,21 +9,28 @@ import mindustry.graphics.g3d.*;
 import mindustry.type.*;
 
 public class MenuUI {
-    public static MenuBackground Erekir, Serpulo, random, solarSystem;
+    public static MenuBackground Tantros, Erekir, Serpulo, random, solarSystem;
 
     public static void load() {
         Erekir = new SpaceMenuBackground() {{
             params = new PlanetParams() {{
                 planet = Planets.erekir;
 
-                zoom = 1.2f;
+                zoom = 0.6f;
             }};
         }};
         Serpulo = new SpaceMenuBackground() {{
             params = new PlanetParams() {{
                 planet = Planets.serpulo;
                 //camPos = new Vec3(0, 0, 0);
-                zoom = 0.7f;
+                zoom = 0.6f;
+            }};
+        }};
+        Tantros = new SpaceMenuBackground() {{
+            params = new PlanetParams() {{
+                planet = Planets.tantros;
+                //camPos = new Vec3(0, 0, 0);
+                zoom = 0.6f;
             }};
         }};
         random = new SpaceMenuBackground() {{
