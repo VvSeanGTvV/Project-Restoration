@@ -26,11 +26,10 @@ public class ClassicMod extends Mod{
             ui.showOkText("@mod.classicwarning.title", "@mod.classicwarning.text", () -> {});
             Planet lastPlanet;
             //MenuBackground bg = solarSystem;
-            while (true) {
-                lastPlanet = content.getByName(ContentType.planet, Core.settings.getString("lastplanet", "serpulo"));
-                MenuBackground bg = (lastPlanet.name == Planets.erekir.name ? Erekir : lastPlanet.name == Planets.serpulo.name ? Serpulo : solarSystem);
-                Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(bg));
-            }
+            lastPlanet = content.getByName(ContentType.planet, Core.settings.getString("lastplanet", "serpulo"));
+            MenuBackground bg = (lastPlanet.name == Planets.erekir.name ? Erekir : lastPlanet.name == Planets.serpulo.name ? Serpulo : solarSystem);
+            Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(bg));
+            
             //show dialog upon startup
             //Time.runTask(10f, () -> {
             //    BaseDialog dialog = new BaseDialog("Welcome to V5 Java Edition!");
