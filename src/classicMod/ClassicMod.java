@@ -13,7 +13,7 @@ import mindustry.mod.Mods.*;
 import mindustry.type.*;
 import mindustry.ui.fragments.*;
 
-import static arc.Core.settings;
+import static arc.Core.*;
 import static classicMod.library.ui.menu.MenuUI.*;
 import static mindustry.Vars.*;
 //v5-java-mod is the current use
@@ -35,8 +35,8 @@ public class ClassicMod extends Mod{
             //MenuBackground bg = solarSystem;
             lastPlanet = content.getByName(ContentType.planet, settings.getString("lastplanet", "serpulo"));
             MenuBackground bg = (lastPlanet.name == Planets.erekir.name ? Erekir : lastPlanet.name == Planets.serpulo.name ? Serpulo : lastPlanet.name == Planets.tantros.name ? Tantros : solarSystem);
-            boolean usePlanetBG = settings.getBool("mod.restored-mind.use-planetmenu");
-            boolean uselastPlanet = settings.getBool("mod.restored-mind.use-lastplanet-bg");
+            boolean usePlanetBG = settings.getBool("@mod.restored-mind.use-planetmenu");
+            boolean uselastPlanet = settings.getBool("@mod.restored-mind.use-lastplanet-bg");
             if(bg != null && usePlanetBG){if(uselastPlanet){Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(bg));}else{Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(random));}}
 
             LoadedMod lastModVer = mods.locateMod("classicv5");
