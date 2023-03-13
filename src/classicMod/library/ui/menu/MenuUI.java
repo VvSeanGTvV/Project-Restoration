@@ -47,15 +47,20 @@ public class MenuUI {
         SortedPlanet = new SpaceMenuBackground() {{
             params = new PlanetParams() {{ //Support test for modded planets! +it's sorted into planets so ;)
                 Planet lastPlanet = content.getByName(ContentType.planet, settings.getString("lastplanet", "serpulo"));
-                Seq<Planet> visible = Vars.content.planets().copy().filter(p -> {
-                    return p.visible && p.accessible;
-                });
-                visible.forEach(c->{
-                    if(c.name==lastPlanet.name){
-                        planet = c;
-                        zoom = 0.6f;
-                    }
-                });
+                Seq<Planet> visible = Vars.content.planets().copy().filter(p -> p.visible && p.accessible);
+                if(lastPlanet != null) {
+                    visible.forEach(c -> {
+                        if (c.name == lastPlanet.name && lastPlanet != null) {
+                            planet = c;
+                            zoom = 0.6f;
+                        }
+                    });
+                }else{
+                    params = new PlanetParams() {{
+                        Seq<Planet> visible = Vars.content.planets().copy().filter(p -> p.visible);
+                        planet = visible.get(Mathf.floor((float) (Math.random() * visible.size)));
+                    }};
+                }
             }};
         }};
         solarSystem = new SpaceMenuBackground() {{

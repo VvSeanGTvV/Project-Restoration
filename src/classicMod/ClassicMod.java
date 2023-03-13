@@ -5,12 +5,9 @@ import arc.util.*;
 import classicMod.content.*;
 import classicMod.library.ui.*;
 import classicMod.library.ui.menu.*;
-import mindustry.content.*;
-import mindustry.ctype.*;
 import mindustry.game.EventType.*;
 import mindustry.mod.*;
 import mindustry.mod.Mods.*;
-import mindustry.type.*;
 import mindustry.ui.fragments.*;
 
 import static arc.Core.*;
@@ -32,10 +29,7 @@ public class ClassicMod extends Mod{
             ModVersion = mod.meta.minGameVersion;
             ui.showOkText("@mod.restored-mind.earlyaccess.title", "@mod.restored-mind.earlyaccess.text", () -> {
             });
-            Planet lastPlanet;
             //MenuBackground bg = solarSystem;
-            lastPlanet = content.getByName(ContentType.planet, settings.getString("lastplanet", "serpulo"));
-            MenuBackground bg = (lastPlanet.name == Planets.erekir.name ? Erekir : lastPlanet.name == Planets.serpulo.name ? Serpulo : lastPlanet.name == Planets.tantros.name ? Tantros : solarSystem);
             boolean usePlanetBG = settings.getBool("@mod.restored-mind.use-planetmenu");
             boolean uselastPlanet = settings.getBool("@mod.restored-mind.use-lastplanet-bg");
             if (usePlanetBG) {
