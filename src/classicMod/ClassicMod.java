@@ -13,27 +13,34 @@ import mindustry.mod.Mods.*;
 import mindustry.type.*;
 import mindustry.ui.fragments.*;
 
+import static arc.Core.settings;
 import static classicMod.library.ui.menu.MenuUI.*;
 import static mindustry.Vars.*;
 //v5-java-mod is the current use
 
 public class ClassicMod extends Mod{
+    private String ModVersion;
     public ClassicMod(){
         //Log.info("Loaded Classic constructor.");
         //listen for game load event
+
+
         Events.on(ClientLoadEvent.class, e -> {
+            loadSettings();
             Core.app.post(UIExtended::init);
             LoadedMod mod = mods.locateMod("restored-mind");
-            String Version = mod.meta.version;
-            ui.showOkText("@mod.classicwarning.title", "@mod.classicwarning.text", () -> {});
+            ModVersion = mod.meta.version;
+            ui.showOkText("@mod.restored-mind.classicwarning.title", "@mod.restored-mind.classicwarning.text", () -> {});
             Planet lastPlanet;
             //MenuBackground bg = solarSystem;
-            lastPlanet = content.getByName(ContentType.planet, Core.settings.getString("lastplanet", "serpulo"));
+            lastPlanet = content.getByName(ContentType.planet, settings.getString("lastplanet", "serpulo"));
             MenuBackground bg = (lastPlanet.name == Planets.erekir.name ? Erekir : lastPlanet.name == Planets.serpulo.name ? Serpulo : lastPlanet.name == Planets.tantros.name ? Tantros : solarSystem);
-            Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(bg));
+            boolean usePlanetBG = settings.getBool("mod.restored-mind.use-planetmenu");
+            boolean uselastPlanet = settings.getBool("mod.restored-mind.use-lastplanet-bg");
+            if(bg != null && usePlanetBG){if(uselastPlanet){Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(bg));}else{Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(random));}}
 
             LoadedMod lastModVer = mods.locateMod("classicv5");
-            if(lastModVer != null){ui.showCustomConfirm("@mod.conflictwarning.title", "@mod.conflictwarning.text", "@yes", "@no", ()->{lastModVer.meta.hidden = true;},()->{});}
+            if(lastModVer != null){ui.showCustomConfirm("@mod.restored-mind.conflictwarning.title", "@mod.restored-mind.conflictwarning.text", "@yes", "@no", ()->{lastModVer.meta.hidden = true;},()->{});}
 
             //show dialog upon startup
             //Time.runTask(10f, () -> {
@@ -53,6 +60,16 @@ public class ClassicMod extends Mod{
     @Override
     public void init() {
         MenuUI.load();
+    }
+
+    private void loadSettings() {
+        ui.settings.addCategory("setting.restored-mind", "restored-mind-icon", t -> {
+            t.checkPref("mod.restored-mind.use-planetmenu", true);
+            t.checkPref("mod.restored-mind.use-lastplanet-bg", true);
+            //t.checkPref("fos-realisticmode", false);
+            //t.checkPref("fos-damagedisplay", true);
+            t.textPref("Modmetathingy","This mod's current version:"+ModVersion);
+        });
     }
 
     @Override
