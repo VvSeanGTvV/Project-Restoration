@@ -5,9 +5,12 @@ import arc.util.*;
 import classicMod.content.*;
 import classicMod.library.ui.*;
 import classicMod.library.ui.menu.*;
+import mindustry.content.*;
+import mindustry.ctype.*;
 import mindustry.game.EventType.*;
 import mindustry.mod.*;
 import mindustry.mod.Mods.*;
+import mindustry.type.*;
 import mindustry.ui.fragments.*;
 
 import static classicMod.library.ui.menu.MenuUI.*;
@@ -20,7 +23,6 @@ public class ClassicMod extends Mod{
         //listen for game load event
         Events.on(ClientLoadEvent.class, e -> {
             Core.app.post(UIExtended::init);
-            Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(solarSystem));
             ui.showOkText("@mod.classicwarning.title", "@mod.classicwarning.text", () -> {});
             //show dialog upon startup
             //Time.runTask(10f, () -> {
@@ -37,7 +39,18 @@ public class ClassicMod extends Mod{
         if(lastModVer != null){ui.showCustomConfirm("@mod.conflictwarning.title", "@mod.conflictwarning.text", "@mods.browser.remove", "@no", ()->{},()->{});}
 
         //MenuBackground bg = (tn == 2 ? Erekir : tn == 3 ? Serpulo : tn == 4 ? random : tn == 5 ? solarSystem : null);
-        
+        LoadedMod mod = mods.locateMod("restored-mind");
+        if(mod != null){
+            Events.on(ClientLoadEvent.class, e -> {
+                Planet lastPlanet;
+                //MenuBackground bg = solarSystem;
+                while (true) {
+                        lastPlanet = content.getByName(ContentType.planet, Core.settings.getString("lastplanet", "serpulo"));
+                        MenuBackground bg = (lastPlanet.name == Planets.erekir.name ? Erekir : lastPlanet.name == Planets.serpulo.name ? Serpulo : solarSystem);
+                        Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(bg));
+                }
+            });
+        }
     }
     
     @Override
