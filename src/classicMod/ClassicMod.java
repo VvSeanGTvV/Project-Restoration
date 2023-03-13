@@ -30,23 +30,35 @@ public class ClassicMod extends Mod{
             Core.app.post(UIExtended::init);
             LoadedMod mod = mods.locateMod("restored-mind");
             ModVersion = mod.meta.minGameVersion;
-            ui.showOkText("@mod.restored-mind.earlyaccess.title", "@mod.restored-mind.earlyaccess.text", () -> {});
+            ui.showOkText("@mod.restored-mind.earlyaccess.title", "@mod.restored-mind.earlyaccess.text", () -> {
+            });
             Planet lastPlanet;
             //MenuBackground bg = solarSystem;
             lastPlanet = content.getByName(ContentType.planet, settings.getString("lastplanet", "serpulo"));
             MenuBackground bg = (lastPlanet.name == Planets.erekir.name ? Erekir : lastPlanet.name == Planets.serpulo.name ? Serpulo : lastPlanet.name == Planets.tantros.name ? Tantros : solarSystem);
             boolean usePlanetBG = settings.getBool("@mod.restored-mind.use-planetmenu");
             boolean uselastPlanet = settings.getBool("@mod.restored-mind.use-lastplanet-bg");
-            if(bg != null && usePlanetBG){if(uselastPlanet){Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(SortedPlanet));}else{Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(random));}}
+            if (usePlanetBG) {
+                if (uselastPlanet) {
+                    Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(SortedPlanet));
+                } else {
+                    Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(random));
+                }
+            }
 
             LoadedMod lastModVer = mods.locateMod("classicv5");
-            if(lastModVer != null){ui.showCustomConfirm("@mod.restored-mind.conflictwarning.title", "@mod.restored-mind.conflictwarning.text", "@yes", "@no", ()->{lastModVer.meta.hidden = true;},()->{});}
+            if (lastModVer != null) {
+                ui.showCustomConfirm("@mod.restored-mind.conflictwarning.title", "@mod.restored-mind.conflictwarning.text", "@yes", "@no", () -> {
+                    lastModVer.meta.hidden = true;
+                }, () -> {
+                });
+            }
 
             //show dialog upon startup
             //Time.runTask(10f, () -> {
             //    BaseDialog dialog = new BaseDialog("Welcome to V5 Java Edition!");
-                //dialog.cont.add("behold").row();
-                //mod sprites are prefixed with the mod name (this mod is called 'example-java-mod' in its config)
+            //dialog.cont.add("behold").row();
+            //mod sprites are prefixed with the mod name (this mod is called 'example-java-mod' in its config)
             //    dialog.cont.image(Core.atlas.find("projectv5-mod-logoMod")).pad(20f).row();
             //    dialog.cont.add("Welcome to Beta of V5 Java Edition! Currently this is not fully finished or fully ported over!").row();
             //    dialog.cont.button("Continue", dialog::hide).size(130f, 50f);
