@@ -42,7 +42,13 @@ public class SpaceMenuBackground extends MenuBackground {
         menuParams.camPos.rotate(Vec3.Y, 0.05f);
         if (lastPlanet != content.getByName(ContentType.planet, Core.settings.getString("lastplanet", "serpulo"))){
             lastPlanet = content.getByName(ContentType.planet, Core.settings.getString("lastplanet", "serpulo"));
-            MenuBackground bg = (lastPlanet == Planets.erekir ? Erekir : lastPlanet == Planets.serpulo ? Serpulo : solarSystem);
+            MenuBackground bg = solarSystem;
+            if(lastPlanet.name == Planets.erekir.name){
+                bg = Erekir;
+            } else if (lastPlanet.name == Planets.serpulo.name) {
+                bg = Serpulo;
+            }
+            //MenuBackground bg = (lastPlanet.name == Planets.erekir.name ? Erekir : lastPlanet.name == Planets.serpulo.name ? Serpulo : solarSystem);
             Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(bg));
         }
 
