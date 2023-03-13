@@ -15,13 +15,15 @@ public class MenuUI {
         Erekir = new SpaceMenuBackground() {{
             params = new PlanetParams() {{
                 planet = Planets.erekir;
-                zoom = 1.2f;
+
+                //zoom = 1.2f;
             }};
         }};
         Serpulo = new SpaceMenuBackground() {{
             params = new PlanetParams() {{
                 planet = Planets.serpulo;
-                zoom = 0.7f;
+                //camPos = new Vec3(0, 0, 0);
+                //zoom = 0.7f;
             }};
         }};
         random = new SpaceMenuBackground() {{
@@ -33,8 +35,8 @@ public class MenuUI {
         solarSystem = new SpaceMenuBackground() {{
             params = new PlanetParams() {{
                 planet = Planets.sun;
-                camPos = new Vec3(0.01, 1, 0);
-                zoom = 12f;
+                camPos = new Vec3(0, 0.5, 0);
+                //zoom = 12f;
             }};
         }};
     }
