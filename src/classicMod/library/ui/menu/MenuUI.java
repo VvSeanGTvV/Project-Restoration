@@ -15,6 +15,7 @@ import static mindustry.Vars.content;
 public class MenuUI {
     public static MenuBackground Tantros, Erekir, Serpulo, random, solarSystem, SortedPlanet;
 
+    Planet lastPlanet = content.getByName(ContentType.planet, settings.getString("lastplanet", "serpulo"));
     public static void load() {
         Erekir = new SpaceMenuBackground() {{
             params = new PlanetParams() {{
@@ -46,7 +47,6 @@ public class MenuUI {
 
         SortedPlanet = new SpaceMenuBackground() {{
             params = new PlanetParams() {{ //Support test for modded planets! +it's sorted into planets so ;)
-                Planet lastPlanet = content.getByName(ContentType.planet, settings.getString("lastplanet", "serpulo"));
                 Seq<Planet> visible = Vars.content.planets().copy().filter(p -> p.visible && p.accessible);
                 if(lastPlanet != null) {
                     visible.forEach(c -> {
