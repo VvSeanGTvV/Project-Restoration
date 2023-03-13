@@ -29,7 +29,7 @@ public class ClassicMod extends Mod{
             loadSettings();
             Core.app.post(UIExtended::init);
             LoadedMod mod = mods.locateMod("restored-mind");
-            ModVersion = mod.m;
+            ModVersion = mod.meta.minGameVersion;
             ui.showOkText("@mod.restored-mind.earlyaccess.title", "@mod.restored-mind.earlyaccess.text", () -> {});
             Planet lastPlanet;
             //MenuBackground bg = solarSystem;
