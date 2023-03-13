@@ -47,10 +47,10 @@ public class MenuUI {
 
         SortedPlanet = new SpaceMenuBackground() {{
             params = new PlanetParams() {{ //Support test for modded planets! +it's sorted into planets so ;)
-                Seq<Planet> visible = Vars.content.planets().copy().filter(p -> p.visible && p.accessible);
+                Seq<Planet> visible = Vars.content.planets().copy().filter(p -> p.visible);
                 if(lastPlanet != null) {
                     visible.forEach(c -> {
-                        if (c.name == lastPlanet.name && lastPlanet != null) {
+                        if (c.name == lastPlanet.name) {
                             planet = c;
                             zoom = 0.6f;
                         }
