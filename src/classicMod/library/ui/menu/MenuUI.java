@@ -15,7 +15,7 @@ import static mindustry.Vars.content;
 public class MenuUI {
     public static MenuBackground Tantros, Erekir, Serpulo, random, solarSystem, SortedPlanet;
 
-    Planet lastPlanet = content.getByName(ContentType.planet, settings.getString("lastplanet", "serpulo"));
+    public static Planet lastPlanet = content.getByName(ContentType.planet, settings.getString("lastplanet", "serpulo"));
     public static void load() {
         Erekir = new SpaceMenuBackground() {{
             params = new PlanetParams() {{
