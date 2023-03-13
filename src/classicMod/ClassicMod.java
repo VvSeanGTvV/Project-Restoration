@@ -24,6 +24,13 @@ public class ClassicMod extends Mod{
         Events.on(ClientLoadEvent.class, e -> {
             Core.app.post(UIExtended::init);
             ui.showOkText("@mod.classicwarning.title", "@mod.classicwarning.text", () -> {});
+            Planet lastPlanet;
+            //MenuBackground bg = solarSystem;
+            while (true) {
+                lastPlanet = content.getByName(ContentType.planet, Core.settings.getString("lastplanet", "serpulo"));
+                MenuBackground bg = (lastPlanet.name == Planets.erekir.name ? Erekir : lastPlanet.name == Planets.serpulo.name ? Serpulo : solarSystem);
+                Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(bg));
+            }
             //show dialog upon startup
             //Time.runTask(10f, () -> {
             //    BaseDialog dialog = new BaseDialog("Welcome to V5 Java Edition!");
@@ -39,18 +46,6 @@ public class ClassicMod extends Mod{
         if(lastModVer != null){ui.showCustomConfirm("@mod.conflictwarning.title", "@mod.conflictwarning.text", "@mods.browser.remove", "@no", ()->{},()->{});}
 
         //MenuBackground bg = (tn == 2 ? Erekir : tn == 3 ? Serpulo : tn == 4 ? random : tn == 5 ? solarSystem : null);
-        LoadedMod mod = mods.locateMod("restored-mind");
-        if(mod != null){
-            Events.on(ClientLoadEvent.class, e -> {
-                Planet lastPlanet;
-                //MenuBackground bg = solarSystem;
-                while (true) {
-                        lastPlanet = content.getByName(ContentType.planet, Core.settings.getString("lastplanet", "serpulo"));
-                        MenuBackground bg = (lastPlanet.name == Planets.erekir.name ? Erekir : lastPlanet.name == Planets.serpulo.name ? Serpulo : solarSystem);
-                        Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(bg));
-                }
-            });
-        }
     }
     
     @Override
