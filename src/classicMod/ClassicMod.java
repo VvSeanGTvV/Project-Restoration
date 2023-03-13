@@ -29,7 +29,10 @@ public class ClassicMod extends Mod{
             lastPlanet = content.getByName(ContentType.planet, Core.settings.getString("lastplanet", "serpulo"));
             MenuBackground bg = (lastPlanet.name == Planets.erekir.name ? Erekir : lastPlanet.name == Planets.serpulo.name ? Serpulo : solarSystem);
             Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(bg));
-            
+
+            LoadedMod lastModVer = mods.locateMod("classicv5");
+            if(lastModVer != null){ui.showCustomConfirm("@mod.conflictwarning.title", "@mod.conflictwarning.text", "@mods.browser.remove", "@no", ()->{},()->{});}
+
             //show dialog upon startup
             //Time.runTask(10f, () -> {
             //    BaseDialog dialog = new BaseDialog("Welcome to V5 Java Edition!");
@@ -41,8 +44,6 @@ public class ClassicMod extends Mod{
             //    dialog.show();
             //});
         });
-        LoadedMod lastModVer = mods.locateMod("classicv5");
-        if(lastModVer != null){ui.showCustomConfirm("@mod.conflictwarning.title", "@mod.conflictwarning.text", "@mods.browser.remove", "@no", ()->{},()->{});}
 
         //MenuBackground bg = (tn == 2 ? Erekir : tn == 3 ? Serpulo : tn == 4 ? random : tn == 5 ? solarSystem : null);
     }
