@@ -30,8 +30,8 @@ public class ClassicMod extends Mod{
             ui.showOkText("@mod.restored-mind.earlyaccess.title", "@mod.restored-mind.earlyaccess.text", () -> {
             });
             //MenuBackground bg = solarSystem;
-            boolean usePlanetBG = settings.getBool("@mod.restored-mind.use-planetmenu");
-            boolean uselastPlanet = settings.getBool("@mod.restored-mind.use-lastplanet-bg");
+            boolean usePlanetBG = settings.getBool("use-planetmenu");
+            boolean uselastPlanet = settings.getBool("use-lastplanet-bg");
             if (usePlanetBG) {
                 if (uselastPlanet) {
                     Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(SortedPlanet));
@@ -42,10 +42,7 @@ public class ClassicMod extends Mod{
 
             LoadedMod lastModVer = mods.locateMod("classicv5");
             if (lastModVer != null) {
-                ui.showCustomConfirm("@mod.restored-mind.conflictwarning.title", "@mod.restored-mind.conflictwarning.text", "@yes", "@no", () -> {
-                    lastModVer.meta.hidden = true;
-                }, () -> {
-                });
+                Log.err("Incompatible with classicv5 hjson mod and conflicts with this mod!");
             }
 
             //show dialog upon startup
@@ -69,12 +66,12 @@ public class ClassicMod extends Mod{
     }
 
     private void loadSettings() {
-        ui.settings.addCategory("@setting.restored-mind", "restored-mind-icon", t -> {
-            t.checkPref("@mod.restored-mind.use-planetmenu", true);
-            t.checkPref("@mod.restored-mind.use-lastplanet-bg", true);
+        ui.settings.addCategory("@setting.restored-mind", "icon", t -> {
+            t.checkPref("use-planetmenu", true);
+            t.checkPref("use-lastplanet-bg", true);
             //t.checkPref("fos-realisticmode", false);
             //t.checkPref("fos-damagedisplay", true);
-            t.textPref("Modmetathingy","This mod's current version:"+ModVersion);
+            t.areaTextPref("Modmetathingy","This mod's current version:"+ModVersion);
         });
     }
 
