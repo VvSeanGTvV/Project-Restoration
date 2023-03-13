@@ -29,8 +29,8 @@ public class ClassicMod extends Mod{
             loadSettings();
             Core.app.post(UIExtended::init);
             LoadedMod mod = mods.locateMod("restored-mind");
-            ModVersion = mod.meta.version;
-            ui.showOkText("@mod.restored-mind.classicwarning.title", "@mod.restored-mind.classicwarning.text", () -> {});
+            ModVersion = mod.m;
+            ui.showOkText("@mod.restored-mind.earlyaccess.title", "@mod.restored-mind.earlyaccess.text", () -> {});
             Planet lastPlanet;
             //MenuBackground bg = solarSystem;
             lastPlanet = content.getByName(ContentType.planet, settings.getString("lastplanet", "serpulo"));
@@ -63,9 +63,9 @@ public class ClassicMod extends Mod{
     }
 
     private void loadSettings() {
-        ui.settings.addCategory("setting.restored-mind", "restored-mind-icon", t -> {
-            t.checkPref("mod.restored-mind.use-planetmenu", true);
-            t.checkPref("mod.restored-mind.use-lastplanet-bg", true);
+        ui.settings.addCategory("@setting.restored-mind", "restored-mind-icon", t -> {
+            t.checkPref("@mod.restored-mind.use-planetmenu", true);
+            t.checkPref("@mod.restored-mind.use-lastplanet-bg", true);
             //t.checkPref("fos-realisticmode", false);
             //t.checkPref("fos-damagedisplay", true);
             t.textPref("Modmetathingy","This mod's current version:"+ModVersion);
