@@ -69,9 +69,7 @@ public class ClassicMod extends Mod{
         ui.settings.addCategory("@setting.restored-mind", "icon", t -> {
             t.checkPref("use-planetmenu", true);
             t.checkPref("use-lastplanet-bg", false);
-            //t.checkPref("fos-realisticmode", false);
-            //t.checkPref("fos-damagedisplay", true);
-            t.areaTextPref("Modmetathingy","This mod's current version:"+ModVersion);
+            t.areaTextPref("Hi","Mod Settings Preferences: HI");
         });
     }
 
