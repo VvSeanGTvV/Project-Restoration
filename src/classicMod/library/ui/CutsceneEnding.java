@@ -1,11 +1,11 @@
 package classicMod.library.ui;
 
 import arc.util.*;
+import classicMod.library.ui.frag.*;
 import classicMod.library.ui.menu.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.dialogs.*;
-import mindustry.ui.fragments.*;
 
 import java.io.*;
 
@@ -65,7 +65,8 @@ public class CutsceneEnding extends BaseDialog {
             this.hide();
             ui.campaignComplete.show(planet);
         }*/
-        Reflect.set(HudFragment.class, ui.hudfrag, "renderer", new MainMenuRenderer(SortedPlanet));
+        Reflect.set(CutsceneEndingFrag.class, UIExtended.cutsceneEndingfrag, "renderer", new MainMenuRenderer(SortedPlanet));
+
 
         //videoDemo.create();
         //videoDemo.render();
