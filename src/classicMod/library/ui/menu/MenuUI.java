@@ -49,12 +49,12 @@ public class MenuUI {
             params = new PlanetParams() {{ //Support test for modded planets! +it's sorted into planets so ;)
                 Seq<Planet> visible = Vars.content.planets().copy().filter(p -> p.visible);
                 if(lastPlanet != null) {
-                    visible.forEach(c -> {
+                    for (var c : visible) {
                         if (c.name == lastPlanet.name) {
                             planet = c;
                             zoom = 0.6f;
                         }
-                    });
+                    }
                 }else{
                     params = new PlanetParams() {{
                         Seq<Planet> visible = Vars.content.planets().copy().filter(p -> p.visible);
