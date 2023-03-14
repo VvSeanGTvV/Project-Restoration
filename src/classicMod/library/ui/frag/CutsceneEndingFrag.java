@@ -20,7 +20,7 @@ public class CutsceneEndingFrag extends MenuFragment {
 
         parent = group;
 
-        parent.setZIndex(999);
+        parent.setZIndex(50);
         parent.fill((x, y, w, h) -> renderer.render());
     }
 }
