@@ -65,7 +65,7 @@ public class CutsceneEnding extends BaseDialog {
             this.hide();
             ui.campaignComplete.show(planet);
         }*/
-        Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(SortedPlanet));
+        Reflect.set(HudFragment.class, ui.hudfrag, "renderer", new MainMenuRenderer(SortedPlanet));
 
         //videoDemo.create();
         //videoDemo.render();
