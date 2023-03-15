@@ -512,10 +512,11 @@ public class ClassicBlocks {
                             heatColor = heatc;
                             mirror = false;
                             PartProgress.recoil.curve(in);
+                            mirror = false;
                         }},
                         new RegionPart("-side"){{
                             moveY = -1f;
-                            rotation = -40f;
+                            moveRot = -40f;
                             moveX = 2f;
                             //useReload = false;
                             under = true;
@@ -523,6 +524,7 @@ public class ClassicBlocks {
                             //useProgressHeat = true;
                             PartProgress.heat.blend(PartProgress.warmup, 1f);
                             PartProgress.recoil.curve(Interp.pow2Out);
+                            mirror = true;
                         }}
                 );
             }};
