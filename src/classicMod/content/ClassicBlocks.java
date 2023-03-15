@@ -494,15 +494,15 @@ public class ClassicBlocks {
             );
 
             targetAir = false;
-            shootShake = 4f;
-            recoilAmount = 1f;
-            reloadTime = 60f * 2f;
+            shake = 4f;
+            recoil = 1f;
+            reload = 60f * 2f;
             shootLength = 7f;
             rotateSpeed = 2.5f;
 
-            acceptCoolant = false;
+            //acceptCoolant = false;
 
-            draw = new DrawTurret("reinforced-"){{
+            drawer = new DrawTurret("reinforced-"){{
                 Color heatc = Color.valueOf("f03b0e");
                 Interp in = Interp.pow2In;
 
@@ -511,17 +511,18 @@ public class ClassicBlocks {
                             moveY = -5f;
                             heatColor = heatc;
                             mirror = false;
-                            interp = in;
+                            //interp = in;
                         }},
                         new RegionPart("-side"){{
                             moveY = -1f;
-                            rotMove = -40f;
+                            rotation = -40f;
                             moveX = 2f;
-                            useReload = false;
+                            //useReload = false;
                             under = true;
                             heatColor = Pal.berylShot.cpy().mul(1.1f);
-                            useProgressHeat = true;
-                            interp = Interp.pow2Out;
+                            //useProgressHeat = true;
+                            PartProgress.heat.blend(PartProgress.warmup, 1f);
+                            //interp = Interp.pow2Out;
                         }}
                 );
             }};
@@ -531,7 +532,7 @@ public class ClassicBlocks {
 
             outlineColor = Pal.darkOutline;
 
-            consumes.liquids(LiquidStack.with(Liquids.hydrogen, 1f / 60f));
+            consumeLiquids(LiquidStack.with(Liquids.hydrogen, 1f / 60f));
 
             range = 360f;
             size = 3;
