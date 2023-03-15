@@ -452,7 +452,7 @@ public class ClassicBlocks {
             }
         };
 
-        titanold = new ItemTurretV6("titan"){{
+        titanold = new ItemTurretV6("titan-old"){{
             //TODO requirements
             requirements(Category.turret, with(Items.carbide, 120, Items.surgeAlloy, 80, Items.silicon, 80, Items.beryllium, 120));
 
@@ -511,7 +511,7 @@ public class ClassicBlocks {
                             moveY = -5f;
                             heatColor = heatc;
                             mirror = false;
-                            //interp = in;
+                            PartProgress.recoil.curve(in);
                         }},
                         new RegionPart("-side"){{
                             moveY = -1f;
@@ -522,7 +522,7 @@ public class ClassicBlocks {
                             heatColor = Pal.berylShot.cpy().mul(1.1f);
                             //useProgressHeat = true;
                             PartProgress.heat.blend(PartProgress.warmup, 1f);
-                            //interp = Interp.pow2Out;
+                            PartProgress.recoil.curve(Interp.pow2Out);
                         }}
                 );
             }};
