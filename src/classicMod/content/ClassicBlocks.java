@@ -38,7 +38,7 @@ public class ClassicBlocks {
 
     droneCenter,
 
-    fracture, horde, //Turrets - Erekir - Prototype [v7-dev]
+    fracture, horde, titanold, //Turrets - Erekir - Prototype [v7-dev]
     shieldProjector, shieldBreaker, largeShieldProjector, //Shield - Erekir - Prototype [v7-dev]
 
     interplanetaryAccelerator //Endgame - Mindustry
@@ -451,6 +451,91 @@ public class ClassicBlocks {
                 rotateSpeed = 3f;
             }
         };
+
+        titanold = new ItemTurretV6("titan"){{
+            //TODO requirements
+            requirements(Category.turret, with(Items.carbide, 120, Items.surgeAlloy, 80, Items.silicon, 80, Items.beryllium, 120));
+
+            ammo(
+                    //TODO ammo types to be defined later
+                    Items.fissileMatter, new ArtilleryBulletType(2f, 40, "shell"){{
+                        //TODO FX; smoke, shockwave, not green bomb
+                        hitEffect = new MultiEffect(Fx.titanExplosion, Fx.titanSmoke);
+                        despawnEffect = Fx.none;
+                        knockback = 1.5f;
+                        lifetime = 140f;
+                        height = 16f;
+                        width = 14.2f;
+                        ammoMultiplier = 4f;
+                        splashDamageRadius = 60f;
+                        splashDamage = 100f;
+                        backColor = hitColor = trailColor = Pal.berylShot;
+                        frontColor = Color.valueOf("f0ffde");
+
+                        status = StatusEffects.blasted;
+
+                        trailLength = 32;
+                        trailWidth = 2.64f;
+                        trailSinScl = 2.5f;
+                        trailSinMag = 1f;
+                        trailEffect = Fx.none;
+                        trailColor = backColor;
+                        despawnShake = 7f;
+
+                        //TODO better shoot
+                        shootEffect = Fx.shootTitan;
+                        smokeEffect = Fx.shootSmokeTitan;
+
+                        //does the trail need to shrink?
+                        trailInterp = v -> Math.max(Mathf.slope(v), 0.8f);
+                        shrinkX = 0.2f;
+                        shrinkY = 0.1f;
+                    }}
+            );
+
+            targetAir = false;
+            shootShake = 4f;
+            recoilAmount = 1f;
+            reloadTime = 60f * 2f;
+            shootLength = 7f;
+            rotateSpeed = 2.5f;
+
+            acceptCoolant = false;
+
+            draw = new DrawTurret("reinforced-"){{
+                Color heatc = Color.valueOf("f03b0e");
+                Interp in = Interp.pow2In;
+
+                parts.addAll(
+                        new RegionPart("-barrel"){{
+                            moveY = -5f;
+                            heatColor = heatc;
+                            mirror = false;
+                            interp = in;
+                        }},
+                        new RegionPart("-side"){{
+                            moveY = -1f;
+                            rotMove = -40f;
+                            moveX = 2f;
+                            useReload = false;
+                            under = true;
+                            heatColor = Pal.berylShot.cpy().mul(1.1f);
+                            useProgressHeat = true;
+                            interp = Interp.pow2Out;
+                        }}
+                );
+            }};
+
+            restitution = 0.02f;
+            shootWarmupSpeed = 0.08f;
+
+            outlineColor = Pal.darkOutline;
+
+            consumes.liquids(LiquidStack.with(Liquids.hydrogen, 1f / 60f));
+
+            range = 360f;
+            size = 3;
+        }};
 
         /*ravage = new ItemTurret("ravage"){{
             requirements(Category.turret, with(Items.beryllium, 150, Items.silicon, 150, Items.carbide, 250, Items.phaseFabric, 100));
