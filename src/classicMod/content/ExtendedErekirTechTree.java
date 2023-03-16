@@ -17,12 +17,13 @@ public class ExtendedErekirTechTree {
 
     public static void load() {
         margeNode(breach, () -> {
-            node(fracture, () -> {});
             node(ClassicBlocks.barrierProjector, () -> {
-                node(ClassicBlocks.shieldProjector, () -> {
-                    node(ClassicBlocks.largeShieldProjector, () -> {});
+                /*
+                node(ClassicBlocks.shieldProjector, () -> { //TODO remove thus because it feels like a pvp thing
+                    //node(ClassicBlocks.largeShieldProjector, () -> {});
                 });
-                node(ClassicBlocks.shieldBreaker, Seq.with(new Objectives.Research(ClassicBlocks.shieldProjector)), () -> {});
+                */
+                node(ClassicBlocks.shieldBreaker, Seq.with(new OnSector(intersect)), () -> {});
             });
         });
 
@@ -33,7 +34,7 @@ public class ExtendedErekirTechTree {
         });
 
         margeNode(afflict, () -> {
-            node(titanold,Seq.with(new Objectives.Research(ClassicBlocks.heatReactor)), () -> {});
+            node(titanold,Seq.with(new Objectives.Research(ClassicBlocks.heatReactor), new Produce(fissileMatter)), () -> {});
         });
 
         margeNode(electricHeater, () -> {
@@ -41,7 +42,7 @@ public class ExtendedErekirTechTree {
         });
 
         margeNode(oxidationChamber, () -> {
-            node(ClassicBlocks.slagCentrifuge,Seq.with(new Objectives.OnSector(crevice), new Produce(carbide)), () -> {});
+            node(ClassicBlocks.slagCentrifuge,Seq.with(new Objectives.OnSector(crevice)), () -> {});
         });
     }
 

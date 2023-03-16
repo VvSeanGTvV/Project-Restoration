@@ -383,7 +383,7 @@ public class ClassicBlocks {
             requirements(Category.turret, with(Items.tungsten, 35, Items.silicon, 35));
             ammo(
                     Items.scrap, new MissileBulletType(4.2f, 15){{
-                        //velocityInaccuracy = 0.2f;
+                        inaccuracy = 0.2f;
                         shootEffect = Fx.colorSpark;
                         smokeEffect = Fx.shootBigSmoke;
                         ammoMultiplier = 1;
