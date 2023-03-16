@@ -344,7 +344,7 @@ public class ClassicBlocks {
         //--- Converter Region End---
 
         slagCentrifuge = new GenericCrafter("slag-centrifuge"){{
-            requirements(Category.crafting, with(Items.tungsten, 60, Items.graphite, 60, Items.oxide, 40));
+            requirements(Category.crafting, with(Items.carbide, 70, Items.graphite, 60, Items.silicon, 40, Items.oxide, 40));
 
             consumePower(2f / 60f);
 
@@ -365,12 +365,12 @@ public class ClassicBlocks {
                 }});
             }
 
-            //drawer = new DrawMulti(drawers.ad(new DrawBlock()));
+            drawer = new DrawMulti(drawers.add(new DrawDefault()));
             //icons() = new String[]{"-bottom", ""};
 
             craftTime = 60f * 2f;
 
-            outputLiquid = new LiquidStack(Liquids.gallium, 2f);
+            outputLiquid = new LiquidStack(Liquids.gallium, 2f/60f);
             outputItem = new ItemStack(Items.scrap, 1);
         }};
 

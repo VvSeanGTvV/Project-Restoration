@@ -4,10 +4,13 @@ import arc.struct.*;
 import mindustry.content.*;
 import mindustry.ctype.*;
 import mindustry.game.*;
+import mindustry.game.Objectives.*;
 import mindustry.type.*;
 
 import static classicMod.content.ClassicBlocks.*;
 import static mindustry.content.Blocks.*;
+import static mindustry.content.Items.*;
+import static mindustry.content.SectorPresets.*;
 
 public class ExtendedErekirTechTree {
     static TechTree.TechNode context = null;
@@ -15,7 +18,7 @@ public class ExtendedErekirTechTree {
     public static void load() {
         margeNode(breach, () -> {
             node(fracture, () -> {});
-            node(ClassicBlocks.barrierProjector, Seq.with(new Objectives.Research(shieldedWall)), () -> {
+            node(ClassicBlocks.barrierProjector, () -> {
                 node(ClassicBlocks.shieldProjector, () -> {
                     node(ClassicBlocks.largeShieldProjector, () -> {});
                 });
@@ -24,19 +27,21 @@ public class ExtendedErekirTechTree {
         });
 
         margeNode(diffuse, () -> {
-            node(horde,Seq.with(new Objectives.Research(ClassicBlocks.slagCentrifuge)), () -> {});
+            node(fracture, Seq.with(new Objectives.OnSector(aegis)), () -> {
+                node(horde,Seq.with(new Objectives.Research(ClassicBlocks.slagCentrifuge)), () -> {});
+            });
         });
 
         margeNode(afflict, () -> {
             node(titanold,Seq.with(new Objectives.Research(ClassicBlocks.heatReactor)), () -> {});
         });
 
-        margeNode(heatRedirector, () -> {
-            node(ClassicBlocks.heatReactor);
+        margeNode(electricHeater, () -> {
+            node(ClassicBlocks.heatReactor,Seq.with(new Objectives.OnSector(stronghold), new Produce(thorium)), () -> {});
         });
 
         margeNode(oxidationChamber, () -> {
-            node(ClassicBlocks.slagCentrifuge);
+            node(ClassicBlocks.slagCentrifuge,Seq.with(new Objectives.OnSector(crevice), new Produce(carbide)), () -> {});
         });
     }
 
