@@ -17,19 +17,20 @@ public class ExtendedErekirTechTree {
 
     public static void load() {
         margeNode(breach, () -> {
-            node(ClassicBlocks.barrierProjector, () -> {
-                /*
-                node(ClassicBlocks.shieldProjector, () -> { //TODO remove thus because it feels like a pvp thing
-                    //node(ClassicBlocks.largeShieldProjector, () -> {});
+            node(ClassicBlocks.shieldBreaker, Seq.with(new OnSector(intersect)), () -> {
+                node(ClassicBlocks.barrierProjector,Seq.with(new Objectives.Research(surgeCrucible), new Produce(scrap)), () -> {
+                    /*
+                    node(ClassicBlocks.shieldProjector, () -> { //TODO remove thus because it feels like a pvp thing
+                        //node(ClassicBlocks.largeShieldProjector, () -> {});
+                    });
+                    */
                 });
-                */
-                node(ClassicBlocks.shieldBreaker, Seq.with(new OnSector(intersect)), () -> {});
             });
         });
 
         margeNode(diffuse, () -> {
             node(fracture, Seq.with(new Objectives.OnSector(aegis)), () -> {
-                node(horde,Seq.with(new Objectives.Research(ClassicBlocks.slagCentrifuge)), () -> {});
+                node(horde,Seq.with(new Objectives.Research(ClassicBlocks.slagCentrifuge), new Produce(scrap)), () -> {});
             });
         });
 
@@ -42,7 +43,7 @@ public class ExtendedErekirTechTree {
         });
 
         margeNode(slagIncinerator, () -> {
-            node(ClassicBlocks.slagCentrifuge,Seq.with(new Objectives.OnSector(crevice), new Produce(oxide)), () -> {});
+            node(ClassicBlocks.slagCentrifuge,Seq.with(new Objectives.OnSector(crevice), new Produce(oxide), new Produce(carbide)), () -> {});
         });
     }
 

@@ -40,8 +40,8 @@ public class ShieldBreaker extends Block{
                     effect.at(this);
                     for(var other : Vars.state.teams.active){
                         if(team != other.team){
-                            for(var blockC : toDestroy){
-                                other.getBuildings(blockC).copy().each(b -> {
+                            for(var block : toDestroy){
+                                other.getBuildings(block).copy().each(b -> {
                                     breakEffect.at(b);
                                     b.kill();
                                 });
