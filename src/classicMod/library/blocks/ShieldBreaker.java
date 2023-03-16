@@ -1,7 +1,6 @@
 package classicMod.library.blocks;
 
 import arc.*;
-import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import mindustry.*;
@@ -33,7 +32,7 @@ public class ShieldBreaker extends Block{
         public Class<? extends Block> BlockClassIndication;
         @Override
         public void updateTile(){
-            if(toDestroy != null){
+            /*if(toDestroy != null){
                 for(var other : Vars.state.teams.active){
                     if(team != other.team){
                         for(var blockC : toDestroy){
@@ -52,12 +51,12 @@ public class ShieldBreaker extends Block{
                 }
             }else{
                 NoBlock = true;
-            }
+            }*/
             if(Mathf.equal(efficiency, 1f)){
                 if(toDestroy != null){
                     effect.at(this);
                     for(var other : Vars.state.teams.active){
-                        if(team != other.team && !NoBlock){
+                        if(team != other.team){
                             for(var blockC : toDestroy){
                                 other.getBuildings(blockC).copy().each(b -> {
                                     breakEffect.at(b);
@@ -79,11 +78,12 @@ public class ShieldBreaker extends Block{
             Draw.z(Layer.block);
             Draw.rect(region, tile.drawx(), tile.drawy());
             Draw.z(Layer.blockOver);
-            if(NoBlock){
+            /*if(NoBlock){
                 Draw.color(new Color(221,0,0,255));
             }else{
                 Draw.color(new Color(0,221,0,255));
-            }
+            }*/
+            Draw.color(team.color);
             Draw.rect(notify, tile.drawx(), tile.drawy());
             Draw.reset();
         }

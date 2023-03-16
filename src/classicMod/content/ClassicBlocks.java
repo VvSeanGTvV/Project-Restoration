@@ -755,7 +755,7 @@ public class ClassicBlocks {
         }};
 
         shieldBreaker = new ShieldBreaker("shield-breaker"){{
-            requirements(Category.effect, with());
+            requirements(Category.effect, with(Items.tungsten, 500, Items.graphite, 1000));
             envEnabled |= Env.space;
             toDestroy = new Block[]{Blocks.shieldProjector, Blocks.largeShieldProjector};
 
