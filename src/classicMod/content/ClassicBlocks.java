@@ -353,6 +353,10 @@ public class ClassicBlocks {
             consumeLiquid(Liquids.slag, 40f / 60f);
             liquidCapacity = 80f;
 
+            hasLiquids = true;
+            hasItems = true;
+            hasPower = true;
+
             var drawers = Seq.with(new DrawRegion("-bottom"), new DrawLiquidRegion(Liquids.slag){{ alpha = 0.7f; }});
 
             for(int i = 0; i < 5; i++){
