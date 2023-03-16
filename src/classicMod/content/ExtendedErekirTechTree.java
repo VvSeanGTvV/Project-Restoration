@@ -41,8 +41,8 @@ public class ExtendedErekirTechTree {
             node(ClassicBlocks.heatReactor,Seq.with(new Objectives.OnSector(stronghold), new Produce(thorium)), () -> {});
         });
 
-        margeNode(oxidationChamber, () -> {
-            node(ClassicBlocks.slagCentrifuge,Seq.with(new Objectives.OnSector(crevice)), () -> {});
+        margeNode(slagIncinerator, () -> {
+            node(ClassicBlocks.slagCentrifuge,Seq.with(new Objectives.OnSector(crevice), new Produce(oxide)), () -> {});
         });
     }
 

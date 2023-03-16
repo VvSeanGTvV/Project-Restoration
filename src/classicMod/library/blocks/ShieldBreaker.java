@@ -11,12 +11,12 @@ import mindustry.graphics.*;
 import mindustry.world.*;
 
 public class ShieldBreaker extends Block{
-    public TextureRegion notify;
     public Block[] toDestroy = {};
     public Effect effect = Fx.shockwave, breakEffect = Fx.reactorExplosion, selfKillEffect = Fx.massiveExplosion;
 
     public ShieldBreaker(String name){
         super(name);
+        teamRegion = Core.atlas.find(name + "-team");
 
         solid = update = true;
         rebuildable = false;
@@ -24,34 +24,17 @@ public class ShieldBreaker extends Block{
 
     @Override
     public boolean canBreak(Tile tile){
-        return Vars.state.isEditor();
+        return true; //Vars.state.isEditor()
+    }
+
+    @Override
+    protected TextureRegion[] icons() {
+        return new TextureRegion[]{Core.atlas.find(name), Core.atlas.find(name + "-team")};
     }
 
     public class ShieldBreakerBuild extends Building{
-        public boolean NoBlock;
-        public Class<? extends Block> BlockClassIndication;
         @Override
         public void updateTile(){
-            /*if(toDestroy != null){
-                for(var other : Vars.state.teams.active){
-                    if(team != other.team){
-                        for(var blockC : toDestroy){
-                            other.getBuildings(block).copy().each(b -> {
-                                BlockClassIndication = b.block.getClass();
-                                if (BlockClassIndication == blockC.getClass()) {
-                                    NoBlock = false;
-                                }else {
-                                    NoBlock = true;
-                                }
-                            });
-                        }
-                    }else{
-                        NoBlock = true;
-                    }
-                }
-            }else{
-                NoBlock = true;
-            }*/
             if(Mathf.equal(efficiency, 1f)){
                 if(toDestroy != null){
                     effect.at(this);
@@ -74,17 +57,12 @@ public class ShieldBreaker extends Block{
         @Override
         public void draw() {
             super.draw();
-            notify = Core.atlas.find(name + "-notify");
+            teamRegion = Core.atlas.find(name + "-team");
             Draw.z(Layer.block);
             Draw.rect(region, tile.drawx(), tile.drawy());
             Draw.z(Layer.blockOver);
-            /*if(NoBlock){
-                Draw.color(new Color(221,0,0,255));
-            }else{
-                Draw.color(new Color(0,221,0,255));
-            }*/
             Draw.color(team.color);
-            Draw.rect(notify, tile.drawx(), tile.drawy());
+            Draw.rect(teamRegion, tile.drawx(), tile.drawy());
             Draw.reset();
         }
     }
