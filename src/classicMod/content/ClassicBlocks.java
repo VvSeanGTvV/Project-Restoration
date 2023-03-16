@@ -2,6 +2,7 @@ package classicMod.content;
 
 import arc.graphics.*;
 import arc.math.*;
+import arc.struct.*;
 import classicMod.library.blocks.*;
 import classicMod.library.blocks.legacyBlocks.*;
 import classicMod.library.blocks.v6devBlocks.*;
@@ -14,6 +15,7 @@ import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.heat.*;
+import mindustry.world.blocks.production.*;
 import mindustry.world.blocks.units.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
@@ -35,6 +37,7 @@ public class ClassicBlocks {
     barrierProjector, //Projectors - Erekir - Prototype [v7-dev]
     heatReactor, //Heat Producers - Erekir - Prototype [v7-dev]
     cellSynthesisChamber, //Liquid Converter - Erekir - Prototype [v7-dev]
+    slagCentrifuge, //Generic Crafters - Erekir - Prototype [v7-dev]
 
     droneCenter,
 
@@ -339,6 +342,37 @@ public class ClassicBlocks {
             consumes.liquid(Liquids.water, 0.8f);*/
         }};
         //--- Converter Region End---
+
+        slagCentrifuge = new GenericCrafter("slag-centrifuge"){{
+            requirements(Category.crafting, with(Items.tungsten, 60, Items.graphite, 60, Items.oxide, 40));
+
+            consumePower(2f / 60f);
+
+            size = 3;
+            consumeItem(Items.sand, 1);
+            consumeLiquid(Liquids.slag, 40f / 60f);
+            liquidCapacity = 80f;
+
+            var drawers = Seq.with(new DrawRegion("-bottom"), new DrawLiquidRegion(Liquids.slag){{ alpha = 0.7f; }});
+
+            for(int i = 0; i < 5; i++){
+                int fi = i;
+                drawers.add(new DrawGlowRegion(-1f){{
+                    glowIntensity = 0.3f;
+                    rotateSpeed = 3f / (1f + fi/1.4f);
+                    alpha = 0.4f;
+                    color = new Color(1f, 0.5f, 0.5f, 1f);
+                }});
+            }
+
+            //drawer = new DrawMulti(drawers.ad(new DrawBlock()));
+            //icons() = new String[]{"-bottom", ""};
+
+            craftTime = 60f * 2f;
+
+            outputLiquid = new LiquidStack(Liquids.gallium, 2f);
+            outputItem = new ItemStack(Items.scrap, 1);
+        }};
 
         //--- Turrets Region ---
         horde = new ItemTurretV6("horde"){{

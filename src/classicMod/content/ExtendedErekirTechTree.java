@@ -15,13 +15,28 @@ public class ExtendedErekirTechTree {
     public static void load() {
         margeNode(breach, () -> {
             node(fracture, () -> {});
-            node(horde, () -> {});
             node(ClassicBlocks.barrierProjector, Seq.with(new Objectives.Research(shieldedWall)), () -> {
                 node(ClassicBlocks.shieldProjector, () -> {
                     node(ClassicBlocks.largeShieldProjector, () -> {});
                 });
                 node(ClassicBlocks.shieldBreaker, Seq.with(new Objectives.Research(ClassicBlocks.shieldProjector)), () -> {});
             });
+        });
+
+        margeNode(diffuse, () -> {
+            node(horde,Seq.with(new Objectives.Research(ClassicBlocks.slagCentrifuge)), () -> {});
+        });
+
+        margeNode(afflict, () -> {
+            node(titanold,Seq.with(new Objectives.Research(ClassicBlocks.heatReactor)), () -> {});
+        });
+
+        margeNode(heatRedirector, () -> {
+            node(ClassicBlocks.heatReactor);
+        });
+
+        margeNode(oxidationChamber, () -> {
+            node(ClassicBlocks.slagCentrifuge);
         });
     }
 
