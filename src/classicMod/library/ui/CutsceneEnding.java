@@ -1,15 +1,13 @@
 package classicMod.library.ui;
 
-import arc.util.*;
-import classicMod.library.ui.frag.*;
-import classicMod.library.ui.menu.*;
+import arc.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.dialogs.*;
 
 import java.io.*;
 
-import static classicMod.library.ui.menu.MenuUI.*;
+import static classicMod.library.converter.ImageConverter.*;
 import static mindustry.Vars.*;
 
 
@@ -40,7 +38,7 @@ public class CutsceneEnding extends BaseDialog {
 
         //show(Core.scene, Actions.sequence(parallel(fadeIn(1.1f, Interp.fade), translateBy(0f, Core.graphics.getHeight(), 6f, Interp.pow5Out))));
 
-        /*int framesTotal = 530;
+        int framesTotal = 1059;
         int DelayPerFrame = 1000000; //TODO functionality
         int i, c = 0;
         for(i=0; i < framesTotal;) {
@@ -50,8 +48,9 @@ public class CutsceneEnding extends BaseDialog {
                 i++;
                 //--- CONVERTER ---
                 String inputFile = "./assets/cutscene/frameEnd/frameEnd" + i + ".jpg";
-                BufferedImage bufferedImage = ImageIO.read(new File(inputFile));
-                ImageIO.write(bufferedImage, "png", new File("./assets/TemporaryFiles/imgFrame.png"));
+                FileIN = "./assets/cutscene/frameEnd/frameEnd" + i + ".jpg";
+                FileOUT = "./assets/sprites/TemporaryFiles/imgFrame.png";
+                main(new String[]{""});
 
                 cont.image(Core.atlas.find("restored-mind-imgFrame")).size(Core.graphics.getWidth(), Core.graphics.getHeight());
 
@@ -64,8 +63,8 @@ public class CutsceneEnding extends BaseDialog {
         if(i>=framesTotal){
             this.hide();
             ui.campaignComplete.show(planet);
-        }*/
-        Reflect.set(CutsceneEndingFrag.class, UIExtended.cutsceneEndingfrag, "renderer", new MainMenuRenderer(SortedPlanet));
+        }
+        //Reflect.set(CutsceneEndingFrag.class, UIExtended.cutsceneEndingfrag, "renderer", new MainMenuRenderer(SortedPlanet));
 
 
         //videoDemo.create();
