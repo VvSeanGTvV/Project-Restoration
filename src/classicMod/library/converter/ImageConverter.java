@@ -3,7 +3,7 @@ package classicMod.library.converter;
 
 import javax.imageio.*;
 import javax.media.jai.*;
-import java.awt.image.*;
+import java.awt.image.RenderedImage;
 import java.io.*;
 
 public class ImageConverter {
