@@ -11,6 +11,7 @@ import java.nio.file.*;
 public class ImageConverter {
     public static String FileIN = "";
     public static String FileOUT = "";
+    //private static InputStream is;
 
     public static void main(String[] args) throws IOException {
         // Load the JPG image file
@@ -32,6 +33,7 @@ public class ImageConverter {
             buffer.write(data, 0, nRead);
         }
         buffer.flush();
+        is.close();
         return buffer.toByteArray();
     }
 
