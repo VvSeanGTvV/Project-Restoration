@@ -12,7 +12,7 @@ import static classicMod.library.ui.UIExtended.*;
 public class MyCutscene {
     public static void main(String[] args) {
         // Create a JavaFX MediaPlayer object
-        Media media = new Media("./assets/cutscene/cutscenEnd.mp4");
+        Media media = new Media("cutscenEnd.mp4");
         MediaPlayer mediaPlayer = new MediaPlayer(media);
 
         // Create a JavaFX MediaView object
