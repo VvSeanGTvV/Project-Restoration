@@ -129,7 +129,8 @@ public class NewAccelerator extends Block{
                         throw new RuntimeException(e);
                     }*/
                     Vec2 pos = new Vec2(x,y);
-                    camera.project( pos );
+                    camera.project(pos);
+                    camera.update();
                     deselect();
                 }).size(40f);
                 /*ui.planet.showPlanetLaunch(state.rules.sector, sector -> {
