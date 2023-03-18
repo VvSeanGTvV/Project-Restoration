@@ -11,8 +11,11 @@ import static classicMod.library.ui.UIExtended.*;
 
 public class MyCutscene {
     public static void main(String[] args) {
+        File file = new File("cutscenEnd.mp4");
+        String filePath = file.toURI().toString();
+        
         // Create a JavaFX MediaPlayer object
-        Media media = new Media("cutscenEnd.mp4");
+        Media media = new Media(filePath);
         MediaPlayer mediaPlayer = new MediaPlayer(media);
 
         // Create a JavaFX MediaView object
