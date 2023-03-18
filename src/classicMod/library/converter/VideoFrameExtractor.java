@@ -15,7 +15,15 @@ public class VideoFrameExtractor {
         BufferedInputStream bis = new BufferedInputStream(fis);
 
         // Read video file as byte array
-        byte[] videoData = bis.readAllBytes();
+        //byte[] videoData = new byte[bis.available()];
+        InputStream inputStream = bis; // your input stream
+        byte[] buffer = new byte[1024];
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        int len;
+        while ((len = inputStream.read(buffer)) != -1) {
+            baos.write(buffer, 0, len);
+        }
+        byte[] videoData = baos.toByteArray();
         bis.close();
         fis.close();
 

@@ -47,14 +47,7 @@ dependencies{
     //implementation "com.badlogicgames.gdx-video:gdx-video:$gdxVideo"
     //implementation "com.badlogicgames.gdx-video:gdx-video-lwjgl3:$gdxVideo"
     //implementation "com.badlogicgames.gdx-video:gdx-video-android:$gdxVideo"
-    implementation files('lib/jai_core-1.1.3.jar') //Backward compatibelity but no work
 
-    // Library for javafx use (v19.0.2)
-    implementation files('lib/javafx.media.jar')
-    implementation files('lib/javafx.swing.jar')
-    implementation files('lib/javafx.base.jar')
-    implementation files('lib/javafx.controls.jar')
-    implementation files('lib/javafx.graphics.jar')
     //implementation 'javax.desktop:desktop:19.0.2'
 
     compileOnly "com.github.Anuken.Arc:arc-core:$mindustryVersion"
