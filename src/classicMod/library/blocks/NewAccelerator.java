@@ -5,9 +5,9 @@ import arc.Graphics.*;
 import arc.Graphics.Cursor.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
+import arc.math.geom.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
-import classicMod.library.ui.*;
 import mindustry.content.*;
 import mindustry.game.EventType.*;
 import mindustry.gen.*;
@@ -16,8 +16,7 @@ import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
 
-import java.io.*;
-
+import static arc.Core.*;
 import static mindustry.Vars.*;
 
 public class NewAccelerator extends Block{
@@ -124,11 +123,13 @@ public class NewAccelerator extends Block{
                             universe.updateLoadout(sector.planet.generator.defaultLoadout.findCore(), sector.planet.generator.defaultLoadout);
                         }
                     });*/
-                    try {
+                    /*try {
                         UIExtended.cutsceneEnding.runCutscene(Planets.serpulo);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
-                    }
+                    }*/
+                    Vec2 pos = new Vec2(x,y);
+                    camera.project( pos );
                     deselect();
                 }).size(40f);
                 /*ui.planet.showPlanetLaunch(state.rules.sector, sector -> {
