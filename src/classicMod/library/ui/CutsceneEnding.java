@@ -7,7 +7,6 @@ import mindustry.ui.dialogs.*;
 
 import java.io.*;
 
-import static classicMod.library.converter.ImageConverter.*;
 import static mindustry.Vars.*;
 
 
@@ -48,9 +47,9 @@ public class CutsceneEnding extends BaseDialog {
                 i++;
                 //--- CONVERTER ---
                 String inputFile = "./assets/cutscene/frameEnd/frameEnd" + i + ".jpg";
-                FileIN = "./assets/cutscene/frameEnd/frameEnd" + i + ".jpg";
-                FileOUT = "./assets/sprites/TemporaryFiles/imgFrame.png";
-                main(new String[]{""});
+                //FileIN = "./assets/cutscene/frameEnd/frameEnd" + i + ".jpg";
+                //FileOUT = "./assets/sprites/TemporaryFiles/imgFrame.png";
+                //main(new String[]{""});
 
                 cont.image(Core.atlas.find("restored-mind-imgFrame")).size(Core.graphics.getWidth(), Core.graphics.getHeight());
 

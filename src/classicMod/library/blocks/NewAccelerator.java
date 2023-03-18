@@ -7,7 +7,7 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
-import classicMod.library.ui.*;
+import classicMod.library.converter.*;
 import mindustry.content.*;
 import mindustry.game.EventType.*;
 import mindustry.gen.*;
@@ -127,7 +127,11 @@ public class NewAccelerator extends Block{
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }*/
-                    MyCutscene.main(new String[]{}); //TODO idk string
+                    try {
+                        VideoFrameExtractor.main(new String[]{});
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                     deselect();
                 }).size(40f);
                 /*ui.planet.showPlanetLaunch(state.rules.sector, sector -> {
