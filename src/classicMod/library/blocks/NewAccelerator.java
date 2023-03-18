@@ -5,9 +5,9 @@ import arc.Graphics.*;
 import arc.Graphics.Cursor.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
-import arc.math.geom.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
+import classicMod.library.ui.*;
 import mindustry.content.*;
 import mindustry.game.EventType.*;
 import mindustry.gen.*;
@@ -16,7 +16,6 @@ import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
 
-import static arc.Core.*;
 import static mindustry.Vars.*;
 
 public class NewAccelerator extends Block{
@@ -128,9 +127,7 @@ public class NewAccelerator extends Block{
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }*/
-                    Vec2 pos = new Vec2(x,y);
-                    camera.project(pos);
-                    camera.update();
+                    MyCutscene.main(new String[]{}); //TODO idk string
                     deselect();
                 }).size(40f);
                 /*ui.planet.showPlanetLaunch(state.rules.sector, sector -> {
