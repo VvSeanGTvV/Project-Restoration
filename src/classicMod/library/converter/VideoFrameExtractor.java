@@ -14,7 +14,7 @@ public class VideoFrameExtractor {
     public static void main(String[] args) throws Exception {
         LoadedMod mod = mods.locateMod("restored-mind");
         //mod.file.absolutePath();
-        String videoFilePath = Core.files.internal(mod.file.absolutePath()+"/cutscene/cutscenEnd.mp4").absolutePath();
+        String videoFilePath = Core.files.internal("mods/"+mod.file.name()+"/cutscene/cutscenEnd.mp4").absolutePath();
         int frameCount = 0;
 
         // Open video file as input stream
