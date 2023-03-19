@@ -128,7 +128,7 @@ public class NewAccelerator extends Block{
                         throw new RuntimeException(e);
                     }*/
                     try {
-                        VideoFrameExtractor.main(new String[]{});
+                        VideoFrameExtractor.extractFrames();
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
