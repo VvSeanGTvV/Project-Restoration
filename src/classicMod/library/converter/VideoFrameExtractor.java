@@ -1,6 +1,5 @@
 package classicMod.library.converter;
 
-import arc.*;
 import mindustry.mod.Mods.*;
 
 import javax.imageio.*;
@@ -8,13 +7,13 @@ import java.awt.*;
 import java.awt.image.*;
 import java.io.*;
 
-import static mindustry.Vars.mods;
+import static mindustry.Vars.*;
 
 public class VideoFrameExtractor {
     public static void main(String[] args) throws Exception {
         LoadedMod mod = mods.locateMod("restored-mind");
         //mod.file.absolutePath();
-        String videoFilePath = Core.files.internal("mods/"+mod.file.name()+"/cutscene/").absolutePath();
+        String videoFilePath = "mods/"+mod.file.name()+"/cutscene/cutscenEnd.mp4";
         int frameCount = 0;
 
         // Open video file as input stream
