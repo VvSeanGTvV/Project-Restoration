@@ -333,7 +333,8 @@ public class ClassicBlocks {
             craftEffect = new RadialEffect(Fx.heatReactorSmoke, 4, 90f, 7f);
 
             itemCapacity = 20;
-            consumeItem(Items.thorium, 2);
+            consumeItem(Items.thorium, 3);
+            consumeLiquid(Liquids.nitrogen, 1f / 60f);
             outputItem = new ItemStack(Items.fissileMatter, 1);
         }};
         //--- Heat Producers Region End ---
@@ -615,7 +616,7 @@ public class ClassicBlocks {
 
         //--- Drone Center Region ---
         droneCenter = new DroneCenter("drone-center"){{
-            requirements(Category.units, with(Items.graphite, 10));
+            requirements(Category.units, with(Items.graphite, 10)); //TODO make effect drone work lolz
 
             size = 3;
             consumePower(3f);

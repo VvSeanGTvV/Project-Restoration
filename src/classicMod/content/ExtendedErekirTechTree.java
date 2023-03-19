@@ -10,6 +10,7 @@ import mindustry.type.*;
 import static classicMod.content.ClassicBlocks.*;
 import static mindustry.content.Blocks.*;
 import static mindustry.content.Items.*;
+import static mindustry.content.Liquids.*;
 import static mindustry.content.SectorPresets.*;
 
 public class ExtendedErekirTechTree {
@@ -39,11 +40,15 @@ public class ExtendedErekirTechTree {
         });
 
         margeNode(electricHeater, () -> {
-            node(ClassicBlocks.heatReactor,Seq.with(new Objectives.OnSector(stronghold), new Produce(thorium)), () -> {});
+            node(ClassicBlocks.heatReactor,Seq.with(new Objectives.OnSector(stronghold), new Produce(thorium) ,new Objectives.Research(atmosphericConcentrator), new Produce(nitrogen)), () -> {});
         });
 
         margeNode(slagIncinerator, () -> {
-            node(ClassicBlocks.slagCentrifuge,Seq.with(new Objectives.OnSector(crevice), new Produce(oxide), new Produce(carbide)), () -> {});
+            node(ClassicBlocks.slagCentrifuge,Seq.with(new Objectives.OnSector(crevice), new Produce(carbide), new Produce(Liquids.slag)), () -> {});
+        });
+
+        margeNode(basicAssemblerModule, () -> {
+            node(droneCenter, () -> {});
         });
     }
 
