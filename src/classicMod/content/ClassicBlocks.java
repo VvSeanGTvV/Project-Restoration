@@ -12,6 +12,7 @@ import mindustry.content.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
 import mindustry.entities.part.*;
+import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.*;
@@ -416,6 +417,7 @@ public class ClassicBlocks {
         //--- Turrets Region ---
         horde = new ItemTurretV6("horde"){{
             requirements(Category.turret, with(Items.tungsten, 35, Items.silicon, 35));
+            shootSound = Sounds.missile;
             ammo(
                     Items.scrap, new MissileBulletType(4.2f, 15){{
                         inaccuracy = 0.2f;
@@ -532,7 +534,6 @@ public class ClassicBlocks {
             ammo(
                     //TODO ammo types to be defined later
                     Items.fissileMatter, new ArtilleryBulletType(2f, 40, "shell"){{
-                        //TODO FX; smoke, shockwave, not green bomb
                         hitEffect = new MultiEffect(Fx.titanExplosion, Fx.titanSmoke);
                         despawnEffect = Fx.none;
                         knockback = 1.5f;
@@ -565,6 +566,7 @@ public class ClassicBlocks {
                         shrinkY = 0.1f;
                     }}
             );
+            shootSound = Sounds.mediumCannon;
 
             targetAir = false;
             shake = 4f;
