@@ -111,10 +111,10 @@ public class NewAccelerator extends Block{
 
             if(!state.isCampaign() || efficiency <= 0f) return;
 
-            //ui.showInfo("This block doesn't work properly in the beta/alpha. It maybe removed, or reworked. Check back in a later update.");
+            ui.showInfo("This Block does not work or does not have a video implemented into this! Please check back for Update!");
 
             //ui.campaignComplete.show(Planets.serpulo);
-            if(true)
+            if(false)
                 table.button(Icon.upOpen, Styles.cleari, () -> {
                     /*ui.planet.showPlanetLaunch(state.rules.sector, sector -> {
                         if(state.isCampaign()){

@@ -19,7 +19,6 @@ import mindustry.world.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.heat.*;
 import mindustry.world.blocks.production.*;
-import mindustry.world.blocks.units.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
@@ -452,7 +451,7 @@ public class ClassicBlocks {
             //spread = 0f;
             shootLength = 6.5f;
             xRand = 13f;
-            recoil = 0f;
+            recoil = 1f;
 
             drawer = new DrawTurret("reinforced-");
             outlineColor = Pal.darkOutline;
@@ -617,7 +616,7 @@ public class ClassicBlocks {
         //--- Turrets Region End ---
 
         //--- Drone Center Region ---
-        droneCenter = new DroneCenter("drone-center"){{
+        droneCenter = new DroneCenterNew("drone-center"){{
             requirements(Category.units, with(Items.graphite, 10)); //TODO make effect drone work lolz
 
             size = 3;
