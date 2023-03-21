@@ -54,8 +54,10 @@ Item Use/Added: Fissile Matter
 
 ## --- Credits ---
 
-NullPointerException#7763 - Legacy Mechpad
+NullPointerException#7763 - Coolio Legacy Mechpad
 
 VvSeanGtvV#2295 - Legacy Unit Factory and the Units Stats
+
+Slotterleet#7897 - the Planet BG menu!
 
 Anuke#4986 - Java Template mod!
