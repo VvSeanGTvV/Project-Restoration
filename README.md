@@ -34,6 +34,22 @@ v5 Cores?
 
 v5 Blocks
 
+## --- Upcoming Update ---
+
+![ezgif-4-834fd8c205](https://user-images.githubusercontent.com/64627966/226748064-bcf4174a-93d1-4966-80ff-db67f910fa0f.gif)
+
+v2.0 Build Release!
+
+### About the Update:
+
+The Update is based on making the old v7's old build contents to come back into Erekir's TechTree! It is coming very soon, just have to tweak some sprites statistic, and the TechTree itself because gonna cleanup the code.
+
+Block added: Slag Centrifuge, Heat Rector, Fracture, Horde, Titan [Old Variant], Drone Center (Unfinished)
+
+Units Added: Emanate, Incite, Effect Drone (Unfinished Units)
+
+Item Use/Added: Fissile Matter
+
 ## --- Credits ---
 
 NullPointerException#7763 - Legacy Mechpad
