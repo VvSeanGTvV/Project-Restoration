@@ -36,6 +36,8 @@ v5 Blocks
 
 ## --- Upcoming Update ---
 
+### [!Subject may change!]
+
 ![ezgif-4-834fd8c205](https://user-images.githubusercontent.com/64627966/226748064-bcf4174a-93d1-4966-80ff-db67f910fa0f.gif)
 
 v2.0 Build Release!
@@ -54,6 +56,6 @@ Item Use/Added: Fissile Matter
 
 NullPointerException#7763 - Legacy Mechpad
 
-VvSeanGtvV#2295 - Legacy Unit Factory +Units Stats
+VvSeanGtvV#2295 - Legacy Unit Factory and the Units Stats
 
 Anuke#4986 - Java Template mod!
