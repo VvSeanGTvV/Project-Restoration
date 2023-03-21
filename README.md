@@ -12,11 +12,17 @@ v5 Unit Factory
 
 v5 Units
 
+v6 Early Units
+
+v7 Blocks
+
+v7 Units
+
 ## --- In Progress ---
 
-v6 Early Units (Vanguard)
+v7 Drone Center
 
-v6 Early Blocks (Insulator)
+v6 Early Blocks
 
 v5 Maps
 
@@ -24,7 +30,7 @@ Tech Tree (plz help meh)
 
 ## --- Future Contents ---
 
-v5 Cores
+v5 Cores?
 
 v5 Blocks
 
