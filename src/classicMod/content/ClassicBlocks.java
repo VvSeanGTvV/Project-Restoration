@@ -35,7 +35,9 @@ public class ClassicBlocks {
             draugFactory, spiritFactory, phantomFactory, //Support - Unit Factory [v5]
 
     insulatorWall, insulatorWallLarge, //Wall - Insulator - Testing-candidate [v6-dev]
-    launchPadLarge, //Launchpad - Campaign only - v6-dev Block
+    launchPadLarge, coreSilo, //Launchpad - Campaign only - v6-dev Block
+
+    dataProcessor, //Research Block - Campaign only - v6-dev Block
 
     warheadAssembler, ballisticSilo, nuclearWarhead, //Nuclear - Prototype [v7-dev]
     shieldProjector, shieldBreaker, largeShieldProjector, barrierProjector, //Projectors - Erekir - Prototype [v7-dev]
@@ -643,7 +645,7 @@ public class ClassicBlocks {
             size = 5;
             itemCapacity = 1000;
             hasPower = true;
-            consumes.power(4f);
+            consumePower(4f);
         }};
 
         dataProcessor = new ResearchBlock("data-processor"){{
