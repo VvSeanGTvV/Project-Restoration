@@ -13,6 +13,7 @@ import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.*;
 
+import static arc.scene.actions.Actions.moveBy;
 import static mindustry.Vars.*;
 
 public class DroneCenterNew extends Block {
@@ -147,24 +148,30 @@ public class DroneCenterNew extends Block {
     }
 
     public class EffectDroneAI extends AIController {
-
+        protected DroneCenterNewBuild ownBuild;
         @Override
-        public void updateMovement(){
+        public void updateUnit(){
             if(!(unit instanceof BuildingTetherc tether)) return;
             if(!(tether.building() instanceof DroneCenterNewBuild build)) return;
             if(build.target == null) return;
 
             target = build.target;
+            ownBuild = build;
 
             //TODO what angle?
-            moveTo(build.target.hitSize / 1.8f + droneRange - 10f);
 
             unit.lookAt(target);
             //unit.moveAt(TarVector, build.target.hitSize / 1.8f + droneRange - 10f);
 
             //TODO low power? status effects may not be the best way to do this...
-            if(unit.within(target, droneRange + build.target.hitSize)){
+            /*if(unit.within(target, droneRange + build.target.hitSize)){
                 build.target.apply(status, statusDuration);
+            }*/
+
+            if(unit.within(target, droneRange)){
+                build.target.apply(status, statusDuration);
+            }else{
+                moveTo(build.target.hitSize / 1.8f + droneRange - 10f);
             }
         }
 
@@ -182,7 +189,10 @@ public class DroneCenterNew extends Block {
                 vec.setZero();
             }
 
-            unit.move(vec);
+            moveNew(vec.x, vec.y);
+        }
+        public void moveNew(float x, float y){ //uh this doesn't exist anymore lolz
+            moveBy(x, y);
         }
     }
 }
