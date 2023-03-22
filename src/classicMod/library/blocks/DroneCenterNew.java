@@ -13,7 +13,6 @@ import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.*;
 
-import static arc.scene.actions.Actions.moveBy;
 import static mindustry.Vars.*;
 
 public class DroneCenterNew extends Block {
@@ -148,29 +147,31 @@ public class DroneCenterNew extends Block {
     }
 
     public class EffectDroneAI extends AIController {
+        protected DroneCenterNewBuild build;
         @Override
         public void updateMovement(){
-            if(!(unit instanceof BuildingTetherc tether)) return;
-            if(!(tether.building() instanceof DroneCenterNewBuild build)) return;
-            if(build.target == null) unit.remove();
-
-            target = build.target;
+            //if(!(unit instanceof BuildingTetherc tether)) return;
+            //if(!(tether.building() instanceof DroneCenterNewBuild build)) return;
+            //if(build.target == null) unit.remove(); //TODO fix the ai because it is ded :I
+            if(build.target != null) {
+                target = build.target;
+                if(unit.within(target, droneRange + build.target.hitSize)){
+                    build.target.apply(status, statusDuration);
+                }else{
+                    moveTo(build.target.hitSize / 1.8f + droneRange - 10f);
+                }
+            }
 
             //TODO what angle?
 
             unit.lookAt(target);
+            //unit.angleTo(target);
             //unit.moveAt(TarVector, build.target.hitSize / 1.8f + droneRange - 10f);
 
             //TODO low power? status effects may not be the best way to do this...
             /*if(unit.within(target, droneRange + build.target.hitSize)){
                 build.target.apply(status, statusDuration);
             }*/
-
-            if(unit.within(target, droneRange)){
-                build.target.apply(status, statusDuration);
-            }else{
-                moveTo(build.target.hitSize / 1.8f + droneRange - 10f);
-            }
         }
 
         protected void moveTo(float circleLength){
@@ -189,8 +190,12 @@ public class DroneCenterNew extends Block {
 
             unit.moveAt(vec);
         }
-        public void moveNew(float x, float y){ //uh this doesn't exist anymore lolz
-            moveBy(x, y);
+
+        protected void targetClosest(){
+            Teamc newTarget = Units.closestTarget(unit.team(), unit.x(), unit.y(), Math.max(unit.range(), unit.type().range), u -> (unit.type().targetAir && u.isFlying()) || (unit.type().targetGround && !u.isFlying()));
+            if(newTarget != null){
+                target = newTarget;
+            }
         }
     }
 }
