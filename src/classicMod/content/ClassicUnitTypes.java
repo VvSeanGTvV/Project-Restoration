@@ -1223,6 +1223,7 @@ public class ClassicUnitTypes {
             drawCell = false;
             logicControllable = playerControllable = allowedInPayloads = false;
             hidden = true;
+            range = 30f; //TODO range testing
 
             engineSize = 0f;
             float es = 2.5f, ew = 14.5f / 4f;

@@ -2,7 +2,6 @@ package classicMod.library.blocks;
 
 import arc.graphics.g2d.*;
 import arc.math.*;
-import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
@@ -17,11 +16,16 @@ import mindustry.world.*;
 import static mindustry.Vars.*;
 
 public class DroneCenterNew extends Block {
+    /** Maximum Unit that can spawn **/
     public int unitsSpawned = 4;
     public UnitType droneType;
+    /** Status effect for Effect Drone to give the exact effect to the units **/
     public StatusEffect status = StatusEffects.overdrive;
+    /** Contrustion time per Units **/
     public float droneConstructTime = 60f * 3f;
+    /** Duration of the currently selected status effect **/
     public float statusDuration = 60f * 2f;
+    /** Effect Drone's maximum range **/
     public float droneRange = 50f;
 
     public DroneCenterNew(String name){
@@ -147,22 +151,38 @@ public class DroneCenterNew extends Block {
         @Override
         public void updateUnit(){
             if(!(unit instanceof BuildingTetherc tether)) return;
-            if(!(tether.building() instanceof mindustry.world.blocks.units.DroneCenter.DroneCenterBuild build)) return;
+            if(!(tether.building() instanceof DroneCenterNewBuild build)) return;
             if(build.target == null) return;
 
             target = build.target;
 
             //TODO what angle?
-            //moveTo(target, build.target.hitSize / 1.8f + droneRange - 10f);
+            AmoveTo(build.target.hitSize / 1.8f + droneRange - 10f);
 
             unit.lookAt(target);
-            Vec2 TarVector = new Vec2(target.x(), target.y());
-            unit.moveAt(TarVector, build.target.hitSize / 1.8f + droneRange - 10f);
+            //unit.moveAt(TarVector, build.target.hitSize / 1.8f + droneRange - 10f);
 
             //TODO low power? status effects may not be the best way to do this...
             if(unit.within(target, droneRange + build.target.hitSize)){
                 build.target.apply(status, statusDuration);
             }
+        }
+
+        protected void AmoveTo(float circleLength){
+            if(target == null) return;
+
+            vec.set(target).sub(unit);
+
+            float length = circleLength <= 0.001f ? 1f : Mathf.clamp((unit.dst(target) - circleLength) / 100f, -1f, 1f);
+
+            vec.setLength(unit.type().speed * Time.delta * length);
+            if(length < -0.5f){
+                vec.rotate(180f);
+            }else if(length < 0){
+                vec.setZero();
+            }
+
+            unit.move(vec);
         }
     }
 }

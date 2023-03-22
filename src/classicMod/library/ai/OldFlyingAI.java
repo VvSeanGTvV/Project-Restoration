@@ -3,19 +3,16 @@ package classicMod.library.ai;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
-import mindustry.Vars;
+import mindustry.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.units.*;
 import mindustry.gen.*;
-import mindustry.type.Weapon;
-import mindustry.world.*;
+import mindustry.type.*;
 import mindustry.world.meta.*;
 
-
-import static arc.math.Mathf.dst;
-import static arc.scene.actions.Actions.moveBy;
-import static mindustry.Vars.indexer;
+import static arc.math.Mathf.*;
+import static arc.scene.actions.Actions.*;
 import static mindustry.Vars.*;
 
 public class OldFlyingAI extends AIController {
@@ -40,7 +37,7 @@ public class OldFlyingAI extends AIController {
             if(target == null) targetClosestEnemyFlag(BlockFlag.turret);
         }
 
-        if(getClosestSpawner() == null && getSpawner() != null && target == null){
+        if(getClosestSpawner() == null && target == null){ //&& getSpawner() != null
             target = unit.closestEnemyCore();
             circle(80f + Mathf.randomSeed(unit.id) * 120);
         }else if(target != null){
@@ -170,7 +167,7 @@ public class OldFlyingAI extends AIController {
         moveBy(x, y);
     }
 
-    Tile getSpawner(){ //spawner old
+    /*Tile getSpawner(){ //TODO somehow get the tile of the spawner but its too old lolz
         return world.tile(spawner.getFirstSpawn().pos());
-    }
+    }*/
 }
