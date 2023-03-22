@@ -132,7 +132,7 @@ public class OldFlyingAI extends AIController {
             vec.setZero();
         }
 
-        unit.move(vec);
+        move(vec.x, vec.y);
     }
 
     protected void attack(float circleLength){
@@ -149,7 +149,7 @@ public class OldFlyingAI extends AIController {
 
         vec.setLength(unit.type().speed * Time.delta);
 
-        unit.move(vec);
+        move(vec.x, vec.y);
     }
 
     protected void targetClosestEnemyFlag(BlockFlag flag){
