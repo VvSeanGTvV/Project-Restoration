@@ -149,7 +149,7 @@ public class DroneCenterNew extends Block {
     public class EffectDroneAI extends AIController {
 
         @Override
-        public void updateUnit(){
+        public void updateMovement(){
             if(!(unit instanceof BuildingTetherc tether)) return;
             if(!(tether.building() instanceof DroneCenterNewBuild build)) return;
             if(build.target == null) return;
@@ -157,7 +157,7 @@ public class DroneCenterNew extends Block {
             target = build.target;
 
             //TODO what angle?
-            AmoveTo(build.target.hitSize / 1.8f + droneRange - 10f);
+            moveTo(build.target.hitSize / 1.8f + droneRange - 10f);
 
             unit.lookAt(target);
             //unit.moveAt(TarVector, build.target.hitSize / 1.8f + droneRange - 10f);
@@ -168,7 +168,7 @@ public class DroneCenterNew extends Block {
             }
         }
 
-        protected void AmoveTo(float circleLength){
+        protected void moveTo(float circleLength){
             if(target == null) return;
 
             vec.set(target).sub(unit);

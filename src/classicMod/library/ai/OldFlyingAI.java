@@ -37,7 +37,7 @@ public class OldFlyingAI extends AIController {
             if(target == null) targetClosestEnemyFlag(BlockFlag.turret);
         }
 
-        if(getClosestSpawner() == null && target == null){ //&& getSpawner() != null
+        if(getClosestSpawner() == null && getClosestSpawner() != null && target == null){ //&& getSpawner() != null
             target = unit.closestEnemyCore();
             circle(80f + Mathf.randomSeed(unit.id) * 120);
         }else if(target != null){
