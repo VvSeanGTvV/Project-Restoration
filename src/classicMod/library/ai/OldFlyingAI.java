@@ -24,11 +24,9 @@ public class OldFlyingAI extends AIController {
         if(unit.isFlying()){
             wobble(); //old wobble
         }
+        
         if(Units.invalidateTarget(target,unit.team(),unit.x,unit.y)){
             target = null;
-        }
-        if(!net.client()){
-            updateRotation();
         }
 
         if(retarget()){
@@ -115,7 +113,7 @@ public class OldFlyingAI extends AIController {
 
         vec.setLength(speed * Time.delta);
 
-        unit.move(vec);
+        unit.moveAt(vec);
     }
 
     protected void moveTo(float circleLength){
@@ -132,7 +130,7 @@ public class OldFlyingAI extends AIController {
             vec.setZero();
         }
 
-        move(vec.x, vec.y);
+        unit.moveAt(vec);
     }
 
     protected void attack(float circleLength){
@@ -149,7 +147,7 @@ public class OldFlyingAI extends AIController {
 
         vec.setLength(unit.type().speed * Time.delta);
 
-        move(vec.x, vec.y);
+        unit.moveAt(vec);
     }
 
     protected void targetClosestEnemyFlag(BlockFlag flag){
