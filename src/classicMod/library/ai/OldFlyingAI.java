@@ -20,6 +20,10 @@ public class OldFlyingAI extends AIController {
 
     @Override
     public void updateMovement(){
+        if(unit.moving()){
+            unit.rotation(unit.vel().angle());
+        }
+        
         if(unit.isFlying()){
             wobble(); //old wobble
         }
