@@ -148,15 +148,13 @@ public class DroneCenterNew extends Block {
     }
 
     public class EffectDroneAI extends AIController {
-        protected DroneCenterNewBuild ownBuild;
         @Override
-        public void updateUnit(){
+        public void updateMovement(){
             if(!(unit instanceof BuildingTetherc tether)) return;
             if(!(tether.building() instanceof DroneCenterNewBuild build)) return;
-            if(build.target == null) return;
+            if(build.target == null) unit.remove();
 
             target = build.target;
-            ownBuild = build;
 
             //TODO what angle?
 
