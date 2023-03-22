@@ -16,6 +16,7 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.*;
+import mindustry.world.blocks.campaign.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.heat.*;
 import mindustry.world.blocks.production.*;
@@ -34,6 +35,7 @@ public class ClassicBlocks {
             draugFactory, spiritFactory, phantomFactory, //Support - Unit Factory [v5]
 
     insulatorWall, insulatorWallLarge, //Wall - Insulator - Testing-candidate [v6-dev]
+    launchPadLarge, //Launchpad - Campaign only - v6-dev Block
 
     warheadAssembler, ballisticSilo, nuclearWarhead, //Nuclear - Prototype [v7-dev]
     shieldProjector, shieldBreaker, largeShieldProjector, barrierProjector, //Projectors - Erekir - Prototype [v7-dev]
@@ -625,6 +627,31 @@ public class ClassicBlocks {
             droneType = effectDrone;
         }};
         //--- Drone Center Region End ---
+
+        //--- Launchpad Region ---
+        launchPadLarge = new LaunchPad("launch-pad-large"){{
+            requirements(Category.effect, BuildVisibility.campaignOnly, with(Items.titanium, 200, Items.silicon, 150, Items.lead, 250, Items.plastanium, 75));
+            size = 4;
+            itemCapacity = 300;
+            launchTime = 60f * 35;
+            hasPower = true;
+            consumePower(6f);
+        }};
+
+        coreSilo = new CoreLauncher("core-silo"){{
+            requirements(Category.effect, BuildVisibility.campaignOnly, ItemStack.with(Items.copper, 350, Items.silicon, 140, Items.lead, 200, Items.titanium, 150));
+            size = 5;
+            itemCapacity = 1000;
+            hasPower = true;
+            consumes.power(4f);
+        }};
+
+        dataProcessor = new ResearchBlock("data-processor"){{
+            requirements(Category.effect, BuildVisibility.campaignOnly, ItemStack.with(Items.copper, 350, Items.silicon, 140, Items.lead, 200, Items.titanium, 150));
+
+            size = 3;
+        }};
+        //--- Launchpad Region End ---
 
         //--- Endgame ---
         interplanetaryAccelerator = new NewAccelerator("interplanetary-accelerator"){{
