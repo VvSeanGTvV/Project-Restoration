@@ -87,7 +87,7 @@ public class OldFlyingAI extends AIController {
     protected void wobble(){
         if(net.client()) return;
 
-        unit.x = Mathf.sin(Time.time + unit.id * 999, 25f, 0.05f) * Time.delta;
+        unit.x += Mathf.sin(Time.time + unit.id * 999, 25f, 0.05f) * Time.delta;
         unit.y += Mathf.cos(Time.time + unit.id * 999, 25f, 0.05f) * Time.delta;
 
         if(unit.vel.len() <= 0.05f){
