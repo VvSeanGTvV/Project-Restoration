@@ -65,6 +65,7 @@ public class ExtendedSerpuloTechTree {
         });
 
         margeNode(launchPad, () -> {
+            node(dataProcessor, () -> {});
             node(launchPadLarge, () -> {
                 node(coreSilo, () -> {});
                 node(ClassicBlocks.interplanetaryAccelerator, Seq.with(new SectorComplete(planetaryTerminal)), () -> {}); //Endgame bois

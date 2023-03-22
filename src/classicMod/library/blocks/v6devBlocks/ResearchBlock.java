@@ -91,7 +91,7 @@ public class ResearchBlock extends StorageBlock{
         @Override
         public boolean configTapped(){
             //TODO select target
-            ui.research.show();
+
 
             return false;
         }
