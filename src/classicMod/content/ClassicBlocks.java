@@ -640,7 +640,7 @@ public class ClassicBlocks {
             consumePower(6f);
         }};
 
-        coreSilo = new LaunchPad("core-silo"){{
+        coreSilo = new CoreLauncher("core-silo"){{
             requirements(Category.effect, BuildVisibility.campaignOnly, ItemStack.with(Items.copper, 350, Items.silicon, 140, Items.lead, 200, Items.titanium, 150));
             size = 5;
             itemCapacity = 1000;

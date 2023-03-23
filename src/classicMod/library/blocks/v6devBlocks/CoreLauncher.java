@@ -28,7 +28,7 @@ public class CoreLauncher extends Block{
         //buildPlaceability = BuildPlaceability.sectorCaptured;
     }
 
-    public class CoreLauncherEntity extends Building{
+    public class CoreLauncherBuild extends Building{
 
         @Override
         public void updateTile(){
@@ -39,15 +39,15 @@ public class CoreLauncher extends Block{
         @Override
         public boolean configTapped(){
 
-            if(state.isCampaign() && newBuilding().isValid()){
+            if(state.isCampaign() && this.isValid()){
                 Vars.ui.planet.show();
             }
             return false;
         }
 
-
-        public Cursor cursor(){
-            return newBuilding().isValid() ? SystemCursor.hand : SystemCursor.arrow;
+        @Override
+        public Cursor getCursor(){
+            return this.isValid() ? SystemCursor.hand : SystemCursor.arrow;
         }
 
         public void launch(){
