@@ -15,7 +15,7 @@ public class ExtendedSerpuloTechTree {
     static TechTree.TechNode context = null;
 
     public static void load() {
-        margeNode(copperWall, () -> {
+        margeNode(copperWallLarge, () -> {
             node(insulatorWall, () -> {
                node(insulatorWallLarge);
             });
@@ -65,9 +65,9 @@ public class ExtendedSerpuloTechTree {
         });
 
         margeNode(launchPad, () -> {
-            node(dataProcessor, () -> {});
+            //node(dataProcessor, () -> {});
             node(launchPadLarge, () -> {
-                node(coreSilo, () -> {});
+                //node(coreSilo, () -> {}); //TODO just unlock them it is not really important
                 node(ClassicBlocks.interplanetaryAccelerator, Seq.with(new SectorComplete(planetaryTerminal)), () -> {}); //Endgame bois
             });
         });
