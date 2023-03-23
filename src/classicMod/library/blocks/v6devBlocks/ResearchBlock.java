@@ -1,5 +1,6 @@
 package classicMod.library.blocks.v6devBlocks;
 
+import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -21,7 +22,7 @@ import static mindustry.Vars.*;
 
 public class ResearchBlock extends Block{
     public float researchSpeed = 1f;
-    public TextureRegion topRegion;
+    public TextureRegion topRegion = Core.atlas.find(name+"-top");
 
     public ResearchBlock(String name){
         super(name);
