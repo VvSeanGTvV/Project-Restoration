@@ -17,6 +17,7 @@ import static mindustry.Vars.*;
 public class CoreLauncher extends Block{
     public int range = 1;
     public Vec2 Pos = new Vec2(0,0);
+    TextureRegion podRegion;
 
     public CoreLauncher(String name){
         super(name);
@@ -51,7 +52,7 @@ public class CoreLauncher extends Block{
         }
 
         public void launch(){
-            LaunchCorec ent = LaunchCore.create();
+            LaunchCoreComp ent = (LaunchCoreComp) LaunchCoreComp.create();
             ent.set(Pos);
             ent.block(Blocks.coreShard);
             float launchDuration = 0;
@@ -62,7 +63,7 @@ public class CoreLauncher extends Block{
         }
     }
 
-    static abstract class LaunchCoreComp implements Drawc, Timedc{
+    static abstract class LaunchCoreComp extends LaunchCore implements Drawc, Timedc {
         float x, y;
 
         transient Interval in = new Interval();
@@ -108,13 +109,15 @@ public class CoreLauncher extends Block{
             Draw.reset();
         }
 
+        /*@Override
         float cx(){
             return x + fin(Interp.pow2In) * (12f + Mathf.randomSeedRange(id() + 3, 4f));
         }
 
+        @Override
         float cy(){
             return y + fin(Interp.pow5In) * (100f + Mathf.randomSeedRange(id() + 2, 30f));
-        }
+        }*/
 
         @Override
         public void update(){

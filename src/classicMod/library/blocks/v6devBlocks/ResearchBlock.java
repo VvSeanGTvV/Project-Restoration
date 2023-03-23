@@ -31,7 +31,6 @@ public class ResearchBlock extends StorageBlock{
         hasItems = true;
         configurable = true;
         itemCapacity = 0;
-        topRegion = Core.atlas.find(name+"-top");
     }
 
     @Override
@@ -76,6 +75,7 @@ public class ResearchBlock extends StorageBlock{
 
         @Override
         public void draw(){
+            topRegion = Core.atlas.find(name+"-top");
             super.draw();
 
             Draw.mixcol(Color.white, Mathf.absin(10f, 0.2f));
