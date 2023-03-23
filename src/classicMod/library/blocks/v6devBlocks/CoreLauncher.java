@@ -31,7 +31,7 @@ public class CoreLauncher extends Block{
     }
 
     public class CoreLauncherBuild extends Building{
-        protected Block defaultCore = Vars.state.rules.sector.planet.defaultCore;
+        protected Block defaultCore = Vars.state.rules.sector.info.bestCoreType;
 
         @Override
         public void updateTile(){
