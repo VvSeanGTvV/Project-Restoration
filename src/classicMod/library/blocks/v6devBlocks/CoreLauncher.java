@@ -10,6 +10,7 @@ import mindustry.*;
 import mindustry.content.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
+import mindustry.type.*;
 import mindustry.world.*;
 
 import static mindustry.Vars.*;
@@ -30,11 +31,15 @@ public class CoreLauncher extends Block{
     }
 
     public class CoreLauncherBuild extends Building{
+        protected Block defaultCore = Vars.state.rules.sector.planet.defaultCore;
 
         @Override
         public void updateTile(){
             super.updateTile();
             Pos = new Vec2 (this.x, this.y);
+            if(defaultCore != null){
+                requirements(category, ItemStack.mult(defaultCore.requirements, 3));
+            }
         }
 
         @Override
