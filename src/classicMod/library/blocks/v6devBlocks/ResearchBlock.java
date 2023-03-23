@@ -46,6 +46,12 @@ public class ResearchBlock extends Block{
     }
 
     @Override
+    public void init() {
+        super.init();
+        topRegion = Core.atlas.find(name+"-top");
+    }
+
+    @Override
     public void setBars(){
         super.setBars();
 
@@ -143,7 +149,7 @@ public class ResearchBlock extends Block{
                     i.setScaling(Scaling.fit);
                     i.setColor(researching == null ? Color.lightGray : Color.white);
                 }).size(32).pad(3);
-                t.label(() -> researching == null ? "$none" : researching.content.localizedName).color(Color.lightGray);
+                t.label(() -> researching == null ? "@none" : researching.content.localizedName).color(Color.lightGray);
             }).left().padTop(4);
         }
 
