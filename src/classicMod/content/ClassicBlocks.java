@@ -8,7 +8,6 @@ import arc.struct.*;
 import classicMod.library.blocks.*;
 import classicMod.library.blocks.legacyBlocks.*;
 import classicMod.library.blocks.v6devBlocks.*;
-import mindustry.*;
 import mindustry.content.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
@@ -643,7 +642,7 @@ public class ClassicBlocks {
 
         coreSilo = new CoreLauncher("core-silo"){{ //TODO make it cheap/match with resources
             alwaysUnlocked = true;
-            Block launching = Vars.state.rules.sector.planet.defaultCore;
+
             requirements(Category.effect, BuildVisibility.campaignOnly, ItemStack.with(Items.copper, 350, Items.silicon, 140, Items.lead, 200, Items.titanium, 150)); //Items.copper, 350, Items.silicon, 140, Items.lead, 200, Items.titanium, 150
             size = 5;
             itemCapacity = 1000;
@@ -653,7 +652,7 @@ public class ClassicBlocks {
 
         dataProcessor = new ResearchBlock("data-processor"){{ //TODO make it cheap/match with resources
             alwaysUnlocked = true;
-            Block launching = Vars.state.rules.sector.planet.defaultCore;
+
             requirements(Category.effect, BuildVisibility.campaignOnly, ItemStack.with(Items.copper, 350, Items.silicon, 140, Items.lead, 200, Items.titanium, 150));
 
             size = 3;
