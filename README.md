@@ -44,9 +44,11 @@ v2.0 Build Release!
 
 ### About the Update:
 
-The Update is based on making the old v7's old build contents to come back into Erekir's TechTree! It is coming very soon, just have to tweak some sprites statistic, and the TechTree itself because gonna cleanup the code.
+The Update is based on making the old v7's build and v6's build are coming back to the Techtree! It is coming very soon, just have to tweak some sprites statistic, and the TechTree itself because gonna cleanup the code, before you tell me, yes the v2.0 build might have bugs and some of the blocks are WIP!
 
-Block added: Slag Centrifuge, Heat Rector, Fracture, Horde, Titan [Old Variant], Drone Center (Unfinished)
+Block added: Slag Centrifuge, Heat Rector, Fracture, Horde, Titan [Old Variant], Drone Center (Unfinished), Large Launchpad
+
+WIP Blocks: Data/Research Blocks, Core Silo Launcher
 
 Units Added: Emanate, Incite, Effect Drone (Unfinished Units)
 
