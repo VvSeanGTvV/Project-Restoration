@@ -36,9 +36,10 @@ public class CoreLauncher extends Block{
         @Override
         public void updateTile(){
             super.updateTile();
+            defaultCore = Vars.state.rules.sector.info.bestCoreType;
             Pos = new Vec2 (this.x, this.y);
             if(defaultCore != null){
-                requirements(category, ItemStack.mult(defaultCore.requirements, 3));
+                requirements(category, ItemStack.mult(defaultCore.requirements, 1));
             }
         }
 

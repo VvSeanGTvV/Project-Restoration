@@ -9,6 +9,7 @@ import arc.scene.ui.layout.*;
 import arc.util.*;
 import arc.util.io.*;
 import classicMod.library.ui.*;
+import mindustry.*;
 import mindustry.content.*;
 import mindustry.content.TechTree.*;
 import mindustry.gen.*;
@@ -70,8 +71,9 @@ public class ResearchBlock extends Block{
 
         @Override
         public void updateTile(){
+            defaultCore = Vars.state.rules.sector.info.bestCoreType;
             if(defaultCore != null){
-                requirements(category, ItemStack.mult(defaultCore.requirements, 3));
+                requirements(category, ItemStack.mult(defaultCore.requirements, 1));
             }
             if(researching != null){
                 defaultResearchingTime = researching.requirements.length; //Just default it by the length

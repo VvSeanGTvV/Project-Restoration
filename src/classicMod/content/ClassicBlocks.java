@@ -642,7 +642,6 @@ public class ClassicBlocks {
 
         coreSilo = new CoreLauncher("core-silo"){{ //TODO make it cheap/match with resources
             alwaysUnlocked = true;
-
             requirements(Category.effect, BuildVisibility.campaignOnly, ItemStack.with(Items.copper, 350, Items.silicon, 140, Items.lead, 200, Items.titanium, 150)); //Items.copper, 350, Items.silicon, 140, Items.lead, 200, Items.titanium, 150
             size = 5;
             itemCapacity = 1000;
@@ -652,7 +651,6 @@ public class ClassicBlocks {
 
         dataProcessor = new ResearchBlock("data-processor"){{ //TODO make it cheap/match with resources
             alwaysUnlocked = true;
-
             requirements(Category.effect, BuildVisibility.campaignOnly, ItemStack.with(Items.copper, 350, Items.silicon, 140, Items.lead, 200, Items.titanium, 150));
 
             size = 3;
