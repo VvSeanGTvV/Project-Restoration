@@ -30,8 +30,9 @@ import mindustry.ui.layout.TreeLayout.*;
 
 import java.util.*;
 
-import static arc.Core.settings;
+import static arc.Core.*;
 import static mindustry.Vars.*;
+import static mindustry.gen.Tex.*;
 
 public class TechTreeDialog extends BaseDialog {
     private final float nodeSize = Scl.scl(60f);
@@ -290,7 +291,7 @@ public class TechTreeDialog extends BaseDialog {
                 button.update(() -> {
                     float offset = (Core.graphics.getHeight() % 2) / 2f;
                     button.setPosition(node.x + panX + width / 2f, node.y + panY + height / 2f + offset, Align.center);
-                    button.getStyle().up = !locked(node.node) ? Tex.buttonOver : Tex.button;
+                    button.getStyle().up = !locked(node.node) ? buttonOver : Tex.button;
                     ((TextureRegionDrawable)button.getStyle().imageUp)
                             .setRegion(node.visible ? node.node.content.uiIcon : Icon.lock.getRegion());
                     button.getImage().setColor(!locked(node.node) ? Color.white : Color.gray);
