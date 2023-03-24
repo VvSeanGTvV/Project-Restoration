@@ -76,7 +76,9 @@ public class ResearchBlock extends Block{
                 requirements(category, ItemStack.mult(defaultCore.requirements, 1));
             }
             if(researching != null){
-                defaultResearchingTime = researching.requirements.length; //Just default it by the length
+                if(defaultResearchingTime != researching.requirements.length * 5) {
+                    defaultResearchingTime = researching.requirements.length * 5; //Just default it by the length
+                }
                 double totalTicks =  defaultResearchingTime * 60.0;
                 double amount = researchSpeed * edelta() / totalTicks;
 
