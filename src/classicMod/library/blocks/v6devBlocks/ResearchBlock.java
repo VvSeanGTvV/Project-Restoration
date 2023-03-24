@@ -65,8 +65,8 @@ public class ResearchBlock extends Block{
 
         public double[] accumulator;
         public double[] totalAccumulator;
-        public int defaultResearchingTime = 5;
-        public int iA = 0;
+        protected int defaultResearchingTime = 5;
+        protected float iA;
         protected Block defaultCore = state.rules.sector.info.bestCoreType;
 
         @Override
@@ -93,7 +93,7 @@ public class ResearchBlock extends Block{
                 maxProgress = checkRequired(maxProgress, true);
 
                 float increment = (float)(maxProgress * defaultResearchingTime);
-                iA += increment;
+                iA = iA + increment;
 
                 //check if it has been researched
                 if(iA >= defaultResearchingTime){
@@ -101,6 +101,7 @@ public class ResearchBlock extends Block{
                     //data.unlockContent(researching.content);
 
                     setTo(null);
+                    iA = 0;
                 }
             }
         }
@@ -192,10 +193,14 @@ public class ResearchBlock extends Block{
         @Override
         public boolean configTapped(){
             //configure with tech node
-            UIExtended.Techtree.show(node -> {
-                configure(node);
-                ui.research.hide();
-            });
+            if(!mobile) {
+                UIExtended.Techtree.show(node -> {
+                    configure(node);
+                    UIExtended.Techtree.hide();
+                });
+            }else{
+                ui.showInfo("Mobile is not supported for this block, use the techtree the in normal way! :[ sorry");
+            }
 
             return false;
         }
