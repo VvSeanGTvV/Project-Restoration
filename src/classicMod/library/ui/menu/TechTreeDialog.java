@@ -18,6 +18,7 @@ import arc.struct.*;
 import arc.util.*;
 import mindustry.content.*;
 import mindustry.content.TechTree.*;
+import mindustry.ctype.*;
 import mindustry.game.Objectives.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
@@ -29,6 +30,7 @@ import mindustry.ui.layout.TreeLayout.*;
 
 import java.util.*;
 
+import static arc.Core.settings;
 import static mindustry.Vars.*;
 
 public class TechTreeDialog extends BaseDialog {
@@ -49,12 +51,14 @@ public class TechTreeDialog extends BaseDialog {
         shouldPause = true;
 
         //Events.on(ContentReloadEvent.class, e -> {
-            nodes.clear();
-            root = new TechTreeNode(TechTree.roots.first(), null);
-            checkNodes(root);
-            treeLayout();
-            stack.getChildren().get(0).remove();
-            stack.addChildAt(0, view = new View());
+        Planet planet = content.getByName(ContentType.planet, settings.getString("lastplanet", "serpulo"));
+        TechNode TechTreeDef = planet.techTree;
+        nodes.clear();
+        root = new TechTreeNode(TechTreeDef, null); //TechTree.roots.first()
+        checkNodes(root);
+        treeLayout();
+        stack.getChildren().get(0).remove();
+        stack.addChildAt(0, view = new View());
         //});
 
         shown(() -> {
@@ -88,6 +92,8 @@ public class TechTreeDialog extends BaseDialog {
                 return super.mouseMoved(event, x, y);
             }
         });
+
+        touchable = Touchable.enabled;
 
         addListener(new ElementGestureListener(){
             @Override
