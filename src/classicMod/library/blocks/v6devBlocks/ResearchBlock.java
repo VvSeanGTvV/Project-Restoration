@@ -193,14 +193,10 @@ public class ResearchBlock extends Block{
         @Override
         public boolean configTapped(){
             //configure with tech node
-            if(!mobile) {
                 UIExtended.Techtree.show(node -> {
                     configure(node);
                     UIExtended.Techtree.hide();
-                });
-            }else{
-                ui.showInfo("Mobile is not supported for this block, use the techtree the in normal way! :[ sorry");
-            }
+                }); //TODO mobile support
 
             return false;
         }
