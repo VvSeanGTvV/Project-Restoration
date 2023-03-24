@@ -53,7 +53,7 @@ public class TechTreeDialog extends BaseDialog {
 
         //Events.on(ContentReloadEvent.class, e -> {
         Planet planet = content.getByName(ContentType.planet, settings.getString("lastplanet", "serpulo"));
-        TechNode TechTreeDef = planet.techTree;
+        TechNode TechTreeDef = planet.techNode.children.first();
         nodes.clear();
         root = new TechTreeNode(TechTreeDef, null); //TechTree.roots.first()
         checkNodes(root);
@@ -72,7 +72,7 @@ public class TechTreeDialog extends BaseDialog {
 
         addCloseButton();
 
-        buttons.button("$database", Icon.book, () -> {
+        buttons.button("@database", Icon.book, () -> {
             hide();
             ui.database.show();
         }).size(210f, 64f);
@@ -407,6 +407,11 @@ public class TechTreeDialog extends BaseDialog {
                     }
                 }).pad(9);
 
+                if(mobile && locked(node)){
+                    b.row();
+                    b.button("@research", Icon.ok, () -> loadTechnode((Cons<TechNode>) node));
+                }
+
                 //TODO research select button
                 /*
                 if(mobile && locked(node)){
@@ -424,6 +429,10 @@ public class TechTreeDialog extends BaseDialog {
             addChild(infoTable);
             infoTable.pack();
             infoTable.act(Core.graphics.getDeltaTime());
+        }
+
+        protected void loadTechnode(Cons<TechNode>node){
+            selector = node;
         }
 
         @Override
