@@ -52,8 +52,9 @@ public class TechTreeDialog extends BaseDialog {
         shouldPause = true;
 
         //Events.on(ContentReloadEvent.class, e -> {
+        TechNode TechTreeDef = root.node;
         Planet planet = content.getByName(ContentType.planet, settings.getString("lastplanet", "serpulo"));
-        TechNode TechTreeDef = planet.techNode.children.first();
+        if(planet != null)TechTreeDef = planet.techTree;
         nodes.clear();
         root = new TechTreeNode(TechTreeDef, null); //TechTree.roots.first()
         checkNodes(root);
