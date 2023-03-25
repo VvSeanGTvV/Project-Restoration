@@ -114,7 +114,9 @@ public class ResearchBlock extends Block{
                     UIExtended.Techtree.NullifyNode();
                     SelectedNode = null;
                     iA = 0;
-                    deselect();
+                }
+                if(iA >= defaultResearchingTime-1){ //TODO fix this bug
+                    deselect(); //Prevent the UI disappearing every god damn time
                 }
             }
         }
@@ -132,7 +134,7 @@ public class ResearchBlock extends Block{
                     //calculate how many items it can actually use
                     int maxUse = Math.min(required, items.get(researching.requirements[i].item));
                     //get this as a fraction
-                    double fraction = maxUse / (double)required;
+                    double fraction = maxUse / (double)required / 2; //divide it by 2 since it keep eating too much resources
 
                     //move max progress down if this fraction is less than 1
                     maxProgress = Math.min(maxProgress, maxProgress * fraction);
