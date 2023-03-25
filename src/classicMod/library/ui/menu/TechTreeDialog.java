@@ -417,7 +417,7 @@ public class TechTreeDialog extends BaseDialog {
 
                 if(mobile && locked(node)){
                     b.row();
-                    b.button("@select", Icon.ok, () -> SelectNode(node));
+                    b.button("@select", Icon.ok, () -> SelectNode(node)).growX().height(44f).colspan(3);
                 }
 
                 //TODO research select button
@@ -440,7 +440,9 @@ public class TechTreeDialog extends BaseDialog {
         }
 
         protected void SelectNode(TechNode node){
-            selectorNode = node;
+            UnlockableContent selectedContent = node.content;
+            selectorNode = selectedContent.techNode;
+            ui.showInfo(getSelector().name);
         }
 
         @Override
