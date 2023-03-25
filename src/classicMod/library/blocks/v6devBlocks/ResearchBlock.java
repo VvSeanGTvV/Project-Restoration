@@ -72,6 +72,9 @@ public class ResearchBlock extends Block{
 
         @Override
         public void updateTile(){
+            if(researching != UIExtended.Techtree.getSelector()){
+                configUpdate();
+            }
             defaultCore = Vars.state.rules.sector.info.bestCoreType;
             if(defaultCore != null){
                 requirements(category, ItemStack.mult(defaultCore.requirements, 1));
@@ -140,14 +143,11 @@ public class ResearchBlock extends Block{
 
         private void setTo(@Nullable TechNode value){
             researching = value;
+            ui.showInfo(researching.content.name);
             if(value != null){
                 accumulator = new double[researching.requirements.length];
                 totalAccumulator = new double[researching.requirements.length];
             }
-        }
-
-        private void setToNode(@Nullable TechNode value){
-            SelectedNode = value;
         }
 
         @Override
@@ -207,13 +207,12 @@ public class ResearchBlock extends Block{
                     }
                     UIExtended.Techtree.hide();
                 }); //TODO mobile support
-            configUpdate();
 
             return false;
         }
 
         public void configUpdate(){
-            setToNode(UIExtended.Techtree.getSelector());
+            setTo(UIExtended.Techtree.getSelector());
         }
 
         @Override
