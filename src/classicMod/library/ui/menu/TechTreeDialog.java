@@ -359,7 +359,7 @@ public class TechTreeDialog extends BaseDialog {
             UnlockableContent selectedContent = node.content;
             selectorNode = node;
             ResearchBlockBuild.configUpdate();
-            ui.showInfo(getSelector().content.name);
+            //ui.showInfo(getSelector().content.name);
         }
 
         void rebuild(){
