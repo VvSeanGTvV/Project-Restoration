@@ -79,9 +79,7 @@ public class ResearchBlock extends Block{
                 isReady = false;
             }
             if(SelectedNode != UIExtended.Techtree.getSelector() && mobile){
-                SelectedNode = UIExtended.Techtree.getSelector();
-                setTo(SelectedNode);
-                //configUpdate();
+                configUpdate();
             }
             defaultCore = Vars.state.rules.sector.info.bestCoreType;
             if(defaultCore != null){
@@ -133,7 +131,7 @@ public class ResearchBlock extends Block{
                     //calculate how many items it can actually use
                     int maxUse = Math.min(required, items.get(researching.requirements[i].item));
                     //get this as a fraction
-                    double fraction = maxUse / (double)required; //divide it by 2 since it keep eating too much resources
+                    double fraction = maxUse / (double)required;
 
                     //move max progress down if this fraction is less than 1
                     maxProgress = Math.min(maxProgress, maxProgress * fraction);
@@ -145,6 +143,7 @@ public class ResearchBlock extends Block{
                         items.remove(researching.requirements[i].item, maxUse/2);
                     }
                 }
+
                 //else, no items are required yet, so just keep going
             }
 
@@ -221,7 +220,8 @@ public class ResearchBlock extends Block{
 
         public void configUpdate(){
             SelectedNode = UIExtended.Techtree.getSelector();
-            setTo(UIExtended.Techtree.getSelector());
+            configure(SelectedNode);
+            //setTo(SelectedNode);
         }
 
         @Override
