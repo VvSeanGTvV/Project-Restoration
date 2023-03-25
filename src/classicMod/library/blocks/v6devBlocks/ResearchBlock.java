@@ -111,7 +111,10 @@ public class ResearchBlock extends Block{
                     //data.unlockContent(researching.content);
 
                     setTo(null);
+                    UIExtended.Techtree.NullifyNode();
+                    SelectedNode = null;
                     iA = 0;
+                    deselect();
                 }
             }
         }
@@ -152,8 +155,6 @@ public class ResearchBlock extends Block{
             if(value != null){
                 accumulator = new double[researching.requirements.length];
                 totalAccumulator = new double[researching.requirements.length];
-            }else{
-                UIExtended.Techtree.NullifyNode();
             }
         }
 
@@ -176,7 +177,7 @@ public class ResearchBlock extends Block{
 
         @Override
         public void buildConfiguration(Table table){
-            table.button(Icon.terminal, Styles.cleari, () -> {
+            table.button(Icon.tree, Styles.cleari, () -> {
                 UIExtended.Techtree.show(node -> {
                     if(!mobile) {
                         configure(node);
