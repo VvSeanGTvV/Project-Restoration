@@ -79,7 +79,9 @@ public class ResearchBlock extends Block{
                 isReady = false;
             }
             if(SelectedNode != UIExtended.Techtree.getSelector() && mobile){
-                configUpdate();
+                SelectedNode = UIExtended.Techtree.getSelector();
+                setTo(SelectedNode);
+                //configUpdate();
             }
             defaultCore = Vars.state.rules.sector.info.bestCoreType;
             if(defaultCore != null){
@@ -115,9 +117,6 @@ public class ResearchBlock extends Block{
                     SelectedNode = null;
                     iA = 0;
                 }
-                if(iA >= defaultResearchingTime-1){ //TODO fix this bug
-                    deselect(); //Prevent the UI disappearing every god damn time
-                }
             }
         }
 
@@ -134,7 +133,7 @@ public class ResearchBlock extends Block{
                     //calculate how many items it can actually use
                     int maxUse = Math.min(required, items.get(researching.requirements[i].item));
                     //get this as a fraction
-                    double fraction = maxUse / (double)required / 2; //divide it by 2 since it keep eating too much resources
+                    double fraction = maxUse / (double)required; //divide it by 2 since it keep eating too much resources
 
                     //move max progress down if this fraction is less than 1
                     maxProgress = Math.min(maxProgress, maxProgress * fraction);
@@ -143,7 +142,7 @@ public class ResearchBlock extends Block{
 
                     //remove stuff that is actually used
                     if(remove){
-                        items.remove(researching.requirements[i].item, maxUse);
+                        items.remove(researching.requirements[i].item, maxUse/2);
                     }
                 }
                 //else, no items are required yet, so just keep going
@@ -179,17 +178,7 @@ public class ResearchBlock extends Block{
 
         @Override
         public void buildConfiguration(Table table){
-            table.button(Icon.tree, Styles.cleari, () -> {
-                UIExtended.Techtree.show(node -> {
-                    if(!mobile) {
-                        configure(node);
-                    }else{
-                        setTo(UIExtended.Techtree.getSelector());
-                        configure(UIExtended.Techtree.getSelector());
-                    }
-                    UIExtended.Techtree.hide();
-                }); //TODO mobile support
-            }).size(40f);
+
         }
 
         @Override
@@ -215,12 +204,20 @@ public class ResearchBlock extends Block{
             return 0;
         }
 
-        /*@Override
+        @Override
         public boolean configTapped(){
             //configure with tech node
-
+            UIExtended.Techtree.show(node -> {
+                if(!mobile) {
+                    configure(node);
+                }else{
+                    setTo(UIExtended.Techtree.getSelector());
+                    configure(UIExtended.Techtree.getSelector());
+                }
+                UIExtended.Techtree.hide();
+            }); //TODO mobile support
             return false;
-        }*/
+        }
 
         public void configUpdate(){
             SelectedNode = UIExtended.Techtree.getSelector();
