@@ -212,12 +212,12 @@ public class ResearchBlock extends Block{
             return 0;
         }
 
-        @Override
+        /*@Override
         public boolean configTapped(){
             //configure with tech node
 
             return false;
-        }
+        }*/
 
         public void configUpdate(){
             SelectedNode = UIExtended.Techtree.getSelector();
