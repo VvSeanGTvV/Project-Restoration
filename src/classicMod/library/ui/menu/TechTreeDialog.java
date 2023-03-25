@@ -140,9 +140,8 @@ public class TechTreeDialog extends BaseDialog {
         return selectorNode;
     }
 
-    public TechNode updateSelector(TechNode node){
-        selectorNode.content = node.content;
-        return selectorNode;
+    public void NullifyNode(){
+        selectorNode = null;
     }
 
     void treeLayout(){
@@ -355,9 +354,7 @@ public class TechTreeDialog extends BaseDialog {
         }*/
         
         void SelectNode(TechNode node){
-            UnlockableContent selectedContent = node.content;
             selectorNode = node;
-            //ui.showInfo(getSelector().content.name);
         }
 
         void rebuild(){

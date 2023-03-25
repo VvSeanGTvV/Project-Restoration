@@ -78,7 +78,7 @@ public class ResearchBlock extends Block{
             }else{
                 isReady = false;
             }
-            if(SelectedNode != UIExtended.Techtree.getSelector() && isReady){
+            if(SelectedNode != UIExtended.Techtree.getSelector() && isReady && mobile){
                 configUpdate();
             }
             defaultCore = Vars.state.rules.sector.info.bestCoreType;
@@ -152,6 +152,8 @@ public class ResearchBlock extends Block{
             if(value != null){
                 accumulator = new double[researching.requirements.length];
                 totalAccumulator = new double[researching.requirements.length];
+            }else{
+                UIExtended.Techtree.NullifyNode();
             }
         }
 
