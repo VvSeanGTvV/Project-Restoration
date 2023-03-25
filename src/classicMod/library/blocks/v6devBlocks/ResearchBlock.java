@@ -205,6 +205,10 @@ public class ResearchBlock extends Block{
             return false;
         }
 
+        public static void configUpdate(){
+            configure(UIExtended.Techtree.getSelector());
+        }
+
         @Override
         public void write(Writes write){
             super.write(write);

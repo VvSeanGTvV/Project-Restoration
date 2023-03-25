@@ -16,6 +16,7 @@ import arc.scene.ui.layout.Stack;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
+import classicMod.library.blocks.v6devBlocks.ResearchBlock.*;
 import mindustry.content.*;
 import mindustry.content.TechTree.*;
 import mindustry.ctype.*;
@@ -357,6 +358,7 @@ public class TechTreeDialog extends BaseDialog {
         void SelectNode(TechNode node){
             UnlockableContent selectedContent = node.content;
             selectorNode = node;
+            ResearchBlockBuild.configUpdate();
             ui.showInfo(getSelector().content.name);
         }
 
