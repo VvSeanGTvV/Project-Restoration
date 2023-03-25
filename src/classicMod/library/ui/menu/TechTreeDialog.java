@@ -41,6 +41,7 @@ public class TechTreeDialog extends BaseDialog {
     private Rect bounds = new Rect();
     private View view;
     private Cons<TechNode> selector = c -> {};
+    private TechNode selectorNode;
 
     public TechTreeDialog(){
         super("");
@@ -53,8 +54,9 @@ public class TechTreeDialog extends BaseDialog {
 
         //Events.on(ContentReloadEvent.class, e -> {
         TechNode TechTreeDef = root.node;
+        Planet currPlanet = ui.planet.isShown() ? ui.planet.state.planet : state.isCampaign() ? state.rules.sector.planet : null;
         Planet planet = content.getByName(ContentType.planet, settings.getString("lastplanet", "serpulo"));
-        if(planet != null)TechTreeDef = planet.techTree;
+        if(currPlanet != null)TechTreeDef = currPlanet.techTree;
         nodes.clear();
         root = new TechTreeNode(TechTreeDef, null); //TechTree.roots.first()
         checkNodes(root);
@@ -124,6 +126,7 @@ public class TechTreeDialog extends BaseDialog {
         });
     }
 
+
     public Dialog show(Cons<TechNode> selector){
         this.selector = selector;
         return super.show();
@@ -131,6 +134,10 @@ public class TechTreeDialog extends BaseDialog {
 
     public Dialog show(){
         return show(c -> {});
+    }
+
+    public TechNode getSelector(){
+        return selectorNode;
     }
 
     void treeLayout(){
@@ -410,7 +417,7 @@ public class TechTreeDialog extends BaseDialog {
 
                 if(mobile && locked(node)){
                     b.row();
-                    b.button("@research", Icon.ok, () -> loadTechnode((Cons<TechNode>) node));
+                    b.button("@select", Icon.ok, () -> SelectNode(node));
                 }
 
                 //TODO research select button
@@ -432,8 +439,8 @@ public class TechTreeDialog extends BaseDialog {
             infoTable.act(Core.graphics.getDeltaTime());
         }
 
-        protected void loadTechnode(Cons<TechNode>node){
-            selector = node;
+        protected void SelectNode(TechNode node){
+            selectorNode = node;
         }
 
         @Override
