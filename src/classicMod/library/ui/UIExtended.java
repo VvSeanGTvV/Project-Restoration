@@ -1,17 +1,14 @@
 package classicMod.library.ui;
 
 import arc.*;
-import classicMod.library.ui.frag.*;
 import classicMod.library.ui.menu.*;
 
 public class UIExtended {
     public static CutsceneEnding cutsceneEnding;
-    public static CutsceneEndingFrag cutsceneEndingfrag;
     public static TechTreeDialog Techtree;
 
     public static void init(){
         cutsceneEnding = new CutsceneEnding();
-        cutsceneEndingfrag = new CutsceneEndingFrag();
         Techtree = new TechTreeDialog();
 
 
