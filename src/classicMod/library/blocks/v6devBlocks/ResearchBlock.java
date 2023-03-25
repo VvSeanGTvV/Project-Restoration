@@ -83,11 +83,11 @@ public class ResearchBlock extends Block{
             }
             defaultCore = Vars.state.rules.sector.info.bestCoreType;
             if(defaultCore != null){
-                requirements(category, ItemStack.mult(defaultCore.requirements, 1));
+                requirements(category, ItemStack.mult(defaultCore.requirements, 0.7f));
             }
             if(researching != null){
-                if(defaultResearchingTime != researching.requirements.length * 5) {
-                    defaultResearchingTime = researching.requirements.length * 5; //Just default it by the length
+                if(defaultResearchingTime != researching.requirements.length * researching.requirements.length * 5) {
+                    defaultResearchingTime = researching.requirements.length * researching.requirements.length * 5; //Just default it by the length
                 }
                 double totalTicks =  defaultResearchingTime * 60.0;
                 double amount = researchSpeed * edelta() / totalTicks;
@@ -177,7 +177,17 @@ public class ResearchBlock extends Block{
 
         @Override
         public void buildConfiguration(Table table){
-
+            table.button(Icon.tree, Styles.cleari, () -> {
+                UIExtended.Techtree.show(node -> {
+                    if(!mobile) {
+                        configure(node);
+                    }else{
+                        setTo(UIExtended.Techtree.getSelector());
+                        configure(UIExtended.Techtree.getSelector());
+                    }
+                    UIExtended.Techtree.hide();
+                });
+            });
         }
 
         @Override
@@ -203,20 +213,11 @@ public class ResearchBlock extends Block{
             return 0;
         }
 
-        @Override
+        /*@Override
         public boolean configTapped(){
             //configure with tech node
-            UIExtended.Techtree.show(node -> {
-                if(!mobile) {
-                    configure(node);
-                }else{
-                    setTo(UIExtended.Techtree.getSelector());
-                    configure(UIExtended.Techtree.getSelector());
-                }
-                UIExtended.Techtree.hide();
-            }); //TODO mobile support
             return false;
-        }
+        }*/
 
         public void configUpdate(){
             SelectedNode = UIExtended.Techtree.getSelector();

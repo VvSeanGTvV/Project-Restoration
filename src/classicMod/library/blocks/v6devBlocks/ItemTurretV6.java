@@ -18,7 +18,7 @@ import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
-public class ItemTurretV6 extends TurretV6{
+public class ItemTurretV6 extends TurretV6{ //For backwards compatibility!
     public ObjectMap<Item, BulletType> ammoTypes = new OrderedMap<>();
 
     public ItemTurretV6 (String name){

@@ -1,7 +1,7 @@
 package classicMod.library.ui;
 
 import arc.*;
-import classicMod.library.ui.menu.*;
+import classicMod.library.ui.dialog.*;
 
 public class UIExtended {
     public static CutsceneEnding cutsceneEnding;

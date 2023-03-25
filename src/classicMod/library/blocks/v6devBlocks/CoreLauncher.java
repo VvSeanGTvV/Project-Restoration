@@ -39,7 +39,7 @@ public class CoreLauncher extends Block{
             defaultCore = Vars.state.rules.sector.info.bestCoreType;
             Pos = new Vec2 (this.x, this.y);
             if(defaultCore != null){
-                requirements(category, ItemStack.mult(defaultCore.requirements, 1));
+                requirements(category, ItemStack.mult(defaultCore.requirements, 2));
             }
         }
 

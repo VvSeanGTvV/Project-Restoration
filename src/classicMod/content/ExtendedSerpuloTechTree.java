@@ -65,9 +65,7 @@ public class ExtendedSerpuloTechTree {
         });
 
         margeNode(launchPad, () -> {
-            //node(dataProcessor, () -> {});
             node(launchPadLarge, () -> {
-                //node(coreSilo, () -> {}); //TODO just unlock them it is not really important
                 node(ClassicBlocks.interplanetaryAccelerator, Seq.with(new SectorComplete(planetaryTerminal)), () -> {}); //Endgame bois
             });
         });

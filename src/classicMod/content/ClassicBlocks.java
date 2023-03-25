@@ -476,7 +476,7 @@ public class ClassicBlocks {
             {
                 requirements(Category.turret, with(Items.tungsten, 35, Items.silicon, 35));
                 ammo(
-                        Items.tungsten, new ContinuousFlameBulletType(45f) {
+                        Items.tungsten, new ContinuousFlameBulletType(65f) {
                             {
                                 length = 105f;
                                 shootEffect = Fx.randLifeSpark;
@@ -484,9 +484,9 @@ public class ClassicBlocks {
                                 colors = new Color[]{Color.valueOf("e8e6ff").a(0.55f), Color.valueOf("819aeb").a(0.7f), Color.valueOf("786bed").a(0.8f), Color.valueOf("c3cdfa"), Color.white};
                                 smokeEffect = Fx.shootBigSmoke;
                                 continuous = false;
-                                ammoMultiplier = 2;
+                                ammoMultiplier = 3;
                                 pierce = true;
-                                knockback = 4f;
+                                knockback = 6f;
                                 status = StatusEffects.slow;
                                 hitColor = Items.tungsten.color;
                                 lifetime = 19f;
@@ -514,6 +514,7 @@ public class ClassicBlocks {
                         heatProgress = PartProgress.heat.blend(PartProgress.warmup, 0.5f);
                     }});
                 }};
+                shootSound = Sounds.shootBig;
                 shake = 1f;
                 shootLength = 5f;
                 outlineColor = Pal.darkOutline;
@@ -536,7 +537,7 @@ public class ClassicBlocks {
 
             ammo(
                     //TODO ammo types to be defined later
-                    Items.fissileMatter, new ArtilleryBulletType(2f, 40, "shell"){{
+                    Items.fissileMatter, new ArtilleryBulletType(3f, 130, "shell"){{
                         hitEffect = new MultiEffect(Fx.titanExplosion, Fx.titanSmoke);
                         despawnEffect = Fx.none;
                         knockback = 1.5f;
@@ -545,9 +546,10 @@ public class ClassicBlocks {
                         width = 14.2f;
                         ammoMultiplier = 4f;
                         splashDamageRadius = 60f;
-                        splashDamage = 100f;
+                        splashDamage = 130f;
                         backColor = hitColor = trailColor = Pal.berylShot;
                         frontColor = Color.valueOf("f0ffde");
+                        hitSound = Sounds.titanExplosion;
 
                         status = StatusEffects.blasted;
 
@@ -567,6 +569,38 @@ public class ClassicBlocks {
                         trailInterp = v -> Math.max(Mathf.slope(v), 0.8f);
                         shrinkX = 0.2f;
                         shrinkY = 0.1f;
+                    }},
+                    Items.thorium, new ArtilleryBulletType(2.2f, 200, "shell"){{
+                        hitEffect = new MultiEffect(Fx.titanExplosion, Fx.titanSmoke);
+                        despawnEffect = Fx.none;
+                        knockback = 2f;
+                        lifetime = 140f;
+                        height = 19f;
+                        width = 17f;
+                        splashDamageRadius = 55f;
+                        splashDamage = 200f;
+                        scaledSplashDamage = true;
+                        backColor = hitColor = trailColor = Color.valueOf("ea8878").lerp(Pal.redLight, 0.5f);
+                        frontColor = Color.white;
+                        ammoMultiplier = 1f;
+                        hitSound = Sounds.titanExplosion;
+
+                        status = StatusEffects.blasted;
+
+                        trailLength = 32;
+                        trailWidth = 3.35f;
+                        trailSinScl = 2.5f;
+                        trailSinMag = 0.5f;
+                        trailEffect = Fx.none;
+                        despawnShake = 7f;
+
+                        shootEffect = Fx.shootTitan;
+                        smokeEffect = Fx.shootSmokeTitan;
+
+                        trailInterp = v -> Math.max(Mathf.slope(v), 0.8f);
+                        shrinkX = 0.2f;
+                        shrinkY = 0.1f;
+                        buildingDamageMultiplier = 0.3f;
                     }}
             );
             shootSound = Sounds.mediumCannon;

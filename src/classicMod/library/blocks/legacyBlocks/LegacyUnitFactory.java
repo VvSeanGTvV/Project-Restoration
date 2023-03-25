@@ -32,6 +32,7 @@ public class LegacyUnitFactory extends Block {
     public int[] capacities = {};
     public ItemStack[] requirement; //Requirements for the unit
     protected boolean varRuleSet = false; //If it is already setted and multiplied by the rules unitcap.
+    protected boolean singleSet = false;
 
     public LegacyUnitFactory(String name){
         super(name);
@@ -52,6 +53,7 @@ public class LegacyUnitFactory extends Block {
         stats.remove(Stat.itemCapacity);
         stats.add(Stat.productionTime, produceTime/60f, StatUnit.seconds);
         stats.add(Stat.maxUnits, maxSpawn, StatUnit.none);
+        stats.add(Stat.output, unitType.name);
 
         super.setStats();
     }
@@ -60,10 +62,11 @@ public class LegacyUnitFactory extends Block {
         if(stats.intialized) {
             stats.remove(Stat.productionTime);
             stats.remove(Stat.maxUnits);
+            stats.remove(Stat.output);
 
             stats.add(Stat.productionTime, produceTime / 60f, StatUnit.seconds);
             stats.add(Stat.maxUnits, maxSpawn, StatUnit.none);
-            
+            stats.add(Stat.output, unitType.name);
         }
 
         //super.setStats();
