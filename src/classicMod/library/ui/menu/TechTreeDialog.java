@@ -427,7 +427,7 @@ public class TechTreeDialog extends BaseDialog {
 
                 if(mobile && locked(node)){
                     b.row();
-                    b.button("@select", Icon.ok, () -> SelectNode(node)).growX().height(44f).colspan(3);
+                    b.button("@sectors.select", Icon.ok, () -> SelectNode(node)).growX().height(44f).colspan(3);
                 }
 
                 //TODO research select button
