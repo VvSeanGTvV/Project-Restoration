@@ -78,7 +78,7 @@ public class ResearchBlock extends Block{
             }else{
                 isReady = false;
             }
-            if(researching != UIExtended.Techtree.getSelector() && isReady){
+            if(SelectedNode != UIExtended.Techtree.getSelector() && isReady){
                 configUpdate();
             }
             defaultCore = Vars.state.rules.sector.info.bestCoreType;
@@ -217,6 +217,7 @@ public class ResearchBlock extends Block{
         }
 
         public void configUpdate(){
+            SelectedNode = UIExtended.Techtree.getSelector();
             setTo(UIExtended.Techtree.getSelector());
         }
 
