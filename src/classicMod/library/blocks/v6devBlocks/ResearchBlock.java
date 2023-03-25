@@ -78,7 +78,7 @@ public class ResearchBlock extends Block{
             }else{
                 isReady = false;
             }
-            if(SelectedNode != UIExtended.Techtree.getSelector() && isReady && mobile){
+            if(SelectedNode != UIExtended.Techtree.getSelector() && mobile){
                 configUpdate();
             }
             defaultCore = Vars.state.rules.sector.info.bestCoreType;
@@ -176,7 +176,17 @@ public class ResearchBlock extends Block{
 
         @Override
         public void buildConfiguration(Table table){
-
+            table.button(Icon.terminal, Styles.cleari, () -> {
+                UIExtended.Techtree.show(node -> {
+                    if(!mobile) {
+                        configure(node);
+                    }else{
+                        setTo(UIExtended.Techtree.getSelector());
+                        configure(UIExtended.Techtree.getSelector());
+                    }
+                    UIExtended.Techtree.hide();
+                }); //TODO mobile support
+            });
         }
 
         @Override
@@ -205,15 +215,6 @@ public class ResearchBlock extends Block{
         @Override
         public boolean configTapped(){
             //configure with tech node
-                UIExtended.Techtree.show(node -> {
-                    if(!mobile) {
-                        configure(node);
-                    }else{
-                        setTo(UIExtended.Techtree.getSelector());
-                        configure(UIExtended.Techtree.getSelector());
-                    }
-                    UIExtended.Techtree.hide();
-                }); //TODO mobile support
 
             return false;
         }
