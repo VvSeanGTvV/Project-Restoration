@@ -135,8 +135,13 @@ public class TechTreeDialog extends BaseDialog {
     public Dialog show(){
         return show(c -> {});
     }
-
+    
     public TechNode getSelector(){
+        return selectorNode;
+    }
+
+    public TechNode updateSelector(TechNode node){
+        selectorNode.content = node.content;
         return selectorNode;
     }
 
@@ -441,8 +446,8 @@ public class TechTreeDialog extends BaseDialog {
 
         protected void SelectNode(TechNode node){
             UnlockableContent selectedContent = node.content;
-            selectorNode = selectedContent.techNode;
-            ui.showInfo(node.content.name);
+            updateSelector(selectedContent.techNode);
+            ui.showInfo(getSelector().content.name);
         }
 
         @Override
