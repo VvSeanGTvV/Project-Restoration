@@ -446,7 +446,7 @@ public class TechTreeDialog extends BaseDialog {
 
         protected void SelectNode(TechNode node){
             UnlockableContent selectedContent = node.content;
-            updateSelector(selectedContent.techNode);
+            selectorNode.content = selectedContent;
             ui.showInfo(getSelector().content.name);
         }
 
