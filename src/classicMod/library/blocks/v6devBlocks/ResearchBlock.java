@@ -72,7 +72,7 @@ public class ResearchBlock extends Block{
 
         @Override
         public void updateTile(){
-            if(researching != UIExtended.Techtree.getSelector()){
+            if(researching != UIExtended.Techtree.getSelector() && researching != null){
                 configUpdate();
             }
             defaultCore = Vars.state.rules.sector.info.bestCoreType;
