@@ -16,6 +16,7 @@ import arc.scene.ui.layout.Stack;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
+import classicMod.library.ui.*;
 import mindustry.content.*;
 import mindustry.content.TechTree.*;
 import mindustry.ctype.*;
@@ -355,6 +356,7 @@ public class TechTreeDialog extends BaseDialog {
         
         void SelectNode(TechNode node){
             selectorNode = node;
+            UIExtended.Techtree.hide();
         }
 
         void rebuild(){
