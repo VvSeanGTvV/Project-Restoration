@@ -61,10 +61,11 @@ public class ResearchBlock extends Block{
     }
 
     public class ResearchBlockBuild extends Building{
-        public static @Nullable TechNode researching;
+        public @Nullable TechNode researching;
+        public @Nullable TechNode SelectedNode;
 
-        public static double[] accumulator;
-        public static double[] totalAccumulator;
+        public double[] accumulator;
+        public double[] totalAccumulator;
         protected int defaultResearchingTime = 5;
         protected float iA;
         protected Block defaultCore = state.rules.sector.info.bestCoreType;
@@ -145,12 +146,8 @@ public class ResearchBlock extends Block{
             }
         }
 
-        private static void setToNode(@Nullable TechNode value){
-            researching = value;
-            if(value != null){
-                accumulator = new double[researching.requirements.length];
-                totalAccumulator = new double[researching.requirements.length];
-            }
+        private void setToNode(@Nullable TechNode value){
+            SelectedNode = value;
         }
 
         @Override
@@ -210,11 +207,12 @@ public class ResearchBlock extends Block{
                     }
                     UIExtended.Techtree.hide();
                 }); //TODO mobile support
+            configUpdate();
 
             return false;
         }
 
-        public static void configUpdate(){
+        public void configUpdate(){
             setToNode(UIExtended.Techtree.getSelector());
         }
 
