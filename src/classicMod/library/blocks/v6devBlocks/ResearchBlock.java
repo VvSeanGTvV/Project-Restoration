@@ -63,6 +63,7 @@ public class ResearchBlock extends Block{
     public class ResearchBlockBuild extends Building{
         public @Nullable TechNode researching;
         public @Nullable TechNode SelectedNode;
+        public boolean isReady;
 
         public double[] accumulator;
         public double[] totalAccumulator;
@@ -72,7 +73,12 @@ public class ResearchBlock extends Block{
 
         @Override
         public void updateTile(){
-            if(researching != UIExtended.Techtree.getSelector()){
+            if(iA==0 || researching == null){
+                isReady = true;
+            }else{
+                isReady = false;
+            }
+            if(researching != UIExtended.Techtree.getSelector() && isReady){
                 configUpdate();
             }
             defaultCore = Vars.state.rules.sector.info.bestCoreType;
