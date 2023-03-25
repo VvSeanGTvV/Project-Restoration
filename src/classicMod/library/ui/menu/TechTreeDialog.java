@@ -353,6 +353,12 @@ public class TechTreeDialog extends BaseDialog {
             Sounds.unlock.play();
             Events.fire(new ResearchEvent(node.content));
         }*/
+        
+        void SelectNode(TechNode node){
+            UnlockableContent selectedContent = node.content;
+            selectorNode = node;
+            ui.showInfo(getSelector().content.name);
+        }
 
         void rebuild(){
             ImageButton button = hoverNode;
@@ -442,12 +448,6 @@ public class TechTreeDialog extends BaseDialog {
             addChild(infoTable);
             infoTable.pack();
             infoTable.act(Core.graphics.getDeltaTime());
-        }
-
-        protected void SelectNode(TechNode node){
-            UnlockableContent selectedContent = node.content;
-            selectorNode.content = selectedContent;
-            ui.showInfo(getSelector().content.name);
         }
 
         @Override
