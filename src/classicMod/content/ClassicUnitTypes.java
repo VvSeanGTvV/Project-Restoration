@@ -6,6 +6,7 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
+import classicMod.library.*;
 import classicMod.library.ability.*;
 import classicMod.library.ai.*;
 import mindustry.*;
@@ -76,7 +77,7 @@ public class ClassicUnitTypes {
 
                 reload = 7.5f;
                 alternate = true;
-                ejectEffect = Fx.casing1;
+                ejectEffect = ExtendedFx.shellEjectSmall;
                 shootX = -2.6f;
                 mirror = true;
                 bullet = new BasicBulletType(2.5f, 9f) {{ //reformat v5 coding into v7
@@ -267,7 +268,7 @@ public class ClassicUnitTypes {
 
                 reload = 7.5f;
                 alternate = true;
-                ejectEffect = Fx.casing1;
+                ejectEffect = ExtendedFx.shellEjectSmall;
                 mirror = true;
                 shootSound = pew;
                 shootX = -2.5f;
@@ -350,7 +351,7 @@ public class ClassicUnitTypes {
                 reload = 6.5f;
                 inaccuracy = 2f;
                 alternate = true;
-                ejectEffect = Fx.casing1;
+                ejectEffect = ExtendedFx.shellEjectSmall;
                 shootSound = Sounds.shootSnap;
                 mirror = true;
 
@@ -413,7 +414,7 @@ public class ClassicUnitTypes {
 
                 reload = 14f;
                 alternate = true;
-                ejectEffect = Fx.casing1;
+                ejectEffect = ExtendedFx.shellEjectSmall;
                 shootSound = Sounds.shoot;
                 mirror = true;
 
@@ -772,7 +773,7 @@ public class ClassicUnitTypes {
 
                 reload = 14f;
                 alternate = true;
-                ejectEffect = Fx.casing1;
+                ejectEffect = ExtendedFx.shellEjectSmall;
                 shootX = 0f;
                 mirror = true;
 
@@ -941,7 +942,7 @@ public class ClassicUnitTypes {
 
                 reload = 25f;
                 alternate = true;
-                ejectEffect = Fx.casing2;
+                ejectEffect = ExtendedFx.shellEjectMedium;
                 shootX = 0f;
                 mirror = true;
                 recoil = 3f;
@@ -983,7 +984,7 @@ public class ClassicUnitTypes {
 
                 reload = 15f;
                 alternate = true;
-                ejectEffect = Fx.casing2;
+                ejectEffect = ExtendedFx.shellEjectMedium;
                 shootX = 0f;
                 mirror = true;
                 recoil = 3f;
@@ -1211,7 +1212,7 @@ public class ClassicUnitTypes {
                     reload = 10f;
                     x = 1.25f;
                     rotate = true;
-                    ejectEffect = Fx.casing1;
+                    ejectEffect = ExtendedFx.shellEjectSmall;
                     bullet = ClassicBullets.standardCopper;
                 }});
         }};
