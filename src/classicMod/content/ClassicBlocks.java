@@ -329,7 +329,6 @@ public class ClassicBlocks {
 
         //--- Heat Producers Region ---
         heatReactor = new HeatProducer("heat-reactor"){{
-            //TODO gas/liquid requirement?
             requirements(Category.crafting, with(Items.oxide, 70, Items.graphite, 20, Items.carbide, 10, Items.thorium, 80));
             size = 3;
             craftTime = 60f * 10f;
@@ -374,7 +373,7 @@ public class ClassicBlocks {
 
             //consumeLiquid(Liquids.water, 8f);
             consumePower(2f);
-            consumeItems(with(Items.sporePod, 3, Items.phaseFabric, 1));
+            consumeItems(with(Items.fissileMatter, 3, Items.phaseFabric, 1));
 
             /* consumes.power(2f);
             consumes.items(with(Items.sporePod, 3, Items.phaseFabric, 1));

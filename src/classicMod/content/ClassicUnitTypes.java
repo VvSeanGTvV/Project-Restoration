@@ -297,6 +297,7 @@ public class ClassicUnitTypes {
             engineColor = Color.valueOf("84f491");
             buildSpeed = 2.5f;
             constructor = UnitEntity::create;
+            faceTarget = false;
 
             weapons.add(new Weapon("restored-mind-nullTexture") {{
                 x = 0f;
@@ -1170,7 +1171,8 @@ public class ClassicUnitTypes {
                 for (var pos : positions) {
                     int fi = i;
                     //TODO change to BuildWeapon properly, remove standard build beam and rotation
-                    weapons.add(new BuildWeapon("incite-weapon") {{
+                    weapons.add(new BuildWeapon("restored-mind-incite-weapon") {{
+                        outlines = true;
                         rotate = true;
                         reload = fi == 0 ? 25f : 35f;
                         rotateSpeed = 7f;
