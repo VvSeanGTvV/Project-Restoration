@@ -385,7 +385,7 @@ public class ClassicBlocks {
         slagCentrifuge = new GenericCrafter("slag-centrifuge"){{
             requirements(Category.crafting, with(Items.carbide, 70, Items.graphite, 60, Items.silicon, 40, Items.oxide, 40));
 
-            consumePower(2f / 60f);
+            consumePower(40f / 60f);
 
             size = 3;
             consumeItem(Items.sand, 1);
@@ -422,7 +422,7 @@ public class ClassicBlocks {
             requirements(Category.turret, with(Items.tungsten, 35, Items.silicon, 35));
             shootSound = Sounds.missile;
             ammo(
-                    Items.scrap, new MissileBulletType(4.2f, 15){{
+                    Items.scrap, new MissileBulletType(4.2f, 30){{
                         inaccuracy = 0.2f;
                         shootEffect = Fx.colorSpark;
                         smokeEffect = Fx.shootBigSmoke;
@@ -476,7 +476,7 @@ public class ClassicBlocks {
             {
                 requirements(Category.turret, with(Items.tungsten, 35, Items.silicon, 35));
                 ammo(
-                        Items.tungsten, new ContinuousFlameBulletType(65f) {
+                        Items.tungsten, new ContinuousFlameBulletType(85f) {
                             {
                                 length = 105f;
                                 shootEffect = Fx.randLifeSpark;
@@ -537,7 +537,7 @@ public class ClassicBlocks {
 
             ammo(
                     //TODO ammo types to be defined later
-                    Items.fissileMatter, new ArtilleryBulletType(3f, 130, "shell"){{
+                    Items.fissileMatter, new ArtilleryBulletType(3f, 235, "shell"){{
                         hitEffect = new MultiEffect(Fx.titanExplosion, Fx.titanSmoke);
                         despawnEffect = Fx.none;
                         knockback = 1.5f;
@@ -546,7 +546,7 @@ public class ClassicBlocks {
                         width = 14.2f;
                         ammoMultiplier = 4f;
                         splashDamageRadius = 60f;
-                        splashDamage = 130f;
+                        splashDamage = 235f;
                         backColor = hitColor = trailColor = Pal.berylShot;
                         frontColor = Color.valueOf("f0ffde");
                         hitSound = Sounds.titanExplosion;
@@ -569,6 +569,7 @@ public class ClassicBlocks {
                         trailInterp = v -> Math.max(Mathf.slope(v), 0.8f);
                         shrinkX = 0.2f;
                         shrinkY = 0.1f;
+                        buildingDamageMultiplier = 0.7f;
                     }},
                     Items.thorium, new ArtilleryBulletType(2.2f, 200, "shell"){{
                         hitEffect = new MultiEffect(Fx.titanExplosion, Fx.titanSmoke);
@@ -577,7 +578,7 @@ public class ClassicBlocks {
                         lifetime = 140f;
                         height = 19f;
                         width = 17f;
-                        splashDamageRadius = 55f;
+                        splashDamageRadius = 50f;
                         splashDamage = 200f;
                         scaledSplashDamage = true;
                         backColor = hitColor = trailColor = Color.valueOf("ea8878").lerp(Pal.redLight, 0.5f);
@@ -600,7 +601,7 @@ public class ClassicBlocks {
                         trailInterp = v -> Math.max(Mathf.slope(v), 0.8f);
                         shrinkX = 0.2f;
                         shrinkY = 0.1f;
-                        buildingDamageMultiplier = 0.3f;
+                        buildingDamageMultiplier = 0.5f;
                     }}
             );
             shootSound = Sounds.mediumCannon;
@@ -650,6 +651,7 @@ public class ClassicBlocks {
 
             range = 360f;
             size = 3;
+            health = 380 * size * size;
         }};
         //--- Turrets Region End ---
 

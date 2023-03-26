@@ -53,7 +53,7 @@ public class LegacyUnitFactory extends Block {
         stats.remove(Stat.itemCapacity);
         stats.add(Stat.productionTime, produceTime/60f, StatUnit.seconds);
         stats.add(Stat.maxUnits, maxSpawn, StatUnit.none);
-        stats.add(Stat.output, unitType.name);
+        stats.add(Stat.output, unitType.localizedName);
 
         super.setStats();
     }
@@ -66,7 +66,7 @@ public class LegacyUnitFactory extends Block {
 
             stats.add(Stat.productionTime, produceTime / 60f, StatUnit.seconds);
             stats.add(Stat.maxUnits, maxSpawn, StatUnit.none);
-            stats.add(Stat.output, unitType.name);
+            stats.add(Stat.output, unitType.localizedName);
         }
 
         //super.setStats();
