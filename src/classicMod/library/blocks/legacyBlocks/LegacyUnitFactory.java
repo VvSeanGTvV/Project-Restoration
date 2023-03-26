@@ -25,7 +25,7 @@ public class LegacyUnitFactory extends Block {
     public UnitType unitType;
     public float produceTime = 60f;
     public int originCap = 0;
-    //public float launchVelocity = 0f; //never used who knows why
+    public float launchVelocity = 0f; //never used who knows why
     public TextureRegion topRegion;
     public int maxSpawn = 8; //Default by 4
     public int originMax = maxSpawn;
@@ -159,8 +159,9 @@ public class LegacyUnitFactory extends Block {
                 unit.set(this);
                 unit.rotation(90f);
                 unit.add();
+                unit.vel.y = launchVelocity;
                 Fx.producesmoke.at(this);
-                Effect.shake(2f, 3f, this);
+                Effect.shake(4f, 5f, this);
                 Events.fire(new UnitSpawnEvent(unit));
             }
         }

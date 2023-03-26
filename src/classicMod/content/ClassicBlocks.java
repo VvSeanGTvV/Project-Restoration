@@ -39,7 +39,7 @@ public class ClassicBlocks {
 
     dataProcessor, //Research Block - Campaign only - v6-dev Block
 
-    warheadAssembler, ballisticSilo, nuclearWarhead, //Nuclear - Prototype [v7-dev]
+    warheadAssembler, ballisticSilo, nuclearWarhead, //Nuclear - Prototype [v7-dev] TODO what to do with this
     shieldProjector, shieldBreaker, largeShieldProjector, barrierProjector, //Projectors - Erekir - Prototype [v7-dev]
     heatReactor, //Heat Producers - Erekir - Prototype [v7-dev]
     cellSynthesisChamber, //Liquid Converter - Erekir - Prototype [v7-dev]
