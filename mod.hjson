@@ -14,7 +14,7 @@ main: "classicMod.ClassicMod"
 description: "A Mindustry builds including some classic ones are added to Mindustry v7! \nShout out to Mythril#0197 for the idea of v7 builds!"
 
 #the mod version
-version: 0.2.0 Preview Beta
+version: 0.2.0 Beta
 
 #the minimum game build required to run this mod
 minGameVersion: 142

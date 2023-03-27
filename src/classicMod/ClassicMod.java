@@ -21,7 +21,7 @@ import static mindustry.Vars.*;
 //v5-java-mod is the current use
 
 public class ClassicMod extends Mod{
-    private String ModVersion;
+    private String ModVersion = "2.0 Beta";
     public ClassicMod(){
         //Log.info("Loaded Classic constructor.");
         //listen for game load event
@@ -84,6 +84,7 @@ public class ClassicMod extends Mod{
         MenuUI.load();
         if(!headless) {
             LoadedMod resMod = mods.locateMod("restored-mind");
+            resMod.meta.version = ModVersion;
             Func<String, String> getModBundle = value -> bundle.get("mod." + value);
 
             StringBuilder contributors = new StringBuilder(getModBundle.get(resMod.meta.name + ".author"));
@@ -109,7 +110,7 @@ public class ClassicMod extends Mod{
                 t.checkPref("backward-v6", false); //TODO make some mods backwards compatiblilty with v6
                 t.checkPref("backward-v5", false); //TODO make some mods backwards compatiblilty with v5
             }
-            t.areaTextPref("Hi","Mod Settings Preferences: HI");
+            t.areaTextPref("Stats?","Mod Version: "+ModVersion);
         });
     }
 
