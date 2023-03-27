@@ -13,6 +13,7 @@ import mindustry.mod.Mods.*;
 import mindustry.ui.dialogs.SettingsMenuDialog.*;
 import mindustry.ui.dialogs.SettingsMenuDialog.SettingsTable.*;
 import mindustry.ui.fragments.*;
+import mindustry.world.blocks.legacy.*;
 
 import static arc.Core.*;
 import static classicMod.library.ui.menu.MenuUI.*;
@@ -45,6 +46,19 @@ public class ClassicMod extends Mod{
                 });
             }
 
+            if(settings.getBool("backward-v5", true)){ //TODO compatible to v5
+                if(!settings.getBool("backward-v6", false)){
+                    content.blocks().each(b -> {
+                        if(b instanceof LegacyUnitFactory block){
+                            block.subclass = classicMod.library.blocks.legacyBlocks.LegacyUnitFactory.class;
+                        }
+                        if(b instanceof LegacyMechPad block){
+                            block.subclass = classicMod.library.blocks.legacyBlocks.MechPad.class;
+                        }
+                    });
+                }
+            }
+
             LoadedMod lastModVer = mods.locateMod("classicv5");
             if (lastModVer != null) {
                 Log.err("Incompatible with classicv5 hjson mod and conflicts with this mod!");
@@ -68,28 +82,29 @@ public class ClassicMod extends Mod{
     @Override
     public void init() {
         MenuUI.load();
-        LoadedMod resMod = mods.locateMod("restored-mind");
+        if(!headless) {
+            LoadedMod resMod = mods.locateMod("restored-mind");
+            Func<String, String> getModBundle = value -> bundle.get("mod." + value);
 
-        Func<String, String> getModBundle = value -> bundle.get("mod." + value);
-
-        StringBuilder contributors = new StringBuilder(getModBundle.get(resMod.meta.name + ".author"));
-        contributors.append("\n\n").append("[#FCC21B]Contributors:[]");
-        int i = 0;
-        while(bundle.has("mod." + resMod.meta.name + "-contributor." + i)){
-            contributors.append("\n        ").append(getModBundle.get(resMod.meta.name + "-contributor." + i));
-            i++;
+            StringBuilder contributors = new StringBuilder(getModBundle.get(resMod.meta.name + ".author"));
+            contributors.append("\n\n").append("[#FCC21B]Contributors:[]");
+            int i = 0;
+            while (bundle.has("mod." + resMod.meta.name + "-credits." + i)) {
+                contributors.append("\n        ").append(getModBundle.get(resMod.meta.name + "-credits." + i));
+                i++;
+            }
+            resMod.meta.author = contributors.toString();
         }
-        resMod.meta.author = contributors.toString();
     }
 
     private void loadSettings() {
-        ui.settings.addCategory("@setting.restored-mind", "restored-mind-icon", t -> {
+        ui.settings.addCategory("@setting.restored-mind", "restored-mind-vanguard", t -> {
             t.pref(new Separator("restored-menu-bg"));
             t.checkPref("use-planetmenu", true);
             t.checkPref("use-lastplanet-bg", false);
             t.pref(new Separator("restored-annoying-window"));
             t.checkPref("ignore-warning", false);
-            if(true) {
+            if(false) {
                 t.pref(new Separator("restored-backwards-compatible"));
                 t.checkPref("backward-v6", false); //TODO make some mods backwards compatiblilty with v6
                 t.checkPref("backward-v5", false); //TODO make some mods backwards compatiblilty with v5
