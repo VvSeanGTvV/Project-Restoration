@@ -519,7 +519,7 @@ public class ClassicBlocks {
                 outlineColor = Pal.darkOutline;
                 size = 2;
                 envEnabled |= Env.scorching;
-                reload = 25f;
+                reload = 25f/2f;
                 restitution = 0.1f;
                 recoil = 2.5f;
                 range = 90;
