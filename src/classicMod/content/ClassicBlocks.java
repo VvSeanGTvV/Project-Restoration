@@ -519,7 +519,7 @@ public class ClassicBlocks {
                 outlineColor = Pal.darkOutline;
                 size = 2;
                 envEnabled |= Env.scorching;
-                reload = 25f/2.1f;
+                reload = 25f/1.6f;
                 restitution = 0.1f;
                 recoil = 2.5f;
                 range = 90;
@@ -536,7 +536,7 @@ public class ClassicBlocks {
 
             ammo(
                     //TODO ammo types to be defined later
-                    Items.fissileMatter, new ArtilleryBulletType(3f, 235, "shell"){{
+                    Items.fissileMatter, new ArtilleryBulletType(3f, 315, "shell"){{
                         hitEffect = new MultiEffect(Fx.titanExplosion, Fx.titanSmoke);
                         despawnEffect = Fx.none;
                         knockback = 1.5f;
@@ -545,7 +545,7 @@ public class ClassicBlocks {
                         width = 14.2f;
                         ammoMultiplier = 4f;
                         splashDamageRadius = 60f;
-                        splashDamage = 235f;
+                        splashDamage = 315f;
                         backColor = hitColor = trailColor = Pal.berylShot;
                         frontColor = Color.valueOf("f0ffde");
                         hitSound = Sounds.titanExplosion;
@@ -570,7 +570,7 @@ public class ClassicBlocks {
                         shrinkY = 0.1f;
                         buildingDamageMultiplier = 0.7f;
                     }},
-                    Items.thorium, new ArtilleryBulletType(2.2f, 200, "shell"){{
+                    Items.thorium, new ArtilleryBulletType(2.2f, 300, "shell"){{
                         hitEffect = new MultiEffect(Fx.titanExplosion, Fx.titanSmoke);
                         despawnEffect = Fx.none;
                         knockback = 2f;
@@ -578,7 +578,7 @@ public class ClassicBlocks {
                         height = 19f;
                         width = 17f;
                         splashDamageRadius = 50f;
-                        splashDamage = 200f;
+                        splashDamage = 300f;
                         scaledSplashDamage = true;
                         backColor = hitColor = trailColor = Color.valueOf("ea8878").lerp(Pal.redLight, 0.5f);
                         frontColor = Color.white;
@@ -600,7 +600,7 @@ public class ClassicBlocks {
                         trailInterp = v -> Math.max(Mathf.slope(v), 0.8f);
                         shrinkX = 0.2f;
                         shrinkY = 0.1f;
-                        buildingDamageMultiplier = 0.5f;
+                        buildingDamageMultiplier = 0.6f;
                     }}
             );
             shootSound = Sounds.mediumCannon;
