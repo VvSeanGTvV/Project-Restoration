@@ -456,7 +456,7 @@ public class ClassicBlocks {
             xRand = 13f;
             recoil = 1f;
 
-            drawer = new DrawTurret("reinforced-");
+            drawer = new DrawTurret("reinforced-"); //TODO make an animation here
             outlineColor = Pal.darkOutline;
             size = 3;
             envEnabled |= Env.space;

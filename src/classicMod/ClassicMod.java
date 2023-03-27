@@ -1,13 +1,17 @@
 package classicMod;
 
 import arc.*;
+import arc.func.*;
 import arc.util.*;
 import classicMod.content.*;
 import classicMod.library.ui.*;
 import classicMod.library.ui.menu.*;
 import mindustry.game.EventType.*;
+import mindustry.gen.*;
 import mindustry.mod.*;
 import mindustry.mod.Mods.*;
+import mindustry.ui.dialogs.SettingsMenuDialog.*;
+import mindustry.ui.dialogs.SettingsMenuDialog.SettingsTable.*;
 import mindustry.ui.fragments.*;
 
 import static arc.Core.*;
@@ -25,10 +29,6 @@ public class ClassicMod extends Mod{
         Events.on(ClientLoadEvent.class, e -> {
             loadSettings();
             Core.app.post(UIExtended::init);
-            LoadedMod mod = mods.locateMod("restored-mind");
-            ModVersion = mod.meta.minGameVersion;
-            ui.showOkText("@mod.restored-mind.earlyaccess.title", "@mod.restored-mind.earlyaccess.text", () -> {
-            });
             //MenuBackground bg = solarSystem;
             boolean usePlanetBG = settings.getBool("use-planetmenu");
             boolean uselastPlanet = settings.getBool("use-lastplanet-bg");
@@ -38,6 +38,11 @@ public class ClassicMod extends Mod{
                 } else {
                     Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(random));
                 }
+            }
+            boolean ingnoreWarning = settings.getBool("ignore-warning");
+            if (ingnoreWarning) {
+                ui.showOkText("@mod.restored-mind.earlyaccess.title", "@mod.restored-mind.earlyaccess.text", () -> {
+                });
             }
 
             LoadedMod lastModVer = mods.locateMod("classicv5");
@@ -63,12 +68,32 @@ public class ClassicMod extends Mod{
     @Override
     public void init() {
         MenuUI.load();
+        LoadedMod resMod = mods.locateMod("restored-mind");
+
+        Func<String, String> getModBundle = value -> bundle.get("mod." + value);
+
+        StringBuilder contributors = new StringBuilder(getModBundle.get(resMod.meta.name + ".author"));
+        contributors.append("\n\n").append("[#FCC21B]Contributors:[]");
+        int i = 0;
+        while(bundle.has("mod." + resMod.meta.name + "-contributor." + i)){
+            contributors.append("\n        ").append(getModBundle.get(resMod.meta.name + "-contributor." + i));
+            i++;
+        }
+        resMod.meta.author = contributors.toString();
     }
 
     private void loadSettings() {
-        ui.settings.addCategory("@setting.restored-mind", "icon", t -> {
+        ui.settings.addCategory("@setting.restored-mind", "restored-mind-icon", t -> {
+            t.pref(new Separator("restored-menu-bg"));
             t.checkPref("use-planetmenu", true);
             t.checkPref("use-lastplanet-bg", false);
+            t.pref(new Separator("restored-annoying-window"));
+            t.checkPref("ignore-warning", false);
+            if(false) {
+                t.pref(new Separator("restored-backwards-compatible"));
+                t.checkPref("backward-v6", false); //TODO make some mods backwards compatiblilty with v6
+                t.checkPref("backward-v5", false); //TODO make some mods backwards compatiblilty with v5
+            }
             t.areaTextPref("Hi","Mod Settings Preferences: HI");
         });
     }
@@ -81,6 +106,31 @@ public class ClassicMod extends Mod{
         new ClassicBlocks().load();
         new ExtendedSerpuloTechTree().load();
         new ExtendedErekirTechTree().load();
+    }
+
+    static class Separator extends Setting { //This is from prog-mats-java!
+        float height;
+
+        public Separator(String name){
+            super(name);
+        }
+
+        public Separator(float height){
+            this("");
+            this.height = height;
+        }
+
+        @Override
+        public void add(SettingsTable table){
+            if(name.isEmpty()){
+                table.image(Tex.clear).height(height).padTop(3f);
+            }else{
+                table.table(t -> {
+                    t.add(title).padTop(3f);
+                }).get().background(Tex.underline);
+            }
+            table.row();
+        }
     }
 
 }
