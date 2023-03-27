@@ -40,7 +40,7 @@ public class ClassicMod extends Mod{
                 }
             }
             boolean ingnoreWarning = settings.getBool("ignore-warning");
-            if (ingnoreWarning) {
+            if (!ingnoreWarning) {
                 ui.showOkText("@mod.restored-mind.earlyaccess.title", "@mod.restored-mind.earlyaccess.text", () -> {
                 });
             }
@@ -89,7 +89,7 @@ public class ClassicMod extends Mod{
             t.checkPref("use-lastplanet-bg", false);
             t.pref(new Separator("restored-annoying-window"));
             t.checkPref("ignore-warning", false);
-            if(false) {
+            if(true) {
                 t.pref(new Separator("restored-backwards-compatible"));
                 t.checkPref("backward-v6", false); //TODO make some mods backwards compatiblilty with v6
                 t.checkPref("backward-v5", false); //TODO make some mods backwards compatiblilty with v5
