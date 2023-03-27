@@ -475,7 +475,7 @@ public class ClassicBlocks {
             {
                 requirements(Category.turret, with(Items.tungsten, 35, Items.silicon, 35));
                 ammo(
-                        Items.tungsten, new ContinuousFlameBulletType(85f) {
+                        Items.tungsten, new ContinuousFlameBulletType(65f) {
                             {
                                 length = 105f;
                                 shootEffect = Fx.randLifeSpark;
@@ -485,7 +485,7 @@ public class ClassicBlocks {
                                 continuous = false;
                                 ammoMultiplier = 3;
                                 pierce = true;
-                                knockback = 6f;
+                                knockback = 4f;
                                 status = StatusEffects.slow;
                                 hitColor = Items.tungsten.color;
                                 lifetime = 19f;
@@ -519,7 +519,7 @@ public class ClassicBlocks {
                 outlineColor = Pal.darkOutline;
                 size = 2;
                 envEnabled |= Env.scorching;
-                reload = 25f/2f;
+                reload = 25f/2.3f;
                 restitution = 0.1f;
                 recoil = 2.5f;
                 range = 90;
