@@ -694,7 +694,7 @@ public class ClassicBlocks {
         //--- Drone Center Region End ---
 
         //--- Launchpad Region ---
-        /*payloadLaunchpad = new PayloadLaunchPad("payload-launch-pad"){{ //TODO remove thus
+        /*payloadLaunchpad = new PayloadLaunchPad("payload-launch-pad"){{ //TODO keep it? or scrap it?
             requirements(Category.effect, BuildVisibility.campaignOnly, with(Items.titanium, 200, Items.silicon, 150, Items.lead, 250, Items.plastanium, 75));
             alwaysUnlocked = true;
             size = 5;
@@ -712,14 +712,14 @@ public class ClassicBlocks {
             consumePower(6f);
         }};
 
-        coreSilo = new CoreLauncher("core-silo"){{
+        /*coreSilo = new CoreLauncher("core-silo"){{ //TODO make somethin out of this or scrap it
             alwaysUnlocked = true;
             requirements(Category.effect, BuildVisibility.campaignOnly, ItemStack.with(Items.copper, 350, Items.silicon, 140, Items.lead, 200, Items.titanium, 150)); //Items.copper, 350, Items.silicon, 140, Items.lead, 200, Items.titanium, 150
             size = 5;
             itemCapacity = 1000;
             hasPower = true;
             consumePower(4f);
-        }};
+        }};*/
 
         dataProcessor = new ResearchBlock("data-processor"){{
             alwaysUnlocked = true;

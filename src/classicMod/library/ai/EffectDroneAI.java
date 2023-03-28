@@ -9,21 +9,18 @@ import mindustry.entities.units.*;
 import mindustry.gen.*;
 
 public class EffectDroneAI extends AIController {
-    protected DroneCenterNewBuild build;
     protected DroneCenterNew block;
 
     @Override
     public void updateMovement() {
-        //if(!(unit instanceof BuildingTetherc tether)) return;
-        //if(!(tether.building() instanceof DroneCenterNewBuild build)) return;
-        //if(build.target == null) unit.remove(); //TODO fix the ai because it is ded :I
-        if (build.target != null) {
-            target = build.target;
-            if (unit.within(target, block.droneRange + build.target.hitSize)) {
-                build.target.apply(block.status, block.statusDuration);
-            } else {
-                moveTo(build.target.hitSize / 1.8f + block.droneRange - 10f);
-            }
+        if(!(unit instanceof BuildingTetherc tether)) return;
+        if(!(tether.building() instanceof DroneCenterNewBuild build)) return;
+        if(build.target == null) return; //TODO fix the ai because it is ded :I
+        target = build.target;
+        if (unit.within(target, block.droneRange + build.target.hitSize)) {
+            build.target.apply(block.status, block.statusDuration);
+        } else {
+            moveTo(build.target.hitSize / 1.8f + block.droneRange - 10f);
         }
 
         //TODO what angle?

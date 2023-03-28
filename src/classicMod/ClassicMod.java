@@ -21,7 +21,7 @@ import static mindustry.Vars.*;
 //v5-java-mod is the current use
 
 public class ClassicMod extends Mod{
-    private String ModVersion = "2.0 Beta";
+    private String ModVersion = "2.1 Beta";
     public ClassicMod(){
         //Log.info("Loaded Classic constructor.");
         //listen for game load event
@@ -88,7 +88,7 @@ public class ClassicMod extends Mod{
             Func<String, String> getModBundle = value -> bundle.get("mod." + value);
 
             StringBuilder contributors = new StringBuilder(getModBundle.get(resMod.meta.name + ".author"));
-            contributors.append("\n\n").append("[#FCC21B]Contributors:[]");
+            contributors.append("\n\n").append("[#FCC21B]Credits:[]");
             int i = 0;
             while (bundle.has("mod." + resMod.meta.name + "-credits." + i)) {
                 contributors.append("\n        ").append(getModBundle.get(resMod.meta.name + "-credits." + i));
@@ -105,10 +105,10 @@ public class ClassicMod extends Mod{
             t.checkPref("use-lastplanet-bg", false);
             t.pref(new Separator("restored-annoying-window"));
             t.checkPref("ignore-warning", false);
+            t.pref(new Separator("restored-backwards-compatible"));
+            t.checkPref("backward-v5", false); //TODO make some mods backwards compatiblilty with v5
             if(false) {
-                t.pref(new Separator("restored-backwards-compatible"));
                 t.checkPref("backward-v6", false); //TODO make some mods backwards compatiblilty with v6
-                t.checkPref("backward-v5", false); //TODO make some mods backwards compatiblilty with v5
             }
             t.areaTextPref("Stats?","Mod Version: "+ModVersion);
         });
