@@ -477,9 +477,9 @@ public class ClassicBlocks {
                     mirror = false;
                     under = false;
                     //moveX = 2f;
-                }}, new RegionPart("-blade-under"){{
+                }}, new RegionPart("-inner"){{
                     drawRegion = true;
-                    mirror = false;
+                    mirror = true;
                     under = true;
                     //moveX = 2f;
                 }});
