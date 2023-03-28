@@ -13,6 +13,7 @@ import mindustry.*;
 import mindustry.ai.types.*;
 import mindustry.content.*;
 import mindustry.entities.bullet.*;
+import mindustry.entities.part.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
@@ -42,8 +43,9 @@ public class ClassicUnitTypes {
     vanguard, //Unit - Naval - Prototype [v7-dev]
 
     Oldincite, Oldemanate, //Unit - Core Units - Prototype [v7-dev]
+    osc, //Unit - Flying - v7-dev
 
-    effectDrone //Unit - Unknown - Prototype [v7-dev]
+    effectDrone //Unit - Effect - Prototype [v7-dev]
     ;
 
     public static void load() {
@@ -1068,6 +1070,62 @@ public class ClassicUnitTypes {
         // --- v6 Zone End ---
 
         // --- v7 Zone ---
+        // --- Flying Units Region ---
+        osc = new ErekirUnitType("osc"){{
+            hovering = true;
+            //visualElevation = 0.1f;
+
+
+            drag = 0.07f;
+            speed = 2f;
+            rotateSpeed = 5f;
+
+            accel = 0.09f;
+            health = 600f;
+            armor = 3f;
+            hitSize = 7f;
+            engineOffset = 7f;
+            engineSize = 2f;
+            itemCapacity = 0;
+            useEngineElevation = false;
+
+            for(float f : new float[]{-3f, 3f}){
+                parts.add(new HoverPart(){{
+                    x = 3.9f;
+                    y = f;
+                    mirror = true;
+                    radius = 6f;
+                    phase = 90f;
+                    stroke = 2f;
+                    layerOffset = -0.001f;
+                    color = Color.valueOf("bf92f9");
+                }});
+            }
+
+            weapons.add(new Weapon("restored-mind-osc-weapon"){{
+                y = 3f;
+                x = 3f;
+                mirror = true;
+                layerOffset = -0.0001f;
+                reload = 40f;
+
+                bullet = new BasicBulletType(5f, 20){{
+                    pierceCap = 2;
+                    pierceBuilding = false;
+                    width = 7f;
+                    height = 12f;
+                    lifetime = 25f;
+                    shootEffect = Fx.sparkShoot;
+                    smokeEffect = Fx.shootBigSmoke;
+                    hitColor = backColor = trailColor = Pal.suppress;
+                    frontColor = Color.white;
+                    trailWidth = 1.5f;
+                    trailLength = 5;
+                    hitEffect = despawnEffect = Fx.hitBulletColor;
+                }};
+            }});
+        }};
+        // --- Flying Units Region Ends ---
         // --- Core Units Region ---
         Oldincite = new UnitType("incite") {{
             constructor = UnitEntity::create;
