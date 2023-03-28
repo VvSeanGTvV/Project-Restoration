@@ -29,15 +29,13 @@ public class ExtendedErekirTechTree {
             });
         });
         margeNode(breach, () -> {
-            node(fractureSingle, Seq.with(new Objectives.OnSector(aegis)), () -> {
-                node(fracture, Seq.with(new Objectives.OnSector(aegis)), () -> {
 
-                });
-            });
         });
 
         margeNode(diffuse, () -> {
-            node(horde,Seq.with(new Objectives.Research(ClassicBlocks.slagCentrifuge), new Produce(scrap)), () -> {});
+            node(fracture, Seq.with(new Objectives.OnSector(aegis)), () -> {
+                node(horde,Seq.with(new Objectives.Research(ClassicBlocks.slagCentrifuge), new Produce(scrap)), () -> {});
+            });
         });
 
         margeNode(afflict, () -> {
@@ -54,6 +52,14 @@ public class ExtendedErekirTechTree {
 
         margeNode(basicAssemblerModule, () -> {
             node(droneCenter, () -> {});
+        });
+
+        margeNode(Liquids.slag, () -> {
+            nodeProduce(scrap);
+        });
+
+        margeNode(thorium, () -> {
+            nodeProduce(fissileMatter);
         });
     }
 
