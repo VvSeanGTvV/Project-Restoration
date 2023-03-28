@@ -187,7 +187,7 @@ public class ResearchBlock extends Block{
                     }
                     UIExtended.Techtree.hide();
                 });
-            });
+            }).size(40f);
         }
 
         @Override
