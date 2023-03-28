@@ -452,6 +452,7 @@ public class ClassicBlocks {
             consumeLiquid(Liquids.hydrogen, 2.5f / 60f);
             shoot.shots = 9;
             shoot.shotDelay = 4f;
+            shoot.firstShotDelay = 4f;
 
             //TODO this works but looks bad
             //spread = 0f;
@@ -485,7 +486,7 @@ public class ClassicBlocks {
                     under = true;
                     moveX = -0.5f;
                 }});
-            }}; //TODO make an animation here
+            }};
             outlineColor = Pal.darkOutline;
             size = 3;
             envEnabled |= Env.space;
@@ -794,7 +795,7 @@ public class ClassicBlocks {
         //--- Drone Center Region End ---
 
         //--- Launchpad Region ---
-        payloadLaunchpad = new PayloadLaunchPad("payload-launch-pad"){{
+        /*payloadLaunchpad = new PayloadLaunchPad("payload-launch-pad"){{ //TODO remove thus
             requirements(Category.effect, BuildVisibility.campaignOnly, with(Items.titanium, 200, Items.silicon, 150, Items.lead, 250, Items.plastanium, 75));
             alwaysUnlocked = true;
             size = 5;
@@ -802,7 +803,7 @@ public class ClassicBlocks {
             launchTime = 60f * 35;
             hasPower = true;
             consumePower(6f);
-        }};
+        }};*/
         launchPadLarge = new LaunchPad("launch-pad-large"){{
             requirements(Category.effect, BuildVisibility.campaignOnly, with(Items.titanium, 200, Items.silicon, 150, Items.lead, 250, Items.plastanium, 75));
             size = 4;
@@ -812,7 +813,7 @@ public class ClassicBlocks {
             consumePower(6f);
         }};
 
-        coreSilo = new CoreLauncher("core-silo"){{ //TODO make it cheap/match with resources
+        coreSilo = new CoreLauncher("core-silo"){{
             alwaysUnlocked = true;
             requirements(Category.effect, BuildVisibility.campaignOnly, ItemStack.with(Items.copper, 350, Items.silicon, 140, Items.lead, 200, Items.titanium, 150)); //Items.copper, 350, Items.silicon, 140, Items.lead, 200, Items.titanium, 150
             size = 5;
@@ -821,7 +822,7 @@ public class ClassicBlocks {
             consumePower(4f);
         }};
 
-        dataProcessor = new ResearchBlock("data-processor"){{ //TODO make it cheap/match with resources
+        dataProcessor = new ResearchBlock("data-processor"){{
             alwaysUnlocked = true;
             requirements(Category.effect, BuildVisibility.campaignOnly, ItemStack.with(Items.copper, 350, Items.silicon, 140, Items.lead, 200, Items.titanium, 150));
 

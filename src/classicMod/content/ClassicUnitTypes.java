@@ -13,12 +13,15 @@ import mindustry.*;
 import mindustry.ai.types.*;
 import mindustry.content.*;
 import mindustry.entities.bullet.*;
+import mindustry.entities.effect.*;
 import mindustry.entities.part.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
+import mindustry.type.ammo.*;
 import mindustry.type.unit.*;
 import mindustry.type.weapons.*;
+import mindustry.world.meta.*;
 
 import static arc.struct.SnapshotSeq.*;
 import static mindustry.Vars.*;
@@ -42,6 +45,7 @@ public class ClassicUnitTypes {
     cix, //Unit - Legs - Prototype [v6-dev]
     vanguard, //Unit - Naval - Prototype [v7-dev]
 
+    bulwark,
     Oldincite, Oldemanate, //Unit - Core Units - Prototype [v7-dev]
     osc, //Unit - Flying - v7-dev
 
@@ -1127,6 +1131,106 @@ public class ClassicUnitTypes {
             }});
         }};
         // --- Flying Units Region Ends ---
+
+        bulwark = new UnitType("bulwark"){{
+            constructor = LegsUnit::create;
+            drag = 0.1f;
+            speed = 0.62f;
+            hitSize = 19f;
+            health = 7300;
+            armor = 5f;
+            outlineColor = Pal.darkOutline;
+            envDisabled = Env.space;
+
+            //new ForceFieldAbility(60f, 0.3f, 400f, 60f * 6);
+            abilities.add(new ShieldSectorAbility(){{
+                region = "bulwark-shield";
+                radius = 34f;
+                sectorAngle = 85f;
+                regen = 0.4f;
+                cooldown = 60f * 8f;
+                max = 1500f;
+                y = -20f;
+                width = 6f;
+            }});
+
+            rotateSpeed = 2.2f;
+
+            legCount = 4;
+            legLength = 15f;
+            //leg = 0.45f;
+            legMoveSpace = 1.4f;
+            rippleScale = 2f;
+            stepShake = 0.5f;
+            legExtension = -5f;
+            legBaseOffset = 5f;
+
+            ammoType = new PowerAmmoType(2000);
+
+            legSplashDamage = 32;
+            legSplashRange = 30;
+            drownTimeMultiplier = 2f;
+
+            //hovering = true;
+            //visualElevation = 0.65f;
+            groundLayer = Layer.legUnit;
+
+            weapons.add(new Weapon("bulwark-weapon"){{
+                mirror = true;
+                top = false;
+
+                x = 62/4f;
+                y = 1f;
+                shootY = 47 / 4f;
+                recoil = 3f;
+                reload = 40f;
+                shake = 3f;
+                cooldownTime = 40f;
+
+                shoot.shots = 3;
+                inaccuracy = 3f;
+                velocityRnd = 0.33f;
+                heatColor = Color.red;
+
+                bullet = new MissileBulletType(4.2f, 34){{
+                    homingPower = 0.2f;
+                    weaveMag = 4;
+                    weaveScale = 4;
+                    lifetime = 55f;
+                    //TODO better
+                    shootEffect = Fx.shootBig2;
+                    smokeEffect = Fx.shootSmokeTitan;
+                    splashDamage = 40f;
+                    splashDamageRadius = 30f;
+                    frontColor = Color.white;
+                    hitSound = Sounds.none;
+                    width = height = 10f;
+
+                    lightColor = trailColor = backColor = Color.valueOf("8ca9e8");
+                    lightRadius = 40f;
+                    lightOpacity = 0.7f;
+
+                    trailWidth = 2.8f;
+                    trailLength = 20;
+                    trailChance = -1f;
+
+                    despawnEffect = Fx.none;
+                    hitEffect = new ExplosionEffect(){{
+                        lifetime = 20f;
+                        waveStroke = 2f;
+                        waveColor = sparkColor = trailColor;
+                        waveRad = 12f;
+                        smokeSize = 0f;
+                        smokeSizeBase = 0f;
+                        sparks = 10;
+                        sparkRad = 35f;
+                        sparkLen = 4f;
+                        sparkStroke = 1.5f;
+                    }};
+                }};
+            }});
+        }};
+
         // --- Core Units Region ---
         Oldincite = new UnitType("incite") {{
             constructor = UnitEntity::create;
