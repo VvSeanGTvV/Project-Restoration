@@ -796,6 +796,7 @@ public class ClassicBlocks {
         //--- Launchpad Region ---
         payloadLaunchpad = new PayloadLaunchPad("payload-launch-pad"){{
             requirements(Category.effect, BuildVisibility.campaignOnly, with(Items.titanium, 200, Items.silicon, 150, Items.lead, 250, Items.plastanium, 75));
+            alwaysUnlocked = true;
             size = 4;
             itemCapacity = 300;
             launchTime = 60f * 35;
