@@ -34,26 +34,6 @@ v5 Cores?
 
 v5 Blocks
 
-## --- Upcoming Update ---
-
-### [!Subject may change!]
-
-![ezgif-4-834fd8c205](https://user-images.githubusercontent.com/64627966/226748064-bcf4174a-93d1-4966-80ff-db67f910fa0f.gif)
-
-v2.0 Build Release!
-
-### About the Update:
-
-The Update is based on making the old v7's build and v6's build are coming back to the Techtree! It is coming very soon, just have to tweak some sprites statistic, and the TechTree itself because gonna cleanup the code, before you tell me, yes the v2.0 build might have bugs and some of the blocks are WIP!
-
-Block added: Slag Centrifuge, Heat Rector, Fracture, Horde, Titan [Old Variant], Drone Center (Unfinished), Large Launchpad
-
-WIP Blocks: Data/Research Blocks, Core Silo Launcher
-
-Units Added: Emanate, Incite, Effect Drone (Unfinished Units)
-
-Item Use/Added: Fissile Matter
-
 ## --- Credits ---
 
 NullPointerException#7763 - Coolio Legacy Mechpad
