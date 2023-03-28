@@ -478,7 +478,22 @@ public class ClassicBlocks {
             requirements(Category.turret, with(Items.beryllium, 150, Items.silicon, 200, Items.graphite, 200, Items.carbide, 50));
 
             ammo(
-                    Items.tungsten, new BasicBulletType(8f, 41){{
+                    Items.tungsten, new BasicBulletType(8f, 48.45f){{
+                        knockback = 5f;
+                        width = 25f;
+                        hitSize = 7f;
+                        height = 20f;
+                        shootEffect = Fx.shootBigColor;
+                        smokeEffect = Fx.shootSmokeSquareSparse;
+                        ammoMultiplier = 1;
+                        hitColor = backColor = trailColor = Items.tungsten.color;
+                        frontColor = Color.white;
+                        trailWidth = 6f;
+                        trailLength = 3;
+                        hitEffect = despawnEffect = Fx.hitSquaresColor;
+                        buildingDamageMultiplier = 0.5f;
+                    }},
+                    Items.graphite, new BasicBulletType(10f, 30){{
                         knockback = 4f;
                         width = 25f;
                         hitSize = 7f;
@@ -537,6 +552,7 @@ public class ClassicBlocks {
                         }});
             }};
 
+            shootSound = Sounds.shootBig;
             shootY = 5f;
             outlineColor = Pal.darkOutline;
             size = 4;
