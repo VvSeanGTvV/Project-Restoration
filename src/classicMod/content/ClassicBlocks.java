@@ -456,8 +456,8 @@ public class ClassicBlocks {
             //TODO this works but looks bad
             //spread = 0f;
             shootLength = 6.5f;
-            shootY = -2f;
-            xRand = 13f;
+            shootY = 4f;
+            xRand = 11f;
             recoil = 2f;
 
             drawer = new DrawTurret("reinforced-"){{
