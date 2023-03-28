@@ -1072,6 +1072,7 @@ public class ClassicUnitTypes {
         // --- v7 Zone ---
         // --- Flying Units Region ---
         osc = new ErekirUnitType("osc"){{
+            constructor = UnitEntity::create;
             hovering = true;
             //visualElevation = 0.1f;
 

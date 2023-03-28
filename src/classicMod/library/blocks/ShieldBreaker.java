@@ -36,16 +36,14 @@ public class ShieldBreaker extends Block{
         @Override
         public void updateTile(){
             if(Mathf.equal(efficiency, 1f)){
-                if(toDestroy != null){
-                    effect.at(this);
-                    for(var other : Vars.state.teams.active){
-                        if(team != other.team){
-                            for(var block : toDestroy){
-                                other.getBuildings(block).copy().each(b -> {
-                                    breakEffect.at(b);
-                                    b.kill();
-                                });
-                            }
+                effect.at(this);
+                for(var other : Vars.state.teams.active){
+                    if(team != other.team){
+                        for(var block : toDestroy){
+                            other.getBuildings(block).copy().each(b -> {
+                                breakEffect.at(b);
+                                b.kill();
+                            });
                         }
                     }
                     selfKillEffect.at(this);
