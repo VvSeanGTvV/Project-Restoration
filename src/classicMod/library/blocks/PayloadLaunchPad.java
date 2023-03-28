@@ -31,7 +31,7 @@ public class PayloadLaunchPad extends PayloadBlock{
     public Sound launchSound = Sounds.none;
 
     public TextureRegion lightRegion = Core.atlas.find(name+"-light"); //@Load("@-light")
-    public TextureRegion podRegion = Core.atlas.find("pod"); //@Load(value = "@-pod", fallback = "launchpod")
+    public TextureRegion podRegion = Core.atlas.find("launchpod"); //@Load(value = "@-pod", fallback = "launchpod")
     public Color lightColor = Color.valueOf("eab678");
 
     public PayloadLaunchPad(String name){
@@ -79,6 +79,8 @@ public class PayloadLaunchPad extends PayloadBlock{
         @Override
         public void draw(){
             super.draw();
+            lightRegion = Core.atlas.find(name+"-light");
+            podRegion = Core.atlas.find("launchpod");
 
             if(!state.isCampaign()) return;
 
