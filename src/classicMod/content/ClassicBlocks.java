@@ -12,14 +12,17 @@ import mindustry.content.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
 import mindustry.entities.part.*;
+import mindustry.entities.pattern.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.campaign.*;
 import mindustry.world.blocks.defense.*;
+import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.blocks.heat.*;
 import mindustry.world.blocks.production.*;
+import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
@@ -47,7 +50,7 @@ public class ClassicBlocks {
 
     droneCenter,
 
-    fracture, horde, titanold, //Turrets - Erekir - Prototype [v7-dev]
+    fractureSingle, fracture, horde, titanold, //Turrets - Erekir - Prototype [v7-dev]
 
     interplanetaryAccelerator //Endgame - Mindustry
     ;
@@ -471,7 +474,85 @@ public class ClassicBlocks {
             //limitRange();
         }};
 
-        fracture = new ItemTurretV6("fracture") {
+        fracture = new ItemTurret("fracture"){{
+            requirements(Category.turret, with(Items.beryllium, 150, Items.silicon, 200, Items.graphite, 200, Items.carbide, 50));
+
+            ammo(
+                    Items.tungsten, new BasicBulletType(8f, 41){{
+                        knockback = 4f;
+                        width = 25f;
+                        hitSize = 7f;
+                        height = 20f;
+                        shootEffect = Fx.shootBigColor;
+                        smokeEffect = Fx.shootSmokeSquareSparse;
+                        ammoMultiplier = 1;
+                        hitColor = backColor = trailColor = Color.valueOf("ea8878");
+                        frontColor = Color.valueOf("feb380");
+                        trailWidth = 6f;
+                        trailLength = 3;
+                        hitEffect = despawnEffect = Fx.hitSquaresColor;
+                        buildingDamageMultiplier = 0.2f;
+                    }}
+            );
+
+            shoot = new ShootSpread(15, 2f);
+
+            coolantMultiplier = 6f;
+
+            inaccuracy = 0.2f;
+            velocityRnd = 0.17f;
+            shake = 1f;
+            ammoPerShot = 3;
+            maxAmmo = 30;
+            consumeAmmoOnce = true;
+
+            drawer = new DrawTurret("reinforced-"){{
+                parts.add(new RegionPart("-blade"){{
+                              progress = PartProgress.warmup;
+                              heatProgress = PartProgress.warmup.blend(PartProgress.recoil, 0.2f);
+                              heatColor = Color.valueOf("ff6214");
+                              mirror = true;
+                              under = true;
+                              moveX = 2f;
+                              //moveY = -1f;
+                              moveRot = -7f;
+                              moves.add(new PartMove(PartProgress.recoil, 0f, -2f, 3f));
+                          }},
+                        new RegionPart("-inner"){{
+                            progress = PartProgress.recoil;
+                            heatColor = Color.valueOf("ff6214");
+                            mirror = true;
+                            under = false;
+                            moveX = 2f;
+                            moveY = -8f;
+                        }},
+                        new RegionPart("-mid"){{
+                            heatProgress = PartProgress.warmup.blend(PartProgress.recoil, 0.2f);
+                            heatColor = Color.valueOf("ff6214");
+                            moveY = -8f;
+                            progress = PartProgress.recoil;
+                            //drawRegion = false;
+                            mirror = false;
+                            under = true;
+                        }});
+            }};
+
+            shootY = 5f;
+            outlineColor = Pal.darkOutline;
+            size = 4;
+            envEnabled |= Env.space;
+            reload = 30f;
+            recoil = 2f;
+            range = 125;
+            shootCone = 40f;
+            scaledHealth = 210;
+            rotateSpeed = 3f;
+
+            coolant = consume(new ConsumeLiquid(Liquids.water, 15f / 60f));
+            limitRange();
+        }};
+
+        fractureSingle = new ItemTurretV6("fracture-single") {
             {
                 requirements(Category.turret, with(Items.tungsten, 35, Items.silicon, 35));
                 ammo(

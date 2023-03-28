@@ -28,11 +28,16 @@ public class ExtendedErekirTechTree {
                 });
             });
         });
+        margeNode(breach, () -> {
+            node(fractureSingle, Seq.with(new Objectives.OnSector(aegis)), () -> {
+                node(fracture, Seq.with(new Objectives.OnSector(aegis)), () -> {
+
+                });
+            });
+        });
 
         margeNode(diffuse, () -> {
-            node(fracture, Seq.with(new Objectives.OnSector(aegis)), () -> {
-                node(horde,Seq.with(new Objectives.Research(ClassicBlocks.slagCentrifuge), new Produce(scrap)), () -> {});
-            });
+            node(horde,Seq.with(new Objectives.Research(ClassicBlocks.slagCentrifuge), new Produce(scrap)), () -> {});
         });
 
         margeNode(afflict, () -> {
