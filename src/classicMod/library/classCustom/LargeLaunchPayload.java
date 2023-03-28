@@ -154,12 +154,12 @@ public class LargeLaunchPayload implements Drawc, Timedc, Teamc, LaunchPayloadc,
 
     @Override
     public <T extends Entityc> T self() {
-        return this;
+        return (T) this;
     }
 
     @Override
     public <T> T as() {
-        return this;
+        return (T) this;
     }
 
     public boolean isAdded() {
