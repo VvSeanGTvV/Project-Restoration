@@ -21,10 +21,8 @@ import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.payloads.*;
 import mindustry.world.blocks.storage.*;
-import mindustry.world.blocks.storage.CoreBlock.*;
 
-import static mindustry.Vars.net;
-import static mindustry.Vars.state;
+import static mindustry.Vars.*;
 
 public class LargeLaunchPayload implements Drawc, Timedc, Teamc, LaunchPayloadc, Entityc{
     protected transient boolean added;
@@ -39,6 +37,7 @@ public class LargeLaunchPayload implements Drawc, Timedc, Teamc, LaunchPayloadc,
     public float x,y;
 
     public Payload payload;
+
     //transient Interval in = new Interval();
 
     public float x() {
@@ -166,7 +165,12 @@ public class LargeLaunchPayload implements Drawc, Timedc, Teamc, LaunchPayloadc,
         return this.added;
     }
 
+    @Override
     public boolean isLocal() {
+        return false;
+    }
+
+    /*public boolean isLocal() {
         boolean var10000;
         if (this != Vars.player) {
             label26: {
@@ -184,7 +188,7 @@ public class LargeLaunchPayload implements Drawc, Timedc, Teamc, LaunchPayloadc,
 
         var10000 = true;
         return var10000;
-    }
+    }*/
 
     public boolean isNull() {
         return false;
