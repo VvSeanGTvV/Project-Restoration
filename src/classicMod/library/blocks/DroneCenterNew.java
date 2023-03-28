@@ -7,7 +7,6 @@ import arc.util.*;
 import arc.util.io.*;
 import mindustry.content.*;
 import mindustry.entities.*;
-import mindustry.entities.units.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
@@ -39,7 +38,7 @@ public class DroneCenterNew extends Block {
     public void init(){
         super.init();
 
-        droneType.controller = u -> new EffectDroneAI();
+        //droneType.controller = u -> new EffectDroneAI();
     }
 
     public class DroneCenterNewBuild extends Building {
@@ -146,7 +145,7 @@ public class DroneCenterNew extends Block {
         }
     }
 
-    public class EffectDroneAI extends AIController {
+    /*public class EffectDroneAI extends AIController {
         protected DroneCenterNewBuild build;
         @Override
         public void updateMovement(){
@@ -171,7 +170,7 @@ public class DroneCenterNew extends Block {
             //TODO low power? status effects may not be the best way to do this...
             /*if(unit.within(target, droneRange + build.target.hitSize)){
                 build.target.apply(status, statusDuration);
-            }*/
+            }
         }
 
         protected void moveTo(float circleLength){
@@ -197,5 +196,5 @@ public class DroneCenterNew extends Block {
                 target = newTarget;
             }
         }
-    }
+    }*/
 }

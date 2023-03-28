@@ -12,17 +12,14 @@ import mindustry.content.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
 import mindustry.entities.part.*;
-import mindustry.entities.pattern.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.campaign.*;
 import mindustry.world.blocks.defense.*;
-import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.blocks.heat.*;
 import mindustry.world.blocks.production.*;
-import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
@@ -448,11 +445,10 @@ public class ClassicBlocks {
             );
 
             //acceptCoolant = false;
-            //TODO
             consumeLiquid(Liquids.hydrogen, 2.5f / 60f);
             shoot.shots = 9;
             shoot.shotDelay = 4f;
-            shoot.firstShotDelay = 4f;
+            shoot.firstShotDelay = 5f;
 
             //TODO this works but looks bad
             //spread = 0f;
@@ -471,7 +467,7 @@ public class ClassicBlocks {
                     under = false;
                     moveX = -0.5f;
                     moveY = 5f;
-                    moves.add(new PartMove(PartProgress.recoil, 0f, -3f, 0f));
+                    moves.add(new PartMove(PartProgress.recoil, 0f, -2f, 0f));
 
                 }}, new RegionPart("-mid"){{
                     //drawRegion = false;
@@ -501,104 +497,7 @@ public class ClassicBlocks {
             //limitRange();
         }};
 
-        fracture = new ItemTurret("fracture"){{
-            requirements(Category.turret, with(Items.beryllium, 150, Items.silicon, 200, Items.graphite, 200, Items.carbide, 50));
-
-            ammo(
-                    Items.tungsten, new BasicBulletType(15f, 49.25f){{
-                        knockback = 5f;
-                        width = 25f;
-                        hitSize = 7f;
-                        height = 20f;
-                        shootEffect = Fx.shootBigColor;
-                        smokeEffect = Fx.shootSmokeSquareSparse;
-                        ammoMultiplier = 1;
-                        hitColor = backColor = trailColor = Items.tungsten.color;
-                        frontColor = Color.white;
-                        trailWidth = 6f;
-                        trailLength = 3;
-                        hitEffect = despawnEffect = Fx.hitSquaresColor;
-                        buildingDamageMultiplier = 0.5f;
-                        status = StatusEffects.slow;
-                    }},
-                    Items.graphite, new BasicBulletType(21f, 30){{
-                        knockback = 4f;
-                        width = 25f;
-                        hitSize = 7f;
-                        height = 20f;
-                        shootEffect = Fx.shootBigColor;
-                        smokeEffect = Fx.shootSmokeSquareSparse;
-                        ammoMultiplier = 1;
-                        hitColor = backColor = trailColor = Color.valueOf("ea8878");
-                        frontColor = Color.valueOf("feb380");
-                        trailWidth = 6f;
-                        trailLength = 3;
-                        hitEffect = despawnEffect = Fx.hitSquaresColor;
-                        buildingDamageMultiplier = 0.35f;
-                        reloadMultiplier = 1.3f;
-                        status = StatusEffects.burning;
-                    }}
-            );
-
-            shoot = new ShootSpread(15, 2f);
-
-            coolantMultiplier = 3f;
-
-            inaccuracy = 0.2f;
-            velocityRnd = 0.17f;
-            shake = 1f;
-            ammoPerShot = 3;
-            maxAmmo = 30;
-            consumeAmmoOnce = true;
-
-            drawer = new DrawTurret("reinforced-"){{
-                parts.add(new RegionPart("-blade"){{
-                              progress = PartProgress.warmup;
-                              heatProgress = PartProgress.warmup.blend(PartProgress.recoil, 0.2f);
-                              heatColor = Color.valueOf("ff6214");
-                              mirror = true;
-                              under = true;
-                              moveX = 2f;
-                              //moveY = -1f;
-                              moveRot = -7f;
-                              moves.add(new PartMove(PartProgress.recoil, 0f, -2f, 3f));
-                          }},
-                        new RegionPart("-inner"){{
-                            progress = PartProgress.recoil;
-                            heatColor = Color.valueOf("ff6214");
-                            mirror = true;
-                            under = false;
-                            moveX = 2f;
-                            moveY = -8f;
-                        }},
-                        new RegionPart("-mid"){{
-                            heatProgress = PartProgress.warmup.blend(PartProgress.recoil, 0.2f);
-                            heatColor = Color.valueOf("ff6214");
-                            moveY = -8f;
-                            progress = PartProgress.recoil;
-                            //drawRegion = false;
-                            mirror = false;
-                            under = true;
-                        }});
-            }};
-
-            shootSound = Sounds.shotgun;
-            shootY = 5f;
-            outlineColor = Pal.darkOutline;
-            size = 4;
-            envEnabled |= Env.space;
-            reload = 23f;
-            recoil = 2f;
-            range = 125;
-            shootCone = 40f;
-            scaledHealth = 210;
-            rotateSpeed = 3f;
-
-            coolant = consume(new ConsumeLiquid(Liquids.hydrogen, 15f / 60f));
-            limitRange(12f);
-        }};
-
-        fractureSingle = new ItemTurretV6("fracture-single") {
+        fracture = new ItemTurretV6("fracture-single") {
             {
                 requirements(Category.turret, with(Items.tungsten, 35, Items.silicon, 35));
                 ammo(
