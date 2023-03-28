@@ -449,7 +449,7 @@ public class ClassicBlocks {
 
             //acceptCoolant = false;
             //TODO
-            consumeLiquid(Liquids.hydrogen, 1.5f / 60f);
+            consumeLiquid(Liquids.hydrogen, 2.5f / 60f);
             shoot.shots = 9;
             shoot.shotDelay = 2f;
 
@@ -478,7 +478,7 @@ public class ClassicBlocks {
             requirements(Category.turret, with(Items.beryllium, 150, Items.silicon, 200, Items.graphite, 200, Items.carbide, 50));
 
             ammo(
-                    Items.tungsten, new BasicBulletType(8f, 48.45f){{
+                    Items.tungsten, new BasicBulletType(15f, 49.25f){{
                         knockback = 5f;
                         width = 25f;
                         hitSize = 7f;
@@ -492,8 +492,9 @@ public class ClassicBlocks {
                         trailLength = 3;
                         hitEffect = despawnEffect = Fx.hitSquaresColor;
                         buildingDamageMultiplier = 0.5f;
+                        status = StatusEffects.slow;
                     }},
-                    Items.graphite, new BasicBulletType(10f, 30){{
+                    Items.graphite, new BasicBulletType(21f, 30){{
                         knockback = 4f;
                         width = 25f;
                         hitSize = 7f;
@@ -506,13 +507,15 @@ public class ClassicBlocks {
                         trailWidth = 6f;
                         trailLength = 3;
                         hitEffect = despawnEffect = Fx.hitSquaresColor;
-                        buildingDamageMultiplier = 0.2f;
+                        buildingDamageMultiplier = 0.35f;
+                        reloadMultiplier = 1.3f;
+                        status = StatusEffects.burning;
                     }}
             );
 
             shoot = new ShootSpread(15, 2f);
 
-            coolantMultiplier = 6f;
+            coolantMultiplier = 3f;
 
             inaccuracy = 0.2f;
             velocityRnd = 0.17f;
@@ -557,14 +560,14 @@ public class ClassicBlocks {
             outlineColor = Pal.darkOutline;
             size = 4;
             envEnabled |= Env.space;
-            reload = 17f;
+            reload = 23f;
             recoil = 2f;
             range = 125;
             shootCone = 40f;
             scaledHealth = 210;
             rotateSpeed = 3f;
 
-            coolant = consume(new ConsumeLiquid(Liquids.water, 15f / 60f));
+            coolant = consume(new ConsumeLiquid(Liquids.hydrogen, 15f / 60f));
             limitRange();
         }};
 
@@ -597,7 +600,8 @@ public class ClassicBlocks {
                 );
 
                 //acceptCoolant = false; this is old
-                consumeLiquid(Liquids.hydrogen, 1.5f / 60f);
+                coolantMultiplier = 4f;
+                coolant = consumeLiquid(Liquids.hydrogen, 3f / 60f);
                 shoot.shots = 1;
 
                 //TODO cool reload animation
@@ -743,7 +747,8 @@ public class ClassicBlocks {
 
             outlineColor = Pal.darkOutline;
 
-            consumeLiquids(LiquidStack.with(Liquids.hydrogen, 1f / 60f));
+            coolantMultiplier = 2f;
+            coolant = consumeLiquid(Liquids.hydrogen, 10f / 60f);
 
             range = 360f;
             size = 3;
