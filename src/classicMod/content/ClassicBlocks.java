@@ -451,15 +451,39 @@ public class ClassicBlocks {
             //TODO
             consumeLiquid(Liquids.hydrogen, 2.5f / 60f);
             shoot.shots = 9;
-            shoot.shotDelay = 2f;
+            shoot.shotDelay = 4f;
 
             //TODO this works but looks bad
             //spread = 0f;
             shootLength = 6.5f;
             xRand = 13f;
-            recoil = 1f;
+            recoil = 2f;
 
-            drawer = new DrawTurret("reinforced-"); //TODO make an animation here
+            drawer = new DrawTurret("reinforced-"){{
+                parts.addAll(new RegionPart("-blade"){{
+                    //drawRegion = false;
+                    progress = PartProgress.warmup;
+                    heatProgress = PartProgress.warmup.blend(PartProgress.recoil, 0.2f);
+                    heatColor = Color.valueOf("ff6214");
+                    mirror = true;
+                    under = false;
+                    moveX = 4f;
+                    recoil = 4f;
+                }}, new RegionPart("-mid"){{
+                    //drawRegion = false;
+                    progress = PartProgress.warmup;
+                    heatProgress = PartProgress.warmup.blend(PartProgress.recoil, 0.2f);
+                    heatColor = Color.valueOf("ff6214");
+                    mirror = false;
+                    under = false;
+                    //moveX = 2f;
+                }}, new RegionPart("-blade-under"){{
+                    drawRegion = true;
+                    mirror = false;
+                    under = true;
+                    //moveX = 2f;
+                }});
+            }}; //TODO make an animation here
             outlineColor = Pal.darkOutline;
             size = 3;
             envEnabled |= Env.space;
@@ -747,8 +771,8 @@ public class ClassicBlocks {
 
             outlineColor = Pal.darkOutline;
 
-            coolantMultiplier = 2f;
-            coolant = consumeLiquid(Liquids.hydrogen, 10f / 60f);
+            //coolantMultiplier = 2f;
+            consumeLiquid(Liquids.hydrogen, 10f / 60f);
 
             range = 360f;
             size = 3;
