@@ -424,7 +424,7 @@ public class ClassicBlocks {
             requirements(Category.turret, with(Items.tungsten, 35, Items.silicon, 35));
             shootSound = Sounds.missile;
             ammo(
-                    Items.scrap, new MissileBulletType(4.2f, 30){{
+                    Items.scrap, new MissileBulletType(4.5f, 30){{
                         inaccuracy = 0.2f;
                         shootEffect = Fx.colorSpark;
                         smokeEffect = Fx.shootBigSmoke;
@@ -434,7 +434,7 @@ public class ClassicBlocks {
                         trailWidth = 2f;
                         trailLength = 12;
 
-                        splashDamage = 15f;
+                        splashDamage = 30f;
                         splashDamageRadius = 30f;
 
                         weaveMag = 5;
@@ -456,6 +456,7 @@ public class ClassicBlocks {
             //TODO this works but looks bad
             //spread = 0f;
             shootLength = 6.5f;
+            shootY = -2f;
             xRand = 13f;
             recoil = 2f;
 
@@ -468,8 +469,9 @@ public class ClassicBlocks {
                     mirror = true;
                     under = false;
                     moveX = -0.5f;
-                    moveY = 4f;
-                    //recoilPow = 7f;
+                    moveY = 5f;
+                    moves.add(new PartMove(PartProgress.recoil, 0f, -3f, 0f));
+
                 }}, new RegionPart("-mid"){{
                     //drawRegion = false;
                     progress = PartProgress.warmup;
@@ -477,12 +479,11 @@ public class ClassicBlocks {
                     heatColor = Color.valueOf("ff6214");
                     mirror = false;
                     under = false;
-                    //moveX = 2f;
                 }}, new RegionPart("-inner"){{
                     drawRegion = true;
                     mirror = true;
                     under = true;
-                    //moveX = 2f;
+                    moveX = -0.5f;
                 }});
             }}; //TODO make an animation here
             outlineColor = Pal.darkOutline;
