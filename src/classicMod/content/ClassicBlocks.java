@@ -467,9 +467,9 @@ public class ClassicBlocks {
                     heatColor = Color.valueOf("ff6214");
                     mirror = true;
                     under = false;
-                    moveX = -2f;
-                    moveY = 2f;
-                    recoil = 7f;
+                    moveX = -0.5f;
+                    moveY = 4f;
+                    //recoilPow = 7f;
                 }}, new RegionPart("-mid"){{
                     //drawRegion = false;
                     progress = PartProgress.warmup;
