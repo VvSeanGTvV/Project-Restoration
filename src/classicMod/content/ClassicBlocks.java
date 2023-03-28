@@ -467,8 +467,9 @@ public class ClassicBlocks {
                     heatColor = Color.valueOf("ff6214");
                     mirror = true;
                     under = false;
-                    moveX = 4f;
-                    recoil = 4f;
+                    moveX = -2f;
+                    moveY = 2f;
+                    recoil = 7f;
                 }}, new RegionPart("-mid"){{
                     //drawRegion = false;
                     progress = PartProgress.warmup;
@@ -592,7 +593,7 @@ public class ClassicBlocks {
             rotateSpeed = 3f;
 
             coolant = consume(new ConsumeLiquid(Liquids.hydrogen, 15f / 60f));
-            limitRange();
+            limitRange(12f);
         }};
 
         fractureSingle = new ItemTurretV6("fracture-single") {
