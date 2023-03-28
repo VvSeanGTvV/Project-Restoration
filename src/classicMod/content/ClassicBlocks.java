@@ -557,7 +557,7 @@ public class ClassicBlocks {
             outlineColor = Pal.darkOutline;
             size = 4;
             envEnabled |= Env.space;
-            reload = 30f;
+            reload = 17f;
             recoil = 2f;
             range = 125;
             shootCone = 40f;
