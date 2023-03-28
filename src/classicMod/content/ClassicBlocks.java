@@ -552,7 +552,7 @@ public class ClassicBlocks {
                         }});
             }};
 
-            shootSound = Sounds.shootBig;
+            shootSound = Sounds.shotgun;
             shootY = 5f;
             outlineColor = Pal.darkOutline;
             size = 4;
