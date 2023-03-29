@@ -1,8 +1,13 @@
 package classicMod.content;
 
 import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.util.*;
 import mindustry.content.*;
+import mindustry.entities.*;
 import mindustry.entities.bullet.*;
+import mindustry.gen.*;
 import mindustry.graphics.*;
 
 public class ClassicBullets {
@@ -30,10 +35,48 @@ public class ClassicBullets {
     fireball, basicFlame, pyraFlame, driverBolt, healBullet, healBulletBig, frag,
 
     //bombs
-    bombExplosive, bombIncendiary, bombOil
+    bombExplosive, bombIncendiary, bombOil,
+
+    //v5 bullets
+    fuseShot
     ;
 
     public void load(){
+        fuseShot = new BulletType(0.01f, 70){
+            int rays = 3;
+            float rayLength = 120f;
+
+            {
+                hitEffect = Fx.hitFuse;
+                shootEffect = smokeEffect = Fx.none;
+                lifetime = 10f;
+                despawnEffect = Fx.none;
+                pierce = true;
+            }
+
+            @Override
+            public void init(Bullet b){
+                for(int i = 0; i < rays; i++){
+                    Damage.collideLine(b, b.team, hitEffect, b.x, b.y, b.rotation(), rayLength - Math.abs(i - (rays / 2)) * 20f);
+                }
+            }
+
+            @Override
+            public void draw(Bullet b){
+                super.draw(b);
+                Draw.color(Color.white, Pal.surge, b.fin());
+                //Draw.alpha(b.fout());
+                for(int i = 0; i < 7; i++){
+                    Tmp.v1.trns(b.rotation(), i * 8f);
+                    float sl = Mathf.clamp(b.fout() - 0.5f) * (80f - i * 10);
+                    Drawf.tri(b.x + Tmp.v1.x, b.y + Tmp.v1.y, 4f, sl, b.rotation() + 90);
+                    Drawf.tri(b.x + Tmp.v1.x, b.y + Tmp.v1.y, 4f, sl, b.rotation() - 90);
+                }
+                Drawf.tri(b.x, b.y, 20f * b.fout(), (rayLength + 50), b.rotation());
+                Drawf.tri(b.x, b.y, 20f * b.fout(), 10f, b.rotation() + 180f);
+                Draw.reset();
+            }
+        };
 
         artilleryDense = new ArtilleryBulletType(3f, 12, "shell"){{
             hitEffect = Fx.flakExplosion;

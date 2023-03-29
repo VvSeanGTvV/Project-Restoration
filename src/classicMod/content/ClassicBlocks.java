@@ -28,6 +28,7 @@ import static mindustry.type.ItemStack.*;
 
 public class ClassicBlocks {
     public static Block
+            fuseOld, //Turret [pre-v5]
 
             dartPad, omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad [v5]
             wraithFactory, ghoulFactory, revenantFactory, //Air - Unit Factory [v5]
@@ -45,7 +46,7 @@ public class ClassicBlocks {
     cellSynthesisChamber, //Liquid Converter - Erekir - Prototype [v7-dev]
     slagCentrifuge, //Generic Crafters - Erekir - Prototype [v7-dev]
 
-    droneCenter, payloadLaunchpad,
+    droneCenter, payloadLaunchpad, //TEMPORARY TESTING
 
     fractureSingle, fracture, horde, titanold, //Turrets - Erekir - Prototype [v7-dev]
 
@@ -417,6 +418,18 @@ public class ClassicBlocks {
         }};
 
         //--- Turrets Region ---
+        fuseOld = new ItemTurretV6("fuseOld"){{ //TODO idk
+            requirements(Category.turret, ItemStack.with(Items.copper, 450, Items.graphite, 450, Items.surgeAlloy, 250));
+            ammo(Items.graphite, ClassicBullets.fuseShot);
+            reload = 40f;
+            shake = 4f;
+            range = 110f;
+            recoil = 5f;
+            restitution = 0.1f;
+            size = 3;
+
+            health = 165 * size * size;
+        }};
         horde = new ItemTurretV6("horde"){{
             requirements(Category.turret, with(Items.tungsten, 35, Items.silicon, 35));
             shootSound = Sounds.missile;

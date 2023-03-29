@@ -19,9 +19,10 @@ public class EffectDroneAI extends AIController {
         target = build.target;
         if (unit.within(target, block.droneRange + build.target.hitSize)) {
             build.target.apply(block.status, block.statusDuration);
-        } else {
-            moveTo(build.target.hitSize / 1.8f + block.droneRange - 10f);
-        }
+        }  //moveTo(build.target.hitSize / 1.8f + block.droneRange - 10f);
+
+
+        moveTo(build.target.hitSize / 1.8f + block.droneRange - 10f);
 
         //TODO what angle?
 
