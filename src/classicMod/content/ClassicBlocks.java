@@ -420,11 +420,23 @@ public class ClassicBlocks {
         }};
 
         //--- Turrets Region ---
-        fuseOld = new ItemTurretV6("fuseOld"){{ //TODO idk
+        fuseOld = new ItemTurretV6("fuseOld"){{
             requirements(Category.turret, ItemStack.with(Items.copper, 450, Items.graphite, 450, Items.surgeAlloy, 250));
-            ammo(Items.graphite, fuseShot);
+
+            float brange = range + 10f;
+            ammo(Items.graphite, new ShrapnelBulletType(){{
+                        length = brange;
+                        damage = 55f;
+                        ammoMultiplier = 4f;
+                        width = 17f;
+                        reloadMultiplier = 1.3f;
+                    }},
+                    Items.surgeAlloy, fuseShot
+            );
             shoot = new ShootSpread(3, 20.0F);
-            shootSound = Sounds.bigshot;
+            shootSound = Sounds.shootBig;
+
+            coolant = consumeCoolant(0.35f);
             reload = 40f;
             shake = 4f;
             range = 110f;

@@ -54,11 +54,15 @@ public class ExtendedErekirTechTree {
             node(droneCenter, () -> {});
         });
 
-        margeNode(Liquids.slag, () -> {
+        margeNode(carbide, () -> {
+            nodeProduce(Liquids.gallium, () -> {});
+        });
+
+        margeNode(tungsten, () -> {
             nodeProduce(scrap);
         });
 
-        margeNode(thorium, () -> {
+        margeNode(tungsten, () -> {
             nodeProduce(fissileMatter);
         });
     }

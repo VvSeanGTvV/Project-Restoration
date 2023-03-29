@@ -53,7 +53,7 @@ public class ClassicBullets {
             despawnEffect = Fx.none;
             pierce = true;
         }};*/
-        fuseShot = new BulletType(0.01f, 70){
+        fuseShot = new BulletType(0.01f, 75){
             int rays = 3;
             float rayLength = 120f;
 
@@ -63,6 +63,7 @@ public class ClassicBullets {
                 lifetime = 10f;
                 despawnEffect = Fx.none;
                 pierce = true;
+                status = StatusEffects.shocked;
             }
 
             @Override
