@@ -23,7 +23,7 @@ public class AutoUpdate {
     public static String download;
 
     public static void load() {
-        mod = mods.getMod("restored-mind");
+        mod = mods.getMod(ClassicMod.class);
         url = ghApi + "/repos/" + repo + "/releases/latest";
 
         Jval meta = Jval.read(new ZipFi(mod.file).child("mod.hjson").readString());

@@ -21,7 +21,9 @@ import static mindustry.Vars.*;
 //v5-java-mod is the current use
 
 public class ClassicMod extends Mod{
-    private String ModVersion = "2.0 Beta [Surge Fuse Release]";
+    private final String ModVersion = "2.1 Beta";
+    private final String BuildVer = "8";
+    protected LoadedMod resMod = mods.locateMod("restored-mind");
     public ClassicMod(){
         //Log.info("Loaded Classic constructor.");
         //listen for game load event
@@ -85,8 +87,7 @@ public class ClassicMod extends Mod{
         AutoUpdate.load();
         if(!settings.getBool("ignore-update")) AutoUpdate.check();
         if(!headless) {
-            LoadedMod resMod = mods.locateMod("restored-mind");
-            resMod.meta.version = ModVersion;
+            resMod.meta.version = BuildVer;
             Func<String, String> getModBundle = value -> bundle.get("mod." + value);
 
             StringBuilder contributors = new StringBuilder(getModBundle.get(resMod.meta.name + ".author"));
@@ -108,18 +109,22 @@ public class ClassicMod extends Mod{
 
             t.pref(new Separator("restored-annoying-window"));
             t.checkPref("ignore-warning", false);
+
+            t.pref(new Separator("restored-update"));
             t.checkPref("ignore-update", false);
             if(false) {
                 t.pref(new Separator("restored-updates"));
                 t.checkPref("beta-update", false);
             }
+            t.button("Check Updates", AutoUpdate::check);
 
             t.pref(new Separator("restored-backwards-compatible"));
             t.checkPref("backward-v5", false); //TODO make some mods backwards compatiblilty with v5
             if(false) {
                 t.checkPref("backward-v6", false); //TODO make some mods backwards compatiblilty with v6
             }
-            t.areaTextPref("Stats?","Mod Version: "+ModVersion);
+            t.areaTextPref("Mod Stats","Mod Version: "+ModVersion+"\n"+"[#FCC21B]Credits:[]"+resMod.meta.author);
+            t.areaTextPref("YEY?","Mod Version: "+ModVersion);
         });
     }
 
