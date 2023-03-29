@@ -42,6 +42,17 @@ public class ClassicBullets {
     ;
 
     public void load(){
+       /*fuseShot = new ShrapnelBulletType(){{
+            serrations = 3;
+            length = 120f;
+            fromColor = Color.white;
+            toColor = Pal.surge;
+            hitEffect = Fx.hitFuse;
+            shootEffect = smokeEffect = Fx.none;
+            lifetime = 10f;
+            despawnEffect = Fx.none;
+            pierce = true;
+        }};*/
         fuseShot = new BulletType(0.01f, 70){
             int rays = 3;
             float rayLength = 120f;

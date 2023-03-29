@@ -12,6 +12,7 @@ import mindustry.content.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
 import mindustry.entities.part.*;
+import mindustry.entities.pattern.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
@@ -23,6 +24,7 @@ import mindustry.world.blocks.production.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
+import static classicMod.content.ClassicBullets.*;
 import static classicMod.content.ClassicUnitTypes.*;
 import static mindustry.type.ItemStack.*;
 
@@ -420,7 +422,9 @@ public class ClassicBlocks {
         //--- Turrets Region ---
         fuseOld = new ItemTurretV6("fuseOld"){{ //TODO idk
             requirements(Category.turret, ItemStack.with(Items.copper, 450, Items.graphite, 450, Items.surgeAlloy, 250));
-            ammo(Items.graphite, ClassicBullets.fuseShot);
+            ammo(Items.graphite, fuseShot);
+            shoot = new ShootSpread(3, 20.0F);
+            shootSound = Sounds.bigshot;
             reload = 40f;
             shake = 4f;
             range = 110f;
