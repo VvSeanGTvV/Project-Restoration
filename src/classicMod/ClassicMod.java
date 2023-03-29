@@ -87,6 +87,7 @@ public class ClassicMod extends Mod{
         AutoUpdate.load();
         if(!settings.getBool("ignore-update")) AutoUpdate.check();
         if(!headless) {
+            resMod = mods.locateMod("restored-mind");
             resMod.meta.version = BuildVer;
             Func<String, String> getModBundle = value -> bundle.get("mod." + value);
 
