@@ -423,7 +423,7 @@ public class ClassicBlocks {
         fuseOld = new ItemTurretV6("fuseOld"){{
             requirements(Category.turret, ItemStack.with(Items.copper, 450, Items.graphite, 450, Items.surgeAlloy, 250));
 
-            float brange = range + 10f; //hi
+            float brange = range + 10f;
             ammo(Items.graphite, new ShrapnelBulletType(){{
                         length = brange;
                         damage = 55f;
@@ -434,7 +434,7 @@ public class ClassicBlocks {
                     Items.surgeAlloy, fuseShot
             );
             shoot = new ShootSpread(3, 20.0F);
-            shootSound = Sounds.shootBig;
+            shootSound = Sounds.shotgun;
 
             coolant = consumeCoolant(0.35f);
             reload = 40f;
