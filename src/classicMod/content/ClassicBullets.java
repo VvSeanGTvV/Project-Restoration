@@ -87,6 +87,8 @@ public class ClassicBullets {
                 Drawf.tri(b.x, b.y, 20f * b.fout(), (rayLength + 50), b.rotation());
                 Drawf.tri(b.x, b.y, 20f * b.fout(), 10f, b.rotation() + 180f);
                 Draw.reset();
+
+                Drawf.light(b.x, b.y, b.x + Angles.trnsx(b.rotation(), rayLength), b.y + Angles.trnsy(b.rotation(), rayLength), 20f * 2.5f * b.fout(), Pal.surge, lightOpacity);
             }
         };
 

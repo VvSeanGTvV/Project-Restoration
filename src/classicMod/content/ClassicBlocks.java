@@ -50,7 +50,7 @@ public class ClassicBlocks {
 
     droneCenter, payloadLaunchpad, //TEMPORARY TESTING
 
-    fractureSingle, fracture, horde, titanold, //Turrets - Erekir - Prototype [v7-dev]
+    fracture, horde, titanold, //Turrets - Erekir - Prototype [v7-dev]
 
     interplanetaryAccelerator //Endgame - Mindustry
     ;
@@ -421,16 +421,10 @@ public class ClassicBlocks {
 
         //--- Turrets Region ---
         fuseOld = new ItemTurretV6("fuseOld"){{
-            requirements(Category.turret, ItemStack.with(Items.copper, 450, Items.graphite, 450, Items.surgeAlloy, 250));
+            requirements(Category.turret, ItemStack.with(Items.copper, 450, Items.graphite, 450, Items.surgeAlloy, 220));
 
-            float brange = range + 10f;
-            ammo(Items.graphite, new ShrapnelBulletType(){{
-                        length = brange;
-                        damage = 55f;
-                        ammoMultiplier = 4f;
-                        width = 17f;
-                        reloadMultiplier = 1.3f;
-                    }},
+            float brange = range + 10f; //TODO ammo
+            ammo(
                     Items.surgeAlloy, fuseShot
             );
             shoot = new ShootSpread(3, 20.0F);
@@ -526,7 +520,7 @@ public class ClassicBlocks {
             //limitRange();
         }};
 
-        fracture = new ItemTurretV6("fracture-single") {
+        fracture = new ItemTurretV6("fracture") {
             {
                 requirements(Category.turret, with(Items.tungsten, 35, Items.silicon, 35));
                 ammo(
