@@ -123,7 +123,7 @@ public class ClassicMod extends Mod{
             if(false) {
                 t.checkPref("backward-v6", false); //TODO make some mods backwards compatiblilty with v6
             }
-            t.areaTextPref("Mod Stats","Mod Version: "+ModVersion+"\n"+"[#FCC21B]Credits:[]"+resMod.meta.author);
+            t.areaTextPref("Mod Stats","Mod Version: "+ModVersion+"\n[#FCC21B]Credits:[]"+resMod.meta.author+"\nBuild Version: "+BuildVer);
             t.areaTextPref("YEY?","Mod Version: "+ModVersion);
         });
     }
