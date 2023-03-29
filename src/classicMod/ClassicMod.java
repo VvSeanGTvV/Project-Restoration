@@ -21,7 +21,7 @@ import static mindustry.Vars.*;
 //v5-java-mod is the current use
 
 public class ClassicMod extends Mod{
-    private String ModVersion = "2.1 Beta";
+    private String ModVersion = "2.0 Beta [Surge Fuse Release]";
     public ClassicMod(){
         //Log.info("Loaded Classic constructor.");
         //listen for game load event
@@ -82,6 +82,8 @@ public class ClassicMod extends Mod{
     @Override
     public void init() {
         MenuUI.load();
+        AutoUpdate.load();
+        if(!settings.getBool("ignore-update")) AutoUpdate.check();
         if(!headless) {
             LoadedMod resMod = mods.locateMod("restored-mind");
             resMod.meta.version = ModVersion;
@@ -103,8 +105,15 @@ public class ClassicMod extends Mod{
             t.pref(new Separator("restored-menu-bg"));
             t.checkPref("use-planetmenu", true);
             t.checkPref("use-lastplanet-bg", false);
+
             t.pref(new Separator("restored-annoying-window"));
             t.checkPref("ignore-warning", false);
+            t.checkPref("ignore-update", false);
+            if(false) {
+                t.pref(new Separator("restored-updates"));
+                t.checkPref("beta-update", false);
+            }
+
             t.pref(new Separator("restored-backwards-compatible"));
             t.checkPref("backward-v5", false); //TODO make some mods backwards compatiblilty with v5
             if(false) {
