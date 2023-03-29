@@ -21,6 +21,7 @@ public class AutoUpdate {
 
     public static float progress;
     public static String download;
+    public static int latestBuild;
 
     public static void load() {
         mod = mods.getMod("restored-mind");
@@ -37,8 +38,11 @@ public class AutoUpdate {
             Jval json = Jval.read(res.getResultAsString());
             String latest = json.getString("tag_name").substring(1);
             download = json.get("assets").asArray().get(0).getString("browser_download_url");
+            latestBuild = Integer.parseInt(latest); //change into INT as build number
+            int modBuild = Integer.parseInt(ClassicMod.BuildVer); //change into INT as build number
 
-            if (!latest.equals(mod.meta.version)) ui.showCustomConfirm(
+            //check if Build is not in the latest
+            if (modBuild < latestBuild) ui.showCustomConfirm(
                     "@updater.restored-mind.name", bundle.format("updater.restored-mind.info", mod.meta.version, latest),
                     "@updater.restored-mind.load", "@ok", AutoUpdate::update, () -> {});
         }, Log::err);
@@ -68,6 +72,7 @@ public class AutoUpdate {
             ui.showInfoOnHidden("@mods.reloadexit", app::exit);
         } catch (Throwable e) { Log.err(e); }
     }
+    public static int getLatestBuild(){ return latestBuild; };
 
     /*public static Fi script() {
         return mod.root.child("scripts").child("main.js");

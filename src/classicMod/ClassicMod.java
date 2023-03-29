@@ -21,8 +21,12 @@ import static mindustry.Vars.*;
 //v5-java-mod is the current use
 
 public class ClassicMod extends Mod{
-    private final String ModVersion = "2.1 Beta";
-    private final String BuildVer = "8";
+    /** Mod's current Version **/
+    public static String ModVersion = "2.1 Beta";
+    /** Mod's current Build **/
+    public static final String BuildVer = "8";
+    /** Indication whether it is not on any of Github's release tag **/
+    private boolean overBuild;
     protected LoadedMod resMod = mods.locateMod("restored-mind");
     public ClassicMod(){
         //Log.info("Loaded Classic constructor.");
@@ -86,6 +90,9 @@ public class ClassicMod extends Mod{
         MenuUI.load();
         AutoUpdate.load();
         if(!settings.getBool("ignore-update")) AutoUpdate.check();
+
+        if(Integer.parseInt(BuildVer) > AutoUpdate.getLatestBuild()){overBuild=true;}else{overBuild=false;}
+
         if(!headless) {
             resMod = mods.locateMod("restored-mind");
             resMod.meta.version = BuildVer;
@@ -124,8 +131,7 @@ public class ClassicMod extends Mod{
             if(false) {
                 t.checkPref("backward-v6", false); //TODO make some mods backwards compatiblilty with v6
             }
-            t.areaTextPref("Mod Stats","Mod Version: "+ModVersion+"\n[#FCC21B]Credits:[]"+resMod.meta.author+"\nBuild Version: "+BuildVer);
-            t.areaTextPref("YEY?","Mod Version: "+ModVersion);
+            t.areaTextPref("Mod Stats","Mod Version: "+ModVersion+"\nBuild Version: "+BuildVer+"Pre-Release: "+overBuild);
         });
     }
 
