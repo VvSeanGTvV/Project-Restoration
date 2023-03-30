@@ -90,8 +90,15 @@ public class ClassicMod extends Mod{
         MenuUI.load();
         AutoUpdate.load();
         if(!settings.getBool("ignore-update")) AutoUpdate.check();
-
-        if(Integer.parseInt(BuildVer) > AutoUpdate.getLatestBuild()){overBuild=true;}else{overBuild=false;}
+        if(Integer.parseInt(BuildVer) == AutoUpdate.getLatestBuild()){
+            overBuild = false;
+        }else {
+            if (Integer.parseInt(BuildVer) > AutoUpdate.getLatestBuild()) {
+                overBuild = true;
+            } else {
+                overBuild = false;
+            }
+        }
 
         if(!headless) {
             resMod = mods.locateMod("restored-mind");
@@ -124,7 +131,7 @@ public class ClassicMod extends Mod{
                 t.pref(new Separator("restored-updates"));
                 t.checkPref("beta-update", false);
             }
-            t.button("Check Updates", AutoUpdate::check);
+            //t.button("Check Updates", AutoUpdate::check);
 
             t.pref(new Separator("restored-backwards-compatible"));
             t.checkPref("backward-v5", false); //TODO make some mods backwards compatiblilty with v5
