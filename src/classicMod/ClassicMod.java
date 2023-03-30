@@ -131,10 +131,11 @@ public class ClassicMod extends Mod{
             if(false) {
                 t.checkPref("backward-v6", false); //TODO make some mods backwards compatiblilty with v6
             }
-            
-            t.add("Mod Version: "+ModVersion);
-            t.add("Build Version: "+BuildVer);
-            t.add("Pre-Release: "+overBuild);
+
+            t.add(resMod.meta.displayName+" - Info").padTop(4f).row();
+            t.add("Mod Version: "+ModVersion).row();
+            t.add("Build Version: "+BuildVer).row();
+            t.add("Pre-Release: "+overBuild).row();
             //t.areaTextPref("Mod Stats","Mod Version: "+ModVersion+"\nBuild Version: "+BuildVer+"\nPre-Release: "+overBuild);
         });
     }
@@ -167,7 +168,7 @@ public class ClassicMod extends Mod{
                 table.image(Tex.clear).height(height).padTop(3f);
             }else{
                 table.table(t -> {
-                    t.add(title).padTop(3f);
+                    t.add(title).padTop(4f);
                 }).get().background(Tex.underline);
             }
             table.row();
