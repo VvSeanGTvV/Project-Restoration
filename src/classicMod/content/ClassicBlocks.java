@@ -63,17 +63,17 @@ public class ClassicBlocks {
     public void load() {
         int requirementsMulti = 3;
         titanCannon = new ItemTurret("titan-cannon"){{
-            requirements(Category.power, with(Items.titanium, 50*requirementsMulti, Items.fissileMatter, 455*requirementsMulti, Items.metaglass, 70*requirementsMulti));
+            requirements(Category.turret, with(Items.titanium, 50*requirementsMulti, Items.fissileMatter, 455*requirementsMulti, Items.metaglass, 70*requirementsMulti));
             ammo(Items.fissileMatter, titanshell);
             itemCapacity = 400;
             size = 3;
             health = 800;
-            rotateSpeed = 0.07f;
+            rotateSpeed = 0.07f*4;
             shootCone = 9f;
             shake = 3f;
             range = 120f;
             reload = 23f;
-
+            outlineColor = Color.valueOf("ffd86c")
         }};
 
         nuclearReactor = new NuclearReactor("nuclear-reactor"){{
@@ -87,7 +87,7 @@ public class ClassicBlocks {
             heating = 0.05f;
             liquidCapacity = 50;
 
-            consumeItem(Items.fissileMatter); //TODO replace with uranium!
+            consumeItem(Items.thorium); //TODO replace with uranium!
             consumeLiquid(Liquids.water, heating / coolantPower).update(false);
         }};
 
