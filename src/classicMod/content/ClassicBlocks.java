@@ -73,7 +73,7 @@ public class ClassicBlocks {
             shake = 3f;
             range = 120f;
             reload = 23f;
-            outlineColor = Color.valueOf("ffd86c")
+            outlineColor = Color.valueOf("ffd86c");
         }};
 
         nuclearReactor = new NuclearReactor("nuclear-reactor"){{
