@@ -75,7 +75,7 @@ public class AutoUpdate {
             ui.showInfoOnHidden("@mods.reloadexit", app::exit);
         } catch (Throwable e) { Log.err(e); }
     }
-    public static int getLatestBuild(){ return latestBuild; };
+    public static String getLatestBuild(){ return latest; };
 
     /*public static Fi script() {
         return mod.root.child("scripts").child("main.js");
