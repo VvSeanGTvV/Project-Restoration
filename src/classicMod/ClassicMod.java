@@ -25,8 +25,6 @@ public class ClassicMod extends Mod{
     public static String ModVersion = "2.1 Beta";
     /** Mod's current Build **/
     public static final String BuildVer = "8";
-    /** Indication whether it is not on any of Github's release tag **/
-    private boolean overBuild;
     protected LoadedMod resMod = mods.locateMod("restored-mind");
     public ClassicMod(){
         //Log.info("Loaded Classic constructor.");
@@ -70,16 +68,6 @@ public class ClassicMod extends Mod{
                 Log.err("Incompatible with classicv5 hjson mod and conflicts with this mod!");
             }
 
-            int GithubBuild = Integer.parseInt(AutoUpdate.getLatestBuild());
-            if(Integer.parseInt(BuildVer) == GithubBuild){
-                overBuild = false;
-            }else {
-                if (Integer.parseInt(BuildVer) > GithubBuild) {
-                    overBuild = true;
-                } else {
-                    overBuild = false;
-                }
-            }
 
             //show dialog upon startup
             //Time.runTask(10f, () -> {
@@ -143,10 +131,8 @@ public class ClassicMod extends Mod{
             t.row();
             t.add(resMod.meta.displayName+" - Info").padTop(4f).row();
             t.add("Mod Version: "+ModVersion).row();
-            t.add("Build Version: "+BuildVer).row();
-            t.add("Github Build Version: "+AutoUpdate.getLatestBuild()).row();
-            //t.add("Github Release: "+!overBuild).row();
-            //t.add("Pre-Release: "+overBuild).row();
+            t.add("Build Version: "+BuildVer+" [Github: "+!AutoUpdate.overBuild+"]").row();
+            //t.add("Github Build Version: "+AutoUpdate.getLatestBuild()).row();
             //t.areaTextPref("Mod Stats","Mod Version: "+ModVersion+"\nBuild Version: "+BuildVer+"\nPre-Release: "+overBuild);
         });
     }

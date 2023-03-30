@@ -23,6 +23,8 @@ public class AutoUpdate {
     public static String download;
     public static int latestBuild;
     private static String latest;
+    /** Indication whether it is not on any of Github's release tag **/
+    public static boolean overBuild;
 
     public static void load() {
         mod = mods.getMod("restored-mind");
@@ -45,9 +47,15 @@ public class AutoUpdate {
             Log.info(latestBuild+" "+mod.meta.version);
 
             //check if Build is not in the latest
-            if (modBuild < latestBuild) ui.showCustomConfirm(
+            if (modBuild < latestBuild)
+            {overBuild = false; ui.showCustomConfirm(
                     "@updater.restored-mind.name", bundle.format("updater.restored-mind.info", mod.meta.version, latest),
                     "@updater.restored-mind.load", "@ok", AutoUpdate::update, () -> {});
+            } else if (modBuild == latestBuild) {
+                overBuild = false;
+            } else {
+                overBuild = true;
+            }
         }, Log::err);
     }
 
@@ -74,13 +82,6 @@ public class AutoUpdate {
             app.post(ui.loadfrag::hide);
             ui.showInfoOnHidden("@mods.reloadexit", app::exit);
         } catch (Throwable e) { Log.err(e); }
-    }
-    public static String getLatestBuild() {
-        Http.get(url, res -> {
-            Jval json = Jval.read(res.getResultAsString());
-            latest = json.getString("tag_name").substring(1); //change into INT as build number
-        }, Log::err);
-        return latest;
     }
 
     /*public static Fi script() {
