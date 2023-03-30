@@ -131,7 +131,8 @@ public class ClassicMod extends Mod{
             t.row();
             t.add(resMod.meta.displayName+" - Info").padTop(4f).row();
             t.add("Mod Version: "+ModVersion).row();
-            t.add("Build Version: "+BuildVer+" [Github: "+!AutoUpdate.overBuild+"]").row();
+            t.add("Build Version: "+BuildVer).row();
+            t.add("Github Release: "+!AutoUpdate.overBuild).row();
             //t.add("Github Build Version: "+AutoUpdate.getLatestBuild()).row();
             //t.areaTextPref("Mod Stats","Mod Version: "+ModVersion+"\nBuild Version: "+BuildVer+"\nPre-Release: "+overBuild);
         });
