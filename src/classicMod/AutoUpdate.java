@@ -75,7 +75,13 @@ public class AutoUpdate {
             ui.showInfoOnHidden("@mods.reloadexit", app::exit);
         } catch (Throwable e) { Log.err(e); }
     }
-    public static String getLatestBuild(){ return latest; };
+    public static String getLatestBuild() {
+        Http.get(url, res -> {
+            Jval json = Jval.read(res.getResultAsString());
+            latest = json.getString("tag_name").substring(1); //change into INT as build number
+        }, Log::err);
+        return latest;
+    }
 
     /*public static Fi script() {
         return mod.root.child("scripts").child("main.js");
