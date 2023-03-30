@@ -22,9 +22,9 @@ import static mindustry.Vars.*;
 
 public class ClassicMod extends Mod{
     /** Mod's current Version **/
-    public static String ModVersion = "2.1 Beta";
+    public static String ModVersion = "2.5 Beta";
     /** Mod's current Build **/
-    public static final String BuildVer = "8";
+    public static final String BuildVer = "9";
     protected LoadedMod resMod = mods.locateMod("restored-mind");
     public ClassicMod(){
         //Log.info("Loaded Classic constructor.");
@@ -132,7 +132,8 @@ public class ClassicMod extends Mod{
             t.add(resMod.meta.displayName+" - Info").padTop(4f).row();
             t.add("Mod Version: "+ModVersion).row();
             t.add("Build Version: "+BuildVer).row();
-            t.add("Github Release: "+!AutoUpdate.overBuild).row();
+            t.add("Latest Release: "+!AutoUpdate.overBuild).row();
+            t.add("Latest Pre-Release: "+AutoUpdate.overBuild).row();
             //t.add("Github Build Version: "+AutoUpdate.getLatestBuild()).row();
             //t.areaTextPref("Mod Stats","Mod Version: "+ModVersion+"\nBuild Version: "+BuildVer+"\nPre-Release: "+overBuild);
         });

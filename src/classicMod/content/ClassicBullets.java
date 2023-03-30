@@ -38,7 +38,10 @@ public class ClassicBullets {
     bombExplosive, bombIncendiary, bombOil,
 
     //v5 bullets
-    fuseShot
+    fuseShot,
+
+    //classic bullets
+    titanshell
     ;
 
     public void load(){
@@ -89,6 +92,44 @@ public class ClassicBullets {
                 Draw.reset();
 
                 Drawf.light(b.x, b.y, b.x + Angles.trnsx(b.rotation(), rayLength), b.y + Angles.trnsy(b.rotation(), rayLength), 20f * 2.5f * b.fout(), Pal.surge, lightOpacity);
+            }
+        };
+
+        titanshell = new BulletType(1.8f, 38*2){
+            {
+                ammoMultiplier = 4;
+                lifetime = 70f;
+                hitSize = 15f;
+            }
+
+            public void draw(Bullet b){ //titanshell
+                //Color lightOrange = Color.valueOf("f68021");
+                Color whiteOrange = Color.valueOf("f6bd21");//Color.mix(lightOrange, Color.WHITE, 0.6f);
+                Draw.color(whiteOrange);
+                Draw.rect("shell", b.x, b.y, b.rotation());
+                Draw.reset();
+            }
+
+            public void update(Bullet b){
+                if(b.timer.get(0, 4)){
+                    Fx.smoke.at(b.x + Mathf.range(2), b.y + Mathf.range(2));
+                }
+            }
+
+            public void despawned(Bullet b){
+                hit(b);
+            }
+
+            public void hit(Bullet b, float hitx, float hity){
+                Effect.shake(3f, 3f, b);
+                Effect smoke = Fx.smoke;
+                splashDamage = (damage * 2f/3f);
+
+
+                //Effect.effect(Fx.shellsmoke, b);
+                //Effects.effect(Fx.shockwaveSmall, b);
+
+                //DamageArea.damage(!(b.owner instanceof Enemy), b.x, b.y, 50f, (int)(damage * 2f/3f));
             }
         };
 

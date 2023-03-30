@@ -19,7 +19,9 @@ import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.campaign.*;
 import mindustry.world.blocks.defense.*;
+import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.blocks.heat.*;
+import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
@@ -30,12 +32,15 @@ import static mindustry.type.ItemStack.*;
 
 public class ClassicBlocks {
     public static Block
-            fuseOld, //Turret [pre-v5]
+    titanCannon, //Turret - classic
+    nuclearReactor, //Power - classic
 
-            dartPad, omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad [v5]
-            wraithFactory, ghoulFactory, revenantFactory, //Air - Unit Factory [v5]
-            crawlerFactory, daggerFactory, titanFactory, fortressFactory, //Ground - Unit Factory [v5]
-            draugFactory, spiritFactory, phantomFactory, //Support - Unit Factory [v5]
+    fuseOld, //Turret [pre-v5]
+
+    dartPad, omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad [v5]
+    wraithFactory, ghoulFactory, revenantFactory, //Air - Unit Factory [v5]
+    crawlerFactory, daggerFactory, titanFactory, fortressFactory, //Ground - Unit Factory [v5]
+    draugFactory, spiritFactory, phantomFactory, //Support - Unit Factory [v5]
 
     insulatorWall, insulatorWallLarge, //Wall - Insulator - Testing-candidate [v6-dev]
     launchPadLarge, coreSilo, //Launchpad - Campaign only - v6-dev Block
@@ -56,7 +61,37 @@ public class ClassicBlocks {
     ;
 
     public void load() {
-        //--- Mech Pad Region ---
+        int requirementsMulti = 3;
+        titanCannon = new ItemTurret("titan-cannon"){{
+            requirements(Category.power, with(Items.titanium, 50*requirementsMulti, Items.fissileMatter, 455*requirementsMulti, Items.metaglass, 70*requirementsMulti));
+            ammo(Items.fissileMatter, titanshell);
+            itemCapacity = 400;
+            size = 3;
+            health = 800;
+            rotateSpeed = 0.07f;
+            shootCone = 9f;
+            shake = 3f;
+            range = 120f;
+            reload = 23f;
+
+        }};
+
+        nuclearReactor = new NuclearReactor("nuclear-reactor"){{
+            requirements(Category.power, with(Items.titanium, 40*requirementsMulti, Items.fissileMatter, 40*requirementsMulti, Items.metaglass, 50*requirementsMulti));
+            ambientSound = Sounds.hum;
+            ambientSoundVolume = 0.24f;
+            size = 3;
+            health = 600;
+            itemDuration = 180f;
+            powerProduction = 10f;
+            heating = 0.05f;
+            liquidCapacity = 50;
+
+            consumeItem(Items.fissileMatter); //TODO replace with uranium!
+            consumeLiquid(Liquids.water, heating / coolantPower).update(false);
+        }};
+
+        //Mechpad
         omegaPad = new MechPad("omega-pad") {{
             requirements(Category.effect, with(Items.lead, 225, Items.graphite, 275, Items.silicon, 325, Items.thorium, 300, Items.surgeAlloy, 120));
             size = 3;
@@ -129,9 +164,8 @@ public class ClassicBlocks {
 
             consumePower(1.2f);
         }};
-        //--- Mech Pad Region End ---
 
-        //--- Unit Factory Region ---
+        //UnitFactory
         wraithFactory = new LegacyUnitFactory("wraith-factory") {{
             requirements(Category.units, ItemStack.with(Items.titanium, 30, Items.lead, 40, Items.silicon, 45));
             size = 2;
@@ -164,9 +198,7 @@ public class ClassicBlocks {
             requirement = with(Items.silicon, 40, Items.titanium, 30);
             unitType = ClassicUnitTypes.revenant;
         }};
-        //--- Unit Factory Region ---
 
-        //--- Unit Support Factory Region ---
         draugFactory = new LegacyUnitFactory("draug-factory") {{
             requirements(Category.units, ItemStack.with(Items.copper, 30, Items.lead, 70));
             size = 2;
@@ -199,9 +231,7 @@ public class ClassicBlocks {
             requirement = with(Items.silicon, 50, Items.lead, 30, Items.titanium, 20);
             unitType = ClassicUnitTypes.phantom;
         }};
-        //--- Unit Support Factory Region End ---
 
-        // --- Unit Ground Factory Region ---
         crawlerFactory = new LegacyUnitFactory("crawler-factory") {{
             requirements(Category.units, ItemStack.with(Items.lead, 45, Items.silicon, 30));
             size = 2;
@@ -245,9 +275,8 @@ public class ClassicBlocks {
             requirement = with(Items.silicon, 20, Items.graphite, 10);
             unitType = ClassicUnitTypes.fortress;
         }};
-        //--- Unit Ground Factory Region End ---
 
-        //--- Wall ---
+        //Wall
         int wallHealthMultiplier = 4;
         insulatorWall = new Wall("insulator-wall") {{
             requirements(Category.defense, ItemStack.with(Items.graphite, 10, Items.lead, 4));
@@ -261,28 +290,8 @@ public class ClassicBlocks {
             insulated = true;
             size = 2;
         }};
-        //--- Wall Region End ---
 
-        //--- Nuclear Region --- //TODO: do this later and work on some missing stuff
-        /*warheadAssembler = new SingleBlockProducer("warhead-assembler") {{
-            requirements(Category.crafting, with(Items.thorium, 100));
-            result = nuclearWarhead;
-            size = 3;
-            buildSpeed = 0.3f;
-        }};
-
-        ballisticSilo = new BallisticSilo("ballistic-silo") {{
-            requirements(Category.crafting, with(Items.thorium, 100));
-            size = 5;
-        }};
-
-        nuclearWarhead = new NuclearWarhead("nuclear-warhead") {{
-            requirements(Category.crafting, with(Items.thorium, 40));
-            size = 2;
-        }};*/
-        //--- Nuclear Region End ---
-
-        //--- Projectors Region ---
+        //Projectors
         barrierProjector = new DirectionalForceProjector("barrier-projector"){{
             //TODO
             requirements(Category.effect, with(Items.surgeAlloy, 100, Items.silicon, 125));
@@ -328,9 +337,7 @@ public class ClassicBlocks {
             consumePower(5f);
         }};
 
-        //--- Projectors Region End ---
-
-        //--- Heat Producers Region ---
+        //Crafting
         heatReactor = new HeatProducer("heat-reactor"){{
             requirements(Category.crafting, with(Items.oxide, 70, Items.graphite, 20, Items.carbide, 10, Items.thorium, 80));
             size = 3;
@@ -343,9 +350,7 @@ public class ClassicBlocks {
             consumeLiquid(Liquids.nitrogen, 1f / 60f);
             outputItem = new ItemStack(Items.fissileMatter, 1);
         }};
-        //--- Heat Producers Region End ---
 
-        //--- Converter Region ---
         cellSynthesisChamber = new LiquidConverter("cell-synthesis-chamber") {{
             //TODO find the original requirement and fix, because it is not compatible with erekir!
             requirements(Category.crafting, with(Items.thorium, 100, Items.phaseFabric, 120, Items.titanium, 150, Items.surgeAlloy, 70));
@@ -382,7 +387,6 @@ public class ClassicBlocks {
             consumes.items(with(Items.sporePod, 3, Items.phaseFabric, 1));
             consumes.liquid(Liquids.water, 0.8f);*/
         }};
-        //--- Converter Region End---
 
         slagCentrifuge = new GenericCrafter("slag-centrifuge"){{
             requirements(Category.crafting, with(Items.carbide, 70, Items.graphite, 60, Items.silicon, 40, Items.oxide, 40));
@@ -419,7 +423,25 @@ public class ClassicBlocks {
             outputItem = new ItemStack(Items.scrap, 1);
         }};
 
-        //--- Turrets Region ---
+        //Nuclear //TODO make it work???
+        /*warheadAssembler = new SingleBlockProducer("warhead-assembler") {{
+            requirements(Category.crafting, with(Items.thorium, 100));
+            result = nuclearWarhead;
+            size = 3;
+            buildSpeed = 0.3f;
+        }};
+
+        ballisticSilo = new BallisticSilo("ballistic-silo") {{
+            requirements(Category.crafting, with(Items.thorium, 100));
+            size = 5;
+        }};
+
+        nuclearWarhead = new NuclearWarhead("nuclear-warhead") {{
+            requirements(Category.crafting, with(Items.thorium, 40));
+            size = 2;
+        }};*/
+
+        //Turrets
         fuseOld = new ItemTurretV6("fuseOld"){{
             requirements(Category.turret, ItemStack.with(Items.copper, 450, Items.graphite, 450, Items.surgeAlloy, 220));
 
@@ -440,6 +462,7 @@ public class ClassicBlocks {
 
             health = 165 * size * size;
         }};
+
         horde = new ItemTurretV6("horde"){{
             requirements(Category.turret, with(Items.tungsten, 35, Items.silicon, 35));
             shootSound = Sounds.missile;
@@ -703,9 +726,8 @@ public class ClassicBlocks {
             size = 3;
             health = 380 * size * size;
         }};
-        //--- Turrets Region End ---
 
-        //--- Drone Center Region ---
+        //Campaign
         droneCenter = new DroneCenterNew("drone-center"){{
             requirements(Category.units, with(Items.graphite, 10)); //TODO make effect drone work lolz
 
@@ -714,35 +736,6 @@ public class ClassicBlocks {
 
             droneType = effectDrone;
         }};
-        //--- Drone Center Region End ---
-
-        //--- Launchpad Region ---
-        /*payloadLaunchpad = new PayloadLaunchPad("payload-launch-pad"){{ //TODO keep it? or scrap it?
-            requirements(Category.effect, BuildVisibility.campaignOnly, with(Items.titanium, 200, Items.silicon, 150, Items.lead, 250, Items.plastanium, 75));
-            alwaysUnlocked = true;
-            size = 5;
-            itemCapacity = 300;
-            launchTime = 60f * 35;
-            hasPower = true;
-            consumePower(6f);
-        }};*/
-        launchPadLarge = new LaunchPad("launch-pad-large"){{
-            requirements(Category.effect, BuildVisibility.campaignOnly, with(Items.titanium, 200, Items.silicon, 150, Items.lead, 250, Items.plastanium, 75));
-            size = 4;
-            itemCapacity = 300;
-            launchTime = 60f * 35;
-            hasPower = true;
-            consumePower(6f);
-        }};
-
-        /*coreSilo = new CoreLauncher("core-silo"){{ //TODO make somethin out of this or scrap it
-            alwaysUnlocked = true;
-            requirements(Category.effect, BuildVisibility.campaignOnly, ItemStack.with(Items.copper, 350, Items.silicon, 140, Items.lead, 200, Items.titanium, 150)); //Items.copper, 350, Items.silicon, 140, Items.lead, 200, Items.titanium, 150
-            size = 5;
-            itemCapacity = 1000;
-            hasPower = true;
-            consumePower(4f);
-        }};*/
 
         dataProcessor = new ResearchBlock("data-processor"){{
             alwaysUnlocked = true;
@@ -750,9 +743,7 @@ public class ClassicBlocks {
 
             size = 3;
         }};
-        //--- Launchpad Region End ---
 
-        //--- Endgame ---
         interplanetaryAccelerator = new NewAccelerator("interplanetary-accelerator"){{
             requirements(Category.effect, BuildVisibility.campaignOnly, with(Items.copper, 16000, Items.silicon, 11000, Items.thorium, 13000, Items.titanium, 12000, Items.surgeAlloy, 6000, Items.phaseFabric, 5000));
             researchCostMultiplier = 0.1f;
@@ -762,5 +753,33 @@ public class ClassicBlocks {
             buildCostMultiplier = 0.5f;
             scaledHealth = 80;
         }};
+
+        launchPadLarge = new LaunchPad("launch-pad-large"){{
+            requirements(Category.effect, BuildVisibility.campaignOnly, with(Items.titanium, 200, Items.silicon, 150, Items.lead, 250, Items.plastanium, 75));
+            size = 4;
+            itemCapacity = 300;
+            launchTime = 60f * 35;
+            hasPower = true;
+            consumePower(6f);
+        }};
+
+        /*payloadLaunchpad = new PayloadLaunchPad("payload-launch-pad"){{ //TODO keep it? or scrap it?
+            requirements(Category.effect, BuildVisibility.campaignOnly, with(Items.titanium, 200, Items.silicon, 150, Items.lead, 250, Items.plastanium, 75));
+            alwaysUnlocked = true;
+            size = 5;
+            itemCapacity = 300;
+            launchTime = 60f * 35;
+            hasPower = true;
+            consumePower(6f);
+        }};*/
+
+        /*coreSilo = new CoreLauncher("core-silo"){{ //TODO remove
+            alwaysUnlocked = true;
+            requirements(Category.effect, BuildVisibility.campaignOnly, ItemStack.with(Items.copper, 350, Items.silicon, 140, Items.lead, 200, Items.titanium, 150)); //Items.copper, 350, Items.silicon, 140, Items.lead, 200, Items.titanium, 150
+            size = 5;
+            itemCapacity = 1000;
+            hasPower = true;
+            consumePower(4f);
+        }};*/
     }
 }
