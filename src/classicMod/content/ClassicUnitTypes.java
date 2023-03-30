@@ -6,7 +6,6 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
-import classicMod.library.*;
 import classicMod.library.ability.*;
 import classicMod.library.ai.*;
 import mindustry.*;
@@ -21,10 +20,11 @@ import mindustry.type.unit.*;
 import mindustry.type.weapons.*;
 
 import static arc.struct.SnapshotSeq.*;
+import static classicMod.content.ClassicSounds.pew;
 import static mindustry.Vars.*;
 
 public class ClassicUnitTypes {
-    public static Sound pew = Vars.tree.loadSound("v5_sounds_pew"); //just pew lol
+    //public static Sound pew = Vars.tree.loadSound("v5_sounds_pew"); //just pew lol
 
     public static UnitType 
     

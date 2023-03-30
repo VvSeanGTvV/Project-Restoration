@@ -106,7 +106,8 @@ public class ClassicBullets {
                 //Color lightOrange = Color.valueOf("f68021");
                 Color whiteOrange = Color.valueOf("f6bd21");//Color.mix(lightOrange, Color.WHITE, 0.6f);
                 Draw.color(whiteOrange);
-                Draw.rect("shell", b.x, b.y, b.rotation());
+                Draw.z(Layer.effect+5);
+                Draw.rect("shell-back", b.x, b.y, b.rotation());
                 Draw.reset();
             }
 

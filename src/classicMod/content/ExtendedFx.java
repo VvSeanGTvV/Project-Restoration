@@ -1,4 +1,4 @@
-package classicMod.library;
+package classicMod.content;
 
 import arc.*;
 import arc.graphics.*;

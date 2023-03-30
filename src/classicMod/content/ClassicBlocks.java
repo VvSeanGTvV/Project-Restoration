@@ -27,6 +27,7 @@ import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
 import static classicMod.content.ClassicBullets.*;
+import static classicMod.content.ClassicSounds.blast;
 import static classicMod.content.ClassicUnitTypes.*;
 import static mindustry.type.ItemStack.*;
 
@@ -67,13 +68,15 @@ public class ClassicBlocks {
             ammo(Items.fissileMatter, titanshell);
             itemCapacity = 400;
             size = 3;
+            shootSound = blast;
             health = 800;
-            rotateSpeed = 0.07f*4;
+            rotateSpeed = 0.07f*45;
             shootCone = 9f;
             shake = 3f;
             range = 120f;
-            reload = 23f;
+            reload = 23f/2;
             outlineColor = Color.valueOf("ffd86c");
+            //outlineRadius = 4;
         }};
 
         nuclearReactor = new NuclearReactor("nuclear-reactor"){{
