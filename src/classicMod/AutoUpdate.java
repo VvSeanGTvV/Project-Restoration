@@ -22,6 +22,7 @@ public class AutoUpdate {
     public static float progress;
     public static String download;
     public static int latestBuild;
+    public static String latest;
 
     public static void load() {
         mod = mods.getMod("restored-mind");
@@ -36,7 +37,7 @@ public class AutoUpdate {
         Log.info("Checking for updates.");
         Http.get(url, res -> {
             Jval json = Jval.read(res.getResultAsString());
-            String latest = json.getString("tag_name").substring(1);
+            latest = json.getString("tag_name").substring(1);
             download = json.get("assets").asArray().get(0).getString("browser_download_url");
             latestBuild = Integer.parseInt(latest); //change into INT as build number
             int modBuild = Integer.parseInt(ClassicMod.BuildVer); //change into INT as build number
