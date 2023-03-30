@@ -70,6 +70,17 @@ public class ClassicMod extends Mod{
                 Log.err("Incompatible with classicv5 hjson mod and conflicts with this mod!");
             }
 
+            int GithubBuild = Integer.parseInt(AutoUpdate.getLatestBuild());
+            if(Integer.parseInt(BuildVer) == GithubBuild){
+                overBuild = false;
+            }else {
+                if (Integer.parseInt(BuildVer) > GithubBuild) {
+                    overBuild = true;
+                } else {
+                    overBuild = false;
+                }
+            }
+
             //show dialog upon startup
             //Time.runTask(10f, () -> {
             //    BaseDialog dialog = new BaseDialog("Welcome to V5 Java Edition!");
@@ -90,16 +101,6 @@ public class ClassicMod extends Mod{
         MenuUI.load();
         AutoUpdate.load();
         if(!settings.getBool("ignore-update")) AutoUpdate.check();
-        int GithubBuild = Integer.parseInt(AutoUpdate.getLatestBuild());
-        if(Integer.parseInt(BuildVer) == GithubBuild){
-            overBuild = false;
-        }else {
-            if (Integer.parseInt(BuildVer) > GithubBuild) {
-                overBuild = true;
-            } else {
-                overBuild = false;
-            }
-        }
 
         if(!headless) {
             resMod = mods.locateMod("restored-mind");
