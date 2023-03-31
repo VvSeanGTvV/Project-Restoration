@@ -49,8 +49,8 @@ public class MirroredItemTurret extends ItemTurret { //This is meant for classic
 
             float
                     xSpread = Mathf.range(xRand),
-                    bulletX = x + Angles.trnsx(rotation - 90, shootX + xOffset + xSpread + space, shootY + yOffset + space),
-                    bulletY = y + Angles.trnsy(rotation - 90, shootX + xOffset + xSpread + space, shootY + yOffset + space),
+                    bulletX = x + Angles.trnsx(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset + space),
+                    bulletY = y + Angles.trnsy(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset + space),
                     bulletCX = x + Angles.trnsx(rotation - 90, shootX + xOffset + xSpread - space, shootY + yOffset - space),
                     bulletCY = y + Angles.trnsy(rotation - 90, shootX + xOffset + xSpread - space, shootY + yOffset - space),
                     shootAngle = rotation + angleOffset + Mathf.range(inaccuracy + type.inaccuracy);
@@ -61,10 +61,10 @@ public class MirroredItemTurret extends ItemTurret { //This is meant for classic
             handleBullet(type.create(this, team, bulletX, bulletY, shootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation);
             handleBullet(type.create(this, team, bulletCX, bulletY, shootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation);
 
-            (shootEffect == null ? type.shootEffect : shootEffect).at(bulletX, bulletY, rotation + angleOffset, type.hitColor);
-            (shootEffect == null ? type.shootEffect : shootEffect).at(bulletCX, bulletY, rotation + angleOffset, type.hitColor);
-            (smokeEffect == null ? type.smokeEffect : smokeEffect).at(bulletX, bulletY, rotation + angleOffset, type.hitColor);
-            (smokeEffect == null ? type.smokeEffect : smokeEffect).at(bulletCX, bulletY, rotation + angleOffset, type.hitColor);
+            (shootEffect == null ? type.shootEffect : shootEffect).at(bulletX, bulletY, rotation + angleOffset, type.hitColor); //LEFT
+            (shootEffect == null ? type.shootEffect : shootEffect).at(bulletCX, bulletCY, rotation + angleOffset, type.hitColor); //RIGHT
+            (smokeEffect == null ? type.smokeEffect : smokeEffect).at(bulletX, bulletY, rotation + angleOffset, type.hitColor); //LEFT
+            (smokeEffect == null ? type.smokeEffect : smokeEffect).at(bulletCX, bulletCY, rotation + angleOffset, type.hitColor); //RIGHT
             shootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax));
 
             ammoUseEffect.at(
