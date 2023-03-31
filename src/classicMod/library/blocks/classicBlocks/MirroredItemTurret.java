@@ -49,8 +49,8 @@ public class MirroredItemTurret extends ItemTurret { //This is meant for classic
 
             float
                     xSpread = Mathf.range(xRand),
-                    bulletX = x + Angles.trnsx(rotation - 90, shootX + xOffset + xSpread - space, shootY + yOffset + space),
-                    bulletY = y + Angles.trnsy(rotation - 90, shootX + xOffset + xSpread - space, shootY + yOffset + space),
+                    bulletX = x + Angles.trnsx(rotation - 90, shootX + xOffset + xSpread + space, shootY + yOffset - space),
+                    bulletY = y + Angles.trnsy(rotation - 90, shootX + xOffset + xSpread + space, shootY + yOffset - space),
                     bulletCX = x + Angles.trnsx(rotation - 90, shootX + xOffset + xSpread - space, shootY + yOffset - space),
                     bulletCY = y + Angles.trnsy(rotation - 90, shootX + xOffset + xSpread - space, shootY + yOffset - space),
                     shootAngle = rotation + angleOffset + Mathf.range(inaccuracy + type.inaccuracy);
