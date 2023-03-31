@@ -45,6 +45,56 @@ public class ClassicBullets {
     ;
 
     public void load(){
+        //classic bullets
+        Color whiteOrange = Color.valueOf("fccca5");
+        int classicMultiplier = 2;
+        titanshell = new BulletType(1.8f*classicMultiplier, 38*classicMultiplier){
+            {
+                ammoMultiplier = 4;
+                lifetime = 70f;
+                hitSize = 15f;
+            }
+
+            public void draw(Bullet b){
+                Draw.color(whiteOrange);
+                Draw.z(Layer.effect+5);
+                Draw.rect("restored-mind-titan-shell", b.x, b.y, b.rotation());
+                Draw.reset();
+            }
+
+            public void update(Bullet b){
+                if(b.timer.get(0, 4)){
+                    Fx.smoke.at(b.x + Mathf.range(2), b.y + Mathf.range(2));
+                }
+            }
+
+            public void despawned(Bullet b){
+                hit(b);
+            }
+
+            public void hit(Bullet b, float hitx, float hity){
+                Effect.shake(3f, 3f, b);
+                Effect smoke = Fx.smoke;
+                splashDamage = (damage * 2f/3f);
+
+                ExtendedFx.shockwaveSmall.at(b);
+                ExtendedFx.shellsmoke.at(b);
+
+                //DamageArea.damage(!(b.owner instanceof Enemy), b.x, b.y, 50f, (int)(damage * 2f/3f));
+            }
+        };
+
+        chain = new BulletType(2f*classicMultiplier, 8*classicMultiplier){{
+            ammoMultiplier = 8;
+        }
+            public void draw(Bullet b){
+                Draw.color(whiteOrange);
+                Draw.rect("restored-mind-chain-bullet", b.x, b.y, b.rotation());
+                Draw.reset();
+            }
+        };
+
+        //v5 Bullets
         fuseShot = new BulletType(0.01f, 75){
             int rays = 3;
             float rayLength = 120f;
@@ -84,55 +134,7 @@ public class ClassicBullets {
             }
         };
 
-        titanshell = new BulletType(1.8f, 38*2){
-            {
-                ammoMultiplier = 4;
-                lifetime = 70f;
-                hitSize = 15f;
-            }
-
-            public void draw(Bullet b){ //titanshell
-                //Color lightOrange = Color.valueOf("f68021");
-                Color whiteOrange = Color.valueOf("f6bd21");//Color.mix(lightOrange, Color.WHITE, 0.6f);
-                Draw.color(whiteOrange);
-                Draw.z(Layer.effect+5);
-                Draw.rect("restored-mind-titan-shell", b.x, b.y, b.rotation());
-                Draw.reset();
-            }
-
-            public void update(Bullet b){
-                if(b.timer.get(0, 4)){
-                    Fx.smoke.at(b.x + Mathf.range(2), b.y + Mathf.range(2));
-                }
-            }
-
-            public void despawned(Bullet b){
-                hit(b);
-            }
-
-            public void hit(Bullet b, float hitx, float hity){
-                Effect.shake(3f, 3f, b);
-                Effect smoke = Fx.smoke;
-                splashDamage = (damage * 2f/3f);
-
-                ExtendedFx.shockwaveSmall.at(b);
-                ExtendedFx.shellsmoke.at(b);
-
-                //DamageArea.damage(!(b.owner instanceof Enemy), b.x, b.y, 50f, (int)(damage * 2f/3f));
-            }
-        };
-
-        chain = new BulletType(2f, 8){{
-                ammoMultiplier = 8;
-            }
-            public void draw(Bullet b){
-                Color whiteOrange = Color.valueOf("f6bd21");
-                Draw.color(whiteOrange);
-                Draw.rect("restored-mind-chain-bullet", b.x, b.y, b.rotation());
-                Draw.reset();
-            }
-        };
-
+        //bullet
         artilleryDense = new ArtilleryBulletType(3f, 12, "shell"){{
             hitEffect = Fx.flakExplosion;
             knockback = 0.8f;

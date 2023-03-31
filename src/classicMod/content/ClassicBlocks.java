@@ -63,41 +63,42 @@ public class ClassicBlocks {
     ;
 
     public void load() {
-        int requirementsMulti = 3;
+        int ClassicrequirementsMulti = 3;
+        int ClassicBuff = 2; //Classic
         titanCannon = new ItemTurret("titan-cannon"){{
-            requirements(Category.turret, with(Items.titanium, 50*requirementsMulti, Items.fissileMatter, 55*requirementsMulti, Items.metaglass, 70*requirementsMulti));
+            requirements(Category.turret, with(Items.titanium, 50*ClassicrequirementsMulti, Items.fissileMatter, 55*ClassicrequirementsMulti, Items.metaglass, 70*ClassicrequirementsMulti));
             ammo(Items.fissileMatter, titanshell);
-            itemCapacity = 400;
+            itemCapacity = 400; //why this much bro
             size = 3;
             shootSound = blast;
             shootEffect = ExtendedFx.titanshot;
+            smokeEffect = null;
             health = 800;
             rotateSpeed = 0.07f*45;
             shootCone = 9f;
-            range = 120f;
-            reload = 23f/2;
+            range = 120f*ClassicBuff;
+            reload = 23f;
             outlineColor = Color.valueOf("ffd86c");
         }};
 
         chainTurret = new MirroredItemTurret("chain-turret"){{
-            requirements(Category.turret, with(Items.titanium, 25*requirementsMulti, Items.fissileMatter, 40*requirementsMulti, Items.metaglass, 50*requirementsMulti));
+            requirements(Category.turret, with(Items.titanium, 25*ClassicrequirementsMulti, Items.fissileMatter, 40*ClassicrequirementsMulti, Items.metaglass, 50*ClassicrequirementsMulti));
             ammo(Items.fissileMatter, chain);
             size = 2;
             shootSound = bigshot;
             shootEffect = ExtendedFx.chainshot;
+            smokeEffect = null;
             health = 430;
-            //rotateSpeed = 0.07f*45;
             shootCone = 9f;
             shoot.shots = 2;
-            shake = 3f;
             outlineColor = Color.valueOf("ffd86c");
             inaccuracy = 8f;
-            range = 80f;
-            reload = 5f/2;
+            range = 80f*ClassicBuff;
+            reload = 5f;
         }};
 
         nuclearReactor = new NuclearReactor("nuclear-reactor"){{
-            requirements(Category.power, with(Items.titanium, 40*requirementsMulti, Items.fissileMatter, 40*requirementsMulti, Items.metaglass, 50*requirementsMulti));
+            requirements(Category.power, with(Items.titanium, 40*ClassicrequirementsMulti, Items.fissileMatter, 40*ClassicrequirementsMulti, Items.metaglass, 50*ClassicrequirementsMulti));
             ambientSound = Sounds.hum;
             ambientSoundVolume = 0.24f;
             size = 3;
