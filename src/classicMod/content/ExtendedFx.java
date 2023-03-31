@@ -87,6 +87,15 @@ public class ExtendedFx extends Fx {
             Draw.reset();
         }),
 
+        chainshot = new Effect(9f, e -> {
+            Draw.color(Color.white, lightOrange, e.fin());
+            Lines.stroke(e.fout()*4f);
+            Lines.lineAngle(e.x, e.y, e.rotation, e.fout()*7f);
+            Lines.stroke(e.fout()*2f);
+            Lines.lineAngle(e.x, e.y, e.rotation, e.fout()*10f);
+            Draw.reset();
+        }),
+
         shockwaveSmall = new Effect(10f, e -> {
             Draw.color(Color.white, Color.lightGray, e.fin());
             Lines.stroke(e.fout()*2f + 0.1f);

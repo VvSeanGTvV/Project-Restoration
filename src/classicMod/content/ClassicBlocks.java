@@ -33,7 +33,7 @@ import static mindustry.type.ItemStack.*;
 
 public class ClassicBlocks {
     public static Block
-    titanCannon, //Turret - classic
+    titanCannon, chainTurret, //Turret - classic
     nuclearReactor, //Power - classic
 
     fuseOld, //Turret [pre-v5]
@@ -64,7 +64,7 @@ public class ClassicBlocks {
     public void load() {
         int requirementsMulti = 3;
         titanCannon = new ItemTurret("titan-cannon"){{
-            requirements(Category.turret, with(Items.titanium, 50*requirementsMulti, Items.fissileMatter, 455*requirementsMulti, Items.metaglass, 70*requirementsMulti));
+            requirements(Category.turret, with(Items.titanium, 50*requirementsMulti, Items.fissileMatter, 55*requirementsMulti, Items.metaglass, 70*requirementsMulti));
             ammo(Items.fissileMatter, titanshell);
             itemCapacity = 400;
             size = 3;
@@ -77,7 +77,23 @@ public class ClassicBlocks {
             range = 120f;
             reload = 23f/2;
             outlineColor = Color.valueOf("ffd86c");
-            outlineRadius = 5;
+        }};
+
+        chainTurret = new ItemTurret("chain-turret"){{
+            requirements(Category.turret, with(Items.titanium, 25*requirementsMulti, Items.fissileMatter, 40*requirementsMulti, Items.metaglass, 50*requirementsMulti));
+            ammo(Items.fissileMatter, chain);
+            size = 2;
+            shootSound = blast;
+            shootEffect = ExtendedFx.chainshot;
+            health = 430;
+            //rotateSpeed = 0.07f*45;
+            shootCone = 9f;
+            shoot.shots = 2;
+            shake = 3f;
+            outlineColor = Color.valueOf("ffd86c");
+            inaccuracy = 8f;
+            range = 80f;
+            reload = 5f/2;
         }};
 
         nuclearReactor = new NuclearReactor("nuclear-reactor"){{

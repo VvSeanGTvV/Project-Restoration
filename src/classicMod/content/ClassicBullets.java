@@ -41,21 +41,10 @@ public class ClassicBullets {
     fuseShot,
 
     //classic bullets
-    titanshell
+    titanshell, chain
     ;
 
     public void load(){
-       /*fuseShot = new ShrapnelBulletType(){{
-            serrations = 3;
-            length = 120f;
-            fromColor = Color.white;
-            toColor = Pal.surge;
-            hitEffect = Fx.hitFuse;
-            shootEffect = smokeEffect = Fx.none;
-            lifetime = 10f;
-            despawnEffect = Fx.none;
-            pierce = true;
-        }};*/
         fuseShot = new BulletType(0.01f, 75){
             int rays = 3;
             float rayLength = 120f;
@@ -130,6 +119,17 @@ public class ClassicBullets {
                 ExtendedFx.shellsmoke.at(b);
 
                 //DamageArea.damage(!(b.owner instanceof Enemy), b.x, b.y, 50f, (int)(damage * 2f/3f));
+            }
+        };
+
+        chain = new BulletType(2f, 8){{
+                ammoMultiplier = 8;
+            }
+            public void draw(Bullet b){
+                Color whiteOrange = Color.valueOf("f6bd21");
+                Draw.color(whiteOrange);
+                Draw.rect("restored-mind-chain-bullet", b.x, b.y, b.rotation());
+                Draw.reset();
             }
         };
 
