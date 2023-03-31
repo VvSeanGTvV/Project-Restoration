@@ -31,7 +31,7 @@ public class ExtendedFx extends Fx {
             for(int i : Mathf.signs){
                 float len = (2f + e.finpow() * 10f) * i;
                 float lr = rot + e.fin() * 20f * i;
-                Draw.rect(Core.atlas.find("restored-mind-casingOld"),
+                Draw.rect(Core.atlas.find("restored-mind-casing-old"),
                         e.x + Angles.trnsx(lr, len) + Mathf.randomSeedRange(e.id + i + 7, 3f * e.fin()),
                         e.y + Angles.trnsy(lr, len) + Mathf.randomSeedRange(e.id + i + 8, 3f * e.fin()),
                         2f, 3f, rot);

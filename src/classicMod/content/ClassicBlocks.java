@@ -76,7 +76,7 @@ public class ClassicBlocks {
             range = 120f;
             reload = 23f/2;
             outlineColor = Color.valueOf("ffd86c");
-            //outlineRadius = 4;
+            outlineRadius = 6;
         }};
 
         nuclearReactor = new NuclearReactor("nuclear-reactor"){{
