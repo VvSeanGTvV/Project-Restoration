@@ -27,6 +27,7 @@ import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
 import static classicMod.content.ClassicBullets.*;
+import static classicMod.content.ClassicSounds.bigshot;
 import static classicMod.content.ClassicSounds.blast;
 import static classicMod.content.ClassicUnitTypes.*;
 import static mindustry.type.ItemStack.*;
@@ -83,7 +84,7 @@ public class ClassicBlocks {
             requirements(Category.turret, with(Items.titanium, 25*requirementsMulti, Items.fissileMatter, 40*requirementsMulti, Items.metaglass, 50*requirementsMulti));
             ammo(Items.fissileMatter, chain);
             size = 2;
-            shootSound = blast;
+            shootSound = bigshot;
             shootEffect = ExtendedFx.chainshot;
             health = 430;
             //rotateSpeed = 0.07f*45;
