@@ -47,7 +47,7 @@ public class ClassicBullets {
     public void load(){
         //classic bullets
         Color whiteOrange = Color.valueOf("fccca5");
-        int classicMultiplier = 2;
+        float classicMultiplier = 2.5f;
         titanshell = new BulletType(1.8f*classicMultiplier, 38*classicMultiplier){
             {
                 ammoMultiplier = 4;
@@ -63,7 +63,7 @@ public class ClassicBullets {
             }
 
             public void update(Bullet b){
-                if(b.timer.get(0, 4)){
+                if(b.timer.get(0, 4/classicMultiplier)){
                     Fx.smoke.at(b.x + Mathf.range(2), b.y + Mathf.range(2));
                 }
             }

@@ -70,6 +70,7 @@ public class ClassicBlocks {
             ammo(Items.fissileMatter, titanshell);
             itemCapacity = 400; //why this much bro
             size = 3;
+            recoil = 3;
             shootSound = blast;
             shootEffect = ExtendedFx.titanshot;
             smokeEffect = null;
@@ -90,9 +91,9 @@ public class ClassicBlocks {
             smokeEffect = null;
             health = 430*ClassicBuff;
             shootCone = 9f;
-            //shoot.shots = 2;
             outlineColor = Color.valueOf("ffd86c");
-            inaccuracy = 8f*ClassicBuff;
+            outlineRadius = 5;
+            inaccuracy = 8f;
             range = 80f*ClassicBuff;
             reload = 5f;
         }};

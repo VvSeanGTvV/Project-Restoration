@@ -82,6 +82,7 @@ public class MirroredItemTurret extends ItemTurret { //This is meant for classic
 
             if(!consumeAmmoOnce){
                 useAmmo();
+                useAmmo();
             }
         }
 
@@ -112,6 +113,7 @@ public class MirroredItemTurret extends ItemTurret { //This is meant for classic
                     //Effects.effect(shootEffect, tile.drawx() + tr.x, tile.drawy() + tr.y, entity.rotation);
                 }
                 if(consumeAmmoOnce){
+                    useAmmo();
                     useAmmo();
                 }
 
