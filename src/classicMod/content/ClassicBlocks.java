@@ -63,8 +63,8 @@ public class ClassicBlocks {
     ;
 
     public void load() {
-        int ClassicrequirementsMulti = 3;
-        int ClassicBuff = 2; //Classic
+        int ClassicrequirementsMulti = 3; //Classic intended use and not other stuff
+        int ClassicBuff = 2; //Classic intended use and not other stuff
         titanCannon = new ItemTurret("titan-cannon"){{
             requirements(Category.turret, with(Items.titanium, 50*ClassicrequirementsMulti, Items.fissileMatter, 55*ClassicrequirementsMulti, Items.metaglass, 70*ClassicrequirementsMulti));
             ammo(Items.fissileMatter, titanshell);
@@ -73,7 +73,7 @@ public class ClassicBlocks {
             shootSound = blast;
             shootEffect = ExtendedFx.titanshot;
             smokeEffect = null;
-            health = 800;
+            health = 800*ClassicBuff;
             rotateSpeed = 0.07f*45;
             shootCone = 9f;
             range = 120f*ClassicBuff;
@@ -88,11 +88,11 @@ public class ClassicBlocks {
             shootSound = bigshot;
             shootEffect = ExtendedFx.chainshot;
             smokeEffect = null;
-            health = 430;
+            health = 430*ClassicBuff;
             shootCone = 9f;
-            shoot.shots = 2;
+            //shoot.shots = 2;
             outlineColor = Color.valueOf("ffd86c");
-            inaccuracy = 8f;
+            inaccuracy = 8f*ClassicBuff;
             range = 80f*ClassicBuff;
             reload = 5f;
         }};
