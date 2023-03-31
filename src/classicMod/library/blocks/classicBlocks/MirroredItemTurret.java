@@ -8,8 +8,8 @@ import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 import mindustry.world.blocks.defense.turrets.*;
 
-public class MirroredItemTurret extends ItemTurret {
-    public MirroredItemTurret(String name) {
+public class MirroredItemTurret extends ItemTurret { //This is meant for classic blocks not modern ones!
+    public MirroredItemTurret(String name) { //Same style as Item Turret but has two barrels in use
         super(name);
     }
 
@@ -57,10 +57,13 @@ public class MirroredItemTurret extends ItemTurret {
             float lifeScl = type.scaleLife ? Mathf.clamp(Mathf.dst(bulletX, bulletY, targetPos.x, targetPos.y) / type.range, minRange / type.range, range() / type.range) : 1f;
 
             //TODO aimX / aimY for multi shot turrets?
-            handleBullet(type.create(this, team, bulletX, bulletY, shootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation);
+            handleBullet(type.create(this, team, bulletX+space, bulletY, shootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation);
+            handleBullet(type.create(this, team, bulletX-space, bulletY, shootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation);
 
-            //(shootEffect == null ? type.shootEffect : shootEffect).at(bulletX, bulletY, rotation + angleOffset, type.hitColor);
-            //(smokeEffect == null ? type.smokeEffect : smokeEffect).at(bulletX, bulletY, rotation + angleOffset, type.hitColor);
+            (shootEffect == null ? type.shootEffect : shootEffect).at(bulletX+space, bulletY, rotation + angleOffset, type.hitColor);
+            (shootEffect == null ? type.shootEffect : shootEffect).at(bulletX-space, bulletY, rotation + angleOffset, type.hitColor);
+            (smokeEffect == null ? type.smokeEffect : smokeEffect).at(bulletX+space, bulletY, rotation + angleOffset, type.hitColor);
+            (smokeEffect == null ? type.smokeEffect : smokeEffect).at(bulletX-space, bulletY, rotation + angleOffset, type.hitColor);
             shootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax));
 
             ammoUseEffect.at(
@@ -101,14 +104,14 @@ public class MirroredItemTurret extends ItemTurret {
                         totalShots ++;
                     });
                     //bullet(tile.bullet, entity.rotation);
-                    shootEffect.at(tile.drawx() + len, tile.drawy() + space, rotation);
-                    shootEffect.at(tile.drawx() - len, tile.drawy() + space, rotation);
+                    //shootEffect.at(tile.drawx() + len, tile.drawy() + space, rotation);
+                    //shootEffect.at(tile.drawx() - len, tile.drawy() + space, rotation);
 
 
                     //Effects.effect(shootEffect, tile.drawx() + tr.x, tile.drawy() + tr.y, entity.rotation);
                 }
 
-                Effect.shake(1f, 1f, tile.worldx(), tile.worldy());
+                Effect.shake(1f, 1f, this);
             }
         }
     }
