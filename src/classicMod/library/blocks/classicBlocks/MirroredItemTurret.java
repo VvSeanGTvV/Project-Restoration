@@ -49,8 +49,8 @@ public class MirroredItemTurret extends ItemTurret { //This is meant for classic
 
             float
                     xSpread = Mathf.range(xRand),
-                    bulletX = x + Angles.trnsx(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset + space),
-                    bulletY = y + Angles.trnsy(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset + space),
+                    bulletX = x + Angles.trnsx(rotation - 90, shootX + xOffset + xSpread - space, shootY + yOffset + space),
+                    bulletY = y + Angles.trnsy(rotation - 90, shootX + xOffset + xSpread - space, shootY + yOffset + space),
                     bulletCX = x + Angles.trnsx(rotation - 90, shootX + xOffset + xSpread - space, shootY + yOffset - space),
                     bulletCY = y + Angles.trnsy(rotation - 90, shootX + xOffset + xSpread - space, shootY + yOffset - space),
                     shootAngle = rotation + angleOffset + Mathf.range(inaccuracy + type.inaccuracy);
@@ -58,8 +58,8 @@ public class MirroredItemTurret extends ItemTurret { //This is meant for classic
             float lifeScl = type.scaleLife ? Mathf.clamp(Mathf.dst(bulletX, bulletY, targetPos.x, targetPos.y) / type.range, minRange / type.range, range() / type.range) : 1f;
 
             //TODO aimX / aimY for multi shot turrets?
-            handleBullet(type.create(this, team, bulletX, bulletY, shootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation);
-            handleBullet(type.create(this, team, bulletCX, bulletY, shootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation);
+            handleBullet(type.create(this, team, bulletX, bulletY, shootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation); //LEFT
+            handleBullet(type.create(this, team, bulletCX, bulletCY, shootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation); //RIGHT
 
             (shootEffect == null ? type.shootEffect : shootEffect).at(bulletX, bulletY, rotation + angleOffset, type.hitColor); //LEFT
             (shootEffect == null ? type.shootEffect : shootEffect).at(bulletCX, bulletCY, rotation + angleOffset, type.hitColor); //RIGHT
