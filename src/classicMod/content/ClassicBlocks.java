@@ -6,6 +6,7 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.struct.*;
 import classicMod.library.blocks.*;
+import classicMod.library.blocks.classicBlocks.*;
 import classicMod.library.blocks.legacyBlocks.*;
 import classicMod.library.blocks.v6devBlocks.*;
 import mindustry.content.*;
@@ -27,8 +28,7 @@ import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
 import static classicMod.content.ClassicBullets.*;
-import static classicMod.content.ClassicSounds.bigshot;
-import static classicMod.content.ClassicSounds.blast;
+import static classicMod.content.ClassicSounds.*;
 import static classicMod.content.ClassicUnitTypes.*;
 import static mindustry.type.ItemStack.*;
 
@@ -74,13 +74,12 @@ public class ClassicBlocks {
             health = 800;
             rotateSpeed = 0.07f*45;
             shootCone = 9f;
-            shake = 3f;
             range = 120f;
             reload = 23f/2;
             outlineColor = Color.valueOf("ffd86c");
         }};
 
-        chainTurret = new ItemTurret("chain-turret"){{
+        chainTurret = new MirroredItemTurret("chain-turret"){{
             requirements(Category.turret, with(Items.titanium, 25*requirementsMulti, Items.fissileMatter, 40*requirementsMulti, Items.metaglass, 50*requirementsMulti));
             ammo(Items.fissileMatter, chain);
             size = 2;
