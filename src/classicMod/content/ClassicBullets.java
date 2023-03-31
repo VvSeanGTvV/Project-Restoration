@@ -126,9 +126,8 @@ public class ClassicBullets {
                 Effect smoke = Fx.smoke;
                 splashDamage = (damage * 2f/3f);
 
-
-                //Effect.effect(Fx.shellsmoke, b);
-                //Effects.effect(Fx.shockwaveSmall, b);
+                ExtendedFx.shockwaveSmall.at(b);
+                ExtendedFx.shellsmoke.at(b);
 
                 //DamageArea.damage(!(b.owner instanceof Enemy), b.x, b.y, 50f, (int)(damage * 2f/3f));
             }

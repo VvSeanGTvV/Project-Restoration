@@ -69,6 +69,7 @@ public class ClassicBlocks {
             itemCapacity = 400;
             size = 3;
             shootSound = blast;
+            shootEffect = ExtendedFx.titanshot;
             health = 800;
             rotateSpeed = 0.07f*45;
             shootCone = 9f;
@@ -76,7 +77,7 @@ public class ClassicBlocks {
             range = 120f;
             reload = 23f/2;
             outlineColor = Color.valueOf("ffd86c");
-            outlineRadius = 6;
+            outlineRadius = 5;
         }};
 
         nuclearReactor = new NuclearReactor("nuclear-reactor"){{

@@ -8,11 +8,13 @@ import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.graphics.*;
 
+import static mindustry.graphics.Pal.lightOrange;
+
 public class ExtendedFx extends Fx {
     public static final Effect
-
+        //v5 Effects
         shellEjectSmall = new Effect(30f, 400f, e -> {
-            Draw.color(Pal.lightOrange, Color.lightGray, Pal.lightishGray, e.fin());
+            Draw.color(lightOrange, Color.lightGray, Pal.lightishGray, e.fin());
             float rot = Math.abs(e.rotation) + 90f;
 
             int i = Mathf.sign(e.rotation);
@@ -26,7 +28,7 @@ public class ExtendedFx extends Fx {
         }),
 
         shellEjectMedium = new Effect(34f, 400f, e -> {
-            Draw.color(Pal.lightOrange, Color.lightGray, Pal.lightishGray, e.fin());
+            Draw.color(lightOrange, Color.lightGray, Pal.lightishGray, e.fin());
             float rot = e.rotation + 90f;
             for(int i : Mathf.signs){
                 float len = (2f + e.finpow() * 10f) * i;
@@ -49,7 +51,7 @@ public class ExtendedFx extends Fx {
         }),
 
         shellEjectBig = new Effect(22f, 400f, e -> {
-            Draw.color(Pal.lightOrange, Color.lightGray, Pal.lightishGray, e.fin());
+            Draw.color(lightOrange, Color.lightGray, Pal.lightishGray, e.fin());
             float rot = e.rotation + 90f;
             for(int i : Mathf.signs){
                 float len = (4f + e.finpow() * 8f) * i;
@@ -70,6 +72,35 @@ public class ExtendedFx extends Fx {
                 });
             }
 
+        }),
+
+
+        //Mindustry Classic
+        titanshot = new Effect(12f, e -> {
+            Draw.color(Color.white, lightOrange, e.fin());
+            Lines.stroke(e.fout()*7f);
+            Lines.lineAngle(e.x, e.y, e.rotation, e.fout()*12f);
+            Lines.stroke(e.fout()*4f);
+            Lines.lineAngle(e.x, e.y, e.rotation, e.fout()*16f);
+            Lines.stroke(e.fout()*2f);
+            Lines.lineAngle(e.x, e.y, e.rotation, e.fout()*18f);
+            Draw.reset();
+        }),
+
+        shockwaveSmall = new Effect(10f, e -> {
+            Draw.color(Color.white, Color.lightGray, e.fin());
+            Lines.stroke(e.fout()*2f + 0.1f);
+            Lines.circle(e.x, e.y, e.fin()*15f);
+            Draw.reset();
+        }),
+
+        shellsmoke = new Effect(20, e -> {
+            Angles.randLenVectors(e.id, 8, 3f + e.fin()*17f, (x, y)->{
+                float size = 2f+e.fout()*5f;
+                Draw.color(Color.lightGray, Color.darkGray, e.fin());
+                Draw.rect("circle", e.x + x, e.y + y, size, size);
+                Draw.reset();
+            });
         })
     ;
 }
