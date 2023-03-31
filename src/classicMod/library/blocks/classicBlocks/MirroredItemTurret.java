@@ -5,7 +5,6 @@ import arc.math.geom.*;
 import arc.util.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
-import mindustry.gen.*;
 import mindustry.world.blocks.defense.turrets.*;
 
 public class MirroredItemTurret extends ItemTurret { //This is meant for classic blocks not modern ones!
@@ -57,13 +56,13 @@ public class MirroredItemTurret extends ItemTurret { //This is meant for classic
             float lifeScl = type.scaleLife ? Mathf.clamp(Mathf.dst(bulletX, bulletY, targetPos.x, targetPos.y) / type.range, minRange / type.range, range() / type.range) : 1f;
 
             //TODO aimX / aimY for multi shot turrets?
-            handleBullet(type.create(this, team, bulletX+space, bulletY, shootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation);
-            handleBullet(type.create(this, team, bulletX-space, bulletY, shootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation);
+            handleBullet(type.create(this, team, bulletX+space, bulletY+space, shootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation);
+            handleBullet(type.create(this, team, bulletX-space, bulletY-space, shootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation);
 
-            (shootEffect == null ? type.shootEffect : shootEffect).at(bulletX+space, bulletY, rotation + angleOffset, type.hitColor);
-            (shootEffect == null ? type.shootEffect : shootEffect).at(bulletX-space, bulletY, rotation + angleOffset, type.hitColor);
-            (smokeEffect == null ? type.smokeEffect : smokeEffect).at(bulletX+space, bulletY, rotation + angleOffset, type.hitColor);
-            (smokeEffect == null ? type.smokeEffect : smokeEffect).at(bulletX-space, bulletY, rotation + angleOffset, type.hitColor);
+            (shootEffect == null ? type.shootEffect : shootEffect).at(bulletX+space, bulletY+space, rotation + angleOffset, type.hitColor);
+            (shootEffect == null ? type.shootEffect : shootEffect).at(bulletX-space, bulletY-space, rotation + angleOffset, type.hitColor);
+            (smokeEffect == null ? type.smokeEffect : smokeEffect).at(bulletX+space, bulletY+space, rotation + angleOffset, type.hitColor);
+            (smokeEffect == null ? type.smokeEffect : smokeEffect).at(bulletX-space, bulletY-space, rotation + angleOffset, type.hitColor);
             shootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax));
 
             ammoUseEffect.at(
@@ -87,13 +86,13 @@ public class MirroredItemTurret extends ItemTurret { //This is meant for classic
         @Override
         public void updateShooting(){
             if(reloadCounter >= reload && !charging() && shootWarmup >= minWarmup) {
-                Building entity = tile.build;
+                //Building entity = tile.build;
                 reloadCounter %= reload;
                 BulletType type = peekAmmo();
 
                 for (int i = -1; i < 1; i++) {
                     //shoot(type);
-                    recoilOffset.trns(entity.rotation, len, Mathf.sign(i) * space);
+                    recoilOffset.trns(rotation, len, Mathf.sign(i) * space);
                     shoot.shoot(totalShots, (xOffset, yOffset, angle, delay, mover) -> {
                         queuedBullets ++;
                         if(delay > 0f){
@@ -109,6 +108,9 @@ public class MirroredItemTurret extends ItemTurret { //This is meant for classic
 
 
                     //Effects.effect(shootEffect, tile.drawx() + tr.x, tile.drawy() + tr.y, entity.rotation);
+                }
+                if(consumeAmmoOnce){
+                    useAmmo();
                 }
 
                 Effect.shake(1f, 1f, this);
