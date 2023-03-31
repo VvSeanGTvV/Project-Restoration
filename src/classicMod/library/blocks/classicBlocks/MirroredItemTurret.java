@@ -14,13 +14,13 @@ public class MirroredItemTurret extends ItemTurret {
     }
 
     public class MirroredTurretItemBuild extends ItemTurretBuild {
-        Building entity = tile.build;
+        
 
         float len = 8;
         float space = 3.5f;
         Vec2 tr = new Vec2(3,3); //idk what it was ok
 
-        @Override
+        /*@Override
         protected void shoot(BulletType type) {
 
             for (int i = -1; i < 1; i++) {
@@ -41,11 +41,12 @@ public class MirroredItemTurret extends ItemTurret {
             if(consumeAmmoOnce){
                 useAmmo();
             }
-        }
+        }*/
 
         @Override
         public void updateShooting(){
             if(reloadCounter >= reload && !charging() && shootWarmup >= minWarmup) {
+                Building entity = tile.build;
                 reloadCounter %= reload;
                 BulletType type = peekAmmo();
 
