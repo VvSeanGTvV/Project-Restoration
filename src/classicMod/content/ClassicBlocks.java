@@ -72,7 +72,7 @@ public class ClassicBlocks {
             recoil = 3;
             shootSound = blast;
             shootEffect = ExtendedFx.titanshot;
-            smokeEffect = null;
+            smokeEffect = Fx.none;
             health = 800*ClassicBuff;
             rotateSpeed = 0.07f*45;
             shootCone = 9f;
@@ -87,7 +87,7 @@ public class ClassicBlocks {
             size = 2;
             shootSound = bigshot;
             shootEffect = ExtendedFx.chainshot;
-            smokeEffect = null;
+            smokeEffect = Fx.none;
             health = 430*ClassicBuff;
             shootCone = 9f;
             inaccuracy = 8f;
@@ -100,8 +100,8 @@ public class ClassicBlocks {
         plasmaTurret = new ItemTurret("plasma-turret"){{
             requirements(Category.turret, with(Items.titanium, 20*ClassicRequirementsMulti, Items.fissileMatter, 15*ClassicRequirementsMulti, Items.metaglass, 10*ClassicRequirementsMulti));
             shootSound = flame2;
-            shootEffect = null;
-            smokeEffect = null;
+            shootEffect = Fx.none;
+            smokeEffect = Fx.none;
             size = 1;
             recoil = 0;
             inaccuracy = 7f;
