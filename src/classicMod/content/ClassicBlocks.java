@@ -100,6 +100,8 @@ public class ClassicBlocks {
         plasmaTurret = new ItemTurret("plasma-turret"){{
             requirements(Category.turret, with(Items.titanium, 20*ClassicRequirementsMulti, Items.fissileMatter, 15*ClassicRequirementsMulti, Items.metaglass, 10*ClassicRequirementsMulti));
             shootSound = flame2;
+            shootEffect = null;
+            smokeEffect = null;
             size = 1;
             recoil = 0;
             inaccuracy = 7f;
@@ -112,18 +114,29 @@ public class ClassicBlocks {
         }};
 
         nuclearReactor = new NuclearReactor("nuclear-reactor"){{
-            requirements(Category.power, with(Items.titanium, 40*ClassicRequirementsMulti, Items.fissileMatter, 40*ClassicRequirementsMulti, Items.metaglass, 50*ClassicRequirementsMulti));
-            ambientSound = Sounds.hum;
-            ambientSoundVolume = 0.24f;
-            size = 3;
-            health = 600;
-            itemDuration = 180f;
-            powerProduction = 10f;
-            heating = 0.05f;
-            liquidCapacity = 50;
+                requirements(Category.power, with(Items.titanium, 40 * ClassicRequirementsMulti, Items.fissileMatter, 40 * ClassicRequirementsMulti, Items.metaglass, 50 * ClassicRequirementsMulti));
+                ambientSound = Sounds.hum;
+                ambientSoundVolume = 0.24f;
+                explodeEffect = ExtendedFx.nuclearShockwave;
+                size = 3;
+                health = 600*ClassicBuff;
+                itemDuration = 130f;
+                powerProduction = 10f;
+                //power = 80f;
+                liquidCapacity = 50;
 
-            consumeItem(Items.thorium); //TODO replace with uranium!
-            consumeLiquid(Liquids.water, heating / coolantPower).update(false);
+                coolColor = new Color(1, 1, 1, 0f);
+                hotColor = Color.valueOf("ff9575a3");
+
+                heating = 0.007f;
+                coolantPower = 0.007f*ClassicBuff;
+                flashThreshold = 0.46f;
+
+                explosionRadius = 19*ClassicBuff;;
+                explosionDamage = 135*ClassicBuff*ClassicBuff*ClassicBuff;
+
+                consumeItem(Items.thorium); //TODO replace with uranium!
+                consumeLiquid(Liquids.water, heating / coolantPower).update(false);
         }};
 
         //Mechpad

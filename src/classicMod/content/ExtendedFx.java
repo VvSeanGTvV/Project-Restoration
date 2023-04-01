@@ -110,6 +110,13 @@ public class ExtendedFx extends Fx {
                 Draw.rect("circle", e.x + x, e.y + y, size, size);
                 Draw.reset();
             });
+        }),
+
+        nuclearShockwave = new Effect(10f, 200f, e -> {
+            Draw.color(Color.white, Color.lightGray, e.fin());
+            Lines.stroke(e.fout()*3f + 0.2f);
+            Lines.poly(e.x, e.y, 40, e.fin()*140f);
+            Draw.reset();
         })
     ;
 }
