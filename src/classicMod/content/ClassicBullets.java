@@ -50,7 +50,7 @@ public class ClassicBullets {
         float classicMultiplier = 2.5f;
         titanshell = new BulletType(1.8f*classicMultiplier, 38*classicMultiplier){
             {
-                ammoMultiplier = 4;
+                ammoMultiplier = 4/classicMultiplier;
                 lifetime = 70f;
                 hitSize = 15f;
             }
@@ -85,7 +85,7 @@ public class ClassicBullets {
         };
 
         chain = new BulletType(2f*classicMultiplier, 8*classicMultiplier){{
-            ammoMultiplier = 8;
+            ammoMultiplier = 8/classicMultiplier;
         }
             public void draw(Bullet b){
                 Draw.color(whiteOrange);

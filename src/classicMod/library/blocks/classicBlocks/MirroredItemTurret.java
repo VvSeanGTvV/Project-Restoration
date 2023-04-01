@@ -1,7 +1,6 @@
 package classicMod.library.blocks.classicBlocks;
 
 import arc.math.*;
-import arc.math.geom.*;
 import arc.util.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
@@ -17,30 +16,7 @@ public class MirroredItemTurret extends ItemTurret { //This is meant for classic
 
         float len = 8;
         float space = 3.5f;
-        Vec2 tr = new Vec2(3,3); //idk what it was ok
 
-        /*@Override
-        protected void shoot(BulletType type) {
-
-            for (int i = -1; i < 1; i++) {
-                recoilOffset.trns(entity.rotation, len, Mathf.sign(i) * space);
-                shoot.shoot(totalShots, (xOffset, yOffset, angle, delay, mover) -> {
-                    queuedBullets++;
-                    if (delay > 0f) {
-                        Time.run(delay, () -> bullet(type, xOffset, yOffset, angle, mover));
-                    } else {
-                        bullet(type, xOffset, yOffset, angle, mover);
-                    }
-                    totalShots++;
-                });
-                shootEffect.at(tile.drawx() + tr.x, tile.drawy() + tr.y, entity.rotation);
-            }
-            Effect.shake(1f, 1f, this);
-
-            if(consumeAmmoOnce){
-                useAmmo();
-            }
-        }*/
 
         protected void bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover){
             queuedBullets --;
@@ -58,8 +34,12 @@ public class MirroredItemTurret extends ItemTurret { //This is meant for classic
             float lifeScl = type.scaleLife ? Mathf.clamp(Mathf.dst(bulletX, bulletY, targetPos.x, targetPos.y) / type.range, minRange / type.range, range() / type.range) : 1f;
 
             //TODO aimX / aimY for multi shot turrets?
-            handleBullet(type.create(this, team, bulletX, bulletY, shootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation); //LEFT
-            handleBullet(type.create(this, team, bulletCX, bulletCY, shootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation); //RIGHT
+
+            for (int i = -1; i < 1; i++) {
+                if(i==0)handleBullet(type.create(this, team, bulletX, bulletY, shootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation); //LEFT
+                if(i==-1)handleBullet(type.create(this, team, bulletCX, bulletCY, -shootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation); //RIGHT
+            }
+            //handleBullet(type.create(this, team, bulletCX, bulletCY, -shootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation); //RIGHT
 
             (shootEffect == null ? type.shootEffect : shootEffect).at(bulletX, bulletY, rotation + angleOffset, type.hitColor); //LEFT
             (shootEffect == null ? type.shootEffect : shootEffect).at(bulletCX, bulletCY, rotation + angleOffset, type.hitColor); //RIGHT
@@ -93,25 +73,26 @@ public class MirroredItemTurret extends ItemTurret { //This is meant for classic
                 reloadCounter %= reload;
                 BulletType type = peekAmmo();
 
-                for (int i = -1; i < 1; i++) {
+                /*for (int i = -1; i < 1; i++) {
                     //shoot(type);
                     //recoilOffset.trns(rotation, len, Mathf.sign(i) * space);
-                    shoot.shoot(totalShots, (xOffset, yOffset, angle, delay, mover) -> {
-                        queuedBullets ++;
-                        if(delay > 0f){
-                            Time.run(delay, () -> bullet(type, xOffset, yOffset, angle, mover));
-                        }else{
-                            bullet(type, xOffset, yOffset, angle, mover);
-                        }
-                        totalShots ++;
-                    });
+
                     //bullet(tile.bullet, entity.rotation);
                     //shootEffect.at(tile.drawx() + len, tile.drawy() + space, rotation);
                     //shootEffect.at(tile.drawx() - len, tile.drawy() + space, rotation);
 
 
                     //Effects.effect(shootEffect, tile.drawx() + tr.x, tile.drawy() + tr.y, entity.rotation);
-                }
+                }*/
+                shoot.shoot(totalShots, (xOffset, yOffset, angle, delay, mover) -> {
+                    queuedBullets ++;
+                    if(delay > 0f){
+                        Time.run(delay, () -> bullet(type, xOffset, yOffset, angle, mover));
+                    }else{
+                        bullet(type, xOffset, yOffset, angle, mover);
+                    }
+                    totalShots ++;
+                });
                 if(consumeAmmoOnce){
                     useAmmo();
                     useAmmo();
