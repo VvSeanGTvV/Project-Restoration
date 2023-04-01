@@ -98,6 +98,7 @@ public class ClassicBlocks {
         }};
 
         plasmaTurret = new ItemTurret("plasma-turret"){{
+            requirements(Category.turret, with(Items.titanium, 20*ClassicRequirementsMulti, Items.fissileMatter, 15*ClassicRequirementsMulti, Items.metaglass, 10*ClassicRequirementsMulti));
             shootSound = flame2;
             size = 1;
             inaccuracy = 7f;
