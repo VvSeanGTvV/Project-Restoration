@@ -77,7 +77,7 @@ public class ClassicBlocks {
             health = 800*ClassicBuff;
             rotateSpeed = 0.07f*45;
             shootCone = 9f;
-            range = 120f*ClassicBuff;
+            range = 120f*ClassicBuff/1.5f;
             reload = 23f;
             outlineColor = Color.valueOf("ffd86c");
         }};
@@ -94,7 +94,7 @@ public class ClassicBlocks {
             outlineColor = Color.valueOf("ffd86c");
             outlineRadius = 5;
             inaccuracy = 8f;
-            range = 80f*ClassicBuff;
+            range = 80f*ClassicBuff/1.5f;
             reload = 5f;
         }};
 

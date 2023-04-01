@@ -47,10 +47,10 @@ public class ClassicBullets {
     public void load(){
         //classic bullets
         Color whiteOrange = Color.valueOf("fccca5");
-        float classicMultiplier = 2.5f;
-        titanshell = new BulletType(1.8f*classicMultiplier, 38*classicMultiplier){
+        float classicMultiplier = 3f;
+        titanshell = new BulletType(1.8f*classicMultiplier/1.5f, 38*classicMultiplier){
             {
-                ammoMultiplier = 4/classicMultiplier;
+                ammoMultiplier = 4/classicMultiplier*1.5f;
                 lifetime = 70f;
                 hitSize = 15f;
             }
@@ -84,8 +84,8 @@ public class ClassicBullets {
             }
         };
 
-        chain = new BulletType(2f*classicMultiplier, 8*classicMultiplier){{
-            ammoMultiplier = 8/classicMultiplier;
+        chain = new BulletType(2f*classicMultiplier/1.5f, 8*classicMultiplier){{
+            ammoMultiplier = 8/classicMultiplier*1.5f;
         }
             public void draw(Bullet b){
                 Draw.color(whiteOrange);
