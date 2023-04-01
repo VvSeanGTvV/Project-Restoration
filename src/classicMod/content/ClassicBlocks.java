@@ -121,7 +121,7 @@ public class ClassicBlocks {
                 size = 3;
                 health = 600*ClassicBuff;
                 itemDuration = 130f;
-                powerProduction = 0.45f*60*100;
+                powerProduction = 0.45f*60;
                 //power = 80f;
                 liquidCapacity = 50;
 
