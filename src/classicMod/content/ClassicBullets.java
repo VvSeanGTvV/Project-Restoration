@@ -93,10 +93,10 @@ public class ClassicBullets {
             }
         };
 
-        plasmaflame = new BulletType(0.8f*ClassicDebuff, 17*ClassicBuff){
+        plasmaflame = new BulletType(0.8f*1.15f, 17*ClassicBuff){
             {
                 lifetime = 65f;
-                ammoMultiplier = 40/ClassicBulletsMultiplier*ClassicDebuff;
+                ammoMultiplier = 40/ClassicBulletsMultiplier/ClassicDebuff;
             }
             public void draw(Bullet b){
                 Draw.color(Color.valueOf("efa66c"), Color.valueOf("72deaf"), b.time/lifetime);

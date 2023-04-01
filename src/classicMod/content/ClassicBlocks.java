@@ -101,8 +101,9 @@ public class ClassicBlocks {
             requirements(Category.turret, with(Items.titanium, 20*ClassicRequirementsMulti, Items.fissileMatter, 15*ClassicRequirementsMulti, Items.metaglass, 10*ClassicRequirementsMulti));
             shootSound = flame2;
             size = 1;
+            recoil = 0;
             inaccuracy = 7f;
-            range = 60f*ClassicDebuff;
+            range = 60f*1.15f;
             reload = 3f;
             ammo(Items.coal, plasmaflame);
             health = 180*ClassicBuff;
