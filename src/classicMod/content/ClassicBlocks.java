@@ -90,11 +90,11 @@ public class ClassicBlocks {
             smokeEffect = null;
             health = 430*ClassicBuff;
             shootCone = 9f;
-            outlineColor = Color.valueOf("ffd86c");
-            outlineRadius = 5;
             inaccuracy = 8f;
             range = 80f*ClassicBuff/ClassicDebuff;
             reload = 5f;
+            outlineColor = Color.valueOf("ffd86c");
+            outlineRadius = 5;
         }};
 
         plasmaTurret = new ItemTurret("plasma-turret"){{
@@ -102,10 +102,12 @@ public class ClassicBlocks {
             shootSound = flame2;
             size = 1;
             inaccuracy = 7f;
-            range = 60f*ClassicBuff/ClassicDebuff;
+            range = 60f;
             reload = 3f;
             ammo(Items.coal, plasmaflame);
             health = 180*ClassicBuff;
+            outlineColor = Color.valueOf("ffd86c");
+            outlineRadius = 5;
         }};
 
         nuclearReactor = new NuclearReactor("nuclear-reactor"){{

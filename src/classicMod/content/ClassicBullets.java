@@ -93,7 +93,7 @@ public class ClassicBullets {
             }
         };
 
-        plasmaflame = new BulletType(0.8f*ClassicBulletsMultiplier/ClassicDebuff, 17*ClassicBulletsMultiplier){
+        plasmaflame = new BulletType(0.8f, 17*ClassicBulletsMultiplier){
             {
                 lifetime = 65f;
                 ammoMultiplier = 40/ClassicBulletsMultiplier*ClassicDebuff;
