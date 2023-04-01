@@ -10,6 +10,8 @@ import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 
+import static classicMod.content.ClassicVars.*;
+
 public class ClassicBullets {
     public static BulletType
     //artillery
@@ -41,16 +43,15 @@ public class ClassicBullets {
     fuseShot,
 
     //classic bullets
-    titanshell, chain
+    titanshell, chain, plasmaflame
     ;
 
     public void load(){
         //classic bullets
         Color whiteOrange = Color.valueOf("fccca5");
-        float classicMultiplier = 3f;
-        titanshell = new BulletType(1.8f*classicMultiplier/1.5f, 38*classicMultiplier){
+        titanshell = new BulletType(1.8f*ClassicBulletsMultiplier/ClassicDebuff, 38*ClassicBulletsMultiplier){
             {
-                ammoMultiplier = 4/classicMultiplier*1.5f;
+                ammoMultiplier = 4/ClassicBulletsMultiplier*ClassicDebuff;
                 lifetime = 70f;
                 hitSize = 15f;
             }
@@ -63,7 +64,7 @@ public class ClassicBullets {
             }
 
             public void update(Bullet b){
-                if(b.timer.get(0, 4/classicMultiplier)){
+                if(b.timer.get(0, 4/ClassicBulletsMultiplier)){
                     Fx.smoke.at(b.x + Mathf.range(2), b.y + Mathf.range(2));
                 }
             }
@@ -74,22 +75,33 @@ public class ClassicBullets {
 
             public void hit(Bullet b, float hitx, float hity){
                 Effect.shake(3f, 3f, b);
-                Effect smoke = Fx.smoke;
                 splashDamage = (damage * 2f/3f);
 
                 ExtendedFx.shockwaveSmall.at(b);
                 ExtendedFx.shellsmoke.at(b);
 
-                //DamageArea.damage(!(b.owner instanceof Enemy), b.x, b.y, 50f, (int)(damage * 2f/3f));
             }
         };
 
-        chain = new BulletType(2f*classicMultiplier/1.5f, 8*classicMultiplier){{
-            ammoMultiplier = 8/classicMultiplier*1.5f;
+        chain = new BulletType(2f*ClassicBulletsMultiplier/ClassicDebuff, 8*ClassicBulletsMultiplier){{
+            ammoMultiplier = 8/ClassicBulletsMultiplier*ClassicDebuff;
         }
             public void draw(Bullet b){
                 Draw.color(whiteOrange);
                 Draw.rect("restored-mind-chain-bullet", b.x, b.y, b.rotation());
+                Draw.reset();
+            }
+        };
+
+        plasmaflame = new BulletType(0.8f*ClassicBulletsMultiplier/ClassicDebuff, 17*ClassicBulletsMultiplier){
+            {
+                lifetime = 65f;
+                ammoMultiplier = 40/ClassicBulletsMultiplier*ClassicDebuff;
+            }
+            public void draw(Bullet b){
+                Draw.color(Color.valueOf("efa66c"), Color.valueOf("72deaf"), b.time/lifetime);
+                float size = 7f-b.time/lifetime*6f;
+                Draw.rect("restored-mind-circle", b.x, b.y, size, size);
                 Draw.reset();
             }
         };

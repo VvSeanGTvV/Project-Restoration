@@ -30,11 +30,12 @@ import mindustry.world.meta.*;
 import static classicMod.content.ClassicBullets.*;
 import static classicMod.content.ClassicSounds.*;
 import static classicMod.content.ClassicUnitTypes.*;
+import static classicMod.content.ClassicVars.*;
 import static mindustry.type.ItemStack.*;
 
 public class ClassicBlocks {
     public static Block
-    titanCannon, chainTurret, //Turret - classic
+    titanCannon, chainTurret, plasmaTurret, //Turret - classic
     nuclearReactor, //Power - classic
 
     fuseOld, //Turret [pre-v5]
@@ -63,10 +64,8 @@ public class ClassicBlocks {
     ;
 
     public void load() {
-        int ClassicrequirementsMulti = 3; //Classic intended use and not other stuff
-        int ClassicBuff = 2; //Classic intended use and not other stuff
         titanCannon = new ItemTurret("titan-cannon"){{
-            requirements(Category.turret, with(Items.titanium, 50*ClassicrequirementsMulti, Items.fissileMatter, 55*ClassicrequirementsMulti, Items.metaglass, 70*ClassicrequirementsMulti));
+            requirements(Category.turret, with(Items.titanium, 50*ClassicRequirementsMulti, Items.fissileMatter, 55*ClassicRequirementsMulti, Items.metaglass, 70*ClassicRequirementsMulti));
             ammo(Items.fissileMatter, titanshell);
             itemCapacity = 400; //why this much bro
             size = 3;
@@ -77,13 +76,13 @@ public class ClassicBlocks {
             health = 800*ClassicBuff;
             rotateSpeed = 0.07f*45;
             shootCone = 9f;
-            range = 120f*ClassicBuff/1.5f;
+            range = 120f*ClassicBuff/ClassicDebuff;
             reload = 23f;
             outlineColor = Color.valueOf("ffd86c");
         }};
 
         chainTurret = new MirroredItemTurret("chain-turret"){{
-            requirements(Category.turret, with(Items.titanium, 25*ClassicrequirementsMulti, Items.fissileMatter, 40*ClassicrequirementsMulti, Items.metaglass, 50*ClassicrequirementsMulti));
+            requirements(Category.turret, with(Items.titanium, 25*ClassicRequirementsMulti, Items.fissileMatter, 40*ClassicRequirementsMulti, Items.metaglass, 50*ClassicRequirementsMulti));
             ammo(Items.fissileMatter, chain);
             size = 2;
             shootSound = bigshot;
@@ -94,12 +93,22 @@ public class ClassicBlocks {
             outlineColor = Color.valueOf("ffd86c");
             outlineRadius = 5;
             inaccuracy = 8f;
-            range = 80f*ClassicBuff/1.5f;
+            range = 80f*ClassicBuff/ClassicDebuff;
             reload = 5f;
         }};
 
+        plasmaTurret = new ItemTurret("plasma-turret"){{
+            shootSound = flame2;
+            size = 1;
+            inaccuracy = 7f;
+            range = 60f*ClassicBuff/ClassicDebuff;
+            reload = 3f;
+            ammo(Items.coal, plasmaflame);
+            health = 180*ClassicBuff;
+        }};
+
         nuclearReactor = new NuclearReactor("nuclear-reactor"){{
-            requirements(Category.power, with(Items.titanium, 40*ClassicrequirementsMulti, Items.fissileMatter, 40*ClassicrequirementsMulti, Items.metaglass, 50*ClassicrequirementsMulti));
+            requirements(Category.power, with(Items.titanium, 40*ClassicRequirementsMulti, Items.fissileMatter, 40*ClassicRequirementsMulti, Items.metaglass, 50*ClassicRequirementsMulti));
             ambientSound = Sounds.hum;
             ambientSoundVolume = 0.24f;
             size = 3;
