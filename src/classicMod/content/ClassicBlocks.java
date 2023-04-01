@@ -102,12 +102,12 @@ public class ClassicBlocks {
             shootSound = flame2;
             size = 1;
             inaccuracy = 7f;
-            range = 60f;
+            range = 60f*ClassicDebuff;
             reload = 3f;
             ammo(Items.coal, plasmaflame);
             health = 180*ClassicBuff;
             outlineColor = Color.valueOf("ffd86c");
-            outlineRadius = 5;
+            outlineRadius = 3;
         }};
 
         nuclearReactor = new NuclearReactor("nuclear-reactor"){{
