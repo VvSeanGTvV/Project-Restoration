@@ -87,7 +87,7 @@ public class ClassicBullets {
 
         chain = new BulletType(2f*ClassicBulletsMultiplier/ClassicDebuff, 8*ClassicBulletsMultiplier){{
             ammoMultiplier = 8/ClassicBulletsMultiplier*ClassicDebuff;
-            hitEffect = Fx.none;
+            hitEffect = ExtendedFx.hit;
             despawnEffect = Fx.none;
         }
             public void draw(Bullet b){
@@ -99,7 +99,7 @@ public class ClassicBullets {
 
         plasmaflame = new BulletType(0.8f*1.15f, 17*ClassicBuff){
             {
-                hitEffect = Fx.none;
+                hitEffect = ExtendedFx.hit;
                 despawnEffect = Fx.none;
                 lifetime = 65f;
                 ammoMultiplier = 40/ClassicBulletsMultiplier/ClassicDebuff;
