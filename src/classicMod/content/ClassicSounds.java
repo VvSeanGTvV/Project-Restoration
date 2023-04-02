@@ -8,6 +8,7 @@ public class ClassicSounds {
     public static Sound blast = Vars.tree.loadSound("classic_shoot_blast");
     public static Sound bigshot = Vars.tree.loadSound("classic_shoot_big");
     public static Sound flame2 = Vars.tree.loadSound("classic_shoot_flame2");
+    public static Sound tesla = Vars.tree.loadSound("classic_shoot_tesla");
     public static Sound boom = Vars.tree.loadSound("v5_sounds_boom");
     public static Sound respawn = Vars.tree.loadSound("v5_sounds_respawn");
 }

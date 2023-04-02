@@ -1,4 +1,4 @@
-package classicMod.library.blocks.classicBlocks;
+package classicMod.library.blocks.customBlocks;
 
 import arc.math.*;
 import arc.util.*;

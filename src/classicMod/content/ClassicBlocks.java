@@ -6,9 +6,10 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.struct.*;
 import classicMod.library.blocks.*;
-import classicMod.library.blocks.classicBlocks.*;
+import classicMod.library.blocks.customBlocks.*;
 import classicMod.library.blocks.legacyBlocks.*;
 import classicMod.library.blocks.v6devBlocks.*;
+import classicMod.library.bullets.*;
 import mindustry.content.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
@@ -35,7 +36,7 @@ import static mindustry.type.ItemStack.*;
 
 public class ClassicBlocks {
     public static Block
-    titanCannon, chainTurret, plasmaTurret, //Turret - classic
+    titanCannon, chainTurret, plasmaTurret, teslaTurret,//Turret - classic
     nuclearReactor, //Power - classic
 
     fuseOld, //Turret [pre-v5]
@@ -110,7 +111,19 @@ public class ClassicBlocks {
             ammo(Items.coal, plasmaflame);
             health = 180*ClassicBuff;
             outlineColor = Color.valueOf("ffd86c");
-            outlineRadius = 3;
+            outlineRadius = 4;
+        }};
+
+        teslaTurret = new PowerTurret("tesla-turret"){{
+            range = 70*1.15f;
+            shootType = new TeslaOrbType(range,9); //TeslaOrb(tile.drawx() + Angles.trnsx(entity.rotation, len), tile.drawy() + Angles.trnsy(entity.rotation, len), range, 9).add();
+            shootSound = tesla;
+            shootEffect = Fx.none;
+            smokeEffect = Fx.none;
+            reload = 15f;
+            health = 140*ClassicBuff;
+            outlineColor = Color.valueOf("ffd86c");
+            outlineRadius = 4;
         }};
 
         nuclearReactor = new NuclearReactor("nuclear-reactor"){{

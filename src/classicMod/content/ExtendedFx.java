@@ -112,6 +112,13 @@ public class ExtendedFx extends Fx {
             });
         }),
 
+        laserhit = new Effect(10, e -> {
+            Lines.stroke(1f);
+            Draw.color(Color.white, Color.sky, e.fin());
+            Lines.spikes(e.x, e.y, e.fin() * 2f, 2, 6);
+            Draw.reset();
+        }),
+
         nuclearShockwave = new Effect(10f, 200f, e -> {
             Draw.color(Color.white, Color.lightGray, e.fin());
             Lines.stroke(e.fout()*3f + 0.2f);
