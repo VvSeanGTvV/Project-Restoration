@@ -115,6 +115,7 @@ public class ClassicBlocks {
         }};
 
         teslaTurret = new PowerTurret("tesla-turret"){{
+            requirements(Category.turret, with(Items.titanium, 25*ClassicRequirementsMulti, Items.fissileMatter, 15*ClassicRequirementsMulti, Items.metaglass, 20*ClassicRequirementsMulti));
             range = 70*1.15f;
             shootType = new TeslaOrbType(range,9); //TeslaOrb(tile.drawx() + Angles.trnsx(entity.rotation, len), tile.drawy() + Angles.trnsy(entity.rotation, len), range, 9).add();
             shootSound = tesla;
