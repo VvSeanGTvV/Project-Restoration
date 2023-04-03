@@ -4,6 +4,7 @@ package classicMod.library.bullets;
 import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
+import arc.math.*;
 import arc.util.*;
 import classicMod.content.*;
 import mindustry.entities.bullet.*;
@@ -27,7 +28,7 @@ public class TeslaOrbType extends PointLaserBulletType { //MIXED VERSION betweem
     public void draw(Bullet b) { //TODO make multi target version
 
         Draw.color(Color.white);
-        Drawf.laser(Core.atlas.white(), Core.atlas.find("restored-mind-circle"), Core.atlas.find("restored-mind-circle"), b.x, b.y, b.aimX, b.aimY, (3f - Time.time/lifetime*2f)*4);
+        Drawf.laser(Core.atlas.white(), Core.atlas.find("restored-mind-circle"), b.x, b.y, b.aimX, b.aimY, 3f - Mathf.absin(Time.delta, lifetime*2f));
 
         Draw.reset();
 
