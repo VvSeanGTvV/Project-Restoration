@@ -46,7 +46,7 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
             trailEffect.at(x, y, rot);
         });
 
-        b.time = b.lifetime;
+        //b.time = b.lifetime;
         b.set(px, py);
 
         //calculate hit entity
