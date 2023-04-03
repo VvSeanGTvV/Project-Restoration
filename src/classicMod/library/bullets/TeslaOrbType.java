@@ -82,7 +82,7 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
 
     @Override
     public void update(Bullet b){
-        life += Time.delta;
+        life += 0.001;
 
         if(life >= lifetime){
             this.removed(b);
@@ -98,7 +98,7 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
         Lines.stroke(3f - life/lifetime*2f);
         Lines.line(previous.x, previous.y, px, py);
 
-        float rad = 7f - life/lifetime*5f;
+        float rad = 3f;
 
         Draw.rect("restored-mind-circle", px, py, rad, rad);
         if(previous.epsilonEquals(b.x,b.y,0.001f)){
