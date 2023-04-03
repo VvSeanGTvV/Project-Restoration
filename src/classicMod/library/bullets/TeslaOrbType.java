@@ -97,16 +97,16 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
         Draw.color(Color.white);
         Draw.alpha(1f-life/lifetime);
 
-        Lines.stroke(3f);
-        Lines.line(previous.x, previous.y, px, py, true);
-        //Lines.spikes();
-
-        float rad = 3f;
+        float rad = (7f - life/lifetime*5f)*4;
 
         Draw.rect("restored-mind-circle", px, py, rad, rad);
         if(previous.epsilonEquals(b.x,b.y,0.001f)){
             Draw.rect("restored-mind-circle", b.x, b.y, rad, rad);
         }
+
+        Lines.stroke((3f - life/lifetime*2f)*4);
+        Lines.line(previous.x, previous.y, px, py, true);
+        //Lines.spikes();
 
         Draw.reset();
 
