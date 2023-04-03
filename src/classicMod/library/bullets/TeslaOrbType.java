@@ -38,7 +38,9 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
         super.init(b);
         previous = new Vec2(b.x, b.y);
 
-        float px = b.x + b.lifetime * b.vel.x, py = b.y + b.lifetime * b.vel.y, rot = b.rotation();
+        px = b.x + b.lifetime * b.vel.x;
+        py = b.y + b.lifetime * b.vel.y;
+        float rot = b.rotation();
 
         Geometry.iterateLine(0f, b.x, b.y, px, py, trailSpacing, (x, y) -> {
             trailEffect.at(x, y, rot);
