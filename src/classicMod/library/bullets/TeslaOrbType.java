@@ -1,8 +1,6 @@
 package classicMod.library.bullets;
 
 
-import arc.*;
-import arc.func.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.geom.*;
@@ -38,16 +36,53 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
     @Override
     public void init(Bullet b){
         super.init(b);
+        previous = new Vec2(b.x, b.y);
+
+        float px = b.x + b.lifetime * b.vel.x, py = b.y + b.lifetime * b.vel.y, rot = b.rotation();
+
+        Geometry.iterateLine(0f, b.x, b.y, px, py, trailSpacing, (x, y) -> {
+            trailEffect.at(x, y, rot);
+        });
+
+        b.time = b.lifetime;
+        b.set(px, py);
+
+        //calculate hit entity
 
         cdist = 0f;
+        result = null;
+        float range = 1f;
+
+        Units.nearbyEnemies(b.team, px - range, py - range, range*2f, range*2f, e -> {
+            if(e.dead() || !e.checkTarget(collidesAir, collidesGround) || !e.hittable()) return;
+
+            e.hitbox(Tmp.r1);
+            if(!Tmp.r1.contains(px, py)) return;
+
+            float dst = e.dst(px, py) - e.hitSize;
+            if((result == null || dst < cdist)){
+                result = e;
+                cdist = dst;
+            }
+        });
+
+        if(result != null){
+            b.collision(result, px, py);
+        }else if(collidesTiles){
+            Building build = Vars.world.buildWorld(px, py);
+            if(build != null && build.team != b.team){
+                build.collision(b);
+            }
+        }
+
+        b.remove();
 
         b.vel.setZero();
     }
 
     @Override
     public void update(Bullet b){
-        Floatp deltaimpl = () -> Math.min(Core.graphics.getDeltaTime() * 60f, 3f); //Screw it
-        life += deltaimpl.get();
+        life += Time.delta;
 
         if(life >= lifetime){
             this.removed(b);
@@ -57,36 +92,6 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
 
     @Override
     public void draw(Bullet b) { //TODO make multi target version
-        previous = new Vec2(b.x, b.y);
-        if (cdist == 0) {
-            float range = 1f;
-            px = b.x + b.lifetime * b.vel.x;
-            py = b.y + b.lifetime * b.vel.y;
-            b.set(px, py);
-
-            Units.nearbyEnemies(b.team, px - range, py - range, range*2f, range*2f, e -> {
-                if(e.dead() || !e.checkTarget(collidesAir, collidesGround) || !e.hittable()) return;
-
-                e.hitbox(Tmp.r1);
-                if(!Tmp.r1.contains(px, py)) return;
-
-                float dst = e.dst(px, py) - e.hitSize;
-                if((result == null || dst < cdist)){
-                    result = e;
-                    cdist = dst;
-                }
-            });
-
-            if(result != null){
-                b.collision(result, px, py);
-            }else if(collidesTiles){
-                Building build = Vars.world.buildWorld(px, py);
-                if(build != null && build.team != b.team){
-                    build.collision(b);
-                }
-            }
-        }
-
         Draw.color(Color.white);
         Draw.alpha(1f-life/lifetime);
 
