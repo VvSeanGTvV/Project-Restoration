@@ -27,7 +27,7 @@ public class ClassicItems {
 
         dirium = new Item("dirium", Color.valueOf("a7f3ca")){{
             hardness = titanium.hardness + steel.hardness;
-            cost = titanium.cost + steel.cost;
+            cost = titanium.cost + lead.cost*1.25f;
         }};
 
         steel = new Item("steel", Color.valueOf("0093a6")){{
