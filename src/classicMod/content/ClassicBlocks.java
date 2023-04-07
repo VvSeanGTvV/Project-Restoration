@@ -575,7 +575,7 @@ public class ClassicBlocks {
                     under = false;
                     moveX = -0.5f;
                     moveY = 5f;
-                    moves.add(new PartMove(PartProgress.recoil, 0f, -2f, 0f));
+                    moves.add(new PartMove(PartProgress.recoil, 0f, -3f, 0f));
 
                 }}, new RegionPart("-mid"){{
                     //drawRegion = false;
@@ -589,6 +589,7 @@ public class ClassicBlocks {
                     mirror = true;
                     under = true;
                     moveX = -0.5f;
+                    moves.add(new PartMove(PartProgress.recoil, 0f, -3f, 0f));
                 }});
             }};
             outlineColor = Pal.darkOutline;
