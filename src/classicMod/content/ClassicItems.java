@@ -2,7 +2,6 @@ package classicMod.content;
 
 import arc.graphics.*;
 import arc.struct.*;
-import mindustry.content.*;
 import mindustry.type.*;
 
 import static mindustry.content.Items.*;
@@ -27,10 +26,12 @@ public class ClassicItems {
         }};
 
         dirium = new Item("dirium", Color.valueOf("ace183")){{
-            hardness = Items.titanium.hardness + 3;
+            hardness = titanium.hardness + lead.hardness;
             cost = 1.3f;
         }};
 
-        classicOnlyItems.addAll(uranium, dirium, steel, stone, iron, titanium);
+        fissileMatter.hidden = false; //ok
+
+        classicOnlyItems.addAll(uranium, dirium, titanium);
     }
 }
