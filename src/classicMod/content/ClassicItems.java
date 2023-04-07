@@ -27,12 +27,12 @@ public class ClassicItems {
 
         dirium = new Item("dirium", Color.valueOf("a7f3ca")){{
             hardness = titanium.hardness + steel.hardness;
-            cost = titanium.cost + lead.cost*1.25f;
+            cost = 1f + 0.7f*1.25f;
         }};
 
         steel = new Item("steel", Color.valueOf("0093a6")){{
             hardness = 2;
-            cost = lead.cost*1.25f;
+            cost = 0.7f*1.25f;
         }};
 
         iron = new Item("iron", Color.valueOf("c0a8a6")){{
