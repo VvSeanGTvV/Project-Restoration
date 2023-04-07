@@ -41,8 +41,17 @@ public class ClassicItems {
             cost = lead.cost*2;
         }};
 
+        stone = new Item("stone", Color.valueOf("c0a8a6")){{
+           cost = 0.8f;
+        }};
+
         fissileMatter.hidden = false; //ok
 
         classicOnlyItems.addAll(uranium, dirium, steel, iron, titanium);
+
+        erekirItems.addAll( //Override the erekir stuff
+                graphite, thorium, silicon, phaseFabric, surgeAlloy, sand,
+                beryllium, tungsten, oxide, carbide, fissileMatter, scrap, dormantCyst
+        );
     }
 }
