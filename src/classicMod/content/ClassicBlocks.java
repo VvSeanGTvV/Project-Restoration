@@ -9,7 +9,6 @@ import classicMod.library.blocks.*;
 import classicMod.library.blocks.customBlocks.*;
 import classicMod.library.blocks.legacyBlocks.*;
 import classicMod.library.blocks.v6devBlocks.*;
-import classicMod.library.bullets.*;
 import mindustry.content.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
@@ -66,8 +65,8 @@ public class ClassicBlocks {
 
     public void load() {
         titanCannon = new ItemTurret("titan-cannon"){{
-            requirements(Category.turret, with(Items.titanium, 50*ClassicRequirementsMulti, Items.fissileMatter, 55*ClassicRequirementsMulti, Items.metaglass, 70*ClassicRequirementsMulti));
-            ammo(Items.fissileMatter, titanshell);
+            requirements(Category.turret, with(Items.titanium, 50*ClassicRequirementsMulti, ClassicItems.dirium, 55*ClassicRequirementsMulti, Items.metaglass, 70*ClassicRequirementsMulti));
+            ammo(ClassicItems.uranium, titanshell);
             itemCapacity = 400; //why this much bro
             size = 3;
             recoil = 3;
@@ -83,8 +82,8 @@ public class ClassicBlocks {
         }};
 
         chainTurret = new MirroredItemTurret("chain-turret"){{
-            requirements(Category.turret, with(Items.titanium, 25*ClassicRequirementsMulti, Items.fissileMatter, 40*ClassicRequirementsMulti, Items.metaglass, 50*ClassicRequirementsMulti));
-            ammo(Items.fissileMatter, chain);
+            requirements(Category.turret, with(Items.titanium, 25*ClassicRequirementsMulti, ClassicItems.dirium, 40*ClassicRequirementsMulti, Items.metaglass, 50*ClassicRequirementsMulti));
+            ammo(ClassicItems.uranium, chain);
             size = 2;
             shootSound = bigshot;
             shootEffect = ExtendedFx.chainshot;
@@ -114,7 +113,7 @@ public class ClassicBlocks {
             outlineRadius = 4;
         }};
 
-        teslaTurret = new PowerTurret("tesla-turret"){{
+        /*teslaTurret = new PowerTurret("tesla-turret"){{ TODO fix bugs
             requirements(Category.turret, with(Items.titanium, 25*ClassicRequirementsMulti, Items.fissileMatter, 15*ClassicRequirementsMulti, Items.metaglass, 20*ClassicRequirementsMulti));
             range = 70*1.15f;
             shootType = new TeslaOrbType(range,9); //TeslaOrb(tile.drawx() + Angles.trnsx(entity.rotation, len), tile.drawy() + Angles.trnsy(entity.rotation, len), range, 9).add();
@@ -125,10 +124,10 @@ public class ClassicBlocks {
             health = 140*ClassicBuff;
             outlineColor = Color.valueOf("ffd86c");
             outlineRadius = 4;
-        }};
+        }};*/
 
         nuclearReactor = new NuclearReactor("nuclear-reactor"){{
-                requirements(Category.power, with(Items.titanium, 40 * ClassicRequirementsMulti, Items.fissileMatter, 40 * ClassicRequirementsMulti, Items.metaglass, 50 * ClassicRequirementsMulti));
+                requirements(Category.power, with(Items.titanium, 40 * ClassicRequirementsMulti, ClassicItems.dirium, 40 * ClassicRequirementsMulti, Items.metaglass, 50 * ClassicRequirementsMulti));
                 ambientSound = Sounds.hum;
                 ambientSoundVolume = 0.24f;
                 explodeEffect = ExtendedFx.nuclearShockwave;
@@ -149,7 +148,7 @@ public class ClassicBlocks {
                 explosionRadius = 19*ClassicBuff;;
                 explosionDamage = 135*ClassicBuff*ClassicBuff*ClassicBuff;
 
-                consumeItem(Items.thorium); //TODO replace with uranium!
+                consumeItem(ClassicItems.uranium); //TODO replace with uranium!
                 consumeLiquid(Liquids.water, heating / coolantPower).update(false);
         }};
 
