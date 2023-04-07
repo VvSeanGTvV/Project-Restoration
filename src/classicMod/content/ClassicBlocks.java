@@ -66,7 +66,7 @@ public class ClassicBlocks {
 
     public void load() {
         titanCannon = new ItemTurret("titan-cannon"){{
-            requirements(Category.turret, with(Items.titanium, 50*ClassicRequirementsMulti, ClassicItems.dirium, 55*ClassicRequirementsMulti, Items.metaglass, 70*ClassicRequirementsMulti));
+            requirements(Category.turret, with(Items.titanium, 50*ClassicRequirementsMulti, ClassicItems.dirium, 55*ClassicRequirementsMulti, ClassicItems.steel, 70*ClassicRequirementsMulti));
             ammo(ClassicItems.uranium, titanshell);
             itemCapacity = 400; //why this much bro
             size = 3;
@@ -83,7 +83,7 @@ public class ClassicBlocks {
         }};
 
         chainTurret = new MirroredItemTurret("chain-turret"){{
-            requirements(Category.turret, with(Items.titanium, 25*ClassicRequirementsMulti, ClassicItems.dirium, 40*ClassicRequirementsMulti, Items.metaglass, 50*ClassicRequirementsMulti));
+            requirements(Category.turret, with(Items.titanium, 25*ClassicRequirementsMulti, ClassicItems.dirium, 40*ClassicRequirementsMulti, ClassicItems.steel, 50*ClassicRequirementsMulti));
             ammo(ClassicItems.uranium, chain);
             size = 2;
             shootSound = bigshot;
@@ -99,7 +99,7 @@ public class ClassicBlocks {
         }};
 
         plasmaTurret = new ItemTurret("plasma-turret"){{
-            requirements(Category.turret, with(Items.titanium, 20*ClassicRequirementsMulti, Items.fissileMatter, 15*ClassicRequirementsMulti, Items.metaglass, 10*ClassicRequirementsMulti));
+            requirements(Category.turret, with(Items.titanium, 20*ClassicRequirementsMulti, ClassicItems.dirium, 15*ClassicRequirementsMulti, ClassicItems.steel, 10*ClassicRequirementsMulti));
             shootSound = flame2;
             shootEffect = Fx.none;
             smokeEffect = Fx.none;

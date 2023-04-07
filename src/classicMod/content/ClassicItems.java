@@ -17,6 +17,7 @@ public class ClassicItems {
 
     public static final Seq<Item> classicOnlyItems = new Seq<>();
     public static void load(){
+        float leadCost = lead.cost;
         uranium = new Item("uranium", Color.valueOf("ace183")){{
             explosiveness = 0.5f;
             hardness = 5;
@@ -25,14 +26,14 @@ public class ClassicItems {
             healthScaling = 0.15f;
         }};
 
-        dirium = new Item("dirium", Color.valueOf("a7f3ca")){{
-            hardness = titanium.hardness + 2;
-            cost = 1f + 0.7f*1.25f;
+        steel = new Item("steel", Color.valueOf("c5eae6")){{
+            hardness = 2;
+            cost = leadCost*1.25f;
         }};
 
-        steel = new Item("steel", Color.valueOf("0093a6")){{
-            hardness = 2;
-            cost = 0.7f*1.25f;
+        dirium = new Item("dirium", Color.valueOf("a7f3ca")){{
+            hardness = titanium.hardness + steel.hardness;
+            cost = 1f + steel.cost;
         }};
 
         iron = new Item("iron", Color.valueOf("c0a8a6")){{
