@@ -26,12 +26,22 @@ public class ClassicItems {
         }};
 
         dirium = new Item("dirium", Color.valueOf("a7f3ca")){{
-            hardness = titanium.hardness + lead.hardness;
-            cost = 1.3f;
+            hardness = titanium.hardness + steel.hardness;
+            cost = titanium.cost + steel.cost;
+        }};
+
+        steel = new Item("steel", Color.valueOf("0093a6")){{
+            hardness = 2;
+            cost = lead.cost*1.25f;
+        }};
+
+        iron = new Item("iron", Color.valueOf("c0a8a6")){{
+            hardness = 3;
+            cost = lead.cost*2;
         }};
 
         fissileMatter.hidden = false; //ok
 
-        classicOnlyItems.addAll(uranium, dirium, titanium);
+        classicOnlyItems.addAll(uranium, dirium, steel, iron, titanium);
     }
 }
