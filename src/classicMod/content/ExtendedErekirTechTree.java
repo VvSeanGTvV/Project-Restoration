@@ -20,11 +20,7 @@ public class ExtendedErekirTechTree {
         margeNode(breach, () -> {
             node(ClassicBlocks.shieldBreaker, Seq.with(new OnSector(intersect)), () -> {
                 node(ClassicBlocks.barrierProjector,Seq.with(new Objectives.Research(surgeCrucible), new Produce(scrap)), () -> {
-                    /*
-                    node(ClassicBlocks.shieldProjector, () -> { //TODO remove thus because it feels like a pvp thing
-                        //node(ClassicBlocks.largeShieldProjector, () -> {});
-                    });
-                    */
+
                 });
             });
         });
@@ -58,12 +54,9 @@ public class ExtendedErekirTechTree {
             nodeProduce(Liquids.gallium, () -> {});
         });
 
-        margeNode(tungsten, () -> {
-            nodeProduce(scrap);
-        });
-
-        margeNode(tungsten, () -> {
+        margeNode(oxide, () -> {
             nodeProduce(fissileMatter);
+            nodeProduce(scrap);
         });
     }
 

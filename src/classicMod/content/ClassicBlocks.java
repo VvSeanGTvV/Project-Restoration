@@ -529,8 +529,8 @@ public class ClassicBlocks {
             requirements(Category.turret, with(Items.tungsten, 35, Items.silicon, 35));
             shootSound = Sounds.missile;
             ammo(
-                    Items.scrap, new MissileBulletType(4.5f, 30){{
-                        inaccuracy = 0.2f;
+                    Items.silicon, new MissileBulletType(4.5f, 30){{
+                        inaccuracy = 0.25f;
                         shootEffect = Fx.colorSpark;
                         smokeEffect = Fx.shootBigSmoke;
                         ammoMultiplier = 1;
@@ -555,8 +555,8 @@ public class ClassicBlocks {
             //acceptCoolant = false;
             consumeLiquid(Liquids.hydrogen, 2.5f / 60f);
             shoot.shots = 9;
-            shoot.shotDelay = 4f;
-            shoot.firstShotDelay = 5f;
+            shoot.shotDelay = 4f*1.5f;
+            shoot.firstShotDelay = 5f*1.5f;
 
             //TODO this works but looks bad
             //spread = 0f;
@@ -649,7 +649,7 @@ public class ClassicBlocks {
                         heatProgress = PartProgress.heat.blend(PartProgress.warmup, 0.5f);
                     }});
                 }};
-                shootSound = Sounds.shootBig;
+                shootSound = Sounds.shootSnap;
                 shake = 1f;
                 shootLength = 5f;
                 outlineColor = Pal.darkOutline;
