@@ -38,6 +38,7 @@ public class ClassicBlocks {
     public static Block
     titanCannon, chainTurret, plasmaTurret, teslaTurret,//Turret - classic
     nuclearReactor, //Power - classic
+    crucible, //Smelter - classic
 
     fuseOld, //Turret [pre-v5]
 
@@ -64,7 +65,23 @@ public class ClassicBlocks {
     interplanetaryAccelerator //Endgame - Mindustry
     ;
 
+    public void loadOverride(){
+        Blocks.stone.itemDrop = ClassicItems.stone;
+        Blocks.stone.playerUnmineable = true;
+        Blocks.craters.itemDrop = ClassicItems.stone;
+        Blocks.craters.playerUnmineable = true;
+    }
+
     public void load() {
+        crucible = new GenericSmelter("crucible"){{
+            requirements(Category.turret, with(Items.titanium, 50*ClassicRequirementsMulti, ClassicItems.steel, 50*ClassicRequirementsMulti));
+            health = 90*ClassicBuff;
+            outputItem = new ItemStack(ClassicItems.dirium, 1);
+            consumeItems(with(Items.titanium, 1, ClassicItems.steel, 1));
+            //burnDuration = 40f;
+            craftTime = 20f;
+        }};
+
         titanCannon = new ItemTurret("titan-cannon"){{
             requirements(Category.turret, with(Items.titanium, 50*ClassicRequirementsMulti, ClassicItems.dirium, 55*ClassicRequirementsMulti, ClassicItems.steel, 70*ClassicRequirementsMulti));
             ammo(ClassicItems.uranium, titanshell);

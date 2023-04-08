@@ -143,6 +143,7 @@ public class ClassicMod extends Mod{
     public void loadContent(){
         Log.info("Loading contents...");
         new ClassicItems().load();
+        new ClassicBlocks().loadOverride(); //override vanilla stuff
         new ClassicBullets().load();
         new ClassicUnitTypes().load();
         new ClassicBlocks().load();
