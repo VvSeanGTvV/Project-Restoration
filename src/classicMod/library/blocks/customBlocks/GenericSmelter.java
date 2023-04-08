@@ -1,8 +1,10 @@
 package classicMod.library.blocks.customBlocks;
 
+import arc.math.*;
 import arc.util.*;
 import classicMod.content.*;
 import mindustry.content.*;
+import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.meta.*;
@@ -10,7 +12,11 @@ import mindustry.world.meta.*;
 public class GenericSmelter extends GenericCrafter {
     /** Fuel to power up the smelter. **/
     public ItemStack fuelItem = new ItemStack(Items.coal, 1);
+    /** How long does the fuel last. **/
+    public float burnTime = 60f;
     public @Nullable ItemStack[] fuelItems;
+    public @Nullable ItemStack[] TemproraryItems;
+    public @Nullable ItemStack[] arrayListItems;
 
     public GenericSmelter(String name) {
         super(name);
@@ -20,6 +26,7 @@ public class GenericSmelter extends GenericCrafter {
     public void setStats(){
         stats.timePeriod = craftTime;
         super.setStats();
+        stats.remove(Stat.output);
         if((hasItems && itemCapacity > 0) || outputItems != null){
             stats.add(Stat.productionTime, craftTime / 60f, StatUnit.seconds);
         }
@@ -60,19 +67,73 @@ public class GenericSmelter extends GenericCrafter {
         super.init();
     }
 
-    public void consumeFuel() {
-        ItemStack[] var1 = fuelItems;
-        int var2 = var1.length;
-
-        for(int var3 = 0; var3 < var2; ++var3) {
-            var1[var3].amount = var1[var3].amount - 1;
-        }
-    }
     public class GenericSmelterBuild extends GenericCrafterBuild {
+        public float fuelProgress;
+        public boolean hasFuel;
+
+        protected boolean accepted;
+
+        @Override
+        public boolean acceptItem(Building source, Item item) {
+            accepted = false;
+            for (ItemStack itemStack : fuelItems) {
+                accepted = itemStack.item.equals(item) && this.items.get(itemStack.item) < this.getMaximumAccepted(itemStack.item);
+            }
+            return accepted || this.block.consumesItem(item) && this.items.get(item) < this.getMaximumAccepted(item);
+            //return  this.block.consumesItem(item) && this.items.get(item) < this.getMaximumAccepted(item) || !this.items.has(fuelItems);
+        }
+
+        public void consumeFuel(ItemStack[] item, int amount) {
+            for (ItemStack itemStack : item) {
+                Item it1 = itemStack.item;
+                this.items.remove(it1, amount);
+            }
+        }
+
+        @Override
+        public void updateTile(){
+            hasFuel = this.items.has(fuelItems);
+            if(this.items.has(fuelItems)){
+                fuelProgress += getProgressIncrease(burnTime);
+                if(fuelProgress >= 1f){
+                    consumeFuel(fuelItems, 1);
+                    fuelProgress %= 1f;
+                }
+            }
+            if(efficiency > 0 && hasFuel){
+
+                progress += getProgressIncrease(craftTime);
+                warmup = Mathf.approachDelta(warmup, warmupTarget(), warmupSpeed);
+
+                //continuously output based on efficiency
+                if(outputLiquids != null){
+                    float inc = getProgressIncrease(1f);
+                    for(var output : outputLiquids){
+                        handleLiquid(this, output.liquid, Math.min(output.amount * inc, liquidCapacity - liquids.get(output.liquid)));
+                    }
+                }
+
+                if(wasVisible && Mathf.chanceDelta(updateEffectChance)){
+                    updateEffect.at(x + Mathf.range(size * 4f), y + Mathf.range(size * 4));
+                }
+            }else{
+                warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);
+            }
+
+            //TODO may look bad, revert to edelta() if so
+            totalProgress += warmup * Time.delta;
+
+            if(progress >= 1f){
+                craft();
+            }
+
+            dumpOutputs();
+        }
+
+
         @Override
         public void craft(){
             consume();
-            consumeFuel();
 
             if(outputItems != null){
                 for(var output : outputItems){
