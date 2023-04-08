@@ -38,7 +38,7 @@ public class ClassicBlocks {
     public static Block
     titanCannon, chainTurret, plasmaTurret, teslaTurret,//Turret - classic
     nuclearReactor, //Power - classic
-    crucible, //Smelter - classic
+    crucible, smelter, //Smelter - classic
 
     fuseOld, //Turret [pre-v5]
 
@@ -73,13 +73,22 @@ public class ClassicBlocks {
     }
 
     public void load() {
-        crucible = new GenericSmelter("crucible"){{
-            requirements(Category.turret, with(Items.titanium, 50*ClassicRequirementsMulti, ClassicItems.steel, 50*ClassicRequirementsMulti));
-            health = 90*ClassicBuff;
+        smelter = new GenericSmelter("smelter"){{
+            requirements(Category.crafting, with(ClassicItems.stone, 40, ClassicItems.iron, 40));
+            health = 70;
             outputItem = new ItemStack(ClassicItems.dirium, 1);
             consumeItems(with(Items.titanium, 1, ClassicItems.steel, 1));
-            //burnDuration = 40f;
             craftTime = 20f;
+            itemCapacity = 20;
+        }};
+        crucible = new GenericSmelter("crucible"){{
+            requirements(Category.crafting, with(Items.titanium, 50, ClassicItems.steel, 50));
+            health = 90;
+            outputItem = new ItemStack(ClassicItems.dirium, 1);
+            consumeItems(with(Items.titanium, 1, ClassicItems.steel, 1));
+            burnTime = 40f;
+            craftTime = 20f;
+            itemCapacity = 20;
         }};
 
         titanCannon = new ItemTurret("titan-cannon"){{

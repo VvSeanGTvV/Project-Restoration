@@ -111,7 +111,6 @@ public class ClassicMod extends Mod{
             t.pref(new Separator("restored-graphic"));
             t.checkPref("use-planetmenu", true);
             t.checkPref("use-lastplanet-bg", false);
-            t.checkPref("pixelator-v2", false);
 
             t.pref(new Separator("restored-annoying-window"));
             t.checkPref("ignore-warning", false);

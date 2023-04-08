@@ -59,7 +59,7 @@ public class LegacyUnitFactory extends Block {
     }
 
     public void updateStats(){
-        if(stats.intialized) {
+        if(stats.intialized) { //TODO idk
             stats.remove(Stat.productionTime);
             stats.remove(Stat.maxUnits);
             stats.remove(Stat.output);
