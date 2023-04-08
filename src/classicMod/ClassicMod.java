@@ -108,9 +108,10 @@ public class ClassicMod extends Mod{
 
     private void loadSettings() {
         ui.settings.addCategory("@setting.restored-mind", "restored-mind-vanguard", t -> {
-            t.pref(new Separator("restored-menu-bg"));
+            t.pref(new Separator("restored-graphic"));
             t.checkPref("use-planetmenu", true);
             t.checkPref("use-lastplanet-bg", false);
+            t.checkPref("pixelator-v2", false);
 
             t.pref(new Separator("restored-annoying-window"));
             t.checkPref("ignore-warning", false);
@@ -121,11 +122,12 @@ public class ClassicMod extends Mod{
                 t.pref(new Separator("restored-updates"));
                 t.checkPref("beta-update", false);
             }
-            //t.button("Check Updates", AutoUpdate::check);
+            t.row();
+            t.button("Check Updates", AutoUpdate::check).row();
 
-            t.pref(new Separator("restored-backwards-compatible"));
-            t.checkPref("backward-v5", false); //TODO make some mods backwards compatiblilty with v5
             if(false) {
+                t.pref(new Separator("restored-backwards-compatible"));
+                t.checkPref("backward-v5", false); //TODO make some mods backwards compatiblilty with v5
                 t.checkPref("backward-v6", false); //TODO make some mods backwards compatiblilty with v6
             }
             t.row();

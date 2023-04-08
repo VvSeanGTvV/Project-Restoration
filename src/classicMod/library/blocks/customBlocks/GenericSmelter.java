@@ -13,7 +13,7 @@ public class GenericSmelter extends GenericCrafter {
     /** Fuel to power up the smelter. **/
     public ItemStack fuelItem = new ItemStack(Items.coal, 1);
     /** How long does the fuel last. **/
-    public float burnTime = 60f;
+    public float burnTime = 50f;
     public @Nullable ItemStack[] fuelItems;
     public @Nullable ItemStack[] TemproraryItems;
     public @Nullable ItemStack[] arrayListItems;
@@ -26,13 +26,15 @@ public class GenericSmelter extends GenericCrafter {
     public void setStats(){
         stats.timePeriod = craftTime;
         super.setStats();
-        stats.remove(Stat.output);
+
+        stats.remove(Stat.output); //prevent duplication
+        stats.remove(Stat.productionTime); //prevent duplication
         if((hasItems && itemCapacity > 0) || outputItems != null){
             stats.add(Stat.productionTime, craftTime / 60f, StatUnit.seconds);
         }
 
         if(fuelItem != null){
-            stats.add(ExtendedStat.fuel, StatValues.items(craftTime, fuelItems));
+            stats.add(ExtendedStat.fuel, StatValues.items(burnTime, fuelItems));
         }
 
         if(outputItems != null){
