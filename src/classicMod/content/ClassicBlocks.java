@@ -77,7 +77,7 @@ public class ClassicBlocks {
             requirements(Category.crafting, with(ClassicItems.stone, 40, ClassicItems.iron, 40));
             health = 70;
             outputItem = new ItemStack(ClassicItems.steel, 1);
-            consumeItems(with(ClassicItems.iron, 1);
+            consumeItems(with(ClassicItems.iron, 1));
             craftTime = 20f;
             itemCapacity = 20;
         }};
