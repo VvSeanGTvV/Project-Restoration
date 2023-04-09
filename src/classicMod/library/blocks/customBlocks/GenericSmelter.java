@@ -95,12 +95,12 @@ public class GenericSmelter extends GenericCrafter {
         @Override
         public void updateTile(){
             hasFuel = this.items.has(fuelItems);
-            if(this.items.has(fuelItems)){
+            if(this.items.has(fuelItems) && efficiency > 0){
                 fuelProgress += getProgressIncrease(burnTime);
                 if(fuelProgress >= 1f){
                     consumeFuel(fuelItems, 1);
                     fuelProgress %= 1f;
-                }else{
+                }else if(fuelProgress<0.1f){
                     fuelEffect.at(this.x + Mathf.range(2f), this.y + Mathf.range(2f));
                 }
             }
