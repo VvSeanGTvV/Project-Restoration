@@ -20,8 +20,9 @@ import static mindustry.Vars.*;
 public class SingleDrill extends Drill {
     /** Can only get that specific item **/
     public Item[] requiredItem = new Item[]{Items.copper};
-    public TextureRegion bottomRegion;
-    public TextureRegion rimRegion;
+    public String rimString;
+    protected TextureRegion bottomRegion;
+    protected TextureRegion rimRegion;
     protected boolean canPlacable = false;
     public SingleDrill(String name) {
         super(name);
@@ -41,6 +42,7 @@ public class SingleDrill extends Drill {
     @Override
     public void init() {
         rimRegion = Core.atlas.find("restored-mind-default-rim");
+        if(!Objects.equals(rimString, "")) rimRegion = Core.atlas.find(rimString+"-rim");
         itemRegion = Core.atlas.find("restored-mind-drill-middle");
         bottomRegion = Core.atlas.find("restored-mind-drill-bottom");
         rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
@@ -107,8 +109,8 @@ public class SingleDrill extends Drill {
 
         @Override
         public void draw(){
-            rimRegion = Core.atlas.find(name+"-rim");
-            if(rimRegion==null) region = Core.atlas.find("restored-mind-default-rim");
+            rimRegion = Core.atlas.find("restored-mind-default-rim");
+            if(!Objects.equals(rimString, "")) rimRegion = Core.atlas.find(rimString+"-rim");
             itemRegion = Core.atlas.find("restored-mind-drill-middle");
             bottomRegion = Core.atlas.find("restored-mind-drill-bottom");
             rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
