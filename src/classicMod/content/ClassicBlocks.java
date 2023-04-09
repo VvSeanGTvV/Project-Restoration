@@ -74,7 +74,7 @@ public class ClassicBlocks {
     }
 
     public void load() {
-        stoneDrill = new SingleDrill("testd"){{
+        stoneDrill = new SingleDrill("stone-drill"){{
             requirements(Category.distribution, with(ClassicItems.stone, 40));
             health = 1;
             requiredItem = new Item[]{ClassicItems.stone};

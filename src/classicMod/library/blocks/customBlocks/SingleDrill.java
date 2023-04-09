@@ -1,7 +1,10 @@
 package classicMod.library.blocks.customBlocks;
 
+import arc.*;
+import arc.graphics.g2d.*;
 import mindustry.content.*;
 import mindustry.game.*;
+import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
@@ -15,6 +18,7 @@ import static mindustry.Vars.*;
 public class SingleDrill extends Drill {
     /** Can only get that specific item **/
     public Item[] requiredItem = new Item[]{Items.copper};
+    public TextureRegion bottomRegion;
     protected boolean canPlacable = false;
     public SingleDrill(String name) {
         super(name);
@@ -28,6 +32,22 @@ public class SingleDrill extends Drill {
             canPlacable = Objects.equals(tile.drop().name, item.name);
         }
         return canPlacable;
+    }
+
+    @Override
+    public void init() {
+        super.init();
+        region = Core.atlas.find("restored-mind-drill-middle");
+        itemRegion = Core.atlas.find("restored-mind-drill-middle");
+        bottomRegion = Core.atlas.find("restored-mind-drill-bottom");
+        rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
+        topRegion = Core.atlas.find(name+"-rim");
+        if(topRegion==null) topRegion = Core.atlas.find("restored-mind-default-rim");
+    }
+
+    @Override
+    public TextureRegion[] icons(){
+        return new TextureRegion[]{bottomRegion, rotatorRegion, topRegion};
     }
 
     public void matchDrill(Item item){
@@ -44,7 +64,23 @@ public class SingleDrill extends Drill {
     }
 
     public class SingleDrillBuild extends DrillBuild {
+        @Override
+        public void draw(){
 
+            Draw.rect(bottomRegion, x, y);
+            Draw.z(Layer.blockCracks);
+            drawDefaultCracks();
+
+            Draw.z(Layer.blockAfterCracks);
+
+            Drawf.spinSprite(rotatorRegion, x, y, timeDrilled * rotateSpeed);
+
+            Draw.rect(topRegion, x, y);
+
+            Draw.color(dominantItem.color);
+            Draw.rect(itemRegion, x, y);
+            Draw.color();
+        }
     }
 
 }
