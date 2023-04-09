@@ -1,5 +1,6 @@
 package classicMod.library.blocks.customBlocks;
 
+import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
 import classicMod.content.*;
@@ -93,9 +94,9 @@ public class GenericSmelter extends GenericCrafter {
         }
 
         @Override
-        public void update() {
+        public void updateTile(){
             hasFuel = this.items.has(fuelItems);
-            if(this.items.has(fuelItems)){
+            if(this.items.has(fuelItems) && efficiency > 0){
                 fuelProgress += getProgressIncrease(burnTime);
                 if(fuelProgress >= 1f){
                     consumeFuel(fuelItems, 1);
@@ -103,10 +104,6 @@ public class GenericSmelter extends GenericCrafter {
                     fuelEffect.at(this.x + Mathf.range(2f), this.y + Mathf.range(2f));
                 }
             }
-        }
-
-        @Override
-        public void updateTile(){
             if(efficiency > 0 && hasFuel){
 
                 progress += getProgressIncrease(craftTime);
@@ -154,6 +151,18 @@ public class GenericSmelter extends GenericCrafter {
                 craftEffect.at(x, y);
             }
             progress %= 1f;
+        }
+
+        @Override
+        public void draw() {
+            super.draw();
+            Draw.rect(region, tile.drawx(), tile.drawy());
+
+            if(burnTime < 1){
+                Draw.color(1f, 1f, 1f, Mathf.absin(Time.time, 9f, 0.4f) + Mathf.random(0.05f));
+                Draw.rect("restored-mind-smelter-middle", tile.drawx(), tile.drawy());
+                Draw.color();
+            }
         }
     }
 }
