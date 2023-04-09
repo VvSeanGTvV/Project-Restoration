@@ -3,6 +3,7 @@ package classicMod.library.blocks.customBlocks;
 import arc.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
+import classicMod.content.*;
 import mindustry.content.*;
 import mindustry.game.*;
 import mindustry.graphics.*;
@@ -24,7 +25,8 @@ public class SingleDrill extends Drill {
     protected boolean canPlacable = false;
     public SingleDrill(String name) {
         super(name);
-        drillTime = 5;
+        drillTime = 5*60;
+        drillEffect = ExtendedFx.spark;
     }
 
     @Override
@@ -38,10 +40,7 @@ public class SingleDrill extends Drill {
 
     @Override
     public void init() {
-        region = Core.atlas.find(name+"-rim");
-        if(region==null) region = Core.atlas.find("restored-mind-default-rim");
-        rimRegion = Core.atlas.find(name+"-rim");
-        if(rimRegion==null) region = Core.atlas.find("restored-mind-default-rim");
+        if(rimRegion == null) rimRegion = Core.atlas.find("restored-mind-default-rim");
         itemRegion = Core.atlas.find("restored-mind-drill-middle");
         bottomRegion = Core.atlas.find("restored-mind-drill-bottom");
         rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
@@ -100,8 +99,9 @@ public class SingleDrill extends Drill {
                 offload(dominantItem);
 
                 progress %= delay;
+                drillEffect.at(x, y);
 
-                if(wasVisible && Mathf.chanceDelta(updateEffectChance * warmup)) drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);
+                //if(wasVisible && Mathf.chanceDelta(updateEffectChance * warmup)) drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);
             }
         }
 
