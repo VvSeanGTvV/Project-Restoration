@@ -4,6 +4,7 @@ import arc.math.*;
 import arc.util.*;
 import classicMod.content.*;
 import mindustry.content.*;
+import mindustry.entities.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.blocks.production.*;
@@ -15,9 +16,11 @@ public class GenericSmelter extends GenericCrafter {
     /** How long does the fuel last. **/
     public float burnTime = 60f;
     public @Nullable ItemStack[] fuelItems;
+    public Effect fuelEffect = ExtendedFx.fuelburn;
 
     public GenericSmelter(String name) {
         super(name);
+        craftEffect = ExtendedFx.smelt;
     }
 
     @Override
@@ -97,6 +100,8 @@ public class GenericSmelter extends GenericCrafter {
                 if(fuelProgress >= 1f){
                     consumeFuel(fuelItems, 1);
                     fuelProgress %= 1f;
+                }else{
+                    fuelEffect.at(this.x + Mathf.range(2f), this.y + Mathf.range(2f));
                 }
             }
             if(efficiency > 0 && hasFuel){
