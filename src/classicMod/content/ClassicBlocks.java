@@ -39,6 +39,7 @@ public class ClassicBlocks {
     titanCannon, chainTurret, plasmaTurret, teslaTurret,//Turret - classic
     nuclearReactor, //Power - classic
     crucible, smelter, //Smelter - classic
+    stoneDrill, //SingleDrill - classic
 
     fuseOld, //Turret [pre-v5]
 
@@ -73,6 +74,12 @@ public class ClassicBlocks {
     }
 
     public void load() {
+        stoneDrill = new SingleDrill("testd"){{
+            requirements(Category.distribution, with(ClassicItems.stone, 40));
+            health = 1;
+            requiredItem = ClassicItems.stone;
+        }};
+
         smelter = new GenericSmelter("smelter"){{
             requirements(Category.crafting, with(ClassicItems.stone, 40, ClassicItems.iron, 40));
             health = 70;
