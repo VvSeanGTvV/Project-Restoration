@@ -40,7 +40,7 @@ public class SingleDrill extends Drill {
 
     @Override
     public void init() {
-        if(rimRegion == null) rimRegion = Core.atlas.find("restored-mind-default-rim");
+        rimRegion = Core.atlas.find("restored-mind-default-rim");
         itemRegion = Core.atlas.find("restored-mind-drill-middle");
         bottomRegion = Core.atlas.find("restored-mind-drill-bottom");
         rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
