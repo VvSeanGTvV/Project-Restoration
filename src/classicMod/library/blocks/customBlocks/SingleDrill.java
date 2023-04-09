@@ -20,6 +20,7 @@ public class SingleDrill extends Drill {
     /** Can only get that specific item **/
     public Item[] requiredItem = new Item[]{Items.copper};
     public TextureRegion bottomRegion;
+    public TextureRegion rimRegion;
     protected boolean canPlacable = false;
     public SingleDrill(String name) {
         super(name);
@@ -39,6 +40,8 @@ public class SingleDrill extends Drill {
     public void init() {
         region = Core.atlas.find(name+"-rim");
         if(region==null) region = Core.atlas.find("restored-mind-default-rim");
+        rimRegion = Core.atlas.find(name+"-rim");
+        if(rimRegion==null) region = Core.atlas.find("restored-mind-default-rim");
         itemRegion = Core.atlas.find("restored-mind-drill-middle");
         bottomRegion = Core.atlas.find("restored-mind-drill-bottom");
         rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
@@ -104,8 +107,8 @@ public class SingleDrill extends Drill {
 
         @Override
         public void draw(){
-            region = Core.atlas.find(name+"-rim");
-            if(region==null) region = Core.atlas.find("restored-mind-default-rim");
+            rimRegion = Core.atlas.find(name+"-rim");
+            if(rimRegion==null) region = Core.atlas.find("restored-mind-default-rim");
             itemRegion = Core.atlas.find("restored-mind-drill-middle");
             bottomRegion = Core.atlas.find("restored-mind-drill-bottom");
             rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
@@ -118,7 +121,7 @@ public class SingleDrill extends Drill {
 
             Drawf.spinSprite(rotatorRegion, x, y, timeDrilled * rotateSpeed);
 
-            Draw.rect(region, x, y);
+            Draw.rect(rimRegion, x, y);
 
             Draw.color(dominantItem.color);
             Draw.rect(itemRegion, x, y);
