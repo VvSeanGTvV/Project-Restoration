@@ -93,7 +93,7 @@ public class GenericSmelter extends GenericCrafter {
         }
 
         @Override
-        public void updateTile(){
+        public void update() {
             hasFuel = this.items.has(fuelItems);
             if(this.items.has(fuelItems)){
                 fuelProgress += getProgressIncrease(burnTime);
@@ -103,6 +103,10 @@ public class GenericSmelter extends GenericCrafter {
                     fuelEffect.at(this.x + Mathf.range(2f), this.y + Mathf.range(2f));
                 }
             }
+        }
+
+        @Override
+        public void updateTile(){
             if(efficiency > 0 && hasFuel){
 
                 progress += getProgressIncrease(craftTime);
