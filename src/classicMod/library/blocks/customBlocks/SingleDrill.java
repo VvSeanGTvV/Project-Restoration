@@ -24,13 +24,6 @@ public class SingleDrill extends Drill {
     public SingleDrill(String name) {
         super(name);
         drillTime = 5;
-
-        region = Core.atlas.find("restored-mind-drill-middle");
-        itemRegion = Core.atlas.find("restored-mind-drill-middle");
-        bottomRegion = Core.atlas.find("restored-mind-drill-bottom");
-        rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
-        topRegion = Core.atlas.find(name+"-rim");
-        if(topRegion==null) topRegion = Core.atlas.find("restored-mind-default-rim");
     }
 
     @Override
@@ -44,7 +37,7 @@ public class SingleDrill extends Drill {
 
     @Override
     public TextureRegion[] icons(){
-        return new TextureRegion[]{bottomRegion, rotatorRegion, topRegion};
+        return new TextureRegion[]{bottomRegion, rotatorRegion, region};
     }
 
     public void matchDrill(Item item){
@@ -102,6 +95,11 @@ public class SingleDrill extends Drill {
 
         @Override
         public void draw(){
+            region = Core.atlas.find(name+"-rim");
+            if(region==null) region = Core.atlas.find("restored-mind-default-rim");
+            itemRegion = Core.atlas.find("restored-mind-drill-middle");
+            bottomRegion = Core.atlas.find("restored-mind-drill-bottom");
+            rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
 
             Draw.rect(bottomRegion, x, y);
             Draw.z(Layer.blockCracks);
@@ -111,7 +109,7 @@ public class SingleDrill extends Drill {
 
             Drawf.spinSprite(rotatorRegion, x, y, timeDrilled * rotateSpeed);
 
-            Draw.rect(topRegion, x, y);
+            Draw.rect(region, x, y);
 
             Draw.color(dominantItem.color);
             Draw.rect(itemRegion, x, y);
