@@ -37,6 +37,11 @@ public class SingleDrill extends Drill {
 
     @Override
     public TextureRegion[] icons(){
+        region = Core.atlas.find(name+"-rim");
+            if(region==null) region = Core.atlas.find("restored-mind-default-rim");
+            itemRegion = Core.atlas.find("restored-mind-drill-middle");
+            bottomRegion = Core.atlas.find("restored-mind-drill-bottom");
+            rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
         return new TextureRegion[]{bottomRegion, rotatorRegion, region};
     }
 
@@ -95,11 +100,6 @@ public class SingleDrill extends Drill {
 
         @Override
         public void draw(){
-            region = Core.atlas.find(name+"-rim");
-            if(region==null) region = Core.atlas.find("restored-mind-default-rim");
-            itemRegion = Core.atlas.find("restored-mind-drill-middle");
-            bottomRegion = Core.atlas.find("restored-mind-drill-bottom");
-            rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
 
             Draw.rect(bottomRegion, x, y);
             Draw.z(Layer.blockCracks);
