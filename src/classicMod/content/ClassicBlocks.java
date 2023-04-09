@@ -77,7 +77,7 @@ public class ClassicBlocks {
         stoneDrill = new SingleDrill("testd"){{
             requirements(Category.distribution, with(ClassicItems.stone, 40));
             health = 1;
-            requiredItem = ClassicItems.stone;
+            requiredItem = new Item[]{ClassicItems.stone};
         }};
 
         smelter = new GenericSmelter("smelter"){{

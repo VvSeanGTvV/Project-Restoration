@@ -7,6 +7,7 @@ import classicMod.content.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.gen.*;
+import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.meta.*;
@@ -156,10 +157,12 @@ public class GenericSmelter extends GenericCrafter {
         @Override
         public void draw() {
             super.draw();
+            Draw.z(Layer.block);
             Draw.rect(region, tile.drawx(), tile.drawy());
 
             if(burnTime < 1){
-                Draw.color(1f, 1f, 1f, Mathf.absin(Time.time, 9f, 0.4f) + Mathf.random(0.05f));
+                Draw.z(Layer.effect);
+                Draw.color(1, 1, 1, Mathf.absin(Time.time, 9f, 0.4f) + Mathf.random(0.05f));
                 Draw.rect("restored-mind-smelter-middle", tile.drawx(), tile.drawy());
                 Draw.color();
             }
