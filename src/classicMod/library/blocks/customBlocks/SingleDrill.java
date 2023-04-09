@@ -1,6 +1,5 @@
 package classicMod.library.blocks.customBlocks;
 
-import arc.*;
 import arc.graphics.g2d.*;
 import mindustry.content.*;
 import mindustry.game.*;
@@ -32,17 +31,6 @@ public class SingleDrill extends Drill {
             canPlacable = Objects.equals(tile.drop().name, item.name);
         }
         return canPlacable;
-    }
-
-    @Override
-    public void init() {
-        super.init();
-        region = Core.atlas.find("restored-mind-drill-middle");
-        itemRegion = Core.atlas.find("restored-mind-drill-middle");
-        bottomRegion = Core.atlas.find("restored-mind-drill-bottom");
-        rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
-        topRegion = Core.atlas.find(name+"-rim");
-        if(topRegion==null) topRegion = Core.atlas.find("restored-mind-default-rim");
     }
 
     @Override

@@ -78,6 +78,13 @@ public class ClassicBlocks {
             requirements(Category.distribution, with(ClassicItems.stone, 40));
             health = 1;
             requiredItem = new Item[]{ClassicItems.stone};
+
+            region = Core.atlas.find("restored-mind-drill-middle");
+            itemRegion = Core.atlas.find("restored-mind-drill-middle");
+            bottomRegion = Core.atlas.find("restored-mind-drill-bottom");
+            rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
+            topRegion = Core.atlas.find(name+"-rim");
+            if(topRegion==null) topRegion = Core.atlas.find("restored-mind-default-rim");
         }};
 
         smelter = new GenericSmelter("smelter"){{
