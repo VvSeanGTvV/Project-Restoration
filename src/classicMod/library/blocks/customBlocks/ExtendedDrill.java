@@ -38,7 +38,7 @@ public class ExtendedDrill extends Drill {
         }
         for (Item item : Vars.content.items()){
             if(tier <= item.hardness){
-                listedDrillableItems = new Item[]{item}
+                listedDrillableItems = new Item[]{item};
             }
         }
         tier = ClassicItems.uranium.hardness;
