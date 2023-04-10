@@ -55,7 +55,7 @@ public class SingleDrill extends Drill {
 
             if(drawMineItem){
                 Draw.color(returnItem.color);
-                Draw.rect(itemRegion, tile.worldx() + offset, tile.worldy() + offset);
+                Draw.rect(Core.atlas.find("restored-mind-drill-middle"), tile.worldx() + offset, tile.worldy() + offset);
                 Draw.color();
             }
         }else{
@@ -84,6 +84,7 @@ public class SingleDrill extends Drill {
     @Override
     public void setStats() {
         super.setStats();
+        tier = requiredItem.hardness;
         stats.remove(Stat.drillTier);
        
         stats.add(Stat.drillTier, StatValues.blocks(b -> b instanceof Floor f && !f.wallOre && f.itemDrop != null && f.itemDrop.hardness <= tier && f.itemDrop != blockedItem && Objects.equals(f.itemDrop.name, requiredItem.name) && (indexer.isBlockPresent(f) || state.isMenu())));
