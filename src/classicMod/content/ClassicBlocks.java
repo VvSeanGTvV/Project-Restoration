@@ -128,6 +128,7 @@ public class ClassicBlocks {
                 health = 40;
                 drillTime = 4*60;
                 drillEffect = ExtendedFx.spark;
+                acceptedItems = new Item[]{Items.titanium, Items.coal, ClassicItems.iron, ClassicItems.uranium, ClassicItems.stone};
                 tier = 4;
                 drawRim = false;
                 drawMineItem = true;

@@ -19,8 +19,8 @@ import static mindustry.Vars.state;
 
 public class ExtendedDrill extends Drill {
     public String rimString = "restored-mind-default-rim";
-    public ItemStack acceptedItem = new ItemStack(Items.copper, 1);
-    public @Nullable ItemStack[] acceptedItems;
+    public Item acceptedItem = Items.copper;
+    public @Nullable Item[] acceptedItems;
     protected TextureRegion topRegion = Core.atlas.find(rimString);
     protected TextureRegion itemRegion = Core.atlas.find("restored-mind-drill-middle");
     protected TextureRegion region = Core.atlas.find("restored-mind-drill-bottom");
@@ -31,11 +31,11 @@ public class ExtendedDrill extends Drill {
     @Override
     public void init() {
         if (acceptedItems == null && acceptedItem != null) {
-            acceptedItems = new ItemStack[]{acceptedItem};
+            acceptedItems = new Item[]{acceptedItem};
         }
         assert acceptedItems != null;
-        for(ItemStack item : acceptedItems) {
-            if(tier<item.item.hardness)tier = item.item.hardness;
+        for(Item item : acceptedItems) {
+            if(tier<item.hardness)tier = item.hardness;
         }
     }
 
@@ -43,8 +43,8 @@ public class ExtendedDrill extends Drill {
     public void setStats() {
         super.setStats();
         stats.remove(Stat.drillTier);
-        for(ItemStack item : acceptedItems) {
-            stats.add(Stat.drillTier, StatValues.blocks(b -> b instanceof Floor f && !f.wallOre && f.itemDrop != null && f.itemDrop.hardness <= tier && f.itemDrop != blockedItem && Objects.equals(f.itemDrop.name, item.item.name) && (indexer.isBlockPresent(f) || state.isMenu())));
+        for(Item item : acceptedItems) {
+            stats.add(Stat.drillTier, StatValues.blocks(b -> b instanceof Floor f && !f.wallOre && f.itemDrop != null && f.itemDrop.hardness <= tier && f.itemDrop != blockedItem && Objects.equals(f.itemDrop.name, item.name) && (indexer.isBlockPresent(f) || state.isMenu())));
         }
     }
 
@@ -53,8 +53,8 @@ public class ExtendedDrill extends Drill {
         if(tile == null || tile.block().isStatic()) return false;
         boolean canMineable = false;
         Item drops = tile.drop();
-        for(ItemStack item : acceptedItems) {
-            canMineable = drops != null && drops.hardness == item.item.hardness && drops != blockedItem;
+        for(Item item : acceptedItems) {
+            canMineable = drops != null && drops.hardness == item.hardness && drops != blockedItem;
         }
         return canMineable;
     }
