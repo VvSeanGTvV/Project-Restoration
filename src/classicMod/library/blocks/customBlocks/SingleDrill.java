@@ -29,6 +29,9 @@ public class SingleDrill extends Drill {
         super(name);
         drillTime = 5*60;
         drillEffect = ExtendedFx.spark;
+        for(Item item : requiredItem) {
+            if (tier < item.hardness) tier = item.hardness;
+        }
     }
 
     @Override
@@ -69,7 +72,6 @@ public class SingleDrill extends Drill {
     public class SingleDrillBuild extends DrillBuild {
         @Override
         public void updateTile(){
-            if(dominantItem != null) matchDrill(dominantItem);
             if(timer(timerDump, dumpTime)){
                 dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);
             }
