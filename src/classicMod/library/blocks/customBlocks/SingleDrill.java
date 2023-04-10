@@ -124,7 +124,7 @@ public class SingleDrill extends Drill {
 
             Draw.rect(rimRegion, x, y);
 
-            Draw.color(dominantItem.color);
+            if(dominantItem != null) Draw.color(dominantItem.color);
             Draw.rect(itemRegion, x, y);
             Draw.color();
         }
