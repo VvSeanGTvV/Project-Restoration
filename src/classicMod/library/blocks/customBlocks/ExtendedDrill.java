@@ -4,6 +4,7 @@ import arc.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
+import classicMod.content.*;
 import mindustry.content.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
@@ -33,10 +34,7 @@ public class ExtendedDrill extends Drill {
         if (acceptedItems == null && acceptedItem != null) {
             acceptedItems = new Item[]{acceptedItem};
         }
-        assert acceptedItems != null;
-        for(Item item : acceptedItems) {
-            if(tier<item.hardness)tier = item.hardness;
-        }
+        tier = ClassicItems.uranium.hardness;
     }
 
     @Override
@@ -54,7 +52,7 @@ public class ExtendedDrill extends Drill {
         boolean canMineable = false;
         Item drops = tile.drop();
         for(Item item : acceptedItems) {
-            canMineable = drops != null && drops.hardness == item.hardness && drops != blockedItem;
+            canMineable = drops != null && drops.hardness >= item.hardness && drops != blockedItem;
         }
         return canMineable;
     }
