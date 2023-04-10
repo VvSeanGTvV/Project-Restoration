@@ -5,7 +5,6 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import classicMod.content.*;
 import mindustry.content.*;
-import mindustry.game.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.*;
@@ -32,15 +31,6 @@ public class SingleDrill extends Drill {
     }
 
     @Override
-    public boolean canPlaceOn(Tile tile, Team team, int rotation) {
-        canPlacable = false;
-        for(Item item : requiredItem) {
-            canPlacable = Objects.equals(tile.drop().name, item.name);
-        }
-        return canPlacable;
-    }
-
-    @Override
     public void init() {
         for(Item item : requiredItem) {
             if (tier < item.hardness) tier = item.hardness;
@@ -56,8 +46,15 @@ public class SingleDrill extends Drill {
         return new TextureRegion[]{Core.atlas.find("restored-mind-drill-bottom"), Core.atlas.find("restored-mind-drill-rotator"), Core.atlas.find("restored-mind-default-rim")};
     }
 
-    public void matchDrill(Item item){
-        this.tier = item.hardness;
+    @Override
+    public boolean canMine(Tile tile){
+        if(tile == null || tile.block().isStatic()) return false;
+        boolean Mineable = false;
+        Item drops = tile.drop();
+        for(Item item : requiredItem) {
+            Mineable = Objects.equals(drops.name, item.name);
+        }
+        return drops != null && Mineable && drops != blockedItem;
     }
 
     @Override
@@ -70,6 +67,7 @@ public class SingleDrill extends Drill {
     }
 
     public class SingleDrillBuild extends DrillBuild {
+
         @Override
         public void updateTile(){
             if(timer(timerDump, dumpTime)){
