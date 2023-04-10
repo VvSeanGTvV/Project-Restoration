@@ -113,8 +113,7 @@ public class SingleDrill extends Drill {
                 warmup = Mathf.approachDelta(warmup, speed, warmupSpeed);
                 progress += delta() * dominantItems * speed * warmup;
 
-                if(Mathf.chanceDelta(updateEffectChance * warmup))
-                    updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));
+
             }else{
                 lastDrillSpeed = 0f;
                 warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);

@@ -122,7 +122,7 @@ public class ClassicBlocks {
             requiredItem = Items.coal;
         }};
 
-        omniDrill = new Drill("omni-drill"){
+        omniDrill = new ExtendedDrill("omni-drill"){
             {
                 requirements(Category.production, with(Items.titanium, 40, ClassicItems.dirium, 40));
                 health = 40;
@@ -132,12 +132,13 @@ public class ClassicBlocks {
                 drawRim = false;
                 drawMineItem = true;
                 drawSpinSprite = true;
-                topRegion = Core.atlas.find("restored-mind-omni-rim");
-                itemRegion = Core.atlas.find("restored-mind-drill-middle");
-                region = Core.atlas.find("restored-mind-drill-bottom");
-                rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
+                rimString = "restored-mind-omni-rim";
             }
 
+            @Override
+            public TextureRegion[] icons() {
+                return new TextureRegion[]{Core.atlas.find("restored-mind-drill-bottom"), Core.atlas.find("restored-mind-drill-rotator"), Core.atlas.find(rimString)};
+            }
         };
 
         smelter = new GenericSmelter("smelter"){{
