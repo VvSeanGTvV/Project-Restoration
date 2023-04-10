@@ -57,13 +57,9 @@ public class ExtendedDrill extends Drill {
     public boolean canMine(Tile tile){
         if(tile == null || tile.block().isStatic()) return false;
         boolean canMineable = false;
-        int i = 0;
         Item drops = tile.drop();
-        for(Item item : listedDrillableItems) {
-            if(i<acceptedItems.length) {
-                i++;
-            }
-            canMineable = drops != null && drops.hardness == item.hardness && drops.hardness <= acceptedItems[i].hardness && drops != blockedItem;
+        for(Item item : acceptedItems) {
+            canMineable = drops != null && item.hardness <= tier && drops != blockedItem;
         }
         return canMineable;
     }
