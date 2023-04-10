@@ -41,8 +41,8 @@ public class ClassicBlocks {
     nuclearReactor, //Power - classic
     crucible, smelter, //Smelter - classic
     stoneDrill, ironDrill, uraniumDrill, titaniumDrill, coalDrill, omniDrill, //SingleDrill - classic
-
     ironOre, uraniumOre, //Ore - classic
+    lavaLiq, //Liquid - classic
 
     fuseOld, //Turret [pre-v5]
 
@@ -77,6 +77,19 @@ public class ClassicBlocks {
     }
 
     public void load() {
+        lavaLiq = new Floor("lava"){{
+            speedMultiplier = 0.15f;
+            liquidDrop = ClassicLiquids.lava;
+            liquidMultiplier = 1.3f;
+            isLiquid = true;
+            status = StatusEffects.melting;
+            statusDuration = 260f;
+            drownTime = 170f;
+            cacheLayer = CacheLayer.slag;
+            variants = 0;
+
+            attributes.set(Attribute.heat, 0.95f);
+        }};
         ironOre = new OreBlock("iron-ore"){{
            variants = 3;
            itemDrop = ClassicItems.iron;
