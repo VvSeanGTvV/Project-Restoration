@@ -85,20 +85,20 @@ public class ClassicBlocks {
         stoneDrill = new SingleDrill("stone-drill"){{
             requirements(Category.production, with(ClassicItems.stone, 12));
             health = 40;
-            requiredItem = new Item[]{ClassicItems.stone};
+            requiredItem = ClassicItems.stone;
         }};
 
         ironDrill = new SingleDrill("iron-drill"){{
             requirements(Category.production, with(ClassicItems.stone, 25));
             health = 40;
-            requiredItem = new Item[]{ClassicItems.iron};
+            requiredItem = ClassicItems.iron;
         }};
 
         omniDrill = new SingleDrill("omni-drill"){{
             requirements(Category.production, with(ClassicItems.stone, 40));
             health = 40;
             rimString = "restored-mind-omni-rim";
-            requiredItem = new Item[]{ClassicItems.stone, ClassicItems.iron};
+            requiredItem = ClassicItems.titanium;
         }};
 
         smelter = new GenericSmelter("smelter"){{

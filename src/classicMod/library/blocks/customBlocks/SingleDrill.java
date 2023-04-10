@@ -4,6 +4,7 @@ import arc.*;
 import arc.graphics.g2d.*;
 import classicMod.content.*;
 import mindustry.content.*;
+import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
@@ -16,7 +17,8 @@ import static mindustry.Vars.*;
 
 public class SingleDrill extends Drill {
     /** Can only get that specific item **/
-    public Item[] requiredItem = new Item[]{Items.copper};
+    public Item requiredItem = Items.copper;
+    public boolean itemSingular = true;
     /** Drill's rim texture in string **/
     public String rimString = "restored-mind-default-rim";
     protected TextureRegion bottomRegion;
@@ -24,9 +26,7 @@ public class SingleDrill extends Drill {
     protected boolean canPlacable = false;
     public SingleDrill(String name) {
         super(name);
-        for(Item item : requiredItem) {
-            if (tier < item.hardness) tier = item.hardness;
-        }
+        tier = requiredItem.hardness;
         drillTime = 5*60;
         drillEffect = ExtendedFx.spark;
         drawRim = false;
@@ -39,13 +39,16 @@ public class SingleDrill extends Drill {
     }
 
     @Override
+    public TextureRegion[] icons() {
+        return new TextureRegion[]{Core.atlas.find("restored-mind-drill-bottom"), Core.atlas.find("restored-mind-drill-rotator"), Core.atlas.find(rimString)};
+    }
+
+    @Override
     public boolean canMine(Tile tile){
         if(tile == null || tile.block().isStatic()) return false;
         boolean Mineable = false;
         Item drops = tile.drop();
-        for(Item item : requiredItem) {
-            Mineable = Objects.equals(drops.name, item.name);
-        }
+        Mineable = Objects.equals(drops.name, requiredItem.name);
         return drops != null && Mineable && drops != blockedItem;
     }
 
@@ -59,6 +62,26 @@ public class SingleDrill extends Drill {
     }
 
     public class SingleDrillBuild extends DrillBuild {
+        @Override
+        public void draw() {
+            topRegion = Core.atlas.find(rimString);
+            itemRegion = Core.atlas.find("restored-mind-drill-middle");
+            region = Core.atlas.find("restored-mind-drill-bottom");
+            rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
+
+            Draw.rect(region, x, y);
+            Draw.z(Layer.blockCracks);
+            drawDefaultCracks();
+
+            Draw.z(Layer.blockAfterCracks);
+            Drawf.spinSprite(rotatorRegion, x, y, timeDrilled * rotateSpeed);
+            Draw.rect(topRegion,x , y);
+            if(dominantItem != null){
+                Draw.color(dominantItem.color);
+                Draw.rect(itemRegion, x, y);
+                Draw.color();
+            }
+        }
     }
 
 }
