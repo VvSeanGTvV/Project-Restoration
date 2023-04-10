@@ -77,7 +77,7 @@ public class ClassicBlocks {
     }
 
     public void load() {
-        lavaLiq = new Floor("lava"){{
+        lavaLiq = new Floor("molten-lava"){{
             speedMultiplier = 0.15f;
             liquidDrop = ClassicLiquids.lava;
             liquidMultiplier = 1.3f;
