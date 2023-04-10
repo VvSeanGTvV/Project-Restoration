@@ -5,6 +5,7 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
 import classicMod.content.*;
+import mindustry.*;
 import mindustry.content.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
@@ -22,6 +23,7 @@ public class ExtendedDrill extends Drill {
     public String rimString = "restored-mind-default-rim";
     public Item acceptedItem = Items.copper;
     public @Nullable Item[] acceptedItems;
+    public @Nullable Item[] listedDrillableItems;
     protected TextureRegion topRegion = Core.atlas.find(rimString);
     protected TextureRegion itemRegion = Core.atlas.find("restored-mind-drill-middle");
     protected TextureRegion region = Core.atlas.find("restored-mind-drill-bottom");
@@ -33,6 +35,11 @@ public class ExtendedDrill extends Drill {
     public void init() {
         if (acceptedItems == null && acceptedItem != null) {
             acceptedItems = new Item[]{acceptedItem};
+        }
+        for (Item item : Vars.content.items()){
+            if(tier <= item.hardness){
+                listedDrillableItems = new Item[]{item}
+            }
         }
         tier = ClassicItems.uranium.hardness;
     }
@@ -50,9 +57,13 @@ public class ExtendedDrill extends Drill {
     public boolean canMine(Tile tile){
         if(tile == null || tile.block().isStatic()) return false;
         boolean canMineable = false;
+        int i = 0;
         Item drops = tile.drop();
-        for(Item item : acceptedItems) {
-            canMineable = drops != null && drops.hardness >= item.hardness && drops != blockedItem;
+        for(Item item : listedDrillableItems) {
+            if(i<acceptedItems.length) {
+                i++;
+            }
+            canMineable = drops != null && drops.hardness == item.hardness && drops.hardness <= acceptedItems[i].hardness && drops != blockedItem;
         }
         return canMineable;
     }
