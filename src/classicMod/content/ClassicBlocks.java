@@ -22,6 +22,7 @@ import mindustry.world.*;
 import mindustry.world.blocks.campaign.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.*;
+import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.heat.*;
 import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
@@ -39,7 +40,9 @@ public class ClassicBlocks {
     titanCannon, chainTurret, plasmaTurret, teslaTurret,//Turret - classic
     nuclearReactor, //Power - classic
     crucible, smelter, //Smelter - classic
-    stoneDrill, //SingleDrill - classic
+    stoneDrill, ironDrill, omniDrill, //SingleDrill - classic
+
+    ironOre, //Ore - classic
 
     fuseOld, //Turret [pre-v5]
 
@@ -74,11 +77,35 @@ public class ClassicBlocks {
     }
 
     public void load() {
+        ironOre = new OreBlock("iron-ore"){{
+           variants = 3;
+           itemDrop = ClassicItems.iron;
+        }};
+
         stoneDrill = new SingleDrill("stone-drill"){{
-            requirements(Category.production, with(ClassicItems.stone, 40));
-            health = 1;
+            requirements(Category.production, with(ClassicItems.stone, 12));
+            health = 40;
             requiredItem = new Item[]{ClassicItems.stone};
         }};
+
+        ironDrill = new SingleDrill("iron-drill"){{
+            requirements(Category.production, with(ClassicItems.stone, 25));
+            health = 40;
+            requiredItem = new Item[]{ClassicItems.iron};
+        }};
+
+        omniDrill = new SingleDrill("omni-drill"){{
+            requirements(Category.production, with(ClassicItems.stone, 40));
+            health = 40;
+            rimString = "restored-mind-omni-rim";
+            requiredItem = new Item[]{ClassicItems.stone, ClassicItems.iron};
+        }
+            @Override
+            public TextureRegion[] icons(){
+                return new TextureRegion[]{Core.atlas.find("restored-mind-drill-bottom"), Core.atlas.find("restored-mind-drill-rotator"), Core.atlas.find("restored-mind-omni-rim")};
+            }
+
+        };
 
         smelter = new GenericSmelter("smelter"){{
             requirements(Category.crafting, with(ClassicItems.stone, 40, ClassicItems.iron, 40));
