@@ -12,7 +12,7 @@ public class ClassicLiquids extends Liquids {
         lava = new Liquid("liquid-lava", Color.valueOf("ed5334")){{
             temperature = 2.5f;
             viscosity = 1.4f;
-            effect = StatusEffects.burning;
+            effect = StatusEffects.melting;
             lightColor = Color.valueOf("f0511d").a(0.4f);
         }};
     }
