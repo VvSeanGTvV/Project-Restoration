@@ -69,7 +69,7 @@ public class SingleDrill extends Drill {
     public class SingleDrillBuild extends DrillBuild {
         @Override
         public void updateTile(){
-            matchDrill(dominantItem);
+            if(dominantItem != null) matchDrill(dominantItem);
             if(timer(timerDump, dumpTime)){
                 dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);
             }
