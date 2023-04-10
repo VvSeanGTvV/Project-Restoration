@@ -26,7 +26,7 @@ public class ClassicItems extends Items {
             healthScaling = 0.15f;
         }};
 
-        stone = new Item("stone", Color.valueOf("c0a8a6")){{
+        stone = new Item("stone", Color.valueOf("8c8c8c")){{
             cost = copper.cost*1.25f;
         }};
 
