@@ -24,15 +24,11 @@ public class SingleDrill extends Drill {
     protected boolean canPlacable = false;
     public SingleDrill(String name) {
         super(name);
-        drillTime = 5*60;
-        drillEffect = ExtendedFx.spark;
-    }
-
-    @Override
-    public void init() {
         for(Item item : requiredItem) {
             if (tier < item.hardness) tier = item.hardness;
         }
+        drillTime = 5*60;
+        drillEffect = ExtendedFx.spark;
         drawRim = false;
         drawMineItem = true;
         drawSpinSprite = true;
