@@ -119,7 +119,7 @@ public class ClassicBlocks {
             requirements(Category.production, with(ClassicItems.stone, 25, ClassicItems.iron, 40));
             drillTime = 6*60;
             health = 40;
-            requiredItem = Items.titanium;
+            requiredItem = Items.coal;
         }};
 
         omniDrill = new Drill("omni-drill"){
