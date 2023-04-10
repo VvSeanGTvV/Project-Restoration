@@ -40,9 +40,9 @@ public class ClassicBlocks {
     titanCannon, chainTurret, plasmaTurret, teslaTurret,//Turret - classic
     nuclearReactor, //Power - classic
     crucible, smelter, //Smelter - classic
-    stoneDrill, ironDrill, omniDrill, //SingleDrill - classic
+    stoneDrill, ironDrill, uraniumDrill, titaniumDrill, coalDrill, omniDrill, //SingleDrill - classic
 
-    ironOre, //Ore - classic
+    ironOre, uraniumOre, //Ore - classic
 
     fuseOld, //Turret [pre-v5]
 
@@ -82,6 +82,11 @@ public class ClassicBlocks {
            itemDrop = ClassicItems.iron;
         }};
 
+        uraniumOre = new OreBlock("uranium-ore"){{
+            variants = 3;
+            itemDrop = ClassicItems.uranium;
+        }};
+
         stoneDrill = new SingleDrill("stone-drill"){{
             requirements(Category.production, with(ClassicItems.stone, 12));
             drillTime = 4*60;
@@ -96,9 +101,30 @@ public class ClassicBlocks {
             requiredItem = ClassicItems.iron;
         }};
 
+        uraniumDrill = new SingleDrill("uranium-drill"){{
+            requirements(Category.production, with(ClassicItems.iron, 40, ClassicItems.steel, 40));
+            drillTime = 7*60;
+            health = 40;
+            requiredItem = ClassicItems.uranium;
+        }};
+
+        titaniumDrill = new SingleDrill("titanium-drill"){{
+            requirements(Category.production, with(ClassicItems.iron, 50, ClassicItems.steel, 50));
+            drillTime = 7*60;
+            health = 40;
+            requiredItem = Items.titanium;
+        }};
+
+        coalDrill = new SingleDrill("coal-drill"){{
+            requirements(Category.production, with(ClassicItems.stone, 25, ClassicItems.iron, 40));
+            drillTime = 6*60;
+            health = 40;
+            requiredItem = Items.titanium;
+        }};
+
         omniDrill = new Drill("omni-drill"){
             {
-                requirements(Category.production, with(ClassicItems.stone, 40));
+                requirements(Category.production, with(Items.titanium, 40, ClassicItems.dirium, 40));
                 health = 40;
                 drillTime = 4*60;
                 drillEffect = ExtendedFx.spark;

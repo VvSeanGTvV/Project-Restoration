@@ -53,11 +53,11 @@ public class SingleDrill extends Drill {
             Draw.reset();
             Draw.rect(returnItem.fullIcon, dx, dy, s, s);
 
-            if(drawMineItem){
+            /*if(drawMineItem){
                 Draw.color(returnItem.color);
                 Draw.rect(Core.atlas.find("restored-mind-drill-middle"), tile.worldx() + offset, tile.worldy() + offset);
                 Draw.color();
-            }
+            }*/
         }else{
             Tile to = tile.getLinkedTilesAs(this, tempTiles).find(t -> t.drop() != null && (t.drop().hardness > tier || t.drop() == blockedItem));
             Item item = to == null ? null : to.drop();
