@@ -99,13 +99,7 @@ public class ClassicBlocks {
             health = 40;
             rimString = "restored-mind-omni-rim";
             requiredItem = new Item[]{ClassicItems.stone, ClassicItems.iron};
-        }
-            @Override
-            public TextureRegion[] icons(){
-                return new TextureRegion[]{Core.atlas.find("restored-mind-drill-bottom"), Core.atlas.find("restored-mind-drill-rotator"), Core.atlas.find("restored-mind-omni-rim")};
-            }
-
-        };
+        }};
 
         smelter = new GenericSmelter("smelter"){{
             requirements(Category.crafting, with(ClassicItems.stone, 40, ClassicItems.iron, 40));
