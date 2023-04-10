@@ -56,9 +56,9 @@ public class SingleDrill extends Drill {
     public void setStats() {
         super.setStats();
         stats.remove(Stat.drillTier);
-        for(Item item : requiredItem) {
-            stats.add(Stat.drillTier, StatValues.blocks(b -> b instanceof Floor f && !f.wallOre && f.itemDrop != null && f.itemDrop.hardness <= tier && f.itemDrop != blockedItem && Objects.equals(f.itemDrop.name, item.name) && (indexer.isBlockPresent(f) || state.isMenu())));
-        }
+       
+        stats.add(Stat.drillTier, StatValues.blocks(b -> b instanceof Floor f && !f.wallOre && f.itemDrop != null && f.itemDrop.hardness <= tier && f.itemDrop != blockedItem && Objects.equals(f.itemDrop.name, requiredItem.name) && (indexer.isBlockPresent(f) || state.isMenu())));
+        
     }
 
     public class SingleDrillBuild extends DrillBuild {
