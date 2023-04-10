@@ -84,21 +84,30 @@ public class ClassicBlocks {
 
         stoneDrill = new SingleDrill("stone-drill"){{
             requirements(Category.production, with(ClassicItems.stone, 12));
+            drillTime = 4*60;
             health = 40;
             requiredItem = ClassicItems.stone;
         }};
 
         ironDrill = new SingleDrill("iron-drill"){{
             requirements(Category.production, with(ClassicItems.stone, 25));
+            drillTime = 5*60;
             health = 40;
             requiredItem = ClassicItems.iron;
         }};
 
-        omniDrill = new SingleDrill("omni-drill"){{
+        omniDrill = new Drill("omni-drill"){{
             requirements(Category.production, with(ClassicItems.stone, 40));
             health = 40;
-            rimString = "restored-mind-omni-rim";
-            requiredItem = ClassicItems.titanium;
+            drillTime = 4*60;
+            drillEffect = ExtendedFx.spark;
+            drawRim = false;
+            drawMineItem = true;
+            drawSpinSprite = true;
+            topRegion = Core.atlas.find("restored-mind-omni-rim");
+            itemRegion = Core.atlas.find("restored-mind-drill-middle");
+            region = Core.atlas.find("restored-mind-drill-bottom");
+            rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
         }};
 
         smelter = new GenericSmelter("smelter"){{
