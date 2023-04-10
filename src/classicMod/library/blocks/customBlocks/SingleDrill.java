@@ -29,9 +29,6 @@ public class SingleDrill extends Drill {
         super(name);
         drillTime = 5*60;
         drillEffect = ExtendedFx.spark;
-        for(Item item : requiredItem) {
-            if (tier < item.hardness) tier = item.hardness;
-        }
     }
 
     @Override
@@ -45,6 +42,9 @@ public class SingleDrill extends Drill {
 
     @Override
     public void init() {
+        for(Item item : requiredItem) {
+            if (tier < item.hardness) tier = item.hardness;
+        }
         rimRegion = Core.atlas.find(rimString);
         itemRegion = Core.atlas.find("restored-mind-drill-middle");
         bottomRegion = Core.atlas.find("restored-mind-drill-bottom");
@@ -111,10 +111,6 @@ public class SingleDrill extends Drill {
 
         @Override
         public void draw(){
-            rimRegion = Core.atlas.find(rimString);
-            itemRegion = Core.atlas.find("restored-mind-drill-middle");
-            bottomRegion = Core.atlas.find("restored-mind-drill-bottom");
-            rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
 
             Draw.rect(bottomRegion, x, y);
             Draw.z(Layer.blockCracks);
