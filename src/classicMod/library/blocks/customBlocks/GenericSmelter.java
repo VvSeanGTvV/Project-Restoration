@@ -28,10 +28,10 @@ public class GenericSmelter extends GenericCrafter {
     @Override
     public void setStats(){
         stats.timePeriod = craftTime;
-        super.setStats();
         if(fuelItem != null){
             stats.add(ExtendedStat.fuel, StatValues.items(burnTime, fuelItems));
         }
+        super.setStats();
 
         stats.remove(Stat.output); //prevent duplication
         stats.remove(Stat.productionTime); //prevent duplication

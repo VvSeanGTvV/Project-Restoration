@@ -20,7 +20,6 @@ import static mindustry.Vars.*;
 public class SingleDrill extends Drill {
     /** Can only get that specific item **/
     public Item requiredItem = Items.copper;
-    public boolean itemSingular = true;
     /** Drill's rim texture in string **/
     public String rimString = "restored-mind-default-rim";
     protected TextureRegion topRegion = Core.atlas.find(rimString);
