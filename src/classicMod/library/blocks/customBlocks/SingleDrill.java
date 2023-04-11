@@ -72,7 +72,7 @@ public class SingleDrill extends Drill {
 
     @Override
     public TextureRegion[] icons() {
-        Texture reqItemText = Core.atlas.find(requiredItem.name).texture;
+        Texture reqItemText = Core.atlas.find("restored-mind-stone").texture;
         return new TextureRegion[]{Core.atlas.find("restored-mind-drill-bottom"), Core.atlas.find("restored-mind-drill-rotator"), Core.atlas.find(rimString), new AtlasRegion(reqItemText, 5, 32-5,32/2,32/2)};
     }
 
