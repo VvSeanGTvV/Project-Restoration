@@ -80,7 +80,7 @@ public class ClassicBlocks {
         lavaLiq = new Floor("molten-lava"){{
             speedMultiplier = 0.15f;
             liquidDrop = ClassicLiquids.lava;
-            liquidMultiplier = 1.3f;
+            liquidMultiplier = 0.8f;
             isLiquid = true;
             status = StatusEffects.melting;
             statusDuration = 260f;
@@ -93,6 +93,7 @@ public class ClassicBlocks {
         ironOre = new OreBlock("iron-ore"){{
            variants = 3;
            itemDrop = ClassicItems.iron;
+
         }};
 
         uraniumOre = new OreBlock("uranium-ore"){{
