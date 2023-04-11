@@ -28,6 +28,7 @@ public class SingleDrill extends Drill {
     protected TextureRegion itemRegion = Core.atlas.find("restored-mind-drill-middle");
     protected TextureRegion region = Core.atlas.find("restored-mind-drill-bottom");
     protected TextureRegion rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
+    protected Texture reqItemText = Core.atlas.find(requiredItem.name).texture;
     public SingleDrill(String name) {
         super(name);
         tier = requiredItem.hardness;
@@ -72,7 +73,7 @@ public class SingleDrill extends Drill {
 
     @Override
     public TextureRegion[] icons() {
-        return new TextureRegion[]{Core.atlas.find("restored-mind-drill-bottom"), Core.atlas.find("restored-mind-drill-rotator"), Core.atlas.find(rimString), new AtlasRegion(Core.atlas.find(requiredItem.name).texture, 5, 32-5,Core.atlas.find(requiredItem.name).texture.width/2,Core.atlas.find(requiredItem.name).texture.height/2)};
+        return new TextureRegion[]{Core.atlas.find("restored-mind-drill-bottom"), Core.atlas.find("restored-mind-drill-rotator"), Core.atlas.find(rimString), new AtlasRegion(reqItemText, 5, 32-5,Core.atlas.find(requiredItem.name).texture.width/2,Core.atlas.find(requiredItem.name).texture.height/2)};
     }
 
     @Override
