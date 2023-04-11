@@ -6,6 +6,7 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.struct.*;
 import classicMod.library.blocks.*;
+import classicMod.library.blocks.classicBlocks.*;
 import classicMod.library.blocks.customBlocks.*;
 import classicMod.library.blocks.legacyBlocks.*;
 import classicMod.library.blocks.v6devBlocks.*;
@@ -40,6 +41,7 @@ public class ClassicBlocks {
     titanCannon, chainTurret, plasmaTurret, teslaTurret,//Turret - classic
     nuclearReactor, //Power - classic
     crucible, smelter, //Smelter - classic
+    teleporter, //Distribution - classic
     stoneDrill, ironDrill, uraniumDrill, titaniumDrill, coalDrill, omniDrill, //SingleDrill - classic
     ironOre, uraniumOre, //Ore - classic
     lavaLiq, //Liquid - classic
@@ -89,6 +91,9 @@ public class ClassicBlocks {
             variants = 0;
 
             attributes.set(Attribute.heat, 0.95f);
+        }};
+        teleporter = new Teleporter("teleporter"){{
+
         }};
         ironOre = new OreBlock("iron-ore"){{
            variants = 3;

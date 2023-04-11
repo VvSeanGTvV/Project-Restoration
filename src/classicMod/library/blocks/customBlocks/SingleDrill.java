@@ -30,7 +30,7 @@ public class SingleDrill extends Drill {
     public SingleDrill(String name) {
         super(name);
         tier = requiredItem.hardness;
-        drillTime = drillDuration-requiredItem.hardness*60;
+        drillTime = drillDuration*60;
         drillEffect = ExtendedFx.spark;
         updateEffect = Fx.none;
         hasLiquids = false;
