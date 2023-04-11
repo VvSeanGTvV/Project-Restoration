@@ -93,7 +93,7 @@ public class ClassicBlocks {
             attributes.set(Attribute.heat, 0.95f);
         }};
         teleporter = new Teleporter("teleporter"){{
-
+            requirements(Category.distribution, with(ClassicItems.steel, 30, ClassicItems.dirium, 40));
         }};
         ironOre = new OreBlock("iron-ore"){{
            variants = 3;
