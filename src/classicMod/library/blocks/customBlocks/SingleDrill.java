@@ -3,6 +3,7 @@ package classicMod.library.blocks.customBlocks;
 import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
+import arc.graphics.g2d.TextureAtlas.*;
 import arc.math.*;
 import classicMod.content.*;
 import mindustry.content.*;
@@ -71,7 +72,7 @@ public class SingleDrill extends Drill {
 
     @Override
     public TextureRegion[] icons() {
-        return new TextureRegion[]{Core.atlas.find("restored-mind-drill-bottom"), Core.atlas.find("restored-mind-drill-rotator"), Core.atlas.find(rimString), new TextureRegion(Core.atlas.find(requiredItem.name).texture, 5, 32-5,Core.atlas.find(requiredItem.name).texture.width/2,Core.atlas.find(requiredItem.name).texture.height/2)};
+        return new TextureRegion[]{Core.atlas.find("restored-mind-drill-bottom"), Core.atlas.find("restored-mind-drill-rotator"), Core.atlas.find(rimString), new AtlasRegion(Core.atlas.find(requiredItem.name).texture, 5, 32-5,Core.atlas.find(requiredItem.name).texture.width/2,Core.atlas.find(requiredItem.name).texture.height/2)};
     }
 
     @Override
