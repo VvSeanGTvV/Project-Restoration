@@ -20,6 +20,7 @@ import static mindustry.Vars.*;
 public class SingleDrill extends Drill {
     /** Can only get that specific item **/
     public Item requiredItem = Items.copper;
+    public float drillDuration;
     /** Drill's rim texture in string **/
     public String rimString = "restored-mind-default-rim";
     protected TextureRegion topRegion = Core.atlas.find(rimString);
@@ -30,6 +31,8 @@ public class SingleDrill extends Drill {
         super(name);
         tier = requiredItem.hardness;
         drillEffect = ExtendedFx.spark;
+        updateEffect = Fx.none;
+        hasLiquids = false;
         drawRim = false;
         drawMineItem = true;
         drawSpinSprite = true;
@@ -68,7 +71,7 @@ public class SingleDrill extends Drill {
 
     @Override
     public TextureRegion[] icons() {
-        return new TextureRegion[]{Core.atlas.find("restored-mind-drill-bottom"), Core.atlas.find("restored-mind-drill-rotator"), Core.atlas.find(rimString)};
+        return new TextureRegion[]{Core.atlas.find("restored-mind-drill-bottom"), Core.atlas.find("restored-mind-drill-rotator"), Core.atlas.find(rimString), Core.atlas.find(requiredItem.name)};
     }
 
     @Override
