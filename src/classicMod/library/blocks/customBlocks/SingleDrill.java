@@ -29,8 +29,8 @@ public class SingleDrill extends Drill {
     protected TextureRegion rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
     public SingleDrill(String name) {
         super(name);
-        tier = Integer.MAX_VALUE;
-        drillTime = drillDuration*60;
+        tier = requiredItem.hardness;
+        drillTime = drillDuration-requiredItem.hardness*60;
         drillEffect = ExtendedFx.spark;
         updateEffect = Fx.none;
         hasLiquids = false;
