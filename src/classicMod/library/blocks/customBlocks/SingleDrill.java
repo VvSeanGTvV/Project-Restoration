@@ -3,7 +3,6 @@ package classicMod.library.blocks.customBlocks;
 import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
-import arc.graphics.g2d.TextureAtlas.*;
 import arc.math.*;
 import classicMod.content.*;
 import mindustry.content.*;
@@ -30,7 +29,8 @@ public class SingleDrill extends Drill {
     protected TextureRegion rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
     public SingleDrill(String name) {
         super(name);
-        tier = requiredItem.hardness;
+        tier = Integer.MAX_VALUE;
+        drillTime = drillDuration*60;
         drillEffect = ExtendedFx.spark;
         updateEffect = Fx.none;
         hasLiquids = false;
@@ -72,8 +72,7 @@ public class SingleDrill extends Drill {
 
     @Override
     public TextureRegion[] icons() {
-        Texture reqItemText = Core.atlas.find("restored-mind-stone").texture;
-        return new TextureRegion[]{Core.atlas.find("restored-mind-drill-bottom"), Core.atlas.find("restored-mind-drill-rotator"), Core.atlas.find(rimString), new AtlasRegion(reqItemText, 5, 32-5,32/2,32/2)};
+        return new TextureRegion[]{Core.atlas.find("restored-mind-drill-bottom"), Core.atlas.find("restored-mind-drill-rotator"), Core.atlas.find(rimString)};
     }
 
     @Override

@@ -103,35 +103,35 @@ public class ClassicBlocks {
 
         stoneDrill = new SingleDrill("stone-drill"){{
             requirements(Category.production, with(ClassicItems.stone, 12));
-            drillTime = 4*60;
+            drillDuration = 4;
             health = 40;
             requiredItem = ClassicItems.stone;
         }};
 
         ironDrill = new SingleDrill("iron-drill"){{
             requirements(Category.production, with(ClassicItems.stone, 25));
-            drillTime = 5*60;
+            drillDuration = 5;
             health = 40;
             requiredItem = ClassicItems.iron;
         }};
 
         uraniumDrill = new SingleDrill("uranium-drill"){{
             requirements(Category.production, with(ClassicItems.iron, 40, ClassicItems.steel, 40));
-            drillTime = 7*60;
+            drillDuration = 7;
             health = 40;
             requiredItem = ClassicItems.uranium;
         }};
 
         titaniumDrill = new SingleDrill("titanium-drill"){{
             requirements(Category.production, with(ClassicItems.iron, 50, ClassicItems.steel, 50));
-            drillTime = 7*60;
+            drillDuration = 7;
             health = 40;
             requiredItem = Items.titanium;
         }};
 
         coalDrill = new SingleDrill("coal-drill"){{
             requirements(Category.production, with(ClassicItems.stone, 25, ClassicItems.iron, 40));
-            drillTime = 6*60;
+            drillDuration = 6;
             health = 40;
             requiredItem = Items.coal;
         }};
