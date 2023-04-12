@@ -1,4 +1,4 @@
-package classicMod.library.blocks.classicBlocks;
+package classicMod.library.blocks.customBlocks;
 
 import arc.*;
 import arc.graphics.*;
@@ -9,6 +9,8 @@ import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
+import classicMod.content.*;
+import mindustry.content.*;
 import mindustry.entities.units.*;
 import mindustry.game.EventType.*;
 import mindustry.game.*;
@@ -19,12 +21,21 @@ import mindustry.world.*;
 
 import static arc.Core.*;
 
-// This is from Project Unity!
-public class Teleporter extends Block{
-    //this class was made assuming only one instance. if more, static should be removed or further improvement.
+public class WarpGate extends Block {
+
     protected static final Color[] selection = new Color[]{Color.royal, Color.orange, Color.scarlet, Color.forest, Color.purple, Color.gold, Color.pink, Color.black};
-    protected static final ObjectSet<TeleporterBuild>[][] teleporters;
-    protected float powerUse = 0.8f;
+    protected static final ObjectSet<WarpGate.WarpGateBuild>[][] teleporters;
+    public float warmupTime = 60f;
+    /** time between Teleports **/
+    public float teleportMax = 1000f;
+    public float powerUse = 20.8f;
+    public float teleportLiquidUse = 0.3f;
+    public float liquidUse = 0.1f;
+
+    public Liquid inputLiquid = Liquids.cryofluid;
+    //protected Effect activateEffect = BlockFx.teleportActivate;
+    //protected Effect teleportEffect = BlockFx.teleport;
+    //protected Effect teleportOutEffect = BlockFx.teleportOut;
     protected TextureRegion blankRegion;
 
     static{
@@ -35,7 +46,7 @@ public class Teleporter extends Block{
         }
     }
 
-    public Teleporter(String name){
+    public WarpGate(String name){
         super(name);
         update = true;
         solid = true;
@@ -48,12 +59,12 @@ public class Teleporter extends Block{
                 for(int j = 0; j < teleporters[i].length; j++) teleporters[i][j].clear();
             }
         });
-        config(Integer.class, (TeleporterBuild build, Integer value) -> {
+        config(Integer.class, (WarpGate.WarpGateBuild build, Integer value) -> {
             if(build.toggle != -1) teleporters[build.team.id][build.toggle].remove(build);
             if(value != -1) teleporters[build.team.id][value].add(build);
             build.toggle = value;
         });
-        configClear((TeleporterBuild build) -> {
+        configClear((WarpGate.WarpGateBuild build) -> {
             if(build.toggle != -1) teleporters[build.team.id][build.toggle].remove(build);
             build.toggle = -1;
         });
@@ -66,7 +77,8 @@ public class Teleporter extends Block{
 
     @Override
     public void init(){
-        consumePowerCond(powerUse, TeleporterBuild::isConsuming);
+        consumePowerCond(powerUse, WarpGate.WarpGateBuild::isConsuming);
+        consumeLiquid(inputLiquid, liquidUse);
         super.init();
     }
 
@@ -88,15 +100,20 @@ public class Teleporter extends Block{
         Draw.rect(blankRegion, req.drawx(), req.drawy());
     }
 
-    public class TeleporterBuild extends Building{
+    public class WarpGateBuild extends Building {
         protected int toggle = -1, entry;
         protected float duration;
-        protected TeleporterBuild target;
+        protected WarpGate.WarpGateBuild target;
         protected Team previousTeam;
 
         protected void onDuration(){
-            if(duration < 0f) duration = 0f;
+            if(duration < 0f) duration = teleportMax;
             else duration -= Time.delta;
+        }
+
+        @Override
+        public boolean acceptLiquid(Building source, Liquid liquid) {
+            return super.acceptLiquid(source, liquid) && liquid == inputLiquid;
         }
 
         protected boolean isConsuming(){
@@ -121,12 +138,19 @@ public class Teleporter extends Block{
 
         @Override
         public void updateTile(){
-            onDuration();
-            if(items.any()) dump();
-            if(isTeamChanged() && toggle != -1){
-                teleporters[team.id][toggle].add(this);
-                teleporters[previousTeam.id][toggle].remove(this);
-                previousTeam = team;
+            if(efficiency>0){
+                onDuration();
+            }
+            ExtendedFx.teleport.at(this.x, this.y, 0, selection[toggle]);
+            if(duration<0f) {
+                consume();
+                ExtendedFx.teleportActivate.at(this.x, this.y, 0, selection[toggle]);
+                if (items.any()) dump();
+                if (isTeamChanged() && toggle != -1) {
+                    teleporters[team.id][toggle].add(this);
+                    teleporters[previousTeam.id][toggle].remove(this);
+                    previousTeam = team;
+                }
             }
         }
 
@@ -144,16 +168,16 @@ public class Teleporter extends Block{
             }
         }
 
-        protected TeleporterBuild findLink(int value){
-            ObjectSet<TeleporterBuild> teles = teleporters[team.id][value];
-            Seq<TeleporterBuild> entries = teles.toSeq();
+        protected WarpGate.WarpGateBuild findLink(int value){
+            ObjectSet<WarpGate.WarpGateBuild> teles = teleporters[team.id][value];
+            Seq<WarpGate.WarpGateBuild> entries = teles.toSeq();
             if(entry >= entries.size) entry = 0;
             if(entry == entries.size - 1){
-                TeleporterBuild other = teles.get(entries.get(entry));
+                WarpGate.WarpGateBuild other = teles.get(entries.get(entry));
                 if(other == this) entry = 0;
             }
             for(int i = entry, len = entries.size; i < len; i++){
-                TeleporterBuild other = teles.get(entries.get(i));
+                WarpGate.WarpGateBuild other = teles.get(entries.get(i));
                 if(other != this){
                     entry = i + 1;
                     return other;

@@ -46,6 +46,8 @@ public class ClassicBlocks {
     ironOre, uraniumOre, //Ore - classic
     lavaLiq, //Liquid - classic
 
+    warpGate, //b41-b40 Warp Gate
+
     fuseOld, //Turret [pre-v5]
 
     dartPad, omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad [v5]
@@ -79,6 +81,11 @@ public class ClassicBlocks {
     }
 
     public void load() {
+        warpGate = new WarpGate("warp-gate"){
+            {
+                requirements(Category.distribution, with(ClassicItems.steel, 30, ClassicItems.dirium, 40));
+            }
+        };
         lavaLiq = new Floor("molten-lava"){{
             speedMultiplier = 0.15f;
             liquidDrop = ClassicLiquids.lava;

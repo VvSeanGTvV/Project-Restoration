@@ -74,6 +74,48 @@ public class ExtendedFx extends Fx {
 
                 }),
 
+                //b41-b40 effects
+                teleportActivate = new Effect(50, e -> {
+                    Draw.color(e.color);
+
+                    e.scaled(8f, e2 -> {
+                        Lines.stroke(e2.fout() * 4f);
+                        Lines.circle(e2.x, e2.y, 4f + e2.fin() * 27f);
+                    });
+
+                    Lines.stroke(e.fout() * 2f);
+
+                    Angles.randLenVectors(e.id, 30, 4f + 40f * e.fin(), (x, y) -> {
+                        Lines.lineAngle(e.x + x, e.y + y, Mathf.atan2(x, y), e.fin() * 4f + 1f);
+                    });
+
+                    Draw.reset();
+                }),
+
+                teleport = new Effect(60, e -> {
+                    Draw.color(e.color);
+                    Lines.stroke(e.fin() * 2f);
+                    Lines.circle(e.x, e.y, 7f + e.fout() * 8f);
+
+                    Angles.randLenVectors(e.id, 20, 6f + 20f * e.fout(), (x, y) -> {
+                        Lines.lineAngle(e.x + x, e.y + y, Mathf.atan2(x, y), e.fin() * 4f + 1f);
+                    });
+
+                    Draw.reset();
+                }),
+
+                teleportOut = new Effect(20, e -> {
+                    Draw.color(e.color);
+                    Lines.stroke(e.fout() * 2f);
+                    Lines.circle(e.x, e.y, 7f + e.fin() * 8f);
+
+                    Angles.randLenVectors(e.id, 20, 4f + 20f * e.fin(), (x, y) -> {
+                        Lines.lineAngle(e.x + x, e.y + y, Mathf.atan2(x, y), e.fslope() * 4f + 1f);
+                    });
+
+                    Draw.reset();
+                }),
+
 
                 //Mindustry Classic
                 titanshot = new Effect(12f, e -> {
