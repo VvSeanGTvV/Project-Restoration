@@ -114,7 +114,7 @@ public class WarpGate extends Block {
         }
 
         protected void warmUp() {
-            if(durationWarmup >= warmupTime) durationWarmup = 0;
+            if(durationWarmup >= warmupTime*60) durationWarmup = 0;
             else durationWarmup++;
         }
 
@@ -153,17 +153,15 @@ public class WarpGate extends Block {
                 }
                 if (items.any()) dump();
                 if(duration>0f) warmUp();
-                for(int i=0; i<ExtendedFx.teleport.lifetime; i++){
+                for(int i=0; i<ExtendedFx.teleport.lifetime*60; i++){
                     if(i>=ExtendedFx.teleport.lifetime/2 && toggle != -1) ExtendedFx.teleport.at(this.x, this.y, selection[toggle]);
                 }
             }else{
                 durationWarmup=0;
                 firstTime=true;
             }
-            if(durationWarmup>=warmupTime) {
-                consume();
-                durationWarmup=0;
-                if (isTeamChanged() && toggle != -1) {
+            if (isTeamChanged() && toggle != -1 && durationWarmup>=warmupTime*60) {
+                    consume();
                     ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
                     teleporters[team.id][toggle].add(this);
                     teleporters[previousTeam.id][toggle].remove(this);
@@ -171,7 +169,6 @@ public class WarpGate extends Block {
 
                     WarpGateBuild other = findLink(toggle);
                     if(other != null)ExtendedFx.teleportOut.at(other.x, other.y, selection[toggle]);
-                }
             }
         }
 
