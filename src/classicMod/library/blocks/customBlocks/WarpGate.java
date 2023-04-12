@@ -114,7 +114,7 @@ public class WarpGate extends Block {
         }
 
         protected void warmUp() {
-            if(durationWarmup >= warmupTime*60) durationWarmup = 0;
+            if(durationWarmup > warmupTime*60) durationWarmup = 0;
             else durationWarmup++;
         }
 
