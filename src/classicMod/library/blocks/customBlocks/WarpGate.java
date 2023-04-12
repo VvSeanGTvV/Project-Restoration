@@ -78,7 +78,6 @@ public class WarpGate extends Block {
     @Override
     public void init(){
         consumePowerCond(powerUse, WarpGate.WarpGateBuild::isConsuming);
-        consumeLiquid(inputLiquid, liquidUse);
         super.init();
     }
 
@@ -109,7 +108,7 @@ public class WarpGate extends Block {
         protected boolean firstTime;
 
         protected void onDuration(){
-            if(duration < 0f) duration = teleportMax;
+            if(duration < 0f) duration = teleportMax*60;
             else duration -= Time.delta;
         }
 
@@ -156,11 +155,8 @@ public class WarpGate extends Block {
                     if(toggle != -1)ExtendedFx.teleportActivate.at(this.x, this.y, selection[toggle]);
                     firstTime = false;
                 }
-                if (items.any()) dump();
                 if(duration>0f) warmUp();
-                for(int i=0; i<ExtendedFx.teleport.lifetime*60; i++){
-                    if(i>ExtendedFx.teleport.lifetime*60-1 && toggle != -1) ExtendedFx.teleport.at(this.x, this.y, selection[toggle]);
-                }
+                if(durationWarmup > warmupTime*60-1 && toggle != -1) ExtendedFx.teleport.at(this.x, this.y, selection[toggle]);
             }else{
                 durationWarmup=0;
                 firstTime=true;
@@ -170,12 +166,13 @@ public class WarpGate extends Block {
                 ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
                 WarpGate.WarpGateBuild other = findLink(toggle);
                 if(other != null) ExtendedFx.teleportOut.at(other.x, other.y, selection[toggle]);
-                if (isTeamChanged() && toggle != -1 && duration <= 0) {
+                if (isTeamChanged() && toggle != -1) {
                     teleporters[team.id][toggle].add(this);
                     teleporters[previousTeam.id][toggle].remove(this);
                     previousTeam = team;
                 }
             }
+            if (items.any()) dump();
         }
 
         @Override
