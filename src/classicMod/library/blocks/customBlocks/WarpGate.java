@@ -149,7 +149,7 @@ public class WarpGate extends Block {
         @Override
         public void updateTile(){
             if(efficiency>0){
-                consumeLiquid(inputLiquid, liquidUse);
+                //consumeLiquid(inputLiquid, liquidUse);
                 onDuration();
                 if(firstTime) {
                     if(toggle != -1)ExtendedFx.teleportActivate.at(this.x, this.y, selection[toggle]);
