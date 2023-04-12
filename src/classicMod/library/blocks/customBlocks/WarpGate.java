@@ -141,7 +141,6 @@ public class WarpGate extends Block {
             if(efficiency>0){
                 onDuration();
             }
-            ExtendedFx.teleport.at(this.x, this.y, 0, selection[toggle]);
             if(duration<0f) {
                 consume();
                 ExtendedFx.teleportActivate.at(this.x, this.y, 0, selection[toggle]);
@@ -151,6 +150,8 @@ public class WarpGate extends Block {
                     teleporters[previousTeam.id][toggle].remove(this);
                     previousTeam = team;
                 }
+            }else{
+                ExtendedFx.teleport.at(this.x, this.y, 0, selection[toggle]);
             }
         }
 
