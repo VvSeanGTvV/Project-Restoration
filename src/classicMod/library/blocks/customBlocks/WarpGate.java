@@ -28,7 +28,7 @@ public class WarpGate extends Block {
     public float warmupTime = 60f;
     /** time between Teleports **/
     public float teleportMax = 1000f;
-    public float powerUse = 20.8f;
+    public float powerUse = 0.3f;
     public float teleportLiquidUse = 0.3f;
     public float liquidUse = 0.1f;
 
@@ -115,7 +115,7 @@ public class WarpGate extends Block {
 
         protected void warmUp() {
             if(durationWarmup >= warmupTime) durationWarmup = 0;
-            else durationWarmup += Time.delta;
+            else durationWarmup++;
         }
 
         @Override
@@ -154,7 +154,7 @@ public class WarpGate extends Block {
                 if (items.any()) dump();
                 if(duration>0f) warmUp();
                 for(int i=0; i<ExtendedFx.teleport.lifetime; i++){
-                    if(i>=ExtendedFx.teleport.lifetime && toggle != -1) ExtendedFx.teleport.at(this.x, this.y, selection[toggle]);
+                    if(i>=ExtendedFx.teleport.lifetime/2 && toggle != -1) ExtendedFx.teleport.at(this.x, this.y, selection[toggle]);
                 }
             }else{
                 durationWarmup=0;
@@ -162,6 +162,7 @@ public class WarpGate extends Block {
             }
             if(durationWarmup>=warmupTime) {
                 consume();
+                durationWarmup=0;
                 if (isTeamChanged() && toggle != -1) {
                     ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
                     teleporters[team.id][toggle].add(this);
