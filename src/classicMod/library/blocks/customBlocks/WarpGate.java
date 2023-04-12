@@ -143,7 +143,7 @@ public class WarpGate extends Block {
             }
             if(duration<0f) {
                 consume();
-                ExtendedFx.teleportActivate.at(this.x, this.y, 0, selection[toggle]);
+                ExtendedFx.teleportActivate.at(this);
                 if (items.any()) dump();
                 if (isTeamChanged() && toggle != -1) {
                     teleporters[team.id][toggle].add(this);
@@ -151,7 +151,7 @@ public class WarpGate extends Block {
                     previousTeam = team;
                 }
             }else{
-                ExtendedFx.teleport.at(this.x, this.y, 0, selection[toggle]);
+                ExtendedFx.teleport.at(this);
             }
         }
 
