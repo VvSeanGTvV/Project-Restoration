@@ -107,7 +107,7 @@ public class WarpGate extends Block {
         protected Team previousTeam;
 
         protected void onDuration(){
-            if(duration < 0f) duration = teleportMax;
+            if(duration < 0f) duration = warmupTime;
             else duration -= Time.delta;
         }
 
@@ -151,7 +151,7 @@ public class WarpGate extends Block {
                     previousTeam = team;
                 }
             }else{
-                ExtendedFx.teleport.at(this);
+                //ExtendedFx.teleport.at(this);
             }
         }
 
