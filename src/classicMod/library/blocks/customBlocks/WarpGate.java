@@ -160,15 +160,12 @@ public class WarpGate extends Block {
                 durationWarmup=0;
                 firstTime=true;
             }
-            if (isTeamChanged() && toggle != -1 && duration<=0f) {
+            if (isTeamChanged() && toggle != -1 && duration<=0) {
                     consume();
                     ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
                     teleporters[team.id][toggle].add(this);
                     teleporters[previousTeam.id][toggle].remove(this);
                     previousTeam = team;
-
-                    WarpGateBuild other = findLink(toggle);
-                    if(other != null)ExtendedFx.teleportOut.at(other.x, other.y, selection[toggle]);
             }
         }
 
