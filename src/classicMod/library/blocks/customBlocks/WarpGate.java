@@ -131,6 +131,10 @@ public class WarpGate extends Block {
             return previousTeam != team;
         }
 
+        public void consumeLiquid(Liquid liquid, float amount){
+            this.liquids.remove(liquid, amount);
+        }
+
         @Override
         public void draw(){
             super.draw();
@@ -146,6 +150,7 @@ public class WarpGate extends Block {
         @Override
         public void updateTile(){
             if(efficiency>0){
+                consumeLiquid(inputLiquid, liquidUse);
                 onDuration();
                 if(firstTime) {
                     if(toggle != -1)ExtendedFx.teleportActivate.at(this.x, this.y, selection[toggle]);
@@ -160,12 +165,14 @@ public class WarpGate extends Block {
                 durationWarmup=0;
                 firstTime=true;
             }
-            if (isTeamChanged() && toggle != -1 && duration<=0) {
-                    consume();
-                    ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
+            if(duration<=1f) {
+                consumeLiquid(inputLiquid, teleportLiquidUse);
+                ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
+                if (isTeamChanged() && toggle != -1 && duration <= 0) {
                     teleporters[team.id][toggle].add(this);
                     teleporters[previousTeam.id][toggle].remove(this);
                     previousTeam = team;
+                }
             }
         }
 
