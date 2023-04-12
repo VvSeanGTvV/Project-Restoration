@@ -154,7 +154,7 @@ public class WarpGate extends Block {
                 if (items.any()) dump();
                 if(duration>0f) warmUp();
                 for(int i=0; i<ExtendedFx.teleport.lifetime*60; i++){
-                    if(i>=ExtendedFx.teleport.lifetime*60/2 && toggle != -1) ExtendedFx.teleport.at(this.x, this.y, selection[toggle]);
+                    if(i>ExtendedFx.teleport.lifetime*60-1 && toggle != -1) ExtendedFx.teleport.at(this.x, this.y, selection[toggle]);
                 }
             }else{
                 durationWarmup=0;
