@@ -168,6 +168,8 @@ public class WarpGate extends Block {
             if(duration<=1f) {
                 consumeLiquid(inputLiquid, teleportLiquidUse);
                 ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
+                WarpGate.WarpGateBuild other = findLink(toggle);
+                if(other != null) ExtendedFx.teleportOut.at(other.x, other.y, selection[toggle]);
                 if (isTeamChanged() && toggle != -1 && duration <= 0) {
                     teleporters[team.id][toggle].add(this);
                     teleporters[previousTeam.id][toggle].remove(this);
