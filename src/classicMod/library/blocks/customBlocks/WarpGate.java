@@ -103,12 +103,19 @@ public class WarpGate extends Block {
     public class WarpGateBuild extends Building {
         protected int toggle = -1, entry;
         protected float duration;
+        protected float durationWarmup;
         protected WarpGate.WarpGateBuild target;
         protected Team previousTeam;
+        protected boolean firstTime;
 
         protected void onDuration(){
             if(duration < 0f) duration = teleportMax;
             else duration -= Time.delta;
+        }
+
+        protected void warmUp() {
+            if(durationWarmup >= warmupTime) durationWarmup = 0;
+            else durationWarmup += Time.delta;
         }
 
         @Override
@@ -117,7 +124,7 @@ public class WarpGate extends Block {
         }
 
         protected boolean isConsuming(){
-            return duration > 0f;
+            return warmupTime > 0f;
         }
 
         protected boolean isTeamChanged(){
@@ -140,18 +147,30 @@ public class WarpGate extends Block {
         public void updateTile(){
             if(efficiency>0){
                 onDuration();
-            }
-            if(duration<0f) {
-                consume();
-                ExtendedFx.teleportActivate.at(this);
+                if(firstTime) {
+                    ExtendedFx.teleportActivate.at(this.x, this.y, selection[toggle]);
+                    firstTime = false;
+                }
                 if (items.any()) dump();
+                if(duration>0f) warmUp();
+                for(int i=0; i<ExtendedFx.teleport.lifetime; i++){
+                    if(i>=ExtendedFx.teleport.lifetime && toggle != -1) ExtendedFx.teleport.at(this.x, this.y, selection[toggle]);
+                }
+            }else{
+                durationWarmup=0;
+                firstTime=true;
+            }
+            if(durationWarmup>=warmupTime) {
+                consume();
                 if (isTeamChanged() && toggle != -1) {
+                    ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
                     teleporters[team.id][toggle].add(this);
                     teleporters[previousTeam.id][toggle].remove(this);
                     previousTeam = team;
+
+                    WarpGateBuild other = findLink(toggle);
+                    ExtendedFx.teleportOut.at(other.x, other.y, selection[toggle]);
                 }
-            }else{
-                ExtendedFx.teleport.at(this);
             }
         }
 
