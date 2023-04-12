@@ -169,7 +169,7 @@ public class WarpGate extends Block {
                     previousTeam = team;
 
                     WarpGateBuild other = findLink(toggle);
-                    ExtendedFx.teleportOut.at(other.x, other.y, selection[toggle]);
+                    if(other != null)ExtendedFx.teleportOut.at(other.x, other.y, selection[toggle]);
                 }
             }
         }
