@@ -162,7 +162,7 @@ public class WarpGate extends Block {
                 firstTime=true;
             }
             if(duration<=1f) {
-                consumeLiquid(inputLiquid, teleportLiquidUse);
+                //consumeLiquid(inputLiquid, teleportLiquidUse);
                 ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
                 WarpGate.WarpGateBuild other = findLink(toggle);
                 if(other != null) ExtendedFx.teleportOut.at(other.x, other.y, selection[toggle]);
