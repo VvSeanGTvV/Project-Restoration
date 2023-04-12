@@ -84,6 +84,7 @@ public class ClassicBlocks {
         warpGate = new WarpGate("warp-gate"){
             {
                 requirements(Category.distribution, with(ClassicItems.steel, 30, ClassicItems.dirium, 40));
+            size = 3;
             }
         };
         lavaLiq = new Floor("molten-lava"){{
