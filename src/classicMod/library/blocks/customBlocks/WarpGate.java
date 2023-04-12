@@ -148,7 +148,7 @@ public class WarpGate extends Block {
             if(efficiency>0){
                 onDuration();
                 if(firstTime) {
-                    ExtendedFx.teleportActivate.at(this.x, this.y, selection[toggle]);
+                    if(toggle != -1)ExtendedFx.teleportActivate.at(this.x, this.y, selection[toggle]);
                     firstTime = false;
                 }
                 if (items.any()) dump();
@@ -160,7 +160,7 @@ public class WarpGate extends Block {
                 durationWarmup=0;
                 firstTime=true;
             }
-            if (isTeamChanged() && toggle != -1 && durationWarmup>=warmupTime*60) {
+            if (isTeamChanged() && toggle != -1 && duration<=0f) {
                     consume();
                     ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
                     teleporters[team.id][toggle].add(this);
