@@ -148,20 +148,20 @@ public class WarpGate extends Block {
         }
 
         @Override
-        public void updateTile(){
-            if(efficiency>0){
+        public void updateTile() {
+            if (efficiency > 0) {
                 onDuration();
-                if(firstTime) {
-                    if(toggle != -1)ExtendedFx.teleportActivate.at(this.x, this.y, selection[toggle]);
+                if (firstTime) {
+                    if (toggle != -1) ExtendedFx.teleportActivate.at(this.x, this.y, selection[toggle]);
                     firstTime = false;
                 }
-                if(duration<=1f) {
+                if (duration <= 1f) {
                     powerMulti = Math.min(this.block.consPower.capacity, powerUse * Time.delta);
                     //consumeLiquid(inputLiquid, teleportLiquidUse);
-                    if( toggle != -1 ) {
+                    if (toggle != -1) {
                         ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
                         WarpGate.WarpGateBuild other = findLink(toggle, WarpGateState.receiver);
-                        if (other != null && currentState == WarpGateState.transporter){
+                        if (other != null && currentState == WarpGateState.transporter) {
                             handleTransport(other);
                             ExtendedFx.teleportOut.at(other.x, other.y, selection[toggle]);
                         }
@@ -177,21 +177,23 @@ public class WarpGate extends Block {
                     }
                     duration = teleportMax;
                 }
-            }else{
-                firstTime=true;
+            } else {
+                firstTime = true;
             }
-            if(currentState==WarpGateState.idle){
-                if(this.items.total()>0){
-                    currentState = WarpGateState.transporter;
-                } else {
-                    currentState = WarpGateState.receiver;
+            if (toggle != -1) {
+                if (currentState == WarpGateState.idle) {
+                    if (this.items.total() > 0) {
+                        currentState = WarpGateState.transporter;
+                    } else {
+                        currentState = WarpGateState.receiver;
+                    }
                 }
-            }
-            if(currentState == WarpGateState.transporter){
-                if(findLink(toggle, WarpGateState.receiver)==null) currentState = WarpGateState.idle;
-            }
-            if(currentState == WarpGateState.receiver && items.total()<=0){
-                if(findLink(toggle, WarpGateState.transporter)==null) currentState = WarpGateState.idle;
+                if (currentState == WarpGateState.transporter) {
+                    if (findLink(toggle, WarpGateState.receiver) == null) currentState = WarpGateState.idle;
+                }
+                if (currentState == WarpGateState.receiver && items.total() <= 0) {
+                    if (findLink(toggle, WarpGateState.transporter) == null) currentState = WarpGateState.idle;
+                }
             }
             if(currentState==WarpGateState.receiver && items.any()) dump();
         }
