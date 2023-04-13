@@ -180,14 +180,14 @@ public class WarpGate extends Block {
             } else {
                 firstTime = true;
             }
-            if (toggle != -1) {
-                if (currentState == WarpGateState.idle) {
-                    if (this.items.total() > 0) {
-                        currentState = WarpGateState.transporter;
-                    } else {
-                        currentState = WarpGateState.receiver;
-                    }
+            if (currentState == WarpGateState.idle) {
+                if (this.items.total() > 0) {
+                    currentState = WarpGateState.transporter;
+                } else {
+                    currentState = WarpGateState.receiver;
                 }
+            }
+            if (toggle != -1) {
                 if (currentState == WarpGateState.transporter) {
                     if (findLink(toggle, WarpGateState.receiver) == null) currentState = WarpGateState.idle;
                 }
@@ -227,12 +227,23 @@ public class WarpGate extends Block {
             }
             for(int i = entry, len = entries.size; i < len; i++){
                 WarpGate.WarpGateBuild other = teles.get(entries.get(i));
-                if(other != this && other.currentState == state){
-                    entry = i + 1;
-                    return other;
+                if(state != null) {
+                    if (other != this && other.currentState == state) {
+                        entry = i + 1;
+                        return other;
+                    }
+                }else{
+                    if (other != this) {
+                        entry = i + 1;
+                        return other;
+                    }
                 }
             }
             return null;
+        }
+
+        public WarpGate.WarpGateBuild findLink(int value){
+            return findLink(value, null);
         }
 
         public void handleTransport(WarpGate.WarpGateBuild other) {
@@ -256,7 +267,7 @@ public class WarpGate extends Block {
         @Override
         public boolean acceptItem(Building source, Item item){
             if(toggle == -1) return false;
-            target = findLink(toggle, WarpGateState.receiver);
+            target = findLink(toggle);
             if(target == null) return false;
             return source != this && canConsume() && Mathf.zero(1 - efficiency()) && target.items.total() < target.getMaximumAccepted(item) && this.items.total() < this.getMaximumAccepted(item);
         }
