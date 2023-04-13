@@ -159,7 +159,7 @@ public class WarpGate extends Block {
                 }
                 if (!teleporting && this.items.total() >= itemCapacity && duration <= 1f) {
                     powerMulti = Math.min(this.block.consPower.capacity, powerUse * Time.delta);
-                    consumeLiquid(inputLiquid, teleportLiquidUse);
+                    //consumeLiquid(inputLiquid, teleportLiquidUse);
                     if (toggle != -1) {
                         Time.run(warmupTime, () -> {
                             ExtendedFx.teleport.at(this.x, this.y, selection[toggle]);
