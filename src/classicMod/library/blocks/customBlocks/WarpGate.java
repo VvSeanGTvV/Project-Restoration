@@ -204,7 +204,7 @@ public class WarpGate extends Block {
                     if (findLink(toggle) == null && findLink(toggle).currentState == WarpGateState.transporter) currentState = WarpGateState.idle;
                 }
             }*/
-            if(currentState==WarpGateState.receiver && items.any()) dump();
+            if(items.any()) dump();
         }
 
         public void catastrophicFailure(){
