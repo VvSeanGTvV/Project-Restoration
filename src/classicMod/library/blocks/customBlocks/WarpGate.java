@@ -33,7 +33,9 @@ public class WarpGate extends Block {
     public float teleportLiquidUse = 0.3f;
     public float liquidUse = 0.1f;
 
-    public Liquid inputLiquid = Liquids.cryofluid;
+    protected float powerMulti;
+
+    public Liquid inputLiquid;
     //protected Effect activateEffect = BlockFx.teleportActivate;
     //protected Effect teleportEffect = BlockFx.teleport;
     //protected Effect teleportOutEffect = BlockFx.teleportOut;
@@ -78,7 +80,7 @@ public class WarpGate extends Block {
 
     @Override
     public void init(){
-        consumePowerCond(powerUse, WarpGate.WarpGateBuild::isConsuming);
+        consumePowerCond(powerUse + powerMulti, WarpGate.WarpGateBuild::isConsuming);
         super.init();
     }
 
@@ -86,6 +88,7 @@ public class WarpGate extends Block {
     public void load(){
         super.load();
         blankRegion = atlas.find(name + "-mid");
+        if(inputLiquid == null)inputLiquid = Liquids.cryofluid;
     }
 
     @Override
@@ -147,13 +150,13 @@ public class WarpGate extends Block {
         @Override
         public void updateTile(){
             if(efficiency>0){
-                //consumeLiquid(inputLiquid, liquidUse);
                 onDuration();
                 if(firstTime) {
                     if(toggle != -1)ExtendedFx.teleportActivate.at(this.x, this.y, selection[toggle]);
                     firstTime = false;
                 }
                 if(duration<=1f) {
+                    powerMulti = Math.min(this.block.consPower.capacity, powerUse * Time.delta);
                     //consumeLiquid(inputLiquid, teleportLiquidUse);
                     if( toggle != -1 ) {
                         ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
@@ -191,6 +194,11 @@ public class WarpGate extends Block {
                 if(findLink(toggle, WarpGateState.transporter)==null) currentState = WarpGateState.idle;
             }
             if(currentState==WarpGateState.receiver && items.any()) dump();
+        }
+
+        public void catastrophicFailure(){
+            this.damage(this.health + 1);
+            //TODO fail gloriously lol
         }
 
         @Override
