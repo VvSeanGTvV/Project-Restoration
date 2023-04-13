@@ -113,8 +113,8 @@ public class WarpGate extends Block {
         }
 
         protected void warmUp() {
-            if(durationWarmup > warmupTime*60) durationWarmup = 0;
-            else durationWarmup++;
+            if(durationWarmup < 0f) durationWarmup = warmupTime*60;
+            else durationWarmup -= Time.delta;
         }
 
         @Override
@@ -156,7 +156,7 @@ public class WarpGate extends Block {
                     firstTime = false;
                 }
                 if(duration>0f) warmUp();
-                if(durationWarmup > warmupTime*60-1 && toggle != -1) ExtendedFx.teleport.at(this.x, this.y, selection[toggle]);
+                if(durationWarmup<=1f && toggle != -1) ExtendedFx.teleport.at(this.x, this.y, selection[toggle]);
                 if(duration<=1f) {
                     //consumeLiquid(inputLiquid, teleportLiquidUse);
                     if(toggle != -1) ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
@@ -169,7 +169,7 @@ public class WarpGate extends Block {
                     }
                 }
             }else{
-                durationWarmup=0;
+                durationWarmup=teleportMax*60;
                 firstTime=true;
             }
             if (items.any()) dump();
@@ -218,7 +218,7 @@ public class WarpGate extends Block {
         @Override
         public void handleItem(Building source, Item item){
             target.items.add(item, 1);
-            duration = 0f;
+            duration = teleportMax*60;
         }
 
         @Override
