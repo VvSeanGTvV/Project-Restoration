@@ -210,21 +210,21 @@ public class WarpGate extends Block {
             return null;
         }
 
-        public void handleTransport(WarpGate.WarpGateBuild other){
-            if(other==null) other = findLink(toggle);
-            int totalItems = items.total();
-            for (int i=0; i<content.items().size; i++){
+        public void handleTransport(WarpGate.WarpGateBuild other) {
+            if (other == null) other = findLink(toggle);
+            for (int i = 0; i < content.items().size; i++) {
                 int totalIncap;
                 totalIncap = this.items.get(content.items().get(i));
-                if(totalIncap>0){
+                if (totalIncap > 0) {
                     itemStack = new ItemStack(content.items().get(i), totalIncap);
                     itemStacks = new ItemStack[]{itemStack};
                 }
             }
-
-            for (ItemStack itemTransport : itemStacks){
-                if(other!=null) other.items.add(itemTransport.item, itemTransport.amount);
-                this.items.remove(itemTransport.item, itemTransport.amount);
+            if (itemStacks != null) {
+                for (ItemStack itemTransport : itemStacks) {
+                    if (other != null) other.items.add(itemTransport.item, itemTransport.amount);
+                    this.items.remove(itemTransport.item, itemTransport.amount);
+                }
             }
         }
 
