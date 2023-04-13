@@ -21,12 +21,10 @@ public class SingleDrill extends Drill {
     /** Can only get that specific item **/
     public Item requiredItem = Items.copper;
     public float drillDuration;
-    /** Drill's rim texture in string **/
-    public String rimString = "restored-mind-default-rim";
-    protected TextureRegion topRegion = Core.atlas.find(rimString);
-    protected TextureRegion itemRegion = Core.atlas.find("restored-mind-drill-middle");
-    protected TextureRegion region = Core.atlas.find("restored-mind-drill-bottom");
-    protected TextureRegion rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
+    public TextureRegion topRegion = Core.atlas.find("restored-mind-default-rim");
+    public TextureRegion itemRegion = Core.atlas.find("restored-mind-drill-middle");
+    public TextureRegion region = Core.atlas.find("restored-mind-drill-bottom");
+    public TextureRegion rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
     public SingleDrill(String name) {
         super(name);
         tier = requiredItem.hardness;
@@ -71,8 +69,17 @@ public class SingleDrill extends Drill {
     }
 
     @Override
+    public void load() {
+        super.load();
+        if(topRegion == null)topRegion = Core.atlas.find("restored-mind-default-rim");
+        itemRegion = Core.atlas.find("restored-mind-drill-middle");
+        region = Core.atlas.find("restored-mind-drill-bottom");
+        rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
+    }
+
+    @Override
     public TextureRegion[] icons() {
-        return new TextureRegion[]{Core.atlas.find("restored-mind-drill-bottom"), Core.atlas.find("restored-mind-drill-rotator"), Core.atlas.find(rimString)};
+        return new TextureRegion[]{region, rotatorRegion, topRegion};
     }
 
     @Override
@@ -80,7 +87,7 @@ public class SingleDrill extends Drill {
         if(tile == null || tile.block().isStatic()) return false;
         boolean Mineable = false;
         Item drops = tile.drop();
-        Mineable = Objects.equals(drops.name, requiredItem.name);
+        if(drops != null )Mineable = Objects.equals(drops.name, requiredItem.name);
         return drops != null && Mineable && drops != blockedItem;
     }
 
@@ -133,10 +140,10 @@ public class SingleDrill extends Drill {
 
         @Override
         public void draw() {
-            topRegion = Core.atlas.find(rimString);
-            itemRegion = Core.atlas.find("restored-mind-drill-middle");
-            region = Core.atlas.find("restored-mind-drill-bottom");
-            rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
+            //topRegion = Core.atlas.find(rimString);
+            //itemRegion = Core.atlas.find("restored-mind-drill-middle");
+            //region = Core.atlas.find("restored-mind-drill-bottom");
+            //rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
 
             Draw.rect(region, x, y);
             Draw.z(Layer.blockCracks);

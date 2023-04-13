@@ -11,6 +11,7 @@ import arc.util.*;
 import arc.util.io.*;
 import classicMod.content.*;
 import mindustry.content.*;
+import mindustry.entities.*;
 import mindustry.entities.units.*;
 import mindustry.game.EventType.*;
 import mindustry.game.*;
@@ -18,9 +19,10 @@ import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
+import mindustry.world.meta.*;
 
 import static arc.Core.*;
-import static mindustry.Vars.content;
+import static mindustry.Vars.*;
 
 public class WarpGate extends Block {
 
@@ -36,9 +38,9 @@ public class WarpGate extends Block {
     protected float powerMulti;
 
     public Liquid inputLiquid;
-    //protected Effect activateEffect = BlockFx.teleportActivate;
-    //protected Effect teleportEffect = BlockFx.teleport;
-    //protected Effect teleportOutEffect = BlockFx.teleportOut;
+    protected Effect activateEffect = ExtendedFx.teleportActivate;
+    protected Effect teleportEffect = ExtendedFx.teleport;
+    protected Effect teleportOutEffect = ExtendedFx.teleportOut;
     protected TextureRegion blankRegion;
 
     static{
@@ -83,6 +85,12 @@ public class WarpGate extends Block {
     public void init(){
         consumePowerCond(powerUse + powerMulti, WarpGate.WarpGateBuild::isConsuming);
         super.init();
+    }
+
+    @Override
+    public void setStats() {
+        super.setStats();
+        stats.add(Stat.cooldownTime, teleportMax/60f);
     }
 
     @Override
@@ -151,10 +159,10 @@ public class WarpGate extends Block {
 
         @Override
         public void updateTile() {
-            if (efficiency > 0) {
+            if (efficiency > 0 && toggle != -1) {
                 onDuration();
                 if (firstTime) {
-                    if (toggle != -1) ExtendedFx.teleportActivate.at(this.x, this.y, selection[toggle]);
+                    if (toggle != -1) activateEffect.at(this.x, this.y, selection[toggle]);
                     firstTime = false;
                 }
                 if (!teleporting && this.items.total() >= itemCapacity && duration <= 1f) {
@@ -162,16 +170,16 @@ public class WarpGate extends Block {
                     //consumeLiquid(inputLiquid, teleportLiquidUse);
                     if (toggle != -1) {
                         if(!teleporting){
-                            ExtendedFx.teleport.at(this.x, this.y, selection[toggle]);
+                            teleportEffect.at(this.x, this.y, selection[toggle]);
                             teleporting = true;
                         }
                         Time.run(warmupTime, () -> {
                             WarpGate.WarpGateBuild other = findLink(toggle);
                             if(this.items.total() <= 0) Time.clear(); //remove timer when theres nothing in it
                             if (other != null) {
-                                ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
+                                teleportOutEffect.at(this.x, this.y, selection[toggle]);
                                 handleTransport(other);
-                                ExtendedFx.teleportOut.at(other.x, other.y, selection[toggle]);
+                                teleportOutEffect.at(other.x, other.y, selection[toggle]);
                             }
                         });
                     }
