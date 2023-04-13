@@ -241,29 +241,29 @@ public class WarpGate extends Block {
 
         public void handleTransport(WarpGate.WarpGateBuild other) {
             teleporting = true;
+            int[] data = new int[content.items().size];
             int totalUsed = 0;
             if (other == null) other = findLink(toggle);
             for (int i = 1; i < content.items().size; i++) {
                 int maxTransfer = Math.min(items.get(content.item(i)), tile.block().itemCapacity - totalUsed);
+                data[i] = maxTransfer;
                 totalUsed += maxTransfer;
                 itemStack = new ItemStack(content.item(i), maxTransfer);
                 itemStacks = new ItemStack[]{itemStack};
             }
 
-            if (itemStacks != null) {
-                int totalItems = items.total();
-                for(int i = 0; i < itemStacks.length; i++){
-                    int maxAdd = Math.min(itemStacks[i].amount, itemCapacity * 2 - totalItems);
-                    other.items.add(content.item(i), maxAdd);
-                    itemStacks[i].amount -= maxAdd;
-                    totalItems += maxAdd;
+            int totalItems = items.total();
+            for(int i = 0; i < data.length; i++) {
+                int maxAdd = Math.min(data[i], itemCapacity * 2 - totalItems);
+                other.items.add(content.item(i), maxAdd);
+                data[i] -= maxAdd;
+                totalItems += maxAdd;
 
-                    if(totalItems >= itemCapacity * 2){
-                        break;
-                    }
+                if (totalItems >= itemCapacity * 2) {
+                    break;
                 }
-                itemStacks = null; //set to null after finishing transport
             }
+            itemStacks = null; //set to null after finishing transport
             teleporting = false;
         }
 
