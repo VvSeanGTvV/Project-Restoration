@@ -248,8 +248,7 @@ public class WarpGate extends Block {
                 int maxTransfer = Math.min(items.get(content.item(i)), tile.block().itemCapacity - totalUsed);
                 data[i] = maxTransfer;
                 totalUsed += maxTransfer;
-                itemStack = new ItemStack(content.item(i), maxTransfer);
-                itemStacks = new ItemStack[]{itemStack};
+                items.remove(content.item(i), maxTransfer);
             }
 
             int totalItems = items.total();
