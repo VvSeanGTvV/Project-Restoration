@@ -20,6 +20,7 @@ import mindustry.ui.*;
 import mindustry.world.*;
 
 import static arc.Core.*;
+import static mindustry.Vars.content;
 
 public class WarpGate extends Block {
 
@@ -103,6 +104,8 @@ public class WarpGate extends Block {
         protected int toggle = -1, entry;
         protected float duration;
         protected float durationWarmup;
+        protected ItemStack itemStack;
+        protected @Nullable ItemStack[] itemStacks;
         protected WarpGate.WarpGateBuild target;
         protected Team previousTeam;
         protected boolean firstTime;
@@ -152,6 +155,12 @@ public class WarpGate extends Block {
                 }
                 if(duration<=1f) {
                     //consumeLiquid(inputLiquid, teleportLiquidUse);
+                    ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
+                    WarpGate.WarpGateBuild other = findLink(toggle);
+                    if (other != null && toggle != -1){
+                        handleTransport(other);
+                        ExtendedFx.teleportOut.at(other.x, other.y, selection[toggle]);
+                    }
                     if (isTeamChanged() && toggle != -1) {
                         teleporters[team.id][toggle].add(this);
                         ExtendedFx.teleport.at(this.x, this.y, selection[toggle]);
@@ -161,6 +170,7 @@ public class WarpGate extends Block {
                             previousTeam = team;
                         });
                     }
+                    duration = teleportMax;
                 }
             }else{
                 firstTime=true;
@@ -182,7 +192,7 @@ public class WarpGate extends Block {
             }
         }
 
-        protected WarpGate.WarpGateBuild findLink(int value){
+        public WarpGate.WarpGateBuild findLink(int value){
             ObjectSet<WarpGate.WarpGateBuild> teles = teleporters[team.id][value];
             Seq<WarpGate.WarpGateBuild> entries = teles.toSeq();
             if(entry >= entries.size) entry = 0;
@@ -200,6 +210,24 @@ public class WarpGate extends Block {
             return null;
         }
 
+        public void handleTransport(WarpGate.WarpGateBuild other){
+            if(other==null) other = findLink(toggle);
+            int totalItems = items.total();
+            for (int i=0; i<content.items().size; i++){
+                int totalIncap;
+                totalIncap = this.items.get(content.items().get(i));
+                if(totalIncap>0){
+                    itemStack = new ItemStack(content.items().get(i), totalIncap);
+                    itemStacks = new ItemStack[]{itemStack};
+                }
+            }
+
+            for (ItemStack itemTransport : itemStacks){
+                if(other!=null) other.items.add(itemTransport.item, itemTransport.amount);
+                this.items.remove(itemTransport.item, itemTransport.amount);
+            }
+        }
+
         @Override
         public boolean acceptItem(Building source, Item item){
             if(toggle == -1) return false;
@@ -208,18 +236,16 @@ public class WarpGate extends Block {
             return source != this && canConsume() && Mathf.zero(1 - efficiency()) && target.items.total() < target.getMaximumAccepted(item);
         }
 
-        @Override
+        /*@Override
         public void handleItem(Building source, Item item){
             if(duration<=1f) {
                 target.items.add(item, this.items.total());
                 duration = teleportMax;
                 if(toggle != -1) {
-                    ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
-                    WarpGate.WarpGateBuild other = findLink(toggle);
-                    if (other != null && toggle != -1) ExtendedFx.teleportOut.at(other.x, other.y, selection[toggle]);
+
                 }
             }
-        }
+        }*/
 
         @Override
         public void created(){
