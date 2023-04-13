@@ -155,11 +155,13 @@ public class WarpGate extends Block {
                 }
                 if(duration<=1f) {
                     //consumeLiquid(inputLiquid, teleportLiquidUse);
-                    if( toggle != -1 ) ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
-                    WarpGate.WarpGateBuild other = findLink(toggle);
-                    if (other != null && toggle != -1 && currentState == WarpGateState.transporter){
-                        handleTransport(other);
-                        ExtendedFx.teleportOut.at(other.x, other.y, selection[toggle]);
+                    if( toggle != -1 ) {
+                        ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
+                        WarpGate.WarpGateBuild other = findLink(toggle, WarpGateState.receiver);
+                        if (other != null && currentState == WarpGateState.transporter){
+                            handleTransport(other);
+                            ExtendedFx.teleportOut.at(other.x, other.y, selection[toggle]);
+                        }
                     }
                     if (isTeamChanged() && toggle != -1) {
                         teleporters[team.id][toggle].add(this);
@@ -182,6 +184,12 @@ public class WarpGate extends Block {
                     currentState = WarpGateState.receiver;
                 }
             }
+            if(currentState == WarpGateState.transporter){
+                if(findLink(toggle, WarpGateState.receiver)==null) currentState = WarpGateState.idle;
+            }
+            if(currentState == WarpGateState.receiver && items.total()<=0){
+                if(findLink(toggle, WarpGateState.transporter)==null) currentState = WarpGateState.idle;
+            }
             if(currentState==WarpGateState.receiver && items.any()) dump();
         }
 
@@ -199,7 +207,7 @@ public class WarpGate extends Block {
             }
         }
 
-        public WarpGate.WarpGateBuild findLink(int value){
+        public WarpGate.WarpGateBuild findLink(int value, WarpGateState state){
             ObjectSet<WarpGate.WarpGateBuild> teles = teleporters[team.id][value];
             Seq<WarpGate.WarpGateBuild> entries = teles.toSeq();
             if(entry >= entries.size) entry = 0;
@@ -209,7 +217,7 @@ public class WarpGate extends Block {
             }
             for(int i = entry, len = entries.size; i < len; i++){
                 WarpGate.WarpGateBuild other = teles.get(entries.get(i));
-                if(other != this){
+                if(other != this && other.currentState == state){
                     entry = i + 1;
                     return other;
                 }
@@ -218,7 +226,7 @@ public class WarpGate extends Block {
         }
 
         public void handleTransport(WarpGate.WarpGateBuild other) {
-            if (other == null) other = findLink(toggle);
+            if (other == null) other = findLink(toggle, WarpGateState.receiver);
             for (int i = 0; i < content.items().size; i++) {
                 int totalIncap;
                 totalIncap = this.items.get(content.items().get(i));
@@ -238,7 +246,7 @@ public class WarpGate extends Block {
         @Override
         public boolean acceptItem(Building source, Item item){
             if(toggle == -1) return false;
-            target = findLink(toggle);
+            target = findLink(toggle, WarpGateState.receiver);
             if(target == null) return false;
             return source != this && canConsume() && Mathf.zero(1 - efficiency()) && target.items.total() < target.getMaximumAccepted(item) && this.items.total() < this.getMaximumAccepted(item);
         }
