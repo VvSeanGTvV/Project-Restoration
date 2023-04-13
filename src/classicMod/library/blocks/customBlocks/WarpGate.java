@@ -155,9 +155,9 @@ public class WarpGate extends Block {
                 }
                 if(duration<=1f) {
                     //consumeLiquid(inputLiquid, teleportLiquidUse);
-                    ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
+                    if( toggle != -1 ) ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
                     WarpGate.WarpGateBuild other = findLink(toggle);
-                    if (other != null && toggle != -1){
+                    if (other != null && toggle != -1 && currentState == WarpGateState.transporter){
                         handleTransport(other);
                         ExtendedFx.teleportOut.at(other.x, other.y, selection[toggle]);
                     }
