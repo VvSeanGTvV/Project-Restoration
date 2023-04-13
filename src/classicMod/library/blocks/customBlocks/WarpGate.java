@@ -242,7 +242,7 @@ public class WarpGate extends Block {
         public void handleTransport(WarpGate.WarpGateBuild other) {
             teleporting = true;
             if (other == null) other = findLink(toggle);
-            for (int i = 0; i < content.items().size; i++) {
+            for (int i = 1; i < content.items().size; i++) {
                 int[] totalIncap;
                 totalIncap = new int[]{this.items.get(content.items().get(i))};
                 if (totalIncap[i] > 0 && other.items.get(content.items().get(i)) < other.block.itemCapacity) {
