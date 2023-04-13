@@ -160,7 +160,7 @@ public class WarpGate extends Block {
                     //consumeLiquid(inputLiquid, teleportLiquidUse);
                     if (toggle != -1) {
                         ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
-                        WarpGate.WarpGateBuild other = findLink(toggle, WarpGateState.receiver);
+                        WarpGate.WarpGateBuild other = findLink(toggle);
                         if (other != null && currentState == WarpGateState.transporter) {
                             handleTransport(other);
                             ExtendedFx.teleportOut.at(other.x, other.y, selection[toggle]);
@@ -247,19 +247,21 @@ public class WarpGate extends Block {
         }
 
         public void handleTransport(WarpGate.WarpGateBuild other) {
-            if (other == null) other = findLink(toggle, WarpGateState.receiver);
-            for (int i = 0; i < content.items().size; i++) {
-                int totalIncap;
-                totalIncap = this.items.get(content.items().get(i));
-                if (totalIncap > 0) {
-                    itemStack = new ItemStack(content.items().get(i), totalIncap);
-                    itemStacks = new ItemStack[]{itemStack};
+            if (other == null) other = findLink(toggle);
+            if(this.currentState == WarpGateState.transporter) {
+                for (int i = 0; i < content.items().size; i++) {
+                    int totalIncap;
+                    totalIncap = this.items.get(content.items().get(i));
+                    if (totalIncap > 0) {
+                        itemStack = new ItemStack(content.items().get(i), totalIncap);
+                        itemStacks = new ItemStack[]{itemStack};
+                    }
                 }
-            }
-            if (itemStacks != null) {
-                for (ItemStack itemTransport : itemStacks) {
-                    if (other != null) other.items.add(itemTransport.item, itemTransport.amount);
-                    this.items.remove(itemTransport.item, itemTransport.amount);
+                if (itemStacks != null) {
+                    for (ItemStack itemTransport : itemStacks) {
+                        if (other != null) other.items.add(itemTransport.item, itemTransport.amount);
+                        this.items.remove(itemTransport.item, itemTransport.amount);
+                    }
                 }
             }
         }
