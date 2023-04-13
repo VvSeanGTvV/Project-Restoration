@@ -189,10 +189,10 @@ public class WarpGate extends Block {
             }
             if (toggle != -1) {
                 if (currentState == WarpGateState.transporter) {
-                    if (findLink(toggle, WarpGateState.receiver) == null) currentState = WarpGateState.idle;
+                    if (findLink(toggle) == null && findLink(toggle).currentState == WarpGateState.receiver) currentState = WarpGateState.idle;
                 }
                 if (currentState == WarpGateState.receiver && items.total() <= 0) {
-                    if (findLink(toggle, WarpGateState.transporter) == null) currentState = WarpGateState.idle;
+                    if (findLink(toggle) == null && findLink(toggle).currentState == WarpGateState.transporter) currentState = WarpGateState.idle;
                 }
             }
             if(currentState==WarpGateState.receiver && items.any()) dump();
@@ -217,7 +217,7 @@ public class WarpGate extends Block {
             }
         }
 
-        public WarpGate.WarpGateBuild findLink(int value, WarpGateState state){
+        public WarpGate.WarpGateBuild findLink(int value){
             ObjectSet<WarpGate.WarpGateBuild> teles = teleporters[team.id][value];
             Seq<WarpGate.WarpGateBuild> entries = teles.toSeq();
             if(entry >= entries.size) entry = 0;
@@ -227,23 +227,12 @@ public class WarpGate extends Block {
             }
             for(int i = entry, len = entries.size; i < len; i++){
                 WarpGate.WarpGateBuild other = teles.get(entries.get(i));
-                if(state != null) {
-                    if (other != this && other.currentState == state) {
-                        entry = i + 1;
-                        return other;
-                    }
-                }else{
                     if (other != this) {
                         entry = i + 1;
                         return other;
                     }
-                }
             }
             return null;
-        }
-
-        public WarpGate.WarpGateBuild findLink(int value){
-            return findLink(value, null);
         }
 
         public void handleTransport(WarpGate.WarpGateBuild other) {
