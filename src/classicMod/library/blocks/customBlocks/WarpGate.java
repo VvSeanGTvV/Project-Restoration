@@ -243,10 +243,10 @@ public class WarpGate extends Block {
             teleporting = true;
             if (other == null) other = findLink(toggle);
             for (int i = 0; i < content.items().size; i++) {
-                int totalIncap;
-                totalIncap = this.items.get(content.items().get(i));
-                if (totalIncap > 0 && other.items.get(content.items().get(i)) < other.block.itemCapacity) {
-                    itemStack = new ItemStack(content.items().get(i), totalIncap - other.items.get(content.items().get(i)));
+                int[] totalIncap;
+                totalIncap = new int[]{this.items.get(content.items().get(i))};
+                if (totalIncap[i] > 0 && other.items.get(content.items().get(i)) < other.block.itemCapacity) {
+                    itemStack = new ItemStack(content.items().get(i), totalIncap[i] - other.items.get(content.items().get(i)));
                     itemStacks = new ItemStack[]{itemStack};
                 }
             }

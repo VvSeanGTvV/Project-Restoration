@@ -21,10 +21,10 @@ public class SingleDrill extends Drill {
     /** Can only get that specific item **/
     public Item requiredItem = Items.copper;
     public float drillDuration;
-    public TextureRegion topRegion = Core.atlas.find("restored-mind-default-rim");
-    public TextureRegion itemRegion = Core.atlas.find("restored-mind-drill-middle");
-    public TextureRegion region = Core.atlas.find("restored-mind-drill-bottom");
-    public TextureRegion rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
+    public TextureRegion topRegion;
+    public TextureRegion itemRegion;
+    public TextureRegion region;
+    public TextureRegion rotatorRegion;
     public SingleDrill(String name) {
         super(name);
         tier = requiredItem.hardness;
