@@ -159,10 +159,12 @@ public class WarpGate extends Block {
                 }
                 if (!teleporting && this.items.total() >= itemCapacity && duration <= 1f) {
                     powerMulti = Math.min(this.block.consPower.capacity, powerUse * Time.delta);
-                    teleporting = true;
                     //consumeLiquid(inputLiquid, teleportLiquidUse);
                     if (toggle != -1) {
-                        ExtendedFx.teleport.at(this.x, this.y, selection[toggle]);
+                        if(!teleporting){
+                            ExtendedFx.teleport.at(this.x, this.y, selection[toggle]);
+                            teleporting = true;
+                        }
                         Time.run(warmupTime, () -> {
                             WarpGate.WarpGateBuild other = findLink(toggle);
                             if(this.items.total() <= 0) Time.clear(); //remove timer when theres nothing in it
