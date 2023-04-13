@@ -103,7 +103,7 @@ public class WarpGate extends Block {
     public class WarpGateBuild extends Building {
         protected int toggle = -1, entry;
         protected float duration;
-        protected float durationWarmup;
+        protected WarpGateState currentState = WarpGateState.idle;
         protected ItemStack itemStack;
         protected @Nullable ItemStack[] itemStacks;
         protected WarpGate.WarpGateBuild target;
@@ -175,7 +175,14 @@ public class WarpGate extends Block {
             }else{
                 firstTime=true;
             }
-            if (items.any()) dump();
+            if(currentState==WarpGateState.idle){
+                if(this.items.total()>0){
+                    currentState = WarpGateState.transporter;
+                } else {
+                    currentState = WarpGateState.receiver;
+                }
+            }
+            if(currentState==WarpGateState.receiver && items.any()) dump();
         }
 
         @Override
@@ -233,7 +240,7 @@ public class WarpGate extends Block {
             if(toggle == -1) return false;
             target = findLink(toggle);
             if(target == null) return false;
-            return source != this && canConsume() && Mathf.zero(1 - efficiency()) && target.items.total() < target.getMaximumAccepted(item);
+            return source != this && canConsume() && Mathf.zero(1 - efficiency()) && target.items.total() < target.getMaximumAccepted(item) && this.items.total() < this.getMaximumAccepted(item);
         }
 
         /*@Override
@@ -278,5 +285,13 @@ public class WarpGate extends Block {
             super.read(read, revision);
             toggle = read.b();
         }
+    }
+
+    public enum WarpGateState{
+        idle, //Does nothing
+        receiver, //receives from transporter
+        transporter; //transport to receiver
+
+        public static final WarpGateState[] all = values();
     }
 }
