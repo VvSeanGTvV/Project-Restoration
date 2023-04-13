@@ -115,13 +115,14 @@ public class WarpGate extends Block {
     public class WarpGateBuild extends Building {
         protected int toggle = -1, entry;
         protected float duration;
-        protected WarpGateState currentState = WarpGateState.idle;
         protected boolean teleporting;
         protected ItemStack itemStack;
         protected @Nullable ItemStack[] itemStacks;
         protected WarpGate.WarpGateBuild target;
         protected Team previousTeam;
         protected boolean firstTime;
+        /** is this specific building avaliable and able to transport **/
+        protected boolean transportable;
 
         protected void onDuration(){
             if(duration < 0f && !teleporting) duration = teleportMax;
@@ -169,14 +170,15 @@ public class WarpGate extends Block {
                     powerMulti = Math.min(this.block.consPower.capacity, powerUse * Time.delta);
                     //consumeLiquid(inputLiquid, teleportLiquidUse);
                     if (toggle != -1) {
-                        if(!teleporting){
+                        if (!teleporting) {
                             teleportEffect.at(this.x, this.y, selection[toggle]);
                             teleporting = true;
                         }
                         Time.run(warmupTime, () -> {
                             WarpGate.WarpGateBuild other = findLink(toggle);
-                            if(this.items.total() <= 0) Time.clear(); //remove timer when theres nothing in it
-                            if (other != null) {
+                            if (this.items.total() <= 0) Time.clear(); //remove timer when theres nothing in it
+                            if(other != null) {
+                                if(!other.transportable) Time.clear();
                                 teleportOutEffect.at(this.x, this.y, selection[toggle]);
                                 handleTransport(other);
                                 teleportOutEffect.at(other.x, other.y, selection[toggle]);
@@ -197,22 +199,8 @@ public class WarpGate extends Block {
             } else {
                 firstTime = true;
             }
-            /*if (currentState == WarpGateState.idle) {
-                if (this.items.total() > 0) {
-                    currentState = WarpGateState.transporter;
-                } else {
-                    currentState = WarpGateState.receiver;
-                }
-            }
-            if (toggle != -1) {
-                if (currentState == WarpGateState.transporter) {
-                    if (findLink(toggle) == null && findLink(toggle).currentState == WarpGateState.receiver) currentState = WarpGateState.idle;
-                }
-                if (currentState == WarpGateState.receiver && items.total() <= 0) {
-                    if (findLink(toggle) == null && findLink(toggle).currentState == WarpGateState.transporter) currentState = WarpGateState.idle;
-                }
-            }*/
             if(items.any()) dump();
+            transportable = !(items.total() >= this.block.itemCapacity); //prevent buildings from having too much items in single block.
         }
 
         public void catastrophicFailure(){
@@ -244,7 +232,7 @@ public class WarpGate extends Block {
             }
             for(int i = entry, len = entries.size; i < len; i++){
                 WarpGate.WarpGateBuild other = teles.get(entries.get(i));
-                    if (other != this) {
+                    if (other != this && other.transportable) {
                         entry = i + 1;
                         return other;
                     }
@@ -258,8 +246,8 @@ public class WarpGate extends Block {
             for (int i = 0; i < content.items().size; i++) {
                 int totalIncap;
                 totalIncap = this.items.get(content.items().get(i));
-                if (totalIncap > 0) {
-                    itemStack = new ItemStack(content.items().get(i), totalIncap);
+                if (totalIncap > 0 && other.items.get(content.items().get(i)) < other.block.itemCapacity) {
+                    itemStack = new ItemStack(content.items().get(i), totalIncap - other.items.get(content.items().get(i)));
                     itemStacks = new ItemStack[]{itemStack};
                 }
             }
@@ -325,13 +313,5 @@ public class WarpGate extends Block {
             super.read(read, revision);
             toggle = read.b();
         }
-    }
-
-    public enum WarpGateState{
-        idle, //Does nothing
-        receiver, //receives from transporter
-        transporter; //transport to receiver
-
-        public static final WarpGateState[] all = values();
     }
 }
