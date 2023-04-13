@@ -108,13 +108,8 @@ public class WarpGate extends Block {
         protected boolean firstTime;
 
         protected void onDuration(){
-            if(duration < 0f) duration = teleportMax*60;
+            if(duration < 0f) duration = teleportMax;
             else duration -= Time.delta;
-        }
-
-        protected void warmUp() {
-            if(durationWarmup < 0f) durationWarmup = warmupTime*60;
-            else durationWarmup -= Time.delta;
         }
 
         @Override
@@ -155,23 +150,19 @@ public class WarpGate extends Block {
                     if(toggle != -1)ExtendedFx.teleportActivate.at(this.x, this.y, selection[toggle]);
                     firstTime = false;
                 }
-                if(duration>0f) warmUp();
-                if(durationWarmup<=1f && toggle != -1) ExtendedFx.teleport.at(this.x, this.y, selection[toggle]);
                 if(duration<=1f) {
                     //consumeLiquid(inputLiquid, teleportLiquidUse);
-                    if(toggle != -1) {
-                        ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
-                        WarpGate.WarpGateBuild other = findLink(toggle);
-                        if (other != null && toggle != -1) ExtendedFx.teleportOut.at(other.x, other.y, selection[toggle]);
-                    }
                     if (isTeamChanged() && toggle != -1) {
                         teleporters[team.id][toggle].add(this);
-                        teleporters[previousTeam.id][toggle].remove(this);
-                        previousTeam = team;
+                        ExtendedFx.teleport.at(this.x, this.y, selection[toggle]);
+                        Time.run(warmupTime, () -> {
+                            //remove waiting shooters, it's done firing
+                            teleporters[previousTeam.id][toggle].remove(this);
+                            previousTeam = team;
+                        });
                     }
                 }
             }else{
-                durationWarmup=teleportMax*60;
                 firstTime=true;
             }
             if (items.any()) dump();
@@ -220,8 +211,13 @@ public class WarpGate extends Block {
         @Override
         public void handleItem(Building source, Item item){
             if(duration<=1f) {
-                target.items.add(item, 1);
-                duration = teleportMax * 60;
+                target.items.add(item, this.items.total());
+                duration = teleportMax;
+                if(toggle != -1) {
+                    ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
+                    WarpGate.WarpGateBuild other = findLink(toggle);
+                    if (other != null && toggle != -1) ExtendedFx.teleportOut.at(other.x, other.y, selection[toggle]);
+                }
             }
         }
 
