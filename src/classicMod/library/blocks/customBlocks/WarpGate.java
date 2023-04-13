@@ -241,21 +241,26 @@ public class WarpGate extends Block {
 
         public void handleTransport(WarpGate.WarpGateBuild other) {
             teleporting = true;
+            int totalUsed = 0;
             if (other == null) other = findLink(toggle);
             for (int i = 1; i < content.items().size; i++) {
-                int[] totalIncap;
-                totalIncap = new int[]{this.items.get(content.items().get(i))};
-                if (totalIncap[i] > 0 && other.items.get(content.items().get(i)) < other.block.itemCapacity) {
-                    itemStack = new ItemStack(content.items().get(i), totalIncap[i] - other.items.get(content.items().get(i)));
-                    itemStacks = new ItemStack[]{itemStack};
-                }
+                int maxTransfer = Math.min(items.get(content.item(i)), tile.block().itemCapacity - totalUsed);
+                totalUsed += maxTransfer;
+                itemStack = new ItemStack(content.item(i), maxTransfer);
+                itemStacks = new ItemStack[]{itemStack};
             }
+
             if (itemStacks != null) {
-                for (ItemStack itemTransport : itemStacks) {
-                    if (other != null) other.items.add(itemTransport.item, itemTransport.amount);
-                }
-                for (ItemStack itemTransport : itemStacks) {
-                    this.items.remove(itemTransport.item, itemTransport.amount);
+                int totalItems = items.total();
+                for(int i = 0; i < itemStacks.length; i++){
+                    int maxAdd = Math.min(itemStacks[i].amount, itemCapacity * 2 - totalItems);
+                    other.items.add(content.item(i), maxAdd);
+                    itemStacks[i].amount -= maxAdd;
+                    totalItems += maxAdd;
+
+                    if(totalItems >= itemCapacity * 2){
+                        break;
+                    }
                 }
                 itemStacks = null; //set to null after finishing transport
             }
