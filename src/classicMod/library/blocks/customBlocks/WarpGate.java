@@ -116,7 +116,7 @@ public class WarpGate extends Block {
         protected boolean firstTime;
 
         protected void onDuration(){
-            if(duration < 0f) duration = teleportMax;
+            if(duration < 0f && !teleporting) duration = teleportMax;
             else duration -= Time.delta;
         }
 
@@ -159,6 +159,7 @@ public class WarpGate extends Block {
                 }
                 if (!teleporting && this.items.total() >= itemCapacity && duration <= 1f) {
                     powerMulti = Math.min(this.block.consPower.capacity, powerUse * Time.delta);
+                    teleporting = true;
                     //consumeLiquid(inputLiquid, teleportLiquidUse);
                     if (toggle != -1) {
                         ExtendedFx.teleport.at(this.x, this.y, selection[toggle]);
