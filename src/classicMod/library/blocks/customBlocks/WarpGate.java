@@ -51,6 +51,7 @@ public class WarpGate extends Block {
 
     public WarpGate(String name){
         super(name);
+        itemCapacity = 100;
         update = true;
         solid = true;
         configurable = true;
@@ -107,6 +108,7 @@ public class WarpGate extends Block {
         protected int toggle = -1, entry;
         protected float duration;
         protected WarpGateState currentState = WarpGateState.idle;
+        protected boolean teleporting;
         protected ItemStack itemStack;
         protected @Nullable ItemStack[] itemStacks;
         protected WarpGate.WarpGateBuild target;
@@ -132,7 +134,7 @@ public class WarpGate extends Block {
         }
 
         public void consumeLiquid(Liquid liquid, float amount){
-            this.liquids.remove(liquid, amount);
+            if(liquid != null)this.liquids.remove(liquid, amount);
         }
 
         @Override
@@ -155,16 +157,20 @@ public class WarpGate extends Block {
                     if (toggle != -1) ExtendedFx.teleportActivate.at(this.x, this.y, selection[toggle]);
                     firstTime = false;
                 }
-                if (duration <= 1f) {
+                if (!teleporting && this.items.total() >= itemCapacity && duration <= 1f) {
                     powerMulti = Math.min(this.block.consPower.capacity, powerUse * Time.delta);
-                    //consumeLiquid(inputLiquid, teleportLiquidUse);
+                    consumeLiquid(inputLiquid, teleportLiquidUse);
                     if (toggle != -1) {
-                        ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
-                        WarpGate.WarpGateBuild other = findLink(toggle);
-                        if (other != null && currentState == WarpGateState.transporter) {
-                            handleTransport(other);
-                            ExtendedFx.teleportOut.at(other.x, other.y, selection[toggle]);
-                        }
+                        Time.run(warmupTime, () -> {
+                            ExtendedFx.teleport.at(this.x, this.y, selection[toggle]);
+                            WarpGate.WarpGateBuild other = findLink(toggle);
+                            if(this.items.total() <= 0) Time.clear(); //remove timer when theres nothing in it
+                            if (other != null && currentState == WarpGateState.transporter) {
+                                ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
+                                handleTransport(other);
+                                ExtendedFx.teleportOut.at(other.x, other.y, selection[toggle]);
+                            }
+                        });
                     }
                     if (isTeamChanged() && toggle != -1) {
                         teleporters[team.id][toggle].add(this);
@@ -180,14 +186,14 @@ public class WarpGate extends Block {
             } else {
                 firstTime = true;
             }
-            if (currentState == WarpGateState.idle) {
+            /*if (currentState == WarpGateState.idle) {
                 if (this.items.total() > 0) {
                     currentState = WarpGateState.transporter;
                 } else {
                     currentState = WarpGateState.receiver;
                 }
             }
-            /*if (toggle != -1) {
+            if (toggle != -1) {
                 if (currentState == WarpGateState.transporter) {
                     if (findLink(toggle) == null && findLink(toggle).currentState == WarpGateState.receiver) currentState = WarpGateState.idle;
                 }
@@ -236,23 +242,26 @@ public class WarpGate extends Block {
         }
 
         public void handleTransport(WarpGate.WarpGateBuild other) {
+            teleporting = true;
             if (other == null) other = findLink(toggle);
-            if(this.currentState == WarpGateState.transporter) {
-                for (int i = 0; i < content.items().size; i++) {
-                    int totalIncap;
-                    totalIncap = this.items.get(content.items().get(i));
-                    if (totalIncap > 0) {
-                        itemStack = new ItemStack(content.items().get(i), totalIncap);
-                        itemStacks = new ItemStack[]{itemStack};
-                    }
-                }
-                if (itemStacks != null) {
-                    for (ItemStack itemTransport : itemStacks) {
-                        if (other != null) other.items.add(itemTransport.item, itemTransport.amount);
-                        this.items.remove(itemTransport.item, itemTransport.amount);
-                    }
+            for (int i = 0; i < content.items().size; i++) {
+                int totalIncap;
+                totalIncap = this.items.get(content.items().get(i));
+                if (totalIncap > 0) {
+                    itemStack = new ItemStack(content.items().get(i), totalIncap);
+                    itemStacks = new ItemStack[]{itemStack};
                 }
             }
+            if (itemStacks != null) {
+                for (ItemStack itemTransport : itemStacks) {
+                    if (other != null) other.items.add(itemTransport.item, itemTransport.amount);
+                }
+                for (ItemStack itemTransport : itemStacks) {
+                    this.items.remove(itemTransport.item, itemTransport.amount);
+                }
+                itemStacks = null; //set to null after finishing transport
+            }
+            teleporting = false;
         }
 
         @Override
