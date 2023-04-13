@@ -187,14 +187,14 @@ public class WarpGate extends Block {
                     currentState = WarpGateState.receiver;
                 }
             }
-            if (toggle != -1) {
+            /*if (toggle != -1) {
                 if (currentState == WarpGateState.transporter) {
                     if (findLink(toggle) == null && findLink(toggle).currentState == WarpGateState.receiver) currentState = WarpGateState.idle;
                 }
                 if (currentState == WarpGateState.receiver && items.total() <= 0) {
                     if (findLink(toggle) == null && findLink(toggle).currentState == WarpGateState.transporter) currentState = WarpGateState.idle;
                 }
-            }
+            }*/
             if(currentState==WarpGateState.receiver && items.any()) dump();
         }
 
