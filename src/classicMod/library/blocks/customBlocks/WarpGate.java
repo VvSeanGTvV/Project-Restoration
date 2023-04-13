@@ -159,9 +159,11 @@ public class WarpGate extends Block {
                 if(durationWarmup<=1f && toggle != -1) ExtendedFx.teleport.at(this.x, this.y, selection[toggle]);
                 if(duration<=1f) {
                     //consumeLiquid(inputLiquid, teleportLiquidUse);
-                    if(toggle != -1) ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
-                    WarpGate.WarpGateBuild other = findLink(toggle);
-                    if(other != null && toggle != -1) ExtendedFx.teleportOut.at(other.x, other.y, selection[toggle]);
+                    if(toggle != -1) {
+                        ExtendedFx.teleportOut.at(this.x, this.y, selection[toggle]);
+                        WarpGate.WarpGateBuild other = findLink(toggle);
+                        if (other != null && toggle != -1) ExtendedFx.teleportOut.at(other.x, other.y, selection[toggle]);
+                    }
                     if (isTeamChanged() && toggle != -1) {
                         teleporters[team.id][toggle].add(this);
                         teleporters[previousTeam.id][toggle].remove(this);
@@ -217,8 +219,10 @@ public class WarpGate extends Block {
 
         @Override
         public void handleItem(Building source, Item item){
-            target.items.add(item, 1);
-            duration = teleportMax*60;
+            if(duration<=1f) {
+                target.items.add(item, 1);
+                duration = teleportMax * 60;
+            }
         }
 
         @Override
