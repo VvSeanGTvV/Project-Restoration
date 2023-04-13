@@ -19,7 +19,6 @@ import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
-import mindustry.world.meta.*;
 
 import static arc.Core.*;
 import static mindustry.Vars.*;
@@ -90,7 +89,7 @@ public class WarpGate extends Block {
     @Override
     public void setStats() {
         super.setStats();
-        stats.add(Stat.cooldownTime, teleportMax/60f);
+        stats.add(ExtendedStat.inbetweenTeleport, teleportMax/60f);
     }
 
     @Override
@@ -232,9 +231,9 @@ public class WarpGate extends Block {
             }
             for(int i = entry, len = entries.size; i < len; i++){
                 WarpGate.WarpGateBuild other = teles.get(entries.get(i));
-                    if (other != this && other.transportable) {
+                    if (other != this) {
                         entry = i + 1;
-                        return other;
+                        if(other.transportable)return other;
                     }
             }
             return null;
