@@ -27,11 +27,11 @@ import static mindustry.Vars.*;
 
 public class WarpGate extends Block {
 
-    protected static final Color[] selection = new Color[]{Color.royal, Color.orange, Color.scarlet, Color.forest, Color.purple, Color.gold, Color.pink, Color.black};
+    protected static final Color[] selection = new Color[]{Color.royal, Color.orange, Color.scarlet, Color.forest, Color.purple, Color.gold, Color.pink, Color.white};
     protected static final ObjectSet<WarpGate.WarpGateBuild>[][] teleporters;
     public float warmupTime = 60f;
     /** time between Teleports **/
-    public float teleportMax = 1000f;
+    public float teleportMax = 500f;
     public float powerUse = 0.3f;
     public float teleportLiquidUse = 0.3f;
     public float liquidUse = 0.1f;
