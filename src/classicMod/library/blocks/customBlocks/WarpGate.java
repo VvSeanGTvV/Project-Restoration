@@ -167,7 +167,7 @@ public class WarpGate extends Block {
             float time = Time.time;
             float rad = activeScl;
 
-            if(rad <= 0.001f && toggle == -1) return;
+            if(rad <= 0.1f && toggle == -1) return;
 
             Draw.color(selection[toggle]);
 
