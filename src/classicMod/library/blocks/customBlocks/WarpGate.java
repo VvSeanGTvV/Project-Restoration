@@ -10,12 +10,14 @@ import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
 import classicMod.content.*;
+import classicMod.uCoreGraphics.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.units.*;
 import mindustry.game.EventType.*;
 import mindustry.game.*;
 import mindustry.gen.*;
+import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
@@ -100,6 +102,12 @@ public class WarpGate extends Block {
     }
 
     @Override
+    public void setBars() {
+        super.setBars();
+        addBar("next-teleport", (WarpGate.WarpGateBuild e) -> new Bar(Core.bundle.format("bar.next-tele"), Pal.ammo, e::fraction));
+    }
+
+    @Override
     public void drawPlanConfig(BuildPlan req, Eachable<BuildPlan> list){
         drawPlanConfigCenter(req, req.config, "nothing");
     }
@@ -115,7 +123,7 @@ public class WarpGate extends Block {
         protected int toggle = -1, entry;
         protected float duration;
         protected boolean teleporting;
-        protected ItemStack itemStack;
+        protected float activeScl;
         protected @Nullable ItemStack[] itemStacks;
         protected WarpGate.WarpGateBuild target;
         protected Team previousTeam;
@@ -131,6 +139,10 @@ public class WarpGate extends Block {
         @Override
         public boolean acceptLiquid(Building source, Liquid liquid) {
             return super.acceptLiquid(source, liquid) && liquid == inputLiquid;
+        }
+
+        public float fraction(){
+            return (teleportMax-duration)/teleportMax;
         }
 
         protected boolean isConsuming(){
@@ -155,11 +167,47 @@ public class WarpGate extends Block {
             Draw.color(Color.white);
             Draw.alpha(0.45f + Mathf.absin(7f, 0.26f));
             Draw.reset();
+
+            float time = Time.time;
+            float rad = activeScl;
+
+            if(rad <= 0.0001f && toggle == -1) return;
+
+            Draw.color(selection[toggle]);
+
+            Fill.circle(tile.drawx(), tile.drawy(), rad*(7f + Mathf.absin(time+55, 8f, 1f)));
+
+            Draw.color(selection[toggle]);
+
+            Fill.circle(tile.drawx(), tile.drawy(), rad*(2f + Mathf.absin(time, 7f, 3f)));
+
+            for(int i = 0; i < 11; i ++){
+                uCoreLines.swirl(tile.drawx(), tile.drawy(),
+                        rad*(2f + i/3f + Mathf.sin(time - i *75, 20f + i, 3f)),
+                        0.3f + Mathf.sin(time + i *33, 10f + i, 0.1f),
+                        time * (1f + Mathf.randomSeedRange(i + 1, 1f)) + Mathf.randomSeedRange(i, 360f));
+            }
+
+            Draw.color(selection[toggle]);
+
+            Lines.stroke(2f);
+            Lines.circle(tile.drawx(), tile.drawy(), rad*(7f + Mathf.absin(time+55, 8f, 1f)));
+            Lines.stroke(1f);
+
+            for(int i = 0; i < 11; i ++){
+                uCoreLines.swirl(tile.drawx(), tile.drawy(),
+                        rad*(3f + i/3f + Mathf.sin(time + i *93, 20f + i, 3f)),
+                        0.2f + Mathf.sin(time + i *33, 10f + i, 0.1f),
+                        time * (1f + Mathf.randomSeedRange(i + 1, 1f)) + Mathf.randomSeedRange(i, 360f));
+            }
+
+            Draw.reset();
         }
 
         @Override
         public void updateTile() {
             if (efficiency > 0 && toggle != -1) {
+                activeScl = Mathf.lerpDelta(activeScl, 1f, 0.015f);
                 onDuration();
                 if (firstTime) {
                     if (toggle != -1) activateEffect.at(this.x, this.y, selection[toggle]);
@@ -196,8 +244,10 @@ public class WarpGate extends Block {
                     duration = teleportMax;
                 }
             } else {
+                activeScl = Mathf.lerpDelta(activeScl, 0f, 0.01f);
                 firstTime = true;
             }
+            if(!liquids.hasFlowLiquid(inputLiquid) && this.block.consPower.efficiency(this)>=1) catastrophicFailure();
             if(items.any()) dump();
             transportable = !(items.total() >= this.block.itemCapacity); //prevent buildings from having too much items in single block.
         }
