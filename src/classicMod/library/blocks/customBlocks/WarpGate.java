@@ -166,8 +166,10 @@ public class WarpGate extends Block {
 
             float time = Time.time;
             float rad = activeScl;
+            float radMin = 0.1f;
 
-            if(rad <= 0.1f && toggle == -1) return;
+            if(rad <= radMin && toggle == -1) return;
+            if(rad >= radMin && toggle != -1) {
 
             Draw.color(selection[toggle]);
 
@@ -195,6 +197,7 @@ public class WarpGate extends Block {
                         rad*(3f + i/3f + Mathf.sin(time + i *93, 20f + i, 3f)),
                         0.2f + Mathf.sin(time + i *33, 10f + i, 0.1f),
                         time * (1f + Mathf.randomSeedRange(i + 1, 1f)) + Mathf.randomSeedRange(i, 360f));
+            }
             }
 
             Draw.reset();
