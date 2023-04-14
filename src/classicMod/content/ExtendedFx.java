@@ -76,7 +76,7 @@ public class ExtendedFx extends Fx {
 
                 //b41-b40 effects
                 teleportActivate = new Effect(50, e -> {
-                    Draw.color(e.color);
+                    Draw.colorMul(e.color, 1.5f);
 
                     e.scaled(8f, e2 -> {
                         Lines.stroke(e2.fout() * 4f);
@@ -93,7 +93,7 @@ public class ExtendedFx extends Fx {
                 }),
 
                 teleport = new Effect(60, e -> {
-                    Draw.color(e.color);
+                    Draw.colorMul(e.color, 1.5f);
                     Lines.stroke(e.fin() * 2f);
                     Lines.circle(e.x, e.y, 7f + e.fout() * 8f);
 
@@ -105,7 +105,7 @@ public class ExtendedFx extends Fx {
                 }),
 
                 teleportOut = new Effect(20, e -> {
-                    Draw.color(e.color);
+                    Draw.colorMul(e.color, 1.5f);
                     Lines.stroke(e.fout() * 2f);
                     Lines.circle(e.x, e.y, 7f + e.fin() * 8f);
 
