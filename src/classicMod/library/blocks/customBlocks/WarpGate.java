@@ -173,7 +173,7 @@ public class WarpGate extends Block {
 
             Fill.circle(tile.drawx(), tile.drawy(), rad*(7f + Mathf.absin(time+55, 8f, 1f)));
 
-            Draw.color(selection[toggle]);
+            Draw.colorMul(selection[toggle], -0.5f);
 
             Fill.circle(tile.drawx(), tile.drawy(), rad*(2f + Mathf.absin(time, 7f, 3f)));
 
