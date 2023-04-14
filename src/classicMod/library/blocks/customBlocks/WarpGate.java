@@ -153,10 +153,6 @@ public class WarpGate extends Block {
             return previousTeam != team;
         }
 
-        public void consumeLiquid(Liquid liquid, float amount){
-            if(liquid != null)this.liquids.remove(liquid, amount);
-        }
-
         @Override
         public void draw(){
             super.draw();
@@ -247,7 +243,7 @@ public class WarpGate extends Block {
                 activeScl = Mathf.lerpDelta(activeScl, 0f, 0.01f);
                 firstTime = true;
             }
-            if(!liquids.hasFlowLiquid(inputLiquid) && this.block.consPower.efficiency(this)>=1) catastrophicFailure();
+            //if(!liquids.hasFlowLiquid(inputLiquid) && this.block.consPower.efficiency(this)>=1) catastrophicFailure();
             if(items.any()) dump();
             transportable = !(items.total() >= this.block.itemCapacity); //prevent buildings from having too much items in single block.
         }
