@@ -167,7 +167,7 @@ public class WarpGate extends Block {
             float time = Time.time;
             float rad = activeScl;
 
-            if(rad <= 0.0001f && toggle == -1) return;
+            if(rad <= 0.001f && toggle == -1) return;
 
             Draw.color(selection[toggle]);
 
@@ -184,7 +184,7 @@ public class WarpGate extends Block {
                         time * (1f + Mathf.randomSeedRange(i + 1, 1f)) + Mathf.randomSeedRange(i, 360f));
             }
 
-            Draw.color(selection[toggle]);
+            Draw.colorMul(selection[toggle], 1.5f);
 
             Lines.stroke(2f);
             Lines.circle(tile.drawx(), tile.drawy(), rad*(7f + Mathf.absin(time+55, 8f, 1f)));
@@ -319,17 +319,6 @@ public class WarpGate extends Block {
             if(target == null) return false;
             return source != this && canConsume() && Mathf.zero(1 - efficiency()) && target.items.total() < target.getMaximumAccepted(item) && this.items.total() < this.getMaximumAccepted(item);
         }
-
-        /*@Override
-        public void handleItem(Building source, Item item){
-            if(duration<=1f) {
-                target.items.add(item, this.items.total());
-                duration = teleportMax;
-                if(toggle != -1) {
-
-                }
-            }
-        }*/
 
         @Override
         public void created(){
