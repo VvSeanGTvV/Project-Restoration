@@ -40,15 +40,15 @@ public class ClassicBlocks {
     public static Block
     titanCannon, chainTurret, plasmaTurret, teslaTurret,//Turret - classic
     nuclearReactor, //Power - classic
-    crucible, smelter, //Smelter - classic
+    crucible, smelter, lavaSmelter, stoneFormer, //Production - classic
     teleporter, //Distribution - classic
     stoneDrill, ironDrill, uraniumDrill, titaniumDrill, coalDrill, omniDrill, //SingleDrill - classic
     ironOre, uraniumOre, //Ore - classic
     lavaLiq, //Liquid - classic
 
-    warpGate, //b41-b40 Warp Gate
+    warpGate, //b41-b40 Warp Gate [v4]
 
-    fuseOld, //Turret [pre-v5]
+    fuseMKII, fuseMKI, //Turret [v4]
 
     dartPad, omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad [v5]
     wraithFactory, ghoulFactory, revenantFactory, //Air - Unit Factory [v5]
@@ -185,6 +185,21 @@ public class ClassicBlocks {
             burnTime = 40f;
             craftTime = 20f;
             itemCapacity = 20;
+        }};
+        lavaSmelter = new GenericCrafter("lava-smelter"){{
+            consumeLiquid(ClassicLiquids.lava, 40f);
+            consumeItem(ClassicItems.iron, 1);
+            outputItem = new ItemStack(ClassicItems.steel, 1);
+            health = 80;
+            craftTime = 30;
+            craftEffect = ExtendedFx.purifystone;
+        }};
+        stoneFormer = new GenericCrafter("stone-former"){{
+            consumeLiquid(ClassicLiquids.lava, 16);
+            outputItem = new ItemStack(ClassicItems.stone, 1);
+            health = 80;
+            craftTime = 12;
+            craftEffect = ExtendedFx.purifystone;
         }};
 
         titanCannon = new ItemTurret("titan-cannon"){{
@@ -626,7 +641,7 @@ public class ClassicBlocks {
         }};*/
 
         //Turrets
-        fuseOld = new ItemTurretV6("fuseOld"){{
+        fuseMKII = new ItemTurretV6("fuse-surge"){{
             requirements(Category.turret, ItemStack.with(Items.copper, 450, Items.graphite, 450, Items.surgeAlloy, 220));
 
             float brange = range + 10f; //TODO ammo
