@@ -228,7 +228,7 @@ public class WarpGate extends Block {
                         }
                         Time.run(warmupTime, () -> {
                             WarpGate.WarpGateBuild other = findLink(toggle);
-                            if (this.items.total() <= 0) Time.clear(); //remove timer when theres nothing in it
+                            if (this.items.total() <= 0 || other == null || toggle == -1) Time.clear(); //remove timer, when interrupted or has nothujg in it.
                             if(other != null) {
                                 if(!other.transportable) Time.clear();
                                 teleportOutEffect.at(this.x, this.y, selection[toggle]);
