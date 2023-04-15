@@ -4,6 +4,7 @@ import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
+import arc.math.geom.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
@@ -207,7 +208,7 @@ public class WarpGate extends Block {
         public void updateTile() {
             if (efficiency > 0 && toggle != -1) {
                 activeScl = Mathf.lerpDelta(activeScl, 1f, 0.015f);
-                onDuration();
+                if(items.total() >= itemCapacity) onDuration();
                 if (firstTime) {
                     if (toggle != -1) activateEffect.at(this.x, this.y, selection[toggle]);
                     firstTime = false;
@@ -243,8 +244,10 @@ public class WarpGate extends Block {
                     duration = teleportMax;
                 }
             } else {
+                if(efficiency > 0f && activeScl > 0) activeScl = 0;
                 activeScl = Mathf.lerpDelta(activeScl, 0f, 0.01f);
                 firstTime = true;
+                duration = teleportMax;
             }
             //if(!liquids.hasFlowLiquid(inputLiquid) && this.block.consPower.efficiency(this)>=1) catastrophicFailure();
             if(items.any()) dump();
@@ -335,7 +338,41 @@ public class WarpGate extends Block {
                 if(isTeamChanged()) teleporters[previousTeam.id][toggle].remove(this);
                 else teleporters[team.id][toggle].remove(this);
             }
-            //unity.Unity.print(teleporters[team.id]);
+        }
+
+        @Override
+        public void onDestroyed() {
+            super.onDestroyed();
+
+            if(activeScl < 0.5f) return;
+
+            float explosionRadius = 50f;
+            float explosionDamage = 20f;
+            Vec2 tr = new Vec2();
+
+            Effect.shake(6f, 16f, this);
+            ExtendedFx.nuclearShockwave.at(this);
+            for(int i = 0; i < 6; i ++){
+                Time.run(Mathf.random(40), () -> {
+                    ExtendedFx.nuclearcloud.at(this);
+                });
+            }
+
+            Damage.damage(tile.worldx(), tile.worldy(), explosionRadius * tilesize, explosionDamage * 4);
+
+            for(int i = 0; i < 20; i ++){
+                Time.run(Mathf.random(50), ()->{
+                    tr.rnd(Mathf.random(40f));
+                    ExtendedFx.explosion.at(tr.x + tile.worldx(), tr.y + tile.worldy());
+                });
+            }
+
+            for(int i = 0; i < 70; i ++){
+                Time.run(Mathf.random(80), ()->{
+                    tr.rnd(Mathf.random(120f));
+                    ExtendedFx.nuclearsmoke.at(tr.x + tile.worldx(), tr.y + tile.worldy());
+                });
+            }
         }
 
         @Override
