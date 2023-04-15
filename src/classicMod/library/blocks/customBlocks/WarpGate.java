@@ -228,9 +228,15 @@ public class WarpGate extends Block {
                         }
                         Time.run(warmupTime, () -> {
                             WarpGate.WarpGateBuild other = findLink(toggle);
-                            if (this.items.total() <= 0 || other == null || toggle == -1) Time.clear(); //remove timer, when interrupted or has nothujg in it.
+                            if (this.items.total() <= 0 || other == null || toggle == -1){
+                                Time.clear(); //remove timer, when interrupted or has nothujg in it.
+                                teleporting = false;
+                            }
                             if(other != null) {
-                                if(!other.transportable) Time.clear();
+                                if(!other.transportable){ 
+                                    Time.clear();
+                                    teleporting = false;
+                                }
                                 teleportOutEffect.at(this.x, this.y, selection[toggle]);
                                 handleTransport(other);
                                 teleportOutEffect.at(other.x, other.y, selection[toggle]);
