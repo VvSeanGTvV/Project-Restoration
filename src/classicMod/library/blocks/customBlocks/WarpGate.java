@@ -308,7 +308,7 @@ public class WarpGate extends Block {
             int[] data = new int[content.items().size];
             int totalUsed = 0;
             if (other == null) other = findLink(toggle);
-            for (int i = 1; i < content.items().size; i++) {
+            for (int i = 0; i < content.items().size; i++) {
                 int maxTransfer = Math.min(items.get(content.item(i)), tile.block().itemCapacity - totalUsed);
                 data[i] = maxTransfer;
                 totalUsed += maxTransfer;
