@@ -208,7 +208,11 @@ public class WarpGate extends Block {
         public void updateTile() {
             if (efficiency > 0 && toggle != -1) {
                 activeScl = Mathf.lerpDelta(activeScl, 1f, 0.015f);
-                if(items.total() >= itemCapacity) onDuration();
+                if(items.total() >= itemCapacity){
+                    onDuration();
+                } else {
+                    duration = teleportMax;
+                }
                 if (firstTime) {
                     if (toggle != -1) activateEffect.at(this.x, this.y, selection[toggle]);
                     firstTime = false;
@@ -347,8 +351,8 @@ public class WarpGate extends Block {
 
             if(activeScl < 0.5f) return;
 
-            float explosionRadius = 50f;
-            float explosionDamage = 20f;
+            float explosionRadius = 50;
+            float explosionDamage = 1250/20f;
             Vec2 tr = new Vec2();
 
             Effect.shake(6f, 16f, this);
