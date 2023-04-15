@@ -167,12 +167,12 @@ public class WarpGate extends Block {
 
             float time = Time.time;
             float rad = activeScl;
-            float radMin = 0.1f;
+            float radMin = 0.01f;
 
             if(rad <= radMin && toggle == -1) return;
             if(rad >= radMin && toggle != -1) {
 
-            Draw.color(selection[toggle]);
+            Draw.colorMul(selection[toggle],0.7f);
 
             Fill.circle(tile.drawx(), tile.drawy(), rad*(7f + Mathf.absin(time+55, 8f, 1f)));
 
@@ -208,6 +208,7 @@ public class WarpGate extends Block {
         public void updateTile() {
             if (efficiency > 0 && toggle != -1) {
                 activeScl = Mathf.lerpDelta(activeScl, 1f, 0.015f);
+                if(teleporting) duration = teleportMax;
                 if(items.total() >= itemCapacity){
                     onDuration();
                 } else {
