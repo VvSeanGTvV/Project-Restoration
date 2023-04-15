@@ -187,6 +187,7 @@ public class ClassicBlocks {
             itemCapacity = 20;
         }};
         lavaSmelter = new GenericCrafter("lava-smelter"){{
+            requirements(Category.crafting, with(Items.titanium, 15, ClassicItems.steel, 30));
             consumeLiquid(ClassicLiquids.lava, 40f);
             consumeItem(ClassicItems.iron, 1);
             outputItem = new ItemStack(ClassicItems.steel, 1);
@@ -195,6 +196,7 @@ public class ClassicBlocks {
             craftEffect = ExtendedFx.purifystone;
         }};
         stoneFormer = new GenericCrafter("stone-former"){{
+            requirements(Category.crafting, with(ClassicItems.iron, 10, ClassicItems.steel, 10));
             consumeLiquid(ClassicLiquids.lava, 16);
             outputItem = new ItemStack(ClassicItems.stone, 1);
             health = 80;
