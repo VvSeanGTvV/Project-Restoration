@@ -188,7 +188,7 @@ public class ClassicBlocks {
         }};
         lavaSmelter = new GenericCrafter("lava-smelter"){{
             requirements(Category.crafting, with(Items.titanium, 15, ClassicItems.steel, 30));
-            consumeLiquid(ClassicLiquids.lava, 40/60);
+            consumeLiquid(ClassicLiquids.lava, 40f/60f);
             consumeItem(ClassicItems.iron, 1);
             outputItem = new ItemStack(ClassicItems.steel, 1);
             health = 80;
@@ -197,7 +197,7 @@ public class ClassicBlocks {
         }};
         stoneFormer = new GenericCrafter("stone-former"){{
             requirements(Category.crafting, with(ClassicItems.iron, 10, ClassicItems.steel, 10));
-            consumeLiquid(ClassicLiquids.lava, 16/60);
+            consumeLiquid(ClassicLiquids.lava, 16f/60f);
             outputItem = new ItemStack(ClassicItems.stone, 1);
             health = 80;
             craftTime = 12;

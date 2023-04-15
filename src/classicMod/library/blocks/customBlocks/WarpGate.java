@@ -22,6 +22,7 @@ import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
+import mindustry.world.meta.*;
 
 import static arc.Core.*;
 import static mindustry.Vars.*;
@@ -92,7 +93,7 @@ public class WarpGate extends Block {
     @Override
     public void setStats() {
         super.setStats();
-        stats.add(ExtendedStat.inbetweenTeleport, teleportMax/60f);
+        stats.add(ExtendedStat.inbetweenTeleport, teleportMax/60f, StatUnit.seconds);
     }
 
     @Override
