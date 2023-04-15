@@ -245,6 +245,7 @@ public class WarpGate extends Block {
                 }
             } else {
                 if(efficiency > 0f && activeScl > 0) activeScl = 0;
+                if(toggle == -1 && activeScl > 0) activeScl = 0;
                 activeScl = Mathf.lerpDelta(activeScl, 0f, 0.01f);
                 firstTime = true;
                 duration = teleportMax;
