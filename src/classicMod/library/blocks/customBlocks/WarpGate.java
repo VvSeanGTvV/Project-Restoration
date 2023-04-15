@@ -353,7 +353,7 @@ public class WarpGate extends Block {
             if(activeScl < 0.5f) return;
 
             float explosionRadius = 50;
-            float explosionDamage = 1250/20f;
+            float explosionDamage = 20*66;
             Vec2 tr = new Vec2();
 
             Effect.shake(6f, 16f, this);
