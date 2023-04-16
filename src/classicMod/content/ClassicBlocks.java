@@ -292,6 +292,18 @@ public class ClassicBlocks {
                 consumeItem(ClassicItems.uranium);
                 consumeLiquid(Liquids.water, heating / coolantPower).update(false);
         }};
+        fuseMKI = new ItemTurretV6("fuse-b40"){{
+            requirements(Category.turret, with(ClassicItems.tungstenOld, 210, Items.carbide, 190, Items.thorium, 130));
+            ammo(
+                    ClassicItems.denseAlloy, fuseShot
+            );
+            reload = 50f;
+            shake = 4f;
+            range = 80f;
+            recoil = 5f;
+            restitution = 0.1f;
+            size = 3;
+        }};
 
         salvoAlpha = new ItemTurretV6("alpha-salvo"){{
             requirements(Category.turret, with(ClassicItems.tungstenOld, 210, Items.carbide, 190, Items.thorium, 130));

@@ -11,6 +11,7 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 
 import static classicMod.content.ClassicVars.*;
+import static mindustry.graphics.Pal.surge;
 
 public class ClassicBullets {
     public static BulletType
@@ -112,6 +113,7 @@ public class ClassicBullets {
             }
         };
 
+
         //v5 Bullets
         fuseShot = new BulletType(0.01f, 75){
             int rays = 3;
@@ -136,7 +138,7 @@ public class ClassicBullets {
             @Override
             public void draw(Bullet b){
                 super.draw(b);
-                Draw.color(Color.white, Pal.surge, b.fin());
+                Draw.color(Color.white, surge, b.fin());
                 //Draw.alpha(b.fout());
                 for(int i = 0; i < 7; i++){
                     Tmp.v1.trns(b.rotation(), i * 8f);
@@ -148,7 +150,7 @@ public class ClassicBullets {
                 Drawf.tri(b.x, b.y, 20f * b.fout(), 10f, b.rotation() + 180f);
                 Draw.reset();
 
-                Drawf.light(b.x, b.y, b.x + Angles.trnsx(b.rotation(), rayLength), b.y + Angles.trnsy(b.rotation(), rayLength), 20f * 2.5f * b.fout(), Pal.surge, lightOpacity);
+                Drawf.light(b.x, b.y, b.x + Angles.trnsx(b.rotation(), rayLength), b.y + Angles.trnsy(b.rotation(), rayLength), 20f * 2.5f * b.fout(), surge, lightOpacity);
             }
         };
 

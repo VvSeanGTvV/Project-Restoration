@@ -22,6 +22,10 @@ public class ClassicItems extends Items {
             hardness = 1;
         }};
 
+        denseAlloy = new Item("dense-alloy", Color.valueOf("b2c6d2")){{
+            cost = 1.2f;
+        }};
+
         float leadCost = lead.cost;
         uranium = new Item("uranium", Color.valueOf("ace183")){{
             explosiveness = thorium.explosiveness*1.5f;
