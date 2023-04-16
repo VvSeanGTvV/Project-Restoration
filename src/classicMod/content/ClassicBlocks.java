@@ -287,8 +287,9 @@ public class ClassicBlocks {
 
                 explosionRadius = 19*ClassicBuff;;
                 explosionDamage = 135*ClassicBuff*ClassicBuff*ClassicBuff;
-
-                consumeItem(ClassicItems.uranium); //TODO replace with uranium!
+            
+                fuelItem = ClassicItems.uranium;
+                consumeItem(ClassicItems.uranium);
                 consumeLiquid(Liquids.water, heating / coolantPower).update(false);
         }};
 
