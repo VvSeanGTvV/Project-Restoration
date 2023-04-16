@@ -46,7 +46,9 @@ public class ClassicBlocks {
     ironOre, uraniumOre, //Ore - classic
     lavaLiq, //Liquid - classic
 
-    warpGate, //b41-b40 Warp Gate [v4]
+    warpGate, //Distribution [v4]
+
+    melter, //Production [v4]
 
     fuseMKII, fuseMKI, salvoAlpha, //Turret [v4]
 
@@ -87,6 +89,7 @@ public class ClassicBlocks {
             size = 3;
             }
         };
+
         lavaLiq = new Floor("molten-lava"){{
             speedMultiplier = 0.15f;
             liquidDrop = ClassicLiquids.lava;
@@ -177,6 +180,7 @@ public class ClassicBlocks {
             craftTime = 20f;
             itemCapacity = 20;
         }};
+
         crucible = new GenericSmelter("crucible"){{
             requirements(Category.crafting, with(Items.titanium, 50, ClassicItems.steel, 50));
             health = 90;
@@ -186,6 +190,17 @@ public class ClassicBlocks {
             craftTime = 20f;
             itemCapacity = 20;
         }};
+
+        melter = new GenericCrafter("melter"){{
+            requirements(Category.crafting, with(Items.copper, 50, Items.lead, 70, ClassicItems.denseAlloy, 90));
+            health = 200;
+            outputLiquid = new LiquidStack(ClassicLiquids.lava, 1f);
+            consumeItems(with(ClassicItems.stone, 1));
+            consumePower(0.1f);
+            craftTime = 10f;
+            itemCapacity = 20;
+        }};
+
         lavaSmelter = new GenericCrafter("lava-smelter"){{
             requirements(Category.crafting, with(Items.titanium, 15, ClassicItems.steel, 30));
             consumeLiquid(ClassicLiquids.lava, 40f/60f);
