@@ -48,7 +48,7 @@ public class ClassicBlocks {
 
     warpGate, //b41-b40 Warp Gate [v4]
 
-    fuseMKII, fuseMKI, //Turret [v4]
+    fuseMKII, fuseMKI, salvoAlpha, //Turret [v4]
 
     dartPad, omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad [v5]
     wraithFactory, ghoulFactory, revenantFactory, //Air - Unit Factory [v5]
@@ -290,6 +290,67 @@ public class ClassicBlocks {
 
                 consumeItem(ClassicItems.uranium); //TODO replace with uranium!
                 consumeLiquid(Liquids.water, heating / coolantPower).update(false);
+        }};
+
+        salvoAlpha = new ItemTurretV6("alpha-salvo"){{
+            requirements(Category.turret, with(Items.tungsten, 210, Items.carbide, 190, Items.thorium, 130));
+            ammo(
+                    Items.copper,  new BasicBulletType(2.5f, 11){{
+                        width = 7f;
+                        height = 9f;
+                        lifetime = 60f;
+                        ammoMultiplier = 2;
+                    }},
+                    Items.graphite, new BasicBulletType(3.5f, 20){{
+                        width = 9f;
+                        height = 12f;
+                        reloadMultiplier = 0.6f;
+                        ammoMultiplier = 4;
+                        lifetime = 60f;
+                    }},
+                    Items.pyratite, new BasicBulletType(3.2f, 18){{
+                        width = 10f;
+                        height = 12f;
+                        frontColor = Pal.lightishOrange;
+                        backColor = Pal.lightOrange;
+                        status = StatusEffects.burning;
+                        hitEffect = new MultiEffect(Fx.hitBulletSmall, Fx.fireHit);
+
+                        ammoMultiplier = 5;
+
+                        splashDamage = 12f;
+                        splashDamageRadius = 22f;
+
+                        makeFire = true;
+                        lifetime = 60f;
+                    }},
+                    Items.silicon, new BasicBulletType(3f, 15, "bullet"){{
+                        width = 7f;
+                        height = 9f;
+                        homingPower = 0.1f;
+                        reloadMultiplier = 1.5f;
+                        ammoMultiplier = 5;
+                        lifetime = 60f;
+                    }},
+                    Items.thorium, new BasicBulletType(4f, 29, "bullet"){{
+                        width = 10f;
+                        height = 13f;
+                        shootEffect = Fx.shootBig;
+                        smokeEffect = Fx.shootBigSmoke;
+                        ammoMultiplier = 4;
+                        lifetime = 60f;
+                    }}
+            );
+            size = 2;
+            range = 110f;
+            reload = 40f;
+            restitution = 0.03f;
+            ammoEjectBack = 3f;
+            recoil = 3f;
+            shake = 2f;
+            shoot.shotDelay = 4;
+            shoot.shots = 3;
+            ammoUseEffect = ExtendedFx.shellEjectBig;
         }};
 
         //Mechpad

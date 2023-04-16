@@ -1,6 +1,5 @@
 package classicMod.content;
 
-import arc.audio.*;
 import arc.graphics.*;
 import arc.math.*;
 import arc.math.geom.*;
@@ -20,7 +19,7 @@ import mindustry.type.unit.*;
 import mindustry.type.weapons.*;
 
 import static arc.struct.SnapshotSeq.*;
-import static classicMod.content.ClassicSounds.pew;
+import static classicMod.content.ClassicSounds.*;
 import static mindustry.Vars.*;
 
 public class ClassicUnitTypes {
@@ -29,6 +28,7 @@ public class ClassicUnitTypes {
     public static UnitType 
     
     //Mech Region
+    halberd, //Mech - Air [v4]
     omega, delta, alpha, tau, //Mech - Ground [v5]
     javelin, trident, glaive, dart, //Mech - Air [v5]
 
@@ -50,6 +50,44 @@ public class ClassicUnitTypes {
     ;
 
     public static void load() {
+        halberd = new UnitType("halberd-ship"){{
+            outlines = false;
+            hitSize = 8f;
+            speed = 3f;
+            mineTier = 2;
+            accel = 0.4f * 3f;
+            speed = 3f;
+            drag = 0.1f;
+            health = 200f;
+            flying = true;
+            itemCapacity = 10;
+            engineColor = Color.valueOf("ffd37f");
+            buildSpeed = 1f;
+            constructor = UnitEntity::create;
+
+            weapons.add(new Weapon("restored-mind-blaster-equip") {{
+                x = 0.8f;
+                y = -1f;
+                top = true;
+
+                reload = 7.5f;
+                alternate = true;
+                ejectEffect = ExtendedFx.shellEjectSmall;
+                mirror = true;
+                shootSound = pew;
+                shootX = -2.5f;
+
+
+                bullet = new BasicBulletType(2.5f, 9f) {{ //adjust the format of v5 for v7
+                    width = 7f;
+                    height = 9f;
+                    lifetime = 60f;
+                    shootEffect = Fx.shootSmall;
+                    smokeEffect = Fx.shootSmallSmoke;
+                    ammoMultiplier = 2;
+                }};
+            }});
+        }};
 
         // --- v5 Zone ---
         // --- Mech Region ---
