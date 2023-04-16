@@ -8,7 +8,7 @@ import mindustry.type.*;
 public class ClassicItems extends Items {
     public static Item
             //v4 items
-            denseAlloy,
+            denseAlloy, tungstenOld,
 
             //Classic
             uranium, dirium, steel, stone, iron
@@ -17,6 +17,11 @@ public class ClassicItems extends Items {
     public static final Seq<Item> classicOnlyItems = new Seq<>();
 
     public static void load(){
+
+        tungstenOld = new Item("tungsten-old", Color.valueOf("a0b0c8")) {{
+            hardness = 1;
+        }};
+
         float leadCost = lead.cost;
         uranium = new Item("uranium", Color.valueOf("ace183")){{
             explosiveness = thorium.explosiveness*1.5f;
