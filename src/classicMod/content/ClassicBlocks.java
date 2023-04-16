@@ -192,7 +192,7 @@ public class ClassicBlocks {
         }};
 
         melter = new GenericCrafter("melter"){{
-            requirements(Category.crafting, with(Items.copper, 50, Items.lead, 70, ClassicItems.denseAlloy, 90));
+            requirements(Category.crafting, with(Items.copper, 60, Items.lead, 70, ClassicItems.denseAlloy, 90));
             health = 200;
             outputLiquid = new LiquidStack(ClassicLiquids.lava, 1f);
             consumeItems(with(ClassicItems.stone, 1));
