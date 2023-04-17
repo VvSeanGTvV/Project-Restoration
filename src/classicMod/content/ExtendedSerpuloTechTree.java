@@ -8,7 +8,6 @@ import mindustry.type.*;
 
 import static classicMod.content.ClassicBlocks.*;
 import static mindustry.content.Blocks.*;
-import static mindustry.content.SectorPresets.*;
 import static mindustry.content.TechTree.*;
 
 public class ExtendedSerpuloTechTree {
@@ -69,10 +68,68 @@ public class ExtendedSerpuloTechTree {
                 node(fuseMKII);
             });
         });
+        margeNode(phaseConveyor, () -> {
+            node(teleporter,() -> {
+                node(warpGate);
+            });
+        });
+
+        margeNode(mechanicalDrill, () -> {
+            node(stoneDrill, () -> {
+                node(ironDrill, () -> {
+                    node(uraniumDrill);
+                    node(titaniumDrill, () -> {
+                        node(omniDrill);
+                    });
+                });
+                node(coalDrill);
+            });
+
+            node(steelSmelter, () -> {
+                node(lavaSmelter);
+                node(crucible);
+                node(ClassicBlocks.melter, () -> {
+                    node(stoneFormer);
+                });
+            });
+
+            node(denseSmelter, () -> {
+                node(arcSmelter, () -> {
+
+                });
+            });
+        });
+
+        margeNode(scatter, () -> {
+            node(plasmaTurret, () -> {
+                node(chainTurret, () -> {
+                    node(titanCannon);
+                });
+            });
+        });
 
         margeNode(launchPad, () -> {
             node(launchPadLarge, () -> {
-                node(ClassicBlocks.interplanetaryAccelerator, Seq.with(new SectorComplete(planetaryTerminal)), () -> {}); //Endgame bois
+                //node(ClassicBlocks.interplanetaryAccelerator, Seq.with(new SectorComplete(planetaryTerminal)), () -> {}); //Endgame bois
+            });
+        });
+
+        //item
+        margeNode(coreShard, () -> {
+            nodeProduce(ClassicItems.stone, () -> {
+                nodeProduce(ClassicItems.uranium, () -> {
+
+                });
+                nodeProduce(ClassicItems.iron, () -> {
+                    nodeProduce(ClassicItems.steel, () -> {
+                        nodeProduce(ClassicItems.dirium, () -> {
+
+                        });
+                    });
+                });
+                nodeProduce(ClassicItems.denseAlloy, () -> {
+
+                });
             });
         });
     }

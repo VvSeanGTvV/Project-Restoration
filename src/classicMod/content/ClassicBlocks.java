@@ -40,7 +40,7 @@ public class ClassicBlocks {
     public static Block
     titanCannon, chainTurret, plasmaTurret, teslaTurret,//Turret - classic
     nuclearReactor, //Power - classic
-    crucible, smelter, lavaSmelter, stoneFormer, //Production - classic
+    crucible, steelSmelter, lavaSmelter, stoneFormer, //Production - classic
     teleporter, //Distribution - classic
     stoneDrill, ironDrill, uraniumDrill, titaniumDrill, coalDrill, omniDrill, //SingleDrill - classic
     ironOre, uraniumOre, //Ore - classic
@@ -172,7 +172,7 @@ public class ClassicBlocks {
             }
         };
 
-        smelter = new GenericSmelter("steel-smelter"){{
+        steelSmelter = new GenericSmelter("steel-smelter"){{
             requirements(Category.crafting, with(ClassicItems.stone, 40, ClassicItems.iron, 40));
             health = 70;
             outputItem = new ItemStack(ClassicItems.steel, 1);
@@ -192,7 +192,7 @@ public class ClassicBlocks {
 
         arcSmelter = new GenericCrafter("arc-smelter"){{
             health = 90*size;
-            requirements(Category.crafting, with(Items.copper, 100));
+            requirements(Category.crafting, with(Items.copper, 110, ClassicItems.denseAlloy, 70, Items.lead, 50));
             craftEffect = ExtendedFx.smeltsmoke;
             outputItem = new ItemStack(ClassicItems.denseAlloy, 1);
             consumeItems(with(Items.copper, 1, Items.lead, 2, Items.sand, 1));
@@ -215,7 +215,7 @@ public class ClassicBlocks {
         melter = new GenericCrafter("melter"){{
             requirements(Category.crafting, with(Items.copper, 60, Items.lead, 70, ClassicItems.denseAlloy, 90));
             health = 200;
-            outputLiquid = new LiquidStack(ClassicLiquids.lava, 1f/60);
+            outputLiquid = new LiquidStack(ClassicLiquids.lava, 10f/60f);
             consumeItems(with(ClassicItems.stone, 1));
             consumePower(0.1f);
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawDefault());
