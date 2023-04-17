@@ -184,8 +184,9 @@ public class ClassicBlocks {
         denseSmelter = new GenericSmelter("dense-smelter"){{
             requirements(Category.crafting, with(Items.copper, 100));
             outputItem = new ItemStack(ClassicItems.denseAlloy, 1);
-            consumeItems(with(Items.copper, 1, Items.lead, 1));
-            craftTime = 20f;
+            consumeItems(with(Items.copper, 1, Items.lead, 2));
+            craftTime = 45f;
+            burnTime = 46f;
         }};
 
         crucible = new GenericSmelter("crucible"){{
