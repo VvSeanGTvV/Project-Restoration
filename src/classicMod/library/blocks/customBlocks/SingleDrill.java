@@ -28,7 +28,6 @@ public class SingleDrill extends Drill {
     public SingleDrill(String name) {
         super(name);
         tier = requiredItem.hardness;
-        drillTime = drillDuration*60;
         drillEffect = ExtendedFx.spark;
         updateEffect = Fx.none;
         hasLiquids = false;
@@ -46,7 +45,7 @@ public class SingleDrill extends Drill {
 
         countOre(tile);
 
-        if(returnItem != null && !Objects.equals(returnItem.name, requiredItem.name)){
+        if(returnItem != null && Objects.equals(returnItem.name, requiredItem.name)){
             float width = drawPlaceText(Core.bundle.formatFloat("bar.drillspeed", 60f / getDrillTime(returnItem) * returnCount, 2), x, y, valid);
             float dx = x * tilesize + offset - width/2f - 4f, dy = y * tilesize + offset + size * tilesize / 2f + 5, s = iconSmall / 4f;
             Draw.mixcol(Color.darkGray, 1f);
@@ -74,7 +73,7 @@ public class SingleDrill extends Drill {
         itemRegion = Core.atlas.find("restored-mind-drill-middle");
         region = Core.atlas.find("restored-mind-drill-bottom");
         rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
-        if(topRegion == null)topRegion = Core.atlas.find("restored-mind-default-rim");
+        topRegion = Core.atlas.find("restored-mind-default-rim");
     }
 
     @Override
