@@ -48,7 +48,7 @@ public class ClassicBlocks {
 
     warpGate, //Distribution [v4]
 
-    melter, denseSmelter, //Production [v4]
+    melter, denseSmelter, arcSmelter, //Production [v4]
 
     fuseMKII, fuseMKI, salvoAlpha, //Turret [v4]
 
@@ -172,7 +172,7 @@ public class ClassicBlocks {
             }
         };
 
-        smelter = new GenericSmelter("smelter"){{
+        smelter = new GenericSmelter("steel-smelter"){{
             requirements(Category.crafting, with(ClassicItems.stone, 40, ClassicItems.iron, 40));
             health = 70;
             outputItem = new ItemStack(ClassicItems.steel, 1);
@@ -182,11 +182,24 @@ public class ClassicBlocks {
         }};
 
         denseSmelter = new GenericSmelter("dense-smelter"){{
+            health = 70;
             requirements(Category.crafting, with(Items.copper, 100));
             outputItem = new ItemStack(ClassicItems.denseAlloy, 1);
             consumeItems(with(Items.copper, 1, Items.lead, 2));
             craftTime = 45f;
             burnTime = 46f;
+        }};
+
+        arcSmelter = new GenericCrafter("arc-smelter"){{
+            health = 90*size;
+            requirements(Category.crafting, with(Items.copper, 100));
+            craftEffect = ExtendedFx.smeltsmoke;
+            outputItem = new ItemStack(ClassicItems.denseAlloy, 1);
+            consumeItems(with(Items.copper, 1, Items.lead, 2, Items.sand, 1));
+            consumePower(0.1f);
+            drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc999")));
+            craftTime = 30f;
+            size = 2;
         }};
 
         crucible = new GenericSmelter("crucible"){{
@@ -202,7 +215,7 @@ public class ClassicBlocks {
         melter = new GenericCrafter("melter"){{
             requirements(Category.crafting, with(Items.copper, 60, Items.lead, 70, ClassicItems.denseAlloy, 90));
             health = 200;
-            outputLiquid = new LiquidStack(ClassicLiquids.lava, 1f);
+            outputLiquid = new LiquidStack(ClassicLiquids.lava, 1f/60);
             consumeItems(with(ClassicItems.stone, 1));
             consumePower(0.1f);
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawDefault());

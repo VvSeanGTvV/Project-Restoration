@@ -223,6 +223,14 @@ public class ExtendedFx extends Fx {
         Draw.reset();
     }),
 
+    smeltsmoke = new Effect(15, e -> {
+        Angles.randLenVectors(e.id, 6, 4f + e.fin() * 5f, (x, y) -> {
+            Draw.color(Color.white, e.color, e.fin());
+            Fill.square(e.x + x, e.y + y, 0.5f + e.fout() * 2f, 45);
+            Draw.reset();
+        });
+    }),
+
     hit = new Effect(10, e -> {
         Lines.stroke(1f);
         Draw.color(Color.white, Color.orange, e.fin());

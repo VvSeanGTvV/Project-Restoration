@@ -42,11 +42,39 @@ public class GenericSmelter extends GenericCrafter {
     public void setStats(){
         stats.timePeriod = craftTime;
 
-        stats.remove(Stat.output); //prevent duplication
-        stats.remove(Stat.productionTime); //prevent duplication
+        stats.add(Stat.size, "@x@", size, size);
+
+        if(synthetic()){
+            stats.add(Stat.health, health, StatUnit.none);
+            if(armor > 0){
+                stats.add(Stat.armor, armor, StatUnit.none);
+            }
+        }
+
+        if(canBeBuilt() && requirements.length > 0){
+            stats.add(Stat.buildTime, buildCost / 60, StatUnit.seconds);
+            stats.add(Stat.buildCost, StatValues.items(false, requirements));
+        }
+
+        if(instantTransfer){
+            stats.add(Stat.maxConsecutive, 2, StatUnit.none);
+        }
+
+        for(var c : consumers){
+            c.display(stats);
+        }
+        if(fuelItem != null){
+            stats.add(ExtendedStat.fuel, StatValues.items(burnTime, fuelItems));
+        }
+
+        //Note: Power stats are added by the consumers.
+        if(hasLiquids) stats.add(Stat.liquidCapacity, liquidCapacity, StatUnit.liquidUnits);
+        if(hasItems && itemCapacity > 0) stats.add(Stat.itemCapacity, itemCapacity, StatUnit.items);
+
         if((hasItems && itemCapacity > 0) || outputItems != null){
             stats.add(Stat.productionTime, craftTime / 60f, StatUnit.seconds);
         }
+        if(fuelItem != null) stats.add(ExtendedStat.burnTime, burnTime/60f, StatUnit.seconds);
 
         if(outputItems != null){
             stats.add(Stat.output, StatValues.items(craftTime, outputItems));
@@ -55,11 +83,6 @@ public class GenericSmelter extends GenericCrafter {
         if(outputLiquids != null){
             stats.add(Stat.output, StatValues.liquids(1f, outputLiquids));
         }
-        if(fuelItem != null){
-            stats.add(ExtendedStat.fuel, StatValues.items(burnTime, fuelItems));
-        }
-        super.setStats();
-        if(fuelItem != null) stats.add(ExtendedStat.burnTime, burnTime/60f, StatUnit.seconds);
     }
 
     @Override
