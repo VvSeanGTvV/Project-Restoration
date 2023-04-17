@@ -171,7 +171,7 @@ public class ExtendedFx extends Fx {
 
     purifystone = new Effect(10, e -> {
         Draw.color(Color.orange, Color.gray, e.fin());
-        Lines.stroke(2f);
+        Lines.stroke(1f);
         Lines.spikes(e.x, e.y, e.fin() * 4f, 2, 6);
         Draw.reset();
     }),
@@ -217,11 +217,10 @@ public class ExtendedFx extends Fx {
         Draw.reset();
     }),
     smelt = new Effect(20, e -> {
-        Angles.randLenVectors(e.id, 6, 2f + e.fin() * 5f, (x, y) -> {
-            Draw.color(Color.white, e.color, e.fin());
-            Fill.square(e.x + x, e.y + y, 0.5f + e.fout() * 2f, 45);
-            Draw.reset();
-        });
+        Lines.stroke(1f);
+        Draw.color(Color.white, e.color, e.fin());
+        Lines.spikes(e.x, e.y, e.fin() * 5f, 1f, 8);
+        Draw.reset();
     }),
 
     hit = new Effect(10, e -> {

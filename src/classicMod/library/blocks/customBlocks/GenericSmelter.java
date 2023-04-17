@@ -85,6 +85,7 @@ public class GenericSmelter extends GenericCrafter {
 
     public class GenericSmelterBuild extends GenericCrafterBuild {
         public float fuelProgress;
+        public float activeScl;
         public boolean hasFuel;
         protected boolean accepted;
 
@@ -112,12 +113,15 @@ public class GenericSmelter extends GenericCrafter {
         public void updateTile(){
             hasFuel = this.items.has(fuelItems);
             if(this.items.has(fuelItems) && efficiency > 0){
+                activeScl = Mathf.lerpDelta(activeScl, warmupTarget(), warmupSpeed);
                 fuelProgress += getProgressIncrease(burnTime);
                 if(fuelProgress >= 1f){
                     consumeFuel(fuelItems, 1);
                     fuelProgress %= 1f;
                     burnEffect.at(this.x + Mathf.range(2f), this.y + Mathf.range(2f));
                 }
+            } else {
+               activeScl = Mathf.lerpDelta(activeScl, 0f, warmupSpeed);
             }
             if(efficiency > 0 && hasFuel){
 
@@ -174,14 +178,14 @@ public class GenericSmelter extends GenericCrafter {
             Draw.z(Layer.block);
             Draw.rect(region, tile.drawx(), tile.drawy());
 
-            if(fuelProgress < 1) {
+            if(activeScl > 0) {
                 float g = 0.1f;
 
-                Draw.alpha(((1f - g) + Mathf.absin(Time.time, 8f, g)) * fuelProgress);
+                Draw.alpha(((1f - g) + Mathf.absin(Time.time, 8f, g)) * activeScl);
 
                 Draw.tint(flameColor);
                 Fill.circle(tile.drawx(), tile.drawy(), 2f + Mathf.absin(Time.time, 5f, 0.8f));
-                Draw.color(1f, 1f, 1f, fuelProgress);
+                Draw.color(1f, 1f, 1f, activeScl);
                 Fill.circle(tile.drawx(), tile.drawy(), 1f + Mathf.absin(Time.time, 5f, 0.7f));
 
                 Draw.color();
