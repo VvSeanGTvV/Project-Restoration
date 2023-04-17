@@ -86,6 +86,7 @@ public class WarpGate extends Block {
 
     @Override
     public void init(){
+        if(inputLiquid == null)inputLiquid = Liquids.cryofluid;
         consumePowerCond(powerUse + powerMulti, WarpGate.WarpGateBuild::isConsuming);
         super.init();
     }
@@ -100,7 +101,6 @@ public class WarpGate extends Block {
     public void load(){
         super.load();
         blankRegion = atlas.find(name + "-mid");
-        if(inputLiquid == null)inputLiquid = Liquids.cryofluid;
     }
 
     @Override
@@ -208,7 +208,7 @@ public class WarpGate extends Block {
         @Override
         public void updateTile() {
             if (efficiency > 0 && toggle != -1) {
-                if(liquids.get(inputLiquid) <= 0f) catastrophicFailure();
+                //if(liquids.get(inputLiquid) <= 0f) catastrophicFailure();
                 activeScl = Mathf.lerpDelta(activeScl, 1f, 0.015f);
                 if(teleporting) duration = teleportMax;
                 if(items.total() >= itemCapacity){
