@@ -208,6 +208,7 @@ public class WarpGate extends Block {
         @Override
         public void updateTile() {
             if (efficiency > 0 && toggle != -1) {
+                if(liquids.get(inputLiquid) <= 0f) catastrophicFailure();
                 activeScl = Mathf.lerpDelta(activeScl, 1f, 0.015f);
                 if(teleporting) duration = teleportMax;
                 if(items.total() >= itemCapacity){
@@ -336,7 +337,7 @@ public class WarpGate extends Block {
             if(toggle == -1) return false;
             target = findLink(toggle);
             if(target == null) return false;
-            return source != this && canConsume() && Mathf.zero(1 - efficiency()) && target.items.total() < target.getMaximumAccepted(item) && this.items.total() < this.getMaximumAccepted(item);
+            return source != this && canConsume() && items.total() < itemCapacity;
         }
 
         @Override
@@ -397,12 +398,14 @@ public class WarpGate extends Block {
         public void write(Writes write){
             super.write(write);
             write.b(toggle);
+            write.bool(teleporting);
         }
 
         @Override
         public void read(Reads read, byte revision){
             super.read(read, revision);
             toggle = read.b();
+            teleporting = read.bool();
         }
     }
 }

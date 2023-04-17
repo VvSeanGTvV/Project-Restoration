@@ -48,7 +48,7 @@ public class ClassicBlocks {
 
     warpGate, //Distribution [v4]
 
-    melter, //Production [v4]
+    melter, denseSmelter, //Production [v4]
 
     fuseMKII, fuseMKI, salvoAlpha, //Turret [v4]
 
@@ -179,6 +179,13 @@ public class ClassicBlocks {
             consumeItems(with(ClassicItems.iron, 1));
             craftTime = 20f;
             itemCapacity = 20;
+        }};
+
+        denseSmelter = new GenericCrafter("dense-smelter"){{
+            requirements(Category.crafting, with(ClassicItems.stone, 40, ClassicItems.iron, 40));
+            outputItem = new ItemStack(ClassicItems.denseAlloy, 1);
+            consumeItems(with(Items.copper, 1, Items.lead, 1, Items.sand, 1));
+            craftTime = 20f;
         }};
 
         crucible = new GenericSmelter("crucible"){{
@@ -312,6 +319,7 @@ public class ClassicBlocks {
             ammo(
                     ClassicItems.denseAlloy, fuseShot
             );
+            shootSound = Sounds.shotgun;
             reload = 50f;
             shake = 4f;
             range = 80f;
@@ -376,6 +384,7 @@ public class ClassicBlocks {
             ammoEjectBack = 3f;
             recoil = 3f;
             shake = 2f;
+            shootX = -2f;
             shoot.shotDelay = 4;
             shoot.shots = 3;
             ammoUseEffect = ExtendedFx.shellEjectBig;

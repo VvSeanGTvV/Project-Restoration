@@ -18,6 +18,8 @@ import mindustry.world.meta.*;
 public class GenericSmelter extends GenericCrafter {
     /** Fuel to power up the smelter. **/
     public ItemStack fuelItem = new ItemStack(Items.coal, 1);
+    /** is Fuel an optional booster. **/
+    public boolean fuelBooster = false;
     /** How long does the fuel last. **/
     public float burnTime = 60f;
     /** Color of the flame when using fuel **/
@@ -43,7 +45,6 @@ public class GenericSmelter extends GenericCrafter {
             stats.add(ExtendedStat.fuel, StatValues.items(burnTime, fuelItems));
             stats.add(ExtendedStat.burnTime, burnTime/60f, StatUnit.seconds);
         }
-        super.setStats();
 
         stats.remove(Stat.output); //prevent duplication
         stats.remove(Stat.productionTime); //prevent duplication
@@ -90,7 +91,7 @@ public class GenericSmelter extends GenericCrafter {
         protected boolean accepted;
 
         public float progress(){
-            return 1f-fuelProgress;
+            return 1f-fuelProgress*Math.round(efficiency);
         }
 
         @Override
@@ -122,6 +123,14 @@ public class GenericSmelter extends GenericCrafter {
                 }
             } else {
                activeScl = Mathf.lerpDelta(activeScl, 0f, warmupSpeed);
+            }
+            if(fuelProgress > 0f && efficiency <= 0f) {
+                fuelProgress += getProgressIncrease(burnTime);
+                if(fuelProgress >= 1f){
+                    consumeFuel(fuelItems, 1);
+                    fuelProgress %= 1f;
+                    burnEffect.at(this.x + Mathf.range(2f), this.y + Mathf.range(2f));
+                }
             }
             if(efficiency > 0 && hasFuel){
 

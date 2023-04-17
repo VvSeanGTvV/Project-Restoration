@@ -13,7 +13,7 @@ import static mindustry.graphics.Pal.*;
 public class ExtendedFx extends Fx {
     public static final Effect
             //v5 Effects
-            shellEjectSmall = new Effect(30f, 400f, e -> {
+    shellEjectSmall = new Effect(30f, 400f, e -> {
         Draw.color(lightOrange, Color.lightGray, Pal.lightishGray, e.fin());
         float rot = Math.abs(e.rotation) + 90f;
 
@@ -56,7 +56,7 @@ public class ExtendedFx extends Fx {
         for(int i : Mathf.signs){
             float len = (4f + e.finpow() * 8f) * i;
             float lr = rot + Mathf.randomSeedRange(e.id + i + 6, 20f * e.fin()) * i;
-            Draw.rect(Core.atlas.find("restored-mind-casingOld"),
+            Draw.rect(Core.atlas.find("restored-mind-casing-old"),
                     e.x + Angles.trnsx(lr, len) + Mathf.randomSeedRange(e.id + i + 7, 3f * e.fin()),
                     e.y + Angles.trnsy(lr, len) + Mathf.randomSeedRange(e.id + i + 8, 3f * e.fin()),
                     2.5f, 4f,
@@ -172,7 +172,7 @@ public class ExtendedFx extends Fx {
     purifystone = new Effect(10, e -> {
         Draw.color(Color.orange, Color.gray, e.fin());
         Lines.stroke(1f);
-        Lines.spikes(e.x, e.y, e.fin() * 4f, 2, 6);
+        Lines.spikes(e.x, e.y, e.fin() * 4f, 1f, 6);
         Draw.reset();
     }),
 
