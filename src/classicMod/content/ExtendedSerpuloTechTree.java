@@ -65,7 +65,9 @@ public class ExtendedSerpuloTechTree {
         });
 
         margeNode(ripple, () -> {
-            node(fuseMKII);
+            node(fuseMKI, () -> {
+                node(fuseMKII);
+            });
         });
 
         margeNode(launchPad, () -> {

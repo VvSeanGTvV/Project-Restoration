@@ -205,6 +205,7 @@ public class ClassicBlocks {
             outputLiquid = new LiquidStack(ClassicLiquids.lava, 1f);
             consumeItems(with(ClassicItems.stone, 1));
             consumePower(0.1f);
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawDefault());
             craftTime = 10f;
             itemCapacity = 20;
         }};
