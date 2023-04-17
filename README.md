@@ -42,4 +42,6 @@ VvSeanGtvV#2295 - Legacy Unit Factory and the Units Stats
 
 Slotterleet#7897 - the Planet BG menu!
 
+BasedUser#2215 - resprited Sprites!
+
 Anuke#4986 - Java Template mod!
