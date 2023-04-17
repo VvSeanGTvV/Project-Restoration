@@ -181,10 +181,10 @@ public class ClassicBlocks {
             itemCapacity = 20;
         }};
 
-        denseSmelter = new GenericCrafter("dense-smelter"){{
-            requirements(Category.crafting, with(ClassicItems.stone, 40, ClassicItems.iron, 40));
+        denseSmelter = new GenericSmelter("dense-smelter"){{
+            requirements(Category.crafting, with(Items.copper, 100));
             outputItem = new ItemStack(ClassicItems.denseAlloy, 1);
-            consumeItems(with(Items.copper, 1, Items.lead, 1, Items.sand, 1));
+            consumeItems(with(Items.copper, 1, Items.lead, 1));
             craftTime = 20f;
         }};
 
