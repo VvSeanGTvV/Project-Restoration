@@ -308,7 +308,7 @@ public class ClassicBlocks {
                 consumeLiquid(Liquids.water, heating / coolantPower).update(false);
         }};
         fuseMKI = new ItemTurretV6("fuse-b40"){{
-            requirements(Category.turret, with(ClassicItems.tungstenOld, 210, Items.carbide, 190, Items.thorium, 130));
+            requirements(Category.turret, with(ClassicItems.copper, 210, ClassicItems.denseAlloy, 190, Items.surgeAlloy, 130));
             ammo(
                     ClassicItems.denseAlloy, fuseShot
             );

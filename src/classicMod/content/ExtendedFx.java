@@ -116,8 +116,6 @@ public class ExtendedFx extends Fx {
         Draw.reset();
     }),
 
-
-    //Mindustry Classic
     titanshot = new Effect(12f, e -> {
         Draw.color(Color.white, lightOrange, e.fin());
         Lines.stroke(e.fout()*7f);
@@ -218,11 +216,12 @@ public class ExtendedFx extends Fx {
 
         Draw.reset();
     }),
-    smelt = new Effect(10, e -> {
-       Lines.stroke(1f);
-       Draw.color(Color.yellow, Color.red, e.fin());
-       Lines.spikes(e.x, e.y, e.fin() * 5f, 1f, 8);
-       Draw.reset();
+    smelt = new Effect(20, e -> {
+        Angles.randLenVectors(e.id, 6, 2f + e.fin() * 5f, (x, y) -> {
+            Draw.color(Color.white, e.color, e.fin());
+            Fill.square(e.x + x, e.y + y, 0.5f + e.fout() * 2f, 45);
+            Draw.reset();
+        });
     }),
 
     hit = new Effect(10, e -> {

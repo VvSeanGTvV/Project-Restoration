@@ -56,7 +56,7 @@ public class SingleDrill extends Drill {
 
             if(drawMineItem){
                 Draw.color(returnItem.color);
-                Draw.rect(Core.atlas.find("restored-mind-drill-middle"), tile.worldx() + offset, tile.worldy() + offset);
+                Draw.rect(itemRegion, tile.worldx() + offset, tile.worldy() + offset);
                 Draw.color();
             }
         }else{
@@ -71,10 +71,10 @@ public class SingleDrill extends Drill {
     @Override
     public void load() {
         super.load();
-        if(topRegion == null)topRegion = Core.atlas.find("restored-mind-default-rim");
         itemRegion = Core.atlas.find("restored-mind-drill-middle");
         region = Core.atlas.find("restored-mind-drill-bottom");
         rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
+        if(topRegion == null)topRegion = Core.atlas.find("restored-mind-default-rim");
     }
 
     @Override
@@ -94,7 +94,6 @@ public class SingleDrill extends Drill {
     @Override
     public void setStats() {
         super.setStats();
-        tier = requiredItem.hardness;
         stats.remove(Stat.drillTier);
        
         stats.add(Stat.drillTier, StatValues.blocks(b -> b instanceof Floor f && !f.wallOre && f.itemDrop != null && f.itemDrop.hardness <= tier && f.itemDrop != blockedItem && Objects.equals(f.itemDrop.name, requiredItem.name) && (indexer.isBlockPresent(f) || state.isMenu())));
@@ -140,10 +139,10 @@ public class SingleDrill extends Drill {
 
         @Override
         public void draw() {
-            //topRegion = Core.atlas.find(rimString);
-            //itemRegion = Core.atlas.find("restored-mind-drill-middle");
-            //region = Core.atlas.find("restored-mind-drill-bottom");
-            //rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
+            topRegion = Core.atlas.find("restored-mind-default-rim");
+            itemRegion = Core.atlas.find("restored-mind-drill-middle");
+            region = Core.atlas.find("restored-mind-drill-bottom");
+            rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
 
             Draw.rect(region, x, y);
             Draw.z(Layer.blockCracks);

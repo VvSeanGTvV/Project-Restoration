@@ -1,5 +1,7 @@
 package classicMod.library.blocks.customBlocks;
 
+import arc.*;
+import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
@@ -9,6 +11,7 @@ import mindustry.entities.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
+import mindustry.ui.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.meta.*;
 
@@ -17,8 +20,10 @@ public class GenericSmelter extends GenericCrafter {
     public ItemStack fuelItem = new ItemStack(Items.coal, 1);
     /** How long does the fuel last. **/
     public float burnTime = 60f;
+    /** Color of the flame when using fuel **/
+    public Color flameColor = Color.valueOf("ffb879");
     public @Nullable ItemStack[] fuelItems;
-    public Effect fuelEffect = ExtendedFx.fuelburn;
+    public Effect burnEffect = ExtendedFx.fuelburn;
 
     public GenericSmelter(String name) {
         super(name);
@@ -26,10 +31,17 @@ public class GenericSmelter extends GenericCrafter {
     }
 
     @Override
+    public void setBars() {
+        super.setBars();
+        addBar("fuel-left", (GenericSmelter.GenericSmelterBuild e) -> new Bar(Core.bundle.format("bar.fuel-left"), Pal.ammo, e::progress));
+    }
+
+    @Override
     public void setStats(){
         stats.timePeriod = craftTime;
         if(fuelItem != null){
             stats.add(ExtendedStat.fuel, StatValues.items(burnTime, fuelItems));
+            stats.add(ExtendedStat.burnTime, burnTime/60f, StatUnit.seconds);
         }
         super.setStats();
 
@@ -74,8 +86,11 @@ public class GenericSmelter extends GenericCrafter {
     public class GenericSmelterBuild extends GenericCrafterBuild {
         public float fuelProgress;
         public boolean hasFuel;
-
         protected boolean accepted;
+
+        public float progress(){
+            return 1f-fuelProgress;
+        }
 
         @Override
         public boolean acceptItem(Building source, Item item) {
@@ -84,7 +99,6 @@ public class GenericSmelter extends GenericCrafter {
                 accepted = itemStack.item.equals(item) && this.items.get(itemStack.item) < this.getMaximumAccepted(itemStack.item);
             }
             return accepted || this.block.consumesItem(item) && this.items.get(item) < this.getMaximumAccepted(item);
-            //return  this.block.consumesItem(item) && this.items.get(item) < this.getMaximumAccepted(item) || !this.items.has(fuelItems);
         }
 
         public void consumeFuel(ItemStack[] item, int amount) {
@@ -102,7 +116,7 @@ public class GenericSmelter extends GenericCrafter {
                 if(fuelProgress >= 1f){
                     consumeFuel(fuelItems, 1);
                     fuelProgress %= 1f;
-                    fuelEffect.at(this.x + Mathf.range(2f), this.y + Mathf.range(2f));
+                    burnEffect.at(this.x + Mathf.range(2f), this.y + Mathf.range(2f));
                 }
             }
             if(efficiency > 0 && hasFuel){
@@ -149,7 +163,7 @@ public class GenericSmelter extends GenericCrafter {
             }
 
             if(wasVisible){
-                craftEffect.at(x, y);
+                craftEffect.at(x, y, flameColor);
             }
             progress %= 1f;
         }
@@ -160,10 +174,16 @@ public class GenericSmelter extends GenericCrafter {
             Draw.z(Layer.block);
             Draw.rect(region, tile.drawx(), tile.drawy());
 
-            if(burnTime < 1){
-                Draw.z(Layer.effect);
-                Draw.color(1, 1, 1, Mathf.absin(Time.time, 9f, 0.4f) + Mathf.random(0.05f));
-                Draw.rect("restored-mind-smelter-middle", tile.drawx(), tile.drawy());
+            if(fuelProgress < 1) {
+                float g = 0.1f;
+
+                Draw.alpha(((1f - g) + Mathf.absin(Time.time, 8f, g)) * fuelProgress);
+
+                Draw.tint(flameColor);
+                Fill.circle(tile.drawx(), tile.drawy(), 2f + Mathf.absin(Time.time, 5f, 0.8f));
+                Draw.color(1f, 1f, 1f, fuelProgress);
+                Fill.circle(tile.drawx(), tile.drawy(), 1f + Mathf.absin(Time.time, 5f, 0.7f));
+
                 Draw.color();
             }
         }
