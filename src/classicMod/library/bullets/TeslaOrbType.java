@@ -17,13 +17,14 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
     //private Array<Vector2> points = new Array<>();
     //private ObjectSet<Enemy> hit = new ObjectSet<>();
     protected @Nullable Teamc[] ArrayTarget;
-    protected @Nullable int[] targetID;
-    protected @Nullable int[] listedCheck = new int[0];
+    protected int moveTimes;
+    protected int limitedMoves;
     protected @Nullable Vec2[] ArrayVec2;
 
-    public TeslaOrbType(float range, int damage){
+    public TeslaOrbType(float range, int damage, int limitedMove){
         this.damage = damage;
         this.range = range;
+        this.limitedMoves = limitedMove;
         hitEffect = ExtendedFx.laserhit;
         drawSize = 200f;
         this.lifetime = 30f;
@@ -32,44 +33,23 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
     @Override
     public void update(Bullet b) {
         super.update(b);
-        //int[] listedCheck = new int[0];
-        updateList(b);
+        autoTarget(b);
+        b.keepAlive = true;
         if (ArrayTarget != null) for (Teamc target : ArrayTarget) {
             float x = target.getX();
             float y = target.getY();
             ArrayVec2 = new Vec2[]{new Vec2(x, y)};
         }
-        if(targetID.length >= 3) listedCheck = null;
+        if(moveTimes >= limitedMoves) removed(b);
     }
 
-    public void updateList(Bullet b){
+    public void autoTarget(Bullet b){ //from Prog-mats
         Teamc target;
-        ArrayTarget = null;
-        ArrayVec2 = null;
-        int lastID = 0;
-        float realAimX = b.aimX < 0 ? b.x : b.aimX;
-        float realAimY = b.aimY < 0 ? b.y : b.aimY;
-        target = Units.closestTarget(b.team, realAimX, realAimY, range,
-                e -> e != null && e.checkTarget(collidesAir, collidesGround) && !b.hasCollided(e.id),
-                t -> t != null && collidesGround && !b.hasCollided(t.id));
-        if(target != null){
-            if(target.id() != lastID){
-                lastID = target.id();
-                boolean duplicates = false;
-                if(targetID!=null){ for (int i=0; i<targetID.length; i++){
-                    if(targetID[i]!=listedCheck[i]){
-                        listedCheck = new int[]{lastID};
-                        duplicates=false;
-                    }else {
-                        duplicates=true;
-                    }
-                }
-                                   } else {
-                    duplicates = false;
-                        }
-                if(!duplicates) ArrayTarget = new Teamc[]{target};
-                targetID = new int[]{lastID};
-            }
+        target = Units.closestTarget(b.team, b.x, b.y, range * b.fout(),
+                e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !b.collided.contains(e.id),
+                t -> t.isValid() && collidesGround && !b.collided.contains(t.id);
+        if( target != null ) {
+            ArrayTarget = new Teamc[]{target};
         }
     }
 
@@ -77,6 +57,7 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
     public void draw(Bullet b) { //TODO make multi target version
 
         Draw.color(Color.white);
+        //Draw.alpha();
         Vec2 lastVec = new Vec2(b.x, b.y);
         if(ArrayVec2 != null) for (Vec2 vec2 : ArrayVec2){
             Drawf.line(Color.white, lastVec.x, lastVec.y, vec2.x, vec2.y);
@@ -84,6 +65,7 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
             b.set(vec2);
             b.vel = new Vec2();
             if(lastVec!=vec2) lastVec = vec2;
+            moveTimes++;
         }
         //Drawf.laser(Core.atlas.white(), Core.atlas.find("restored-mind-circle"), b.x, b.y, b.aimX, b.aimY, 3f - Mathf.absin(Time.delta, lifetime*2f));
 
