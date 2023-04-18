@@ -244,45 +244,45 @@ public class ClassicBlocks {
         titanCannon = new ItemTurret("titan-cannon"){{
             requirements(Category.turret, with(Items.titanium, 50*ClassicRequirementsMulti, ClassicItems.dirium, 55*ClassicRequirementsMulti, ClassicItems.steel, 70*ClassicRequirementsMulti));
             ammo(ClassicItems.uranium, titanshell);
-            itemCapacity = 400; //why this much bro
             size = 3;
             recoil = 3;
+            shake = recoil;
             shootSound = blast;
             shootEffect = ExtendedFx.titanshot;
             smokeEffect = Fx.none;
-            health = 800*ClassicBuff;
+            health = 800;
             rotateSpeed = 0.07f*45;
             shootCone = 9f;
-            range = 120f*ClassicBuff/ClassicDebuff;
+            range = 300f;
             reload = 23f;
             outlineColor = Color.valueOf("ffd86c");
         }};
 
         chainTurret = new MirroredItemTurret("chain-turret"){{
-            requirements(Category.turret, with(Items.titanium, 25*ClassicRequirementsMulti, ClassicItems.dirium, 40*ClassicRequirementsMulti, ClassicItems.steel, 50*ClassicRequirementsMulti));
+            requirements(Category.turret, with(Items.titanium, 25*size, ClassicItems.dirium, 40*size, ClassicItems.steel, 50*size));
             ammo(ClassicItems.uranium, chain);
             size = 2;
             shootSound = bigshot;
             shootEffect = ExtendedFx.chainshot;
             smokeEffect = Fx.none;
-            health = 430*ClassicBuff;
+            health = 430;
             shootCone = 9f;
             inaccuracy = 8f;
-            range = 80f*ClassicBuff/ClassicDebuff;
+            range = 208f;
             reload = 5f;
             outlineColor = Color.valueOf("ffd86c");
             outlineRadius = 5;
         }};
 
         plasmaTurret = new ItemTurret("plasma-turret"){{
-            requirements(Category.turret, with(Items.titanium, 20*ClassicRequirementsMulti, ClassicItems.dirium, 15*ClassicRequirementsMulti, ClassicItems.steel, 10*ClassicRequirementsMulti));
+            requirements(Category.turret, with(Items.titanium, 20, ClassicItems.dirium, 15, ClassicItems.steel, 10));
             shootSound = flame2;
             shootEffect = Fx.none;
             smokeEffect = Fx.none;
             size = 1;
             recoil = 0;
             inaccuracy = 7f;
-            range = 60f*1.15f;
+            range = 69f;
             reload = 3f;
             ammo(Items.coal, plasmaflame);
             health = 180*ClassicBuff;

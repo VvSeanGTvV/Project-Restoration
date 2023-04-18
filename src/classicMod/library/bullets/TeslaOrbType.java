@@ -7,14 +7,16 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
 import classicMod.content.*;
+import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 
 
-public class TeslaOrbType extends PointLaserBulletType { //MIXED VERSION betweem PointBullet and LaserBullet
+public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBullet and LaserBullet
     //private Array<Vector2> points = new Array<>();
     //private ObjectSet<Enemy> hit = new ObjectSet<>();
+    protected @Nullable Teamc[] ArrayTarget;
 
     public TeslaOrbType(float range, int damage){
         this.damage = damage;
@@ -22,6 +24,27 @@ public class TeslaOrbType extends PointLaserBulletType { //MIXED VERSION betweem
         hitEffect = ExtendedFx.laserhit;
         drawSize = 200f;
         this.lifetime = 30f;
+    }
+
+    @Override
+    public void update(Bullet b) {
+        super.update(b);
+        updateList(b);
+        if(ArrayTarget != null) for (Teamc target : ArrayTarget){
+            float x = target.getX();
+            float y = target.getY();
+        }
+    }
+
+    public void updateList(Bullet b){
+        Teamc target;
+        ArrayTarget = null;
+        float realAimX = b.aimX < 0 ? b.x : b.aimX;
+        float realAimY = b.aimY < 0 ? b.y : b.aimY;
+        target = Units.closestTarget(b.team, realAimX, realAimY, range,
+                e -> e != null && e.checkTarget(collidesAir, collidesGround) && !b.hasCollided(e.id),
+                t -> t != null && collidesGround && !b.hasCollided(t.id));
+        if(target != null)ArrayTarget = new Teamc[]{target};
     }
 
     @Override
