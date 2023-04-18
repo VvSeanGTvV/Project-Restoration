@@ -27,7 +27,7 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
         this.limitedMoves = limitedMove;
         hitEffect = ExtendedFx.laserhit;
         drawSize = 200f;
-        this.lifetime = 30f;
+        this.lifetime = 30f*60f;
     }
 
     @Override
