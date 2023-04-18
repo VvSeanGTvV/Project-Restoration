@@ -18,6 +18,7 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
     //private ObjectSet<Enemy> hit = new ObjectSet<>();
     protected @Nullable Teamc[] ArrayTarget;
     protected @Nullable int[] targetID;
+    protected @Nullable int[] listedCheck = new int[0];
     protected @Nullable Vec2[] ArrayVec2;
 
     public TeslaOrbType(float range, int damage){
@@ -31,12 +32,14 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
     @Override
     public void update(Bullet b) {
         super.update(b);
+        //int[] listedCheck = new int[0];
         updateList(b);
         if (ArrayTarget != null) for (Teamc target : ArrayTarget) {
             float x = target.getX();
             float y = target.getY();
             ArrayVec2 = new Vec2[]{new Vec2(x, y)};
         }
+        if(targetID.length => 3) listedCheck = null;
     }
 
     public void updateList(Bullet b){
@@ -52,7 +55,6 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
         if(target != null){
             if(target.id() != lastID){
                 lastID = target.id();
-                int[] listedCheck = new int[0];
                 boolean duplicates = false;
                 if(targetID!=null){ for (int i=0; i<targetID.length; i++){
                     if(targetID[i]!=listedCheck[i]){
@@ -63,7 +65,7 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
                     }
                 }
                                    } else {
-                    duplicates = false
+                    duplicates = false;
                         }
                 if(!duplicates) ArrayTarget = new Teamc[]{target};
                 targetID = new int[]{lastID};
