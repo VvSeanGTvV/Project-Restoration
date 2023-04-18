@@ -24,7 +24,7 @@ public class ExtendedDrill extends Drill {
     public Item acceptedItem = Items.copper;
     public @Nullable Item[] acceptedItems;
     public @Nullable Item[] listedDrillableItems;
-    protected TextureRegion topRegion = Core.atlas.find(rimString);
+    protected TextureRegion topRegion = Core.atlas.find("restored-mind-omni-rim");
     protected TextureRegion itemRegion = Core.atlas.find("restored-mind-drill-middle");
     protected TextureRegion region = Core.atlas.find("restored-mind-drill-bottom");
     protected TextureRegion rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
@@ -103,7 +103,7 @@ public class ExtendedDrill extends Drill {
 
         @Override
         public void draw() {
-            topRegion = Core.atlas.find(rimString);
+            topRegion = Core.atlas.find("restored-mind-omni-rim");
             itemRegion = Core.atlas.find("restored-mind-drill-middle");
             region = Core.atlas.find("restored-mind-drill-bottom");
             rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");

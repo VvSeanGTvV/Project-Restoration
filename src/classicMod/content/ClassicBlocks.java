@@ -10,6 +10,7 @@ import classicMod.library.blocks.classicBlocks.*;
 import classicMod.library.blocks.customBlocks.*;
 import classicMod.library.blocks.legacyBlocks.*;
 import classicMod.library.blocks.v6devBlocks.*;
+import classicMod.library.bullets.*;
 import mindustry.*;
 import mindustry.content.*;
 import mindustry.entities.bullet.*;
@@ -122,6 +123,7 @@ public class ClassicBlocks {
             drillTime = 4*60;
             health = 40;
             requiredItem = ClassicItems.stone;
+            alwaysUnlocked = true;
         }};
 
         ironDrill = new SingleDrill("iron-drill"){{
@@ -163,7 +165,6 @@ public class ClassicBlocks {
                 drawRim = false;
                 drawMineItem = true;
                 drawSpinSprite = true;
-                rimString = "restored-mind-omni-rim";
             }
 
             @Override
@@ -213,7 +214,7 @@ public class ClassicBlocks {
         }};
 
         melter = new GenericCrafter("melter"){{
-            requirements(Category.crafting, with(Items.copper, 60, Items.lead, 70, ClassicItems.denseAlloy, 90));
+            requirements(Category.crafting, with(Items.copper, 30, Items.lead, 30, ClassicItems.denseAlloy, 50));
             health = 200;
             outputLiquid = new LiquidStack(ClassicLiquids.lava, 10f/60f);
             consumeItems(with(ClassicItems.stone, 1));
@@ -225,7 +226,7 @@ public class ClassicBlocks {
 
         lavaSmelter = new GenericCrafter("lava-smelter"){{
             requirements(Category.crafting, with(Items.titanium, 15, ClassicItems.steel, 30));
-            consumeLiquid(ClassicLiquids.lava, 40f/60f);
+            consumeLiquid(ClassicLiquids.lava, 35f/60f);
             consumeItem(ClassicItems.iron, 1);
             outputItem = new ItemStack(ClassicItems.steel, 1);
             health = 80;
@@ -233,8 +234,8 @@ public class ClassicBlocks {
             craftEffect = ExtendedFx.purifystone;
         }};
         stoneFormer = new GenericCrafter("stone-former"){{
-            requirements(Category.crafting, with(ClassicItems.iron, 10, ClassicItems.steel, 10));
-            consumeLiquid(ClassicLiquids.lava, 16f/60f);
+            requirements(Category.crafting, with(Items.lead, 30, ClassicItems.steel, 30, ClassicItems.denseAlloy, 55));
+            consumeLiquid(ClassicLiquids.lava, 15f/60f);
             outputItem = new ItemStack(ClassicItems.stone, 1);
             health = 80;
             craftTime = 12;
@@ -285,23 +286,24 @@ public class ClassicBlocks {
             range = 69f;
             reload = 3f;
             ammo(Items.coal, plasmaflame);
-            health = 180*ClassicBuff;
+            health = 180;
             outlineColor = Color.valueOf("ffd86c");
             outlineRadius = 4;
         }};
 
-        /*teslaTurret = new PowerTurret("tesla-turret"){{ TODO fix bugs
-            requirements(Category.turret, with(Items.titanium, 25*ClassicRequirementsMulti, Items.fissileMatter, 15*ClassicRequirementsMulti, Items.metaglass, 20*ClassicRequirementsMulti));
-            range = 70*1.15f;
+        teslaTurret = new PowerTurret("tesla-turret"){{ //TODO fix bugs
+            requirements(Category.turret, with(Items.titanium, 25, ClassicItems.dirium, 15, Items.metaglass, 20));
+            range = 80.5f;
             shootType = new TeslaOrbType(range,9); //TeslaOrb(tile.drawx() + Angles.trnsx(entity.rotation, len), tile.drawy() + Angles.trnsy(entity.rotation, len), range, 9).add();
             shootSound = tesla;
             shootEffect = Fx.none;
             smokeEffect = Fx.none;
             reload = 15f;
-            health = 140*ClassicBuff;
+            health = 140;
             outlineColor = Color.valueOf("ffd86c");
             outlineRadius = 4;
-        }};*/
+            playerControllable = false;
+        }};
 
         nuclearReactor = new NuclearReactor("nuclear-reactor"){{
                 requirements(Category.power, with(Items.titanium, 40 * ClassicRequirementsMulti, ClassicItems.dirium, 40 * ClassicRequirementsMulti, Items.metaglass, 50 * ClassicRequirementsMulti));

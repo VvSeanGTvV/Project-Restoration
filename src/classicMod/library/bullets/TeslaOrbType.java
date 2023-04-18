@@ -4,7 +4,7 @@ package classicMod.library.bullets;
 import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
-import arc.math.*;
+import arc.math.geom.*;
 import arc.util.*;
 import classicMod.content.*;
 import mindustry.entities.*;
@@ -17,6 +17,7 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
     //private Array<Vector2> points = new Array<>();
     //private ObjectSet<Enemy> hit = new ObjectSet<>();
     protected @Nullable Teamc[] ArrayTarget;
+    protected @Nullable Vec2[] ArrayVec2;
 
     public TeslaOrbType(float range, int damage){
         this.damage = damage;
@@ -33,12 +34,14 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
         if(ArrayTarget != null) for (Teamc target : ArrayTarget){
             float x = target.getX();
             float y = target.getY();
+            ArrayVec2 = new Vec2[]{new Vec2(x,y)};
         }
     }
 
     public void updateList(Bullet b){
         Teamc target;
         ArrayTarget = null;
+        ArrayVec2 = null;
         float realAimX = b.aimX < 0 ? b.x : b.aimX;
         float realAimY = b.aimY < 0 ? b.y : b.aimY;
         target = Units.closestTarget(b.team, realAimX, realAimY, range,
@@ -51,7 +54,13 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
     public void draw(Bullet b) { //TODO make multi target version
 
         Draw.color(Color.white);
-        Drawf.laser(Core.atlas.white(), Core.atlas.find("restored-mind-circle"), b.x, b.y, b.aimX, b.aimY, 3f - Mathf.absin(Time.delta, lifetime*2f));
+        Vec2 lastVec = new Vec2(b.x, b.y);
+        if(ArrayVec2 != null) for (Vec2 vec2 : ArrayVec2){
+            Drawf.line(Color.white, lastVec.x, lastVec.y, vec2.x, vec2.y);
+            Draw.rect(Core.atlas.find("restored-mind-circle"), vec2.x, vec2.y);
+            if(lastVec!=vec2) lastVec = vec2;
+        }
+        //Drawf.laser(Core.atlas.white(), Core.atlas.find("restored-mind-circle"), b.x, b.y, b.aimX, b.aimY, 3f - Mathf.absin(Time.delta, lifetime*2f));
 
         Draw.reset();
 

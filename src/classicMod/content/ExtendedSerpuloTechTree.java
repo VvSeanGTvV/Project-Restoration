@@ -74,25 +74,26 @@ public class ExtendedSerpuloTechTree {
             });
         });
 
-        margeNode(mechanicalDrill, () -> {
+        margeNode(coreShard, () -> {
             node(stoneDrill, () -> {
                 node(ironDrill, () -> {
-                    node(uraniumDrill);
-                    node(titaniumDrill, () -> {
-                        node(omniDrill);
+                    node(steelSmelter, () -> {
+                        node(crucible);
+                        node(ClassicBlocks.melter, () -> {
+                            node(lavaSmelter);
+                            node(stoneFormer);
+                        });
+                        node(titaniumDrill, () -> {
+                            node(omniDrill);
+                        });
                     });
+                    node(uraniumDrill);
                 });
                 node(coalDrill);
             });
+        });
 
-            node(steelSmelter, () -> {
-                node(lavaSmelter);
-                node(crucible);
-                node(ClassicBlocks.melter, () -> {
-                    node(stoneFormer);
-                });
-            });
-
+        margeNode(mechanicalDrill, () -> {
             node(denseSmelter, () -> {
                 node(arcSmelter, () -> {
 
@@ -115,8 +116,15 @@ public class ExtendedSerpuloTechTree {
         });
 
         //item
+        margeNode(Items.coal, () -> {
+            nodeProduce(ClassicItems.denseAlloy, () -> {
+
+            });
+        });
+
         margeNode(coreShard, () -> {
             nodeProduce(ClassicItems.stone, () -> {
+                nodeProduce(ClassicLiquids.lava);
                 nodeProduce(ClassicItems.uranium, () -> {
 
                 });
@@ -126,9 +134,6 @@ public class ExtendedSerpuloTechTree {
 
                         });
                     });
-                });
-                nodeProduce(ClassicItems.denseAlloy, () -> {
-
                 });
             });
         });
