@@ -47,7 +47,7 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
         Teamc target;
         target = Units.closestTarget(b.team, b.x, b.y, range * b.fout(),
                 e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !b.collided.contains(e.id),
-                t -> t.isValid() && collidesGround && !b.collided.contains(t.id);
+                t -> t.isValid() && collidesGround && !b.collided.contains(t.id));
         if( target != null ) {
             ArrayTarget = new Teamc[]{target};
         }
