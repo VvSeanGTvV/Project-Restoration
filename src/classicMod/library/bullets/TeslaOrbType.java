@@ -39,7 +39,7 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
             float y = target.getY();
             ArrayVec2 = new Vec2[]{new Vec2(x, y)};
         }
-        if(targetID.length => 3) listedCheck = null;
+        if(targetID.length >= 3) listedCheck = null;
     }
 
     public void updateList(Bullet b){
