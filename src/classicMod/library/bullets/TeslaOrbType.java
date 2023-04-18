@@ -34,13 +34,15 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
     public void update(Bullet b) {
         super.update(b);
         autoTarget(b);
-        b.keepAlive = true;
+        //b.keepAlive = true;
+        b.type.pierce = true;
+        b.type.pierceCap = limitedMoves;
         if (ArrayTarget != null) for (Teamc target : ArrayTarget) {
             float x = target.getX();
             float y = target.getY();
             ArrayVec2 = new Vec2[]{new Vec2(x, y)};
         }
-        if(moveTimes >= limitedMoves) removed(b);
+        //if(moveTimes >= limitedMoves) removed(b);
     }
 
     public void autoTarget(Bullet b){ //from Prog-mats
