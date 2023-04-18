@@ -28,7 +28,7 @@ public class ClassicMod extends Mod{
     protected LoadedMod resMod = mods.locateMod("restored-mind");
     public ClassicMod(){
         //Log.info("Loaded Classic constructor.");
-        //listen for game load event
+        //listen for game load eventa
 
 
         Events.on(ClientLoadEvent.class, e -> {
