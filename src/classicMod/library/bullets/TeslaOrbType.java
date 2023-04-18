@@ -55,7 +55,7 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
                 int[] listedCheck = new int[0];
                 boolean duplicates = false;
                 for (int i=0; i<targetID.length; i++){
-                    if(targetID[i]!=listedCheck[i] && targetID[i] != null){
+                    if(targetID[i]!=listedCheck[i] && targetID != null){
                         listedCheck = new int[]{lastID};
                         duplicates=false;
                     }else {
