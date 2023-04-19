@@ -56,7 +56,7 @@ public class TeslaOrbType extends BulletType {
         if(ArrayTarget != null){
             if(ArrayTarget.length >= hitCap) {
                ArrayTarget = null;
-               despawned(b);
+               b.time = b.lifetime + 1f;
             }
         }
     }
