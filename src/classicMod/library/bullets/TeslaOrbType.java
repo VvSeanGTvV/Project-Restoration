@@ -51,11 +51,12 @@ public class TeslaOrbType extends BulletType {
         if (ArrayTarget != null) for (Teamc target : ArrayTarget) {
             float x = target.getX();
             float y = target.getY();
-            ArrayVec2 = new Vec2[]{new Vec2(x, y)};
+            this.ArrayVec2 = new Vec2[]{new Vec2(x, y)};
         }
         if(ArrayTarget != null){
             if(ArrayTarget.length >= hitCap) {
                ArrayTarget = null;
+               ArrayVec2 = null;
                b.time = b.lifetime + 1f;
             }
         }
@@ -69,7 +70,7 @@ public class TeslaOrbType extends BulletType {
                 e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !b.collided.contains(e.id),
                 t -> t.isValid() && collidesGround && !b.collided.contains(t.id));
         if( target != null  && moveScl < 1f) {
-            ArrayTarget = new Teamc[]{target};
+            this.ArrayTarget = new Teamc[]{target};
         } else {
             ArrayTarget = null;
             ArrayVec2 = null;
