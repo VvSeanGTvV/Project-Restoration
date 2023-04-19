@@ -116,7 +116,8 @@ public class GenericSmelter extends GenericCrafter {
         protected boolean accepted;
 
         public float progress(){
-            return 1f-fuelProgress*Math.round(efficiency);
+            return 1f-fuelProgress;
+            if(efficiency<=0) return 0;
         }
 
         @Override

@@ -23,6 +23,7 @@ public class TeslaOrbType extends BulletType {
     protected @Nullable Vec2[] ArrayVec2;
     protected int hitCap;
     protected int verifiedHits;
+    protected float moveScl = 0;
 
     /**
      * Creates a Tesla orb that jumps other enemy's unit/block.
@@ -52,18 +53,14 @@ public class TeslaOrbType extends BulletType {
             float y = target.getY();
             ArrayVec2 = new Vec2[]{new Vec2(x, y)};
         }
-        int l = 0;
         if(b.hit){
-            if(l==0) l=l+1;
-        } else {
-            if(l!=0) verifiedHits++;
+            this.verifiedHits++;
         }
         if(verifiedHits >= hitCap) despawned(b);
     }
 
     /** AutoTargets the nearest enemy unit/block while keeping track on a listed array, this could be saved on {@link #ArrayTarget} **/
     public void autoTarget(Bullet b){ //from Prog-mats
-        float moveScl = 0;
         moveScl = Mathf.lerpDelta(moveScl, 1f, timeSpeedup);
         Teamc target;
         target = Units.closestTarget(b.team, b.x, b.y, range * b.fout(),
@@ -78,7 +75,6 @@ public class TeslaOrbType extends BulletType {
 
     @Override
     public void draw(Bullet b) { //TODO make multi target version
-        float moveScl = 0;
         moveScl = Mathf.lerpDelta(moveScl, 1f, timeSpeedup);
         Draw.color(Color.white);
         Vec2 lastVec = new Vec2(b.x, b.y);
