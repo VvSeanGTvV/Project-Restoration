@@ -72,6 +72,7 @@ public class TeslaOrbType extends BulletType {
             ArrayTarget = new Teamc[]{target};
         } else {
             ArrayTarget = null;
+            ArrayVec2 = null;
             b.time = b.lifetime + 1f;
         }
     }
