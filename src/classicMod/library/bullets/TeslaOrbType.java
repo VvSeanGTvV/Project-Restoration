@@ -53,10 +53,11 @@ public class TeslaOrbType extends BulletType {
             float y = target.getY();
             ArrayVec2 = new Vec2[]{new Vec2(x, y)};
         }
-        assert ArrayTarget != null;
-        if(ArrayTarget.length >= hitCap) {
-            ArrayTarget = null;
-            despawned(b);
+        if(ArrayTarget != null){
+            if(ArrayTarget.length >= hitCap) {
+               ArrayTarget = null;
+               despawned(b);
+            }
         }
     }
 
