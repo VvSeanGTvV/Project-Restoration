@@ -23,6 +23,7 @@ public class TeslaOrbType extends BulletType {
     protected @Nullable Vec2[] ArrayVec2;
     /** Maximum hits before despawning **/
     protected int hitCap;
+    protected int l = 0;
     protected float moveScl = 0;
 
     /**
@@ -52,19 +53,19 @@ public class TeslaOrbType extends BulletType {
             float x = target.getX();
             float y = target.getY();
             this.ArrayVec2 = new Vec2[]{new Vec2(x, y)};
+            l++;
         }
-        if(ArrayTarget != null){
-            if(ArrayTarget.length >= hitCap) {
+            if(l >= hitCap) {
+               l = 0;
                ArrayTarget = null;
                ArrayVec2 = null;
                b.time = b.lifetime + 1f;
             }
-        }
     }
 
     /** AutoTargets the nearest enemy unit/block while keeping track on a listed array, this could be saved on {@link #ArrayTarget} **/
     public void autoTarget(Bullet b){ //from Prog-mats
-        moveScl = Mathf.lerpDelta(moveScl, 1f, timeSpeedup);
+        //moveScl = Mathf.lerpDelta(moveScl, 1f, timeSpeedup);
         Teamc target;
         target = Units.closestTarget(b.team, b.x, b.y, range * b.fout(),
                 e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !b.collided.contains(e.id),
