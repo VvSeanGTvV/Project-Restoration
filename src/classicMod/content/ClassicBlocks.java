@@ -154,13 +154,13 @@ public class ClassicBlocks {
             requiredItem = Items.coal;
         }};
 
-        omniDrill = new ExtendedDrill("omni-drill"){
+        omniDrill = new Drill("omni-drill"){
             {
                 requirements(Category.production, with(Items.titanium, 40, ClassicItems.dirium, 40));
                 health = 40;
                 drillTime = 4*60;
                 drillEffect = ExtendedFx.spark;
-                acceptedItems = new Item[]{Items.titanium, Items.coal, ClassicItems.iron, ClassicItems.uranium, ClassicItems.stone};
+                //acceptedItems = new Item[]{Items.titanium, Items.coal, ClassicItems.iron, ClassicItems.uranium, ClassicItems.stone};
                 tier = 4;
                 drawRim = false;
                 drawMineItem = true;
@@ -168,8 +168,12 @@ public class ClassicBlocks {
             }
 
             @Override
-            public TextureRegion[] icons() {
-                return new TextureRegion[]{Core.atlas.find("restored-mind-drill-bottom"), Core.atlas.find("restored-mind-drill-rotator"), Core.atlas.find(rimString)};
+            public void load() {
+                super.load();
+                itemRegion = Core.atlas.find("restored-mind-drill-middle");
+                region = Core.atlas.find("restored-mind-drill-bottom");
+                rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
+                topRegion = Core.atlas.find("restored-mind-default-rim");
             }
         };
 
@@ -294,7 +298,7 @@ public class ClassicBlocks {
         teslaTurret = new PowerTurret("tesla-turret"){{ //TODO fix bugs
             requirements(Category.turret, with(Items.titanium, 25, ClassicItems.dirium, 15, Items.metaglass, 20));
             range = 80.5f;
-            shootType = new TeslaOrbType(range,9, 10); //TeslaOrb(tile.drawx() + Angles.trnsx(entity.rotation, len), tile.drawy() + Angles.trnsy(entity.rotation, len), range, 9).add();
+            shootType = new TeslaOrbType(range,13, 10);
             shootSound = tesla;
             shootEffect = Fx.none;
             smokeEffect = Fx.none;

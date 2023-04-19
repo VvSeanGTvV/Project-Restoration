@@ -13,12 +13,14 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 
 
-public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBullet and LaserBullet
-    //private Array<Vector2> points = new Array<>();
-    //private ObjectSet<Enemy> hit = new ObjectSet<>();
+public class TeslaOrbType extends BulletType {
+    /** Array of the listed target **/
     protected @Nullable Teamc[] ArrayTarget;
+    /** How many times it has moved once per milisecond **/
     protected int moveTimes;
+    /** How many times it has to move in miliseconds **/
     protected int limitedMoves;
+    /** Array of the listed target's position **/
     protected @Nullable Vec2[] ArrayVec2;
 
     public TeslaOrbType(float range, int damage, int limitedMove){
@@ -42,9 +44,10 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
             float y = target.getY();
             ArrayVec2 = new Vec2[]{new Vec2(x, y)};
         }
-        if(moveTimes >= limitedMoves*10) b.time = b.lifetime + 1f;
+        if(moveTimes >= limitedMoves*60) b.time = b.lifetime + 1f;
     }
 
+    /** AutoTargets the nearest enemy unit/block while keeping track on a listed array, this could be saved on {@link #ArrayTarget} **/
     public void autoTarget(Bullet b){ //from Prog-mats
         Teamc target;
         target = Units.closestTarget(b.team, b.x, b.y, range * b.fout(),
@@ -71,7 +74,6 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
             b.vel = new Vec2();
             if(lastVec!=vec2) lastVec = vec2;
         }
-        //Drawf.laser(Core.atlas.white(), Core.atlas.find("restored-mind-circle"), b.x, b.y, b.aimX, b.aimY, 3f - Mathf.absin(Time.delta, lifetime*2f));
 
        Draw.reset();
 

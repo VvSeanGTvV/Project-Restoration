@@ -25,6 +25,7 @@ public class GenericSmelter extends GenericCrafter {
     /** Color of the flame when using fuel **/
     public Color flameColor = Color.valueOf("ffb879");
     public @Nullable ItemStack[] fuelItems;
+    /** The burning effect for every fuel is depleted and consumed another one **/
     public Effect burnEffect = ExtendedFx.fuelburn;
 
     public GenericSmelter(String name) {
@@ -127,6 +128,11 @@ public class GenericSmelter extends GenericCrafter {
             return accepted || this.block.consumesItem(item) && this.items.get(item) < this.getMaximumAccepted(item);
         }
 
+        /**
+         * Consumes fuel/item only and can be useful for GenericSmelter.
+         * @param item Gets the item and consume that specific fuel.
+         * @param amount Gets the required amount, and consume at the specific amount it has. [Deprecated soon]
+         **/
         public void consumeFuel(ItemStack[] item, int amount) {
             for (ItemStack itemStack : item) {
                 Item it1 = itemStack.item;
@@ -141,20 +147,16 @@ public class GenericSmelter extends GenericCrafter {
                 activeScl = Mathf.lerpDelta(activeScl, warmupTarget(), warmupSpeed);
                 fuelProgress += getProgressIncrease(burnTime);
                 if(fuelProgress >= 1f){
-                    consumeFuel(fuelItems, 1);
+                    consumeFuel(fuelItems, 1); //TODO make it consume multiple items with different numbers and not fixed num.
                     fuelProgress %= 1f;
                     burnEffect.at(this.x + Mathf.range(2f), this.y + Mathf.range(2f));
                 }
             } else {
                activeScl = Mathf.lerpDelta(activeScl, 0f, warmupSpeed);
-            }
-            if(fuelProgress > 0f && efficiency <= 0f) {
-                fuelProgress += getProgressIncrease(burnTime);
-                if(fuelProgress >= 1f){
-                    consumeFuel(fuelItems, 1);
-                    fuelProgress %= 1f;
-                    burnEffect.at(this.x + Mathf.range(2f), this.y + Mathf.range(2f));
-                }
+               if(fuelProgress != 0 && fuelProgress < 1){
+                   fuelProgress %= 1f;
+                   consumeFuel(fuelItems, 1);
+               }
             }
             if(efficiency > 0 && hasFuel){
 

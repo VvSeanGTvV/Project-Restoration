@@ -20,7 +20,6 @@ import static mindustry.Vars.*;
 public class SingleDrill extends Drill {
     /** Can only get that specific item **/
     public Item requiredItem = Items.copper;
-    public float drillDuration;
     public TextureRegion topRegion;
     public TextureRegion itemRegion;
     public TextureRegion region;
@@ -45,7 +44,7 @@ public class SingleDrill extends Drill {
 
         countOre(tile);
 
-        if(returnItem != null && Objects.equals(returnItem.name, requiredItem.name)){
+        if(returnItem != null){
             float width = drawPlaceText(Core.bundle.formatFloat("bar.drillspeed", 60f / getDrillTime(returnItem) * returnCount, 2), x, y, valid);
             float dx = x * tilesize + offset - width/2f - 4f, dy = y * tilesize + offset + size * tilesize / 2f + 5, s = iconSmall / 4f;
             Draw.mixcol(Color.darkGray, 1f);

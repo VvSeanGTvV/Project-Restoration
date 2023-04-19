@@ -16,9 +16,9 @@ import mindustry.world.meta.*;
 
 import java.util.*;
 
-import static mindustry.Vars.indexer;
-import static mindustry.Vars.state;
+import static mindustry.Vars.*;
 
+@Deprecated
 public class ExtendedDrill extends Drill {
     public String rimString = "restored-mind-default-rim";
     public Item acceptedItem = Items.copper;
