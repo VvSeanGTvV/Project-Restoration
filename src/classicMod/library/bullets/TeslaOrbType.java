@@ -46,6 +46,7 @@ public class TeslaOrbType extends BulletType {
         }
         if(this.moveTimes >= limitedMoves*60){
             b.time = b.lifetime + 1f;
+           this.moveTimes = 0;
         }
     }
 
