@@ -24,7 +24,7 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
     public TeslaOrbType(float range, int damage, int limitedMove){
         this.damage = damage;
         this.range = range;
-        this.limitedMoves = 10;
+        this.limitedMoves = limitedMove;
         hitEffect = ExtendedFx.laserhit;
         drawSize = 200f;
         this.lifetime = 30f*60f;
@@ -61,7 +61,7 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
     public void draw(Bullet b) { //TODO make multi target version
 
         Draw.color(Color.white);
-        Draw.alpha(1f - (moveTimes/limitedMoves));
+        Draw.alpha(1f - ((float)moveTimes/limitedMoves));
         Vec2 lastVec = new Vec2(b.x, b.y);
         if(ArrayVec2 != null) for (Vec2 vec2 : ArrayVec2){
             Drawf.line(Color.white, lastVec.x, lastVec.y, vec2.x, vec2.y);
@@ -73,7 +73,7 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
         }
         //Drawf.laser(Core.atlas.white(), Core.atlas.find("restored-mind-circle"), b.x, b.y, b.aimX, b.aimY, 3f - Mathf.absin(Time.delta, lifetime*2f));
 
-        Draw.reset();
+        //Draw.reset();
 
         /*if(points.size == 0) return;
 
