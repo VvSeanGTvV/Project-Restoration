@@ -69,8 +69,8 @@ public class ExtendedSerpuloTechTree {
             });
         });
         margeNode(phaseConveyor, () -> {
-            node(teleporter,() -> {
-                node(warpGate);
+            node(warpGate,() -> {
+                node(teleporter);
             });
         });
 
