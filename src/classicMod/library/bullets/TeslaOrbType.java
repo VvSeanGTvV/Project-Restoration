@@ -30,14 +30,15 @@ public class TeslaOrbType extends BulletType {
      * Creates a Tesla orb that jumps other enemy's unit/block.
      * @param range The maximum range that the arc can jump to Math: (range/2)
      * @param damage Damage per tick
+     * @param maxHits Maximum hits before despawning immediately.
      * @param timerSpeed How fast is the lifetime
      **/
-    public TeslaOrbType(float range, int damage, float timerSpeed){
+    public TeslaOrbType(float range, int damage, int maxHits, float timerSpeed){
         this.damage = damage;
         this.range = range/2f;
         hitEffect = ExtendedFx.laserhit;
         drawSize = 200f;
-        hitCap = 5;
+        hitCap = maxHits;
         this.lifetime = 30f*60f;
         this.timeSpeedup = timerSpeed;
     }
@@ -45,16 +46,15 @@ public class TeslaOrbType extends BulletType {
     @Override
     public void update(Bullet b) {
         super.update(b);
-        if(l >= hitCap*2) {
-               l = 0;
-               ArrayTarget = null;
-               ArrayVec2 = null;
-               b.time = b.lifetime + 1f;
-            }
+        if(l >= hitCap*2) { //Allows to detect whether if the bullet hit count has reached maximum peak.
+            l = 0;
+            ArrayTarget = null;
+            ArrayVec2 = null;
+            b.time = b.lifetime + 1f;
+        }
         autoTarget(b);
-        //b.keepAlive = true;
         b.type.pierce = true;
-        b.type.pierceCap = 255;
+        b.type.pierceCap = Integer.MAX_VALUE;
         if (ArrayTarget != null) for (Teamc target : ArrayTarget) {
             float x = target.getX();
             float y = target.getY();

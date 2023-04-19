@@ -74,38 +74,10 @@ public class ExtendedSerpuloTechTree {
             });
         });
 
-        margeNode(coreShard, () -> {
-            node(stoneDrill, () -> {
-                node(ironDrill, () -> {
-                    node(steelSmelter, () -> {
-                        node(crucible);
-                        node(ClassicBlocks.melter, () -> {
-                            node(lavaSmelter);
-                            node(stoneFormer);
-                        });
-                        node(titaniumDrill, () -> {
-                            node(omniDrill);
-                        });
-                    });
-                    node(uraniumDrill);
-                });
-                node(coalDrill);
-            });
-        });
-
         margeNode(mechanicalDrill, () -> {
             node(denseSmelter, () -> {
                 node(arcSmelter, () -> {
 
-                });
-            });
-        });
-
-        margeNode(duo, () -> {
-            node(plasmaTurret, () -> {
-                node(teslaTurret);
-                node(chainTurret, () -> {
-                    node(titanCannon);
                 });
             });
         });
@@ -120,22 +92,6 @@ public class ExtendedSerpuloTechTree {
         margeNode(Items.coal, () -> {
             nodeProduce(ClassicItems.denseAlloy, () -> {
 
-            });
-        });
-
-        margeNode(coreShard, () -> {
-            nodeProduce(ClassicItems.stone, () -> {
-                nodeProduce(ClassicLiquids.lava);
-                nodeProduce(ClassicItems.uranium, () -> {
-
-                });
-                nodeProduce(ClassicItems.iron, () -> {
-                    nodeProduce(ClassicItems.steel, () -> {
-                        nodeProduce(ClassicItems.dirium, () -> {
-
-                        });
-                    });
-                });
             });
         });
     }

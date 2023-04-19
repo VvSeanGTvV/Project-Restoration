@@ -28,6 +28,7 @@ import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.heat.*;
 import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
+import mindustry.world.blocks.storage.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
@@ -39,7 +40,8 @@ import static mindustry.type.ItemStack.*;
 
 public class ClassicBlocks {
     public static Block
-    titanCannon, chainTurret, plasmaTurret, teslaTurret,//Turret - classic
+    coreSolo, //lonely Core - classic
+    titanCannon, chainTurret, plasmaTurret, teslaTurret, //Turret - classic
     nuclearReactor, //Power - classic
     crucible, steelSmelter, lavaSmelter, stoneFormer, //Production - classic
     teleporter, //Distribution - classic
@@ -84,6 +86,11 @@ public class ClassicBlocks {
     }
 
     public void load() {
+        coreSolo = new CoreBlock("core-solo"){{
+            health = 120;
+            unitType = alpha;
+            isFirstTier = true;
+        }};
         warpGate = new WarpGate("warp-gate"){
             {
                 requirements(Category.distribution, with(ClassicItems.steel, 30, ClassicItems.dirium, 40));
@@ -298,7 +305,7 @@ public class ClassicBlocks {
         teslaTurret = new PowerTurret("tesla-turret"){{ //TODO fix bugs
             requirements(Category.turret, with(Items.titanium, 25, ClassicItems.dirium, 15, Items.metaglass, 20));
             range = 80.5f;
-            shootType = new TeslaOrbType(range,13, 0.029f);
+            shootType = new TeslaOrbType(range,13, 5, 0.029f);
             shootSound = tesla;
             shootEffect = Fx.none;
             smokeEffect = Fx.none;
