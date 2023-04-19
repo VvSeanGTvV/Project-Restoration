@@ -225,7 +225,7 @@ public class ClassicBlocks {
         }};
 
         melter = new GenericCrafter("melter"){{
-            requirements(Category.crafting, with(Items.copper, 30, Items.lead, 30, ClassicItems.denseAlloy, 50));
+            requirements(Category.crafting, with(ClassicItems.stone, 30, ClassicItems.iron, 30, ClassicItems.steel, 50));
             health = 200;
             outputLiquid = new LiquidStack(ClassicLiquids.lava, 10f/60f);
             consumeItems(with(ClassicItems.stone, 1));
@@ -245,7 +245,7 @@ public class ClassicBlocks {
             craftEffect = ExtendedFx.purifystone;
         }};
         stoneFormer = new GenericCrafter("stone-former"){{
-            requirements(Category.crafting, with(Items.lead, 30, ClassicItems.steel, 30, ClassicItems.denseAlloy, 55));
+            requirements(Category.crafting, with(ClassicItems.stone, 30, ClassicItems.iron, 30, ClassicItems.steel, 55));
             consumeLiquid(ClassicLiquids.lava, 15f/60f);
             outputItem = new ItemStack(ClassicItems.stone, 1);
             health = 80;
@@ -303,7 +303,7 @@ public class ClassicBlocks {
         }};
 
         teslaTurret = new PowerTurret("tesla-turret"){{ //TODO fix bugs
-            requirements(Category.turret, with(Items.titanium, 25, ClassicItems.dirium, 15, Items.metaglass, 20));
+            requirements(Category.turret, with(Items.titanium, 25, ClassicItems.dirium, 15, ClassicItems.steel, 20));
             range = 80.5f;
             shootType = new TeslaOrbType(range,13, 5, 0.029f);
             shootSound = tesla;
