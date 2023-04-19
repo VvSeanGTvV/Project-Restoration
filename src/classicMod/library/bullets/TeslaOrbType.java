@@ -4,6 +4,7 @@ package classicMod.library.bullets;
 import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
+import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
 import classicMod.content.*;
@@ -16,20 +17,27 @@ import mindustry.graphics.*;
 public class TeslaOrbType extends BulletType {
     /** Array of the listed target **/
     protected @Nullable Teamc[] ArrayTarget;
-    /** How many times it has moved once per milisecond **/
-    protected int moveTimes;
-    /** How many times it has to move in miliseconds **/
-    protected int limitedMoves;
+    /** How fast is the timer **/
+    protected float timeSpeedup;
     /** Array of the listed target's position **/
     protected @Nullable Vec2[] ArrayVec2;
+    protected int hitCap;
+    protected int verifiedHits;
 
-    public TeslaOrbType(float range, int damage, int limitedMove){
+    /**
+     * Creates a Tesla orb that jumps other enemy's unit/block.
+     * @param range The maximum range that the arc can jump to Math: (range/2)
+     * @param damage Damage per tick
+     * @param timerSpeed How fast is the lifetime
+     **/
+    public TeslaOrbType(float range, int damage, float timerSpeed){
         this.damage = damage;
-        this.range = range;
-        this.limitedMoves = limitedMove;
+        this.range = range/2f;
         hitEffect = ExtendedFx.laserhit;
         drawSize = 200f;
+        hitCap = 3;
         this.lifetime = 30f*60f;
+        this.timeSpeedup = timerSpeed;
     }
 
     @Override
@@ -38,27 +46,31 @@ public class TeslaOrbType extends BulletType {
         autoTarget(b);
         //b.keepAlive = true;
         b.type.pierce = true;
-        b.type.pierceCap = limitedMoves;
+        b.type.pierceCap = 255;
         if (ArrayTarget != null) for (Teamc target : ArrayTarget) {
             float x = target.getX();
             float y = target.getY();
             ArrayVec2 = new Vec2[]{new Vec2(x, y)};
         }
-        if(this.moveTimes >= limitedMoves*60){
-            b.time = b.lifetime + 1f;
-           this.moveTimes = 0;
+        int l = 0;
+        if(b.hit){
+            if(l==0) l=l+1;
+        } else {
+            if(l!=0) verifiedHits++;
         }
+        if(verifiedHits >= hitCap) despawned(b);
     }
 
     /** AutoTargets the nearest enemy unit/block while keeping track on a listed array, this could be saved on {@link #ArrayTarget} **/
     public void autoTarget(Bullet b){ //from Prog-mats
+        float moveScl = 0;
+        moveScl = Mathf.lerpDelta(moveScl, 1f, timeSpeedup);
         Teamc target;
         target = Units.closestTarget(b.team, b.x, b.y, range * b.fout(),
                 e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !b.collided.contains(e.id),
                 t -> t.isValid() && collidesGround && !b.collided.contains(t.id));
-        if( target != null ) {
+        if( target != null  && moveScl < 1f) {
             ArrayTarget = new Teamc[]{target};
-            this.moveTimes++;
         } else {
             b.time = b.lifetime + 1f;
         }
@@ -66,12 +78,14 @@ public class TeslaOrbType extends BulletType {
 
     @Override
     public void draw(Bullet b) { //TODO make multi target version
-
+        float moveScl = 0;
+        moveScl = Mathf.lerpDelta(moveScl, 1f, timeSpeedup);
         Draw.color(Color.white);
-        Draw.alpha(1f);
         Vec2 lastVec = new Vec2(b.x, b.y);
         if(ArrayVec2 != null) for (Vec2 vec2 : ArrayVec2){
+            Draw.alpha(1f-moveScl);
             Drawf.line(Color.white, lastVec.x, lastVec.y, vec2.x, vec2.y);
+            Draw.alpha(1f-moveScl);
             Draw.rect(Core.atlas.find("restored-mind-circle"), vec2.x, vec2.y);
             b.set(vec2);
             b.vel = new Vec2();

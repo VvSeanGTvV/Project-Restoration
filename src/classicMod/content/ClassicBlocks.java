@@ -298,7 +298,7 @@ public class ClassicBlocks {
         teslaTurret = new PowerTurret("tesla-turret"){{ //TODO fix bugs
             requirements(Category.turret, with(Items.titanium, 25, ClassicItems.dirium, 15, Items.metaglass, 20));
             range = 80.5f;
-            shootType = new TeslaOrbType(range,13, 10);
+            shootType = new TeslaOrbType(range,13, 0.1f);
             shootSound = tesla;
             shootEffect = Fx.none;
             smokeEffect = Fx.none;
