@@ -42,7 +42,7 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
             float y = target.getY();
             ArrayVec2 = new Vec2[]{new Vec2(x, y)};
         }
-        if(moveTimes >= limitedMoves) b.time = b.lifetime + 1f;
+        if(moveTimes >= limitedMoves*10) b.time = b.lifetime + 1f;
     }
 
     public void autoTarget(Bullet b){ //from Prog-mats
