@@ -57,7 +57,7 @@ public class TeslaOrbType extends BulletType {
                 t -> t.isValid() && collidesGround && !b.collided.contains(t.id));
         if( target != null ) {
             ArrayTarget = new Teamc[]{target};
-            moveTimes++;
+            this.moveTimes++;
         } else {
             b.time = b.lifetime + 1f;
         }
@@ -67,7 +67,7 @@ public class TeslaOrbType extends BulletType {
     public void draw(Bullet b) { //TODO make multi target version
 
         Draw.color(Color.white);
-        Draw.alpha(1f - (b.time/b.lifetime));
+        Draw.alpha(1f);
         Vec2 lastVec = new Vec2(b.x, b.y);
         if(ArrayVec2 != null) for (Vec2 vec2 : ArrayVec2){
             Drawf.line(Color.white, lastVec.x, lastVec.y, vec2.x, vec2.y);
