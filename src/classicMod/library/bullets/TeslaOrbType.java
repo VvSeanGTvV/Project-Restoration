@@ -42,7 +42,7 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
             float y = target.getY();
             ArrayVec2 = new Vec2[]{new Vec2(x, y)};
         }
-        //if(moveTimes >= limitedMoves) removed(b);
+        if(moveTimes >= limitedMoves) b.time = b.lifetime + 1f;
     }
 
     public void autoTarget(Bullet b){ //from Prog-mats
@@ -52,8 +52,9 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
                 t -> t.isValid() && collidesGround && !b.collided.contains(t.id));
         if( target != null ) {
             ArrayTarget = new Teamc[]{target};
+            moveTimes++;
         } else {
-            removed(b);
+            b.time = b.lifetime + 1f;
         }
     }
 
@@ -61,7 +62,7 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
     public void draw(Bullet b) { //TODO make multi target version
 
         Draw.color(Color.white);
-        Draw.alpha(1f - ((float)moveTimes/limitedMoves));
+        Draw.alpha(1f - (b.time/b.lifetime));
         Vec2 lastVec = new Vec2(b.x, b.y);
         if(ArrayVec2 != null) for (Vec2 vec2 : ArrayVec2){
             Drawf.line(Color.white, lastVec.x, lastVec.y, vec2.x, vec2.y);
@@ -69,11 +70,10 @@ public class TeslaOrbType extends BulletType { //MIXED VERSION betweem PointBull
             b.set(vec2);
             b.vel = new Vec2();
             if(lastVec!=vec2) lastVec = vec2;
-            moveTimes++;
         }
         //Drawf.laser(Core.atlas.white(), Core.atlas.find("restored-mind-circle"), b.x, b.y, b.aimX, b.aimY, 3f - Mathf.absin(Time.delta, lifetime*2f));
 
-        //Draw.reset();
+       Draw.reset();
 
         /*if(points.size == 0) return;
 
