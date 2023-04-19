@@ -173,7 +173,7 @@ public class ClassicBlocks {
                 itemRegion = Core.atlas.find("restored-mind-drill-middle");
                 region = Core.atlas.find("restored-mind-drill-bottom");
                 rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
-                topRegion = Core.atlas.find("restored-mind-default-rim");
+                topRegion = Core.atlas.find("restored-mind-omni-rim");
             }
         };
 

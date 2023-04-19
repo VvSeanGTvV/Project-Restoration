@@ -101,8 +101,9 @@ public class ExtendedSerpuloTechTree {
             });
         });
 
-        margeNode(scatter, () -> {
+        margeNode(duo, () -> {
             node(plasmaTurret, () -> {
+                node(teslaTurret);
                 node(chainTurret, () -> {
                     node(titanCannon);
                 });
