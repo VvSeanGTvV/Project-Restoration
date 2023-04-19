@@ -21,8 +21,8 @@ public class TeslaOrbType extends BulletType {
     protected float timeSpeedup;
     /** Array of the listed target's position **/
     protected @Nullable Vec2[] ArrayVec2;
+    /** Maximum hits before despawning **/
     protected int hitCap;
-    protected int verifiedHits;
     protected float moveScl = 0;
 
     /**
@@ -36,7 +36,7 @@ public class TeslaOrbType extends BulletType {
         this.range = range/2f;
         hitEffect = ExtendedFx.laserhit;
         drawSize = 200f;
-        hitCap = 3;
+        hitCap = 5;
         this.lifetime = 30f*60f;
         this.timeSpeedup = timerSpeed;
     }
@@ -53,10 +53,11 @@ public class TeslaOrbType extends BulletType {
             float y = target.getY();
             ArrayVec2 = new Vec2[]{new Vec2(x, y)};
         }
-        if(b.hit){
-            this.verifiedHits++;
+        assert ArrayTarget != null;
+        if(ArrayTarget.length >= hitCap) {
+            ArrayTarget = null;
+            despawned(b);
         }
-        if(verifiedHits >= hitCap) despawned(b);
     }
 
     /** AutoTargets the nearest enemy unit/block while keeping track on a listed array, this could be saved on {@link #ArrayTarget} **/
@@ -69,6 +70,7 @@ public class TeslaOrbType extends BulletType {
         if( target != null  && moveScl < 1f) {
             ArrayTarget = new Teamc[]{target};
         } else {
+            ArrayTarget = null;
             b.time = b.lifetime + 1f;
         }
     }
@@ -79,9 +81,10 @@ public class TeslaOrbType extends BulletType {
         Draw.color(Color.white);
         Vec2 lastVec = new Vec2(b.x, b.y);
         if(ArrayVec2 != null) for (Vec2 vec2 : ArrayVec2){
-            Draw.alpha(1f-moveScl);
+            float g = 0.1f;
+
+            Draw.alpha(((1f - g) + Mathf.absin(Time.time, 8f, g)) * moveScl);
             Drawf.line(Color.white, lastVec.x, lastVec.y, vec2.x, vec2.y);
-            Draw.alpha(1f-moveScl);
             Draw.rect(Core.atlas.find("restored-mind-circle"), vec2.x, vec2.y);
             b.set(vec2);
             b.vel = new Vec2();
