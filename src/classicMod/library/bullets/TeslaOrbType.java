@@ -45,6 +45,12 @@ public class TeslaOrbType extends BulletType {
     @Override
     public void update(Bullet b) {
         super.update(b);
+        if(l >= hitCap*2) {
+               l = 0;
+               ArrayTarget = null;
+               ArrayVec2 = null;
+               b.time = b.lifetime + 1f;
+            }
         autoTarget(b);
         //b.keepAlive = true;
         b.type.pierce = true;
@@ -55,12 +61,6 @@ public class TeslaOrbType extends BulletType {
             this.ArrayVec2 = new Vec2[]{new Vec2(x, y)};
             l++;
         }
-            if(l >= hitCap) {
-               l = 0;
-               ArrayTarget = null;
-               ArrayVec2 = null;
-               b.time = b.lifetime + 1f;
-            }
     }
 
     /** AutoTargets the nearest enemy unit/block while keeping track on a listed array, this could be saved on {@link #ArrayTarget} **/
