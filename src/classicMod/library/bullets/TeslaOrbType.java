@@ -44,7 +44,9 @@ public class TeslaOrbType extends BulletType {
             float y = target.getY();
             ArrayVec2 = new Vec2[]{new Vec2(x, y)};
         }
-        if(moveTimes >= limitedMoves*60) b.time = b.lifetime + 1f;
+        if(this.moveTimes >= limitedMoves*60){
+            b.time = b.lifetime + 1f;
+        }
     }
 
     /** AutoTargets the nearest enemy unit/block while keeping track on a listed array, this could be saved on {@link #ArrayTarget} **/
