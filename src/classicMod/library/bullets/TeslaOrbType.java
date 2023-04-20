@@ -84,7 +84,7 @@ public class TeslaOrbType extends BulletType {
         Draw.color(Color.white);
         Vec2 lastVec = new Vec2(b.x, b.y);
         float g = 0.1f;
-        Draw.alpha(((1f - g) + Mathf.absin(Time.time, 8f, g)) * moveScl);
+        Draw.alpha(1f-moveScl);
         if(ArrayVec2 != null) for (Vec2 vec2 : ArrayVec2){
             Drawf.light(lastVec.x, lastVec.y, vec2.x, vec2.y);
             Drawf.line(Color.white, lastVec.x, lastVec.y, vec2.x, vec2.y);
