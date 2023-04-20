@@ -43,15 +43,11 @@ public class CoreBlockClassic extends CoreBlock {
 
         if(renderer.isLaunching()) fout = 1f - fout;
 
-        float fin = 1f - fout;
-
         float scl = Scl.scl(4f) / renderer.getDisplayScale();
         float shake = 0f;
-        float s = region.width * region.scl() * scl * 3.6f * Interp.pow2Out.apply(fout);
         float rotation = Interp.pow2In.apply(fout) * 135f;
         x += Mathf.range(shake);
         y += Mathf.range(shake);
-        float thrustOpen = 0.25f;
 
         Draw.color(Pal.lightTrail);
 
@@ -89,6 +85,11 @@ public class CoreBlockClassic extends CoreBlock {
             }else{
                 super.draw();
             }
+        }
+
+        @Override
+        public void drawThrusters(float frame){
+            
         }
 
         @Override
