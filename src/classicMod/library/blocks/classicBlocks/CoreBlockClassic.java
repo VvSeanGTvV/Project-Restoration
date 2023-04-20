@@ -60,7 +60,7 @@ public class CoreBlockClassic extends CoreBlock {
 
         float scl = Scl.scl(4f) / renderer.getDisplayScale();
         float shake = 0f;
-        float rotation = Interp.pow2In.apply(fout) * 135f;
+        float rotation = Interp.pow2In.apply(lout) * 135f;
         x += Mathf.range(shake);
         y += Mathf.range(shake);
         Draw.color(Color.white);

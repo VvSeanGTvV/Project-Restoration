@@ -7,7 +7,7 @@ public class ClassicTechtree {
     //TODO make new campaign here
 
     public void load(){
-        nodeRoot("classic", coreSolo, () -> {
+        nodeRoot("Classic", coreSolo, () -> {
             node(teleporter);
             node(stoneDrill, () -> {
                 node(ironDrill, () -> {
@@ -21,7 +21,9 @@ public class ClassicTechtree {
                             node(omniDrill);
                         });
                     });
-                    node(uraniumDrill);
+                    node(uraniumDrill, () -> {
+                        node(nuclearReactor);
+                    });
                 });
                 node(coalDrill);
             });
@@ -33,6 +35,10 @@ public class ClassicTechtree {
                         node(titanCannon);
                     });
                 });
+            });
+
+            node(wallStone, () -> {
+               node(wallDirium, () -> {});
             });
 
             nodeProduce(ClassicItems.stone, () -> {

@@ -47,12 +47,13 @@ public class ClassicBlocks {
     stoneDrill, ironDrill, uraniumDrill, titaniumDrill, coalDrill, omniDrill, //SingleDrill - classic
     ironOre, uraniumOre, //Ore - classic
     lavaLiq, //Liquid - classic
+    wallStone, wallDirium, //Wall - classic
+
 
     warpGate, //Distribution [v4]
-
     melter, denseSmelter, arcSmelter, //Production [v4]
-
     fuseMKII, fuseMKI, salvoAlpha, //Turret [v4]
+
 
     dartPad, omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad [v5]
     wraithFactory, ghoulFactory, revenantFactory, //Air - Unit Factory [v5]
@@ -85,6 +86,14 @@ public class ClassicBlocks {
     }
 
     public void load() {
+        wallStone = new Block("stone-wall"){{
+            requirements(Category.defense, with(ClassicItems.stone, 12));
+            health = 160;
+        }};
+        wallDirium = new Block("dirium-wall"){{
+            requirements(Category.defense, with(ClassicItems.dirium, 12));
+            health = 760;
+        }};
         coreSolo = new CoreBlockClassic("core-solo"){{
             health = 120;
             unitType = alpha;
@@ -319,7 +328,7 @@ public class ClassicBlocks {
 
         basicTurret = new ItemTurret("basic-turret"){{
             requirements(Category.turret, with(ClassicItems.stone, 4));
-            range = 52;
+            range = 95.5f;
             reload = 15f;
             health = 45;
             outlineColor = Color.valueOf("1869a7");
