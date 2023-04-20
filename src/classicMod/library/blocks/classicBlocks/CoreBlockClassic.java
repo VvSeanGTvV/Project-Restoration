@@ -1,6 +1,7 @@
 package classicMod.library.blocks.classicBlocks;
 
 import arc.*;
+import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.scene.ui.layout.*;
@@ -51,8 +52,10 @@ public class CoreBlockClassic extends CoreBlock {
 
     @Override
     public void drawLanding(CoreBuild build, float x, float y){
-        float fout = renderer.getLandTime() / coreLandDuration;
+        float fout = coreLandDuration;
+        float lout = renderer.getLandTime() / coreLandDuration;
 
+        if(lout<=0f) fout = 0;
         if(renderer.isLaunching()) fout = 1f - fout;
 
         float scl = Scl.scl(4f) / renderer.getDisplayScale();
@@ -60,8 +63,7 @@ public class CoreBlockClassic extends CoreBlock {
         float rotation = Interp.pow2In.apply(fout) * 135f;
         x += Mathf.range(shake);
         y += Mathf.range(shake);
-
-        Draw.color(Pal.lightTrail);
+        Draw.color(Color.white);
 
         Draw.scl(scl);
 
