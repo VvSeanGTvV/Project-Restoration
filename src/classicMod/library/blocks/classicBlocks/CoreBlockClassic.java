@@ -24,6 +24,7 @@ public class CoreBlockClassic extends CoreBlock {
         thruster1 = Core.atlas.find("restored-mind-nullTexture");
         thruster2 = Core.atlas.find("restored-mind-nullTexture");
         teamRegion = Core.atlas.find("restored-mind-nullTexture");
+        region = Core.atlas.find(name);
     }
 
     @Override
