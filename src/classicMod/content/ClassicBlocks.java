@@ -47,7 +47,7 @@ public class ClassicBlocks {
     stoneDrill, ironDrill, uraniumDrill, titaniumDrill, coalDrill, omniDrill, //SingleDrill - classic
     ironOre, uraniumOre, //Ore - classic
     lavaLiq, //Liquid - classic
-    wallStone, wallDirium, //Wall - classic
+    wallStone, wallIron, wallSteel, wallDirium, wallComposite, //Wall - classic
 
 
     warpGate, //Distribution [v4]
@@ -86,14 +86,6 @@ public class ClassicBlocks {
     }
 
     public void load() {
-        wallStone = new Block("stone-wall"){{
-            requirements(Category.defense, with(ClassicItems.stone, 12));
-            health = 160;
-        }};
-        wallDirium = new Block("dirium-wall"){{
-            requirements(Category.defense, with(ClassicItems.dirium, 12));
-            health = 760;
-        }};
         coreSolo = new CoreBlockClassic("core-solo"){{
             health = 120;
             unitType = alpha;
@@ -636,6 +628,27 @@ public class ClassicBlocks {
             health = 95 * wallHealthMultiplier * 4;
             insulated = true;
             size = 2;
+        }};
+
+        wallStone = new Block("stone-wall"){{
+            requirements(Category.defense, with(ClassicItems.stone, 12));
+            health = 40 * wallHealthMultiplier;
+        }};
+        wallIron = new Block("iron-wall"){{
+            requirements(Category.defense, with(ClassicItems.iron, 12));
+            health = 80 * wallHealthMultiplier;
+        }};
+        wallSteel = new Block("steel-wall"){{
+            requirements(Category.defense, with(ClassicItems.steel, 12));
+            health = 110 * wallHealthMultiplier;
+        }};
+        wallDirium = new Block("dirium-wall"){{
+            requirements(Category.defense, with(ClassicItems.dirium, 12));
+            health = 190 * wallHealthMultiplier;
+        }};
+        wallComposite = new Block("composite-wall"){{
+            requirements(Category.defense, with(ClassicItems.dirium, 12, Items.titanium, 12, ClassicItems.steel, 12));
+            health = 270 * wallHealthMultiplier;
         }};
 
         //Projectors

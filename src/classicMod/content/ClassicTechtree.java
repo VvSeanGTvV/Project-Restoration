@@ -38,7 +38,13 @@ public class ClassicTechtree {
             });
 
             node(wallStone, () -> {
-               node(wallDirium, () -> {});
+                node(wallIron, () -> {
+                    node(wallSteel, () -> {
+                        node(wallDirium, () -> {
+                            node(wallComposite, () -> {});
+                        });
+                    });
+                });
             });
 
             nodeProduce(ClassicItems.stone, () -> {
