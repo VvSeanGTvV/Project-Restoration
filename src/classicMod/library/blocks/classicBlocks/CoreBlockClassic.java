@@ -19,6 +19,10 @@ public class CoreBlockClassic extends CoreBlock {
     public CoreBlockClassic(String name) {
         super(name);
     }
+    @Override
+    public void load(){
+
+    }
 
     @Override
     public void init() {
@@ -56,9 +60,9 @@ public class CoreBlockClassic extends CoreBlock {
         Drawf.spinSprite(region, x, y, rotation);
 
 
-        if(teamRegions[build.team.id] == teamRegion) Draw.color(build.team.color);
+        //if(teamRegions[build.team.id] == teamRegion) Draw.color(build.team.color);
 
-        Drawf.spinSprite(teamRegions[build.team.id], x, y, rotation);
+        //Drawf.spinSprite(teamRegions[build.team.id], x, y, rotation);
 
         Draw.color();
         Draw.scl();
@@ -66,7 +70,7 @@ public class CoreBlockClassic extends CoreBlock {
     }
     @Override
     protected void drawLandingThrusters(float x, float y, float rotation, float frame){
-        
+
     }
 
     @Override
