@@ -44,15 +44,22 @@ public class ClassicBullets {
     fuseShot,
 
     //classic bullets
-    titanshell, chain, plasmaflame
+    titanshell, chain, plasmaflame, stone
     ;
 
     public void load(){
         //classic bullets
         Color whiteOrange = Color.valueOf("fccca5");
-        titanshell = new BulletType(1.8f*ClassicBulletsMultiplier/ClassicDebuff, 38*ClassicBulletsMultiplier){
+        stone = new BulletType(1.5f, 2){
+            public void draw(Bullet b){
+                Draw.colorl(0.64f);
+                Draw.rect("restored-mind-blank", b.x, b.y, 2f, 2f);
+                Draw.reset();
+            }
+        };
+        titanshell = new BulletType(1.8f*ClassicBulletsMultiplier, 38*ClassicBulletsMultiplier){
             {
-                ammoMultiplier = 4/ClassicBulletsMultiplier*ClassicDebuff;
+                ammoMultiplier = 1;
                 hitEffect = Fx.none;
                 despawnEffect = Fx.none;
                 lifetime = 70f;
@@ -86,8 +93,8 @@ public class ClassicBullets {
             }
         };
 
-        chain = new BulletType(2f*ClassicBulletsMultiplier/ClassicDebuff, 8*ClassicBulletsMultiplier){{
-            ammoMultiplier = 8/ClassicBulletsMultiplier*ClassicDebuff;
+        chain = new BulletType(2f*ClassicBulletsMultiplier, 8*ClassicBulletsMultiplier){{
+            ammoMultiplier = 2;
             hitEffect = ExtendedFx.hit;
             despawnEffect = Fx.none;
         }
@@ -98,12 +105,12 @@ public class ClassicBullets {
             }
         };
 
-        plasmaflame = new BulletType(0.8f*1.15f, 17*ClassicBuff){
+        plasmaflame = new BulletType(0.8f*1.15f, 17*ClassicBulletsMultiplier){
             {
                 hitEffect = ExtendedFx.hit;
                 despawnEffect = Fx.none;
                 lifetime = 65f;
-                ammoMultiplier = 40/ClassicBulletsMultiplier/ClassicDebuff;
+                ammoMultiplier = 4;
             }
             public void draw(Bullet b){
                 Draw.color(Color.valueOf("efa66c"), Color.valueOf("72deaf"), b.time/lifetime);

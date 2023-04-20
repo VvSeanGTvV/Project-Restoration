@@ -28,7 +28,6 @@ import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.heat.*;
 import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
-import mindustry.world.blocks.storage.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
@@ -41,7 +40,7 @@ import static mindustry.type.ItemStack.*;
 public class ClassicBlocks {
     public static Block
     coreSolo, //lonely Core - classic
-    titanCannon, chainTurret, plasmaTurret, teslaTurret, //Turret - classic
+    titanCannon, chainTurret, plasmaTurret, teslaTurret, basicTurret, //Turret - classic
     nuclearReactor, //Power - classic
     crucible, steelSmelter, lavaSmelter, stoneFormer, //Production - classic
     teleporter, //Distribution - classic
@@ -86,10 +85,11 @@ public class ClassicBlocks {
     }
 
     public void load() {
-        coreSolo = new CoreBlock("core-solo"){{
+        coreSolo = new CoreBlockClassic("core-solo"){{
             health = 120;
             unitType = alpha;
             isFirstTier = true;
+            infinityCapacity = true;
         }};
         warpGate = new WarpGate("warp-gate"){
             {
@@ -302,7 +302,7 @@ public class ClassicBlocks {
             outlineRadius = 4;
         }};
 
-        teslaTurret = new PowerTurret("tesla-turret"){{ //TODO fix bugs
+        teslaTurret = new PowerTurret("tesla-turret"){{
             requirements(Category.turret, with(Items.titanium, 25, ClassicItems.dirium, 15, ClassicItems.steel, 20));
             range = 80.5f;
             shootType = new TeslaOrbType(range,13, 5, 0.029f);
@@ -313,7 +313,16 @@ public class ClassicBlocks {
             health = 140;
             outlineColor = Color.valueOf("ffd86c");
             outlineRadius = 4;
+            consumePower(0.5f);
             playerControllable = false;
+        }};
+
+        basicTurret = new ItemTurret("basic-turret"){{
+            requirements(Category.turret, with(ClassicItems.stone, 2));
+            range = 52;
+            reload = 15f;
+            health = 45;
+            ammo(ClassicItems.stone, plasmaflame);
         }};
 
         nuclearReactor = new NuclearReactor("nuclear-reactor"){{
