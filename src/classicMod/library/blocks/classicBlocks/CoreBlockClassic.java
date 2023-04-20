@@ -96,9 +96,10 @@ public class CoreBlockClassic extends CoreBlock {
 
                 Draw.rect(block.region, x, y);
 
-                drawTeamTop();
+                //drawTeamTop();
             }else{
-                super.draw();
+                Draw.rect(block.region, x, y);
+                //super.draw();
             }
         }
 
