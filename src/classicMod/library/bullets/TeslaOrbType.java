@@ -16,29 +16,32 @@ import mindustry.graphics.*;
 
 public class TeslaOrbType extends BulletType {
     /** Array of the listed target **/
-    protected @Nullable Teamc[] ArrayTarget;
+    public @Nullable Teamc[] ArrayTarget;
     /** How fast is the timer **/
-    protected float timeSpeedup;
+    public float timeSpeedup;
     /** Array of the listed target's position **/
-    protected @Nullable Vec2[] ArrayVec2;
+    public @Nullable Vec2[] ArrayVec2;
     /** Maximum hits before despawning **/
-    protected int hitCap;
+    public int hitCap;
+
+    // Temporary Values
     protected int l = 0;
     protected float moveScl = 0;
 
     /**
      * Creates a Tesla orb that jumps other enemy's unit/block.
-     * @param range The maximum range that the arc can jump to Math: (range/2)
+     * @param range The maximum range that the arc can jump to other team's unit/block.
      * @param damage Damage per tick
      * @param maxHits Maximum hits before despawning immediately.
      * @param timerSpeed How fast is the lifetime
      **/
     public TeslaOrbType(float range, int damage, int maxHits, float timerSpeed){
         this.damage = damage;
-        this.range = range/2f;
+        this.range = range;
         hitEffect = ExtendedFx.laserhit;
         drawSize = 200f;
         hitCap = maxHits;
+        moveScl = 0;
         this.lifetime = 30f*60f;
         this.timeSpeedup = timerSpeed;
     }
@@ -46,7 +49,8 @@ public class TeslaOrbType extends BulletType {
     @Override
     public void update(Bullet b) {
         super.update(b);
-        if(l >= hitCap*2) { //Allows to detect whether if the bullet hit count has reached maximum peak.
+        moveScl = Mathf.lerpDelta(moveScl, 1f, timeSpeedup);
+        if(l >= hitCap*2 || moveScl >= 1f) { //Allows to detect whether if the bullet hit count has reached maximum peak.
             l = 0;
             ArrayTarget = null;
             ArrayVec2 = null;
@@ -70,24 +74,19 @@ public class TeslaOrbType extends BulletType {
         target = Units.closestTarget(b.team, b.x, b.y, range * b.fout(),
                 e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !b.collided.contains(e.id),
                 t -> t.isValid() && collidesGround && !b.collided.contains(t.id));
-        if( target != null  && moveScl < 1f) {
+        if( target != null ) {
             this.ArrayTarget = new Teamc[]{target};
-        } else {
-            ArrayTarget = null;
-            ArrayVec2 = null;
-            b.time = b.lifetime + 1f;
         }
     }
 
     @Override
     public void draw(Bullet b) { //TODO make multi target version
-        moveScl = Mathf.lerpDelta(moveScl, 1f, timeSpeedup);
         Draw.color(Color.white);
         Vec2 lastVec = new Vec2(b.x, b.y);
+        float g = 0.1f;
+        Draw.alpha(((1f - g) + Mathf.absin(Time.time, 8f, g)) * moveScl);
         if(ArrayVec2 != null) for (Vec2 vec2 : ArrayVec2){
-            float g = 0.1f;
-
-            Draw.alpha(((1f - g) + Mathf.absin(Time.time, 8f, g)) * moveScl);
+            Drawf.light(lastVec.x, lastVec.y, vec2.x, vec2.y);
             Drawf.line(Color.white, lastVec.x, lastVec.y, vec2.x, vec2.y);
             Draw.rect(Core.atlas.find("restored-mind-circle"), vec2.x, vec2.y);
             b.set(vec2);
@@ -95,7 +94,7 @@ public class TeslaOrbType extends BulletType {
             if(lastVec!=vec2) lastVec = vec2;
         }
 
-       Draw.reset();
+       //Draw.reset();
 
         /*if(points.size == 0) return;
 

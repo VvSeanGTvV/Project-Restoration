@@ -237,7 +237,7 @@ public class ClassicBlocks {
         teslaTurret = new PowerTurret("tesla-turret"){{
             requirements(Category.turret, with(Items.titanium, 25, ClassicItems.dirium, 15, ClassicItems.steel, 20));
             range = 80.5f;
-            shootType = new TeslaOrbType(range,13, 5, 0.029f);
+            shootType = new TeslaOrbType(40f,13, 5, 0.019f);
             shootSound = tesla;
             shootEffect = Fx.none;
             smokeEffect = Fx.none;
@@ -246,7 +246,7 @@ public class ClassicBlocks {
             outlineColor = Color.valueOf("ffd86c");
             outlineRadius = 4;
             consumePower(0.5f);
-            playerControllable = false;
+            //playerControllable = false;
         }};
 
         basicTurret = new ItemTurret("basic-turret"){{
@@ -571,7 +571,6 @@ public class ClassicBlocks {
 
         //Projectors
         barrierProjector = new DirectionalForceProjector("barrier-projector"){{
-            //TODO
             requirements(Category.effect, with(Items.surgeAlloy, 100, Items.silicon, 125));
             size = 3;
             width = 50f;
@@ -593,7 +592,7 @@ public class ClassicBlocks {
             consumePower(5f);
         }};
 
-        shieldBreaker = new ShieldBreaker("shield-breaker"){{
+        shieldBreaker = new ShieldBreaker("shield-breaker"){{ //TODO fix break block bugs
             requirements(Category.effect, with(Items.tungsten, 700, Items.graphite, 620, Items.silicon, 250));
             envEnabled |= Env.space;
             toDestroy = new Block[]{Blocks.shieldProjector, Blocks.largeShieldProjector};
@@ -658,7 +657,7 @@ public class ClassicBlocks {
 
         melter = new GenericCrafter("melter"){{
             requirements(Category.crafting, with(ClassicItems.stone, 30, ClassicItems.iron, 30, ClassicItems.steel, 50));
-            health = 200;
+            health = 85;
             outputLiquid = new LiquidStack(ClassicLiquids.lava, 10f/60f);
             consumeItems(with(ClassicItems.stone, 1));
             consumePower(0.1f);
@@ -700,7 +699,7 @@ public class ClassicBlocks {
 
         cellSynthesisChamber = new LiquidConverter("cell-synthesis-chamber") {{
             //TODO change texture
-            requirements(Category.crafting, with(Items.carbide, 100, Items.phaseFabric, 95, Items.tungsten, 155, Items.surgeAlloy, 65));
+            requirements(Category.crafting, with(Items.thorium, 75, Items.phaseFabric, 95, Items.tungsten, 155, Items.surgeAlloy, 65));
             outputLiquid = new LiquidStack(Liquids.neoplasm, 0.4f);
             ConvertTime = 200f;
             size = 3;
