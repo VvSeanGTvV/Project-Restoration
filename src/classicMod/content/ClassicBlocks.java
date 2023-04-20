@@ -318,11 +318,13 @@ public class ClassicBlocks {
         }};
 
         basicTurret = new ItemTurret("basic-turret"){{
-            requirements(Category.turret, with(ClassicItems.stone, 2));
+            requirements(Category.turret, with(ClassicItems.stone, 4));
             range = 52;
             reload = 15f;
             health = 45;
-            ammo(ClassicItems.stone, plasmaflame);
+            outlineColor = Color.valueOf("1869a7");
+            outlineRadius = 4;
+            ammo(ClassicItems.stone, stone);
         }};
 
         nuclearReactor = new NuclearReactor("nuclear-reactor"){{
