@@ -64,6 +64,10 @@ public class CoreBlockClassic extends CoreBlock {
         Draw.scl();
         Draw.reset();
     }
+    @Override
+    protected void drawLandingThrusters(float x, float y, float rotation, float frame){
+        
+    }
 
     @Override
     public void setStats(){
@@ -89,7 +93,7 @@ public class CoreBlockClassic extends CoreBlock {
 
         @Override
         public void drawThrusters(float frame){
-            
+
         }
 
         @Override
