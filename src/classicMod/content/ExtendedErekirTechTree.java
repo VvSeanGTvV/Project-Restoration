@@ -39,7 +39,9 @@ public class ExtendedErekirTechTree {
         });
 
         margeNode(electricHeater, () -> {
-            node(ClassicBlocks.heatReactor,Seq.with(new Objectives.OnSector(stronghold), new Produce(thorium) ,new Objectives.Research(atmosphericConcentrator), new Produce(nitrogen)), () -> {});
+            node(ClassicBlocks.heatReactor,Seq.with(new Objectives.OnSector(stronghold), new Produce(thorium) ,new Objectives.Research(atmosphericConcentrator), new Produce(nitrogen)), () -> {
+                node(cellSynthesisChamber);
+            });
         });
 
         margeNode(slagIncinerator, () -> {
