@@ -40,7 +40,7 @@ import static mindustry.type.ItemStack.*;
 public class ClassicBlocks {
     public static Block
     coreSolo, //lonely Core - classic
-    titanCannon, chainTurret, plasmaTurret, teslaTurret, doubleTurret, basicTurret, //Turret - classic
+    titanCannon, chainTurret, plasmaTurret, teslaTurret, doubleTurret, gattlingTurret, basicTurret, //Turret - classic
     nuclearReactor, //Power - classic
     crucible, steelSmelter, lavaSmelter, stoneFormer, //Production - classic
     teleporter, //Distribution - classic
@@ -246,14 +246,27 @@ public class ClassicBlocks {
             outlineColor = Color.valueOf("ffd86c");
             outlineRadius = 4;
             consumePower(0.5f);
-            //playerControllable = false;
+            playerControllable = false;
+        }};
+        gattlingTurret = new ItemTurret("tesla-turret"){{
+            requirements(Category.turret, with(ClassicItems.iron, 8, ClassicItems.stone, 10));
+            range = 97.5f;
+            ammo(ClassicItems.iron, iron);
+            shootSound = shootDefault;
+            shootEffect = Fx.none;
+            smokeEffect = Fx.none;
+            reload = 7f;
+            health = 75;
+            outlineColor = Color.valueOf("c4593b");
         }};
 
         doubleTurret = new ItemTurret("double-turret"){{
             requirements(Category.turret, with(ClassicItems.stone, 7));
             shootSound = shootDefault;
-            range = 95.5f/1.4f;
-            reload = 13f/1.4f;
+            shootEffect = Fx.none;
+            smokeEffect = Fx.none;
+            range = 95.5f;
+            reload = 9.15f;
             health = 60;
             outlineColor = Color.valueOf("1869a7");
             outlineRadius = 4;
@@ -264,7 +277,9 @@ public class ClassicBlocks {
         basicTurret = new ItemTurret("basic-turret"){{
             requirements(Category.turret, with(ClassicItems.stone, 4));
             shootSound = shootDefault;
-            range = 95.5f;
+            shootEffect = Fx.none;
+            smokeEffect = Fx.none;
+            range = 103f;
             reload = 15f;
             health = 45;
             outlineColor = Color.valueOf("1869a7");

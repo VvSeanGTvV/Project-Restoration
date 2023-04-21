@@ -44,7 +44,7 @@ public class ClassicBullets {
     fuseShot,
 
     //classic bullets
-    titanshell, chain, plasmaflame, stone
+    titanshell, chain, plasmaflame, stone, iron
     ;
 
     public void load(){
@@ -54,6 +54,13 @@ public class ClassicBullets {
             public void draw(Bullet b){
                 Draw.colorl(0.64f);
                 Draw.rect("restored-mind-blank", b.x, b.y, 2f, 2f);
+                Draw.reset();
+            }
+        };
+        iron = new BulletType(1.7f*ClassicBulletsMultiplier, 3*ClassicBulletsMultiplier){
+            public void draw(Bullet b){
+                Draw.color(Color.gray);
+                Draw.rect("restored-mind-bullet", b.x, b.y, b.rotation());
                 Draw.reset();
             }
         };
