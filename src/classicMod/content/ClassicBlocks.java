@@ -248,7 +248,7 @@ public class ClassicBlocks {
             consumePower(0.5f);
             playerControllable = false;
         }};
-        gattlingTurret = new ItemTurret("tesla-turret"){{
+        gattlingTurret = new ItemTurret("machine-turret"){{
             requirements(Category.turret, with(ClassicItems.iron, 8, ClassicItems.stone, 10));
             range = 97.5f;
             ammo(ClassicItems.iron, iron);
