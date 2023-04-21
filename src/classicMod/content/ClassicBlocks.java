@@ -40,7 +40,7 @@ import static mindustry.type.ItemStack.*;
 public class ClassicBlocks {
     public static Block
     coreSolo, //lonely Core - classic
-    titanCannon, chainTurret, plasmaTurret, teslaTurret, basicTurret, //Turret - classic
+    titanCannon, chainTurret, plasmaTurret, teslaTurret, doubleTurret, basicTurret, //Turret - classic
     nuclearReactor, //Power - classic
     crucible, steelSmelter, lavaSmelter, stoneFormer, //Production - classic
     teleporter, //Distribution - classic
@@ -247,6 +247,17 @@ public class ClassicBlocks {
             outlineRadius = 4;
             consumePower(0.5f);
             //playerControllable = false;
+        }};
+
+        doubleTurret = new ItemTurret("double-turret"){{
+            requirements(Category.turret, with(ClassicItems.stone, 7));
+            range = 95.5f/1.4f;
+            reload = 13f;
+            health = 45;
+            outlineColor = Color.valueOf("1869a7");
+            outlineRadius = 4;
+            shoot = new ShootAlternate(3.5f);
+            ammo(ClassicItems.stone, stone);
         }};
 
         basicTurret = new ItemTurret("basic-turret"){{
