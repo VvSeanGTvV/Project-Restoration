@@ -251,17 +251,19 @@ public class ClassicBlocks {
 
         doubleTurret = new ItemTurret("double-turret"){{
             requirements(Category.turret, with(ClassicItems.stone, 7));
+            shootSound = shootDefault;
             range = 95.5f/1.4f;
-            reload = 13f;
-            health = 45;
+            reload = 13f/1.4f;
+            health = 60;
             outlineColor = Color.valueOf("1869a7");
             outlineRadius = 4;
-            shoot = new ShootAlternate(3.5f);
+            shoot = new ShootAlternate(1.5f);
             ammo(ClassicItems.stone, stone);
         }};
 
         basicTurret = new ItemTurret("basic-turret"){{
             requirements(Category.turret, with(ClassicItems.stone, 4));
+            shootSound = shootDefault;
             range = 95.5f;
             reload = 15f;
             health = 45;

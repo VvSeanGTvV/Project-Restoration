@@ -1,5 +1,7 @@
 package classicMod.content;
 
+import mindustry.content.*;
+
 import static classicMod.content.ClassicBlocks.*;
 import static mindustry.content.TechTree.*;
 
@@ -29,6 +31,7 @@ public class ClassicTechtree {
             });
 
             node(basicTurret, () -> {
+                node(doubleTurret);
                 node(plasmaTurret, () -> {
                     node(teslaTurret);
                     node(chainTurret, () -> {
@@ -54,6 +57,7 @@ public class ClassicTechtree {
                 });
                 nodeProduce(ClassicItems.iron, () -> {
                     nodeProduce(ClassicItems.steel, () -> {
+                        nodeProduce(Items.titanium, () -> {});
                         nodeProduce(ClassicItems.dirium, () -> {
 
                         });

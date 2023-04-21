@@ -4,6 +4,8 @@ Much more advance scripting, and more classic buildings.
 This mod will change name later! Because, I wanted to merge older version like v6 early previews here!
 Disclaimer: Some blocks/units might not have their final stats from older builds.
 
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/VvSeanGTvV/Project-Restoration/commitTest.yml?label=Build%20Status%3A%20&style=for-the-badge)
+
 ## --- Mod Includes ---
 
 v5 Mechpad
