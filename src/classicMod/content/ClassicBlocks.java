@@ -91,6 +91,7 @@ public class ClassicBlocks {
             unitType = alpha;
             isFirstTier = true;
             infinityCapacity = true;
+            alwaysUnlocked = true;
         }};
         warpGate = new WarpGate("warp-gate"){
             {
@@ -131,7 +132,6 @@ public class ClassicBlocks {
             drillTime = 4*60;
             health = 40;
             requiredItem = ClassicItems.stone;
-            alwaysUnlocked = true;
         }};
 
         ironDrill = new SingleDrill("iron-drill"){{
