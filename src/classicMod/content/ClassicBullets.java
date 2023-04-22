@@ -51,6 +51,10 @@ public class ClassicBullets {
         //classic bullets
         Color whiteOrange = Color.valueOf("fccca5");
         stone = new BulletType(1.5f*ClassicBulletsMultiplier, 2*ClassicBulletsMultiplier){
+            {
+                hitEffect = ExtendedFx.hit;
+                despawnEffect = Fx.none;
+            }
             public void draw(Bullet b){
                 Draw.colorl(0.64f);
                 Draw.rect("restored-mind-blank", b.x, b.y, 2f, 2f);
@@ -58,6 +62,10 @@ public class ClassicBullets {
             }
         };
         iron = new BulletType(1.7f*ClassicBulletsMultiplier, 3*ClassicBulletsMultiplier){
+            {
+                hitEffect = ExtendedFx.hit;
+                despawnEffect = Fx.none;
+            }
             public void draw(Bullet b){
                 Draw.color(Color.gray);
                 Draw.rect("restored-mind-bullet", b.x, b.y, 7f, 7f, b.rotation());

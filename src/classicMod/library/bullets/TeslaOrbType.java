@@ -58,15 +58,15 @@ public class TeslaOrbType extends BulletType {
             b.type.collides = false;
             b.time = b.lifetime + 1f;
         }
-            autoTarget(b);
-            b.type.pierce = true;
-            b.type.pierceCap = Integer.MAX_VALUE;
-            if (ArrayTarget != null) for (Teamc target : ArrayTarget) {
-                float x = target.getX();
-                float y = target.getY();
-                this.ArrayVec2 = new Vec2[]{new Vec2(x, y)};
-                l++;
-            }
+        autoTarget(b);
+        b.type.pierce = true;
+        b.type.pierceCap = Integer.MAX_VALUE;
+        if (ArrayTarget != null) for (Teamc target : ArrayTarget) {
+            float x = target.getX();
+            float y = target.getY();
+            this.ArrayVec2 = new Vec2[]{new Vec2(x, y)};
+            l++;
+        }
     }
 
     /** AutoTargets the nearest enemy unit/block while keeping track on a listed array, this could be saved on {@link #ArrayTarget} **/
@@ -84,12 +84,10 @@ public class TeslaOrbType extends BulletType {
     public void draw(Bullet b) { //TODO make multi target version
         Draw.color(Color.white);
         Vec2 lastVec = new Vec2(b.x, b.y);
-        float size = 7f-b.time/lifetime*6f;
         if(ArrayVec2 != null) for (Vec2 vec2 : ArrayVec2){
-            Lines.stroke(7f-b.time/lifetime*6f);
             Drawf.light(lastVec.x, lastVec.y, vec2.x, vec2.y);
             Drawf.line(Color.white, lastVec.x, lastVec.y, vec2.x, vec2.y);
-            Draw.rect(Core.atlas.find("restored-mind-circle"), vec2.x, vec2.y, size, size);
+            Draw.rect(Core.atlas.find("restored-mind-circle"), vec2.x, vec2.y);
             b.set(vec2);
             b.vel = new Vec2();
             if(lastVec!=vec2) lastVec = vec2;
