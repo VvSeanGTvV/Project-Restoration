@@ -53,7 +53,7 @@ public class ClassicBullets {
         stone = new BulletType(1.5f*ClassicBulletsMultiplier, 2*ClassicBulletsMultiplier){
             public void draw(Bullet b){
                 Draw.colorl(0.64f);
-                Draw.rect("restored-mind-blank", b.x, b.y, 2f, 2f);
+                Draw.rect("restored-mind-blank", b.x, b.y, 7f, 7f);
                 Draw.reset();
             }
         };

@@ -86,12 +86,12 @@ public class TeslaOrbType extends BulletType {
     public void draw(Bullet b) { //TODO make multi target version
         Draw.color(Color.white);
         Vec2 lastVec = new Vec2(b.x, b.y);
-        float g = 0.1f;
-        Draw.alpha(1f-b.time/lifetime);
+        float size = 7f-b.time/lifetime*6f;
         if(ArrayVec2 != null) for (Vec2 vec2 : ArrayVec2){
+            Lines.stroke(7f-b.time/lifetime*6f);
             Drawf.light(lastVec.x, lastVec.y, vec2.x, vec2.y);
             Drawf.line(Color.white, lastVec.x, lastVec.y, vec2.x, vec2.y);
-            Draw.rect(Core.atlas.find("restored-mind-circle"), vec2.x, vec2.y);
+            Draw.rect(Core.atlas.find("restored-mind-circle"), vec2.x, vec2.y, size, size);
             b.set(vec2);
             b.vel = new Vec2();
             if(lastVec!=vec2) lastVec = vec2;
