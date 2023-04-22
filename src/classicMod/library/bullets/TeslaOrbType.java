@@ -27,6 +27,7 @@ public class TeslaOrbType extends BulletType {
     // Temporary Values
     protected int l = 0;
     protected float moveScl = 0;
+    protected Teamc target;
 
     /**
      * Creates a Tesla orb that jumps other enemy's unit/block.
@@ -73,12 +74,11 @@ public class TeslaOrbType extends BulletType {
     /** AutoTargets the nearest enemy unit/block while keeping track on a listed array, this could be saved on {@link #ArrayTarget} **/
     public void autoTarget(Bullet b){ //from Prog-mats
         //moveScl = Mathf.lerpDelta(moveScl, 1f, timeSpeedup);
-        Teamc target;
-        target = Units.closestTarget(b.team, b.x, b.y, range * b.fout(),
+        this.target = Units.closestTarget(b.team, b.x, b.y, range * b.fout(),
                 e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !b.collided.contains(e.id),
                 t -> t.isValid() && collidesGround && !b.collided.contains(t.id));
         if( target != null ) {
-            this.ArrayTarget = new Teamc[]{target};
+            this.ArrayTarget = new Teamc[]{this.target};
         }
     }
 
