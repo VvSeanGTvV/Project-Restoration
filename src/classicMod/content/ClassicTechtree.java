@@ -34,10 +34,12 @@ public class ClassicTechtree {
                 node(doubleTurret);
                 node(gattlingTurret, () -> {
                     node(shotgunTurret);
-                    node(plasmaTurret, () -> {
-                        node(teslaTurret);
-                        node(chainTurret, () -> {
-                            node(titanCannon);
+                    node(sniperTurret, () -> {
+                        node(plasmaTurret, () -> {
+                            node(teslaTurret);
+                            node(chainTurret, () -> {
+                                node(titanCannon);
+                            });
                         });
                     });
                 });

@@ -136,6 +136,24 @@ public class ExtendedFx extends Fx {
         Draw.reset();
     }),
 
+    railshot = new Effect(9f, e -> {
+        Draw.color(Color.white, Color.darkGray, e.fin());
+        Lines.stroke(e.fout()*5f);
+        Lines.lineAngle(e.x, e.y, e.rotation, e.fout()*8f);
+        Lines.stroke(e.fout()*4f);
+        Lines.lineAngle(e.x, e.y, e.rotation, e.fout()*12f);
+        Lines.stroke(e.fout()*1f);
+        Lines.lineAngle(e.x, e.y, e.rotation, e.fout()*14f);
+        Draw.reset();
+    }),
+
+    railsmoke = new Effect(30, e -> {
+        Draw.color(Color.lightGray, Color.white, e.fin());
+        float size = e.fout()*4f;
+        Draw.rect("restored-mind-circle", e.x, e.y, size, size);
+        Draw.reset();
+    }),
+
     shockwaveSmall = new Effect(10f, e -> {
         Draw.color(Color.white, Color.lightGray, e.fin());
         Lines.stroke(e.fout()*2f + 0.1f);

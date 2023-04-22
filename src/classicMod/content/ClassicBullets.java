@@ -44,7 +44,7 @@ public class ClassicBullets {
     fuseShot,
 
     //classic bullets
-    titanshell, chain, plasmaflame, stone, iron
+    titanshell, chain, plasmaflame, stone, iron, sniper
     ;
 
     public void load(){
@@ -72,6 +72,22 @@ public class ClassicBullets {
                 Draw.reset();
             }
         };
+
+        sniper = new BulletType(3f*ClassicBulletsMultiplier, 25*ClassicBulletsMultiplier){
+            public void draw(Bullet b){
+                Draw.color(Color.lightGray);
+                Lines.stroke(1f);
+                Lines.lineAngleCenter(b.x, b.y, b.rotation(), 3f);
+                Draw.reset();
+            }
+
+            public void update(Bullet b){
+                if(b.timer.get(0, 4*ClassicBulletsMultiplier)){
+                    ExtendedFx.railsmoke.at(b.x, b.y);
+                }
+            }
+        };
+
         titanshell = new BulletType(1.8f*ClassicBulletsMultiplier, 38*ClassicBulletsMultiplier){
             {
                 ammoMultiplier = 1;

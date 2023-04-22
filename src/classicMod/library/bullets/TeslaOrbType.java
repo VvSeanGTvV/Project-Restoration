@@ -43,7 +43,7 @@ public class TeslaOrbType extends BulletType {
         drawSize = 200f;
         hitCap = maxHits;
         moveScl = 0;
-        this.lifetime = 60f;
+        this.lifetime = Float.MAX_VALUE;
         this.timeSpeedup = timerSpeed;
     }
 
@@ -55,7 +55,6 @@ public class TeslaOrbType extends BulletType {
             l = 0;
             ArrayTarget = null;
             ArrayVec2 = null;
-            b.type.collides = false;
             b.time = b.lifetime + 1f;
         }
         autoTarget(b);

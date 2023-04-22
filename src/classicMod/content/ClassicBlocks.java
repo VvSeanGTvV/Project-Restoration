@@ -40,7 +40,7 @@ import static mindustry.type.ItemStack.*;
 public class ClassicBlocks {
     public static Block
     coreSolo, //lonely Core - classic
-    titanCannon, chainTurret, plasmaTurret, teslaTurret, doubleTurret, gattlingTurret, shotgunTurret, basicTurret, //Turret - classic
+    titanCannon, chainTurret, plasmaTurret, teslaTurret, sniperTurret, flameTurret, gattlingTurret, shotgunTurret, doubleTurret, basicTurret, //Turret - classic
     nuclearReactor, //Power - classic
     crucible, steelSmelter, lavaSmelter, stoneFormer, //Production - classic
     teleporter, //Distribution - classic
@@ -249,11 +249,23 @@ public class ClassicBlocks {
             playerControllable = false;
         }};
 
+        sniperTurret = new ItemTurret("sniper-turret"){{
+            requirements(Category.turret, with(ClassicItems.iron, 15, ClassicItems.steel, 10));
+            range = 144f;
+            ammo(ClassicItems.steel, sniper);
+            shootSound = shootDefault;
+            shootEffect = ExtendedFx.railshot;
+            smokeEffect = Fx.none;
+            reload = 50f;
+            health = 90;
+            outlineColor = Color.valueOf("8b4aa9");
+        }};
+
         shotgunTurret = new ItemTurret("shotgun-turret"){{
             shoot = new ShootSpread(5, 15F);
             inaccuracy = 15f;
             requirements(Category.turret, with(ClassicItems.iron, 10, ClassicItems.stone, 10));
-            range = 95.5f;
+            range = 65f;
             ammo(ClassicItems.iron, iron);
             shootSound = shootDefault;
             shootEffect = Fx.none;
