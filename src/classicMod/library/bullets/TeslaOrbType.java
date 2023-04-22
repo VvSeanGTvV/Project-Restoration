@@ -50,15 +50,14 @@ public class TeslaOrbType extends BulletType {
     @Override
     public void update(Bullet b) {
         super.update(b);
-        moveScl = Mathf.lerpDelta(moveScl, 1f, timeSpeedup);
+        moveScl = Mathf.lerpDelta(moveScl, b.lifetime, 1);
         if(l >= hitCap*2) { //Allows to detect whether if the bullet hit count has reached maximum peak.
-            //l = 0;
+            l = 0;
             ArrayTarget = null;
             ArrayVec2 = null;
             b.type.collides = false;
-            //b.time = b.lifetime + 1f;
+            b.time = b.lifetime + 1f;
         }
-        if(b.time < lifetime) {
             autoTarget(b);
             b.type.pierce = true;
             b.type.pierceCap = Integer.MAX_VALUE;
@@ -68,7 +67,6 @@ public class TeslaOrbType extends BulletType {
                 this.ArrayVec2 = new Vec2[]{new Vec2(x, y)};
                 l++;
             }
-        }
     }
 
     /** AutoTargets the nearest enemy unit/block while keeping track on a listed array, this could be saved on {@link #ArrayTarget} **/

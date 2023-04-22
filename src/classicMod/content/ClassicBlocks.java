@@ -40,7 +40,7 @@ import static mindustry.type.ItemStack.*;
 public class ClassicBlocks {
     public static Block
     coreSolo, //lonely Core - classic
-    titanCannon, chainTurret, plasmaTurret, teslaTurret, doubleTurret, gattlingTurret, basicTurret, //Turret - classic
+    titanCannon, chainTurret, plasmaTurret, teslaTurret, doubleTurret, gattlingTurret, shotgunTurret, basicTurret, //Turret - classic
     nuclearReactor, //Power - classic
     crucible, steelSmelter, lavaSmelter, stoneFormer, //Production - classic
     teleporter, //Distribution - classic
@@ -248,6 +248,21 @@ public class ClassicBlocks {
             consumePower(0.5f);
             playerControllable = false;
         }};
+
+        shotgunTurret = new ItemTurret("shotgun-turret"){{
+            shoot = new ShootSpread(5, 15F);
+            inaccuracy = 15f;
+            requirements(Category.turret, with(ClassicItems.iron, 10, ClassicItems.stone, 10));
+            range = 95.5f;
+            ammo(ClassicItems.iron, iron);
+            shootSound = shootDefault;
+            shootEffect = Fx.none;
+            smokeEffect = Fx.none;
+            reload = 30f;
+            health = 70;
+            outlineColor = Color.valueOf("c4593b");
+        }};
+
         gattlingTurret = new ItemTurret("machine-turret"){{
             requirements(Category.turret, with(ClassicItems.iron, 8, ClassicItems.stone, 10));
             range = 97.5f;
@@ -288,12 +303,12 @@ public class ClassicBlocks {
         }};
 
         nuclearReactor = new NuclearReactor("nuclear-reactor"){{
-                requirements(Category.power, with(Items.titanium, 40 * ClassicRequirementsMulti, ClassicItems.dirium, 40 * ClassicRequirementsMulti, Items.metaglass, 50 * ClassicRequirementsMulti));
+                requirements(Category.power, with(Items.titanium, 40 * size, ClassicItems.dirium, 40 * size, ClassicItems.steel, 50 * size));
                 ambientSound = Sounds.hum;
                 ambientSoundVolume = 0.24f;
                 explodeEffect = ExtendedFx.nuclearShockwave;
                 size = 3;
-                health = 600*ClassicBuff;
+                health = 600 * size;
                 itemDuration = 130f;
                 powerProduction = 0.45f*60;
                 //power = 80f;

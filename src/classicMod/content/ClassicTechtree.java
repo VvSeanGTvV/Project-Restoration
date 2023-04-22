@@ -33,6 +33,7 @@ public class ClassicTechtree {
             node(basicTurret, () -> {
                 node(doubleTurret);
                 node(gattlingTurret, () -> {
+                    node(shotgunTurret);
                     node(plasmaTurret, () -> {
                         node(teslaTurret);
                         node(chainTurret, () -> {
