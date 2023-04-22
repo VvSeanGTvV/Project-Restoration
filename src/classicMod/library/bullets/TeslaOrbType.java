@@ -42,7 +42,7 @@ public class TeslaOrbType extends BulletType {
         drawSize = 200f;
         hitCap = maxHits;
         moveScl = 0;
-        this.lifetime = 30f*60f;
+        this.lifetime = 60f;
         this.timeSpeedup = timerSpeed;
     }
 
@@ -50,20 +50,23 @@ public class TeslaOrbType extends BulletType {
     public void update(Bullet b) {
         super.update(b);
         moveScl = Mathf.lerpDelta(moveScl, 1f, timeSpeedup);
-        if(l >= hitCap*2 || moveScl >= 1f) { //Allows to detect whether if the bullet hit count has reached maximum peak.
-            l = 0;
+        if(l >= hitCap*2) { //Allows to detect whether if the bullet hit count has reached maximum peak.
+            //l = 0;
             ArrayTarget = null;
             ArrayVec2 = null;
-            b.time = b.lifetime + 1f;
+            b.type.collides = false;
+            //b.time = b.lifetime + 1f;
         }
-        autoTarget(b);
-        b.type.pierce = true;
-        b.type.pierceCap = Integer.MAX_VALUE;
-        if (ArrayTarget != null) for (Teamc target : ArrayTarget) {
-            float x = target.getX();
-            float y = target.getY();
-            this.ArrayVec2 = new Vec2[]{new Vec2(x, y)};
-            l++;
+        if(b.time < lifetime) {
+            autoTarget(b);
+            b.type.pierce = true;
+            b.type.pierceCap = Integer.MAX_VALUE;
+            if (ArrayTarget != null) for (Teamc target : ArrayTarget) {
+                float x = target.getX();
+                float y = target.getY();
+                this.ArrayVec2 = new Vec2[]{new Vec2(x, y)};
+                l++;
+            }
         }
     }
 
@@ -84,7 +87,7 @@ public class TeslaOrbType extends BulletType {
         Draw.color(Color.white);
         Vec2 lastVec = new Vec2(b.x, b.y);
         float g = 0.1f;
-        Draw.alpha(1f-moveScl);
+        Draw.alpha(1f-b.time/lifetime);
         if(ArrayVec2 != null) for (Vec2 vec2 : ArrayVec2){
             Drawf.light(lastVec.x, lastVec.y, vec2.x, vec2.y);
             Drawf.line(Color.white, lastVec.x, lastVec.y, vec2.x, vec2.y);

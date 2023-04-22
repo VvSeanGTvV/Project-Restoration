@@ -60,7 +60,7 @@ public class ClassicBullets {
         iron = new BulletType(1.7f*ClassicBulletsMultiplier, 3*ClassicBulletsMultiplier){
             public void draw(Bullet b){
                 Draw.color(Color.gray);
-                Draw.rect("restored-mind-bullet", b.x, b.y, b.rotation());
+                Draw.rect("restored-mind-bullet", b.x, b.y, 2f, 2f, b.rotation());
                 Draw.reset();
             }
         };
