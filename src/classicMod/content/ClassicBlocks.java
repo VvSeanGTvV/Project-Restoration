@@ -251,7 +251,7 @@ public class ClassicBlocks {
 
         sniperTurret = new ItemTurret("sniper-turret"){{
             requirements(Category.turret, with(ClassicItems.iron, 15, ClassicItems.steel, 10));
-            range = 155f;
+            range = 175f;
             ammo(ClassicItems.steel, sniper);
             shootSound = railshot;
             shootEffect = ExtendedFx.railshot;

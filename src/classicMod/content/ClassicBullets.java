@@ -50,7 +50,7 @@ public class ClassicBullets {
     public void load(){
         //classic bullets
         Color whiteOrange = Color.valueOf("fccca5");
-        stone = new BulletType(1.5f*ClassicBulletsMultiplier, 2*ClassicBulletsMultiplier){
+        stone = new BulletType(1.4f*ClassicBulletsMultiplier, 2*ClassicBulletsMultiplier){
             {
                 hitEffect = ExtendedFx.hit;
                 despawnEffect = Fx.none;
@@ -61,7 +61,7 @@ public class ClassicBullets {
                 Draw.reset();
             }
         };
-        iron = new BulletType(1.7f*ClassicBulletsMultiplier, 3*ClassicBulletsMultiplier){
+        iron = new BulletType(1.7f*ClassicBulletsMultiplier, 4*ClassicBulletsMultiplier){
             {
                 hitEffect = ExtendedFx.hit;
                 despawnEffect = Fx.none;
@@ -73,7 +73,11 @@ public class ClassicBullets {
             }
         };
 
-        sniper = new BulletType(3f*ClassicBulletsMultiplier, 25*ClassicBulletsMultiplier){
+        sniper = new BulletType(3.5f*ClassicBulletsMultiplier, 35*ClassicBulletsMultiplier){
+            {
+                hitEffect = ExtendedFx.hit;
+                despawnEffect = Fx.none;
+            }
             public void draw(Bullet b){
                 Draw.color(Color.lightGray);
                 Lines.stroke(1f);

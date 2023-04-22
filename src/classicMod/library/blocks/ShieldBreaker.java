@@ -34,7 +34,7 @@ public class ShieldBreaker extends Block{
 
     public class ShieldBreakerBuild extends Building{
         @Override
-        public void updateTile(){
+        public void updateTile(){ //TODO fix this
             if(Mathf.equal(efficiency, 1f)){
                 effect.at(this);
                 for(var other : Vars.state.teams.active){
@@ -47,8 +47,8 @@ public class ShieldBreaker extends Block{
                         }
                     }
                     selfKillEffect.at(this);
-                    kill();
                 }
+                kill();
             }
         }
 
