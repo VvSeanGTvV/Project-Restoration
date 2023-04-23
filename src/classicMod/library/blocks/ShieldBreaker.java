@@ -1,6 +1,7 @@
 package classicMod.library.blocks;
 
 import arc.*;
+import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import mindustry.*;
@@ -11,15 +12,23 @@ import mindustry.graphics.*;
 import mindustry.world.*;
 
 public class ShieldBreaker extends Block{
+    /** Specific block that can destroyed by this block **/
     public Block[] toDestroy = {};
+
+    /** Special Effect on: {@link #breakEffect}, {@link #selfKillEffect}**/
     public Effect effect = Fx.shockwave, breakEffect = Fx.reactorExplosion, selfKillEffect = Fx.massiveExplosion;
 
     public ShieldBreaker(String name){
         super(name);
-        teamRegion = Core.atlas.find(name + "-team");
 
         solid = update = true;
         rebuildable = false;
+    }
+
+    @Override
+    public void load() {
+        super.load();
+        teamRegion = Core.atlas.find(name + "-team");
     }
 
     @Override
@@ -37,7 +46,7 @@ public class ShieldBreaker extends Block{
         public void updateTile(){ //TODO fix this
             if(Mathf.equal(efficiency, 1f)){
                 effect.at(this);
-                for(var other : Vars.state.teams.active){
+                /*for(var other : Vars.state.teams.active){
                     if(team != other.team){
                         for(var block : toDestroy){
                             other.getBuildings(block).copy().each(b -> {
@@ -47,7 +56,18 @@ public class ShieldBreaker extends Block{
                         }
                     }
                     selfKillEffect.at(this);
+                }*/
+                for(var other : Vars.state.teams.active) {
+                    if(team != other.team) for(var build : other.buildings){
+                        for (var block : toDestroy) {
+                            if(build.block == block){
+                                breakEffect.at(build);
+                                build.kill();
+                            }
+                        }
+                    }
                 }
+                selfKillEffect.at(this);
                 kill();
             }
         }
@@ -55,11 +75,10 @@ public class ShieldBreaker extends Block{
         @Override
         public void draw() {
             super.draw();
-            teamRegion = Core.atlas.find(name + "-team");
             Draw.z(Layer.block);
             Draw.rect(region, tile.drawx(), tile.drawy());
             Draw.z(Layer.blockOver);
-            Draw.color(team.color);
+            Draw.color(team.color, Color.red, efficiency);
             Draw.rect(teamRegion, tile.drawx(), tile.drawy());
             Draw.reset();
         }
