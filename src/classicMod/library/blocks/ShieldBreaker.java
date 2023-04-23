@@ -60,15 +60,15 @@ public class ShieldBreaker extends Block{
                 for(var other : Vars.state.teams.active) {
                     if(team != other.team) for(var build : other.buildings){
                         for (var block : toDestroy) {
-                            if(build.block == block){
-                                breakEffect.at(build);
-                                build.kill();
-                            }
+                            other.getBuildings(block).copy().each(b -> {
+                                breakEffect.at(b);
+                                b.damage(Float.MAX_VALUE);
+                            });
                         }
                     }
                 }
-                selfKillEffect.at(this);
-                kill();
+                //selfKillEffect.at(this);
+                //kill();
             }
         }
 
