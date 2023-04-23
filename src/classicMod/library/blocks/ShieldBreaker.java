@@ -4,6 +4,7 @@ import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
+import arc.util.*;
 import mindustry.*;
 import mindustry.content.*;
 import mindustry.entities.*;
@@ -59,10 +60,11 @@ public class ShieldBreaker extends Block{
                 }*/
                 for(var other : Vars.state.teams.active) {
                     if(team != other.team) for (var block : toDestroy) {
-                        for (var b : other.getBuildings(block)) {
+                        other.getBuildings(block).copy().each(b -> {
                             breakEffect.at(b);
                             b.kill();
-                        }
+                            Log.info("logged test: "+b);
+                        });
                     }
                 }
                 //selfKillEffect.at(this);
