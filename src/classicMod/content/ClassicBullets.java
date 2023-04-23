@@ -44,7 +44,7 @@ public class ClassicBullets {
     fuseShot,
 
     //classic bullets
-    titanshell, chain, plasmaflame, stone, iron, sniper
+    titanshell, chain, plasmaflame, stone, iron, sniper, flameClassic
     ;
 
     public void load(){
@@ -89,6 +89,15 @@ public class ClassicBullets {
                 if(b.timer.get(0, 4*ClassicBulletsMultiplier)){
                     ExtendedFx.railsmoke.at(b.x, b.y);
                 }
+            }
+        };
+
+        flameClassic = new BulletType(0.7f*ClassicBulletsMultiplier, 5*ClassicBulletsMultiplier){
+            public void draw(Bullet b){
+                Draw.color(Color.yellow, Color.scarlet, b.time/lifetime);
+                float size = 6f-b.time/lifetime*5f;
+                Draw.rect("restored-mind-circle", b.x, b.y, size, size);
+                Draw.reset();
             }
         };
 

@@ -4,7 +4,6 @@ import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
-import arc.util.*;
 import mindustry.*;
 import mindustry.content.*;
 import mindustry.entities.*;
@@ -58,13 +57,14 @@ public class ShieldBreaker extends Block{
                     }
                     selfKillEffect.at(this);
                 }*/
+                int i = 1;
                 for(var other : Vars.state.teams.active) {
-                    if(team != other.team) for (var block : toDestroy) {
-                        other.getBuildings(block).copy().each(b -> {
+                    if (team != other.team) {
+                        for (Building b : other.getBuildings(toDestroy[i])) {
                             breakEffect.at(b);
                             b.kill();
-                            Log.info("logged test: "+b);
-                        });
+                        }
+                        if(i < toDestroy.length) i++;
                     }
                 }
                 //selfKillEffect.at(this);
@@ -78,7 +78,8 @@ public class ShieldBreaker extends Block{
             Draw.z(Layer.block);
             Draw.rect(region, tile.drawx(), tile.drawy());
             Draw.z(Layer.blockOver);
-            Draw.color(team.color, Color.red, efficiency);
+            float op = itemCapacity;
+            Draw.color(team.color, Color.red, items.total()/op);
             Draw.rect(teamRegion, tile.drawx(), tile.drawy());
             Draw.reset();
         }

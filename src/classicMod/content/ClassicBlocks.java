@@ -40,7 +40,7 @@ import static mindustry.type.ItemStack.*;
 public class ClassicBlocks {
     public static Block
     coreSolo, //lonely Core - classic
-    titanCannon, chainTurret, plasmaTurret, teslaTurret, sniperTurret, flameTurret, gattlingTurret, shotgunTurret, doubleTurret, basicTurret, //Turret - classic
+    titanCannon, chainTurret, plasmaTurret, teslaTurret, sniperTurret, laserTurret, flameTurret, gattlingTurret, shotgunTurret, doubleTurret, basicTurret, //Turret - classic
     nuclearReactor, //Power - classic
     crucible, steelSmelter, lavaSmelter, stoneFormer, //Production - classic
     teleporter, //Distribution - classic
@@ -249,8 +249,32 @@ public class ClassicBlocks {
             playerControllable = false;
         }};
 
+        /*laserTurret = new PowerTurret("laser-turret"){{
+            requirements(Category.turret, with(Items.titanium, 12, ClassicItems.steel, 12));
+            range = 175f;
+            //shootType =
+            shootSound = railshot;
+            shootEffect = ExtendedFx.railshot;
+            smokeEffect = Fx.none;
+            reload = 5f;
+            health = 100;
+            outlineColor = Color.valueOf("8b4aa9");
+        }};*/
+        
+        flameTurret = new ItemTurret("flame-turret"){{
+            requirements(Category.turret, with(ClassicItems.iron, 12, ClassicItems.steel, 8));
+            range = 65f;
+            ammo(Items.coal, flameClassic);
+            shootSound = shootDefault;
+            shootEffect = Fx.none;
+            smokeEffect = Fx.none;
+            reload = 50f;
+            health = 85;
+            outlineColor = Color.valueOf("8b4aa9");
+        }};
+
         sniperTurret = new ItemTurret("sniper-turret"){{
-            requirements(Category.turret, with(ClassicItems.iron, 15, ClassicItems.steel, 10));
+            requirements(Category.turret, with(ClassicItems.iron, 15, ClassicItems.steel, 15));
             range = 175f;
             ammo(ClassicItems.steel, sniper);
             shootSound = railshot;
@@ -262,9 +286,9 @@ public class ClassicBlocks {
         }};
 
         shotgunTurret = new ItemTurret("shotgun-turret"){{
-            shoot = new ShootSpread(5, 15F);
+            shoot = new ShootSpread(5, 15f);
             inaccuracy = 15f;
-            requirements(Category.turret, with(ClassicItems.iron, 10, ClassicItems.stone, 10));
+            requirements(Category.turret, with(ClassicItems.iron, 12, ClassicItems.stone, 10));
             range = 65f;
             ammo(ClassicItems.iron, iron);
             shootSound = shootDefault;
