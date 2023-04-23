@@ -260,7 +260,7 @@ public class ClassicBlocks {
             health = 100;
             outlineColor = Color.valueOf("8b4aa9");
         }};*/
-        
+
         flameTurret = new ItemTurret("flame-turret"){{
             requirements(Category.turret, with(ClassicItems.iron, 12, ClassicItems.steel, 8));
             range = 65f;

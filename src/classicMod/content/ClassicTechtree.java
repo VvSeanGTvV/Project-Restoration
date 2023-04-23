@@ -41,11 +41,11 @@ public class ClassicTechtree {
                 });
                 node(gattlingTurret, () -> {
                     node(sniperTurret, () -> {
-                        node(laserTurret, () -> {
+                        /*node(laserTurret, () -> {
                             node(teslaTurret, () -> {
 
                             });
-                        });
+                        });*/
                     });
                     node(flameTurret, () -> {
                         node(plasmaTurret, () -> {
