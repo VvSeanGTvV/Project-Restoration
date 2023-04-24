@@ -93,6 +93,10 @@ public class ClassicBullets {
         };
 
         flameClassic = new BulletType(0.7f*ClassicBulletsMultiplier, 5*ClassicBulletsMultiplier){
+            {
+                hitEffect = ExtendedFx.hit;
+                despawnEffect = Fx.none;
+            }
             public void draw(Bullet b){
                 Draw.color(Color.yellow, Color.scarlet, b.time/lifetime);
                 float size = 6f-b.time/lifetime*5f;

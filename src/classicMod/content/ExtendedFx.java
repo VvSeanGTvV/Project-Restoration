@@ -93,21 +93,22 @@ public class ExtendedFx extends Fx {
         if(!(e.data instanceof Position pos)) return;
 
         float lighten = (Mathf.sin(Time.time/1.2f) + 1f) / 10f;
-        Draw.color(e.color);
+        //Draw.color(e.color);
         Draw.colorMul(e.color, 1f + lighten);
 
-        Draw.alpha(0.3f);
+        Draw.alpha(0.3f * e.fout());
         Lines.stroke(4f);
         Lines.line(e.x, e.y, pos.getX(), pos.getY());
 
-        Draw.alpha(1f);
+        Draw.alpha(e.fout());
         Lines.stroke(2f);
         Lines.line(e.x, e.y, pos.getX(), pos.getY());
         Drawf.light(e.x, e.y, pos.getX(), pos.getY(), 24f, e.color, 0.6f);
 
+        Draw.alpha(e.fout());
         float rad = 7f;
         Draw.rect(Core.atlas.find("restored-mind-circle"), e.x, e.y, rad, rad);
-        Draw.rect(Core.atlas.find("restored-mind-circle"), pos.getX(), pos.getY(), rad - 5f, rad - 5f);
+        Draw.rect(Core.atlas.find("restored-mind-circle"), pos.getX(), pos.getY(), rad - 2f, rad - 2f);
     }),
 
     //v4 Mindustry
