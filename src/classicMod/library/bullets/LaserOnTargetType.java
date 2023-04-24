@@ -42,7 +42,7 @@ public class LaserOnTargetType extends BulletType {
         this.beamColor = beamC;
         hitEffect = ExtendedFx.laserhit;
         drawSize = 200f;
-        this.lifetime = 30f;
+        this.lifetime = range;
     }
 
     @Override
