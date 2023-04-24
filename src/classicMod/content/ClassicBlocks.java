@@ -268,7 +268,7 @@ public class ClassicBlocks {
             shootSound = shootDefault;
             shootEffect = Fx.none;
             smokeEffect = Fx.none;
-            reload = 50f;
+            reload = 5f;
             health = 85;
             outlineColor = Color.valueOf("8b4aa9");
         }};
