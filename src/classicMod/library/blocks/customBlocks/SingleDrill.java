@@ -23,6 +23,9 @@ public class SingleDrill extends Drill {
     public TextureRegion itemRegion;
     public TextureRegion region;
     public TextureRegion rotatorRegion;
+    public TextureRegion icoItem;
+    /** Draws the custom icon for the drill's icon **/
+    public boolean drawIconItem = false;
     public SingleDrill(String name) {
         super(name);
         tier = requiredItem.hardness;
@@ -41,10 +44,12 @@ public class SingleDrill extends Drill {
         region = Core.atlas.find("restored-mind-drill-bottom");
         rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
         topRegion = Core.atlas.find("restored-mind-default-rim");
+        if(drawIconItem) icoItem = Core.atlas.find("restored-mind-drill-icon-"+requiredItem.localizedName);
     }
 
     @Override
     public TextureRegion[] icons() {
+        if(drawIconItem) return new TextureRegion[]{region, rotatorRegion, topRegion, icoItem};
         return new TextureRegion[]{region, rotatorRegion, topRegion};
     }
 

@@ -138,6 +138,7 @@ public class ClassicBlocks {
             drillTime = 5*60;
             health = 40;
             requiredItem = ClassicItems.iron;
+            drawIconItem = true;
         }};
 
         uraniumDrill = new SingleDrill("uranium-drill"){{
@@ -145,6 +146,7 @@ public class ClassicBlocks {
             drillTime = 7*60;
             health = 40;
             requiredItem = ClassicItems.uranium;
+            drawIconItem = true;
         }};
 
         titaniumDrill = new SingleDrill("titanium-drill"){{
@@ -152,6 +154,7 @@ public class ClassicBlocks {
             drillTime = 7*60;
             health = 40;
             requiredItem = Items.titanium;
+            drawIconItem = true;
         }};
 
         coalDrill = new SingleDrill("coal-drill"){{
@@ -159,6 +162,7 @@ public class ClassicBlocks {
             drillTime = 6*60;
             health = 40;
             requiredItem = Items.coal;
+            drawIconItem = true;
         }};
 
         omniDrill = new Drill("omni-drill"){
