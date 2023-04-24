@@ -11,7 +11,7 @@ public class ClassicSounds {
     public static Sound flame2 = Vars.tree.loadSound("classic_shoot_flame2");
     public static Sound tesla = Vars.tree.loadSound("classic_shoot_tesla");
     public static Sound railshot = Vars.tree.loadSound("classic_shoot_railgun");
-    public static Sound lazerShot = Vars.tree.loadSound("classic_shoot_shoo");
+    public static Sound lazerShot = Vars.tree.loadSound("classic_shoot_laser");
     public static Sound shootDefault = Vars.tree.loadSound("classic_shoot_default");
 
     //v5
