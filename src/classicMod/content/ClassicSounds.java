@@ -4,13 +4,14 @@ import arc.audio.*;
 import mindustry.*;
 
 public class ClassicSounds {
+
     //classic
     public static Sound blast = Vars.tree.loadSound("classic_shoot_blast");
     public static Sound bigshot = Vars.tree.loadSound("classic_shoot_big");
     public static Sound flame2 = Vars.tree.loadSound("classic_shoot_flame2");
     public static Sound tesla = Vars.tree.loadSound("classic_shoot_tesla");
     public static Sound railshot = Vars.tree.loadSound("classic_shoot_railgun");
-    public static Sound laysBop = Vars.tree.loadSound("classic_shoot_lays");
+    public static Sound lazerShot = Vars.tree.loadSound("classic_shoot_shoo");
     public static Sound shootDefault = Vars.tree.loadSound("classic_shoot_default");
 
     //v5

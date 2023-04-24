@@ -44,7 +44,11 @@ public class SingleDrill extends Drill {
         region = Core.atlas.find("restored-mind-drill-bottom");
         rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
         topRegion = Core.atlas.find("restored-mind-default-rim");
-        if(drawIconItem) icoItem = Core.atlas.find("restored-mind-drill-icon-"+requiredItem.localizedName);
+        if(drawIconItem) {
+            if(!Objects.equals(requiredItem.localizedName, requiredItem.name)){ icoItem = Core.atlas.find("restored-mind-drill-icon-"+requiredItem.localizedName); } else {
+                drawIconItem = false; //Just turn to disable when it doesn't find it
+            }
+        }
     }
 
     @Override

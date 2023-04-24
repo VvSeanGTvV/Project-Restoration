@@ -272,7 +272,7 @@ public class ClassicBlocks {
             requirements(Category.turret, with(Items.titanium, 12, ClassicItems.steel, 12));
             range = 74.5f;
             shootType = new LaserOnTargetType(range, 10, Color.sky);
-            shootSound = shootDefault;
+            shootSound = lazerShot;
             shootEffect = Fx.none;
             smokeEffect = Fx.none;
             reload = 4f;
