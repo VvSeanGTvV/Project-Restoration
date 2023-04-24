@@ -34,13 +34,12 @@ import mindustry.world.meta.*;
 import static classicMod.content.ClassicBullets.*;
 import static classicMod.content.ClassicSounds.*;
 import static classicMod.content.ClassicUnitTypes.*;
-import static classicMod.content.ClassicVars.*;
 import static mindustry.type.ItemStack.*;
 
 public class ClassicBlocks {
     public static Block
     coreSolo, //lonely Core - classic
-    titanCannon, chainTurret, plasmaTurret, teslaTurret, sniperTurret, laserTurret, flameTurret, gattlingTurret, shotgunTurret, doubleTurret, basicTurret, //Turret - classic
+    titanCannon, chainTurret, plasmaTurret, teslaTurret, sniperTurret, laserTurret, mortarTurret, flameTurret, gattlingTurret, shotgunTurret, doubleTurret, basicTurret, //Turret - classic
     nuclearReactor, //Power - classic
     crucible, steelSmelter, lavaSmelter, stoneFormer, //Production - classic
     teleporter, //Distribution - classic
@@ -185,8 +184,10 @@ public class ClassicBlocks {
             }
         };
 
+
+
         titanCannon = new ItemTurret("titan-cannon"){{
-            requirements(Category.turret, with(Items.titanium, 50*ClassicRequirementsMulti, ClassicItems.dirium, 55*ClassicRequirementsMulti, ClassicItems.steel, 70*ClassicRequirementsMulti));
+            requirements(Category.turret, with(Items.titanium, 50 * size, ClassicItems.dirium, 55 * size, ClassicItems.steel, 70 * size));
             ammo(ClassicItems.uranium, titanshell);
             size = 3;
             recoil = 3;
@@ -203,7 +204,7 @@ public class ClassicBlocks {
         }};
 
         chainTurret = new MirroredItemTurret("chain-turret"){{
-            requirements(Category.turret, with(Items.titanium, 25*size, ClassicItems.dirium, 40*size, ClassicItems.steel, 50*size));
+            requirements(Category.turret, with(Items.titanium, 25 * size, ClassicItems.dirium, 40 * size, ClassicItems.steel, 50 * size));
             ammo(ClassicItems.uranium, chain);
             size = 2;
             shootSound = bigshot;
@@ -229,36 +230,48 @@ public class ClassicBlocks {
             range = 69f;
             reload = 3f;
             ammo(Items.coal, plasmaflame);
-            health = 180;
+            health = 280;
             outlineColor = Color.valueOf("ffd86c");
             outlineRadius = 4;
         }};
 
         teslaTurret = new PowerTurret("tesla-turret"){{
             requirements(Category.turret, with(Items.titanium, 25, ClassicItems.dirium, 15, ClassicItems.steel, 20));
-            range = 83.5f;
-            shootType = new TeslaOrbType(15f,13, 5);
+            range = 85.5f;
+            shootType = new TeslaOrbType(17f,13, 5);
             shootSound = tesla;
             shootEffect = Fx.none;
             smokeEffect = Fx.none;
             reload = 15f;
-            health = 140;
+            health = 240;
             outlineColor = Color.valueOf("ffd86c");
             outlineRadius = 4;
-            consumePower(0.5f);
+            consumePower(0.5f * 3.5f);
             playerControllable = false;
+        }};
+
+        mortarTurret = new ItemTurret("mortar-turret"){{
+            requirements(Category.turret, with(Items.titanium, 25, ClassicItems.steel, 15));
+            range = 160f;
+            ammo(Items.coal, flakClassic);
+            shootSound = laserShot;
+            shootEffect = Fx.none;
+            smokeEffect = Fx.none;
+            reload = 4f;
+            health = 150;
+            outlineColor = Color.valueOf("6d5bec");
         }};
 
         laserTurret = new PowerTurret("laser-turret"){{
             requirements(Category.turret, with(Items.titanium, 12, ClassicItems.steel, 12));
-            range = 77.5f;
+            range = 74.5f;
             shootType = new LaserOnTargetType(range, 10, Color.sky);
             shootSound = laserShot;
             shootEffect = Fx.none;
             smokeEffect = Fx.none;
             reload = 4f;
-            health = 100;
-            consumePower(0.2f);
+            health = 150;
+            consumePower(0.2f * 3.5f);
             outlineColor = Color.valueOf("6d5bec");
             playerControllable = false;
         }};
@@ -271,7 +284,7 @@ public class ClassicBlocks {
             shootEffect = Fx.none;
             smokeEffect = Fx.none;
             reload = 5f;
-            health = 85;
+            health = 135;
             outlineColor = Color.valueOf("8b4aa9");
         }};
 
@@ -283,7 +296,7 @@ public class ClassicBlocks {
             shootEffect = ExtendedFx.railshot;
             smokeEffect = Fx.none;
             reload = 50f;
-            health = 90;
+            health = 115;
             outlineColor = Color.valueOf("8b4aa9");
         }};
 
@@ -291,13 +304,13 @@ public class ClassicBlocks {
             shoot = new ShootSpread(5, 15f);
             inaccuracy = 15f;
             requirements(Category.turret, with(ClassicItems.iron, 12, ClassicItems.stone, 10));
-            range = 65f;
+            range = 105f;
             ammo(ClassicItems.iron, iron);
             shootSound = shootDefault;
             shootEffect = Fx.none;
             smokeEffect = Fx.none;
             reload = 30f;
-            health = 70;
+            health = 100;
             outlineColor = Color.valueOf("c4593b");
         }};
 
@@ -309,7 +322,7 @@ public class ClassicBlocks {
             shootEffect = Fx.none;
             smokeEffect = Fx.none;
             reload = 7f;
-            health = 75;
+            health = 90;
             outlineColor = Color.valueOf("c4593b");
         }};
 
@@ -320,7 +333,7 @@ public class ClassicBlocks {
             smokeEffect = Fx.none;
             range = 95.5f;
             reload = 9.15f;
-            health = 60;
+            health = 75;
             outlineColor = Color.valueOf("1869a7");
             outlineRadius = 4;
             shoot = new ShootAlternate(1.5f);
@@ -334,7 +347,7 @@ public class ClassicBlocks {
             smokeEffect = Fx.none;
             range = 103f;
             reload = 15f;
-            health = 45;
+            health = 60;
             outlineColor = Color.valueOf("1869a7");
             outlineRadius = 4;
             ammo(ClassicItems.stone, stone);
@@ -356,11 +369,11 @@ public class ClassicBlocks {
                 hotColor = Color.valueOf("ff9575a3");
 
                 heating = 0.007f;
-                coolantPower = 0.007f*ClassicBuff;
+                coolantPower = 0.007f*size;
                 flashThreshold = 0.46f;
 
-                explosionRadius = 19*ClassicBuff;;
-                explosionDamage = 135*ClassicBuff*ClassicBuff*ClassicBuff;
+                explosionRadius = 19*size;;
+                explosionDamage = 135*size*size;
             
                 fuelItem = ClassicItems.uranium;
                 consumeItem(ClassicItems.uranium);

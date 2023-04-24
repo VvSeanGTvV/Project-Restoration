@@ -11,45 +11,48 @@ public class ClassicTechtree {
     public void load(){
         nodeRoot("Classic", coreSolo, () -> {
             node(teleporter);
+
             node(stoneDrill, () -> {
                 node(ironDrill, () -> {
+                    node(titaniumDrill, () -> {
+                        node(omniDrill);
+                    });
+                });
+
+                node(coalDrill, () -> {
                     node(steelSmelter, () -> {
                         node(ClassicBlocks.melter, () -> {
                             node(lavaSmelter);
                             node(stoneFormer);
                         });
-                        node(titaniumDrill, () -> {
-                            node(crucible);
-                            node(omniDrill);
-                        });
+                        node(crucible);
                     });
                     node(uraniumDrill, () -> {
                         node(nuclearReactor);
                     });
                 });
-                node(coalDrill);
             });
 
             node(basicTurret, () -> {
                 node(doubleTurret, () -> {
                     node(shotgunTurret, () -> {
-
-                    });
-                    node(chainTurret, () -> {
-
+                        node(chainTurret);
                     });
                 });
                 node(gattlingTurret, () -> {
                     node(sniperTurret, () -> {
-                        node(laserTurret, () -> {
-                            node(teslaTurret, () -> {
-
-                            });
+                        node(mortarTurret, () -> {
+                            node(titanCannon);
                         });
                     });
                     node(flameTurret, () -> {
                         node(plasmaTurret, () -> {
 
+                        });
+                        node(laserTurret, () -> {
+                            node(teslaTurret, () -> {
+
+                            });
                         });
                     });
                 });

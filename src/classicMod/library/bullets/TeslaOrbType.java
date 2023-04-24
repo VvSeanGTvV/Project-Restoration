@@ -6,6 +6,7 @@ import arc.graphics.g2d.*;
 import arc.math.geom.*;
 import arc.util.*;
 import classicMod.content.*;
+import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
@@ -37,6 +38,7 @@ public class TeslaOrbType extends BulletType {
         this.damage = damage;
         this.range = range;
         hitEffect = ExtendedFx.laserhit;
+        despawnEffect = Fx.none;
         drawSize = 200f;
         hitCap = maxHits;
         this.lifetime = Float.MAX_VALUE;

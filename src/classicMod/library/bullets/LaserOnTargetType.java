@@ -4,31 +4,19 @@ import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.geom.*;
 import classicMod.content.*;
+import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 
 public class LaserOnTargetType extends BulletType {
 
-    public Color beamColor = Color.white;
+    public Color beamColor;
     public Effect beamEffect = ExtendedFx.laserBeam;
 
     // Temporary Values
     protected int l = 0;
     protected Teamc target;
-
-    /**
-     * Creates a Laser bullet that goes on target.
-     * @param range The maximum range
-     * @param damage Damage per tick
-     **/
-    public LaserOnTargetType(float range, int damage){
-        this.damage = damage;
-        this.range = range;
-        hitEffect = ExtendedFx.laserhit;
-        drawSize = 200f;
-        this.lifetime = 30f;
-    }
 
     /**
      * Creates a Laser bullet that goes on target.
@@ -41,6 +29,7 @@ public class LaserOnTargetType extends BulletType {
         this.range = range;
         this.beamColor = beamC;
         hitEffect = ExtendedFx.laserhit;
+        despawnEffect = Fx.none;
         drawSize = 200f;
         this.lifetime = range;
     }

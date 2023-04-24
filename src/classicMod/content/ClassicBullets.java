@@ -44,7 +44,7 @@ public class ClassicBullets {
     fuseShot,
 
     //classic bullets
-    titanshell, chain, plasmaflame, stone, iron, sniper, flameClassic
+    titanshell, chain, plasmaflame, stone, iron, sniper, flameClassic, flakClassic, flakSpark
     ;
 
     public void load(){
@@ -101,6 +101,58 @@ public class ClassicBullets {
                 Draw.color(Color.yellow, Color.scarlet, b.time/lifetime);
                 float size = 6f-b.time/lifetime*5f;
                 Draw.rect("restored-mind-circle", b.x, b.y, size, size);
+                Draw.reset();
+            }
+        };
+
+        flakClassic = new BulletType(2.9f*ClassicBulletsMultiplier, 8*ClassicBulletsMultiplier) {
+
+            public void init(Bullet b) {
+                b.vel.scl(Mathf.random(0.6f, 1f));
+            }
+
+            public void update(Bullet b){
+                if(b.timer.get(0, 7*ClassicBulletsMultiplier)){
+                    Fx.smoke.at(b.x + Mathf.range(2), b.y + Mathf.range(2));
+                }
+            }
+
+            public void draw(Bullet b) {
+                Draw.color(Color.gray);
+                Lines.stroke(3f);
+                Lines.lineAngleCenter(b.x, b.y, b.rotation(), 2f);
+                Lines.stroke(1.5f);
+                Lines.lineAngleCenter(b.x, b.y, b.rotation(), 5f);
+                Draw.reset();
+            }
+
+            public void hit(Bullet b, float hitx, float hity) {
+                ExtendedFx.shellsmoke.at(b);
+                for(int i = 0; i < 3; i ++){
+                    createBullet(flakSpark, b.team, hitx, hity, b.rotation() + Mathf.range(120f), flakSpark.damage, 1, 1);
+                    //Bullet bullet = new Bullet(flakspark, b.owner, hitx, hity, b.angle() + Mathf.range(120f));
+                    //bullet.add();
+                }
+            }
+
+            public void despawned(Bullet b) {
+                hit(b, b.x, b.y);
+            }
+        };
+
+        flakSpark = new BulletType(2f * ClassicBulletsMultiplier, 2 * ClassicBulletsMultiplier) {
+            {
+                drag = 0.05f;
+            }
+
+            public void init(Bullet b) {
+                b.vel.scl(Mathf.random(0.6f, 1f));
+            }
+
+            public void draw(Bullet b) {
+                Draw.color(Color.lightGray, Color.gray, b.fin());
+                Lines.stroke(2f - b.fin());
+                Lines.lineAngleCenter(b.x, b.y, b.rotation(), 2f);
                 Draw.reset();
             }
         };
