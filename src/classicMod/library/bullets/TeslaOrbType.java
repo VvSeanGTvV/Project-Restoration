@@ -66,7 +66,6 @@ public class TeslaOrbType extends BulletType {
             float x = target.getX();
             float y = target.getY();
             this.ArrayVec2 = new Vec2[]{new Vec2(x, y)};
-            if(target != null) beamEffect.at(lastVec.x, lastVec.y, b.rotation(), Color.white, new Vec2().set(target));
             l++;
         }
     }
@@ -79,6 +78,11 @@ public class TeslaOrbType extends BulletType {
                 t -> t.isValid() && collidesGround && !b.collided.contains(t.id));
         if( target != null ) {
             this.ArrayTarget = new Teamc[]{this.target};
+        } else {
+            l = 0;
+            ArrayTarget = null;
+            ArrayVec2 = null;
+            b.time = b.lifetime + 1f;
         }
     }
 
@@ -87,6 +91,7 @@ public class TeslaOrbType extends BulletType {
         Draw.color(Color.white);
         Vec2 lastVec = new Vec2(b.x, b.y);
         if(ArrayVec2 != null) for (Vec2 vec2 : ArrayVec2){
+            beamEffect.at(lastVec.x, lastVec.y, b.rotation(), Color.white, new Vec2().set(vec2));
             Drawf.light(lastVec.x, lastVec.y, vec2.x, vec2.y);
             Drawf.line(Color.white, lastVec.x, lastVec.y, vec2.x, vec2.y);
             Draw.rect(Core.atlas.find("restored-mind-circle"), vec2.x, vec2.y);
