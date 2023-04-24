@@ -1,17 +1,14 @@
 package classicMod.library.bullets;
 
 
-import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
-import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
 import classicMod.content.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
-import mindustry.graphics.*;
 
 
 public class TeslaOrbType extends BulletType {
@@ -28,7 +25,6 @@ public class TeslaOrbType extends BulletType {
 
     // Temporary Values
     protected int l = 0;
-    protected float moveScl = 0;
     protected Teamc target;
 
     /**
@@ -44,7 +40,6 @@ public class TeslaOrbType extends BulletType {
         hitEffect = ExtendedFx.laserhit;
         drawSize = 200f;
         hitCap = maxHits;
-        moveScl = 0;
         this.lifetime = Float.MAX_VALUE;
         this.timeSpeedup = timerSpeed;
     }
@@ -52,7 +47,6 @@ public class TeslaOrbType extends BulletType {
     @Override
     public void update(Bullet b) {
         super.update(b);
-        moveScl = Mathf.lerpDelta(moveScl, b.lifetime, 1);
         if(l >= hitCap*2) { //Allows to detect whether if the bullet hit count has reached maximum peak.
             l = 0;
             ArrayTarget = null;
@@ -72,7 +66,6 @@ public class TeslaOrbType extends BulletType {
 
     /** AutoTargets the nearest enemy unit/block while keeping track on a listed array, this could be saved on {@link #ArrayTarget} **/
     public void autoTarget(Bullet b){ //from Prog-mats
-        //moveScl = Mathf.lerpDelta(moveScl, 1f, timeSpeedup);
         this.target = Units.closestTarget(b.team, b.x, b.y, range * b.fout(),
                 e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !b.collided.contains(e.id),
                 t -> t.isValid() && collidesGround && !b.collided.contains(t.id));
@@ -92,9 +85,6 @@ public class TeslaOrbType extends BulletType {
         Vec2 lastVec = new Vec2(b.x, b.y);
         if(ArrayVec2 != null) for (Vec2 vec2 : ArrayVec2){
             beamEffect.at(lastVec.x, lastVec.y, b.rotation(), Color.white, new Vec2().set(vec2));
-            Drawf.light(lastVec.x, lastVec.y, vec2.x, vec2.y);
-            Drawf.line(Color.white, lastVec.x, lastVec.y, vec2.x, vec2.y);
-            Draw.rect(Core.atlas.find("restored-mind-circle"), vec2.x, vec2.y);
             b.set(vec2);
             b.vel = new Vec2();
             if(lastVec!=vec2) lastVec = vec2;
