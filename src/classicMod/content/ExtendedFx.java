@@ -4,6 +4,7 @@ import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
+import arc.math.geom.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.graphics.*;
@@ -74,7 +75,19 @@ public class ExtendedFx extends Fx {
 
     }),
 
-    //b41-b40 effects
+    teslaBeam = new Effect(30f, 300f, e -> {
+        if(!(e.data instanceof Position pos)) return;
+
+        Draw.color(e.color, e.fout());
+        Lines.stroke(3f * e.fout());
+        Lines.line(e.x, e.y, pos.getX(), pos.getY());
+        Drawf.light(e.x, e.y, pos.getX(), pos.getY(), 20f, e.color, 0.6f * e.fout());
+
+        float rad = 7f * e.fout();
+        Draw.rect(Core.atlas.find("restored-mind-circle"), e.x, e.y, rad, rad);
+    }),
+
+    //v4 Mindustry
     teleportActivate = new Effect(50, e -> {
         Draw.colorMul(e.color, 1.5f);
 

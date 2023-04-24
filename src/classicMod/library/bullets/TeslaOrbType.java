@@ -24,6 +24,8 @@ public class TeslaOrbType extends BulletType {
     /** Maximum hits before despawning **/
     public int hitCap;
 
+    public Effect beamEffect = ExtendedFx.teslaBeam;
+
     // Temporary Values
     protected int l = 0;
     protected float moveScl = 0;
@@ -84,6 +86,7 @@ public class TeslaOrbType extends BulletType {
         Draw.color(Color.white);
         Vec2 lastVec = new Vec2(b.x, b.y);
         if(ArrayVec2 != null) for (Vec2 vec2 : ArrayVec2){
+            beamEffect.at(lastVec.x, lastVec.y, b.rotation(), Color.white, new Vec2().set(target));
             Drawf.light(lastVec.x, lastVec.y, vec2.x, vec2.y);
             Drawf.line(Color.white, lastVec.x, lastVec.y, vec2.x, vec2.y);
             Draw.rect(Core.atlas.find("restored-mind-circle"), vec2.x, vec2.y);
