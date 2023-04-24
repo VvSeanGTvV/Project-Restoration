@@ -106,7 +106,10 @@ public class ClassicBullets {
         };
 
         flakClassic = new BulletType(2.9f*ClassicBulletsMultiplier, 8*ClassicBulletsMultiplier) {
-
+            {
+                hitEffect = Fx.none;
+                despawnEffect = Fx.none;
+            }
             public void init(Bullet b) {
                 b.vel.scl(Mathf.random(0.6f, 1f));
             }
@@ -130,8 +133,6 @@ public class ClassicBullets {
                 ExtendedFx.shellsmoke.at(b);
                 for(int i = 0; i < 3; i ++){
                     createBullet(flakSpark, b.team, hitx, hity, b.rotation() + Mathf.range(120f), flakSpark.damage, 1, 1);
-                    //Bullet bullet = new Bullet(flakspark, b.owner, hitx, hity, b.angle() + Mathf.range(120f));
-                    //bullet.add();
                 }
             }
 
@@ -143,6 +144,8 @@ public class ClassicBullets {
         flakSpark = new BulletType(2f * ClassicBulletsMultiplier, 2 * ClassicBulletsMultiplier) {
             {
                 drag = 0.05f;
+                hitEffect = ExtendedFx.hit;
+                despawnEffect = Fx.none;
             }
 
             public void init(Bullet b) {

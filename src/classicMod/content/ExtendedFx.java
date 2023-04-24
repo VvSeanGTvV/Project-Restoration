@@ -76,6 +76,7 @@ public class ExtendedFx extends Fx {
 
     }),
 
+    //Modified effects for Good Reason
     teslaBeam = new Effect(30f, 300f, e -> {
         if(!(e.data instanceof Position pos)) return;
 
@@ -89,7 +90,7 @@ public class ExtendedFx extends Fx {
         Draw.rect(Core.atlas.find("restored-mind-circle"), e.x + Mathf.range(rand), e.y + Mathf.range(rand), rad, rad);
     }),
 
-    laserBeam = new Effect(30f, 300f, e -> {
+    laserBeam = new Effect(8f, 300f, e -> {
         if(!(e.data instanceof Position pos)) return;
 
         float lighten = (Mathf.sin(Time.time/1.2f) + 1f) / 10f;
@@ -112,6 +113,17 @@ public class ExtendedFx extends Fx {
     }),
 
     //v4 Mindustry
+
+    mortarshot = new Effect(10f, e -> {
+        Draw.color(Color.white, Color.darkGray, e.fin());
+        Lines.stroke(e.fout()*6f);
+        Lines.lineAngle(e.x, e.y, e.rotation, e.fout()*10f);
+        Lines.stroke(e.fout()*5f);
+        Lines.lineAngle(e.x, e.y, e.rotation, e.fout()*14f);
+        Lines.stroke(e.fout());
+        Lines.lineAngle(e.x, e.y, e.rotation, e.fout()*16f);
+        Draw.reset();
+    }),
     teleportActivate = new Effect(50, e -> {
         Draw.colorMul(e.color, 1.5f);
 
