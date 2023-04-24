@@ -237,7 +237,7 @@ public class ClassicBlocks {
         teslaTurret = new PowerTurret("tesla-turret"){{
             requirements(Category.turret, with(Items.titanium, 25, ClassicItems.dirium, 15, ClassicItems.steel, 20));
             range = 80.5f;
-            shootType = new TeslaOrbType(15f,13, 5, 0.019f);
+            shootType = new TeslaOrbType(15f,13, 5);
             shootSound = tesla;
             shootEffect = Fx.none;
             smokeEffect = Fx.none;
@@ -249,17 +249,17 @@ public class ClassicBlocks {
             playerControllable = false;
         }};
 
-        /*laserTurret = new PowerTurret("laser-turret"){{
+        laserTurret = new PowerTurret("laser-turret"){{
             requirements(Category.turret, with(Items.titanium, 12, ClassicItems.steel, 12));
-            range = 175f;
-            //shootType =
+            range = 75.5f;
+            shootType = new LaserOnTargetType(range, 10, Color.sky);
             shootSound = railshot;
             shootEffect = ExtendedFx.railshot;
             smokeEffect = Fx.none;
-            reload = 5f;
+            reload = 4f;
             health = 100;
-            outlineColor = Color.valueOf("8b4aa9");
-        }};*/
+            outlineColor = Color.valueOf("6d5bec");
+        }};
 
         flameTurret = new ItemTurret("flame-turret"){{
             requirements(Category.turret, with(ClassicItems.iron, 12, ClassicItems.steel, 8));

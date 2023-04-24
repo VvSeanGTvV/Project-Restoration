@@ -32,16 +32,14 @@ public class TeslaOrbType extends BulletType {
      * @param range The maximum range that the arc can jump to other team's unit/block.
      * @param damage Damage per tick
      * @param maxHits Maximum hits before despawning immediately.
-     * @param timerSpeed How fast is the lifetime
      **/
-    public TeslaOrbType(float range, int damage, int maxHits, float timerSpeed){
+    public TeslaOrbType(float range, int damage, int maxHits){
         this.damage = damage;
         this.range = range;
         hitEffect = ExtendedFx.laserhit;
         drawSize = 200f;
         hitCap = maxHits;
         this.lifetime = Float.MAX_VALUE;
-        this.timeSpeedup = timerSpeed;
     }
 
     @Override
@@ -80,7 +78,7 @@ public class TeslaOrbType extends BulletType {
     }
 
     @Override
-    public void draw(Bullet b) { //TODO make multi target version
+    public void draw(Bullet b) {
         Draw.color(Color.white);
         Vec2 lastVec = new Vec2(b.x, b.y);
         if(ArrayVec2 != null) for (Vec2 vec2 : ArrayVec2){
@@ -89,45 +87,5 @@ public class TeslaOrbType extends BulletType {
             b.vel = new Vec2();
             if(lastVec!=vec2) lastVec = vec2;
         }
-
-       //Draw.reset();
-
-        /*if(points.size == 0) return;
-
-        float range = 1f;
-
-        Vec2 previous = vector.set(x, y);
-
-        for(Vec2 enemy : points){
-
-
-            float x1 = previous.x + Mathf.range(range),
-                    y1 = previous.y + Mathf.range(range),
-                    x2 = target.x + Mathf.range(range),
-                    y2 = enemy.y + Mathf.range(range);
-
-            Draw.color(Color.white);
-            Draw.alpha(1f-life/lifetime);
-
-            Lines.stroke(3f - life/lifetime*2f);
-            Lines.line(x1, y1, x2, y2);
-
-            float rad = 7f - life/lifetime*5f;
-
-            Draw.rect("circle", x2, y2, rad, rad);
-
-            if(previous.epsilonEquals(x, y, 0.001f)){
-                Draw.rect("circle", x, y, rad, rad);
-            }
-
-            //Draw.color(Color.WHITE);
-
-            //Draw.stroke(2f - life/lifetime*2f);
-            //Draw.line(x1, y1, x2, y2);
-
-            Draw.reset();
-
-            previous = enemy;
-        }*/
     }
 }

@@ -5,6 +5,7 @@ import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
+import arc.util.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.graphics.*;
@@ -86,6 +87,27 @@ public class ExtendedFx extends Fx {
 
         float rad = 7f * e.fout();
         Draw.rect(Core.atlas.find("restored-mind-circle"), e.x + Mathf.range(rand), e.y + Mathf.range(rand), rad, rad);
+    }),
+
+    laserBeam = new Effect(30f, 300f, e -> {
+        if(!(e.data instanceof Position pos)) return;
+
+        float lighten = (Mathf.sin(Time.time/1.2f) + 1f) / 10f;
+        Draw.color(e.color);
+        Draw.colorMul(e.color, 1f + lighten);
+
+        Draw.alpha(0.3f);
+        Lines.stroke(4f);
+        Lines.line(e.x, e.y, pos.getX(), pos.getY());
+
+        Draw.alpha(1f);
+        Lines.stroke(2f);
+        Lines.line(e.x, e.y, pos.getX(), pos.getY());
+        Drawf.light(e.x, e.y, pos.getX(), pos.getY(), 24f, e.color, 0.6f);
+
+        float rad = 7f;
+        Draw.rect(Core.atlas.find("restored-mind-circle"), e.x, e.y, rad, rad);
+        Draw.rect(Core.atlas.find("restored-mind-circle"), pos.getX(), pos.getY(), rad - 5f, rad - 5f);
     }),
 
     //v4 Mindustry
