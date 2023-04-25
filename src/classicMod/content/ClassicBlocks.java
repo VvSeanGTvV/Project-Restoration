@@ -42,7 +42,8 @@ public class ClassicBlocks {
     titanCannon, chainTurret, plasmaTurret, teslaTurret, sniperTurret, laserTurret, mortarTurret, flameTurret, gattlingTurret, shotgunTurret, doubleTurret, basicTurret, //Turret - classic
     nuclearReactor, //Power - classic
     crucible, steelSmelter, lavaSmelter, stoneFormer, //Production - classic
-    teleporter, //Distribution - classic
+    teleporter, //Distribution - classic //TODO conveyor belt
+    pumpBasic, pumpFlux, //Liquids - classic
     stoneDrill, ironDrill, uraniumDrill, titaniumDrill, coalDrill, omniDrill, //SingleDrill - classic
     ironOre, uraniumOre, //Ore - classic
     lavaLiq, //Liquid - classic
@@ -124,6 +125,17 @@ public class ClassicBlocks {
         uraniumOre = new OreBlock("uranium-ore"){{
             variants = 3;
             itemDrop = ClassicItems.uranium;
+        }};
+
+        pumpBasic = new Pump("basic-pump"){{
+            requirements(Category.production, with(ClassicItems.steel, 10));
+            health = 60;
+            pumpAmount = 0.2f;
+        }};
+        pumpFlux = new Pump("flux-pump"){{
+            requirements(Category.production, with(ClassicItems.steel, 10, ClassicItems.dirium, 10));
+            health = 100;
+            pumpAmount = 0.5f;
         }};
 
         stoneDrill = new SingleDrill("stone-drill"){{

@@ -21,6 +21,9 @@ public class ClassicTechtree {
 
                 node(coalDrill, () -> {
                     node(steelSmelter, () -> {
+                        node(pumpBasic, () -> {
+                            node(pumpFlux);
+                        });
                         node(ClassicBlocks.melter, () -> {
                             node(lavaSmelter);
                             node(stoneFormer);
