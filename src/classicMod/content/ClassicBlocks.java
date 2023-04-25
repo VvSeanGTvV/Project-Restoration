@@ -232,7 +232,7 @@ public class ClassicBlocks {
             recoil = 0;
             inaccuracy = 7f;
             range = 69f;
-            reload = 3f/2;
+            reload = 3f;
             ammo(Items.coal, plasmaflame);
             health = 280;
             outlineColor = Color.valueOf("ffd86c");
@@ -289,7 +289,7 @@ public class ClassicBlocks {
             shootSound = shootDefault;
             shootEffect = Fx.none;
             smokeEffect = Fx.none;
-            reload = 5f/2;
+            reload = 1f;
             health = 135;
             outlineColor = Color.valueOf("8b4aa9");
         }};
