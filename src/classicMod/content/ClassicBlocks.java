@@ -250,7 +250,7 @@ public class ClassicBlocks {
             health = 240;
             outlineColor = Color.valueOf("ffd86c");
             outlineRadius = 4;
-            consumePower(0.5f * 3.5f);
+            consumePower(0.5f * 4f);
             playerControllable = false;
         }};
 
@@ -277,7 +277,7 @@ public class ClassicBlocks {
             smokeEffect = Fx.none;
             reload = 4f;
             health = 150;
-            consumePower(0.2f * 3.5f);
+            consumePower(0.2f * 4f);
             outlineColor = Color.valueOf("6d5bec");
             playerControllable = false;
         }};
