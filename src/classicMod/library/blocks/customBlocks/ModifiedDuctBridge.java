@@ -19,11 +19,13 @@ public class ModifiedDuctBridge extends DirectionBridge {
 
     public class ModifiedDuctBridgeBuild extends DirectionBridgeBuild{
         public float progress = 0f;
+        public boolean transporter = false;
 
         @Override
         public void updateTile(){
             var link = findLink();
             if(link != null){
+                if(occupied.length == 1) transporter = true;
                 link.occupied[rotation % 4] = this;
                 if(items.any() && link.items.total() < link.block.itemCapacity){
                     progress += edelta();
@@ -62,7 +64,11 @@ public class ModifiedDuctBridge extends DirectionBridge {
 
         @Override
         public void draw() {
-            Draw.rect(name, x, y, rotdeg());
+            if(!transporter){
+                Draw.rect(name, x, y, rotdeg());
+            }else{
+                Draw.rect(name, x, y, rotdeg()-180f);
+            }
         }
     }
 }
