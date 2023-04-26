@@ -62,7 +62,7 @@ public class ModifiedDuctBridge extends DirectionBridge {
 
         @Override
         public void draw() {
-            Draw.rect(name, x, y, rotation);
+            Draw.rect(name, x, y, rotdeg());
         }
     }
 }

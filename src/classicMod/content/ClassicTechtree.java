@@ -10,8 +10,9 @@ public class ClassicTechtree {
 
     public void load(){
         nodeRoot("Classic", coreSolo, () -> {
-            node(tunnelBridge);
-            node(teleporter);
+            node(tunnelBridge, () -> {
+                node(teleporter);
+            });
 
             node(stoneDrill, () -> {
                 node(ironDrill, () -> {
