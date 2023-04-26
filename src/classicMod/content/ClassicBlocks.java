@@ -24,6 +24,7 @@ import mindustry.world.*;
 import mindustry.world.blocks.campaign.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.*;
+import mindustry.world.blocks.distribution.*;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.heat.*;
 import mindustry.world.blocks.power.*;
@@ -42,7 +43,7 @@ public class ClassicBlocks {
     titanCannon, chainTurret, plasmaTurret, teslaTurret, sniperTurret, laserTurret, mortarTurret, flameTurret, gattlingTurret, shotgunTurret, doubleTurret, basicTurret, //Turret - classic
     nuclearReactor, //Power - classic
     crucible, steelSmelter, lavaSmelter, stoneFormer, //Production - classic
-    teleporter, //Distribution - classic //TODO conveyor belt
+    teleporter, tunnelBridge, //Distribution - classic //TODO conveyor belt
     pumpBasic, pumpFlux, //Liquids - classic
     stoneDrill, ironDrill, uraniumDrill, titaniumDrill, coalDrill, omniDrill, //SingleDrill - classic
     ironOre, uraniumOre, //Ore - classic
@@ -96,8 +97,26 @@ public class ClassicBlocks {
         warpGate = new WarpGate("warp-gate"){
             {
                 requirements(Category.distribution, with(ClassicItems.steel, 30, ClassicItems.dirium, 40));
-            size = 3;
+                size = 3;
             }
+        };
+        tunnelBridge = new DirectionBridge("conveyor-tunnel"){{
+            requirements(Category.distribution, with(ClassicItems.iron, 2));
+            health = 70;
+            range = 3;
+        }
+
+            @Override
+            public void load() {
+                super.load();
+                bridgeRegion = Core.atlas.find("restored-mind-nullTexture");
+                region = Core.atlas.find("conveyor-tunnel");
+                bridgeBotRegion = Core.atlas.find("restored-mind-nullTexture");
+                bridgeLiquidRegion = Core.atlas.find("restored-mind-nullTexture");
+                arrowRegion = Core.atlas.find("restored-mind-nullTexture");
+                dirRegion = Core.atlas.find("restored-mind-nullTexture");
+            }
+
         };
 
         lavaLiq = new Floor("molten-lava"){{
@@ -113,9 +132,11 @@ public class ClassicBlocks {
 
             attributes.set(Attribute.heat, 0.95f);
         }};
+
         teleporter = new Teleporter("teleporter"){{
             requirements(Category.distribution, with(ClassicItems.steel, 30, ClassicItems.dirium, 40));
         }};
+
         ironOre = new OreBlock("iron-ore"){{
            variants = 3;
            itemDrop = ClassicItems.iron;
