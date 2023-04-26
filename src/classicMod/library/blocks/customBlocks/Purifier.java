@@ -26,7 +26,7 @@ public class Purifier extends GenericCrafter {
     public void load() {
         super.load();
         String spriteName = "restored-mind-purifier";
-        region = Core.atlas.find("restored-mind-purifer");
+        region = Core.atlas.find(spriteName);
         itemReg = Core.atlas.find(spriteName+"-item");
         liquidRegion = Core.atlas.find(spriteName+"-liquid");
         itemColor = outputItem.item.color;

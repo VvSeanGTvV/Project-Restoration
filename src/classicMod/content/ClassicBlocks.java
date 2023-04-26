@@ -102,7 +102,7 @@ public class ClassicBlocks {
             }
         };
 
-        tunnelBridge = new DuctBridge("conveyor-tunnel"){{
+        tunnelBridge = new ModifiedDuctBridge("conveyor-tunnel"){{
             requirements(Category.distribution, with(ClassicItems.iron, 2));
             health = 70;
             range = 3;
