@@ -1,14 +1,21 @@
 package classicMod.library.blocks.customBlocks;
 
 import arc.graphics.g2d.*;
+import arc.math.geom.*;
 import arc.util.*;
 import mindustry.entities.units.*;
 import mindustry.gen.*;
+import mindustry.graphics.*;
 import mindustry.type.*;
+import mindustry.world.*;
 import mindustry.world.blocks.distribution.*;
+
+import static mindustry.Vars.*;
+import static mindustry.Vars.tilesize;
 
 public class ModifiedDuctBridge extends DirectionBridge {
     public float speed = 5f;
+    public boolean dirFlip = false;
 
     public ModifiedDuctBridge(String name){
         super(name);
@@ -21,7 +28,49 @@ public class ModifiedDuctBridge extends DirectionBridge {
 
     @Override
     public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
-        Draw.rect(region, plan.drawx(), plan.drawy(), plan.rotation * 90);
+        if(!dirFlip){
+            Draw.rect(region, plan.drawx(), plan.drawy(), plan.rotation * 90);
+        } else {
+            Draw.rect(region, plan.drawx(), plan.drawy(), plan.rotation * -90);
+        }
+    }
+
+    @Override
+    public void drawPlace(int x, int y, int rotation, boolean valid, boolean line){
+        int length = range;
+        Building found = null;
+        int dx = Geometry.d4x(rotation), dy = Geometry.d4y(rotation);
+
+        //find the link
+        for(int i = 1; i <= range; i++){
+            Tile other = world.tile(x + dx * i, y + dy * i);
+
+            if(other != null && other.build instanceof DirectionBridgeBuild build && build.block == this && build.team == player.team()){
+                length = i;
+                found = other.build;
+                dirFlip = true;
+                break;
+            } else {
+                dirFlip = false;
+            }
+        }
+
+        if(line || found != null){
+            Drawf.dashLine(Pal.placing,
+                    x * tilesize + dx * (tilesize / 2f + 2),
+                    y * tilesize + dy * (tilesize / 2f + 2),
+                    x * tilesize + dx * (length) * tilesize,
+                    y * tilesize + dy * (length) * tilesize
+            );
+        }
+
+        if(found != null){
+            if(line){
+                Drawf.square(found.x, found.y, found.block.size * tilesize/2f + 2.5f, 0f);
+            }else{
+                Drawf.square(found.x, found.y, 2f);
+            }
+        }
     }
 
     public class ModifiedDuctBridgeBuild extends DirectionBridgeBuild{
@@ -32,7 +81,7 @@ public class ModifiedDuctBridge extends DirectionBridge {
         public void updateTile(){
             var link = findLink();
             if(link != null){
-                transporter = (link.occupied.length == 0);
+                transporter = (link.occupied.length > 0);
                 link.occupied[rotation % 4] = this;
                 if(items.any() && link.items.total() < link.block.itemCapacity){
                     progress += edelta();

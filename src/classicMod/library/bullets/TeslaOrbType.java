@@ -69,7 +69,7 @@ public class TeslaOrbType extends BulletType {
         this.target = Units.closestTarget(b.team, b.x, b.y, range * b.fout(),
                 e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !b.collided.contains(e.id),
                 t -> false);
-        if( target != null ) {
+        if( target != null && target instanceof Unit) {
             this.ArrayTarget = new Teamc[]{this.target};
         } else {
             l = 0;
