@@ -32,7 +32,7 @@ public class ModifiedDuctBridge extends DirectionBridge {
         public void updateTile(){
             var link = findLink();
             if(link != null){
-                if(occupied.length == 0){transporter = true;}else{transporter=false;}
+                transporter = (link.occupied.length == 0);
                 link.occupied[rotation % 4] = this;
                 if(items.any() && link.items.total() < link.block.itemCapacity){
                     progress += edelta();
