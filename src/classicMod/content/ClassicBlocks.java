@@ -42,7 +42,7 @@ public class ClassicBlocks {
     coreSolo, //lonely Core - classic
     titanCannon, chainTurret, plasmaTurret, teslaTurret, sniperTurret, laserTurret, mortarTurret, flameTurret, gattlingTurret, shotgunTurret, doubleTurret, basicTurret, //Turret - classic
     nuclearReactor, //Power - classic
-    crucible, steelSmelter, lavaSmelter, stoneFormer, //Production - classic
+    crucible, steelSmelter, lavaSmelter, stoneFormer, purifierCoal, purifierTitanium, //Production - classic
     teleporter, tunnelBridge, //Distribution - classic //TODO conveyor belt
     pumpBasic, pumpFlux, //Liquids - classic
     stoneDrill, ironDrill, uraniumDrill, titaniumDrill, coalDrill, omniDrill, //SingleDrill - classic
@@ -94,13 +94,15 @@ public class ClassicBlocks {
             infinityCapacity = true;
             alwaysUnlocked = true;
         }};
+
         warpGate = new WarpGate("warp-gate"){
             {
                 requirements(Category.distribution, with(ClassicItems.steel, 30, ClassicItems.dirium, 40));
                 size = 3;
             }
         };
-        tunnelBridge = new DirectionBridge("conveyor-tunnel"){{
+
+        tunnelBridge = new DuctBridge("conveyor-tunnel"){{
             requirements(Category.distribution, with(ClassicItems.iron, 2));
             health = 70;
             range = 3;
@@ -110,14 +112,36 @@ public class ClassicBlocks {
             public void load() {
                 super.load();
                 bridgeRegion = Core.atlas.find("restored-mind-nullTexture");
-                region = Core.atlas.find("conveyor-tunnel");
+                region = Core.atlas.find("restored-mind-conveyor-tunnel");
                 bridgeBotRegion = Core.atlas.find("restored-mind-nullTexture");
                 bridgeLiquidRegion = Core.atlas.find("restored-mind-nullTexture");
                 arrowRegion = Core.atlas.find("restored-mind-nullTexture");
                 dirRegion = Core.atlas.find("restored-mind-nullTexture");
             }
 
+            @Override
+            public TextureRegion[] icons() {
+                return new TextureRegion[]{region};
+            }
         };
+
+        purifierCoal = new Purifier("coal-extractor"){{
+            requirements(Category.production, with(ClassicItems.iron, 10, ClassicItems.steel, 10));
+            health = 65;
+            craftTime = 50f;
+            consumeLiquid(Liquids.water, 18.99f/60);
+            consumeItems(with(ClassicItems.stone, 5));
+            outputItem = new ItemStack(Items.coal, 1);
+        }};
+
+        purifierTitanium = new Purifier("titanium-extractor"){{
+            requirements(Category.production, with(ClassicItems.iron, 30, ClassicItems.steel, 30));
+            health = 80;
+            craftTime = 60f;
+            consumeLiquid(Liquids.water, 40f/60);
+            consumeItems(with(ClassicItems.iron, 7));
+            outputItem = new ItemStack(Items.titanium, 1);
+        }};
 
         lavaLiq = new Floor("molten-lava"){{
             speedMultiplier = 0.15f;
