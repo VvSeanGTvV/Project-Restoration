@@ -1,6 +1,8 @@
 package classicMod.library.blocks.customBlocks;
 
 import arc.graphics.g2d.*;
+import arc.util.*;
+import mindustry.entities.units.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.blocks.distribution.*;
@@ -17,6 +19,11 @@ public class ModifiedDuctBridge extends DirectionBridge {
         isDuct = true;
     }
 
+    @Override
+    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
+        Draw.rect(region, plan.drawx(), plan.drawy(), plan.rotation * 90);
+    }
+
     public class ModifiedDuctBridgeBuild extends DirectionBridgeBuild{
         public float progress = 0f;
         public boolean transporter = false;
@@ -25,7 +32,7 @@ public class ModifiedDuctBridge extends DirectionBridge {
         public void updateTile(){
             var link = findLink();
             if(link != null){
-                if(occupied.length == 1) transporter = true;
+                if(occupied.length == 0){transporter = true;}else{transporter=false;}
                 link.occupied[rotation % 4] = this;
                 if(items.any() && link.items.total() < link.block.itemCapacity){
                     progress += edelta();
