@@ -42,7 +42,7 @@ public class ClassicUnitType extends UnitType {
     /**
      * Unit's outline tier color
      **/
-    public final static Color[] tierColors = {
+    public final static Color[] tierColors = new Color[]{
             Color.valueOf("ffe451"), Color.valueOf("f48e20"), Color.valueOf("ff6757"),
             Color.valueOf("ff2d86"), Color.valueOf("cb2dff"), Color.valueOf("362020")};
 
