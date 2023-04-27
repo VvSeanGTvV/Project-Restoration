@@ -2,6 +2,7 @@ package classicMod.library;
 
 import arc.*;
 import arc.graphics.*;
+import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.struct.*;
 import classicMod.content.*;
@@ -135,7 +136,55 @@ public class ClassicUnitType extends UnitType {
 
     @Override
     public void load() {
-        region = Core.atlas.find("restored-mind-"+spriteName);
+        super.load();
+
+        for(var part : parts){
+            part.load(spriteName);
+        }
+        weapons.each(Weapon::load);
+        region = Core.atlas.find(spriteName);
+        previewRegion = Core.atlas.find(spriteName + "-preview", spriteName);
+        legRegion = Core.atlas.find(spriteName + "-leg");
+        jointRegion = Core.atlas.find(spriteName + "-joint");
+        baseJointRegion = Core.atlas.find(spriteName + "-joint-base");
+        footRegion = Core.atlas.find(spriteName + "-foot");
+        treadRegion = Core.atlas.find(spriteName + "-treads");
+        itemCircleRegion = Core.atlas.find("ring-item");
+
+        if(treadRegion.found()){
+            treadRegions = new TextureRegion[treadRects.length][treadFrames];
+            for(int r = 0; r < treadRects.length; r++){
+                for(int i = 0; i < treadFrames; i++){
+                    treadRegions[r][i] = Core.atlas.find(spriteName + "-treads" + r + "-" + i);
+                }
+            }
+        }
+        legBaseRegion = Core.atlas.find(spriteName + "-leg-base", spriteName + "-leg");
+        baseRegion = Core.atlas.find(spriteName + "-base");
+        cellRegion = Core.atlas.find(spriteName + "-cell", Core.atlas.find("power-cell"));
+        //when linear filtering is on, it's acceptable to use the relatively low-res 'particle' region
+        softShadowRegion =
+                squareShape ? Core.atlas.find("square-shadow") :
+                        hitSize <= 10f || (Core.settings != null && Core.settings.getBool("linear", true)) ?
+                                Core.atlas.find("particle") :
+                                Core.atlas.find("circle-shadow");
+
+        outlineRegion = Core.atlas.find(spriteName + "-outline");
+        shadowRegion = fullIcon;
+
+        wreckRegions = new TextureRegion[3];
+        for(int i = 0; i < wreckRegions.length; i++){
+            wreckRegions[i] = Core.atlas.find(spriteName + "-wreck" + i);
+        }
+
+        segmentRegions = new TextureRegion[segments];
+        segmentOutlineRegions = new TextureRegion[segments];
+        for(int i = 0; i < segments; i++){
+            segmentRegions[i] = Core.atlas.find(spriteName + "-segment" + i);
+            segmentOutlineRegions[i] = Core.atlas.find(spriteName + "-segment-outline" + i);
+        }
+
+        clipSize = Math.max(region.width * 2f, clipSize);
     }
 
     @Override
