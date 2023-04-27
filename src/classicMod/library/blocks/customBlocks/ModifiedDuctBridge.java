@@ -96,6 +96,7 @@ public class ModifiedDuctBridge extends DirectionBridge {
             }
 
             if(link == null && items.any()){
+                transporter = false;
                 Item next = items.first();
                 if(moveForward(next)){
                     items.remove(next, 1);

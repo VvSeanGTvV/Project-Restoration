@@ -122,9 +122,10 @@ public class ClassicUnitType extends UnitType {
         super.update(unit);
          //this works im keeping it
         if(!setOnce) { 
-        speed = speed * tier; 
-        health = health * tier * 4f; 
-        setOnce = true;
+            speed = speed * tier;
+            health = health * tier * 4f;
+            maxRange = range / Math.max(tier / 1.5f, 1f);
+            setOnce = true;
         }
     }
 
