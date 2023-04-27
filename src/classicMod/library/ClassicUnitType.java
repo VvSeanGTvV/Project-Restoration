@@ -20,6 +20,7 @@ import static mindustry.Vars.*;
 public class ClassicUnitType extends UnitType {
     public float reloadWeapon = 32f;
     public BulletType bulletWeapon = ClassicBullets.smol;
+    public boolean setOnce;
     /**
      * Unit's current tier, the higher tier it gets, the more buffed it is
      **/
@@ -33,10 +34,10 @@ public class ClassicUnitType extends UnitType {
 
     public ClassicUnitType(String name) {
         super(name);
-        health = 60 * tier * 4f;
+        health = 60;
         hitSize = 5f;
         range = 60;
-        speed = 0.4f * tier;
+        speed = 0.4f;
 
         weapons.add(new Weapon("restored-mind-nullTexture") {{
             x = 2f;
@@ -119,8 +120,12 @@ public class ClassicUnitType extends UnitType {
     @Override
     public void update(Unit unit) {
         super.update(unit);
-        if(speed != speed * tier) speed = speed * tier; //this works im keeping it
-        if(health != health * tier * 4f) health = health * tier * 4f; //this works im keeping it
+         //this works im keeping it
+        if(!setOnce) { 
+        speed = speed * tier; 
+        health = health * tier * 4f; 
+        setOnce = true;
+        }
     }
 
     @Override
