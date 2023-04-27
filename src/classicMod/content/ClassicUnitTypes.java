@@ -5,6 +5,7 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
+import classicMod.library.*;
 import classicMod.library.ability.*;
 import classicMod.library.ai.*;
 import mindustry.*;
@@ -25,7 +26,9 @@ import static mindustry.Vars.*;
 public class ClassicUnitTypes {
     //public static Sound pew = Vars.tree.loadSound("v5_sounds_pew"); //just pew lol
 
-    public static UnitType 
+    public static UnitType
+    //Classic Old Units
+    enemyStandard,
     
     //Mech Region
     halberd, //Mech - Air [v4]
@@ -50,10 +53,14 @@ public class ClassicUnitTypes {
     ;
 
     public static void load() {
+        enemyStandard = new ClassicUnitType("standard-enemy"){{
+            controller = u -> new GroundAI();
+            constructor = UnitEntity::create;
+        }};
+
         halberd = new UnitType("halberd-ship"){{
             outlines = false;
             hitSize = 8f;
-            speed = 3f;
             mineTier = 2;
             accel = 0.4f * 3f;
             speed = 3f;

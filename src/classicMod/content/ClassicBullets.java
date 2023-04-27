@@ -44,12 +44,23 @@ public class ClassicBullets {
     fuseShot,
 
     //classic bullets
-    titanshell, chain, plasmaflame, stone, iron, sniper, flameClassic, flakClassic, flakSpark
+    titanshell, chain, plasmaflame, stone, iron, sniper, flameClassic, flakClassic, flakSpark,
+
+    //classic Enemy bullets
+    smol
     ;
 
     public void load(){
         //classic bullets
         Color whiteOrange = Color.valueOf("fccca5");
+        smol = new BulletType(1.5f*ClassicBulletsMultiplier, 2*ClassicBulletsMultiplier){
+            Color glowy = Color.valueOf("fdc056");
+            public void draw(Bullet b){
+                Draw.color(glowy);
+                Draw.rect("restored-mind-shot", b.x, b.y, 6f, 6f, b.rotation() - 45);
+                Draw.reset();
+            }
+        };
         stone = new BulletType(1.4f*ClassicBulletsMultiplier, 2*ClassicBulletsMultiplier){
             {
                 hitEffect = ExtendedFx.hit;
