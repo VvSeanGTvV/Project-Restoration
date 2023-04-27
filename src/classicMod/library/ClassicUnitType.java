@@ -36,7 +36,7 @@ public class ClassicUnitType extends UnitType {
         health = 60 * tier * 4f;
         hitSize = 5f;
         range = 60;
-        speed = 0.4f * tier * 4f;
+        speed = 0.4f * tier;
 
         weapons.add(new Weapon("restored-mind-nullTexture") {{
             x = 2f;
@@ -119,7 +119,7 @@ public class ClassicUnitType extends UnitType {
     @Override
     public void update(Unit unit) {
         super.update(unit);
-        if(speed != speed * tier * 4f) speed = speed * tier * 4f; //this works im keeping it
+        if(speed != speed * tier) speed = speed * tier; //this works im keeping it
         if(health != health * tier * 4f) health = health * tier * 4f; //this works im keeping it
     }
 
