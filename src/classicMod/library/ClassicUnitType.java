@@ -52,7 +52,6 @@ public class ClassicUnitType extends UnitType {
         hitSize = 5f;
         range = 60;
         speed = 0.4f;
-        outlineColor = tierColors[tier];
         controller = u -> new GroundAI();
         constructor = UnitEntity::create;
 
@@ -137,12 +136,15 @@ public class ClassicUnitType extends UnitType {
     @Override
     public void load() {
         super.load();
+        outlineColor = tierColors[tier];
 
         for(var part : parts){
             part.load("restored-mind-"+spriteName);
         }
         weapons.each(Weapon::load);
         region = Core.atlas.find("restored-mind-"+spriteName);
+        fullIcon = region;
+        uiIcon = region;
         previewRegion = Core.atlas.find("restored-mind-"+spriteName + "-preview", spriteName);
         legRegion = Core.atlas.find("restored-mind-"+spriteName + "-leg");
         jointRegion = Core.atlas.find("restored-mind-"+spriteName + "-joint");
@@ -194,7 +196,7 @@ public class ClassicUnitType extends UnitType {
         if(!setOnce) { 
             speed = speed * tier;
             health = health * tier * 4f;
-            maxRange = range / Math.max(tier / 1.5f, 1f);
+            maxRange = range / Math.max(tier / 1.5f, 1f) * 2f;
             setOnce = true;
         }
     }
