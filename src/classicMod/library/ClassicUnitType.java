@@ -2,10 +2,10 @@ package classicMod.library;
 
 import arc.*;
 import arc.graphics.*;
-import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.struct.*;
 import classicMod.content.*;
+import mindustry.ai.types.*;
 import mindustry.content.*;
 import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
@@ -18,8 +18,21 @@ import static classicMod.content.ClassicSounds.*;
 import static mindustry.Vars.*;
 
 public class ClassicUnitType extends UnitType {
+    /**
+     * Unit's current sprite
+     **/
+    public String spriteName = "";
+
+    /**
+     * Unit's reload
+     **/
     public float reloadWeapon = 32f;
+
+    /**
+     * Unit's current bullet
+     **/
     public BulletType bulletWeapon = ClassicBullets.smol;
+
     public boolean setOnce;
     /**
      * Unit's current tier, the higher tier it gets, the more buffed it is
@@ -38,6 +51,9 @@ public class ClassicUnitType extends UnitType {
         hitSize = 5f;
         range = 60;
         speed = 0.4f;
+        outlineColor = tierColors[tier];
+        controller = u -> new GroundAI();
+        constructor = UnitEntity::create;
 
         weapons.add(new Weapon("restored-mind-nullTexture") {{
             x = 2f;
@@ -118,6 +134,11 @@ public class ClassicUnitType extends UnitType {
     }
 
     @Override
+    public void load() {
+        region = Core.atlas.find("restored-mind-"+spriteName);
+    }
+
+    @Override
     public void update(Unit unit) {
         super.update(unit);
          //this works im keeping it
@@ -126,18 +147,6 @@ public class ClassicUnitType extends UnitType {
             health = health * tier * 4f;
             maxRange = range / Math.max(tier / 1.5f, 1f);
             setOnce = true;
-        }
-    }
-
-    @Override
-    public void drawOutline(Unit unit) {
-        Draw.reset();
-
-        if (Core.atlas.isFound(outlineRegion)) {
-            Draw.color(tierColors[tier]);
-            Draw.rect(outlineRegion, unit.x, unit.y, unit.rotation - 90);
-            Draw.reset();
-
         }
     }
 }

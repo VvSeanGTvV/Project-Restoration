@@ -28,7 +28,7 @@ public class ClassicUnitTypes {
 
     public static UnitType
     //Classic Old Units
-    enemyStandard,
+    enemyStandardT1, enemyStandardT2, enemyStandardT3,
     
     //Mech Region
     halberd, //Mech - Air [v4]
@@ -53,9 +53,18 @@ public class ClassicUnitTypes {
     ;
 
     public static void load() {
-        enemyStandard = new ClassicUnitType("standard-enemy"){{
-            controller = u -> new GroundAI();
-            constructor = UnitEntity::create;
+        enemyStandardT1 = new ClassicUnitType("standard-enemy-1"){{
+            spriteName = "standard-enemy";
+        }};
+
+        enemyStandardT2 = new ClassicUnitType("standard-enemy-2"){{
+            spriteName = "standard-enemy";
+            tier = 2;
+        }};
+
+        enemyStandardT3 = new ClassicUnitType("standard-enemy-3"){{
+            spriteName = "standard-enemy";
+            tier = 3;
         }};
 
         halberd = new UnitType("halberd-ship"){{
