@@ -54,6 +54,8 @@ public class ClassicUnitType extends UnitType {
         speed = 0.4f;
         controller = u -> new GroundAI();
         constructor = UnitEntity::create;
+        buildSpeed = 0;
+        mineTier = 0;
 
         weapons.add(new Weapon("restored-mind-nullTexture") {{
             x = 2f;
@@ -137,6 +139,12 @@ public class ClassicUnitType extends UnitType {
     public void load() {
         super.load();
         outlineColor = tierColors[tier];
+        if(!setOnce) {
+            speed = speed * tier;
+            health = health * tier * 4f;
+            maxRange = range / Math.max(tier / 1.5f, 1f) * 2f;
+            setOnce = true;
+        }
 
         for(var part : parts){
             part.load("restored-mind-"+spriteName);
@@ -190,14 +198,13 @@ public class ClassicUnitType extends UnitType {
     }
 
     @Override
-    public void update(Unit unit) {
-        super.update(unit);
-         //this works im keeping it
-        if(!setOnce) { 
-            speed = speed * tier;
-            health = health * tier * 4f;
-            maxRange = range / Math.max(tier / 1.5f, 1f) * 2f;
-            setOnce = true;
+    public void drawOutline(Unit unit) {
+        Draw.reset();
+
+        if(Core.atlas.isFound(outlineRegion)){
+            Draw.color(outlineColor);
+            Draw.rect(outlineRegion, unit.x, unit.y, unit.rotation - 90);
+            Draw.reset();
         }
     }
 }
