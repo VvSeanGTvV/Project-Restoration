@@ -39,12 +39,6 @@ public class ClassicUnitType extends UnitType {
      * Unit's current tier, the higher tier it gets, the more buffed it is
      **/
     public int tier = 1;
-    /**
-     * Unit's outline tier color
-     **/
-    public final static Color[] tierColors = new Color[]{
-            Color.valueOf("ffe451"), Color.valueOf("f48e20"), Color.valueOf("ff6757"),
-            Color.valueOf("ff2d86"), Color.valueOf("cb2dff"), Color.valueOf("362020")};
 
     public ClassicUnitType(String name) {
         super(name);
@@ -56,6 +50,13 @@ public class ClassicUnitType extends UnitType {
         constructor = UnitEntity::create;
         buildSpeed = 0;
         mineTier = 0;
+        if(tier<=1)outlineColor = Color.valueOf("ffe451");
+        if(tier==2)outlineColor = Color.valueOf("f48e20");
+        if(tier==3)outlineColor = Color.valueOf("ff6757");
+        if(tier==4)outlineColor = Color.valueOf("ff2d86");
+        if(tier==5)outlineColor = Color.valueOf("ff2d86");
+        if(tier==6)outlineColor = Color.valueOf("cb2dff");
+        if(tier>=7)outlineColor = Color.valueOf("362020");
 
         weapons.add(new Weapon("restored-mind-nullTexture") {{
             x = 2f;
@@ -138,7 +139,6 @@ public class ClassicUnitType extends UnitType {
     @Override
     public void load() {
         super.load();
-        outlineColor = tierColors[tier];
         if(!setOnce) {
             speed = speed * tier;
             health = health * tier * 4f;
