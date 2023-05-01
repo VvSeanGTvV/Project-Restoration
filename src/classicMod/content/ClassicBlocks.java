@@ -24,7 +24,6 @@ import mindustry.world.*;
 import mindustry.world.blocks.campaign.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.*;
-import mindustry.world.blocks.distribution.*;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.heat.*;
 import mindustry.world.blocks.power.*;
@@ -48,7 +47,7 @@ public class ClassicBlocks {
     stoneDrill, ironDrill, uraniumDrill, titaniumDrill, coalDrill, omniDrill, //SingleDrill - classic
     ironOre, uraniumOre, //Ore - classic
     lavaLiq, //Liquid - classic
-    wallStone, wallIron, wallSteel, wallDirium, wallComposite, //Wall - classic
+    wallStone, wallIron, wallSteel, wallDirium, wallComposite, wallDiriumLarge, //Wall - classic
 
 
     warpGate, //Distribution [v4]
@@ -724,6 +723,11 @@ public class ClassicBlocks {
         wallComposite = new Wall("composite-wall"){{
             requirements(Category.defense, with(ClassicItems.dirium, 12, Items.titanium, 12, ClassicItems.steel, 12));
             health = 270 * wallHealthMultiplier;
+        }};
+
+        wallDiriumLarge = new Wall("dirium-wall-large"){{
+            requirements(Category.defense, ItemStack.mult(wallDirium.requirements, 4));
+            health = 110 * wallHealthMultiplier * 4;
         }};
 
         //Projectors
