@@ -55,15 +55,18 @@ public class ClassicUnitTypes {
     public static void load() {
         enemyStandardT1 = new ClassicUnitType("standard-enemy-1"){{
             spriteName = "standard-enemy";
+            Color.valueOf("ffe451");
         }};
 
         enemyStandardT2 = new ClassicUnitType("standard-enemy-2"){{
             spriteName = "standard-enemy";
+            Color.valueOf("f48e20");
             tier = 2;
         }};
 
         enemyStandardT3 = new ClassicUnitType("standard-enemy-3"){{
             spriteName = "standard-enemy";
+            Color.valueOf("ff6757");
             tier = 3;
         }};
 

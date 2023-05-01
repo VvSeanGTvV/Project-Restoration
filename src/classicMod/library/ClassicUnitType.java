@@ -50,13 +50,13 @@ public class ClassicUnitType extends UnitType {
         constructor = UnitEntity::create;
         buildSpeed = 0;
         mineTier = 0;
-        if(tier<=1)outlineColor = Color.valueOf("ffe451");
+        /*if(tier<=1)outlineColor = Color.valueOf("ffe451");
         if(tier==2)outlineColor = Color.valueOf("f48e20");
         if(tier==3)outlineColor = Color.valueOf("ff6757");
         if(tier==4)outlineColor = Color.valueOf("ff2d86");
         if(tier==5)outlineColor = Color.valueOf("ff2d86");
         if(tier==6)outlineColor = Color.valueOf("cb2dff");
-        if(tier>=7)outlineColor = Color.valueOf("362020");
+        if(tier>=7)outlineColor = Color.valueOf("362020");*/
 
         weapons.add(new Weapon("restored-mind-nullTexture") {{
             x = 2f;
