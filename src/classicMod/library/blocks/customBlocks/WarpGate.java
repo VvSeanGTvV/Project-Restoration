@@ -404,6 +404,10 @@ public class WarpGate extends Block {
         public void read(Reads read, byte revision){
             super.read(read, revision);
             teleporting = read.bool();
+            if(teleporting){
+                teleporting = false;
+                duration = 0f; //lol
+            }
         }
     }
 }
