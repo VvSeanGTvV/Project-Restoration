@@ -64,6 +64,7 @@ public class TechTreeDialog extends BaseDialog {
         treeLayout();
         stack.getChildren().get(0).remove();
         stack.addChildAt(0, view = new View());
+        refixPan();
         //});
 
         shown(() -> {
@@ -125,6 +126,16 @@ public class TechTreeDialog extends BaseDialog {
                 view.clamp();
             }
         });
+    }
+
+    public void refixPan(){
+        view.panX = 0f;
+        view.panY = -200f;
+        view.setScale(1f);
+
+        view.hoverNode = null;
+        view.infoTable.remove();
+        view.infoTable.clear();
     }
 
 
@@ -315,6 +326,7 @@ public class TechTreeDialog extends BaseDialog {
             if(mobile){
                 tapped(() -> {
                     Element e = Core.scene.hit(Core.input.mouseX(), Core.input.mouseY(), true);
+
                     if(e == this){
                         hoverNode = null;
                         rebuild();

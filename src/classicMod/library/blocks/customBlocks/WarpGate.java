@@ -395,16 +395,14 @@ public class WarpGate extends Block {
         }
 
         @Override
-        public void write(Writes write){
+        public void write(Writes write){ //TODO fix issues with loading saves
             super.write(write);
-            write.b(toggle);
             write.bool(teleporting);
         }
 
         @Override
         public void read(Reads read, byte revision){
             super.read(read, revision);
-            toggle = read.b();
             teleporting = read.bool();
         }
     }

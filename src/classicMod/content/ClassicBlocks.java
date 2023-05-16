@@ -53,6 +53,7 @@ public class ClassicBlocks {
     warpGate, //Distribution [v4]
     melter, denseSmelter, arcSmelter, //Production [v4]
     fuseMKII, fuseMKI, salvoAlpha, //Turret [v4]
+    plasmaDrill, //Drills [v4]
 
 
     dartPad, omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad [v5]

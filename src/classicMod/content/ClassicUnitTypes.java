@@ -28,7 +28,7 @@ public class ClassicUnitTypes {
 
     public static UnitType
     //Classic Old Units
-    enemyStandardT1, enemyStandardT2, enemyStandardT3,
+    enemyStandardT1, enemyStandardT2, enemyStandardT3, //TODO should add?
     
     //Mech Region
     halberd, //Mech - Air [v4]
@@ -53,7 +53,7 @@ public class ClassicUnitTypes {
     ;
 
     public static void load() {
-        enemyStandardT1 = new ClassicUnitType("standard-enemy-1"){{
+        /*enemyStandardT1 = new ClassicUnitType("standard-enemy-1"){{
             spriteName = "standard-enemy";
             Color.valueOf("ffe451");
         }};
@@ -68,7 +68,7 @@ public class ClassicUnitTypes {
             spriteName = "standard-enemy";
             Color.valueOf("ff6757");
             tier = 3;
-        }};
+        }};*/
 
         halberd = new UnitType("halberd-ship"){{
             outlines = false;
