@@ -402,7 +402,7 @@ public class WarpGate extends Block {
         public void write(Writes write){ //TODO fix issues with loading saves
             super.write(write);
             write.b(toggle);
-            write.bool(OnTransport)
+            write.bool(OnTransport);
         }
 
         @Override
