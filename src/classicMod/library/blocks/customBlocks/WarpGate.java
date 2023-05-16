@@ -132,6 +132,7 @@ public class WarpGate extends Block {
         protected boolean firstTime;
         /** is this specific building avaliable and able to transport **/
         protected boolean transportable;
+        protected boolean OnTransport; // Is already on Transport
 
         protected void onDuration(){
             if(duration < 0f && !teleporting) duration = teleportMax;
@@ -207,7 +208,9 @@ public class WarpGate extends Block {
 
         @Override
         public void updateTile() {
+            if (OnTransport) duration = 0f;
             if (efficiency > 0 && toggle != -1) {
+                OnTransport = false;
                 //if(liquids.get(inputLiquid) <= 0f) catastrophicFailure();
                 activeScl = Mathf.lerpDelta(activeScl, 1f, 0.015f);
                 if(teleporting) duration = teleportMax;
@@ -221,6 +224,7 @@ public class WarpGate extends Block {
                     firstTime = false;
                 }
                 if (!teleporting && this.items.total() >= itemCapacity && duration <= 1f) {
+                    OnTransport = true;
                     powerMulti = Math.min(this.block.consPower.capacity, powerUse * Time.delta);
                     //consumeLiquid(inputLiquid, teleportLiquidUse);
                     if (toggle != -1) {
@@ -398,14 +402,14 @@ public class WarpGate extends Block {
         public void write(Writes write){ //TODO fix issues with loading saves
             super.write(write);
             write.b(toggle);
-            write.f(duration);
+            write.bool(OnTransport)
         }
 
         @Override
         public void read(Reads read, byte revision){
             super.read(read, revision);
             toggle = read.i();
-            duration = read.f();
+            OnTransport = read.bool();
         }
     }
 }
