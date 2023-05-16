@@ -408,7 +408,7 @@ public class WarpGate extends Block {
         @Override
         public void read(Reads read, byte revision){
             super.read(read, revision);
-            toggle = read.i();
+            toggle = read.b();
             OnTransport = read.bool();
         }
     }
