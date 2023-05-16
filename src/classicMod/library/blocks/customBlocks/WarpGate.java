@@ -398,15 +398,20 @@ public class WarpGate extends Block {
         public void write(Writes write){ //TODO fix issues with loading saves
             super.write(write);
             write.bool(teleporting);
+            write.b(toggle);
+            write.f(duration);
         }
 
         @Override
         public void read(Reads read, byte revision){
             super.read(read, revision);
             teleporting = read.bool();
-            if(teleporting){
+            toggle = read.i();
+            if(teleporting && duration <= 0f){
                 teleporting = false;
-                duration = 0f; //lol
+                duration = 0f; //just go back to finish mode
+            }else{
+                duration = read.f();
             }
         }
     }
