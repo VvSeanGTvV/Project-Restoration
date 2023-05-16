@@ -405,14 +405,9 @@ public class WarpGate extends Block {
         @Override
         public void read(Reads read, byte revision){
             super.read(read, revision);
-            teleporting = read.bool();
+            teleporting = false;
             toggle = read.i();
-            if(teleporting && duration <= 0f){
-                teleporting = false;
-                duration = 0f; //just go back to finish mode
-            }else{
-                duration = read.f();
-            }
+            duration = read.f();
         }
     }
 }
