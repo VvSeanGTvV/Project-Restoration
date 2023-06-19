@@ -6,7 +6,7 @@ import static classicMod.content.ClassicBlocks.*;
 import static mindustry.content.TechTree.*;
 
 public class ClassicTechtree {
-    //TODO make new campaign here
+    //TODO move this to a seperate mod!
 
     public void load(){
         nodeRoot("Classic", coreSolo, () -> {
