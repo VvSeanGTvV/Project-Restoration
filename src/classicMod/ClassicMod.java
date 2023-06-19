@@ -151,7 +151,7 @@ public class ClassicMod extends Mod{
         new ClassicBlocks().load();
         new ExtendedSerpuloTechTree().load();
         new ExtendedErekirTechTree().load();
-        new ClassicTechtree().load();
+        //new ClassicTechtree().load(); TODO move it to another mod.
     }
 
     static class Separator extends Setting { //This is from prog-mats-java!
