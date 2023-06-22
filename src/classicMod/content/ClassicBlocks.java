@@ -1109,7 +1109,7 @@ public class ClassicBlocks {
                         heatProgress = PartProgress.heat.blend(PartProgress.warmup, 0.5f);
                     }});
                 }};
-                shootX = -3f;
+                shootY = -3f;
                 shootSound = Sounds.shootSnap;
                 shake = 1f;
                 shootLength = 5f;
