@@ -42,6 +42,7 @@ public class TechTreeDialog extends BaseDialog {
     private TechTreeNode root = new TechTreeNode(TechTree.roots.first(), null);
     private Rect bounds = new Rect();
     public ItemsDisplay itemDisplay;
+    private boolean showTechSelect;
     private View view;
     private Cons<TechNode> selector = c -> {};
     private TechNode selectorNode;
@@ -50,6 +51,17 @@ public class TechTreeDialog extends BaseDialog {
         super("");
 
         titleTable.remove();
+        titleTable.clear();
+        titleTable.top();
+        titleTable.button(b -> {
+            //TODO custom icon here.
+            b.imageDraw(() -> root.node.icon()).padRight(8).size(iconMed);
+            b.add().growX();
+            b.label(() -> root.node.localizedName()).color(Pal.accent);
+            b.add().growX();
+            b.add().size(iconMed);
+        }, () -> {
+        }).visible(() -> showTechSelect = TechTree.roots.count(node -> !(node.requiresUnlock && !node.content.unlocked())) > 1).minWidth(300f);
         margin(0f).marginBottom(8);
         Stack stack = cont.stack(view = new View()/*, items = new ItemsDisplay()*/).grow().get();
 
@@ -75,8 +87,8 @@ public class TechTreeDialog extends BaseDialog {
         });
 
         //hidden(ui.planet::setup);
-        onResize(this::checkMargin);
-        cont.stack(titleTable, view = new View(), itemDisplay = new ItemsDisplay()).grow();
+        //onResize(this::checkMargin);
+        //cont.stack(titleTable, view = new View(), itemDisplay = new ItemsDisplay()).grow();
         shouldPause = true;
 
         addCloseButton();
@@ -141,6 +153,7 @@ public class TechTreeDialog extends BaseDialog {
         view.infoTable.remove();
         view.infoTable.clear();
     }
+
 
     protected void onResize(Runnable run){
         Events.on(EventType.ResizeEvent.class, event -> {
