@@ -48,8 +48,6 @@ public class DroneCenterNew extends Block {
     public void init(){
         super.init();
 
-        droneType.controller = u -> new DroneCenterNew.EffectDroneAI();
-
         //droneType.controller = u -> new EffectDroneAI();
     }
 
@@ -106,7 +104,7 @@ public class DroneCenterNew extends Block {
                 target = null;
             }
 
-            if(target == null){targetClosest();}
+            targetClosest();
 
             //TODO no autotarget, bad
            /* if(target == null){
@@ -173,52 +171,6 @@ public class DroneCenterNew extends Block {
             for(int i = 0; i < count; i++){
                 readUnits.add(read.i());
             }
-        }
-    }
-
-    public class EffectDroneAI extends AIController {
-
-        @Override
-        public void updateMovement() {
-            if(!(unit instanceof BuildingTetherc tether) || tether.building() == null) return;
-            if(!(tether.building() instanceof DroneCenterNewBuild build)) return;
-            if(build.target == null) return; //TODO fix the ai because it is ded :I
-
-            target = build.target;
-            if (unit.within(target, droneRange + build.target.hitSize)) {
-                build.target.apply(status, statusDuration);
-            }  //moveTo(build.target.hitSize / 1.8f + block.droneRange - 10f);
-
-
-            moveTo(build.target.hitSize / 1.8f + droneRange - 10f);
-
-            //TODO what angle?
-
-            unit.lookAt(target);
-            //unit.angleTo(target);
-            //unit.moveAt(TarVector, build.target.hitSize / 1.8f + droneRange - 10f);
-
-            //TODO low power? status effects may not be the best way to do this...
-            /*if(unit.within(target, droneRange + build.target.hitSize)){
-                build.target.apply(status, statusDuration);
-            }*/
-        }
-
-        protected void moveTo(float circleLength) {
-            if (target == null) return;
-
-            vec.set(target).sub(unit);
-
-            float length = circleLength <= 0.001f ? 1f : Mathf.clamp((unit.dst(target) - circleLength) / 100f, -1f, 1f);
-
-            vec.setLength(unit.type().speed * Time.delta * length);
-            if (length < -0.5f) {
-                vec.rotate(180f);
-            } else if (length < 0) {
-                vec.setZero();
-            }
-
-            unit.moveAt(vec);
         }
     }
 

@@ -1339,7 +1339,7 @@ public class ClassicUnitTypes {
 
         effectDrone = new ErekirUnitType("effect-drone"){{
             constructor = UnitEntity::create;
-            //controller = u -> new DroneCenterNew.EffectDroneAI();
+            controller = u -> new EffectDroneAI();
             flying = true;
             drag = 0.08f;
             speed = 3f;
