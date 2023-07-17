@@ -61,6 +61,7 @@ public class DroneCenterNew extends Block {
 
     public class DroneCenterNewBuild extends Building implements UnitTetherBlock {
         protected IntSeq readUnits = new IntSeq();
+        protected boolean singleUsed;
         public int readUnitId = -1;
         protected int readTarget = -1;
 
@@ -90,19 +91,17 @@ public class DroneCenterNew extends Block {
 
                 //TODO better effects?
                 if (droneProgress >= 1f) {
-                    var unit = droneType.create(team);
-                    if (unit instanceof BuildingTetherc bt) {
-                        bt.building(this);
-                    }
-                    unit.set(x, y);
-                    unit.rotation = 90f;
-                    unit.add();
+                    if(!Vars.net.client()) {
+                        unit = droneType.create(team);
+                        if (unit instanceof BuildingTetherc bt) {
+                            bt.building(this);
+                        }
+                        unit.set(x, y);
+                        unit.rotation = 90f;
+                        unit.add();
 
-                    //Fx.spawn.at(unit);
-                    //units.add(unit);
-                    Call.unitTetherBlockSpawned(tile, unit.id);
-                    spawned(unit.id);
-                    droneProgress = 0f;
+                        Call.unitTetherBlockSpawned(tile, unit.id);
+                    }
                 }
 
                 if (target != null && !target.isValid()) {
