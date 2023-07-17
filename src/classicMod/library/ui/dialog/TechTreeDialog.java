@@ -147,7 +147,7 @@ public class TechTreeDialog extends BaseDialog {
     public void refixPan(){
         view.panX = 0f;
         view.panY = -200f;
-        view.setScale(2f);
+        view.setScale(1f);
 
         view.hoverNode = null;
         view.infoTable.remove();
@@ -198,7 +198,7 @@ public class TechTreeDialog extends BaseDialog {
         LayoutNode[] children = node.children;
         LayoutNode[] leftHalf = Arrays.copyOfRange(node.children, 0, Mathf.ceil(node.children.length/2f));
         LayoutNode[] rightHalf = Arrays.copyOfRange(node.children, Mathf.ceil(node.children.length/2f), node.children.length);
-        
+
         node.children = leftHalf;
         new BranchTreeLayout(){{
             gapBetweenLevels = gapBetweenNodes = spacing;
@@ -317,6 +317,8 @@ public class TechTreeDialog extends BaseDialog {
 
             for(TechTreeNode node : nodes){
                 ImageButton button = new ImageButton(node.node.content.uiIcon, Styles.nodei);
+                button.resizeImage(32f);
+                button.getImage().setScaling(Scaling.fit);
                 button.visible(() -> node.visible);
                 button.clicked(() -> {
                     if(moved) return;
@@ -489,7 +491,7 @@ public class TechTreeDialog extends BaseDialog {
 
                 if(mobile && locked(node)){
                     b.row();
-                    b.button("@sectors.select", Icon.ok, () -> SelectNode(node)).growX().height(44f).colspan(3);
+                    b.button("@research", Icon.ok, () -> SelectNode(node)).growX().height(44f).colspan(3);
                 }
 
                 //TODO research select button
@@ -515,6 +517,7 @@ public class TechTreeDialog extends BaseDialog {
         public void drawChildren(){
             clamp();
             float offsetX = panX + width / 2f, offsetY = panY + height / 2f;
+            Draw.sort(true);
 
             for(TechTreeNode node : nodes){
                 if(!node.visible) continue;
@@ -532,6 +535,7 @@ public class TechTreeDialog extends BaseDialog {
                 }
             }
 
+            Draw.sort(false);
             Draw.reset();
             super.drawChildren();
         }
