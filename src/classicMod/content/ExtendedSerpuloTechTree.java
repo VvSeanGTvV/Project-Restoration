@@ -64,22 +64,22 @@ public class ExtendedSerpuloTechTree {
         });
 
         margeNode(fuse, () -> {
-            node(fuseMKI, () -> {
+            /*node(fuseMKI, () -> {
                 node(fuseMKII);
-            });
+            });*/
         });
         margeNode(phaseConveyor, () -> {
-            node(warpGate,() -> {
+            /*node(warpGate,() -> {
 
-            });
+            });*/
         });
 
         margeNode(mechanicalDrill, () -> {
-            node(denseSmelter, () -> {
+            /*node(denseSmelter, () -> {
                 node(arcSmelter, () -> {
 
                 });
-            });
+            });*/
         });
 
         margeNode(launchPad, () -> {
@@ -89,11 +89,11 @@ public class ExtendedSerpuloTechTree {
         });
 
         //item
-        margeNode(Items.coal, () -> {
+        /*margeNode(Items.coal, () -> {
             nodeProduce(ClassicItems.denseAlloy, () -> {
 
             });
-        });
+        });*/
     }
 
     private static void margeNode(UnlockableContent parent, Runnable children){ //from betamindy!

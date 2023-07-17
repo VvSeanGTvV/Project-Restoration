@@ -1,6 +1,7 @@
 package classicMod;
 
 import arc.*;
+import arc.files.Fi;
 import arc.func.*;
 import arc.util.*;
 import classicMod.content.*;
@@ -22,7 +23,7 @@ import static mindustry.Vars.*;
 
 public class ClassicMod extends Mod{
     /** Mod's current Version **/
-    public static String ModVersion = "2.5 Beta";
+    public static String ModVersion = "3.0 Beta";
     /** Mod's current Build **/
     public static final String BuildVer = "9";
     protected LoadedMod resMod = mods.locateMod("restored-mind");
@@ -65,7 +66,11 @@ public class ClassicMod extends Mod{
 
             LoadedMod lastModVer = mods.locateMod("classicv5");
             if (lastModVer != null) {
-                Log.err("Incompatible with classicv5 hjson mod and conflicts with this mod!");
+                ui.showCustomConfirm("@mod.restored-mind.conflictwarning.title", "@mod.restored-mind.conflictwarning.text", "Yes", "No", () -> {
+                    lastModVer.file.delete();
+                }, () -> {
+                    Log.err("Disabled, not to have conflicts here!");
+                });
             }
 
 
@@ -82,6 +87,11 @@ public class ClassicMod extends Mod{
         });
 
         //MenuBackground bg = (tn == 2 ? Erekir : tn == 3 ? Serpulo : tn == 4 ? random : tn == 5 ? solarSystem : null);
+    }
+
+    private void DeleteFile(Fi file){
+        file.delete();
+        ui.showOkText("@file.file-deleted", "@file.file-deleted", () -> {});
     }
     
     @Override
@@ -107,7 +117,7 @@ public class ClassicMod extends Mod{
     }
 
     private void loadSettings() {
-        ui.settings.addCategory("@setting.restored-mind", "restored-mind-vanguard", t -> {
+        ui.settings.addCategory("@setting.restored-mind", "restored-mind-iconrev2", t -> {
             t.pref(new Separator("restored-graphic"));
             t.checkPref("use-planetmenu", true);
             t.checkPref("use-lastplanet-bg", false);
@@ -121,8 +131,11 @@ public class ClassicMod extends Mod{
                 t.pref(new Separator("restored-updates"));
                 t.checkPref("beta-update", false);
             }
+
             t.row();
-            t.button("Check Updates", AutoUpdate::check).row();
+            t.pref(new Separator("restored-content-addon"));
+            t.checkPref("content-classic", false);
+            t.checkPref("content-v4", false);
 
             if(false) {
                 t.pref(new Separator("restored-backwards-compatible"));
@@ -142,16 +155,20 @@ public class ClassicMod extends Mod{
 
     @Override
     public void loadContent(){
+        boolean Classic = settings.getBool("content-classic");
+        boolean Contentv4 = settings.getBool("content-v4");
         Log.info("Loading contents...");
         new ClassicItems().load();
         new ClassicLiquids().load();
-        new ClassicBlocks().loadOverride(); //override vanilla stuff
+        if(Classic){new ClassicBlocks().loadOverride();} //override vanilla stuff
         new ClassicBullets().load();
         new ClassicUnitTypes().load();
         new ClassicBlocks().load();
+        if(Classic){new ClassicBlocks().loadClassic();}
+        if(Contentv4){new ClassicBlocks().loadv4();}
         new ExtendedSerpuloTechTree().load();
         new ExtendedErekirTechTree().load();
-        //new ClassicTechtree().load(); TODO move it to another mod.
+        if(Classic){new ClassicTechtree().load();}
     }
 
     static class Separator extends Setting { //This is from prog-mats-java!
