@@ -39,6 +39,8 @@ public class DroneCenterNew extends Block {
     public void init(){
         super.init();
 
+        droneType.controller = u -> new DroneCenterNew.EffectDroneAI();
+
         //droneType.controller = u -> new EffectDroneAI();
     }
 
@@ -92,7 +94,7 @@ public class DroneCenterNew extends Block {
                 target = null;
             }
 
-            targetClosest();
+            if(target == null){targetClosest();}
 
             //TODO no autotarget, bad
            /* if(target == null){
@@ -101,11 +103,8 @@ public class DroneCenterNew extends Block {
         }
 
         protected void targetClosest() {
-            Unit newTarget = Units.closest(team, x, y, Math.max(droneType.range, droneRange), u -> !u.spawnedByCore && u.type != droneType);
             //Teamc newTarget = Units.closestTarget(team, x, y, Math.max(droneRange, droneType.maxRange), u -> !u.spawnedByCore && u.type != droneType);
-            if (newTarget != null) {
-                target = newTarget;
-            }
+            target = Units.closest(team, x, y, droneRange, u -> !u.spawnedByCore && u.type != droneType);
         }
 
         @Override
@@ -156,8 +155,7 @@ public class DroneCenterNew extends Block {
         }
     }
 
-    public static class EffectDroneAI extends AIController {
-        protected DroneCenterNew block;
+    public class EffectDroneAI extends AIController {
 
         @Override
         public void updateMovement() {
@@ -165,12 +163,12 @@ public class DroneCenterNew extends Block {
             if(!(tether.building() instanceof DroneCenterNewBuild build)) return;
             if(build.target == null) return; //TODO fix the ai because it is ded :I
             target = build.target;
-            if (unit.within(target, block.droneRange + build.target.hitSize)) {
-                build.target.apply(block.status, block.statusDuration);
+            if (unit.within(target, droneRange + build.target.hitSize)) {
+                build.target.apply(status, statusDuration);
             }  //moveTo(build.target.hitSize / 1.8f + block.droneRange - 10f);
 
 
-            moveTo(build.target.hitSize / 1.8f + block.droneRange - 10f);
+            moveTo(build.target.hitSize / 1.8f + droneRange - 10f);
 
             //TODO what angle?
 
