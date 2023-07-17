@@ -1340,13 +1340,19 @@ public class ClassicUnitTypes {
         effectDrone = new ErekirUnitType("effect-drone"){{
             constructor = UnitEntity::create;
             controller = u -> new EffectDroneAI();
+            payloadCapacity = 0f;
+
             flying = true;
+            targetable = false;
+            bounded = false; //Map push unit
             drag = 0.08f;
             speed = 3f;
-            drawCell = false;
-            logicControllable = playerControllable = allowedInPayloads = false;
+            lowAltitude = drawCell = isEnemy = logicControllable = playerControllable = allowedInPayloads = false;
             hidden = true;
             range = 30f; //TODO range testing
+
+            health = 100f;
+            hitSize = 7.5f;
 
             engineSize = 0f;
             float es = 2.5f, ew = 14.5f / 4f;

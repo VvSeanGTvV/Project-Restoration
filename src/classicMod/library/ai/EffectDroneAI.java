@@ -9,12 +9,24 @@ import mindustry.entities.units.*;
 import mindustry.gen.*;
 
 public class EffectDroneAI extends AIController {
-    protected DroneCenterNew block;
 
     @Override
     public void updateMovement() {
+        if(!(unit instanceof BuildingTetherc tether) || tether.building() == null) return;
+        if(!(tether.building().block instanceof DroneCenterNew block)) return;
+        if(!(tether.building() instanceof DroneCenterNewBuild build)) return;
+        if(build.target == null) return;
 
-        if(!(unit instanceof BuildingTetherc tether)) return;
+        build.target.apply(block.status, block.statusDuration);
+        target = build.target;
+
+        if(unit.within(target, block.droneRange + build.target.hitSize)) {
+            moveTo(target, build.target.hitSize / 1.8f + block.droneRange - 10f);
+        }
+
+
+
+        /*if(!(unit instanceof BuildingTetherc tether)) return;
         if(!(tether.building() instanceof DroneCenterNewBuild build)) return;
         target = Units.closest(unit.team(), unit.x(), unit.y(), block.droneRange, u -> !u.spawnedByCore && u.type != unit.type);
         if (unit.within(target, block.droneRange + build.target.hitSize)) {

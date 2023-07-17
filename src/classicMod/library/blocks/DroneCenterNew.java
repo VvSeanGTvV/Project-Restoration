@@ -123,7 +123,6 @@ public class DroneCenterNew extends Block {
 
 
         protected void targetClosest() {
-            TC = Units.closestTarget(team, x, y, Math.max(droneRange, droneType.maxRange), u -> !u.spawnedByCore && u.type != droneType);
             target = Units.closest(team, x, y, droneRange, u -> !u.spawnedByCore && u.type != droneType);
         }
 
