@@ -1338,7 +1338,7 @@ public class ClassicUnitTypes {
         // --- Naval Units Region End ---
 
         effectDrone = new ErekirUnitType("effect-drone"){{
-            constructor = UnitEntity::create;
+            constructor = BuildingTetherPayloadUnit::create;
             controller = u -> new EffectDroneAI();
             payloadCapacity = 0f;
 
