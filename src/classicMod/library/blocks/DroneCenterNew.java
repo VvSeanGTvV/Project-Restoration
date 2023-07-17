@@ -81,41 +81,41 @@ public class DroneCenterNew extends Block {
                     readUnitId = -1;
                 }
             }
+            if(unit == null && Units.canCreate(team, droneType)) {
+                droneWarmup = Mathf.lerpDelta(droneWarmup, units.size < unitsSpawned ? efficiency : 0f, 0.1f);
+                totalDroneProgress += droneWarmup * Time.delta;
 
-            droneWarmup = Mathf.lerpDelta(droneWarmup, units.size < unitsSpawned ? efficiency : 0f, 0.1f);
-            totalDroneProgress += droneWarmup * Time.delta;
-
-            if(readTarget != 0){
-                target = Groups.unit.getByID(readTarget);
-                readTarget = 0;
-            }
-
-            //TODO better effects?
-            if(units.size < unitsSpawned && (droneProgress += edelta() / droneConstructTime) >= 1f){
-                var unit = droneType.create(team);
-                if(unit instanceof BuildingTetherc bt){
-                    bt.building(this);
+                if (readTarget != 0) {
+                    target = Groups.unit.getByID(readTarget);
+                    readTarget = 0;
                 }
-                unit.set(x, y);
-                unit.rotation = 90f;
-                unit.add();
 
-                //Fx.spawn.at(unit);
-                //units.add(unit);
-                Call.unitTetherBlockSpawned(tile, unit.id);
-                droneProgress = 0f;
+                //TODO better effects?
+                if (units.size < unitsSpawned && (droneProgress += edelta() / droneConstructTime) >= 1f) {
+                    var unit = droneType.create(team);
+                    if (unit instanceof BuildingTetherc bt) {
+                        bt.building(this);
+                    }
+                    unit.set(x, y);
+                    unit.rotation = 90f;
+                    unit.add();
+
+                    //Fx.spawn.at(unit);
+                    //units.add(unit);
+                    Call.unitTetherBlockSpawned(tile, unit.id);
+                    droneProgress = 0f;
+                }
+
+                if (target != null && !target.isValid()) {
+                    target = null;
+                }
+
+                //TODO no autotarget, bad
+               /* if(target == null){
+                    target = targetClosest(); //Units.closest(team, x, y, u -> !u.spawnedByCore && u.type != droneType);
+                }*/
             }
-
-            if(target != null && !target.isValid()){
-                target = null;
-            }
-
             targetClosest();
-
-            //TODO no autotarget, bad
-           /* if(target == null){
-                target = targetClosest(); //Units.closest(team, x, y, u -> !u.spawnedByCore && u.type != droneType);
-            }*/
         }
 
         @Override
@@ -183,10 +183,7 @@ public class DroneCenterNew extends Block {
 
             write.i(target == null ? -1 : target.id);
 
-            write.s(units.size);
-            for(var unit : units){
-                write.i(unit.id);
-            }
+            write.i(unit == null ? -1 : unit.id);
         }
 
         @Override
@@ -195,11 +192,7 @@ public class DroneCenterNew extends Block {
 
             readTarget = read.i();
 
-            int count = read.s();
-            readUnits.clear();
-            for(int i = 0; i < count; i++){
-                readUnits.add(read.i());
-            }
+            readUnitId = read.i();
         }
     }
 
