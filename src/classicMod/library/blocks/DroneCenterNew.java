@@ -59,6 +59,7 @@ public class DroneCenterNew extends Block {
         public Seq<Unit> units = new Seq<>();
         public @Nullable Unit target;
         public @Nullable Unit unit;
+        public @Nullable Teamc TC;
         public float droneProgress, droneWarmup, totalDroneProgress;
 
         @Override
@@ -122,7 +123,7 @@ public class DroneCenterNew extends Block {
 
 
         protected void targetClosest() {
-            //Teamc newTarget = Units.closestTarget(team, x, y, Math.max(droneRange, droneType.maxRange), u -> !u.spawnedByCore && u.type != droneType);
+            TC = Units.closestTarget(team, x, y, Math.max(droneRange, droneType.maxRange), u -> !u.spawnedByCore && u.type != droneType);
             target = Units.closest(team, x, y, droneRange, u -> !u.spawnedByCore && u.type != droneType);
         }
 

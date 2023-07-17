@@ -16,8 +16,7 @@ public class EffectDroneAI extends AIController {
 
         if(!(unit instanceof BuildingTetherc tether)) return;
         if(!(tether.building() instanceof DroneCenterNewBuild build)) return;
-        if(build.target == null) return; //TODO fix the ai because it is ded :I
-        target = build.target;
+        target = build.TC;
         if (unit.within(target, block.droneRange + build.target.hitSize)) {
             build.target.apply(block.status, block.statusDuration);
          } else {
