@@ -1,6 +1,8 @@
 package classicMod.library.blocks;
 
+import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.Lines;
 import arc.math.Mathf;
 import arc.struct.IntSeq;
 import arc.struct.Seq;
@@ -12,7 +14,6 @@ import mindustry.Vars;
 import mindustry.content.Fx;
 import mindustry.content.StatusEffects;
 import mindustry.entities.Units;
-import mindustry.entities.units.AIController;
 import mindustry.gen.*;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
@@ -25,6 +26,12 @@ import mindustry.world.blocks.UnitTetherBlock;
 import static mindustry.Vars.tilesize;
 
 public class DroneCenterNew extends Block {
+
+    public float polyStroke = 1.8f, polyRadius = 8f;
+    public int polySides = 6;
+    public float polyRotateSpeed = 1f;
+    public Color polyColor = Pal.accent;
+
     /** Maximum Unit that can spawn **/
     public int unitsSpawned = 4;
     public UnitType droneType;
@@ -75,8 +82,6 @@ public class DroneCenterNew extends Block {
                 }
             }
 
-            units.removeAll(u -> !u.isAdded() || u.dead);
-
             droneWarmup = Mathf.lerpDelta(droneWarmup, units.size < unitsSpawned ? efficiency : 0f, 0.1f);
             totalDroneProgress += droneWarmup * Time.delta;
 
@@ -113,6 +118,11 @@ public class DroneCenterNew extends Block {
             }*/
         }
 
+        @Override
+        public boolean shouldConsume(){
+            return unit == null;
+        }
+
         public void spawned(int id){
             Fx.spawn.at(x, y);
             droneProgress = 0f;
@@ -146,6 +156,24 @@ public class DroneCenterNew extends Block {
                 Draw.draw(Layer.blockOver + 0.2f, () -> {
                     Drawf.construct(this, droneType.fullIcon, Pal.accent, 0f, droneProgress, droneWarmup, totalDroneProgress, 14f);
                 });
+            }
+
+            if(unit == null){
+                Draw.draw(Layer.blockOver, () -> {
+                    //TODO make sure it looks proper
+                    if(droneWarmup > 0){
+                        Draw.draw(Layer.blockOver + 0.2f, () -> {
+                            Drawf.construct(this, droneType.fullIcon, Pal.accent, 0f, droneProgress, droneWarmup, totalDroneProgress, 14f);
+                        });
+                    }
+                });
+            }else{
+                Draw.z(Layer.bullet - 0.01f);
+                Draw.color(polyColor);
+                Lines.stroke(polyStroke * 2);
+                Lines.poly(x, y, polySides, polyRadius, Time.time * polyRotateSpeed);
+                Draw.reset();
+                Draw.z(Layer.block);
             }
         }
 
