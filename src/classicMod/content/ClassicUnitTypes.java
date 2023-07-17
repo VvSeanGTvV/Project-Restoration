@@ -8,6 +8,7 @@ import arc.util.*;
 import classicMod.library.*;
 import classicMod.library.ability.*;
 import classicMod.library.ai.*;
+import classicMod.library.blocks.DroneCenterNew;
 import mindustry.*;
 import mindustry.ai.types.*;
 import mindustry.content.*;
@@ -1338,7 +1339,7 @@ public class ClassicUnitTypes {
 
         effectDrone = new ErekirUnitType("effect-drone"){{
             constructor = UnitEntity::create;
-            controller = u -> new EffectDroneAI();
+            controller = u -> new DroneCenterNew.EffectDroneAI();
             flying = true;
             drag = 0.08f;
             speed = 3f;
