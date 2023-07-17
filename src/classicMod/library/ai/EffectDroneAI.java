@@ -16,7 +16,7 @@ public class EffectDroneAI extends AIController {
 
         if(!(unit instanceof BuildingTetherc tether)) return;
         if(!(tether.building() instanceof DroneCenterNewBuild build)) return;
-        target = build.TC;
+        target = Units.closest(unit.team(), unit.x(), unit.y(), block.droneRange, u -> !u.spawnedByCore && u.type != unit.type);
         if (unit.within(target, block.droneRange + build.target.hitSize)) {
             build.target.apply(block.status, block.statusDuration);
          } else {
