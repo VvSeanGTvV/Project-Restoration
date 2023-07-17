@@ -17,10 +17,12 @@ public class EffectDroneAI extends AIController {
         if(!(tether.building() instanceof DroneCenterNewBuild build)) return;
 
         target = build.target;
-        moveTo(target, build.target.hitSize / 1.8f + block.droneRange - 10f);
+        if(target != null) {
+            moveTo(target, build.target.hitSize / 1.8f + block.droneRange - 10f);
 
-        if(unit.within(target, block.droneRange + build.target.hitSize) && unit.within(build, block.droneRange)) {
-            build.target.apply(block.status, block.statusDuration);
+            if (unit.within(target, block.droneRange + build.target.hitSize) && unit.within(build, block.droneRange)) {
+                build.target.apply(block.status, block.statusDuration);
+            }
         }
 
 
