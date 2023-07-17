@@ -83,7 +83,7 @@ public class ResearchBlock extends Block{
             }
             defaultCore = Vars.state.rules.sector.info.bestCoreType;
             if(defaultCore != null){
-                requirements(category, ItemStack.mult(defaultCore.requirements, 0.7f));
+                requirements(category, ItemStack.mult(defaultCore.requirements, 0.5f));
             }
             if(researching != null){
                 if(defaultResearchingTime != researching.requirements.length * researching.requirements.length * 5) {

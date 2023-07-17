@@ -901,7 +901,6 @@ public class ClassicBlocks {
         }};
 
         cellSynthesisChamber = new LiquidConverter("cell-synthesis-chamber") {{
-            //TODO change texture
             requirements(Category.crafting, with(Items.thorium, 75, Items.phaseFabric, 95, Items.tungsten, 155, Items.surgeAlloy, 65));
             outputLiquid = new LiquidStack(Liquids.neoplasm, 0.4f);
             ConvertTime = 200f;
@@ -1267,14 +1266,12 @@ public class ClassicBlocks {
             droneType = effectDrone;
         }};
 
-        if(!Vars.mobile) {
-            dataProcessor = new ResearchBlock("data-processor") {{ //Exclusive only to PC TODO compatible Mobile
-                alwaysUnlocked = true;
-                requirements(Category.effect, BuildVisibility.campaignOnly, ItemStack.with(Items.copper, 350, Items.silicon, 140, Items.lead, 200, Items.titanium, 150));
+        dataProcessor = new ResearchBlock("data-processor") {{ //Exclusive only to PC TODO compatible Mobile
+            alwaysUnlocked = true;
+            requirements(Category.effect, BuildVisibility.campaignOnly, ItemStack.with(Items.copper, 350, Items.silicon, 140, Items.lead, 200, Items.titanium, 150));
 
-                size = 3;
-            }};
-        }
+            size = 3;
+        }};
 
         interplanetaryAccelerator = new NewAccelerator("interplanetary-accelerator"){{
             requirements(Category.effect, BuildVisibility.campaignOnly, with(Items.copper, 16000, Items.silicon, 11000, Items.thorium, 13000, Items.titanium, 12000, Items.surgeAlloy, 6000, Items.phaseFabric, 5000));

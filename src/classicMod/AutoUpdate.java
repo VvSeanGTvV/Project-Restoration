@@ -52,7 +52,7 @@ public class AutoUpdate {
             } else {
                 overBuild = true;
             }
-            if (modBuild != latestBuild && overBuild == false)
+            if (modBuild != latestBuild && !overBuild)
             {ui.showCustomConfirm(
                     "@updater.restored-mind.name", bundle.format("updater.restored-mind.info", mod.meta.version, latest),
                     "@updater.restored-mind.load", "@ok", AutoUpdate::update, () -> {});

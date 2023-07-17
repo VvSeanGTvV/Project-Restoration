@@ -20,6 +20,7 @@ import classicMod.library.ui.*;
 import mindustry.content.*;
 import mindustry.content.TechTree.*;
 import mindustry.ctype.*;
+import mindustry.game.EventType;
 import mindustry.game.Objectives.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
@@ -40,6 +41,7 @@ public class TechTreeDialog extends BaseDialog {
     private ObjectSet<TechTreeNode> nodes = new ObjectSet<>();
     private TechTreeNode root = new TechTreeNode(TechTree.roots.first(), null);
     private Rect bounds = new Rect();
+    public ItemsDisplay itemDisplay;
     private View view;
     private Cons<TechNode> selector = c -> {};
     private TechNode selectorNode;
@@ -73,6 +75,8 @@ public class TechTreeDialog extends BaseDialog {
         });
 
         //hidden(ui.planet::setup);
+        onResize(this::checkMargin);
+        cont.stack(titleTable, view = new View(), itemDisplay = new ItemsDisplay()).grow();
         shouldPause = true;
 
         addCloseButton();
@@ -136,6 +140,25 @@ public class TechTreeDialog extends BaseDialog {
         view.hoverNode = null;
         view.infoTable.remove();
         view.infoTable.clear();
+    }
+
+    protected void onResize(Runnable run){
+        Events.on(EventType.ResizeEvent.class, event -> {
+            if(isShown() && Core.scene.getDialog() == this){
+                run.run();
+                updateScrollFocus();
+            }
+        });
+    }
+
+    void checkMargin(){
+        if(Core.graphics.isPortrait()){
+            itemDisplay.marginTop(60f);
+        }else{
+            itemDisplay.marginTop(0f);
+        }
+        itemDisplay.invalidate();
+        itemDisplay.layout();
     }
 
 
