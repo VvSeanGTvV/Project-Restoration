@@ -43,7 +43,7 @@ public class DroneCenterNew extends Block {
     /** Duration of the currently selected status effect **/
     public float statusDuration = 60f * 2f;
     /** Effect Drone's maximum range **/
-    public float droneRange = 50f;
+    public float droneRange = 50f*1.5f;
 
     public DroneCenterNew(String name){
         super(name);
@@ -87,17 +87,15 @@ public class DroneCenterNew extends Block {
                     readUnitId = -1;
                 }
             }
-            if(unit == null && Units.canCreate(team, droneType)) {
-                droneWarmup = Mathf.lerpDelta(droneWarmup, units.size < unitsSpawned ? efficiency : 0f, 0.1f);
-                totalDroneProgress += droneWarmup * Time.delta;
 
-                if (readTarget != 0) {
-                    target = Groups.unit.getByID(readTarget);
-                    readTarget = 0;
-                }
+            droneWarmup = Mathf.lerpDelta(droneWarmup, efficiency, 0.1f);
+            totalDroneProgress += droneWarmup * Time.delta;
+
+            if(unit == null && Units.canCreate(team, droneType)) {
+                droneProgress += edelta() / droneConstructTime;
 
                 //TODO better effects?
-                if (units.size < unitsSpawned && (droneProgress += edelta() / droneConstructTime) >= 1f) {
+                if (droneProgress >= 1f) {
                     var unit = droneType.create(team);
                     if (unit instanceof BuildingTetherc bt) {
                         bt.building(this);
@@ -155,7 +153,7 @@ public class DroneCenterNew extends Block {
 
         @Override
         public void draw(){
-            super.draw();
+            Draw.rect(block.region, x, y);
 
             //TODO draw more stuff
 
@@ -163,24 +161,6 @@ public class DroneCenterNew extends Block {
                 Draw.draw(Layer.blockOver + 0.2f, () -> {
                     Drawf.construct(this, droneType.fullIcon, Pal.accent, 0f, droneProgress, droneWarmup, totalDroneProgress, 14f);
                 });
-            }
-
-            if(unit == null){
-                Draw.draw(Layer.blockOver, () -> {
-                    //TODO make sure it looks proper
-                    if(droneWarmup > 0){
-                        Draw.draw(Layer.blockOver + 0.2f, () -> {
-                            Drawf.construct(this, droneType.fullIcon, Pal.accent, 0f, droneProgress, droneWarmup, totalDroneProgress, 14f);
-                        });
-                    }
-                });
-            }else{
-                Draw.z(Layer.bullet - 0.01f);
-                Draw.color(polyColor);
-                Lines.stroke(polyStroke * 2);
-                Lines.poly(x, y, polySides, polyRadius, Time.time * polyRotateSpeed);
-                Draw.reset();
-                Draw.z(Layer.block);
             }
         }
 
