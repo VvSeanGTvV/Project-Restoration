@@ -91,9 +91,19 @@ public class DroneCenterNew extends Block {
                 target = null;
             }
 
+            targetClosest();
+
             //TODO no autotarget, bad
-            if(target == null){
-                target = Units.closest(team, x, y, u -> !u.spawnedByCore && u.type != droneType);
+           /* if(target == null){
+                target = targetClosest(); //Units.closest(team, x, y, u -> !u.spawnedByCore && u.type != droneType);
+            }*/
+        }
+
+        protected void targetClosest() {
+            Unit newTarget = Units.closest(team, x, y, Math.max(droneType.range, droneRange), u -> !u.spawnedByCore && u.type != droneType);
+            //Teamc newTarget = Units.closestTarget(team, x, y, Math.max(droneRange, droneType.maxRange), u -> !u.spawnedByCore && u.type != droneType);
+            if (newTarget != null) {
+                target = newTarget;
             }
         }
 
