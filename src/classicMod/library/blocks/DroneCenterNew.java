@@ -1,5 +1,6 @@
 package classicMod.library.blocks;
 
+import arc.Core;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
@@ -48,6 +49,15 @@ public class DroneCenterNew extends Block {
 
         update = solid = true;
         configurable = true;
+    }
+
+    @Override
+    public void drawPlace(int x, int y, int rotation, boolean valid){
+        super.drawPlace(x, y, rotation, valid);
+
+        if(!Units.canCreate(Vars.player.team(), droneType)){
+            drawPlaceText(Core.bundle.get("bar.cargounitcap"), x, y, valid);
+        }
     }
 
     @Override
