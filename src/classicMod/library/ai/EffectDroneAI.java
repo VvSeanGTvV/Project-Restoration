@@ -17,11 +17,11 @@ public class EffectDroneAI extends AIController {
         if(!(tether.building() instanceof DroneCenterNewBuild build)) return;
         if(build.target == null) return;
 
-        build.target.apply(block.status, block.statusDuration);
-        target = build.target;
+        moveTo(target, build.target.hitSize / 1.8f + block.droneRange - 10f);
+        targetClosest();
 
-        if(unit.within(target, block.droneRange + build.target.hitSize)) {
-            moveTo(target, build.target.hitSize / 1.8f + block.droneRange - 10f);
+        if(unit.within(target, block.droneRange + build.target.hitSize) && unit.within(build, block.droneRange)) {
+            build.target.apply(block.status, block.statusDuration);
         }
 
 
@@ -49,23 +49,6 @@ public class EffectDroneAI extends AIController {
             /*if(unit.within(target, droneRange + build.target.hitSize)){
                 build.target.apply(status, statusDuration);
             }*/
-    }
-
-    protected void moveTo(float circleLength) {
-        if (target == null) return;
-
-        vec.set(target).sub(unit);
-
-        float length = circleLength <= 0.001f ? 1f : Mathf.clamp((unit.dst(target) - circleLength) / 100f, -1f, 1f);
-
-        vec.setLength(unit.type().speed * Time.delta * length);
-        if (length < -0.5f) {
-            vec.rotate(180f);
-        } else if (length < 0) {
-            vec.setZero();
-        }
-
-        unit.moveAt(vec);
     }
 
     protected void targetClosest() {
