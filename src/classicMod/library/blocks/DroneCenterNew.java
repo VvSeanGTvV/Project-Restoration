@@ -10,6 +10,7 @@ import arc.util.Nullable;
 import arc.util.Time;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
+import classicMod.content.ExtendedStat;
 import mindustry.Vars;
 import mindustry.content.Fx;
 import mindustry.content.StatusEffects;
@@ -23,6 +24,8 @@ import mindustry.type.UnitType;
 import mindustry.world.Block;
 import mindustry.world.Tile;
 import mindustry.world.blocks.UnitTetherBlock;
+import mindustry.world.meta.Stat;
+import mindustry.world.meta.StatUnit;
 
 import static mindustry.Vars.tilesize;
 
@@ -38,13 +41,22 @@ public class DroneCenterNew extends Block {
     /** Duration of the currently selected status effect **/
     public float statusDuration = 60f * 2f;
     /** Effect Drone's maximum range **/
-    public float droneRange = 50f*1.5f;
+    public float droneRange = 50f*2f;
 
     public DroneCenterNew(String name){
         super(name);
 
         update = solid = true;
         configurable = true;
+    }
+
+    @Override
+    public void setStats(){
+        super.setStats();
+
+        stats.add(Stat.range, droneRange);
+        stats.add(ExtendedStat.StatusOutput, status.name);
+        stats.add(ExtendedStat.StatusDuration, statusDuration / 60f, StatUnit.seconds);
     }
 
     @Override
@@ -140,7 +152,7 @@ public class DroneCenterNew extends Block {
             Drawf.square(x, y, tile.block().size * tilesize / 2f + 1f + Mathf.absin(Time.time, 4f, 1f));
 
             if(target != null){
-                Drawf.square(target.x, target.y, target.hitSize * 0.8f);
+                Drawf.square(target.x, target.y, target.hitSize * 0.8f, Color.green);
             }
         }
 
@@ -175,57 +187,4 @@ public class DroneCenterNew extends Block {
             readUnitId = read.i();
         }
     }
-
-    /*public class EffectDroneAI extends AIController {
-        protected DroneCenterNewBuild build;
-        @Override
-        public void updateMovement(){
-            //if(!(unit instanceof BuildingTetherc tether)) return;
-            //if(!(tether.building() instanceof DroneCenterNewBuild build)) return;
-            //if(build.target == null) unit.remove(); //TODO fix the ai because it is ded :I
-            if(build.target != null) {
-                target = build.target;
-                if(unit.within(target, droneRange + build.target.hitSize)){
-                    build.target.apply(status, statusDuration);
-                }else{
-                    moveTo(build.target.hitSize / 1.8f + droneRange - 10f);
-                }
-            }
-
-            //TODO what angle?
-
-            unit.lookAt(target);
-            //unit.angleTo(target);
-            //unit.moveAt(TarVector, build.target.hitSize / 1.8f + droneRange - 10f);
-
-            //TODO low power? status effects may not be the best way to do this...
-            /*if(unit.within(target, droneRange + build.target.hitSize)){
-                build.target.apply(status, statusDuration);
-            }
-        }
-
-        protected void moveTo(float circleLength){
-            if(target == null) return;
-
-            vec.set(target).sub(unit);
-
-            float length = circleLength <= 0.001f ? 1f : Mathf.clamp((unit.dst(target) - circleLength) / 100f, -1f, 1f);
-
-            vec.setLength(unit.type().speed * Time.delta * length);
-            if(length < -0.5f){
-                vec.rotate(180f);
-            }else if(length < 0){
-                vec.setZero();
-            }
-
-            unit.moveAt(vec);
-        }
-
-        protected void targetClosest(){
-            Teamc newTarget = Units.closestTarget(unit.team(), unit.x(), unit.y(), Math.max(unit.range(), unit.type().range), u -> (unit.type().targetAir && u.isFlying()) || (unit.type().targetGround && !u.isFlying()));
-            if(newTarget != null){
-                target = newTarget;
-            }
-        }
-    }*/
 }

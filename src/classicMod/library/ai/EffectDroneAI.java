@@ -25,7 +25,7 @@ public class EffectDroneAI extends AIController {
                 build.target.apply(block.status, block.statusDuration);
             }
         } else {
-            moveTo(build, block.droneRange - 10f); //Return back to Base
+            moveTo(build, 0f); //Return back to Base
         }
     }
 }

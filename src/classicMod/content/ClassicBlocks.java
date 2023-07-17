@@ -1171,8 +1171,8 @@ public class ClassicBlocks {
                         shrinkX = 0.2f;
                         shrinkY = 0.1f;
                         buildingDamageMultiplier = 0.7f;
-                    }},
-                    Items.thorium, new ArtilleryBulletType(2.2f, 300, "shell"){{
+                    }}
+                    /*Items.thorium, new ArtilleryBulletType(2.2f, 300, "shell"){{
                         hitEffect = new MultiEffect(Fx.titanExplosion, Fx.titanSmoke);
                         despawnEffect = Fx.none;
                         knockback = 2f;
@@ -1203,7 +1203,7 @@ public class ClassicBlocks {
                         shrinkX = 0.2f;
                         shrinkY = 0.1f;
                         buildingDamageMultiplier = 0.6f;
-                    }}
+                    }}*/
             );
             shootSound = Sounds.mediumCannon;
 
@@ -1258,7 +1258,7 @@ public class ClassicBlocks {
 
         //Campaign
         droneCenter = new DroneCenterNew("drone-center"){{
-            requirements(Category.units, with(Items.graphite, 10)); //TODO make effect drone work lolz
+            requirements(Category.units, with(Items.scrap, 25, Items.tungsten, 150, Items.phaseFabric, 100)); //TODO sprite lol
 
             size = 3;
             consumePower(3f);
@@ -1266,12 +1266,12 @@ public class ClassicBlocks {
             droneType = effectDrone;
         }};
 
-        dataProcessor = new ResearchBlock("data-processor") {{ //Exclusive only to PC TODO compatible Mobile
+        /*dataProcessor = new ResearchBlock("data-processor") {{ //Exclusive only to PC TODO compatible Mobile
             alwaysUnlocked = true;
             requirements(Category.effect, BuildVisibility.campaignOnly, ItemStack.with(Items.copper, 350, Items.silicon, 140, Items.lead, 200, Items.titanium, 150));
 
             size = 3;
-        }};
+        }};*/
 
         interplanetaryAccelerator = new NewAccelerator("interplanetary-accelerator"){{
             requirements(Category.effect, BuildVisibility.campaignOnly, with(Items.copper, 16000, Items.silicon, 11000, Items.thorium, 13000, Items.titanium, 12000, Items.surgeAlloy, 6000, Items.phaseFabric, 5000));
@@ -1283,7 +1283,7 @@ public class ClassicBlocks {
             scaledHealth = 80;
         }};
 
-        launchPadLarge = new LaunchPad("launch-pad-large"){{
+        launchPadLarge = new LaunchPad("launch-pad-large"){{ //TODO the lights
             requirements(Category.effect, BuildVisibility.campaignOnly, with(Items.titanium, 200, Items.silicon, 150, Items.lead, 250, Items.plastanium, 75));
             size = 4;
             itemCapacity = 300;
