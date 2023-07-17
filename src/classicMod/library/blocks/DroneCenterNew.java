@@ -7,6 +7,7 @@ import arc.util.*;
 import arc.util.io.*;
 import mindustry.content.*;
 import mindustry.entities.*;
+import mindustry.entities.units.AIController;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
@@ -152,6 +153,52 @@ public class DroneCenterNew extends Block {
             for(int i = 0; i < count; i++){
                 readUnits.add(read.i());
             }
+        }
+    }
+
+    public static class EffectDroneAI extends AIController {
+        protected DroneCenterNew block;
+
+        @Override
+        public void updateMovement() {
+            if(!(unit instanceof BuildingTetherc tether)) return;
+            if(!(tether.building() instanceof DroneCenterNewBuild build)) return;
+            if(build.target == null) return; //TODO fix the ai because it is ded :I
+            target = build.target;
+            if (unit.within(target, block.droneRange + build.target.hitSize)) {
+                build.target.apply(block.status, block.statusDuration);
+            }  //moveTo(build.target.hitSize / 1.8f + block.droneRange - 10f);
+
+
+            moveTo(build.target.hitSize / 1.8f + block.droneRange - 10f);
+
+            //TODO what angle?
+
+            unit.lookAt(target);
+            //unit.angleTo(target);
+            //unit.moveAt(TarVector, build.target.hitSize / 1.8f + droneRange - 10f);
+
+            //TODO low power? status effects may not be the best way to do this...
+            /*if(unit.within(target, droneRange + build.target.hitSize)){
+                build.target.apply(status, statusDuration);
+            }*/
+        }
+
+        protected void moveTo(float circleLength) {
+            if (target == null) return;
+
+            vec.set(target).sub(unit);
+
+            float length = circleLength <= 0.001f ? 1f : Mathf.clamp((unit.dst(target) - circleLength) / 100f, -1f, 1f);
+
+            vec.setLength(unit.type().speed * Time.delta * length);
+            if (length < -0.5f) {
+                vec.rotate(180f);
+            } else if (length < 0) {
+                vec.setZero();
+            }
+
+            unit.moveAt(vec);
         }
     }
 
