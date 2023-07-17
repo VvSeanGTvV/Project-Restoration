@@ -28,11 +28,6 @@ import static mindustry.Vars.tilesize;
 
 public class DroneCenterNew extends Block {
 
-    public float polyStroke = 1.8f, polyRadius = 8f;
-    public int polySides = 6;
-    public float polyRotateSpeed = 1f;
-    public Color polyColor = Pal.accent;
-
     /** Maximum Unit that can spawn **/
     public int unitsSpawned = 4;
     public UnitType droneType;
@@ -59,10 +54,10 @@ public class DroneCenterNew extends Block {
         //droneType.controller = u -> new EffectDroneAI();
     }
 
-    public static void unitTetherBlockSpawned(Tile tile, int id){
+    /*public static void unitTetherBlockSpawned(Tile tile, int id){
         if(tile == null || !(tile.build instanceof UnitTetherBlock build)) return;
         build.spawned(id);
-    }
+    }*/
 
     public class DroneCenterNewBuild extends Building implements UnitTetherBlock {
         protected IntSeq readUnits = new IntSeq();
@@ -72,7 +67,6 @@ public class DroneCenterNew extends Block {
         public Seq<Unit> units = new Seq<>();
         public @Nullable Unit target;
         public @Nullable Unit unit;
-        public @Nullable Teamc TC;
         public float droneProgress, droneWarmup, totalDroneProgress;
 
         @Override
@@ -106,8 +100,8 @@ public class DroneCenterNew extends Block {
 
                     //Fx.spawn.at(unit);
                     //units.add(unit);
-                    spawned(id);
-                    unitTetherBlockSpawned(tile, unit.id);
+                    Call.unitTetherBlockSpawned(tile, unit.id);
+                    spawned(unit.id);
                     droneProgress = 0f;
                 }
 
