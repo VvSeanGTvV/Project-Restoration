@@ -181,7 +181,7 @@ public class DroneCenterNew extends Block {
         public void write(Writes write){
             super.write(write);
 
-            write.i(target == null ? -1 : target.id);
+            //write.i(target == null ? -1 : target.id);
 
             write.i(unit == null ? -1 : unit.id);
         }
@@ -190,7 +190,7 @@ public class DroneCenterNew extends Block {
         public void read(Reads read, byte revision){
             super.read(read, revision);
 
-            readTarget = read.i();
+            //readTarget = read.i();
 
             readUnitId = read.i();
         }
