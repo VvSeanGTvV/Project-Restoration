@@ -18,6 +18,7 @@ public class EffectDroneAI extends AIController {
 
         target = build.target;
         if(target != null) {
+            unit.lookAt(target);
             moveTo(target, build.target.hitSize / 1.8f + block.droneRange - 10f);
 
             if (unit.within(target, block.droneRange + build.target.hitSize) && unit.within(build, block.droneRange)) {
@@ -50,12 +51,5 @@ public class EffectDroneAI extends AIController {
             /*if(unit.within(target, droneRange + build.target.hitSize)){
                 build.target.apply(status, statusDuration);
             }*/
-    }
-
-    protected void targetClosest() {
-        Teamc newTarget = Units.closestTarget(unit.team(), unit.x(), unit.y(), Math.max(unit.range(), unit.type().range), u -> (unit.type().targetAir && u.isFlying()) || (unit.type().targetGround && !u.isFlying()));
-        if (newTarget != null) {
-            target = newTarget;
-        }
     }
 }

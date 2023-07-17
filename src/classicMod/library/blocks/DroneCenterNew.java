@@ -21,6 +21,7 @@ import mindustry.graphics.Pal;
 import mindustry.type.StatusEffect;
 import mindustry.type.UnitType;
 import mindustry.world.Block;
+import mindustry.world.Tile;
 import mindustry.world.blocks.UnitTetherBlock;
 
 import static mindustry.Vars.tilesize;
@@ -56,6 +57,11 @@ public class DroneCenterNew extends Block {
         super.init();
 
         //droneType.controller = u -> new EffectDroneAI();
+    }
+
+    public static void unitTetherBlockSpawned(Tile tile, int id){
+        if(tile == null || !(tile.build instanceof UnitTetherBlock build)) return;
+        build.spawned(id);
     }
 
     public class DroneCenterNewBuild extends Building implements UnitTetherBlock {
@@ -102,7 +108,8 @@ public class DroneCenterNew extends Block {
 
                     //Fx.spawn.at(unit);
                     //units.add(unit);
-                    Call.unitTetherBlockSpawned(tile, unit.id);
+                    spawned(id);
+                    unitTetherBlockSpawned(tile, unit.id);
                     droneProgress = 0f;
                 }
 
