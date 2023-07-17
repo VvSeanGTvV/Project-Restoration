@@ -1,19 +1,28 @@
 package classicMod.library.blocks;
 
-import arc.graphics.g2d.*;
-import arc.math.*;
-import arc.struct.*;
-import arc.util.*;
-import arc.util.io.*;
-import mindustry.content.*;
-import mindustry.entities.*;
+import arc.graphics.g2d.Draw;
+import arc.math.Mathf;
+import arc.struct.IntSeq;
+import arc.struct.Seq;
+import arc.util.Nullable;
+import arc.util.Time;
+import arc.util.io.Reads;
+import arc.util.io.Writes;
+import mindustry.Vars;
+import mindustry.content.Fx;
+import mindustry.content.StatusEffects;
+import mindustry.entities.Units;
 import mindustry.entities.units.AIController;
 import mindustry.gen.*;
-import mindustry.graphics.*;
-import mindustry.type.*;
-import mindustry.world.*;
+import mindustry.graphics.Drawf;
+import mindustry.graphics.Layer;
+import mindustry.graphics.Pal;
+import mindustry.type.StatusEffect;
+import mindustry.type.UnitType;
+import mindustry.world.Block;
+import mindustry.world.blocks.UnitTetherBlock;
 
-import static mindustry.Vars.*;
+import static mindustry.Vars.tilesize;
 
 public class DroneCenterNew extends Block {
     /** Maximum Unit that can spawn **/
@@ -44,25 +53,27 @@ public class DroneCenterNew extends Block {
         //droneType.controller = u -> new EffectDroneAI();
     }
 
-    public class DroneCenterNewBuild extends Building {
+    public class DroneCenterNewBuild extends Building implements UnitTetherBlock {
         protected IntSeq readUnits = new IntSeq();
+        public int readUnitId = -1;
         protected int readTarget = -1;
 
         public Seq<Unit> units = new Seq<>();
         public @Nullable Unit target;
+        public @Nullable Unit unit;
         public float droneProgress, droneWarmup, totalDroneProgress;
 
         @Override
         public void updateTile(){
-            if(!readUnits.isEmpty()){
-                units.clear();
-                readUnits.each(i -> {
-                    var unit = Groups.unit.getByID(i);
-                    if(unit != null){
-                        units.add(unit);
-                    }
-                });
-                readUnits.clear();
+            if(unit != null && (unit.dead || !unit.isAdded())){
+                unit = null;
+            }
+
+            if(readUnitId != -1){
+                unit = Groups.unit.getByID(readUnitId);
+                if(unit != null || !Vars.net.client()){
+                    readUnitId = -1;
+                }
             }
 
             units.removeAll(u -> !u.isAdded() || u.dead);
@@ -85,8 +96,9 @@ public class DroneCenterNew extends Block {
                 unit.rotation = 90f;
                 unit.add();
 
-                Fx.spawn.at(unit);
-                units.add(unit);
+                //Fx.spawn.at(unit);
+                //units.add(unit);
+                Call.unitTetherBlockSpawned(tile, unit.id);
                 droneProgress = 0f;
             }
 
@@ -101,6 +113,15 @@ public class DroneCenterNew extends Block {
                 target = targetClosest(); //Units.closest(team, x, y, u -> !u.spawnedByCore && u.type != droneType);
             }*/
         }
+
+        public void spawned(int id){
+            Fx.spawn.at(x, y);
+            droneProgress = 0f;
+            if(Vars.net.client()){
+                readUnitId = id;
+            }
+        }
+
 
         protected void targetClosest() {
             //Teamc newTarget = Units.closestTarget(team, x, y, Math.max(droneRange, droneType.maxRange), u -> !u.spawnedByCore && u.type != droneType);
@@ -159,9 +180,10 @@ public class DroneCenterNew extends Block {
 
         @Override
         public void updateMovement() {
-            if(!(unit instanceof BuildingTetherc tether)) return;
+            if(!(unit instanceof BuildingTetherc tether) || tether.building() == null) return;
             if(!(tether.building() instanceof DroneCenterNewBuild build)) return;
             if(build.target == null) return; //TODO fix the ai because it is ded :I
+
             target = build.target;
             if (unit.within(target, droneRange + build.target.hitSize)) {
                 build.target.apply(status, statusDuration);
