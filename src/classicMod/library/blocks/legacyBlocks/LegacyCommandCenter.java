@@ -31,7 +31,7 @@ import static classicMod.content.ExtendedFx.commandSend;
 import static mindustry.Vars.tilesize;
 
 public class LegacyCommandCenter extends Block {
-    public float MaximumRangeCommand = 150f;
+    public float MaximumRangeCommand = 120f;
     public boolean CommandAir;
     public boolean CommandGround;
     public TextureRegion topRegion = Core.atlas.find(name+"-top");
