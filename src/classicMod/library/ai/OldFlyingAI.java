@@ -87,8 +87,13 @@ public class OldFlyingAI extends RallyAI {
 
             if(target == null){
                 NearbyCenter();
-                if(SortBuilding(LegacyCommandCenterArea, state) != null)moveTo(SortBuilding(LegacyCommandCenterArea, state), 30f);
-                if(SortBuilding(LegacyCommandCenterArea, state) != null)unit.aim(SortBuilding(LegacyCommandCenterArea, state));
+                if(SortBuilding(LegacyCommandCenterArea, state) != null){
+                    moveTo(SortBuilding(LegacyCommandCenterArea, state), 30f);
+                    unit.aim(SortBuilding(LegacyCommandCenterArea, state));
+                } else {
+                    unit.moveAt(lastCommandVec);
+                    unit.aim(lastCommandVec);
+                }
             }
 
             if(target != null){
@@ -98,14 +103,19 @@ public class OldFlyingAI extends RallyAI {
     }
 
     public Weapon getWeapon() { //hehe updated getweapon() to modernize list
-        if(unit.mounts.length > 0) {
+        for(WeaponMount w : unit.mounts){
+            return w.weapon;
+        }
+        return unit.mounts[1].weapon;
+
+        /*if(unit.mounts.length > 0) {
             for (int i = 1; i <= unit.mounts.length; i++) {
                 return unit.mounts[i].weapon;
             }
         }else {
             return null;
         }
-        return unit.mounts[1].weapon;
+        return unit.mounts[1].weapon;*/
     }
 
     protected void wobble(){

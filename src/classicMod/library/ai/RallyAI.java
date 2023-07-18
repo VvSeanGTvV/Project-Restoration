@@ -1,5 +1,6 @@
 package classicMod.library.ai;
 
+import arc.math.geom.Vec2;
 import arc.struct.Seq;
 import arc.util.Structs;
 import classicMod.library.blocks.legacyBlocks.LegacyCommandCenter;
@@ -13,6 +14,7 @@ import java.util.Objects;
 public class RallyAI extends AIController {
     public UnitState state = UnitState.attack; //Default Value so it doesn't crap itself.
     public Seq<Building> LegacyCommandCenterArea = new Seq<>();
+    public Vec2 lastCommandVec;
     public void NearbyCenter(){
         LegacyCommandCenterArea.clear();
         Units.closestBuilding(unit.team, unit.x, unit.y, unit.range() - 10f, u -> {
@@ -22,6 +24,10 @@ public class RallyAI extends AIController {
             return false;
         });
         LegacyCommandCenterArea.sort(Structs.comparingFloat(b -> b.dst2(unit)));
+    }
+
+    public Vec2 SaveLastBuildPosition(Building b){
+        return lastCommandVec = new Vec2(b.x, b.y);
     }
 
     public Building SortBuilding(Seq<Building> a, UnitState q) {
@@ -35,6 +41,7 @@ public class RallyAI extends AIController {
                 }
             }
         }
+        if(local != null)SaveLastBuildPosition(local);
         return local;
     }
 
