@@ -72,7 +72,7 @@ public class ClassicBlocks {
     cellSynthesisChamber, //Liquid Converter - Erekir - Prototype [v7-dev]
     slagCentrifuge, //Generic Crafters - Erekir - Prototype [v7-dev]
 
-    droneCenter, payloadLaunchpad, //TEMPORARY TESTING
+    droneCenter, payloadLaunchpad, commandCenter, //TEMPORARY TESTING
 
     fracture, horde, titanold, //Turrets - Erekir - Prototype [v7-dev]
 
@@ -1290,6 +1290,11 @@ public class ClassicBlocks {
             launchTime = 60f * 35;
             hasPower = true;
             consumePower(6f);
+        }};
+
+        commandCenter = new LegacyCommandCenter("command-center"){{
+            requirements(Category.effect, BuildVisibility.campaignOnly, with(Items.titanium, 200, Items.silicon, 150, Items.lead, 250, Items.plastanium, 75));
+            size = 2;
         }};
 
         /*payloadLaunchpad = new PayloadLaunchPad("payload-launch-pad"){{ //TODO keep it? or scrap it?
