@@ -64,7 +64,7 @@ public class DroneCenterNew extends Block {
     public void setStats(){
         super.setStats();
 
-        stats.add(Stat.range, droneRange);
+        stats.add(Stat.range, droneRange / tilesize, StatUnit.blocks);
         stats.add(ExtendedStat.StatusOutput, status.name);
         stats.add(ExtendedStat.StatusDuration, statusDuration / 60f, StatUnit.seconds);
     }

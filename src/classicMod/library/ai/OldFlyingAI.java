@@ -15,60 +15,79 @@ import static arc.math.Mathf.*;
 import static arc.scene.actions.Actions.*;
 import static mindustry.Vars.*;
 
-public class OldFlyingAI extends AIController {
+public class OldFlyingAI extends RallyAI {
     protected float[] weaponAngles = {0,0}; //it's old lolz
 
     @Override
     public void updateMovement(){
-        
-        if(unit.isFlying()){
-            wobble(); //old wobble
-        }
-        
-        if(Units.invalidateTarget(target,unit.team(),unit.x,unit.y)){
-            target = null;
-        }
+        if(state == UnitState.attack) {
 
-        if(retarget()){
-            targetClosest();
+            if (unit.isFlying()) {
+                wobble(); //old wobble
+            }
 
-            if(target == null) targetClosestEnemyFlag(BlockFlag.factory);
-            if(target == null) targetClosestEnemyFlag(BlockFlag.turret);
-        }
+            if (Units.invalidateTarget(target, unit.team(), unit.x, unit.y)) {
+                target = null;
+            }
 
-        if(getClosestSpawner() == null && getClosestSpawner() != null && target == null){ //&& getSpawner() != null
-            target = unit.closestEnemyCore();
-            circle(80f + Mathf.randomSeed(unit.id) * 120);
-        }else if(target != null){
-            attack(unit.range());
+            if (retarget()) {
+                targetClosest();
 
-            float rotation = unit.rotation;
-            if((Angles.near(unit.angleTo(target), rotation, getWeapon().shootCone) || getWeapon().ignoreRotation) && dst(target.x(), target.y()) < getWeapon().bullet.range){ //bombers and such don't care about rotation
-                BulletType ammo = getWeapon().bullet;
+                if (target == null) targetClosestEnemyFlag(BlockFlag.factory);
+                if (target == null) targetClosestEnemyFlag(BlockFlag.turret);
+            }
 
-                if(unit.isRotate()){
-                    for(boolean left : Mathf.booleans){
-                        int wi = Mathf.num(left);
-                        float x = unit.x;
-                        float y = unit.y;
-                        float wx = x + Angles.trnsx(rotation - 90, getWeapon().x * Mathf.sign(left));
-                        float wy = y + Angles.trnsy(rotation - 90, getWeapon().x * Mathf.sign(left));
+            if (getClosestSpawner() == null && getClosestSpawner() != null && target == null) { //&& getSpawner() != null
+                target = unit.closestEnemyCore();
+                circle(80f + Mathf.randomSeed(unit.id) * 120);
+            } else if (target != null) {
+                attack(unit.range());
 
-                        weaponAngles[wi] = Mathf.slerpDelta(weaponAngles[wi], Angles.angle(wx, wy, target.getX(), target.getY()), 0.1f);
+                float rotation = unit.rotation;
+                if ((Angles.near(unit.angleTo(target), rotation, getWeapon().shootCone) || getWeapon().ignoreRotation) && dst(target.x(), target.y()) < getWeapon().bullet.range) { //bombers and such don't care about rotation
+                    BulletType ammo = getWeapon().bullet;
 
-                        Tmp.v2.trns(weaponAngles[wi], getWeapon().y);
-                        unit.aim(Tmp.v2);
+                    if (unit.isRotate()) {
+                        for (boolean left : Mathf.booleans) {
+                            int wi = Mathf.num(left);
+                            float x = unit.x;
+                            float y = unit.y;
+                            float wx = x + Angles.trnsx(rotation - 90, getWeapon().x * Mathf.sign(left));
+                            float wy = y + Angles.trnsy(rotation - 90, getWeapon().x * Mathf.sign(left));
+
+                            weaponAngles[wi] = Mathf.slerpDelta(weaponAngles[wi], Angles.angle(wx, wy, target.getX(), target.getY()), 0.1f);
+
+                            Tmp.v2.trns(weaponAngles[wi], getWeapon().y);
+                            unit.aim(Tmp.v2);
+                            getWeapon().update(unit, new WeaponMount(getWeapon()));
+                        }
+                    } else {
+                        Vec2 to = Predict.intercept(unit, target, ammo.speed);
+                        unit.aim(to.x, to.y);
                         getWeapon().update(unit, new WeaponMount(getWeapon()));
                     }
-                }else{
-                    Vec2 to = Predict.intercept(unit, target, ammo.speed);
-                    unit.aim(to.x, to.y);
-                    getWeapon().update(unit, new WeaponMount(getWeapon()));
                 }
+            } else {
+                target = unit.closestEnemyCore();
+                moveTo(Vars.state.rules.dropZoneRadius + 120f);
             }
-        }else{
-            target = unit.closestEnemyCore();
-            moveTo(Vars.state.rules.dropZoneRadius + 120f);
+        }
+        if(state == UnitState.rally){
+            if(retarget()){
+                moveTo(findCommandCenterNear(),65f + Mathf.randomSeed(unit.id) * 100);
+                targetClosest();
+
+                if(target != null && !Units.invalidateTarget(target, unit.team, unit.x, unit.y)){
+                    state = UnitState.attack;
+                    return;
+                }
+
+                if(target == null) target = unit.closestEnemyCore();
+            }
+
+            if(target != null){
+                circle(65f + Mathf.randomSeed(unit.id) * 100);
+            }
         }
     }
 
@@ -160,10 +179,6 @@ public class OldFlyingAI extends AIController {
         if(newTarget != null){
             target = newTarget;
         }
-    }
-
-    public void move(float x, float y){ //uh this doesn't exist anymore lolz
-        moveBy(x, y);
     }
 
     /*Tile getSpawner(){ //TODO somehow get the tile of the spawner but its too old lolz
