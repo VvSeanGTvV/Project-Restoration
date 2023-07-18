@@ -22,7 +22,7 @@ public class LegacyCommandCenter extends Block {
     public float MaximumRangeCommand = 300f;
     public boolean CommandAir;
     public boolean CommandGround;
-    public TextureRegion teamRegion = Core.atlas.find(name+"-team");
+    public TextureRegion topRegion = Core.atlas.find(name+"-top");
 
     protected Unit[] ArrayTarget;
 
