@@ -65,11 +65,9 @@ public class LegacyCommandCenter extends Block {
         /** AutoTargets the nearest enemy unit/block while keeping track on a listed array, this could be saved on {@link #ArrayTarget} **/
         public void NearbyUnit(LegacyCommandCenterBuild b){
             var target = Units.closest(b.team, b.x, b.y, MaximumRangeCommand, e -> e.isValid() && e.checkTarget(CommandAir, CommandGround));
-            if(target != null){
+            if(target != null) {
                 commandSend.at(target);
                 ArrayTarget = new Unit[]{target};
-            } else {
-                ArrayTarget = null;
             }
         }
 
