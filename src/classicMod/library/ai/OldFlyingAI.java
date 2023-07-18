@@ -87,8 +87,8 @@ public class OldFlyingAI extends RallyAI {
 
             if(target == null){
                 NearbyCenter();
-                moveTo(SortBuilding(LegacyCommandCenterArea, state), 30f);
-                unit.aim(SortBuilding(LegacyCommandCenterArea, state));
+                if(SortBuilding(LegacyCommandCenterArea, state) != null)moveTo(SortBuilding(LegacyCommandCenterArea, state), 30f);
+                if(SortBuilding(LegacyCommandCenterArea, state) != null)unit.aim(SortBuilding(LegacyCommandCenterArea, state));
             }
 
             if(target != null){
