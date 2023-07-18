@@ -82,8 +82,6 @@ public class DroneCenterNew extends Block {
     }*/
 
     public class DroneCenterNewBuild extends Building implements UnitTetherBlock {
-        protected IntSeq readUnits = new IntSeq();
-        protected boolean singleUsed;
         public int readUnitId = -1;
         protected int readTarget = -1;
 

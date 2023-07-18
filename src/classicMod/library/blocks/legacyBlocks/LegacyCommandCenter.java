@@ -10,19 +10,25 @@ import arc.scene.ui.ImageButton;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
 import arc.util.Log;
+import arc.util.Time;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
+import classicMod.content.ExtendedStat;
 import classicMod.library.ai.RallyAI;
 import mindustry.entities.Units;
 import mindustry.gen.*;
+import mindustry.graphics.Drawf;
 import mindustry.ui.Styles;
 import mindustry.world.Block;
+import mindustry.world.meta.Stat;
+import mindustry.world.meta.StatUnit;
 
 import java.io.DataOutput;
 import java.io.IOException;
 import java.lang.reflect.Array;
 
 import static classicMod.content.ExtendedFx.commandSend;
+import static mindustry.Vars.tilesize;
 
 public class LegacyCommandCenter extends Block {
     public float MaximumRangeCommand = 150f;
@@ -40,10 +46,18 @@ public class LegacyCommandCenter extends Block {
         configurable = true;
     }
 
+    @Override
+    public void setStats(){
+        super.setStats();
+
+        stats.add(Stat.range, MaximumRangeCommand / tilesize, StatUnit.blocks);
+    }
+
 
     public class LegacyCommandCenterBuild extends Building {
         public String CommandSelect = "attack";
         public Seq<Unit> targets = new Seq<>();
+
         @Override
         public void buildConfiguration(Table table) {
             Table buttons = new Table();
@@ -56,6 +70,12 @@ public class LegacyCommandCenter extends Block {
                 CommandSelect = "rally";
             });
             table.add(buttons);
+        }
+
+        @Override
+        public void drawConfigure(){
+            Drawf.circles(x, y, MaximumRangeCommand);
+            Drawf.square(x, y, tile.block().size * tilesize / 2f + 1f + Mathf.absin(Time.time, 4f, 1f));
         }
 
         @Override
