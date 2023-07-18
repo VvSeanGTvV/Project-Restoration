@@ -8,6 +8,7 @@ import arc.math.Mathf;
 import arc.scene.ui.Button;
 import arc.scene.ui.ImageButton;
 import arc.scene.ui.layout.Table;
+import arc.struct.Seq;
 import arc.util.Log;
 import classicMod.library.ai.RallyAI;
 import mindustry.entities.Units;
@@ -38,6 +39,7 @@ public class LegacyCommandCenter extends Block {
 
     public class LegacyCommandCenterBuild extends Building {
         protected String CommandSelect = "attack";
+        public Seq<Unit> targets = new Seq<>();
         @Override
         public void buildConfiguration(Table table) {
             Table buttons = new Table();
@@ -62,27 +64,16 @@ public class LegacyCommandCenter extends Block {
             Draw.rect(c, x, y);
             Draw.reset();
         }
-
-        /** AutoTargets the nearest enemy unit/block while keeping track on a listed array, this could be saved on {@link #ArrayTarget} **/
-        public void NearbyUnit(LegacyCommandCenterBuild b){
-            var target = Units.closest(b.team, b.x, b.y, MaximumRangeCommand, u -> u.team == this.team);
-            Log.info(target);
-            if(target != null) {
-                commandSend.at(target);
-                ArrayTarget = new Unit[]{target};
-            }
-        }
-
         public void UpdateCommand(RallyAI.UnitState State){
-            NearbyUnit(this);
             commandSend.at(this);
-            if(ArrayTarget != null) {
-                for (Unit u : ArrayTarget) {
-                    if (u.controller() instanceof RallyAI ai) {
-                        ai.state = State;
-                    }
+
+            targets.clear();
+            Units.nearby(team, x, y, MaximumRangeCommand, u -> {
+                if(u.controller() instanceof RallyAI){
+                    commandSend.at(u);
+                    targets.add(u);
                 }
-            }
+            });
         }
     }
 }

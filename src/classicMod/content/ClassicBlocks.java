@@ -491,6 +491,33 @@ public class ClassicBlocks {
             craftTime = 20f;
             itemCapacity = 20;
         }};
+
+        int wallHealthMultiplier = 4;
+        wallStone = new Wall("stone-wall"){{
+            requirements(Category.defense, with(ClassicItems.stone, 12));
+            health = 40 * wallHealthMultiplier;
+        }};
+        wallIron = new Wall("iron-wall"){{
+            requirements(Category.defense, with(ClassicItems.iron, 12));
+            health = 80 * wallHealthMultiplier;
+        }};
+        wallSteel = new Wall("steel-wall"){{
+            requirements(Category.defense, with(ClassicItems.steel, 12));
+            health = 110 * wallHealthMultiplier;
+        }};
+        wallDirium = new Wall("dirium-wall"){{
+            requirements(Category.defense, with(ClassicItems.dirium, 12));
+            health = 190 * wallHealthMultiplier;
+        }};
+        wallComposite = new Wall("composite-wall"){{
+            requirements(Category.defense, with(ClassicItems.dirium, 12, Items.titanium, 12, ClassicItems.steel, 12));
+            health = 270 * wallHealthMultiplier;
+        }};
+
+        wallDiriumLarge = new Wall("dirium-wall-large"){{
+            requirements(Category.defense, ItemStack.mult(wallDirium.requirements, 4));
+            health = 110 * wallHealthMultiplier * 4;
+        }};
     }
 
     public void loadv4(){
@@ -813,32 +840,6 @@ public class ClassicBlocks {
             health = 95 * wallHealthMultiplier * 4;
             insulated = true;
             size = 2;
-        }};
-
-        wallStone = new Wall("stone-wall"){{
-            requirements(Category.defense, with(ClassicItems.stone, 12));
-            health = 40 * wallHealthMultiplier;
-        }};
-        wallIron = new Wall("iron-wall"){{
-            requirements(Category.defense, with(ClassicItems.iron, 12));
-            health = 80 * wallHealthMultiplier;
-        }};
-        wallSteel = new Wall("steel-wall"){{
-            requirements(Category.defense, with(ClassicItems.steel, 12));
-            health = 110 * wallHealthMultiplier;
-        }};
-        wallDirium = new Wall("dirium-wall"){{
-            requirements(Category.defense, with(ClassicItems.dirium, 12));
-            health = 190 * wallHealthMultiplier;
-        }};
-        wallComposite = new Wall("composite-wall"){{
-            requirements(Category.defense, with(ClassicItems.dirium, 12, Items.titanium, 12, ClassicItems.steel, 12));
-            health = 270 * wallHealthMultiplier;
-        }};
-
-        wallDiriumLarge = new Wall("dirium-wall-large"){{
-            requirements(Category.defense, ItemStack.mult(wallDirium.requirements, 4));
-            health = 110 * wallHealthMultiplier * 4;
         }};
 
         //Projectors
