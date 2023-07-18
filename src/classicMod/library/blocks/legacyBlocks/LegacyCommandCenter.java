@@ -64,12 +64,13 @@ public class LegacyCommandCenter extends Block {
 
         @Override
         public void draw() {
+            super.draw();
             Draw.rect(region, x, y);
             TextureRegion c = Core.atlas.find("command-"+CommandSelect);
 
             Draw.color(team.color);
             Draw.rect(teamRegion, x, y);
-            Draw.rect(c, x, y);
+            //Draw.rect(c, x, y);
             Draw.reset();
         }
 
