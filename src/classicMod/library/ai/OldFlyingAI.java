@@ -75,9 +75,9 @@ public class OldFlyingAI extends RallyAI {
         }
         if(state == UnitState.rally){
             if(retarget()){
-                var build = Units.closestBuilding(unit.team, unit.x, unit.y,unit.range(), b -> b instanceof LegacyCommandCenter.LegacyCommandCenterBuild);
-                moveTo(build, 0f);
+                NearbyCenter();
                 targetClosest();
+                moveTo(SortBuilding(LegacyCommandCenterArea, state), 30f);
 
                 if(target != null && !Units.invalidateTarget(target, unit.team, unit.x, unit.y)){
                     state = UnitState.attack;

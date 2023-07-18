@@ -21,7 +21,7 @@ import java.lang.reflect.Array;
 import static classicMod.content.ExtendedFx.commandSend;
 
 public class LegacyCommandCenter extends Block {
-    public float MaximumRangeCommand = 300f;
+    public float MaximumRangeCommand = 150f;
     public boolean CommandAir;
     public boolean CommandGround;
     public TextureRegion topRegion = Core.atlas.find(name+"-top");
@@ -38,7 +38,7 @@ public class LegacyCommandCenter extends Block {
 
 
     public class LegacyCommandCenterBuild extends Building {
-        protected String CommandSelect = "attack";
+        public String CommandSelect = "attack";
         public Seq<Unit> targets = new Seq<>();
         @Override
         public void buildConfiguration(Table table) {
@@ -69,8 +69,8 @@ public class LegacyCommandCenter extends Block {
 
             targets.clear();
             Units.nearby(team, x, y, MaximumRangeCommand, u -> {
-                if(u.controller() instanceof RallyAI){
-                    commandSend.at(u);
+                if(u.controller() instanceof RallyAI ai){
+                    ai.state = State;
                     targets.add(u);
                 }
             });

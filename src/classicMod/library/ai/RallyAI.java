@@ -1,31 +1,41 @@
 package classicMod.library.ai;
 
 import arc.struct.Seq;
+import arc.util.Structs;
+import classicMod.library.blocks.legacyBlocks.LegacyCommandCenter;
 import classicMod.library.blocks.legacyBlocks.LegacyCommandCenter.LegacyCommandCenterBuild;
-import mindustry.Vars;
+import mindustry.entities.Units;
 import mindustry.entities.units.AIController;
-import mindustry.world.Block;
-import mindustry.world.Build;
-import mindustry.world.meta.BlockFlag;
+import mindustry.gen.Building;
+
+import java.util.Objects;
 
 public class RallyAI extends AIController {
-    public Seq<LegacyCommandCenterBuild> CommandCenterList = new Seq<>();
     public UnitState state = UnitState.attack; //Default Value so it doesn't crap itself.
-
-    public LegacyCommandCenterBuild findCommandCenterNear(){
-        var baseTargets = (Seq<LegacyCommandCenterBuild>)(Seq) Vars.indexer.getFlagged(unit.team, BlockFlag.storage);
-        if(baseTargets.isEmpty()) return null;
-        return sortTargets(baseTargets);
+    public Seq<Building> LegacyCommandCenterArea = new Seq<>();
+    public void NearbyCenter(){
+        LegacyCommandCenterArea.clear();
+        Units.closestBuilding(unit.team, unit.x, unit.y, unit.range() - 10f, u -> {
+            if(u instanceof LegacyCommandCenterBuild){
+                if(Objects.equals(((LegacyCommandCenterBuild) u).CommandSelect, state.name())) LegacyCommandCenterArea.add(u);
+            }
+            return false;
+        });
+        LegacyCommandCenterArea.sort(Structs.comparingFloat(b -> b.dst2(unit)));
     }
 
-    LegacyCommandCenterBuild sortTargets(Seq<LegacyCommandCenterBuild> targets){
-        //find sort by "most desirable" first
-        for(LegacyCommandCenterBuild B : targets){
-            if(unit.within(B, unit.range())){
-                return B;
+    public Building SortBuilding(Seq<Building> a, UnitState q) {
+        Building local = null;
+        for (Building b : a) {
+            if (b instanceof LegacyCommandCenterBuild v) {
+                if (v.block instanceof LegacyCommandCenter n) {
+                    if (v.within(unit, n.MaximumRangeCommand)) {
+                        if(v.CommandSelect == q.name()) local = v;
+                    }
+                }
             }
         }
-        return null;
+        return local;
     }
 
     public enum UnitState{ //Just reused DriverState code.
