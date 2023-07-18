@@ -38,6 +38,7 @@ public class LegacyCommandCenter extends Block {
     public void NearbyUnit(LegacyCommandCenterBuild b){
         var target = Units.closest(b.team, b.x, b.y, MaximumRangeCommand, e -> e.isValid() && e.checkTarget(CommandAir, CommandGround));
         if(target != null){
+            commandSend.at(target);
             this.ArrayTarget = new Unit[]{target};
         } else {
             ArrayTarget = null;
@@ -67,7 +68,7 @@ public class LegacyCommandCenter extends Block {
             TextureRegion c = Core.atlas.find(name+"-"+CommandSelect);
 
             Draw.color(team.color);
-            Draw.rect(topRegion, x, y);
+            //Draw.rect(topRegion, x, y);
             Draw.rect(c, x, y);
             Draw.reset();
         }
