@@ -30,7 +30,7 @@ public class RallyAI extends AIController {
             if (b instanceof LegacyCommandCenterBuild v) {
                 if (v.block instanceof LegacyCommandCenter n) {
                     if (v.within(unit, n.MaximumRangeCommand)) {
-                        if(v.CommandSelect == q.name()) local = v;
+                        local = v;
                     }
                 }
             }
