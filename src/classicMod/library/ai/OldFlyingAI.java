@@ -75,6 +75,7 @@ public class OldFlyingAI extends RallyAI {
         }
         if(state == UnitState.rally){
             if(retarget()){
+                Log.info(state);
                 NearbyCenter();
                 targetClosest();
                 moveTo(SortBuilding(LegacyCommandCenterArea, state), 30f);
