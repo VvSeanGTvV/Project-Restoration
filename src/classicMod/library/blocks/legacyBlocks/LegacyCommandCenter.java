@@ -10,12 +10,16 @@ import arc.scene.ui.ImageButton;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
 import arc.util.Log;
+import arc.util.io.Reads;
+import arc.util.io.Writes;
 import classicMod.library.ai.RallyAI;
 import mindustry.entities.Units;
 import mindustry.gen.*;
 import mindustry.ui.Styles;
 import mindustry.world.Block;
 
+import java.io.DataOutput;
+import java.io.IOException;
 import java.lang.reflect.Array;
 
 import static classicMod.content.ExtendedFx.commandSend;
@@ -81,6 +85,18 @@ public class LegacyCommandCenter extends Block {
                     Log.info(String.valueOf(ai.state), target);
                 }else{return;}
             }
+        }
+
+        @Override
+        public void write(Writes write){
+            super.write(write);
+            write.str(CommandSelect);
+        }
+
+        @Override
+        public void read(Reads read, byte revision) {
+            super.read(read, revision);
+            CommandSelect = read.str();
         }
     }
 }
