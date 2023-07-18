@@ -90,15 +90,16 @@ public class OldFlyingAI extends RallyAI {
                 if(SortBuilding(LegacyCommandCenterArea, state) != null){
                     moveTo(SortBuilding(LegacyCommandCenterArea, state), 30f);
                     unit.aim(SortBuilding(LegacyCommandCenterArea, state));
+                    circle(65f + Mathf.randomSeed(unit.id) * 100);
                 } else {
-                    unit.moveAt(lastCommandVec);
-                    unit.aim(lastCommandVec);
+                    moveTo(lastBuild, 0f);
+                    unit.aim(lastBuild);
                 }
             }
 
-            if(target != null){
+            /*if(target != null){
                 circle(65f + Mathf.randomSeed(unit.id) * 100);
-            }
+            }*/
         }
     }
 
