@@ -16,6 +16,8 @@ import mindustry.world.Block;
 
 import java.lang.reflect.Array;
 
+import static classicMod.content.ExtendedFx.commandSend;
+
 public class LegacyCommandCenter extends Block {
     public float MaximumRangeCommand = 300f;
     public boolean CommandAir;
@@ -63,7 +65,7 @@ public class LegacyCommandCenter extends Block {
         @Override
         public void draw() {
             Draw.rect(region, x, y);
-            TextureRegion c = Core.atlas.find(block.name+"-"+CommandSelect);
+            TextureRegion c = Core.atlas.find("command-"+CommandSelect);
 
             Draw.color(team.color);
             Draw.rect(teamRegion, x, y);
@@ -73,6 +75,7 @@ public class LegacyCommandCenter extends Block {
 
         public void UpdateCommand(RallyAI.UnitState State){
             NearbyUnit(this);
+            commandSend.at(this);
             if(ArrayTarget != null) {
                 for (Unit u : ArrayTarget) {
                     if (u.controller() instanceof RallyAI ai) {

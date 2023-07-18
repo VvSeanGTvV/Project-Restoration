@@ -14,7 +14,7 @@ import static mindustry.graphics.Pal.*;
 
 public class ExtendedFx extends Fx {
     public static final Effect
-            //v5 Effects
+    //v5 Effects
     shellEjectSmall = new Effect(30f, 400f, e -> {
         Draw.color(lightOrange, Color.lightGray, Pal.lightishGray, e.fin());
         float rot = Math.abs(e.rotation) + 90f;
@@ -76,6 +76,12 @@ public class ExtendedFx extends Fx {
 
     }),
 
+    commandSend = new Effect(28, e -> {
+        Draw.color(Pal.command);
+        Lines.stroke(e.fout() * 2f);
+        Lines.circle(e.x, e.y, 4f + e.finpow() * 120f);
+    }),
+
     //Modified effects for Good Reason
     teslaBeam = new Effect(30f, 300f, e -> {
         if(!(e.data instanceof Position pos)) return;
@@ -113,7 +119,6 @@ public class ExtendedFx extends Fx {
     }),
 
     //v4 Mindustry
-
     mortarshot = new Effect(10f, e -> {
         Draw.color(Color.white, Color.darkGray, e.fin());
         Lines.stroke(e.fout()*6f);
