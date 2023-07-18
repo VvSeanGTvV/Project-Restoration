@@ -3,6 +3,7 @@ package classicMod.library.ai;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
+import classicMod.library.blocks.legacyBlocks.LegacyCommandCenter;
 import mindustry.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
@@ -74,7 +75,8 @@ public class OldFlyingAI extends RallyAI {
         }
         if(state == UnitState.rally){
             if(retarget()){
-                moveTo(findCommandCenterNear(),65f + Mathf.randomSeed(unit.id) * 100);
+                var build = Units.closestBuilding(unit.team, unit.x, unit.y,unit.range(), b -> b instanceof LegacyCommandCenter.LegacyCommandCenterBuild);
+                moveTo(build, unit.hitSize / 5f + unit.range() - 10f);
                 targetClosest();
 
                 if(target != null && !Units.invalidateTarget(target, unit.team, unit.x, unit.y)){

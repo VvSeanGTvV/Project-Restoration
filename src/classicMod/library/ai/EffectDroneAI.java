@@ -19,7 +19,7 @@ public class EffectDroneAI extends AIController {
         target = build.target;
         if(target != null) {
             unit.lookAt(target);
-            moveTo(target, build.target.hitSize / 3f + block.droneRange - 10f);
+            moveTo(target, build.target.hitSize / 5f + block.droneRange - 10f);
 
             if (unit.within(target, block.droneRange + build.target.hitSize) && unit.within(build, block.droneRange)) {
                 build.target.apply(block.status, block.statusDuration);
