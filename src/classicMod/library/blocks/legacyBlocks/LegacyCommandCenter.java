@@ -34,17 +34,6 @@ public class LegacyCommandCenter extends Block {
         configurable = true;
     }
 
-    /** AutoTargets the nearest enemy unit/block while keeping track on a listed array, this could be saved on {@link #ArrayTarget} **/
-    public void NearbyUnit(LegacyCommandCenterBuild b){
-        var target = Units.closest(b.team, b.x, b.y, MaximumRangeCommand, e -> e.isValid() && e.checkTarget(CommandAir, CommandGround));
-        if(target != null){
-            commandSend.at(target);
-            this.ArrayTarget = new Unit[]{target};
-        } else {
-            ArrayTarget = null;
-        }
-    }
-
 
     public class LegacyCommandCenterBuild extends Building {
         protected String CommandSelect = "attack";
@@ -71,6 +60,17 @@ public class LegacyCommandCenter extends Block {
             //Draw.rect(topRegion, x, y);
             Draw.rect(c, x, y);
             Draw.reset();
+        }
+
+        /** AutoTargets the nearest enemy unit/block while keeping track on a listed array, this could be saved on {@link #ArrayTarget} **/
+        public void NearbyUnit(LegacyCommandCenterBuild b){
+            var target = Units.closest(b.team, b.x, b.y, MaximumRangeCommand, e -> e.isValid() && e.checkTarget(CommandAir, CommandGround));
+            if(target != null){
+                commandSend.at(target);
+                ArrayTarget = new Unit[]{target};
+            } else {
+                ArrayTarget = null;
+            }
         }
 
         public void UpdateCommand(RallyAI.UnitState State){
