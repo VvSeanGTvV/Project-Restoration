@@ -23,7 +23,6 @@ public class LegacyCommandCenter extends Block {
     public boolean CommandAir;
     public boolean CommandGround;
     public TextureRegion teamRegion = Core.atlas.find(name+"-team");
-    public TextureRegion region = Core.atlas.find(name);
 
     protected Unit[] ArrayTarget;
 
@@ -65,12 +64,11 @@ public class LegacyCommandCenter extends Block {
         @Override
         public void draw() {
             super.draw();
-            Draw.rect(region, x, y);
-            TextureRegion c = Core.atlas.find("command-"+CommandSelect);
+            TextureRegion c = Core.atlas.find(name+"-"+CommandSelect);
 
             Draw.color(team.color);
-            Draw.rect(teamRegion, x, y);
-            //Draw.rect(c, x, y);
+            //Draw.rect(teamRegion, x, y);
+            Draw.rect(c, x, y);
             Draw.reset();
         }
 
