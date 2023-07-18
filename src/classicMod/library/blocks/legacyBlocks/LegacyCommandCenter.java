@@ -26,6 +26,9 @@ public class LegacyCommandCenter extends Block {
 
     public LegacyCommandCenter(String name) {
         super(name);
+
+        update = true;
+        solid = true;
         configurable = true;
     }
 
@@ -58,7 +61,8 @@ public class LegacyCommandCenter extends Block {
         @Override
         public void draw() {
             super.draw();
-            TextureRegion c = Core.atlas.find(name+"-"+CommandSelect);
+            Draw.rect(block.region, x, y);
+            TextureRegion c = Core.atlas.find(block.name+"-"+CommandSelect);
 
             Draw.color(team.color);
             Draw.rect(teamRegion, x, y);
