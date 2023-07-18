@@ -1293,7 +1293,7 @@ public class ClassicBlocks {
         }};
 
         commandCenter = new LegacyCommandCenter("command-center"){{
-            requirements(Category.effect, BuildVisibility.campaignOnly, with(Items.titanium, 200, Items.silicon, 150, Items.lead, 250, Items.plastanium, 75));
+            requirements(Category.units, with(Items.titanium, 200, Items.silicon, 150, Items.lead, 250, Items.plastanium, 75));
             size = 2;
         }};
 
