@@ -21,6 +21,7 @@ public class OldFlyingAI extends RallyAI {
 
     @Override
     public void updateMovement(){
+        Log.info(state);
         if(state == UnitState.attack) {
 
             if (unit.isFlying()) {
@@ -76,7 +77,7 @@ public class OldFlyingAI extends RallyAI {
         if(state == UnitState.rally){
             if(retarget()){
                 var build = Units.closestBuilding(unit.team, unit.x, unit.y,unit.range(), b -> b instanceof LegacyCommandCenter.LegacyCommandCenterBuild);
-                moveTo(build, unit.hitSize / 5f + unit.range() - 10f);
+                moveTo(build, 0f);
                 targetClosest();
 
                 if(target != null && !Units.invalidateTarget(target, unit.team, unit.x, unit.y)){
