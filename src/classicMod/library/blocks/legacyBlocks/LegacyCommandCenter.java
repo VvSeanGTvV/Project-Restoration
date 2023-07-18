@@ -21,6 +21,7 @@ public class LegacyCommandCenter extends Block {
     public boolean CommandAir;
     public boolean CommandGround;
     public TextureRegion teamRegion = Core.atlas.find(name+"-team");
+    public TextureRegion region = Core.atlas.find(name);
 
     protected Unit[] ArrayTarget;
 
@@ -61,7 +62,7 @@ public class LegacyCommandCenter extends Block {
 
         @Override
         public void draw() {
-            Draw.rect(block.region, x, y);
+            Draw.rect(region, x, y);
             TextureRegion c = Core.atlas.find(block.name+"-"+CommandSelect);
 
             Draw.color(team.color);
@@ -72,9 +73,11 @@ public class LegacyCommandCenter extends Block {
 
         public void UpdateCommand(RallyAI.UnitState State){
             NearbyUnit(this);
-            for (Unit u : ArrayTarget){
-                if(u.controller() instanceof RallyAI ai){
-                    ai.state = State;
+            if(ArrayTarget != null) {
+                for (Unit u : ArrayTarget) {
+                    if (u.controller() instanceof RallyAI ai) {
+                        ai.state = State;
+                    }
                 }
             }
         }
