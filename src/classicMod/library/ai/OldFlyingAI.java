@@ -75,11 +75,11 @@ public class OldFlyingAI extends RallyAI {
         }
         if(state == UnitState.rally){
             if(retarget()){
+                NearbyCenter();
                 targetClosest();
 
                 if(target != null && !Units.invalidateTarget(target, unit.team, unit.x, unit.y)){
                     state = UnitState.attack;
-                    return;
                 }
 
                 //if(target == null) target = unit.closestEnemyCore();
@@ -159,6 +159,8 @@ public class OldFlyingAI extends RallyAI {
     }
 
     protected void attack(float circleLength){
+        if(target == null) return;
+
         vec.set(target).sub(unit);
 
         float ang = unit.angleTo(target);
