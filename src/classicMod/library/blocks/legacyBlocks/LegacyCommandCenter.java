@@ -56,11 +56,11 @@ public class LegacyCommandCenter extends Block {
                 UpdateCommand(RallyAI.UnitState.rally);
                 CommandSelect = "rally";
             });
+            table.add(buttons);
         }
 
         @Override
         public void draw() {
-            super.draw();
             Draw.rect(block.region, x, y);
             TextureRegion c = Core.atlas.find(block.name+"-"+CommandSelect);
 
