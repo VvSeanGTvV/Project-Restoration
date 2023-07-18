@@ -21,7 +21,6 @@ public class OldFlyingAI extends RallyAI {
 
     @Override
     public void updateMovement(){
-        Log.info(state);
         if(state == UnitState.attack) {
 
             if (unit.isFlying()) {

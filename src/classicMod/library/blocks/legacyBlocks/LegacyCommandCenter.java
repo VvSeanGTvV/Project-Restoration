@@ -8,6 +8,7 @@ import arc.math.Mathf;
 import arc.scene.ui.Button;
 import arc.scene.ui.ImageButton;
 import arc.scene.ui.layout.Table;
+import arc.util.Log;
 import classicMod.library.ai.RallyAI;
 import mindustry.entities.Units;
 import mindustry.gen.*;
@@ -65,6 +66,7 @@ public class LegacyCommandCenter extends Block {
         /** AutoTargets the nearest enemy unit/block while keeping track on a listed array, this could be saved on {@link #ArrayTarget} **/
         public void NearbyUnit(LegacyCommandCenterBuild b){
             var target = Units.closest(b.team, b.x, b.y, MaximumRangeCommand, e -> e.isValid() && e.checkTarget(CommandAir, CommandGround));
+            Log.info(target);
             if(target != null) {
                 commandSend.at(target);
                 ArrayTarget = new Unit[]{target};
