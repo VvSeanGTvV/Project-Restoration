@@ -30,8 +30,8 @@ public class RallyAI extends AIController {
 
     public enum UnitState{ //Just reused DriverState code.
         attack, // Attack the units.
-        rally, // Rally/Circle around the nearest Command Center.
-        retreat; //Dunno
+        rally; // Rally/Circle around the nearest Command Center.
+        //retreat; //Dunno
 
         public static final UnitState[] all = values();
     }
