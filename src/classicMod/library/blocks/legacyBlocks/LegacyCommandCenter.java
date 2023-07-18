@@ -74,6 +74,13 @@ public class LegacyCommandCenter extends Block {
                     targets.add(u);
                 }
             });
+
+            for (var target : targets){
+                if(target.controller() instanceof RallyAI ai){
+                    ai.state = State;
+                    Log.info(String.valueOf(ai.state), target);
+                }else{return;}
+            }
         }
     }
 }
