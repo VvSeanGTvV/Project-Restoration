@@ -1,10 +1,11 @@
-![Logo](assets/sprites-override/ui/logo.png)
-
-Much more advance scripting, and more classic buildings.
-This mod will change name later! Because, I wanted to merge older version like v6 early previews here!
-Disclaimer: Some blocks/units might not have their final stats from older builds.
+<p align="center">
+  <img width="570" height="90" src="assets/sprites-override/ui/logo.png"> </p>
+<p align="center"> Much more advance scripting, and more classic buildings. 2 Months 2 late lol. </p>
+<strong><p align="center"> Next Update: v3.0 Classical Update </p></strong>
 
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/VvSeanGTvV/Project-Restoration/commitTest.yml?label=Build%20Status%3A%20&style=for-the-badge)
+
+
 
 ## --- Mod Includes ---
 
