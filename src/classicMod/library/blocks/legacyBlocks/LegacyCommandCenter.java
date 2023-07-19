@@ -31,9 +31,7 @@ import static classicMod.content.ExtendedFx.commandSend;
 import static mindustry.Vars.tilesize;
 
 public class LegacyCommandCenter extends Block {
-    public float MaximumRangeCommand = 120f;
-    public boolean CommandAir;
-    public boolean CommandGround;
+    public static float MaximumRangeCommand = 120f;
     public TextureRegion topRegion = Core.atlas.find(name+"-top");
 
     protected Unit[] ArrayTarget;
@@ -57,10 +55,12 @@ public class LegacyCommandCenter extends Block {
     public class LegacyCommandCenterBuild extends Building {
         public String CommandSelect = "attack";
         public Seq<Unit> targets = new Seq<>();
-        public float blockID = Mathf.randomSeed(this.id) * 120;
+        public Seq<Building> CommandCenterArea = new Seq<>();
+        public float blockID;
 
         @Override
         public void buildConfiguration(Table table) {
+            if(blockID==0f)blockID=Mathf.randomSeed(this.id) * 120;
             Table buttons = new Table();
             buttons.button(Icon.commandAttack, Styles.cleari, () -> {
                 UpdateCommand(RallyAI.UnitState.attack);
@@ -86,20 +86,33 @@ public class LegacyCommandCenter extends Block {
         public void UpdateCommand(RallyAI.UnitState State){
             commandSend.at(this);
 
+            CommandCenterArea.clear();
+            Units.nearbyBuildings(x, y, Float.MAX_VALUE, b -> {
+                if(b instanceof LegacyCommandCenterBuild){
+                    CommandCenterArea.add(b);
+                }
+            });
+
             targets.clear();
             Units.nearby(team, x, y, Float.MAX_VALUE, u -> {
-                if(u.controller() instanceof RallyAI ai){
-                    ai.state = State;
-                    ai.lastCommandCenterID = blockID;
+                if(u.controller() instanceof RallyAI){
                     targets.add(u);
                 }
             });
 
+            for (var build : CommandCenterArea){
+                if(build instanceof LegacyCommandCenterBuild b){
+                    b.CommandSelect = CommandSelect;
+                    Log.info(b);
+                    Log.info(b.CommandSelect);
+                }
+            }
+
             for (var target : targets){
                 if(target.controller() instanceof RallyAI ai){
                     ai.state = State;
-                    Log.info(String.valueOf(ai.state), target);
-                }else{return;}
+                    ai.lastCommandCenterID = blockID;
+                }
             }
         }
 
@@ -107,12 +120,14 @@ public class LegacyCommandCenter extends Block {
         public void write(Writes write){
             super.write(write);
             write.str(CommandSelect);
+            write.f(blockID);
         }
 
         @Override
         public void read(Reads read, byte revision) {
             super.read(read, revision);
             CommandSelect = read.str();
+            blockID = read.f();
         }
     }
 }

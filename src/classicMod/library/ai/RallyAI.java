@@ -2,12 +2,14 @@ package classicMod.library.ai;
 
 import arc.math.geom.Vec2;
 import arc.struct.Seq;
+import arc.util.Log;
 import arc.util.Structs;
 import classicMod.library.blocks.legacyBlocks.LegacyCommandCenter;
 import classicMod.library.blocks.legacyBlocks.LegacyCommandCenter.LegacyCommandCenterBuild;
 import mindustry.entities.Units;
 import mindustry.entities.units.AIController;
 import mindustry.gen.Building;
+import mindustry.gen.Unit;
 
 import java.util.Objects;
 
@@ -25,21 +27,7 @@ public class RallyAI extends AIController {
             return false;
         });
         LegacyCommandCenterArea.sort(Structs.comparingFloat(b -> b.dst2(unit)));
-    }
-
-    public Building SortBuilding(Seq<Building> a, float ID) {
-        Building local = null;
-        for (Building b : a) {
-            if (b instanceof LegacyCommandCenterBuild v) {
-                if (v.block instanceof LegacyCommandCenter n) {
-                    if (v.within(unit, n.MaximumRangeCommand)) {
-                        if(v.blockID == ID)local = v;
-                    }
-                }
-            }
-        }
-        if(local != null) fallbackLocation = local;
-        return local;
+        Log.info(LegacyCommandCenterArea);
     }
 
     public enum UnitState{ //Just reused DriverState code.
