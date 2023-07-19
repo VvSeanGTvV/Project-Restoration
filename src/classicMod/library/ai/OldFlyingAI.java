@@ -88,8 +88,8 @@ public class OldFlyingAI extends RallyAI {
 
             if(target == null){
                 NearbyCenter();
-                Building Build = LegacyCommandCenterArea.items[1];
-                if(Build!=null) {
+                Building Build = CenterLocate();
+                if(Build != null) {
                     moveTo(Build, 30f);
                     unit.aim(Build);
                 }else{

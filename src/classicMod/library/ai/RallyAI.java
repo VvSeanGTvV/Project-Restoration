@@ -13,6 +13,8 @@ import mindustry.gen.Unit;
 
 import java.util.Objects;
 
+import static classicMod.library.blocks.legacyBlocks.LegacyCommandCenter.MaximumRangeCommand;
+
 public class RallyAI extends AIController {
     public UnitState state = UnitState.attack; //Default Value so it doesn't crap itself.
     public Seq<Building> LegacyCommandCenterArea = new Seq<>();
@@ -27,7 +29,24 @@ public class RallyAI extends AIController {
             return false;
         });
         LegacyCommandCenterArea.sort(Structs.comparingFloat(b -> b.dst2(unit)));
-        Log.info(LegacyCommandCenterArea);
+    }
+
+    public Building CenterLocate(){
+        var close = 0f;
+        Building lB = null;
+        for(Building b : LegacyCommandCenterArea){
+            if(close==0f) close = b.dst2(unit);
+            if(b instanceof LegacyCommandCenterBuild v){
+                if(v.block instanceof LegacyCommandCenter c) {
+                    if(close > b.dst2(unit)){
+                        lB = b;
+                        Log.info(b.dst2(unit));
+                        Log.info(lB);
+                    }
+                }
+            }
+        }
+        return lB;
     }
 
     public enum UnitState{ //Just reused DriverState code.
