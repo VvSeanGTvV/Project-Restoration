@@ -80,7 +80,7 @@ public class OldFlyingAI extends RallyAI {
 
                 if(target != null && !Units.invalidateTarget(target, unit.team, unit.x, unit.y)){
                     state = UnitState.attack;
-                    return;
+                    Log.info(state);
                 }
 
                 //if(target == null) target = unit.closestEnemyCore();
