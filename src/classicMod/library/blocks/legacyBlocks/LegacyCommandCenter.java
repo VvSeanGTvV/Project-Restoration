@@ -1,38 +1,31 @@
 package classicMod.library.blocks.legacyBlocks;
 
 import arc.Core;
-import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
-import arc.scene.ui.Button;
-import arc.scene.ui.ImageButton;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
 import arc.util.Log;
-import arc.util.Time;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
-import classicMod.content.ExtendedStat;
 import classicMod.library.ai.RallyAI;
 import mindustry.entities.Units;
-import mindustry.gen.*;
-import mindustry.graphics.Drawf;
+import mindustry.gen.Building;
+import mindustry.gen.Icon;
+import mindustry.gen.Unit;
 import mindustry.ui.Styles;
 import mindustry.world.Block;
 import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatUnit;
 
-import java.io.DataOutput;
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.Objects;
 
 import static classicMod.content.ExtendedFx.commandSend;
 import static mindustry.Vars.tilesize;
 
 public class LegacyCommandCenter extends Block {
-    public static float MaximumRangeCommand = 120f;
+    public static float MaximumRangeCommand = 4096f;
     public TextureRegion topRegion = Core.atlas.find(name+"-top");
 
     protected Unit[] ArrayTarget;
@@ -49,7 +42,7 @@ public class LegacyCommandCenter extends Block {
     public void setStats(){
         super.setStats();
 
-        stats.add(Stat.range, MaximumRangeCommand / tilesize, StatUnit.blocks);
+        //stats.add(Stat.range, MaximumRangeCommand / tilesize, StatUnit.blocks);
     }
 
 
@@ -77,7 +70,7 @@ public class LegacyCommandCenter extends Block {
 
         @Override
         public void updateTile(){
-            if(!Objects.equals(CommandLink, CommandSelect))CommandLink = CommandSelect;
+            if(!Objects.equals(CommandLink, CommandSelect)){CommandLink = CommandSelect; draw();}
         }
 
         @Override
@@ -95,14 +88,14 @@ public class LegacyCommandCenter extends Block {
             commandSend.at(this);
 
             CommandCenterArea.clear();
-            Units.nearbyBuildings(x, y, 4096f, b -> {
+            Units.nearbyBuildings(x, y, MaximumRangeCommand, b -> {
                 if(b instanceof LegacyCommandCenterBuild){
                     CommandCenterArea.add(b);
                 }
             });
 
             targets.clear();
-            Units.nearby(team, x, y, Float.MAX_VALUE, u -> {
+            Units.nearby(team, x, y, MaximumRangeCommand, u -> {
                 if(u.controller() instanceof RallyAI){
                     targets.add(u);
                 }

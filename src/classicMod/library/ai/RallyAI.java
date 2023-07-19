@@ -22,7 +22,7 @@ public class RallyAI extends AIController {
     public Building building;
     public void NearbyCenter(){
         LegacyCommandCenterArea.clear();
-        Units.closestBuilding(unit.team, unit.x, unit.y, 4096f, u -> {
+        Units.closestBuilding(unit.team, unit.x, unit.y, MaximumRangeCommand, u -> {
             if(u instanceof LegacyCommandCenterBuild){
                 if(Objects.equals(((LegacyCommandCenterBuild) u).CommandSelect, state.name())) LegacyCommandCenterArea.add(u);
             }
