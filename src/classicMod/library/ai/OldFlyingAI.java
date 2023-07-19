@@ -88,7 +88,7 @@ public class OldFlyingAI extends RallyAI {
             building = CenterLocate();
             Log.info(building);
             if(building != null){
-                circleBlock(65f + Mathf.randomSeed(unit.id) * 100));
+                circleBlock(65f + Mathf.randomSeed(unit.id) * 100);
             }
 
 
