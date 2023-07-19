@@ -65,9 +65,9 @@ public class ReplacementGroundAI extends RallyAI {
                 NearbyCenter();
                 building = Units.closestBuilding(unit.team, unit.x, unit.y, MaximumRangeCommand, b -> (b instanceof LegacyCommandCenter.LegacyCommandCenterBuild) && b.isValid() && !(b.isNull()));
                 if (building != null) {
-                    target = building;
+                    pathfind(building.id);
+                    moveTo(building, unit.type.range * 0.8f);
                     unit.lookAt(building);
-                    pathfind(Pathfinder.fieldCore);
                 }
             } else {
                 moveTo(target, unit.type.range * 0.8f);
