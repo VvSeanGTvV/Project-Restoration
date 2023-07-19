@@ -1259,7 +1259,7 @@ public class ClassicBlocks {
 
         //Campaign
         droneCenter = new DroneCenterNew("drone-center"){{
-            requirements(Category.units, with(Items.scrap, 25, Items.tungsten, 150, Items.phaseFabric, 100)); //TODO sprite lol
+            requirements(Category.units, with(Items.tungsten, 150, Items.phaseFabric, 100)); //TODO sprite lol
 
             size = 3;
             consumePower(3f);
