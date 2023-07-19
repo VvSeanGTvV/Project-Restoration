@@ -11,6 +11,7 @@ import classicMod.library.ai.ReplacementGroundAI;
 import classicMod.library.ui.*;
 import classicMod.library.ui.menu.*;
 import mindustry.Vars;
+import mindustry.ai.types.CommandAI;
 import mindustry.ai.types.FlyingAI;
 import mindustry.ai.types.GroundAI;
 import mindustry.game.EventType.*;
@@ -78,15 +79,6 @@ public class ClassicMod extends Mod{
                 }, () -> {
                     Log.err("Disabled, not to have conflicts here!");
                 });
-            }
-
-            for(UnitType a : content.units()){
-                if(a.controller instanceof FlyingAI){
-                    a.controller = u -> new ReplacementFlyingAI();
-                }
-                if(a.controller instanceof GroundAI){
-                    a.controller = u -> new ReplacementGroundAI();
-                }
             }
 
 
@@ -185,6 +177,13 @@ public class ClassicMod extends Mod{
         new ExtendedSerpuloTechTree().load();
         new ExtendedErekirTechTree().load();
         if(Classic){new ClassicTechtree().load();}
+
+        for(UnitType a : content.units()){
+            if(a.controller instanceof CommandAI){
+                if(a.flying)a.controller = u -> new ReplacementFlyingAI();
+                if(!a.flying)a.controller = u -> new ReplacementGroundAI();
+            }
+        }
     }
 
     static class Separator extends Setting { //This is from prog-mats-java!
