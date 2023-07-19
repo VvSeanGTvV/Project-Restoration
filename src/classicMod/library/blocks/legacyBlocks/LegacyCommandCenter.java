@@ -13,9 +13,12 @@ import arc.util.io.Writes;
 import classicMod.library.ai.RallyAI;
 import classicMod.library.ai.ReplacementFlyingAI;
 import classicMod.library.ai.ReplacementGroundAI;
+import mindustry.ai.UnitCommand;
+import mindustry.ai.types.CommandAI;
 import mindustry.ai.types.FlyingAI;
 import mindustry.ai.types.GroundAI;
 import mindustry.entities.Units;
+import mindustry.entities.units.AIController;
 import mindustry.gen.Building;
 import mindustry.gen.Icon;
 import mindustry.gen.Unit;
@@ -75,11 +78,11 @@ public class LegacyCommandCenter extends Block {
             super.draw();
             TextureRegion c = Core.atlas.find(name+"-"+CommandOrigin);
 
-            Draw.color(team.color);
-            //Draw.rect(topRegion, x, y);
-            if(c != null)Draw.rect(c, x, y);
+            Draw.alpha(0.1f);
             Draw.color(Color.valueOf("5e5e5e"));
             if(c != null)Draw.rect(c, x, y - 1);
+            Draw.color(team.color);
+            if(c != null)Draw.rect(c, x, y);
             Draw.reset();
         }
         public void UpdateCommand(RallyAI.UnitState State){
@@ -111,15 +114,21 @@ public class LegacyCommandCenter extends Block {
                     ai.state = State;
                     ai.lastCommandCenterID = blockID;
                 }else{
-                    rewriteUnit(target);
+                    if(Objects.equals(CommandOrigin, "rally")) {
+                        target.command().command(UnitCommand.moveCommand);
+                        if (target.controller() instanceof AIController ai) {
+                            var building = Units.closestBuilding(target.team, target.x, target.y, MaximumRangeCommand, b -> (b instanceof LegacyCommandCenter.LegacyCommandCenterBuild) && b.isValid() && !(b.isNull()));
+                            ai.circle(building, 65f + Mathf.randomSeed(target.id) * 100);
+                            ai.commandTarget(building);
+                        }
+                    }
+                    if(Objects.equals(CommandOrigin, "attack")){
+                        if (target.controller() instanceof CommandAI ai) {
+                            ai.command = target.type.defaultCommand == null ? target.type.commands[0] : target.type.defaultCommand;
+                        }
+                    }
                 }
             }
-        }
-
-        public void rewriteUnit(Unit u){
-            if(!(u.controller() instanceof GroundAI) || !(u.controller() instanceof FlyingAI)) return;
-            if(u.isFlying())u.controller(new ReplacementFlyingAI());
-            if(!u.isFlying())u.controller(new ReplacementGroundAI());
         }
 
         @Override
