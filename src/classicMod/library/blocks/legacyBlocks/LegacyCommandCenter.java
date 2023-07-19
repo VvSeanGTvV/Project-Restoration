@@ -78,9 +78,10 @@ public class LegacyCommandCenter extends Block {
             super.draw();
             TextureRegion c = Core.atlas.find(name+"-"+CommandOrigin);
 
-            Draw.alpha(0.1f);
+            Draw.alpha(0.5f);
             Draw.color(Color.valueOf("5e5e5e"));
-            if(c != null)Draw.rect(c, x, y - 1);
+            if(c != null)Draw.rect(c, x, y - 0.5f);
+            Draw.alpha(0f);
             Draw.color(team.color);
             if(c != null)Draw.rect(c, x, y);
             Draw.reset();
