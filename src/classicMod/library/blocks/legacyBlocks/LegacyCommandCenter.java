@@ -26,6 +26,7 @@ import mindustry.world.meta.StatUnit;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.util.Objects;
 
 import static classicMod.content.ExtendedFx.commandSend;
 import static mindustry.Vars.tilesize;
@@ -54,6 +55,7 @@ public class LegacyCommandCenter extends Block {
 
     public class LegacyCommandCenterBuild extends Building {
         public String CommandSelect = "attack";
+        public String CommandLink;
         public Seq<Unit> targets = new Seq<>();
         public Seq<Building> CommandCenterArea = new Seq<>();
         public float blockID;
@@ -74,20 +76,26 @@ public class LegacyCommandCenter extends Block {
         }
 
         @Override
+        public void updateTile(){
+            if(!Objects.equals(CommandLink, CommandSelect))CommandLink = CommandSelect;
+        }
+
+        @Override
         public void draw() {
             super.draw();
-            TextureRegion c = Core.atlas.find(name+"-"+CommandSelect);
+            TextureRegion c = null;
+            if(Objects.equals(CommandLink, "attack") || Objects.equals(CommandLink, "rally"))c = Core.atlas.find(name+"-"+CommandLink);
 
             Draw.color(team.color);
             //Draw.rect(topRegion, x, y);
-            Draw.rect(c, x, y);
+            if(c != null)Draw.rect(c, x, y);
             Draw.reset();
         }
         public void UpdateCommand(RallyAI.UnitState State){
             commandSend.at(this);
 
             CommandCenterArea.clear();
-            Units.nearbyBuildings(x, y, Float.MAX_VALUE, b -> {
+            Units.nearbyBuildings(x, y, 4096f, b -> {
                 if(b instanceof LegacyCommandCenterBuild){
                     CommandCenterArea.add(b);
                 }

@@ -22,7 +22,7 @@ public class RallyAI extends AIController {
     public Building building;
     public void NearbyCenter(){
         LegacyCommandCenterArea.clear();
-        Units.closestBuilding(unit.team, unit.x, unit.y, Float.MAX_VALUE, u -> {
+        Units.closestBuilding(unit.team, unit.x, unit.y, 4096f, u -> {
             if(u instanceof LegacyCommandCenterBuild){
                 if(Objects.equals(((LegacyCommandCenterBuild) u).CommandSelect, state.name())) LegacyCommandCenterArea.add(u);
             }
@@ -39,6 +39,7 @@ public class RallyAI extends AIController {
             if(b instanceof LegacyCommandCenterBuild v){
                 if(v.block instanceof LegacyCommandCenter c) {
                     if(close > b.dst2(unit)){
+                        close = b.dst2(unit);
                         lB = b;
                     }
                 }
