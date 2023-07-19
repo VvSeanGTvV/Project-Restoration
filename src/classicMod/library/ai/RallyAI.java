@@ -14,10 +14,10 @@ import java.util.Objects;
 public class RallyAI extends AIController {
     public UnitState state = UnitState.attack; //Default Value so it doesn't crap itself.
     public Seq<Building> LegacyCommandCenterArea = new Seq<>();
-    public Building lastBuild;
+    public float lastCommandCenterID;
     public void NearbyCenter(){
         LegacyCommandCenterArea.clear();
-        Units.closestBuilding(unit.team, unit.x, unit.y, unit.range() - 10f, u -> {
+        Units.closestBuilding(unit.team, unit.x, unit.y, Float.MAX_VALUE, u -> {
             if(u instanceof LegacyCommandCenterBuild){
                 if(Objects.equals(((LegacyCommandCenterBuild) u).CommandSelect, state.name())) LegacyCommandCenterArea.add(u);
             }
@@ -26,22 +26,17 @@ public class RallyAI extends AIController {
         LegacyCommandCenterArea.sort(Structs.comparingFloat(b -> b.dst2(unit)));
     }
 
-    public Building SaveLastBuildPosition(Building b){
-        return lastBuild = b;
-    }
-
-    public Building SortBuilding(Seq<Building> a, UnitState q) {
+    public Building SortBuilding(Seq<Building> a, float ID) {
         Building local = null;
         for (Building b : a) {
             if (b instanceof LegacyCommandCenterBuild v) {
                 if (v.block instanceof LegacyCommandCenter n) {
                     if (v.within(unit, n.MaximumRangeCommand)) {
-                        if(Objects.equals(v.CommandSelect, q.name()))local = v;
+                        if(v.blockID == ID)local = v;
                     }
                 }
             }
         }
-        if(local != null)SaveLastBuildPosition(local);
         return local;
     }
 

@@ -57,6 +57,7 @@ public class LegacyCommandCenter extends Block {
     public class LegacyCommandCenterBuild extends Building {
         public String CommandSelect = "attack";
         public Seq<Unit> targets = new Seq<>();
+        public float blockID = Mathf.randomSeed(this.id) * 120;
 
         @Override
         public void buildConfiguration(Table table) {
@@ -73,12 +74,6 @@ public class LegacyCommandCenter extends Block {
         }
 
         @Override
-        public void drawConfigure(){
-            Drawf.circles(x, y, MaximumRangeCommand);
-            Drawf.square(x, y, tile.block().size * tilesize / 2f + 1f + Mathf.absin(Time.time, 4f, 1f));
-        }
-
-        @Override
         public void draw() {
             super.draw();
             TextureRegion c = Core.atlas.find(name+"-"+CommandSelect);
@@ -92,9 +87,10 @@ public class LegacyCommandCenter extends Block {
             commandSend.at(this);
 
             targets.clear();
-            Units.nearby(team, x, y, MaximumRangeCommand, u -> {
+            Units.nearby(team, x, y, Float.MAX_VALUE, u -> {
                 if(u.controller() instanceof RallyAI ai){
                     ai.state = State;
+                    ai.lastCommandCenterID = blockID;
                     targets.add(u);
                 }
             });
