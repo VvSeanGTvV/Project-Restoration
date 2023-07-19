@@ -150,7 +150,7 @@ public class OldFlyingAI extends RallyAI {
             vec.rotate((circleLength - vec.len()) / circleLength * 180f);
         }
 
-        vec.setLength(speed * Time.delta);
+        vec.setLength(speed);
 
         unit.moveAt(vec);
     }
@@ -168,7 +168,7 @@ public class OldFlyingAI extends RallyAI {
             vec.rotate((circleLength - vec.len()) / circleLength * 180f);
         }
 
-        vec.setLength(speed * Time.delta);
+        vec.setLength(speed);
 
         unit.moveAt(vec);
     }
