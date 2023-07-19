@@ -39,7 +39,6 @@ public class RallyAI extends AIController {
             }
         }
         if(local != null) fallbackLocation = local;
-        if(local == null && fallbackLocation != null) return fallbackLocation;
         return local;
     }
 
