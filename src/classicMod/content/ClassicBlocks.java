@@ -1294,8 +1294,9 @@ public class ClassicBlocks {
         }};
 
         commandCenter = new LegacyCommandCenter("command-center"){{
-            requirements(Category.units, with(Items.titanium, 200, Items.silicon, 150, Items.lead, 250, Items.plastanium, 75));
+            requirements(Category.units, with(Items.copper, 200, Items.lead, 250, Items.silicon, 250, Items.graphite, 100));
             size = 2;
+            health = size * size * 55;
         }};
 
         /*payloadLaunchpad = new PayloadLaunchPad("payload-launch-pad"){{ //TODO keep it? or scrap it?

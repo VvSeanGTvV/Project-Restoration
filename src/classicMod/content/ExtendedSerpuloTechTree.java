@@ -27,6 +27,7 @@ public class ExtendedSerpuloTechTree {
                 });
 
                 node(daggerFactory, () -> {
+                    node(commandCenter, () -> {});
                     node(crawlerFactory, () -> {
                         node(titanFactory, () -> {
                             node(fortressFactory, () -> {

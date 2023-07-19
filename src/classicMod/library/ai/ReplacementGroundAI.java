@@ -67,6 +67,7 @@ public class ReplacementGroundAI extends RallyAI {
                 if (building != null) {
                     target = building;
                     unit.lookAt(building);
+                    pathfind(Pathfinder.fieldCore);
                 }
             } else {
                 moveTo(target, unit.type.range * 0.8f);
