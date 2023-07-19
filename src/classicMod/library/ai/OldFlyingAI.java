@@ -85,7 +85,7 @@ public class OldFlyingAI extends RallyAI {
                 //if(target == null) target = unit.closestEnemyCore();
             }
             NearbyCenter();
-            building = CenterLocate();
+            building = Units.closestBuilding(unit.team, unit.x, unit.y, Float.MAX_VALUE, b -> (b instanceof LegacyCommandCenter.LegacyCommandCenterBuild) && b.isValid() && !(b.isNull()));
             Log.info(building);
             if(building != null){
                 circleBlock(65f + Mathf.randomSeed(unit.id) * 100);

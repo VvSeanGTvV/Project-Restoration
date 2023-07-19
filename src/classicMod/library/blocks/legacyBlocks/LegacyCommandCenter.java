@@ -105,7 +105,7 @@ public class LegacyCommandCenter extends Block {
                 if(build instanceof LegacyCommandCenterBuild b){
                     b.CommandSelect = CommandSelect;
                     Log.info(b);
-                    Log.info(b.CommandSelect);
+                    Log.info(b.CommandLink);
                 }
             }
 
