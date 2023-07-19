@@ -19,7 +19,7 @@ public class RallyAI extends AIController {
     public UnitState state = UnitState.attack; //Default Value so it doesn't crap itself.
     public Seq<Building> LegacyCommandCenterArea = new Seq<>();
     public float lastCommandCenterID;
-    public Building fallbackLocation;
+    public Building building;
     public void NearbyCenter(){
         LegacyCommandCenterArea.clear();
         Units.closestBuilding(unit.team, unit.x, unit.y, Float.MAX_VALUE, u -> {
@@ -40,8 +40,6 @@ public class RallyAI extends AIController {
                 if(v.block instanceof LegacyCommandCenter c) {
                     if(close > b.dst2(unit)){
                         lB = b;
-                        Log.info(b.dst2(unit));
-                        Log.info(lB);
                     }
                 }
             }

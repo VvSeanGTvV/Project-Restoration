@@ -80,22 +80,17 @@ public class OldFlyingAI extends RallyAI {
 
                 if(target != null && !Units.invalidateTarget(target, unit.team, unit.x, unit.y)){
                     state = UnitState.attack;
-                    Log.info(state);
                 }
 
                 //if(target == null) target = unit.closestEnemyCore();
             }
-
-            if(target == null){
-                NearbyCenter();
-                Building Build = CenterLocate();
-                if(Build != null) {
-                    moveTo(Build, 30f);
-                    unit.aim(Build);
-                }else{
-                    state = UnitState.attack;
-                }
+            NearbyCenter();
+            building = CenterLocate();
+            Log.info(building);
+            if(building != null){
+                circleBlock(65f + Mathf.randomSeed(unit.id) * 100));
             }
+
 
             /*if(target != null){
                 circle(65f + Mathf.randomSeed(unit.id) * 100);
@@ -142,6 +137,24 @@ public class OldFlyingAI extends RallyAI {
         if(target == null) return;
 
         vec.set(target).sub(unit);
+
+        if(vec.len() < circleLength){
+            vec.rotate((circleLength - vec.len()) / circleLength * 180f);
+        }
+
+        vec.setLength(speed * Time.delta);
+
+        unit.moveAt(vec);
+    }
+
+    protected void circleBlock(float circleLength){
+        circleBlock(circleLength, unit.type().speed);
+    }
+
+    protected void circleBlock(float circleLength, float speed){
+        if(building == null) return;
+
+        vec.set(building).sub(unit);
 
         if(vec.len() < circleLength){
             vec.rotate((circleLength - vec.len()) / circleLength * 180f);
