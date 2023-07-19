@@ -5,12 +5,19 @@ import arc.files.Fi;
 import arc.func.*;
 import arc.util.*;
 import classicMod.content.*;
+import classicMod.library.ai.EffectDroneAI;
+import classicMod.library.ai.ReplacementFlyingAI;
+import classicMod.library.ai.ReplacementGroundAI;
 import classicMod.library.ui.*;
 import classicMod.library.ui.menu.*;
+import mindustry.Vars;
+import mindustry.ai.types.FlyingAI;
+import mindustry.ai.types.GroundAI;
 import mindustry.game.EventType.*;
 import mindustry.gen.*;
 import mindustry.mod.*;
 import mindustry.mod.Mods.*;
+import mindustry.type.UnitType;
 import mindustry.ui.dialogs.SettingsMenuDialog.*;
 import mindustry.ui.dialogs.SettingsMenuDialog.SettingsTable.*;
 import mindustry.ui.fragments.*;
@@ -71,6 +78,15 @@ public class ClassicMod extends Mod{
                 }, () -> {
                     Log.err("Disabled, not to have conflicts here!");
                 });
+            }
+
+            for(UnitType a : content.units()){
+                if(a.controller instanceof FlyingAI){
+                    a.controller = u -> new ReplacementFlyingAI();
+                }
+                if(a.controller instanceof GroundAI){
+                    a.controller = u -> new ReplacementGroundAI();
+                }
             }
 
 
