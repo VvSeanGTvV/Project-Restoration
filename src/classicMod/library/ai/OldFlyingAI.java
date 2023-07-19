@@ -18,6 +18,7 @@ import mindustry.world.meta.BlockFlag;
 
 import static arc.math.Mathf.dst;
 import static classicMod.content.ClassicVars.MaximumRangeCommand;
+import static classicMod.content.ClassicVars.PublicState;
 import static mindustry.Vars.indexer;
 import static mindustry.Vars.net;
 
@@ -109,6 +110,7 @@ public class OldFlyingAI extends RallyAI {
                 circle(65f + Mathf.randomSeed(unit.id) * 100);
             }*/
         }
+        if(target == null && state != PublicState) state = PublicState;
     }
 
     public Weapon getWeapon() { //hehe updated getweapon() to modernize list

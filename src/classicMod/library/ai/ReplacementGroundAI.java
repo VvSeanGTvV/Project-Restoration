@@ -10,13 +10,14 @@ import mindustry.gen.*;
 import mindustry.world.*;
 
 import static classicMod.content.ClassicVars.MaximumRangeCommand;
+import static classicMod.content.ClassicVars.PublicState;
 import static mindustry.Vars.*;
 
 public class ReplacementGroundAI extends RallyAI {
 
     @Override
     public void updateMovement(){
-        if(state == UnitState.attack) {
+        if(PublicState == UnitState.attack) {
             Building core = unit.closestEnemyCore();
 
             if (core != null && unit.within(core, unit.range() / 1.3f + core.block.size * tilesize / 2f)) {
@@ -51,7 +52,7 @@ public class ReplacementGroundAI extends RallyAI {
 
             faceTarget();
         }
-        if(state == UnitState.rally){
+        if(PublicState == UnitState.rally){
             if(retarget()){
                 NearbyCenter();
 
@@ -75,5 +76,6 @@ public class ReplacementGroundAI extends RallyAI {
                 unit.lookAt(target);
             }
         }
+        if(target == null && state != PublicState) state = PublicState;
     }
 }

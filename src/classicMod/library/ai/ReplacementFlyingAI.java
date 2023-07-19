@@ -10,6 +10,7 @@ import mindustry.gen.*;
 import mindustry.world.meta.*;
 
 import static classicMod.content.ClassicVars.MaximumRangeCommand;
+import static classicMod.content.ClassicVars.PublicState;
 
 public class ReplacementFlyingAI extends RallyAI{
     @Override
@@ -51,6 +52,7 @@ public class ReplacementFlyingAI extends RallyAI{
                 unit.lookAt(target);;
             }
         }
+        if(target == null && state != PublicState) state = PublicState;
     }
 
     @Override

@@ -27,8 +27,7 @@ import mindustry.world.Block;
 
 import java.util.Objects;
 
-import static classicMod.content.ClassicVars.CommandOrigin;
-import static classicMod.content.ClassicVars.MaximumRangeCommand;
+import static classicMod.content.ClassicVars.*;
 import static classicMod.content.ExtendedFx.commandSend;
 
 public class LegacyCommandCenter extends Block {
@@ -80,7 +79,7 @@ public class LegacyCommandCenter extends Block {
 
             Draw.alpha(255/2f);
             Draw.color(Color.valueOf("5e5e5e"));
-            if(c != null)Draw.rect(c, x, y - 0.5f);
+            if(c != null)Draw.rect(c, x, y - 0.4f);
             Draw.alpha(0f);
             Draw.color(team.color);
             if(c != null)Draw.rect(c, x, y);
@@ -88,6 +87,7 @@ public class LegacyCommandCenter extends Block {
         }
         public void UpdateCommand(RallyAI.UnitState State){
             commandSend.at(this);
+            PublicState = State;
 
             CommandCenterArea.clear();
             Units.nearbyBuildings(x, y, MaximumRangeCommand, b -> {
@@ -137,6 +137,7 @@ public class LegacyCommandCenter extends Block {
             super.write(write);
             write.str(CommandOrigin);
             write.f(blockID);
+            write.b((byte)PublicState.ordinal());
         }
 
         @Override
@@ -144,6 +145,7 @@ public class LegacyCommandCenter extends Block {
             super.read(read, revision);
             CommandOrigin = read.str();
             blockID = read.f();
+            PublicState = RallyAI.UnitState.all[read.b()];
         }
     }
 }
