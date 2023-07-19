@@ -95,6 +95,8 @@ public class OldFlyingAI extends RallyAI {
                 if (building != null) {
                     circleBlock(65f + Mathf.randomSeed(unit.id) * 100);
                 }
+            } else {
+                state = UnitState.attack;
             }
 
 

@@ -16,6 +16,7 @@ public class RallyAI extends AIController {
     public UnitState state = UnitState.attack; //Default Value so it doesn't crap itself.
     public Seq<Building> LegacyCommandCenterArea = new Seq<>();
     public float lastCommandCenterID;
+    private int lastNum;
     public Building building;
     public void NearbyCenter(){
         LegacyCommandCenterArea.clear();
@@ -25,7 +26,10 @@ public class RallyAI extends AIController {
             }
             return false;
         });
-        LegacyCommandCenterArea.sort(Structs.comparingFloat(b -> b.dst2(unit)));
+        if(LegacyCommandCenterArea.size != lastNum){
+            LegacyCommandCenterArea.sort(Structs.comparingFloat(b -> b.dst2(unit)));
+            lastNum = LegacyCommandCenterArea.size;
+        }
     }
 
     public Building CenterLocate(){
