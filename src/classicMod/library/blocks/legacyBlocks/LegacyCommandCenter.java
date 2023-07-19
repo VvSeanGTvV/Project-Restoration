@@ -1,6 +1,7 @@
 package classicMod.library.blocks.legacyBlocks;
 
 import arc.Core;
+import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
@@ -10,6 +11,10 @@ import arc.util.Log;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import classicMod.library.ai.RallyAI;
+import classicMod.library.ai.ReplacementFlyingAI;
+import classicMod.library.ai.ReplacementGroundAI;
+import mindustry.ai.types.FlyingAI;
+import mindustry.ai.types.GroundAI;
 import mindustry.entities.Units;
 import mindustry.gen.Building;
 import mindustry.gen.Icon;
@@ -46,7 +51,6 @@ public class LegacyCommandCenter extends Block {
 
     public class LegacyCommandCenterBuild extends Building {
         public String CommandSelect = "attack";
-        public String CommandLink;
         public Seq<Unit> targets = new Seq<>();
         public Seq<Building> CommandCenterArea = new Seq<>();
         public float blockID;
@@ -74,6 +78,8 @@ public class LegacyCommandCenter extends Block {
             Draw.color(team.color);
             //Draw.rect(topRegion, x, y);
             if(c != null)Draw.rect(c, x, y);
+            Draw.color(Color.valueOf("5e5e5e"));
+            if(c != null)Draw.rect(c, x, y - 1);
             Draw.reset();
         }
         public void UpdateCommand(RallyAI.UnitState State){
@@ -104,8 +110,16 @@ public class LegacyCommandCenter extends Block {
                 if(target.controller() instanceof RallyAI ai){
                     ai.state = State;
                     ai.lastCommandCenterID = blockID;
+                }else{
+                    rewriteUnit(target);
                 }
             }
+        }
+
+        public void rewriteUnit(Unit u){
+            if(!(u.controller() instanceof GroundAI) || !(u.controller() instanceof FlyingAI)) return;
+            if(u.isFlying())u.controller(new ReplacementFlyingAI());
+            if(!u.isFlying())u.controller(new ReplacementGroundAI());
         }
 
         @Override
