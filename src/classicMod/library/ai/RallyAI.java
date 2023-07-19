@@ -1,19 +1,16 @@
 package classicMod.library.ai;
 
-import arc.math.geom.Vec2;
 import arc.struct.Seq;
-import arc.util.Log;
 import arc.util.Structs;
 import classicMod.library.blocks.legacyBlocks.LegacyCommandCenter;
 import classicMod.library.blocks.legacyBlocks.LegacyCommandCenter.LegacyCommandCenterBuild;
 import mindustry.entities.Units;
 import mindustry.entities.units.AIController;
 import mindustry.gen.Building;
-import mindustry.gen.Unit;
 
 import java.util.Objects;
 
-import static classicMod.library.blocks.legacyBlocks.LegacyCommandCenter.MaximumRangeCommand;
+import static classicMod.content.ClassicVars.MaximumRangeCommand;
 
 public class RallyAI extends AIController {
     public UnitState state = UnitState.attack; //Default Value so it doesn't crap itself.

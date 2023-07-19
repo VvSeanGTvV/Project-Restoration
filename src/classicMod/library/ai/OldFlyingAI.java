@@ -1,20 +1,25 @@
 package classicMod.library.ai;
 
-import arc.math.*;
-import arc.math.geom.*;
-import arc.util.*;
+import arc.math.Angles;
+import arc.math.Mathf;
+import arc.math.geom.Geometry;
+import arc.math.geom.Vec2;
+import arc.util.Time;
+import arc.util.Tmp;
 import classicMod.library.blocks.legacyBlocks.LegacyCommandCenter;
-import mindustry.*;
-import mindustry.entities.*;
-import mindustry.entities.bullet.*;
-import mindustry.entities.units.*;
-import mindustry.gen.*;
-import mindustry.type.*;
-import mindustry.world.meta.*;
+import mindustry.Vars;
+import mindustry.entities.Predict;
+import mindustry.entities.Units;
+import mindustry.entities.bullet.BulletType;
+import mindustry.entities.units.WeaponMount;
+import mindustry.gen.Teamc;
+import mindustry.type.Weapon;
+import mindustry.world.meta.BlockFlag;
 
-import static arc.math.Mathf.*;
-import static arc.scene.actions.Actions.*;
-import static mindustry.Vars.*;
+import static arc.math.Mathf.dst;
+import static classicMod.content.ClassicVars.MaximumRangeCommand;
+import static mindustry.Vars.indexer;
+import static mindustry.Vars.net;
 
 public class OldFlyingAI extends RallyAI {
     protected float[] weaponAngles = {0,0}; //it's old lolz
@@ -84,11 +89,12 @@ public class OldFlyingAI extends RallyAI {
 
                 //if(target == null) target = unit.closestEnemyCore();
             }
-            NearbyCenter();
-            building = Units.closestBuilding(unit.team, unit.x, unit.y, Float.MAX_VALUE, b -> (b instanceof LegacyCommandCenter.LegacyCommandCenterBuild) && b.isValid() && !(b.isNull()));
-            Log.info(building);
-            if(building != null){
-                circleBlock(65f + Mathf.randomSeed(unit.id) * 100);
+            if(target == null) {
+                NearbyCenter();
+                building = Units.closestBuilding(unit.team, unit.x, unit.y, MaximumRangeCommand, b -> (b instanceof LegacyCommandCenter.LegacyCommandCenterBuild) && b.isValid() && !(b.isNull()));
+                if (building != null) {
+                    circleBlock(65f + Mathf.randomSeed(unit.id) * 100);
+                }
             }
 
 

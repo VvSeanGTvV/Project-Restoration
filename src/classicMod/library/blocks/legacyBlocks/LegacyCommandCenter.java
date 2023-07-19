@@ -16,16 +16,14 @@ import mindustry.gen.Icon;
 import mindustry.gen.Unit;
 import mindustry.ui.Styles;
 import mindustry.world.Block;
-import mindustry.world.meta.Stat;
-import mindustry.world.meta.StatUnit;
 
 import java.util.Objects;
 
+import static classicMod.content.ClassicVars.CommandOrigin;
+import static classicMod.content.ClassicVars.MaximumRangeCommand;
 import static classicMod.content.ExtendedFx.commandSend;
-import static mindustry.Vars.tilesize;
 
 public class LegacyCommandCenter extends Block {
-    public static float MaximumRangeCommand = 4096f;
     public TextureRegion topRegion = Core.atlas.find(name+"-top");
 
     protected Unit[] ArrayTarget;
@@ -59,25 +57,19 @@ public class LegacyCommandCenter extends Block {
             Table buttons = new Table();
             buttons.button(Icon.commandAttack, Styles.cleari, () -> {
                 UpdateCommand(RallyAI.UnitState.attack);
-                CommandSelect = "attack";
+                CommandOrigin = "attack";
             });
             buttons.button(Icon.commandRally, Styles.cleari, () -> {
                 UpdateCommand(RallyAI.UnitState.rally);
-                CommandSelect = "rally";
+                CommandOrigin = "rally";
             });
             table.add(buttons);
         }
 
         @Override
-        public void updateTile(){
-            if(!Objects.equals(CommandLink, CommandSelect)){CommandLink = CommandSelect; draw();}
-        }
-
-        @Override
         public void draw() {
             super.draw();
-            TextureRegion c = null;
-            if(Objects.equals(CommandLink, "attack") || Objects.equals(CommandLink, "rally"))c = Core.atlas.find(name+"-"+CommandLink);
+            TextureRegion c = Core.atlas.find(name+"-"+CommandOrigin);
 
             Draw.color(team.color);
             //Draw.rect(topRegion, x, y);
@@ -103,9 +95,8 @@ public class LegacyCommandCenter extends Block {
 
             for (var build : CommandCenterArea){
                 if(build instanceof LegacyCommandCenterBuild b){
-                    b.CommandSelect = CommandSelect;
                     Log.info(b);
-                    Log.info(b.CommandLink);
+                    Log.info(CommandOrigin);
                 }
             }
 
@@ -120,14 +111,14 @@ public class LegacyCommandCenter extends Block {
         @Override
         public void write(Writes write){
             super.write(write);
-            write.str(CommandSelect);
+            write.str(CommandOrigin);
             write.f(blockID);
         }
 
         @Override
         public void read(Reads read, byte revision) {
             super.read(read, revision);
-            CommandSelect = read.str();
+            CommandOrigin = read.str();
             blockID = read.f();
         }
     }
