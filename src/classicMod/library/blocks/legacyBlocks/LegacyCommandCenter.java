@@ -115,11 +115,11 @@ public class LegacyCommandCenter extends Block {
                     ai.lastCommandCenterID = blockID;
                 }else{
                     if(Objects.equals(CommandOrigin, "rally")) {
-                        target.command().command(UnitCommand.moveCommand);
-                        if (target.controller() instanceof AIController ai) {
+                        if (target.controller() instanceof CommandAI ai) {
                             var building = Units.closestBuilding(target.team, target.x, target.y, MaximumRangeCommand, b -> (b instanceof LegacyCommandCenter.LegacyCommandCenterBuild) && b.isValid() && !(b.isNull()));
                             ai.circle(building, 65f + Mathf.randomSeed(target.id) * 100);
                             ai.commandTarget(building);
+                            ai.command(UnitCommand.moveCommand);
                         }
                     }
                     if(Objects.equals(CommandOrigin, "attack")){
