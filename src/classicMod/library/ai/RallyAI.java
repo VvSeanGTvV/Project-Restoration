@@ -13,11 +13,18 @@ import java.util.Objects;
 import static classicMod.content.ClassicVars.MaximumRangeCommand;
 
 public class RallyAI extends AIController {
-    public UnitState state = UnitState.attack; //Default Value so it doesn't crap itself.
+    public UnitState state; //Default Value so it doesn't crap itself.
     public Seq<Building> LegacyCommandCenterArea = new Seq<>();
     public float lastCommandCenterID;
     private int lastNum;
     public Building building;
+
+    @Override
+    public void init() {
+        super.init();
+        if(state == null) state = UnitState.attack;
+    }
+
     public void NearbyCenter(){
         LegacyCommandCenterArea.clear();
         Units.closestBuilding(unit.team, unit.x, unit.y, MaximumRangeCommand, u -> {

@@ -823,7 +823,7 @@ public class ClassicUnitTypes {
             health = 130f;
             canBoost = false;
             constructor = MechUnit::create;
-            controller = u -> new GroundAI();
+            controller = u -> new ReplacementGroundAI();
 
             weapons.add(new Weapon("restored-mind-chain-blaster-equip") {{
                 shootSound = pew;
@@ -863,7 +863,7 @@ public class ClassicUnitTypes {
             canBoost = false;
             immunities = ObjectSet.with(StatusEffects.burning);
             constructor = MechUnit::create;
-            controller = u -> new GroundAI();
+            controller = u -> new ReplacementGroundAI();
 
             weapons.add(new Weapon("restored-mind-flamethrower-equip") {{
                 shootSound = Sounds.flame;
@@ -909,7 +909,7 @@ public class ClassicUnitTypes {
             canBoost = false;
             immunities = ObjectSet.with(StatusEffects.burning, StatusEffects.melting);
             constructor = MechUnit::create;
-            controller = u -> new GroundAI();
+            controller = u -> new ReplacementGroundAI();
 
             weapons.add(new Weapon("restored-mind-artillery-equip") {{
                 shootSound = Sounds.artillery;
@@ -955,7 +955,7 @@ public class ClassicUnitTypes {
             canBoost = false;
             immunities = ObjectSet.with(StatusEffects.burning, StatusEffects.melting);
             constructor = MechUnit::create;
-            controller = u -> new GroundAI();
+            controller = u -> new ReplacementGroundAI();
 
             weapons.add(new Weapon("restored-mind-eruption-equip") {{
                 shootSound = Sounds.flame;
@@ -992,7 +992,7 @@ public class ClassicUnitTypes {
             rotateSpeed = 0.06f * 30;
             canBoost = false;
             constructor = MechUnit::create;
-            controller = u -> new GroundAI();
+            controller = u -> new ReplacementGroundAI();
 
             weapons.add(new Weapon("restored-mind-chaos-equip") {{
                 shootSound = Sounds.shootBig;
@@ -1034,7 +1034,7 @@ public class ClassicUnitTypes {
             rotateSpeed = 0.06f * 30;
             canBoost = false;
             constructor = MechUnit::create;
-            controller = u -> new GroundAI();
+            controller = u -> new ReplacementGroundAI();
 
             weapons.add(new Weapon("restored-mind-eradication-equip") {{
                 shootSound = Sounds.shootBig;

@@ -77,6 +77,11 @@ public class OldFlyingAI extends RallyAI {
                 target = unit.closestEnemyCore();
                 moveTo(Vars.state.rules.dropZoneRadius + 120f);
             }
+
+            if(target == null){
+                target = unit.closestEnemyCore();
+                moveTo(Vars.state.rules.dropZoneRadius + 120f);
+            }
         }
         if(state == UnitState.rally){
             if(retarget()){
