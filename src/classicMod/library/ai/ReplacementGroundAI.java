@@ -59,7 +59,7 @@ public class ReplacementGroundAI extends RallyAI {
                 if (building != null) {
                     if(!unit.within(building, unit.type.range * 0.5f)){
                         pathfind(Pathfinder.fieldCore);
-                        Log.info(Pathfinder.fieldCore);
+                        Log.info(Pathfinder.fieldCore); //ye
                         target = building;
                     }
                     //circle(building, unit.type.range * 0.8f);
