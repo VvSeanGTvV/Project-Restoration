@@ -54,18 +54,28 @@ public class ReplacementGroundAI extends RallyAI {
             faceTarget();
         }
         if(PublicState == UnitState.rally){
+            if(retarget()){
+                NearbyCenter();
+
+                if(target != null && !Units.invalidateTarget(target, unit.team, unit.x, unit.y)){
+                    state = UnitState.attack;
+                }
+
+                //if(target == null) target = unit.closestEnemyCore();
+            }
+            if(target == null) {
                 NearbyCenter();
                 building = Units.closestBuilding(unit.team, unit.x, unit.y, MaximumRangeCommand, b -> (b instanceof LegacyCommandCenter.LegacyCommandCenterBuild) && b.isValid() && !(b.isNull()));
                 if (building != null) {
-                    if(!unit.within(building, unit.type.range * 0.5f)){
+                    /*if(!unit.within(building, unit.type.range * 0.5f)){
                         pathfind(Pathfinder.fieldCore);
-                        Log.info(Pathfinder.fieldCore); //ye
                         target = building;
-                    }
-                    //circle(building, unit.type.range * 0.8f);
-                    //moveTo(building, unit.type.range * 0.8f);
-                    unit.lookAt(building);
+                    }*/
+                    moveTo(building, 65f + Mathf.randomSeed(unit.id) * 100);
                 }
+            } else {
+                state = UnitState.attack;
+            }
         }
         if(target == null && state != PublicState && Vars.state.rules.defaultTeam == unit.team) state = PublicState;
     }
