@@ -1,6 +1,7 @@
 package classicMod.library.ai;
 
 import arc.math.*;
+import arc.util.Log;
 import classicMod.library.blocks.legacyBlocks.LegacyCommandCenter;
 import mindustry.Vars;
 import mindustry.ai.*;
@@ -58,6 +59,7 @@ public class ReplacementGroundAI extends RallyAI {
                 if (building != null) {
                     if(!unit.within(building, unit.type.range * 0.5f)){
                         pathfind(Pathfinder.fieldCore);
+                        Log.info(Pathfinder.fieldCore);
                         target = building;
                     }
                     //circle(building, unit.type.range * 0.8f);
