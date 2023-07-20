@@ -125,10 +125,11 @@ public class ClassicMod extends Mod{
     }
 
     private void loadSettings() {
-        ui.settings.addCategory("@setting.restored-mind", "restored-mind-iconrev2", t -> {
+        ui.settings.addCategory("@setting.restored-mind", "restored-mind-icoMenu", t -> {
             t.pref(new Separator("restored-graphic"));
             t.checkPref("use-planetmenu", true);
             t.checkPref("use-lastplanet-bg", false);
+            //t.checkPref("use-custom-logo", false);
 
             t.pref(new Separator("restored-annoying-window"));
             t.checkPref("ignore-warning", false);
