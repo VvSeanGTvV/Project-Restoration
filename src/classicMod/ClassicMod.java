@@ -133,9 +133,10 @@ public class ClassicMod extends Mod{
 
             t.pref(new Separator("restored-annoying-window"));
             t.checkPref("ignore-warning", false);
-
-            t.pref(new Separator("restored-update"));
             t.checkPref("ignore-update", false);
+
+            //t.pref(new Separator("restored-update"));
+            //t.checkPref("ignore-update", false);
             if(false) {
                 t.pref(new Separator("restored-updates"));
                 t.checkPref("beta-update", false);
