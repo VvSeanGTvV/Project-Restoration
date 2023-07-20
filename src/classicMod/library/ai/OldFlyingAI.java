@@ -110,7 +110,7 @@ public class OldFlyingAI extends RallyAI {
                 circle(65f + Mathf.randomSeed(unit.id) * 100);
             }*/
         }
-        if(target == null && state != PublicState) state = PublicState;
+        if(target == null && state != PublicState && Vars.state.rules.defaultTeam == unit.team) state = PublicState;
     }
 
     public Weapon getWeapon() { //hehe updated getweapon() to modernize list
