@@ -103,6 +103,8 @@ public class DroneCenterNew extends Block {
                 }
             }
 
+            units.removeAll(u -> !u.isAdded() || u.dead);
+
             droneWarmup = Mathf.lerpDelta(droneWarmup, efficiency, 0.1f);
             totalDroneProgress += droneWarmup * Time.delta;
 

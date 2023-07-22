@@ -145,7 +145,8 @@ public class LegacyUnitFactory extends Block {
                 Fx.producesmoke.at(this);
                 Effect.shake(4f*1.5f, 5f, this);
                 units.add(unit);
-                Events.fire(new UnitSpawnEvent(unit));
+                Call.unitTetherBlockSpawned(tile, unit.id);
+                //Events.fire(new UnitSpawnEvent(unit));
             }
         }
 
