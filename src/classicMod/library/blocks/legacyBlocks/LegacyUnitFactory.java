@@ -98,7 +98,7 @@ public class LegacyUnitFactory extends Block {
         public IntSeq unitIDs = new IntSeq();
         public float buildTime = produceTime;
         public @Nullable Unit unit;
-        public Seq<Unit> units;
+        public Seq<Unit> units = new Seq<>();
 
         public float fraction(){ return progress / buildTime; }
         public float fractionUnitCap(){ return (float)team.data().countType(unitType) / (FactoryunitCap); }
