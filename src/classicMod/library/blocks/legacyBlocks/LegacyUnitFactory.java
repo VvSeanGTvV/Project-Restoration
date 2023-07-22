@@ -4,6 +4,7 @@ import arc.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.struct.*;
+import arc.util.Nullable;
 import arc.util.io.*;
 import mindustry.*;
 import mindustry.content.*;
@@ -14,6 +15,7 @@ import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
+import mindustry.world.blocks.UnitTetherBlock;
 import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
@@ -58,20 +60,6 @@ public class LegacyUnitFactory extends Block {
         super.setStats();
     }
 
-    public void updateStats(){
-        if(stats.intialized) { //TODO idk
-            stats.remove(Stat.productionTime);
-            stats.remove(Stat.maxUnits);
-            stats.remove(Stat.output);
-
-            stats.add(Stat.productionTime, produceTime / 60f, StatUnit.seconds);
-            stats.add(Stat.maxUnits, maxSpawn, StatUnit.none);
-            stats.add(Stat.output, unitType.localizedName);
-        }
-
-        //super.setStats();
-    }
-
 
     @Override
     public void setBars(){
@@ -103,12 +91,14 @@ public class LegacyUnitFactory extends Block {
         super.init();
     }
 
-    public class LegacyUnitFactoryBuild extends Building {
+    public class LegacyUnitFactoryBuild extends Building implements UnitTetherBlock {
         public float progress, time, speedScl;
-        public int FactoryunitCap, temp1;
-        public int maximumINT = 2147483647;
+        public int FactoryunitCap;
+        public int readUnitId = -1;
+        public IntSeq unitIDs = new IntSeq();
         public float buildTime = produceTime;
-        //public @Nullable BlockUnitc unit;
+        public @Nullable Unit unit;
+        public Seq<Unit> units;
 
         public float fraction(){ return progress / buildTime; }
         public float fractionUnitCap(){ return (float)team.data().countType(unitType) / (FactoryunitCap); }
@@ -116,30 +106,22 @@ public class LegacyUnitFactory extends Block {
 
         @Override
         public void updateTile(){
-            if(Units.getCap(team) < maximumINT) {
-                temp1 = Units.getCap(team) * maxSpawn;
-                temp1 = temp1 * maxSpawn / 2 - (Units.getCap(team) + maxSpawn);
-                if (originCap > 8) {
-                    FactoryunitCap = temp1 / (maxSpawn * 4);
-                } else {
-                    FactoryunitCap = maxSpawn;
-                }
-            } else {
-               FactoryunitCap = 2147483647;
-            }
-            originMax = FactoryunitCap;
-            updateStats();
-            //varCapSet = true;
-            originCap = Units.getCap(team);
 
-            if(state.rules.unitCap > 0 && !varRuleSet){
-                FactoryunitCap = FactoryunitCap * state.rules.unitCap;
-                originMax = FactoryunitCap;
-                updateStats();
-                varRuleSet = true;
+            if(!unitIDs.isEmpty()){
+                units.clear();
+                unitIDs.each(i -> {
+                    var unit = Groups.unit.getByID(i);
+                    if(unit != null){
+                        units.add(unit);
+                    }
+                });
+                unitIDs.clear();
             }
 
-            if(efficiency > 0 && ((float)team.data().countType(unitType) < FactoryunitCap)){
+            if(team == state.rules.waveTeam) FactoryunitCap = Integer.MAX_VALUE;
+            if(team == state.rules.defaultTeam) FactoryunitCap = maxSpawn;
+
+            if(efficiency > 0 && !(units.size >= FactoryunitCap)){
                 time += edelta() * speedScl * Vars.state.rules.unitBuildSpeed(team);
                 progress += edelta() * Vars.state.rules.unitBuildSpeed(team);
                 speedScl = Mathf.lerpDelta(speedScl, 1f, 0.05f);
@@ -161,8 +143,17 @@ public class LegacyUnitFactory extends Block {
                 unit.add();
                 unit.vel.y = launchVelocity;
                 Fx.producesmoke.at(this);
-                Effect.shake(4f, 5f, this);
+                Effect.shake(4f*1.5f, 5f, this);
+                units.add(unit);
                 Events.fire(new UnitSpawnEvent(unit));
+            }
+        }
+
+        public void spawned(int id){
+            Fx.spawn.at(x, y);
+            progress = 0f;
+            if(Vars.net.client()){
+                readUnitId = id;
             }
         }
 
@@ -205,14 +196,23 @@ public class LegacyUnitFactory extends Block {
         public void write(Writes stream){
             super.write(stream);
             stream.f(progress);
-            stream.i(FactoryunitCap);
+            stream.b(units.size);
+            for(var unit : units){
+                stream.i(unit.id);
+            }
+            //stream.i(unit == null ? -1 : unit.id);
         }
 
         @Override
         public void read(Reads stream, byte revision){
             super.read(stream, revision);
             progress = stream.f();
-            FactoryunitCap = stream.i();
+            //FactoryunitCap = stream.i();
+            int count = stream.b();
+            unitIDs.clear();
+            for(int i = 0; i < count; i++){
+                unitIDs.add(stream.i());
+            }
         }
     }
 }

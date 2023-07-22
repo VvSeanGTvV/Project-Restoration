@@ -5,10 +5,10 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
-import classicMod.library.*;
 import classicMod.library.ability.*;
 import classicMod.library.ai.*;
-import classicMod.library.blocks.DroneCenterNew;
+import classicMod.library.ai.factoryai.FactoryFlyingAI;
+import classicMod.library.ai.factoryai.FactoryGroundAI;
 import mindustry.*;
 import mindustry.ai.types.*;
 import mindustry.content.*;
@@ -466,7 +466,7 @@ public class ClassicUnitTypes {
             range = 140f;
             circleTarget = true;
             constructor = UnitEntity::create;
-            controller = u -> new OldFlyingAI();
+            controller = u -> new FactoryFlyingAI();
 
             weapons.add(new Weapon("restored-mind-nullTexture") {{
                 x = 2f;
@@ -503,7 +503,7 @@ public class ClassicUnitTypes {
             circleTarget = true;
             targetAir = false;
             constructor = UnitEntity::create;
-            controller = u -> new OldFlyingAI();
+            controller = u -> new FactoryFlyingAI();
 
             weapons.add(new Weapon("restored-mind-nullTexture") {{
                 x = 0f;
@@ -543,7 +543,7 @@ public class ClassicUnitTypes {
             engineOffset = 12f;
             engineSize = 3f;
             constructor = UnitEntity::create;
-            controller = u -> new OldFlyingAI();
+            controller = u -> new FactoryFlyingAI();
 
             weapons.add(new Weapon("restored-mind-revenant-missiles-equip") {{
                 x = 9f;
@@ -823,7 +823,7 @@ public class ClassicUnitTypes {
             health = 130f;
             canBoost = false;
             constructor = MechUnit::create;
-            controller = u -> new ReplacementGroundAI();
+            controller = u -> new FactoryGroundAI();
 
             weapons.add(new Weapon("restored-mind-chain-blaster-equip") {{
                 shootSound = pew;
@@ -863,7 +863,7 @@ public class ClassicUnitTypes {
             canBoost = false;
             immunities = ObjectSet.with(StatusEffects.burning);
             constructor = MechUnit::create;
-            controller = u -> new ReplacementGroundAI();
+            controller = u -> new FactoryGroundAI();
 
             weapons.add(new Weapon("restored-mind-flamethrower-equip") {{
                 shootSound = Sounds.flame;
@@ -909,7 +909,7 @@ public class ClassicUnitTypes {
             canBoost = false;
             immunities = ObjectSet.with(StatusEffects.burning, StatusEffects.melting);
             constructor = MechUnit::create;
-            controller = u -> new ReplacementGroundAI();
+            controller = u -> new FactoryGroundAI();
 
             weapons.add(new Weapon("restored-mind-artillery-equip") {{
                 shootSound = Sounds.artillery;

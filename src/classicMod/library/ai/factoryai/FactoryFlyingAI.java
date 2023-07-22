@@ -1,4 +1,4 @@
-package classicMod.library.ai;
+package classicMod.library.ai.factoryai;
 
 import arc.math.Angles;
 import arc.math.Mathf;
@@ -6,12 +6,16 @@ import arc.math.geom.Geometry;
 import arc.math.geom.Vec2;
 import arc.util.Time;
 import arc.util.Tmp;
+import classicMod.library.ai.RallyAI;
+import classicMod.library.blocks.DroneCenterNew;
 import classicMod.library.blocks.legacyBlocks.LegacyCommandCenter;
+import classicMod.library.blocks.legacyBlocks.LegacyUnitFactory;
 import mindustry.Vars;
 import mindustry.entities.Predict;
 import mindustry.entities.Units;
 import mindustry.entities.bullet.BulletType;
 import mindustry.entities.units.WeaponMount;
+import mindustry.gen.BuildingTetherc;
 import mindustry.gen.Teamc;
 import mindustry.type.Weapon;
 import mindustry.world.meta.BlockFlag;
@@ -22,11 +26,14 @@ import static classicMod.content.ClassicVars.PublicState;
 import static mindustry.Vars.indexer;
 import static mindustry.Vars.net;
 
-public class OldFlyingAI extends RallyAI {
+public class FactoryFlyingAI extends RallyAI {
     protected float[] weaponAngles = {0,0}; //it's old lolz
-
     @Override
-    public void updateMovement(){
+    public void updateMovement() {
+        if(!(unit instanceof BuildingTetherc tether) || tether.building() == null) return;
+        if(!(tether.building().block instanceof LegacyUnitFactory block)) return;
+        if(!(tether.building() instanceof LegacyUnitFactory.LegacyUnitFactoryBuild build)) return;
+
         if(state == UnitState.attack) {
 
             if (unit.isFlying()) {
@@ -228,8 +235,4 @@ public class OldFlyingAI extends RallyAI {
             target = newTarget;
         }
     }
-
-    /*Tile getSpawner(){ //TODO somehow get the tile of the spawner but its too old lolz
-        return world.tile(spawner.getFirstSpawn().pos());
-    }*/
 }
