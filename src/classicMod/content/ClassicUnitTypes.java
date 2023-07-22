@@ -465,7 +465,7 @@ public class ClassicUnitTypes {
             engineOffset = 5.5f;
             range = 140f;
             circleTarget = true;
-            constructor = UnitEntity::create;
+            constructor = BuildingTetherPayloadUnit::create;
             controller = u -> new FactoryFlyingAI();
 
             weapons.add(new Weapon("restored-mind-nullTexture") {{
@@ -502,7 +502,7 @@ public class ClassicUnitTypes {
             flying = true;
             circleTarget = true;
             targetAir = false;
-            constructor = UnitEntity::create;
+            constructor = BuildingTetherPayloadUnit::create;
             controller = u -> new FactoryFlyingAI();
 
             weapons.add(new Weapon("restored-mind-nullTexture") {{
@@ -542,7 +542,7 @@ public class ClassicUnitTypes {
             flying = true;
             engineOffset = 12f;
             engineSize = 3f;
-            constructor = UnitEntity::create;
+            constructor = BuildingTetherPayloadUnit::create;
             controller = u -> new FactoryFlyingAI();
 
             weapons.add(new Weapon("restored-mind-revenant-missiles-equip") {{
