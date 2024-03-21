@@ -6,10 +6,6 @@
 
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/VvSeanGTvV/Project-Restoration/commitTest.yml?label=Build%20Status%3A%20&style=for-the-badge)
 
-## -- Issues --
-
-I'm currently dealing with build.gradle being too old now.
-
 ## --- Mod Includes ---
 
 Classic Blocks
@@ -30,11 +26,11 @@ v7 Units
 
 ## --- In Progress ---
 
-Nothing :)
+v4.0 Beta Update
 
 ## --- Future Contents ---
 
-Nothing :)
+v4.0 Beta Update
 
 ## --- Credits ---
 
