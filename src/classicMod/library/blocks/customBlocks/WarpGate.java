@@ -297,6 +297,7 @@ public class WarpGate extends Block {
             table.row();
             ImageButton Transport = table.button(Icon.up, Styles.clearTogglei, 24f,() -> {}).size(34f).group(group).get();
             ImageButton Unload = table.button(Icon.down, Styles.clearTogglei, 24f,() -> {}).size(34f).group(group).get();
+
             Transport.changed(() -> configure(Transport.isChecked() ? TYPE : -1));
             Transport.update(() -> Transport.setChecked(TYPE == 1));
 
