@@ -39,9 +39,9 @@ public class WarpGate extends Block {
     public float teleportLiquidUse = 0.3f;
     public float liquidUse = 0.1f;
 
-    protected float powerMulti;
+    private float powerMulti;
 
-    private float ID;
+    private float TYPE;
 
     public Liquid inputLiquid;
     protected Effect activateEffect = ExtendedFx.teleportActivate;
@@ -212,8 +212,7 @@ public class WarpGate extends Block {
 
         @Override
         public void updateTile() {
-            if (ID == 0) ID = rand.random(1000000);
-            if (efficiency > 0 && toggle != -1 && ID != 0)  {
+            if (efficiency > 0 && toggle != -1)  {
                 //if(liquids.get(inputLiquid) <= 0f) catastrophicFailure();
                 activeScl = Mathf.lerpDelta(activeScl, 1f, 0.015f);
                 duration = lastDuration;
@@ -295,6 +294,14 @@ public class WarpGate extends Block {
                 button.update(() -> button.setChecked(toggle == j));
                 if(i % 4 == 3) table.row();
             }
+            table.row();
+            ImageButton Transport = table.button(Icon.up, Styles.clearTogglei, 24f,() -> {}).size(34f).group(group).get();
+            ImageButton Unload = table.button(Icon.down, Styles.clearTogglei, 24f,() -> {}).size(34f).group(group).get();
+            Transport.changed(() -> configure(Transport.isChecked() ? TYPE : -1));
+            Transport.update(() -> Transport.setChecked(TYPE == 1));
+
+            Unload.changed(() -> configure(Unload.isChecked() ? TYPE : -1));
+            Unload.update(() -> Unload.setChecked(TYPE == 2));
         }
 
         public WarpGate.WarpGateBuild findLink(int value){
