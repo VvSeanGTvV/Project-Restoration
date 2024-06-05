@@ -31,7 +31,7 @@ import static mindustry.Vars.*;
 
 public class ClassicMod extends Mod{
     /** Mod's current Version **/
-    public static String ModVersion = "3.0.2.5 Alpha v146";
+    public static String ModVersion = "3.0.2.7 v146";
     /** Mod's current Build **/
     public static final String BuildVer = "10";
     protected LoadedMod resMod = mods.locateMod("restored-mind");
@@ -74,9 +74,7 @@ public class ClassicMod extends Mod{
 
             LoadedMod lastModVer = mods.locateMod("classicv5");
             if (lastModVer != null) {
-                ui.showCustomConfirm("@mod.restored-mind.conflictwarning.title", "@mod.restored-mind.conflictwarning.text", "Yes", "No", () -> {
-                    lastModVer.file.delete();
-                }, () -> {
+                ui.showCustomConfirm("@mod.restored-mind.conflictwarning.title", "@mod.restored-mind.conflictwarning.text", "Yes", "No", lastModVer.file::delete, () -> {
                     Log.err("Disabled, not to have conflicts here!");
                 });
             }

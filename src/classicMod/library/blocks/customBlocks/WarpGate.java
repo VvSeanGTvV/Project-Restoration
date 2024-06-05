@@ -25,6 +25,7 @@ import mindustry.world.*;
 import mindustry.world.meta.*;
 
 import static arc.Core.*;
+import static arc.math.Mathf.rand;
 import static mindustry.Vars.*;
 
 public class WarpGate extends Block {
@@ -39,6 +40,8 @@ public class WarpGate extends Block {
     public float liquidUse = 0.1f;
 
     protected float powerMulti;
+
+    private float ID;
 
     public Liquid inputLiquid;
     protected Effect activateEffect = ExtendedFx.teleportActivate;
@@ -209,7 +212,8 @@ public class WarpGate extends Block {
 
         @Override
         public void updateTile() {
-            if (efficiency > 0 && toggle != -1) {
+            if (ID == 0) ID = rand.random(1000000);
+            if (efficiency > 0 && toggle != -1 && ID != 0)  {
                 //if(liquids.get(inputLiquid) <= 0f) catastrophicFailure();
                 activeScl = Mathf.lerpDelta(activeScl, 1f, 0.015f);
                 duration = lastDuration;
