@@ -47,7 +47,7 @@ public class ClassicBlocks {
     stoneDrill, ironDrill, uraniumDrill, titaniumDrill, coalDrill, omniDrill, //SingleDrill - classic
     ironOre, uraniumOre, //Ore - classic
     lavaLiq, //Liquid - classic
-    wallStone, wallIron, wallSteel, wallDirium, wallComposite, wallDiriumLarge, //Wall - classic
+    wallStone, wallIron, wallSteel, wallDirium, wallComposite, wallDiriumLarge, wallSteelLarge, //Wall - classic
 
 
     warpGate, //Distribution [v4]
@@ -517,6 +517,11 @@ public class ClassicBlocks {
         wallDiriumLarge = new Wall("dirium-wall-large"){{
             requirements(Category.defense, ItemStack.mult(wallDirium.requirements, 4));
             health = 110 * wallHealthMultiplier * 4;
+        }};
+
+        wallSteelLarge = new Wall("steel-wall-large"){{
+            requirements(Category.defense, ItemStack.mult(wallSteel.requirements, 4));
+            health = 80 * wallHealthMultiplier * 4;
         }};
     }
 

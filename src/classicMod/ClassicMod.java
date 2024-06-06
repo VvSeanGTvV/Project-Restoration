@@ -31,9 +31,9 @@ import static mindustry.Vars.*;
 
 public class ClassicMod extends Mod{
     /** Mod's current Version **/
-    public static String ModVersion = "3.0.2.7 v146";
+    public static String ModVersion = "3.1 Beta v146";
     /** Mod's current Build **/
-    public static final String BuildVer = "10";
+    public static final String BuildVer = "11";
     protected LoadedMod resMod = mods.locateMod("restored-mind");
     public ClassicMod(){
         //Log.info("Loaded Classic constructor.");

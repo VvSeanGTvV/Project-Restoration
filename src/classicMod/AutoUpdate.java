@@ -48,7 +48,7 @@ public class AutoUpdate {
 
             //check if Build is not in the latest
             overBuild = (modBuild > latestBuild);
-            if (modBuild != latestBuild)
+            if (modBuild < latestBuild)
             {ui.showCustomConfirm(
                     "@updater.restored-mind.name", bundle.format("updater.restored-mind.info", mod.meta.version, latest),
                     "@updater.restored-mind.load", "@ok", AutoUpdate::update, () -> {});
