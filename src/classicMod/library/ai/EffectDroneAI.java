@@ -1,6 +1,7 @@
 package classicMod.library.ai;
 
 import arc.math.*;
+import arc.math.geom.Vec2;
 import arc.util.*;
 import classicMod.library.blocks.*;
 import classicMod.library.blocks.DroneCenterNew.*;

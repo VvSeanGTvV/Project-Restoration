@@ -1245,6 +1245,9 @@ public class ClassicBlocks {
                             PartProgress.heat.blend(PartProgress.warmup, 1f);
                             PartProgress.recoil.curve(Interp.pow2Out);
                             mirror = true;
+
+                            heatProgress = PartProgress.warmup;
+                            progress = PartProgress.warmup;
                         }}
                 );
             }};

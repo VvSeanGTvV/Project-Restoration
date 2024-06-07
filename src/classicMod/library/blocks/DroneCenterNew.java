@@ -6,6 +6,7 @@ import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
+import arc.math.geom.Vec2;
 import arc.struct.IntSeq;
 import arc.struct.Seq;
 import arc.util.Nullable;
@@ -93,9 +94,10 @@ public class DroneCenterNew extends Block {
 
     public class DroneCenterNewBuild extends Building implements UnitTetherBlock {
         public int readUnitId = -1;
-        protected int readTarget = -1;
 
-        public Seq<Unit> units = new Seq<>();
+        public boolean hadUnit = false;
+
+        //public Seq<Unit> units = new Seq<>();
         public @Nullable Unit target;
         public @Nullable Unit unit;
         public float droneProgress, droneWarmup, totalDroneProgress;
@@ -113,38 +115,48 @@ public class DroneCenterNew extends Block {
                 }
             }
 
-            units.removeAll(u -> !u.isAdded() || u.dead);
+            //units.removeAll(u -> !u.isAdded() || u.dead);
 
             droneWarmup = Mathf.lerpDelta(droneWarmup, efficiency, 0.1f);
             totalDroneProgress += droneWarmup * Time.delta;
 
-            if(unit == null && Units.canCreate(team, droneType)) {
-                droneProgress += edelta() / droneConstructTime;
+            if(efficiency > 0) {
+                if (unit == null && Units.canCreate(team, droneType)) {
+                    if (!hadUnit) droneProgress += edelta() / droneConstructTime; else droneProgress = 1f;
 
-                //TODO better effects?
-                if (droneProgress >= 1f) {
-                    if(!Vars.net.client()) {
-                        unit = droneType.create(team);
-                        if (unit instanceof BuildingTetherc bt) {
-                            bt.building(this);
+                    //TODO better effects?
+                    if (droneProgress >= 1f || hadUnit) {
+                        if (!Vars.net.client()) {
+                            unit = droneType.create(team);
+                            if (unit instanceof BuildingTetherc bt) {
+                                bt.building(this);
+                            }
+                            unit.set(x, y);
+                            unit.rotation = 90f;
+                            unit.add();
+
+                            Call.unitTetherBlockSpawned(tile, unit.id);
                         }
-                        unit.set(x, y);
-                        unit.rotation = 90f;
-                        unit.add();
-
-                        Call.unitTetherBlockSpawned(tile, unit.id);
                     }
-                }
 
-                if (target != null && !target.isValid()) {
-                    target = null;
-                }
+                    if (target != null && !target.isValid()) {
+                        target = null;
+                    }
+                    if (target == null) {
+                        unit.command().commandPosition(new Vec2(x, y));
 
-                //TODO no autotarget, bad
-               /* if(target == null){
-                    target = targetClosest(); //Units.closest(team, x, y, u -> !u.spawnedByCore && u.type != droneType);
-                }*/
+                    }
+
+                    //TODO no autotarget, bad
+                   /* if(target == null){
+                        target = targetClosest(); //Units.closest(team, x, y, u -> !u.spawnedByCore && u.type != droneType);
+                    }*/
+                }
+            } else {
+                assert unit != null;
+                unit.dead(true);
             }
+
             targetClosest();
         }
 
@@ -193,8 +205,12 @@ public class DroneCenterNew extends Block {
                 });
             }
 
-            Draw.z(Layer.blockOver);
-            Draw.rect(topRegion1, x, y);
+            if(hadUnit && !(efficiency >= 1f)){
+                Draw.rect(droneType.fullIcon, x, y);
+            }
+
+            Draw.z(Layer.blockOver + 0.3f);
+            //Draw.rect(topRegion1, x, y);
             Draw.rect(topRegion, x, y);
 
         }
@@ -206,6 +222,7 @@ public class DroneCenterNew extends Block {
             //write.i(target == null ? -1 : target.id);
 
             write.i(unit == null ? -1 : unit.id);
+            write.bool(hadUnit);
         }
 
         @Override
@@ -215,6 +232,7 @@ public class DroneCenterNew extends Block {
             //readTarget = read.i();
 
             readUnitId = read.i();
+            hadUnit = read.bool();
         }
     }
 }
