@@ -54,6 +54,7 @@ public class DroneCenterNew extends Block {
         configurable = true;
 
         teamRegion = Core.atlas.find(name+"-team");
+        topRegion = Core.atlas.find(name+"-top");
     }
 
     @Override
@@ -77,6 +78,8 @@ public class DroneCenterNew extends Block {
     @Override
     public void init(){
         super.init();
+
+
     }
 
     public class DroneCenterNewBuild extends Building implements UnitTetherBlock {
@@ -179,8 +182,9 @@ public class DroneCenterNew extends Block {
             Draw.z(Layer.blockOver);
             Draw.rect(topRegion, x, y);
 
-            Draw.rect(teamRegion, x, y);
             Draw.color(team.color);
+            Draw.rect(teamRegion, x, y);
+
         }
 
         @Override
