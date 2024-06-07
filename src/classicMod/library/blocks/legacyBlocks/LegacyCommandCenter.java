@@ -54,6 +54,7 @@ public class LegacyCommandCenter extends Block {
     public class LegacyCommandCenterBuild extends Building {
         public String CommandSelect = "attack";
         public Seq<Unit> targets = new Seq<>();
+        public Seq<Unit> targetsModern = new Seq<>();
         public Seq<Building> CommandCenterArea = new Seq<>();
         public float blockID;
 
@@ -85,48 +86,52 @@ public class LegacyCommandCenter extends Block {
             if(c != null)Draw.rect(c, x, y);
             Draw.reset();
         }
-        public void UpdateCommand(RallyAI.UnitState State){
+        public void UpdateCommand(RallyAI.UnitState State) {
             commandSend.at(this);
             PublicState = State;
 
             CommandCenterArea.clear();
             Units.nearbyBuildings(x, y, MaximumRangeCommand, b -> {
-                if(b instanceof LegacyCommandCenterBuild){
+                if (b instanceof LegacyCommandCenterBuild) {
                     CommandCenterArea.add(b);
                 }
             });
 
             targets.clear();
             Units.nearby(team, x, y, MaximumRangeCommand, u -> {
-                if(u.controller() instanceof RallyAI){
+                if (u.controller() instanceof RallyAI) {
                     targets.add(u);
+                } else {
+                    targetsModern.add(u);
                 }
             });
 
-            for (var build : CommandCenterArea){
-                if(build instanceof LegacyCommandCenterBuild b){
+            for (var build : CommandCenterArea) {
+                if (build instanceof LegacyCommandCenterBuild b) {
                     Log.info(b);
                     Log.info(CommandOrigin);
                 }
             }
 
-            for (var target : targets){
-                if(target.controller() instanceof RallyAI ai){
+            for (var target : targets) {
+                if (target.controller() instanceof RallyAI ai) {
                     ai.state = State;
                     ai.lastCommandCenterID = blockID;
-                }else{
-                    if(Objects.equals(CommandOrigin, "rally")) {
-                        if (target.controller() instanceof CommandAI ai) {
-                            var building = Units.closestBuilding(target.team, target.x, target.y, MaximumRangeCommand, b -> (b instanceof LegacyCommandCenter.LegacyCommandCenterBuild) && b.isValid() && !(b.isNull()));
-                            ai.circle(building, 65f + Mathf.randomSeed(target.id) * 100);
-                            ai.commandTarget(building);
-                            ai.command(UnitCommand.moveCommand);
-                        }
+                }
+            }
+
+            for (var targetM : targetsModern) {
+                if (Objects.equals(CommandOrigin, "rally")) {
+                    if (targetM.controller() instanceof CommandAI ai) {
+                        var building = Units.closestBuilding(targetM.team, targetM.x, targetM.y, MaximumRangeCommand, b -> (b instanceof LegacyCommandCenter.LegacyCommandCenterBuild) && b.isValid() && !(b.isNull()));
+                        ai.circle(building, 65f + Mathf.randomSeed(targetM.id) * 100);
+                        ai.commandTarget(building);
+                        ai.command(UnitCommand.moveCommand);
                     }
-                    if(Objects.equals(CommandOrigin, "attack")){
-                        if (target.controller() instanceof CommandAI ai) {
-                            ai.command = target.type.defaultCommand == null ? target.type.commands[0] : target.type.defaultCommand;
-                        }
+                }
+                if (Objects.equals(CommandOrigin, "attack")) {
+                    if (targetM.controller() instanceof CommandAI ai) {
+                        ai.command = targetM.type.defaultCommand == null ? target.type.commands[0] : target.type.defaultCommand;
                     }
                 }
             }
