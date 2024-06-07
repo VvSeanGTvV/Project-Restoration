@@ -4,6 +4,7 @@ import arc.Core;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
+import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
 import arc.struct.IntSeq;
 import arc.struct.Seq;
@@ -44,11 +45,15 @@ public class DroneCenterNew extends Block {
     /** Effect Drone's maximum range **/
     public float droneRange = 50f*2f;
 
+    public TextureRegion topRegion = Core.atlas.find(name+"-top");
+
     public DroneCenterNew(String name){
         super(name);
 
         update = solid = true;
         configurable = true;
+
+        teamRegion = Core.atlas.find(name+"-team");
     }
 
     @Override
@@ -72,14 +77,7 @@ public class DroneCenterNew extends Block {
     @Override
     public void init(){
         super.init();
-
-        //droneType.controller = u -> new EffectDroneAI();
     }
-
-    /*public static void unitTetherBlockSpawned(Tile tile, int id){
-        if(tile == null || !(tile.build instanceof UnitTetherBlock build)) return;
-        build.spawned(id);
-    }*/
 
     public class DroneCenterNewBuild extends Building implements UnitTetherBlock {
         public int readUnitId = -1;
@@ -177,6 +175,12 @@ public class DroneCenterNew extends Block {
                     Drawf.construct(this, droneType.fullIcon, Pal.accent, 0f, droneProgress, droneWarmup, totalDroneProgress, 14f);
                 });
             }
+
+            Draw.z(Layer.blockOver);
+            Draw.rect(topRegion, x, y);
+
+            Draw.rect(teamRegion, x, y);
+            Draw.color(team.color);
         }
 
         @Override
