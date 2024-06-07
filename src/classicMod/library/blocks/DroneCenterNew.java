@@ -170,6 +170,9 @@ public class DroneCenterNew extends Block {
 
         @Override
         public void draw(){
+            teamRegion = Core.atlas.find(name + "-team");
+            topRegion = Core.atlas.find(name + "-top");
+
             Draw.rect(block.region, x, y);
 
             //TODO draw more stuff
