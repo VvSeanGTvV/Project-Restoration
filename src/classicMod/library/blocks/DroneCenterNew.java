@@ -83,6 +83,11 @@ public class DroneCenterNew extends Block {
         topRegion = Core.atlas.find(name + "-top");
     }
 
+    @Override
+    public TextureRegion[] icons(){
+        return new TextureRegion[]{Core.atlas.find(name), Core.atlas.find(name + "-top")};
+    }
+
     public class DroneCenterNewBuild extends Building implements UnitTetherBlock {
         public int readUnitId = -1;
         protected int readTarget = -1;
@@ -182,12 +187,10 @@ public class DroneCenterNew extends Block {
                     Drawf.construct(this, droneType.fullIcon, Pal.accent, 0f, droneProgress, droneWarmup, totalDroneProgress, 14f);
                 });
             }
-
-            Draw.z(Layer.blockOver);
-            Draw.rect(topRegion, x, y);
-
             Draw.color(team.color);
             Draw.rect(teamRegion, x, y);
+            Draw.z(Layer.blockOver);
+            Draw.rect(topRegion, x, y);
 
         }
 
