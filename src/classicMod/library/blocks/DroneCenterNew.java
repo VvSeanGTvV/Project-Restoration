@@ -189,6 +189,8 @@ public class DroneCenterNew extends Block {
             }
             Draw.color(team.color);
             Draw.rect(teamRegion, x, y);
+
+            Draw.reset();
             Draw.z(Layer.blockOver);
             Draw.rect(topRegion, x, y);
 
