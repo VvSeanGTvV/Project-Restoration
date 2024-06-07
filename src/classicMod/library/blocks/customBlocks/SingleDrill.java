@@ -73,7 +73,7 @@ public class SingleDrill extends Drill {
         Draw.rect(region, x, y);
         Draw.rect(rotatorRegion, x, y);
         Draw.rect(topRegion, x, y);
-        if(drawIconItem) Draw.rect(icoItem, x, y);
+        if(drawIconItem && valid) Draw.rect(icoItem, x, y);
     }
 
     @Override

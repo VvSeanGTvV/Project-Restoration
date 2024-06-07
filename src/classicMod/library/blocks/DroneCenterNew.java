@@ -45,7 +45,8 @@ public class DroneCenterNew extends Block {
     /** Effect Drone's maximum range **/
     public float droneRange = 50f*2f;
 
-    public TextureRegion topRegion = Core.atlas.find(name+"-top");
+    public TextureRegion topRegion;
+    public TextureRegion topRegion1;
 
     public DroneCenterNew(String name){
         super(name);
@@ -55,6 +56,7 @@ public class DroneCenterNew extends Block {
 
         teamRegion = Core.atlas.find(name + "-team");
         topRegion = Core.atlas.find(name + "-top");
+        topRegion1 = Core.atlas.find(name + "-top1");
     }
 
     @Override
@@ -81,6 +83,7 @@ public class DroneCenterNew extends Block {
 
         teamRegion = Core.atlas.find(name + "-team");
         topRegion = Core.atlas.find(name + "-top");
+        topRegion1 = Core.atlas.find(name + "-top1");
     }
 
     @Override
@@ -177,6 +180,7 @@ public class DroneCenterNew extends Block {
         public void draw(){
             teamRegion = Core.atlas.find(name + "-team");
             topRegion = Core.atlas.find(name + "-top");
+            topRegion1 = Core.atlas.find(name + "-top1");
 
             Draw.z(Layer.block);
             Draw.rect(block.region, x, y);
@@ -188,11 +192,9 @@ public class DroneCenterNew extends Block {
                     Drawf.construct(this, droneType.fullIcon, Pal.accent, 0f, droneProgress, droneWarmup, totalDroneProgress, 14f);
                 });
             }
-            Draw.color(team.color);
-            Draw.rect(teamRegion, x, y);
 
-            Draw.reset();
             Draw.z(Layer.blockOver);
+            Draw.rect(topRegion1, x, y);
             Draw.rect(topRegion, x, y);
 
         }
