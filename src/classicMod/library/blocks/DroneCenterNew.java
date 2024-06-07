@@ -53,8 +53,8 @@ public class DroneCenterNew extends Block {
         update = solid = true;
         configurable = true;
 
-        teamRegion = Core.atlas.find(name+"-team");
-        topRegion = Core.atlas.find(name+"-top");
+        teamRegion = Core.atlas.find(name + "-team");
+        topRegion = Core.atlas.find(name + "-top");
     }
 
     @Override
@@ -79,7 +79,8 @@ public class DroneCenterNew extends Block {
     public void init(){
         super.init();
 
-
+        teamRegion = Core.atlas.find(name + "-team");
+        topRegion = Core.atlas.find(name + "-top");
     }
 
     public class DroneCenterNewBuild extends Building implements UnitTetherBlock {
