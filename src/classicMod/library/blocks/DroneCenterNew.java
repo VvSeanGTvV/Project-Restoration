@@ -178,6 +178,7 @@ public class DroneCenterNew extends Block {
             teamRegion = Core.atlas.find(name + "-team");
             topRegion = Core.atlas.find(name + "-top");
 
+            Draw.z(Layer.block);
             Draw.rect(block.region, x, y);
 
             //TODO draw more stuff

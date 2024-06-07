@@ -67,6 +67,16 @@ public class SingleDrill extends Drill {
     }
 
     @Override
+    public void drawPlace(int x, int y, int rotation, boolean valid) {
+        //super.drawPlace(x, y, rotation, valid);
+
+        Draw.rect(region, x, y);
+        Draw.rect(rotatorRegion, x, y);
+        Draw.rect(topRegion, x, y);
+        if(drawIconItem) Draw.rect(icoItem, x, y);
+    }
+
+    @Override
     public void setStats() {
         super.setStats();
         stats.remove(Stat.drillTier);
