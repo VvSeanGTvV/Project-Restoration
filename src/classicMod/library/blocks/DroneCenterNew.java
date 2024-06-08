@@ -152,9 +152,9 @@ public class DroneCenterNew extends Block {
                     }*/
             }
             if(target == null) {
-                if (unit != null) if(within(unit, 6f)) {
+                if (unit != null) if(within(unit, 7f)) {
                     placeUnit = true;
-                    unit.dead(true);
+                    unit = null;
                 }
             }
 
@@ -200,13 +200,13 @@ public class DroneCenterNew extends Block {
 
             //TODO draw more stuff
 
-            if(droneWarmup > 0 && target != null){
+            if(droneWarmup > 0){
                 Draw.draw(Layer.blockOver + 0.2f, () -> {
                     Drawf.construct(this, droneType.fullIcon, Pal.accent, 0f, droneProgress, droneWarmup, totalDroneProgress, 14f);
                 });
             }
 
-            if(hadUnit && placeUnit){
+            if(hadUnit && placeUnit && unit == null){
                 Draw.rect(droneType.fullIcon, x, y);
             }
 
