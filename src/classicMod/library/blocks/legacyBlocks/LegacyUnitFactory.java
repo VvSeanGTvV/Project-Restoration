@@ -135,18 +135,45 @@ public class LegacyUnitFactory extends Block {
                 progress %= 1f;
 
                 consume();
+
                 LegacyUnitFactory factory = (LegacyUnitFactory)tile.block();
+
+                if (!Vars.net.client()) {
+                    unit = factory.unitType.create(team);
+                    if (unit instanceof BuildingTetherc bt) {
+                        bt.building(this);
+                    }
+                    unit.set(this);
+                    unit.rotation(90f);
+                    unit.add();
+                    unit.vel.y = launchVelocity;
+                    Fx.producesmoke.at(this);
+                    Effect.shake(4f*1.5f, 5f, this);
+                    units.add(unit);
+                }
+
                 //Call.unitBlockSpawn(this.tile);
-                Unit unit = factory.unitType.create(team);
-                unit.set(this);
-                unit.rotation(90f);
-                unit.add();
-                unit.vel.y = launchVelocity;
-                Fx.producesmoke.at(this);
-                Effect.shake(4f*1.5f, 5f, this);
-                units.add(unit);
-                Call.unitTetherBlockSpawned(tile, unit.id);
+                //Unit unit = factory.unitType.create(team);
+
                 //Events.fire(new UnitSpawnEvent(unit));
+            }
+        }
+
+        @Override
+        public void onRemoved() {
+            super.onRemoved();
+
+            for(var unit : units){
+                unit.remove();
+            }
+        }
+
+        @Override
+        public void onDestroyed() {
+            super.onDestroyed();
+
+            for(var unit : units){
+                unit.dead(true);
             }
         }
 

@@ -140,19 +140,14 @@ public class LegacyCommandCenter extends Block {
                     var ai = targetM.command();
                     if (Objects.equals(CommandOrigin, "rally")) {
                         var building = Units.closestBuilding(targetM.team, targetM.x, targetM.y, MaximumRangeCommand, b -> (b instanceof LegacyCommandCenter.LegacyCommandCenterBuild) && b.isValid() && !(b.isNull()));
-                        if(targetM.isFlying()) ai.circle(building, 65f + Mathf.randomSeed(targetM.id) * 100); else { ai.moveTo(building, 65f + Mathf.randomSeed(targetM.id) * 100); ai.faceMovement(); }
+                        if(targetM.isFlying()) ai.circle(building, 65f + Mathf.randomSeed(targetM.id) * 100); else { ai.pathfind(building.id); ai.moveTo(building, 65f + Mathf.randomSeed(targetM.id) * 100); ai.faceMovement(); }
                         ai.commandTarget(building);
                         ai.command(UnitCommand.moveCommand);
 
                         if(targetClosest(targetM) != null){
                             var target = targetClosest(targetM);
                             if(target != null && targetM.hasWeapons()){
-                                if(targetM.type.circleTarget){
-                                    ai.circleAttack(120f);
-                                }else{
-                                    ai.moveTo(target, targetM.type.range * 0.8f);
-                                    targetM.lookAt(target);
-                                }
+                                ai.command = targetM.type.defaultCommand == null ? targetM.type.commands[0] : targetM.type.defaultCommand;
                             }
                         }
                     }
