@@ -98,6 +98,7 @@ public class LegacyCommandCenter extends Block {
             });
 
             targets.clear();
+            targetsModern.clear();
             Units.nearby(team, x, y, MaximumRangeCommand, u -> {
                 if (u.controller() instanceof RallyAI) {
                     targets.add(u);
@@ -126,6 +127,13 @@ public class LegacyCommandCenter extends Block {
             super.update();
 
             //-- shesh about to go laggy with this one.
+            targetsModern.clear();
+            Units.nearby(team, x, y, MaximumRangeCommand, u -> {
+                if (!(u.controller() instanceof RallyAI)) {
+                    targetsModern.add(u);
+                }
+            });
+
             for (var targetM : targetsModern) {
                 if (targetM.isCommandable()) {
                     var ai = targetM.command();

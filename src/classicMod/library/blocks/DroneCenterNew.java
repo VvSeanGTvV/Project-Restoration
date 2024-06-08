@@ -103,14 +103,14 @@ public class DroneCenterNew extends Block {
         public float droneProgress, droneWarmup, totalDroneProgress;
 
         @Override
-        public void updateTile(){
-            if(unit != null && (unit.dead || !unit.isAdded())){
+        public void updateTile() {
+            if (unit != null && (unit.dead || !unit.isAdded())) {
                 unit = null;
             }
 
-            if(readUnitId != -1){
+            if (readUnitId != -1) {
                 unit = Groups.unit.getByID(readUnitId);
-                if(unit != null || !Vars.net.client()){
+                if (unit != null || !Vars.net.client()) {
                     readUnitId = -1;
                 }
             }
@@ -120,37 +120,36 @@ public class DroneCenterNew extends Block {
             droneWarmup = Mathf.lerpDelta(droneWarmup, efficiency, 0.1f);
             totalDroneProgress += droneWarmup * Time.delta;
 
-            if(efficiency > 0) {
-                if (unit == null && Units.canCreate(team, droneType)) {
-                    if (!hadUnit) droneProgress += edelta() / droneConstructTime; else droneProgress = 1f;
+            if (unit == null && Units.canCreate(team, droneType)) {
+                if (!hadUnit) droneProgress += edelta() / droneConstructTime;
+                else droneProgress = 1f;
 
-                    //TODO better effects?
-                    if (droneProgress >= 1f || hadUnit) {
-                        hadUnit = true;
-                        if (!Vars.net.client()) {
-                            unit = droneType.create(team);
-                            if (unit instanceof BuildingTetherc bt) {
-                                bt.building(this);
-                            }
-                            unit.set(x, y);
-                            unit.rotation = 90f;
-                            unit.add();
-
-                            Call.unitTetherBlockSpawned(tile, unit.id);
+                //TODO better effects?
+                if (droneProgress >= 1f || hadUnit) {
+                    hadUnit = true;
+                    if (!Vars.net.client()) {
+                        unit = droneType.create(team);
+                        if (unit instanceof BuildingTetherc bt) {
+                            bt.building(this);
                         }
-                    }
+                        unit.set(x, y);
+                        unit.rotation = 90f;
+                        unit.add();
 
-                    if (target != null && !target.isValid()) {
-                        target = null;
+                        Call.unitTetherBlockSpawned(tile, unit.id);
                     }
+                }
 
-                    //TODO no autotarget, bad
+                if (target != null && !target.isValid()) {
+                    target = null;
+                } else {
+                    if (unit != null) unit.dead(true);
+                }
+
+                //TODO no autotarget, bad
                    /* if(target == null){
                         target = targetClosest(); //Units.closest(team, x, y, u -> !u.spawnedByCore && u.type != droneType);
                     }*/
-                }
-            } else {
-                if(unit != null) unit.dead(true);
             }
 
             targetClosest();
