@@ -71,6 +71,7 @@ public class ClassicUnitTypes {
             tier = 3;
         }};*/
 
+        // TODO need more researching with this dude
         halberd = new UnitType("halberd-ship"){{
             outlines = false;
             hitSize = 8f;
@@ -85,7 +86,7 @@ public class ClassicUnitTypes {
             buildSpeed = 1f;
             constructor = UnitEntity::create;
 
-            weapons.add(new Weapon("restored-mind-blaster-equip") {{
+            /*weapons.add(new Weapon("restored-mind-blaster-equip") {{
                 x = 0.8f;
                 y = -1f;
                 top = true;
@@ -106,7 +107,7 @@ public class ClassicUnitTypes {
                     smokeEffect = Fx.shootSmallSmoke;
                     ammoMultiplier = 2;
                 }};
-            }});
+            }});*/
         }};
 
         // --- v5 Zone ---
