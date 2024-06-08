@@ -21,6 +21,7 @@ import mindustry.entities.Units;
 import mindustry.entities.units.AIController;
 import mindustry.gen.Building;
 import mindustry.gen.Icon;
+import mindustry.gen.Teamc;
 import mindustry.gen.Unit;
 import mindustry.ui.Styles;
 import mindustry.world.Block;
@@ -138,19 +139,37 @@ public class LegacyCommandCenter extends Block {
                 if (targetM.isCommandable()) {
                     var ai = targetM.command();
                     if (Objects.equals(CommandOrigin, "rally")) {
-
                         var building = Units.closestBuilding(targetM.team, targetM.x, targetM.y, MaximumRangeCommand, b -> (b instanceof LegacyCommandCenter.LegacyCommandCenterBuild) && b.isValid() && !(b.isNull()));
                         if(targetM.isFlying()) ai.circle(building, 65f + Mathf.randomSeed(targetM.id) * 100); else { ai.moveTo(building, 65f + Mathf.randomSeed(targetM.id) * 100); ai.faceMovement(); }
                         ai.commandTarget(building);
                         ai.command(UnitCommand.moveCommand);
 
-
+                        if(targetClosest(targetM) != null){
+                            var target = targetClosest(targetM);
+                            if(target != null && targetM.hasWeapons()){
+                                if(targetM.type.circleTarget){
+                                    ai.circleAttack(120f);
+                                }else{
+                                    ai.moveTo(target, targetM.type.range * 0.8f);
+                                    targetM.lookAt(target);
+                                }
+                            }
+                        }
                     }
                     if (Objects.equals(CommandOrigin, "attack")) {
                         ai.command = targetM.type.defaultCommand == null ? targetM.type.commands[0] : targetM.type.defaultCommand;
                     }
                 }
             }
+        }
+
+        protected Teamc targetClosest(Unit unit){
+            Teamc target = null;
+            Teamc newTarget = Units.closestTarget(unit.team(), unit.x(), unit.y(), Math.max(unit.range(), unit.type().range), u -> (unit.type().targetAir && u.isFlying()) || (unit.type().targetGround && !u.isFlying()));
+            if(newTarget != null){
+                target = newTarget;
+            }
+            return target;
         }
 
         @Override

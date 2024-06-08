@@ -142,8 +142,6 @@ public class DroneCenterNew extends Block {
 
                 if (target != null && !target.isValid()) {
                     target = null;
-                } else {
-                    if (unit != null) unit.dead(true);
                 }
 
                 //TODO no autotarget, bad
@@ -151,6 +149,7 @@ public class DroneCenterNew extends Block {
                         target = targetClosest(); //Units.closest(team, x, y, u -> !u.spawnedByCore && u.type != droneType);
                     }*/
             }
+            if(target == null) { if (unit != null) unit.dead(true); }
 
             targetClosest();
         }
