@@ -66,6 +66,8 @@ public class ClassicBlocks {
 
     dataProcessor, //Research Block - Campaign only - v6-dev Block
 
+    thermalPump, //Pump - Old Content [v6]
+
     warheadAssembler, ballisticSilo, nuclearWarhead, //Nuclear - Prototype [v7-dev] TODO what to do with this
     shieldProjector, shieldBreaker, largeShieldProjector, barrierProjector, //Projectors - Erekir - Prototype [v7-dev]
     heatReactor, //Heat Producers - Erekir - Prototype [v7-dev]
@@ -830,6 +832,16 @@ public class ClassicBlocks {
             consumePower(1.2f);
             requirement = with(Items.silicon, 20, Items.graphite, 10);
             unitType = ClassicUnitTypes.fortress;
+        }};
+
+        //Pump
+        thermalPump = new Pump("thermal-pump"){{
+            requirements(Category.liquid, with(Items.copper, 85, Items.metaglass, 90, Items.silicon, 35, Items.titanium, 50, Items.thorium, 45));
+            pumpAmount = 0.25f;
+            consumePower(1.45f);
+            liquidCapacity = 50f;
+            hasPower = true;
+            size = 3;
         }};
 
         //Wall
