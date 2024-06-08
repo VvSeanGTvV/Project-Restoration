@@ -126,6 +126,7 @@ public class DroneCenterNew extends Block {
 
                     //TODO better effects?
                     if (droneProgress >= 1f || hadUnit) {
+                        hadUnit = true;
                         if (!Vars.net.client()) {
                             unit = droneType.create(team);
                             if (unit instanceof BuildingTetherc bt) {
@@ -142,10 +143,6 @@ public class DroneCenterNew extends Block {
                     if (target != null && !target.isValid()) {
                         target = null;
                     }
-                    if (target == null) {
-                        unit.command().commandPosition(new Vec2(x, y));
-
-                    }
 
                     //TODO no autotarget, bad
                    /* if(target == null){
@@ -153,10 +150,7 @@ public class DroneCenterNew extends Block {
                     }*/
                 }
             } else {
-                if(unit != null) {
-                    unit.dead(true);
-                }
-
+                if(unit != null) unit.dead(true);
             }
 
             targetClosest();
