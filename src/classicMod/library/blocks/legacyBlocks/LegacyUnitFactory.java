@@ -65,7 +65,7 @@ public class LegacyUnitFactory extends Block {
     public void setBars(){
         super.setBars();
         addBar("progress", (LegacyUnitFactory.LegacyUnitFactoryBuild e) -> new Bar("bar.progress", Pal.ammo, e::fraction));
-        addBar("units", (LegacyUnitFactory.LegacyUnitFactoryBuild e) -> new Bar(Core.bundle.format("bar.unitcap", Fonts.getUnicodeStr(unitType.name), e.team.data().countType(unitType), originMax), Pal.command, e::fractionUnitCap));
+        addBar("units", (LegacyUnitFactory.LegacyUnitFactoryBuild e) -> new Bar(Core.bundle.format("bar.unitcap", Fonts.getUnicodeStr(unitType.name), e.units.size, originMax), Pal.command, e::fractionUnitCap));
     }
 
     @Override
@@ -102,7 +102,7 @@ public class LegacyUnitFactory extends Block {
         public Seq<Unit> units = new Seq<>();
 
         public float fraction(){ return progress / buildTime; }
-        public float fractionUnitCap(){ return (float)team.data().countType(unitType) / (FactoryunitCap); }
+        public float fractionUnitCap(){ return (float)units.size / (FactoryunitCap); }
 
 
         @Override
