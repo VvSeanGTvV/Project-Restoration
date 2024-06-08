@@ -72,6 +72,7 @@ public class ReplacementGroundAI extends RallyAI {
                         target = building;
                     }*/
                     moveTo(building, 65f + Mathf.randomSeed(unit.id) * 100);
+                    this.pathfind(Pathfinder.costGround);
                 }
             } else {
                 state = UnitState.attack;
