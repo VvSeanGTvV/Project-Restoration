@@ -13,6 +13,7 @@ import arc.util.io.Writes;
 import classicMod.library.ai.RallyAI;
 import classicMod.library.ai.ReplacementFlyingAI;
 import classicMod.library.ai.ReplacementGroundAI;
+import mindustry.ai.Pathfinder;
 import mindustry.ai.UnitCommand;
 import mindustry.ai.types.CommandAI;
 import mindustry.ai.types.FlyingAI;
@@ -140,7 +141,7 @@ public class LegacyCommandCenter extends Block {
                     var ai = targetM.command();
                     if (Objects.equals(CommandOrigin, "rally")) {
                         var building = Units.closestBuilding(targetM.team, targetM.x, targetM.y, MaximumRangeCommand, b -> (b instanceof LegacyCommandCenter.LegacyCommandCenterBuild) && b.isValid() && !(b.isNull()));
-                        if(targetM.isFlying()) ai.circle(building, 65f + Mathf.randomSeed(targetM.id) * 100); else { ai.pathfind(building.id); ai.moveTo(building, 65f + Mathf.randomSeed(targetM.id) * 100); ai.faceMovement(); }
+                        if(targetM.isFlying()) ai.circle(building, 65f + Mathf.randomSeed(targetM.id) * 100); else { ai.pathfind(Pathfinder.fieldCore); ai.moveTo(building, 65f + Mathf.randomSeed(targetM.id) * 100); ai.faceMovement(); }
                         ai.commandTarget(building);
                         ai.command(UnitCommand.moveCommand);
 
