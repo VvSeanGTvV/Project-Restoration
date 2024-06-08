@@ -95,6 +95,10 @@ public class ExtendedSerpuloTechTree {
 
             });
         });*/
+
+        margeNode(impulsePump, () -> {
+            node(thermalPump);
+        });
     }
 
     private static void margeNode(UnlockableContent parent, Runnable children){ //from betamindy!
