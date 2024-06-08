@@ -119,7 +119,13 @@ public class LegacyCommandCenter extends Block {
                     ai.lastCommandCenterID = blockID;
                 }
             }
+        }
 
+        @Override
+        public void update() {
+            super.update();
+
+            //-- shesh about to go laggy with this one.
             for (var targetM : targetsModern) {
                 if (targetM.isCommandable()) {
                     var ai = targetM.command();
