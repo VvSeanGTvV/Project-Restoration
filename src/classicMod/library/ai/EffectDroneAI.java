@@ -17,8 +17,8 @@ public class EffectDroneAI extends AIController {
         if(!(unit instanceof BuildingTetherc tether) || tether.building() == null) return;
         if(!(tether.building().block instanceof DroneCenterNew block)) return;
         if(!(tether.building() instanceof DroneCenterNewBuild build)) return;
-        if(nullify) unit = null;
-        
+        if(nullify) unit.remove();
+
         if(unit != null) {
             target = build.target;
             if (target != null) {
