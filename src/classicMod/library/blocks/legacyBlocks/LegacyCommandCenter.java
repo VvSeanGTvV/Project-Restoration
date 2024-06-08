@@ -149,6 +149,7 @@ public class LegacyCommandCenter extends Block {
                         if(targetClosest(targetM) != null){
                             var target = targetClosest(targetM);
                             if(target != null && targetM.hasWeapons()){
+                                targetM.lookAt(target);
                                 ai.command = targetM.type.defaultCommand == null ? targetM.type.commands[0] : targetM.type.defaultCommand;
                             }
                         }

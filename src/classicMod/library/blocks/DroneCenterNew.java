@@ -225,6 +225,7 @@ public class DroneCenterNew extends Block {
 
             write.i(unit == null ? -1 : unit.id);
             write.bool(hadUnit);
+            write.b(placeUnit ? -1 : 1);
         }
 
         @Override
@@ -235,6 +236,7 @@ public class DroneCenterNew extends Block {
 
             readUnitId = read.i();
             hadUnit = read.bool();
+            placeUnit = (read.b()==1);
         }
     }
 }
