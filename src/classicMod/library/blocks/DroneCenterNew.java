@@ -153,8 +153,10 @@ public class DroneCenterNew extends Block {
                     }*/
                 }
             } else {
-                assert unit != null;
-                unit.dead(true);
+                if(unit != null) {
+                    unit.dead(true);
+                }
+
             }
 
             targetClosest();
