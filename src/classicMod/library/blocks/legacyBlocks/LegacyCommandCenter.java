@@ -121,8 +121,8 @@ public class LegacyCommandCenter extends Block {
             }
 
             for (var targetM : targetsModern) {
-                var ai = targetM.command();
                 if (targetM.isCommandable()) {
+                    var ai = targetM.command();
                     if (Objects.equals(CommandOrigin, "rally")) {
 
                         var building = Units.closestBuilding(targetM.team, targetM.x, targetM.y, MaximumRangeCommand, b -> (b instanceof LegacyCommandCenter.LegacyCommandCenterBuild) && b.isValid() && !(b.isNull()));
