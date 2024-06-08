@@ -1,6 +1,7 @@
 package classicMod.library.ai;
 
 import arc.math.*;
+import arc.math.geom.Vec2;
 import arc.util.Log;
 import classicMod.library.blocks.legacyBlocks.LegacyCommandCenter;
 import mindustry.Vars;
@@ -71,8 +72,7 @@ public class ReplacementGroundAI extends RallyAI {
                         pathfind(Pathfinder.fieldCore);
                         target = building;
                     }*/
-                    moveTo(building, 65f + Mathf.randomSeed(unit.id) * 100);
-                    this.pathfind(Pathfinder.costGround);
+                    moveTo(building, 65f + Mathf.randomSeed(unit.id) * 100, 25f, true, Vec2.ZERO, true);
                 }
             } else {
                 state = UnitState.attack;

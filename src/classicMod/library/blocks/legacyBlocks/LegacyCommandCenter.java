@@ -5,6 +5,7 @@ import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
+import arc.math.geom.Vec2;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
 import arc.util.Log;
@@ -141,7 +142,7 @@ public class LegacyCommandCenter extends Block {
                     var ai = targetM.command();
                     if (Objects.equals(CommandOrigin, "rally")) {
                         var building = Units.closestBuilding(targetM.team, targetM.x, targetM.y, MaximumRangeCommand, b -> (b instanceof LegacyCommandCenter.LegacyCommandCenterBuild) && b.isValid() && !(b.isNull()));
-                        if(targetM.isFlying()) ai.circle(building, 65f + Mathf.randomSeed(targetM.id) * 100); else { ai.moveTo(building, 65f + Mathf.randomSeed(targetM.id) * 100); ai.faceMovement(); ai.pathfind(Pathfinder.costGround); }
+                        if(targetM.isFlying()) ai.circle(building, 65f + Mathf.randomSeed(targetM.id) * 100); else { ai.moveTo(building, 65f + Mathf.randomSeed(targetM.id) * 100, 25f, true, Vec2.ZERO, true); ai.faceMovement();}
                         ai.commandTarget(building);
                         ai.command(UnitCommand.moveCommand);
 
