@@ -189,7 +189,7 @@ public class LegacyUnitFactory extends Block {
         @Override
         public boolean shouldConsume(){
             if((float)team.data().countType(unitType) > FactoryunitCap) return false;
-            return enabled && ((float)team.data().countType(unitType) < FactoryunitCap);
+            return enabled && ((float)units.size < FactoryunitCap);
         }
 
         @Override
