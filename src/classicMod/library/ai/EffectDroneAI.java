@@ -11,11 +11,13 @@ import mindustry.gen.*;
 
 public class EffectDroneAI extends AIController {
 
+    public boolean nullify = false;
     @Override
     public void updateMovement() {
         if(!(unit instanceof BuildingTetherc tether) || tether.building() == null) return;
         if(!(tether.building().block instanceof DroneCenterNew block)) return;
         if(!(tether.building() instanceof DroneCenterNewBuild build)) return;
+        if(nullify) return;
 
         target = build.target;
         if(target != null) {
@@ -30,7 +32,7 @@ public class EffectDroneAI extends AIController {
         }
     }
 
-    public void Nullify(){
-        return;
+    public void Nullify(boolean yes){
+        nullify = yes;
     }
 }

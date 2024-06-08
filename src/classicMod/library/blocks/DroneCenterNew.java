@@ -155,8 +155,7 @@ public class DroneCenterNew extends Block {
             if(target == null) {
                 if (unit != null) if(within(unit, 7f)) {
                     placeUnit = true;
-                    if(unit.controller() instanceof EffectDroneAI ai) ai.Nullify();
-                    unit = null;
+                    if(unit.controller() instanceof EffectDroneAI ai) ai.Nullify(true);
                 }
             }
 
@@ -202,7 +201,7 @@ public class DroneCenterNew extends Block {
 
             //TODO draw more stuff
 
-            if(droneWarmup > 0 && !hadUnit){
+            if(droneWarmup > 0 && !hadUnit && efficiency >= 1f){
                 Draw.draw(Layer.blockOver + 0.2f, () -> {
                     Drawf.construct(this, droneType.fullIcon, Pal.accent, 0f, droneProgress, droneWarmup, totalDroneProgress, 14f);
                 });
