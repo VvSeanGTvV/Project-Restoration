@@ -120,7 +120,7 @@ public class DroneCenterNew extends Block {
             droneWarmup = Mathf.lerpDelta(droneWarmup, efficiency, 0.1f);
             totalDroneProgress += droneWarmup * Time.delta;
 
-            if (unit == null && Units.canCreate(team, droneType)) {
+            if (unit == null && Units.canCreate(team, droneType) && target != null) {
                 if (!hadUnit) droneProgress += edelta() / droneConstructTime;
                 else droneProgress = 1f;
 
