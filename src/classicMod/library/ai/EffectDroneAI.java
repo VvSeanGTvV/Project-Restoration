@@ -29,4 +29,8 @@ public class EffectDroneAI extends AIController {
             moveTo(build, 5f); //Return back to Base
         }
     }
+
+    public void Nullify(){
+        return;
+    }
 }

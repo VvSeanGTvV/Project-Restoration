@@ -14,6 +14,7 @@ import arc.util.Time;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import classicMod.content.ExtendedStat;
+import classicMod.library.ai.EffectDroneAI;
 import mindustry.Vars;
 import mindustry.content.Fx;
 import mindustry.content.StatusEffects;
@@ -154,6 +155,7 @@ public class DroneCenterNew extends Block {
             if(target == null) {
                 if (unit != null) if(within(unit, 7f)) {
                     placeUnit = true;
+                    if(unit.controller() instanceof EffectDroneAI ai) ai.Nullify();
                     unit = null;
                 }
             }
@@ -200,7 +202,7 @@ public class DroneCenterNew extends Block {
 
             //TODO draw more stuff
 
-            if(droneWarmup > 0){
+            if(droneWarmup > 0 && !hadUnit){
                 Draw.draw(Layer.blockOver + 0.2f, () -> {
                     Drawf.construct(this, droneType.fullIcon, Pal.accent, 0f, droneProgress, droneWarmup, totalDroneProgress, 14f);
                 });
