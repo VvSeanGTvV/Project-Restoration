@@ -96,6 +96,7 @@ public class DroneCenterNew extends Block {
         public int readUnitId = -1;
 
         public boolean hadUnit = false;
+        private boolean placeUnit = false;
 
         //public Seq<Unit> units = new Seq<>();
         public @Nullable Unit target;
@@ -127,6 +128,7 @@ public class DroneCenterNew extends Block {
                 //TODO better effects?
                 if (droneProgress >= 1f || hadUnit) {
                     hadUnit = true;
+                    placeUnit = false;
                     if (!Vars.net.client()) {
                         unit = droneType.create(team);
                         if (unit instanceof BuildingTetherc bt) {
@@ -149,7 +151,12 @@ public class DroneCenterNew extends Block {
                         target = targetClosest(); //Units.closest(team, x, y, u -> !u.spawnedByCore && u.type != droneType);
                     }*/
             }
-            if(target == null) { if (unit != null) unit.dead(true); }
+            if(target == null) {
+                if (unit != null) if(within(unit, 6f)) {
+                    placeUnit = true;
+                    unit.dead(true);
+                }
+            }
 
             targetClosest();
         }
@@ -199,7 +206,7 @@ public class DroneCenterNew extends Block {
                 });
             }
 
-            if(hadUnit && target != null){
+            if(hadUnit && placeUnit){
                 Draw.rect(droneType.fullIcon, x, y);
             }
 
