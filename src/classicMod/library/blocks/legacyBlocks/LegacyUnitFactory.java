@@ -87,6 +87,7 @@ public class LegacyUnitFactory extends Block {
             }
             consumeItems(requirement);
         }
+        originMax = maxSpawn;
 
         super.init();
     }
