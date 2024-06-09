@@ -39,17 +39,17 @@ public class ClassicItems extends Items {
         }};
 
         stone = new Item("stone", Color.valueOf("8c8c8c")){{
-            cost = copper.cost*1.25f;
+            cost = copper.cost * 0.85f;
         }};
 
         iron = new Item("iron", Color.valueOf("c0a8a6")){{
             hardness = 3;
-            cost = leadCost*1.25f;
+            cost = leadCost * 1.25f;
         }};
 
         steel = new Item("steel", Color.valueOf("c5eae6")){{
             hardness = 2;
-            cost = iron.cost*1.25f;
+            cost = iron.cost * 1.25f;
         }};
 
         dirium = new Item("dirium", Color.valueOf("a7f3ca")){{

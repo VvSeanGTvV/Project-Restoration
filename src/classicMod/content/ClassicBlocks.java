@@ -647,7 +647,7 @@ public class ClassicBlocks {
             size = 2;
         }};
 
-        smolSeparator= new Separator("small-separator"){{
+        smolSeparator= new Separator("smol-separator"){{
             requirements(Category.crafting, with(Items.copper, 10, Items.titanium, 5));
             results = with(
                     Items.sand, 10,

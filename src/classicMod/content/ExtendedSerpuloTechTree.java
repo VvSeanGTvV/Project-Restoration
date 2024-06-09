@@ -76,11 +76,15 @@ public class ExtendedSerpuloTechTree {
         });
 
         margeNode(mechanicalDrill, () -> {
-            /*node(denseSmelter, () -> {
+            node(denseSmelter, () -> {
                 node(arcSmelter, () -> {
 
                 });
-            });*/
+            });
+        });
+
+        margeNode(pneumaticDrill, () -> {
+            node(smolSeparator);
         });
 
         margeNode(launchPad, () -> {
@@ -99,6 +103,7 @@ public class ExtendedSerpuloTechTree {
         margeNode(impulsePump, () -> {
             node(thermalPump);
         });
+
     }
 
     private static void margeNode(UnlockableContent parent, Runnable children){ //from betamindy!
