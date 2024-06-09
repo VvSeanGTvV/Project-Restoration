@@ -173,8 +173,8 @@ public class ClassicMod extends Mod{
         new ClassicUnitTypes().load();
         new ClassicBlocks().load();
         if(Classic){new ClassicBlocks().loadClassic();}
-        if(Contentv4){new ClassicBlocks().loadv4();}
-        new ExtendedSerpuloTechTree().load();
+        if(Contentv4){new ClassicBlocks().loadv4();
+        new ExtendedSerpuloTechTree().load();}
         new ExtendedErekirTechTree().load();
         if(Classic){new ClassicTechtree().load();}
 
