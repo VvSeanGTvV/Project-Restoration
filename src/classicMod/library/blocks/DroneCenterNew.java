@@ -39,7 +39,7 @@ public class DroneCenterNew extends Block {
     public int unitsSpawned = 4;
     public UnitType droneType;
     /** Status effect for Effect Drone to give the exact effect to the units **/
-    public StatusEffect status = StatusEffects.overdrive;
+    public StatusEffect status = StatusEffects.overclock;
     /** Contrustion time per Units **/
     public float droneConstructTime = 60f * 3f;
     /** Duration of the currently selected status effect **/

@@ -10,8 +10,11 @@ public class ClassicItems extends Items {
             //v4 items
             denseAlloy, tungstenOld,
 
+            //v4 & Classic Hybrid Items
+            stone,
+
             //Classic
-            uranium, dirium, steel, stone, iron
+            uranium, dirium, steel, iron
     ;
 
     public static final Seq<Item> classicOnlyItems = new Seq<>();
@@ -56,11 +59,14 @@ public class ClassicItems extends Items {
 
         fissileMatter.hidden = false; //ok
 
-        classicOnlyItems.addAll(uranium, dirium, steel, iron, titanium);
+        classicOnlyItems.addAll(uranium, dirium, steel, iron, titanium).removeAll(serpuloItems);
+        classicOnlyItems.addAll(uranium, dirium, steel, iron, titanium).removeAll(erekirItems);
 
         erekirItems.addAll( //Override the erekir stuff
                 graphite, thorium, silicon, phaseFabric, surgeAlloy, sand,
                 beryllium, tungsten, oxide, carbide, fissileMatter, scrap, dormantCyst
         );
+
+        erekirOnlyItems.addAll(erekirItems).removeAll(serpuloItems);
     }
 }

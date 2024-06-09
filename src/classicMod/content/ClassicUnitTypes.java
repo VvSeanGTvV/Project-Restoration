@@ -1343,8 +1343,7 @@ public class ClassicUnitTypes {
             controller = u -> new EffectDroneAI();
             payloadCapacity = 0f;
 
-            //flying = false;
-            hovering = true;
+            flying = false;
             targetable = false;
             bounded = false; //Map push unit
             drag = 0.08f;
@@ -1352,32 +1351,19 @@ public class ClassicUnitTypes {
             lowAltitude = drawCell = isEnemy = logicControllable = playerControllable = allowedInPayloads = false;
             hidden = true;
             range = 30f; //TODO range testing
-            useEngineElevation = false;
+
 
             health = 100f;
             hitSize = 7.5f;
 
             engineSize = 0f;
-
-            for(float f : new float[]{-3f, 3f}){
-                parts.add(new HoverPart(){{
-                    x = 3.9f;
-                    y = f;
-                    mirror = true;
-                    radius = 6f;
-                    phase = 90f;
-                    stroke = 2f;
-                    layerOffset = -0.001f;
-                    color = Color.valueOf("d1efff");
-                }});
-            }
-
-            /*float es = 2.5f, ew = 14.5f / 4f;
+            engineColor = Color.valueOf("d1efff");
+            float es = 2.5f, ew = 14.5f / 4f;
 
             setEnginesMirror(
                     new UnitEngine(ew, ew, es, 45f),
                     new UnitEngine(ew, -ew, es, 315f)
-            );*/
+            );
         }};
     }
     

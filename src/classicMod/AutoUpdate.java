@@ -38,13 +38,14 @@ public class AutoUpdate {
     public static void check() {
         Log.info("Checking for updates.");
         Http.get(url, res -> {
+            Log.info("MOD RECEIVE "+ClassicMod.BuildVer);
             Jval json = Jval.read(res.getResultAsString());
             latest = json.getString("tag_name").substring(1);
-            String s1 = latest;
             download = json.get("assets").asArray().get(0).getString("browser_download_url");
+            Log.info("GITHUB RECEIVE "+latest);
             latestBuild = Integer.parseInt(json.getString("tag_name").substring(1)); //change into INT as build number
             int modBuild = Integer.parseInt(ClassicMod.BuildVer); //change into INT as build number
-            Log.info(latestBuild+" "+mod.meta.version);
+            Log.info("GITHUB "+latestBuild+" : "+mod.meta.version+" MOD");
 
             //check if Build is not in the latest
             overBuild = (modBuild > latestBuild);
@@ -53,6 +54,7 @@ public class AutoUpdate {
                     "@updater.restored-mind.name", bundle.format("updater.restored-mind.info", mod.meta.version, latest),
                     "@updater.restored-mind.load", "@ok", AutoUpdate::update, () -> {});
             }
+            Log.info("OVER "+overBuild);
         }, Log::err);
     }
 
@@ -79,13 +81,5 @@ public class AutoUpdate {
             app.post(ui.loadfrag::hide);
             ui.showInfoOnHidden("@mods.reloadexit", app::exit);
         } catch (Throwable e) { Log.err(e); }
-    }
-
-    /*public static Fi script() {
-        return mod.root.child("scripts").child("main.js");
-    }*/
-
-    public static boolean installed(String mod) {
-        return mods.getMod(mod) != null && mods.getMod(mod).enabled();
     }
 }

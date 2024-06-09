@@ -31,7 +31,7 @@ import static mindustry.Vars.*;
 
 public class ClassicMod extends Mod{
     /** Mod's current Version **/
-    public static String ModVersion = "3.1 Beta v146";
+    public static String ModVersion = "3.2 PRE-ALPHA v146";
     /** Mod's current Build **/
     public static final String BuildVer = "11";
     protected LoadedMod resMod = mods.locateMod("restored-mind");
@@ -168,7 +168,7 @@ public class ClassicMod extends Mod{
         Log.info("Loading contents...");
         new ClassicItems().load();
         new ClassicLiquids().load();
-        if(Classic){new ClassicBlocks().loadOverride();} //override vanilla stuff
+        new ClassicBlocks().loadOverride();
         new ClassicBullets().load();
         new ClassicUnitTypes().load();
         new ClassicBlocks().load();

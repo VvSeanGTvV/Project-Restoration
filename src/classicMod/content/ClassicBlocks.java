@@ -51,7 +51,7 @@ public class ClassicBlocks {
 
 
     warpGate, //Distribution [v4]
-    melter, denseSmelter, arcSmelter, //Production [v4]
+    melter, denseSmelter, arcSmelter,  smolSeparator, //Production [v4]
     fuseMKII, fuseMKI, salvoAlpha, //Turret [v4]
     plasmaDrill, //Drills [v4]
 
@@ -84,6 +84,7 @@ public class ClassicBlocks {
     public void loadOverride(){
         Blocks.stone.itemDrop = ClassicItems.stone;
         Blocks.stone.playerUnmineable = true;
+
         Blocks.craters.itemDrop = ClassicItems.stone;
         Blocks.craters.playerUnmineable = true;
     }
@@ -96,13 +97,6 @@ public class ClassicBlocks {
             infinityCapacity = true;
             alwaysUnlocked = true;
         }};
-
-        warpGate = new WarpGate("warp-gate"){
-            {
-                requirements(Category.distribution, with(ClassicItems.steel, 30, ClassicItems.dirium, 40));
-                size = 3;
-            }
-        };
 
         tunnelBridge = new ModifiedDuctBridge("conveyor-tunnel"){{
             requirements(Category.distribution, with(ClassicItems.iron, 2));
@@ -528,6 +522,13 @@ public class ClassicBlocks {
     }
 
     public void loadv4(){
+        warpGate = new WarpGate("warp-gate"){
+            {
+                requirements(Category.distribution, with(ClassicItems.steel, 30, ClassicItems.dirium, 40));
+                size = 3;
+            }
+        };
+
         salvoAlpha = new ItemTurretV6("alpha-salvo"){{
             requirements(Category.turret, with(ClassicItems.tungstenOld, 210, Items.carbide, 190, Items.thorium, 130));
             ammo(
@@ -644,6 +645,26 @@ public class ClassicBlocks {
             drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc999")));
             craftTime = 30f;
             size = 2;
+        }};
+
+        smolSeparator= new Separator("small-separator"){{
+            requirements(Category.crafting, with(Items.copper, 10, Items.titanium, 5));
+            results = with(
+                    Items.sand, 10,
+                    ClassicItems.stone, 9,
+                    Items.copper, 4,
+                    Items.lead, 2,
+                    Items.coal, 2,
+                    Items.titanium, 1
+            );
+            hasPower = false;
+            craftTime = 40f;
+            size = 1;
+
+            consumeItems(with(ClassicItems.stone, 2));
+            consumeLiquid(Liquids.water, 0.3f / 60f);
+
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawDefault());
         }};
     }
 
