@@ -66,6 +66,6 @@ public class ClassicItems extends Items {
                 beryllium, tungsten, oxide, carbide, fissileMatter, scrap, dormantCyst
         );
 
-        erekirOnlyItems.addAll(erekirItems).removeAll(serpuloItems);
+        //erekirOnlyItems.addAll(erekirItems).removeAll(serpuloItems);
     }
 }
