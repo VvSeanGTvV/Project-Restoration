@@ -86,28 +86,28 @@ public class ClassicUnitTypes {
             buildSpeed = 1f;
             constructor = UnitEntity::create;
 
-            /*weapons.add(new Weapon("restored-mind-blaster-equip") {{
-                x = 0.8f;
-                y = -1f;
-                top = true;
-
-                reload = 7.5f;
-                alternate = true;
-                ejectEffect = ExtendedFx.shellEjectSmall;
+            weapons.add(new Weapon("restored-mind-osc-weapon"){{
+                y = 3f;
+                x = 3f;
                 mirror = true;
-                shootSound = pew;
-                shootX = -2.5f;
+                layerOffset = -0.0001f;
+                reload = 40f;
 
-
-                bullet = new BasicBulletType(2.5f, 9f) {{ //adjust the format of v5 for v7
+                bullet = new BasicBulletType(5f, 20){{
+                    pierceCap = 2;
+                    pierceBuilding = false;
                     width = 7f;
-                    height = 9f;
-                    lifetime = 60f;
-                    shootEffect = Fx.shootSmall;
-                    smokeEffect = Fx.shootSmallSmoke;
-                    ammoMultiplier = 2;
+                    height = 12f;
+                    lifetime = 25f;
+                    shootEffect = Fx.sparkShoot;
+                    smokeEffect = Fx.shootBigSmoke;
+                    hitColor = backColor = trailColor = Pal.suppress;
+                    frontColor = Color.white;
+                    trailWidth = 1.5f;
+                    trailLength = 5;
+                    hitEffect = despawnEffect = Fx.hitBulletColor;
                 }};
-            }});*/
+            }});
         }};
 
         // --- v5 Zone ---
@@ -1343,7 +1343,8 @@ public class ClassicUnitTypes {
             controller = u -> new EffectDroneAI();
             payloadCapacity = 0f;
 
-            flying = true;
+            //flying = false;
+            hovering = true;
             targetable = false;
             bounded = false; //Map push unit
             drag = 0.08f;
@@ -1351,17 +1352,32 @@ public class ClassicUnitTypes {
             lowAltitude = drawCell = isEnemy = logicControllable = playerControllable = allowedInPayloads = false;
             hidden = true;
             range = 30f; //TODO range testing
+            useEngineElevation = false;
 
             health = 100f;
             hitSize = 7.5f;
 
             engineSize = 0f;
-            float es = 2.5f, ew = 14.5f / 4f;
+
+            for(float f : new float[]{-3f, 3f}){
+                parts.add(new HoverPart(){{
+                    x = 3.9f;
+                    y = f;
+                    mirror = true;
+                    radius = 6f;
+                    phase = 90f;
+                    stroke = 2f;
+                    layerOffset = -0.001f;
+                    color = Color.valueOf("d1efff");
+                }});
+            }
+
+            /*float es = 2.5f, ew = 14.5f / 4f;
 
             setEnginesMirror(
                     new UnitEngine(ew, ew, es, 45f),
                     new UnitEngine(ew, -ew, es, 315f)
-            );
+            );*/
         }};
     }
     
