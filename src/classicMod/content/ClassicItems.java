@@ -59,8 +59,7 @@ public class ClassicItems extends Items {
 
         fissileMatter.hidden = false; //ok
 
-        classicOnlyItems.addAll(uranium, dirium, steel, iron, titanium).removeAll(serpuloItems);
-        classicOnlyItems.addAll(uranium, dirium, steel, iron, titanium).removeAll(erekirItems);
+        classicOnlyItems.addAll(uranium, dirium, steel, iron, titanium);
 
         erekirItems.addAll( //Override the erekir stuff
                 graphite, thorium, silicon, phaseFabric, surgeAlloy, sand,
