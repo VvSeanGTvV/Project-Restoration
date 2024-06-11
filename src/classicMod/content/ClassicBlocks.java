@@ -669,7 +669,7 @@ public class ClassicBlocks {
 
         arcAir = new PowerTurret("arc-air"){{
             requirements(Category.turret, with(Items.copper, 50, Items.lead, 50));
-            shootType = new LightningBulletType(){{
+            shootType = arcOld; /*new LightningBulletType(){{
                 damage = 20;
                 lightningLength = 25;
                 collidesAir = false;
@@ -679,7 +679,7 @@ public class ClassicBlocks {
                 buildingDamageMultiplier = 0.25f;
 
                 lightningType = arcOld;
-            }};
+            }};*/
             shake = 1f;
             reload = 30f;
             shootCone = 40f;
