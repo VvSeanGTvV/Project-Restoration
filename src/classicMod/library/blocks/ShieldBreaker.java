@@ -10,6 +10,8 @@ import mindustry.entities.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.world.*;
+import mindustry.world.blocks.defense.BaseShield;
+import mindustry.world.blocks.defense.ShieldWall;
 
 public class ShieldBreaker extends Block{
     /** Specific block that can destroyed by this block **/
@@ -46,29 +48,14 @@ public class ShieldBreaker extends Block{
         public void updateTile(){ //TODO fix this
             if(efficiency >= 1f){
                 effect.at(this);
-                /*for(var other : Vars.state.teams.active){
-                    if(team != other.team){
-                        for(var block : toDestroy){
-                            other.getBuildings(block).copy().each(b -> {
-                                breakEffect.at(b);
-                                b.kill();
-                            });
-                        }
-                    }
+                Building b = Units.closestBuilding(team, x, y, Float.MAX_VALUE/2, building -> building instanceof BaseShield.BaseShieldBuild);
+                if (b != null) {
+                    breakEffect.at(b);
+                    b.kill();
+                } else {
                     selfKillEffect.at(this);
-                }*/
-                int i = 1;
-                for(var other : Vars.state.teams.active){
-                    if (team != Vars.state.rules.defaultTeam){
-                        for (Building b : other.getBuildings(toDestroy[i])) {
-                            breakEffect.at(b);
-                            b.kill();
-                        }
-                        if(i < toDestroy.length) i++;
-                    }
+                    kill();
                 }
-                selfKillEffect.at(this);
-                kill();
             }
         }
 

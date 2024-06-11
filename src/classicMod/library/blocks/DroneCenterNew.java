@@ -223,9 +223,10 @@ public class DroneCenterNew extends Block {
 
             //write.i(target == null ? -1 : target.id);
 
-            write.b(placeUnit ? -1 : 1);
+
             write.i(unit == null ? -1 : unit.id);
             write.bool(hadUnit);
+            write.bool(placeUnit);
         }
 
         @Override
@@ -236,8 +237,7 @@ public class DroneCenterNew extends Block {
 
             readUnitId = read.i();
             hadUnit = read.bool();
-            byte b = 1;
-            placeUnit = (read.b() == b);
+            placeUnit = read.bool();
         }
     }
 }
