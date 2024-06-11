@@ -15,8 +15,6 @@ import mindustry.gen.*;
 public class TeslaOrbType extends BulletType {
     /** Array of the listed target **/
     public @Nullable Teamc[] ArrayTarget;
-    /** How fast is the timer **/
-    public float timeSpeedup;
     /** Array of the listed target's position **/
     public @Nullable Vec2[] ArrayVec2;
     /** Maximum hits before despawning **/

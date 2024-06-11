@@ -19,9 +19,11 @@ public class FactoryGroundAI extends RallyAI {
 
     @Override
     public void updateMovement(){
-        if(!(unit instanceof BuildingTetherc tether) || tether.building() == null) return;
-        if(!(tether.building().block instanceof LegacyUnitFactory block)) return;
-        if(!(tether.building() instanceof LegacyUnitFactory.LegacyUnitFactoryBuild build)) return;
+        if(unit.team == Vars.state.rules.defaultTeam) {
+            if (!(unit instanceof BuildingTetherc tether) || tether.building() == null) return;
+            if (!(tether.building().block instanceof LegacyUnitFactory block)) return;
+            if (!(tether.building() instanceof LegacyUnitFactory.LegacyUnitFactoryBuild build)) return;
+        }
 
         if(PublicState == UnitState.attack) {
             Building core = unit.closestEnemyCore();

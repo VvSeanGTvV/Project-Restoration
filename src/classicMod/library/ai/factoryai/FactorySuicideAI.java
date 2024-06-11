@@ -29,9 +29,11 @@ public class FactorySuicideAI extends RallyAI {
 
     @Override
     public void updateUnit(){
-        if(!(unit instanceof BuildingTetherc tether) || tether.building() == null) return;
-        if(!(tether.building().block instanceof LegacyUnitFactory block)) return;
-        if(!(tether.building() instanceof LegacyUnitFactory.LegacyUnitFactoryBuild buildf)) return;
+        if(unit.team == Vars.state.rules.defaultTeam) {
+            if (!(unit instanceof BuildingTetherc tether) || tether.building() == null) return;
+            if (!(tether.building().block instanceof LegacyUnitFactory block)) return;
+            if (!(tether.building() instanceof LegacyUnitFactory.LegacyUnitFactoryBuild build)) return;
+        }
 
         if(PublicState == UnitState.attack) {
             if (Units.invalidateTarget(target, unit.team, unit.x, unit.y, Float.MAX_VALUE)) {

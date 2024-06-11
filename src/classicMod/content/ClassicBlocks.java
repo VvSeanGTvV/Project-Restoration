@@ -959,6 +959,7 @@ public class ClassicBlocks {
             shieldHealth = 2000f;
             cooldownNormal = 3f;
             cooldownBrokenBase = 0.35f;
+            envEnabled |= Env.scorching;
 
             consumePower(4f);
         }};
@@ -1009,7 +1010,7 @@ public class ClassicBlocks {
             outputItem = new ItemStack(Items.fissileMatter, 1);
         }};
 
-        cellSynthesisChamber = new LiquidConverter("cell-synthesis-chamber") {{
+        /*cellSynthesisChamber = new LiquidConverter("cell-synthesis-chamber") {{
             requirements(Category.crafting, with(Items.thorium, 75, Items.phaseFabric, 95, Items.tungsten, 155, Items.surgeAlloy, 65));
             outputLiquid = new LiquidStack(Liquids.neoplasm, 0.4f);
             ConvertTime = 200f;
@@ -1020,7 +1021,7 @@ public class ClassicBlocks {
             rotate = false;
             solid = true;
             outputsLiquid = true;
-            envEnabled |= Env.space; //because it was on erekir lolz
+            envEnabled = Env.
             drawer = new DrawCells() {{
                 color = Color.valueOf("9e172c");
                 particleColorFrom = Color.valueOf("9e172c");
@@ -1042,7 +1043,45 @@ public class ClassicBlocks {
 
             /* consumes.power(2f);
             consumes.items(with(Items.sporePod, 3, Items.phaseFabric, 1));
-            consumes.liquid(Liquids.water, 0.8f);*/
+            consumes.liquid(Liquids.water, 0.8f);
+        }}; */
+
+        cellSynthesisChamber = new GenericCrafter("cell-synthesis-chamber") {{
+            requirements(Category.crafting, with(Items.thorium, 75, Items.phaseFabric, 95, Items.tungsten, 155, Items.surgeAlloy, 65));
+            outputLiquid = new LiquidStack(Liquids.neoplasm, 0.4f);
+
+            size = 3;
+            hasPower = true;
+            hasItems = true;
+            hasLiquids = true;
+            rotate = false;
+            solid = true;
+            outputsLiquid = true;
+
+            liquidCapacity = 30f;
+
+            consumePower(2f);
+            consumeItems(with(Items.carbide, 3, Items.phaseFabric, 1));
+            consumeLiquids(LiquidStack.with(Liquids.cyanogen, 0.8f));
+
+            var Cells = new DrawCells() {{
+                color = Color.valueOf("9e172c");
+                particleColorFrom = Color.valueOf("9e172c");
+                particleColorTo = Color.valueOf("f98f4a");
+                radius = 2.5f;
+                lifetime = 1400f;
+                recurrence = 2f;
+                particles = 20;
+                range = 3f;
+            }};
+
+            drawer = new DrawMulti(
+                    new DrawRegion("-bottom"),
+                    new DrawLiquidTile(Liquids.cyanogen),
+                    new DrawLiquidTile(Liquids.neoplasm),
+                    Cells,
+                    new DrawDefault()
+            );
         }};
 
         slagCentrifuge = new GenericCrafter("slag-centrifuge"){{
@@ -1080,8 +1119,8 @@ public class ClassicBlocks {
             outputItem = new ItemStack(Items.scrap, 1);
         }};
 
-        //Nuclear //TODO make it work???
-        /*warheadAssembler = new SingleBlockProducer("warhead-assembler") {{
+        //Nuclear //TODO make it work??? & SPRITE OVERHAUL needed
+        warheadAssembler = new SingleBlockProducer("warhead-assembler") {{
             requirements(Category.crafting, with(Items.thorium, 100));
             result = nuclearWarhead;
             size = 3;
@@ -1096,7 +1135,7 @@ public class ClassicBlocks {
         nuclearWarhead = new NuclearWarhead("nuclear-warhead") {{
             requirements(Category.crafting, with(Items.thorium, 40));
             size = 2;
-        }};*/
+        }};
 
         //Turrets
         horde = new ItemTurretV6("horde"){{
@@ -1370,7 +1409,7 @@ public class ClassicBlocks {
 
         //Campaign
         droneCenter = new DroneCenterNew("drone-center"){{
-            requirements(Category.units, with(Items.tungsten, 150, Items.phaseFabric, 100)); //TODO sprite lol
+            requirements(Category.units, with(Items.tungsten, 150, Items.phaseFabric, 100));
 
             size = 3;
             consumePower(3f);
@@ -1395,7 +1434,7 @@ public class ClassicBlocks {
             scaledHealth = 80;
         }};
 
-        launchPadLarge = new LaunchPad("launch-pad-large"){{ //TODO the lights
+        launchPadLarge = new LaunchPad("launch-pad-large"){{
             requirements(Category.effect, BuildVisibility.campaignOnly, with(Items.titanium, 200, Items.silicon, 150, Items.lead, 250, Items.plastanium, 75));
             size = 4;
             itemCapacity = 300;

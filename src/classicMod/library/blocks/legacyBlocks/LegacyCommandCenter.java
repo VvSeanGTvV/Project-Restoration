@@ -150,7 +150,8 @@ public class LegacyCommandCenter extends Block {
                             var target = targetClosest(targetM);
                             if(target != null && targetM.hasWeapons()){
                                 targetM.lookAt(target);
-                                ai.command = targetM.type.defaultCommand == null ? targetM.type.commands[0] : targetM.type.defaultCommand;
+                                if(targetM.isFlying()) ai.circleAttack(65f + Mathf.randomSeed(targetM.id) * 100);
+                                ai.attackTarget = target;
                             }
                         }
                     }

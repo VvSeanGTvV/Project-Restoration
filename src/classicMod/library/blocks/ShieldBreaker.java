@@ -13,6 +13,8 @@ import mindustry.world.*;
 import mindustry.world.blocks.defense.BaseShield;
 import mindustry.world.blocks.defense.ShieldWall;
 
+import java.util.Objects;
+
 public class ShieldBreaker extends Block{
     /** Specific block that can destroyed by this block **/
     public Block[] toDestroy = {};
@@ -44,11 +46,20 @@ public class ShieldBreaker extends Block{
     }
 
     public class ShieldBreakerBuild extends Building{
+
+        public boolean isValidBuild(Building building){
+            boolean isValid = false;
+            for (int i = 0; i < toDestroy.length; i++ ){
+                isValid = (Objects.equals(toDestroy[i].name, building.block.name));
+                if(isValid)break;
+            }
+            return isValid;
+        }
         @Override
         public void updateTile(){ //TODO fix this
             if(efficiency >= 1f){
                 effect.at(this);
-                Building b = Units.findEnemyTile(team, x, y, Float.MAX_VALUE/2, building -> building instanceof BaseShield.BaseShieldBuild);
+                Building b = Units.findEnemyTile(team, x, y, Float.MAX_VALUE/2, building -> (building instanceof BaseShield.BaseShieldBuild && isValidBuild(building)));
                 if (b != null) {
                     breakEffect.at(b);
                     b.kill();

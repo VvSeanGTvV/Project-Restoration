@@ -30,7 +30,7 @@ public class FactoryFlyingAI extends RallyAI {
     protected float[] weaponAngles = {0,0}; //it's old lolz
     @Override
     public void updateMovement() {
-        if(Vars.state.rules.waveTeam != Vars.state.rules.defaultTeam) {
+        if(unit.team == Vars.state.rules.defaultTeam) {
             if (!(unit instanceof BuildingTetherc tether) || tether.building() == null) return;
             if (!(tether.building().block instanceof LegacyUnitFactory block)) return;
             if (!(tether.building() instanceof LegacyUnitFactory.LegacyUnitFactoryBuild build)) return;
