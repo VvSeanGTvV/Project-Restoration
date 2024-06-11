@@ -83,7 +83,7 @@ public class ClassicBullets {
                 Tile a = Vars.world.tile(Mathf.round(b.x / Vars.tilesize), Mathf.round(b.y / Vars.tilesize));
                 if(a != null){
                     for(int i = 0; i < 3; i ++){
-                        createBullet(Vars.content.bullets().get(Mathf.random(1, Vars.content.bullets().size)), b.team, a.x, a.y, b.rotation() + Mathf.range(120f), flakSpark.damage, 1, 1);
+                        //createBullet(Vars.content.bullets().get(Mathf.random(1, Vars.content.bullets().size)), b.team, a.x, a.y, b.rotation() + Mathf.range(120f), flakSpark.damage, 1, 1);
                     }
                     var f = getFloorRandomize();
                     if(f!=null) a.setFloor(f);
