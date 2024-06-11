@@ -70,7 +70,7 @@ public class ClassicBullets {
             public void update(Bullet b){
                 Tile a = Vars.world.tile(Mathf.round(b.x / Vars.tilesize), Mathf.round(b.y / Vars.tilesize));
                 if(a != null){
-                    a.setBlock(Vars.content.block(Mathf.random(1, Vars.content.blocks().size)));
+                    a.remove();
                 }
             }
 
