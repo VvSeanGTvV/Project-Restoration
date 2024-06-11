@@ -63,6 +63,12 @@ public class LiquidConverter extends GenericCrafter { //TODO fix this old conver
         return new TextureRegion[]{Core.atlas.find(name + "-bottom"), Core.atlas.find(name)};
     }
 
+    @Override
+    public void drawPlace(int x, int y, int rotation, boolean valid) {
+        Draw.rect(bottomRegion, x, y);
+        Draw.rect(region, x, y);
+    }
+
     public class LiquidConverterBuild extends GenericCrafterBuild{
         public float fractionTime(){ return progress / ConvertTime; }
         @Override

@@ -44,7 +44,7 @@ public class ShieldBreaker extends Block{
     public class ShieldBreakerBuild extends Building{
         @Override
         public void updateTile(){ //TODO fix this
-            if(Mathf.equal(efficiency, 1f)){
+            if(efficiency >= 1f){
                 effect.at(this);
                 /*for(var other : Vars.state.teams.active){
                     if(team != other.team){
@@ -58,8 +58,8 @@ public class ShieldBreaker extends Block{
                     selfKillEffect.at(this);
                 }*/
                 int i = 1;
-                for(var other : Vars.state.teams.active) {
-                    if (team != other.team) {
+                for(var other : Vars.state.teams.active){
+                    if (team != Vars.state.rules.defaultTeam){
                         for (Building b : other.getBuildings(toDestroy[i])) {
                             breakEffect.at(b);
                             b.kill();
@@ -67,8 +67,8 @@ public class ShieldBreaker extends Block{
                         if(i < toDestroy.length) i++;
                     }
                 }
-                //selfKillEffect.at(this);
-                //kill();
+                selfKillEffect.at(this);
+                kill();
             }
         }
 

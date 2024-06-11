@@ -5,6 +5,8 @@ import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
+import arc.util.io.Reads;
+import arc.util.io.Writes;
 import classicMod.content.*;
 import mindustry.content.*;
 import mindustry.entities.*;
@@ -144,13 +146,21 @@ public class GenericSmelter extends GenericCrafter {
         @Override
         public void updateTile(){
             hasFuel = this.items.has(fuelItems);
-            if(this.items.has(fuelItems) && efficiency > 0){
-                activeScl = Mathf.lerpDelta(activeScl, warmupTarget(), warmupSpeed);
-                fuelProgress += getProgressIncrease(burnTime);
-                if(fuelProgress >= 1f){
-                    consumeFuel(fuelItems, 1); //TODO make it consume multiple items with different numbers and not fixed num.
-                    fuelProgress %= 1f;
-                    burnEffect.at(this.x + Mathf.range(2f), this.y + Mathf.range(2f));
+            if(efficiency > 0){
+                if(this.items.has(fuelItems)) {
+                    activeScl = Mathf.lerpDelta(activeScl, warmupTarget(), warmupSpeed);
+                    fuelProgress += getProgressIncrease(burnTime);
+                    if (fuelProgress >= 1f) {
+                        consumeFuel(fuelItems, 1); //TODO make it consume multiple items with different numbers and not fixed num.
+                        fuelProgress %= 1f;
+                        burnEffect.at(this.x + Mathf.range(2f), this.y + Mathf.range(2f));
+                    }
+                } else {
+                    activeScl = Mathf.lerpDelta(activeScl, 0f, warmupSpeed);
+                    if(fuelProgress != 0 && fuelProgress < 1){
+                        fuelProgress %= 1f;
+                        consumeFuel(fuelItems, 1);
+                    }
                 }
             } else {
                activeScl = Mathf.lerpDelta(activeScl, 0f, warmupSpeed);
@@ -159,6 +169,7 @@ public class GenericSmelter extends GenericCrafter {
                    consumeFuel(fuelItems, 1);
                }
             }
+
             if(efficiency > 0 && hasFuel){
 
                 progress += getProgressIncrease(craftTime);
@@ -226,6 +237,28 @@ public class GenericSmelter extends GenericCrafter {
 
                 Draw.color();
             }
+        }
+
+        @Override
+        public void write(Writes write){
+            super.write(write);
+
+            write.f(progress);
+            write.f(fuelProgress);
+            write.f(warmup);
+
+            if(legacyReadWarmup) write.f(0f);
+        }
+
+        @Override
+        public void read(Reads read, byte revision){
+            super.read(read, revision);
+
+            progress = read.f();
+            fuelProgress = read.f();
+            warmup = read.f();
+
+            if(legacyReadWarmup) read.f();
         }
     }
 }
