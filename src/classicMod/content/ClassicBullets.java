@@ -61,14 +61,14 @@ public class ClassicBullets {
         modifierBullet = new BulletType(6, 0){
 
             /*public void hit(Bullet b, float hitx, float hity) {
-                Tile a = Vars.world.tile(Mathf.round(b.x / Vars.tilesize), Mathf.round(b.y / Vars.tilesize));\
+                Tile a = Vars.world.tile(Mathf.round(b.x / Vars.tilesize), Mathf.round(b.y / Vars.tilesize));
                 if(a != null){
                     a.setBlock(Vars.content.block(Mathf.random(1, Vars.content.blocks().size)));
                 }
             }*/
 
             public void update(Bullet b){
-                Tile a = Vars.world.tile(Mathf.round(b.x / Vars.tilesize), Mathf.round(b.y / Vars.tilesize));\
+                Tile a = Vars.world.tile(Mathf.round(b.x / Vars.tilesize), Mathf.round(b.y / Vars.tilesize));
                 if(a != null){
                     a.setBlock(Vars.content.block(Mathf.random(1, Vars.content.blocks().size)));
                 }
