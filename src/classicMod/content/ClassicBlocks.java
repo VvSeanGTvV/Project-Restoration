@@ -952,7 +952,7 @@ public class ClassicBlocks {
 
         //Projectors
         barrierProjector = new DirectionalForceProjector("barrier-projector"){{
-            requirements(Category.effect, with(Items.surgeAlloy, 100, Items.silicon, 125));
+            requirements(Category.effect, with(Items.tungsten, 100, Items.silicon, 125));
             size = 3;
             width = 50f;
             length = 36;
