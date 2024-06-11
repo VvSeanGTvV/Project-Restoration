@@ -513,11 +513,13 @@ public class ClassicBlocks {
         wallDiriumLarge = new Wall("dirium-wall-large"){{
             requirements(Category.defense, ItemStack.mult(wallDirium.requirements, 4));
             health = 110 * wallHealthMultiplier * 4;
+            size = 2;
         }};
 
         wallSteelLarge = new Wall("steel-wall-large"){{
             requirements(Category.defense, ItemStack.mult(wallSteel.requirements, 4));
             health = 80 * wallHealthMultiplier * 4;
+            size = 2;
         }};
     }
 
@@ -682,11 +684,11 @@ public class ClassicBlocks {
             }};*/
             shake = 1f;
             reload = 30f;
-            shootCone = 40f;
-            rotateSpeed = 8f;
+            shootCone = 30f;
+            rotateSpeed = 7f;
             targetAir = true;
             targetGround = false;
-            range = 60f;
+            range = 70f;
             shootEffect = Fx.lightningShoot;
             heatColor = Color.red;
             recoil = 1f;
@@ -700,58 +702,9 @@ public class ClassicBlocks {
         cycloneb57 = new ItemTurret("cyclone-b57"){{
             requirements(Category.turret, with(Items.copper, 200, Items.titanium, 125, Items.plastanium, 80));
             ammo(
-                    Items.metaglass, new FlakBulletType(4f, 6){{
-                        ammoMultiplier = 2f;
-                        shootEffect = Fx.shootSmall;
-                        reloadMultiplier = 0.8f;
-                        width = 6f;
-                        height = 8f;
-                        hitEffect = Fx.flakExplosion;
-                        splashDamage = 45f;
-                        splashDamageRadius = 25f;
-                        fragBullet = new BasicBulletType(3f, 12, "bullet"){{
-                            width = 5f;
-                            height = 12f;
-                            shrinkY = 1f;
-                            lifetime = 20f;
-                            backColor = Pal.gray;
-                            frontColor = Color.white;
-                            despawnEffect = Fx.none;
-                        }};
-                        fragBullets = 4;
-                        explodeRange = 20f;
-                        collidesGround = true;
-                    }},
-                    Items.blastCompound, new FlakBulletType(4f, 8){{
-                        shootEffect = Fx.shootBig;
-                        ammoMultiplier = 5f;
-                        splashDamage = 45f;
-                        splashDamageRadius = 60f;
-                        collidesGround = true;
-
-                        status = StatusEffects.blasted;
-                        statusDuration = 60f;
-                    }},
-                    Items.plastanium, new FlakBulletType(4f, 8){{
-                        ammoMultiplier = 4f;
-                        splashDamageRadius = 40f;
-                        splashDamage = 37.5f;
-                        fragBullet = new BasicBulletType(2.5f, 12, "bullet"){{
-                            width = 10f;
-                            height = 12f;
-                            shrinkY = 1f;
-                            lifetime = 15f;
-                            backColor = Pal.plastaniumBack;
-                            frontColor = Pal.plastaniumFront;
-                            despawnEffect = Fx.none;
-                        }};
-                        fragBullets = 6;
-                        hitEffect = Fx.plasticExplosion;
-                        frontColor = Pal.plastaniumFront;
-                        backColor = Pal.plastaniumBack;
-                        shootEffect = Fx.shootBig;
-                        collidesGround = true;
-                        explodeRange = 20f;
+                    Items.lead, new BasicBulletType(3f, 5){{
+                        width = 7f;
+                        height = 9f;
                     }},
                     Items.surgeAlloy, new FlakBulletType(4.5f, 13){{
                         ammoMultiplier = 5f;
@@ -766,23 +719,15 @@ public class ClassicBlocks {
             );
             shootY = 10f;
 
-            shoot = new ShootBarrel(){{
-                barrels = new float[]{
-                        0f, 1f, 0f,
-                        3f, 0f, 0f,
-                        -3f, 0f, 0f,
-                };
-            }};
-
             recoils = 3;
 
-            reload = 8f;
-            range = 200f;
+            reload = 8.25f;
+            range = 210f;
             size = 3;
-            recoil = 1.5f;
+            recoil = 1.6f;
             recoilTime = 10;
             rotateSpeed = 10f;
-            inaccuracy = 10f;
+            inaccuracy = 11f;
             shootCone = 30f;
             shootSound = Sounds.shootSnap;
             coolant = consumeCoolant(0.3f);
