@@ -48,7 +48,7 @@ public class ShieldBreaker extends Block{
         public void updateTile(){ //TODO fix this
             if(efficiency >= 1f){
                 effect.at(this);
-                Building b = Units.closestBuilding(team, x, y, Float.MAX_VALUE/2, building -> building instanceof BaseShield.BaseShieldBuild);
+                Building b = Units.findEnemyTile(team, x, y, Float.MAX_VALUE/2, building -> building instanceof BaseShield.BaseShieldBuild);
                 if (b != null) {
                     breakEffect.at(b);
                     b.kill();
