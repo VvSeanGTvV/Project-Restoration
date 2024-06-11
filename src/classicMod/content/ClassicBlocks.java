@@ -959,7 +959,7 @@ public class ClassicBlocks {
             shieldHealth = 2000f;
             cooldownNormal = 3f;
             cooldownBrokenBase = 0.35f;
-            envEnabled |= Env.scorching;
+            envEnabled |= Env.space;
 
             consumePower(4f);
         }};
