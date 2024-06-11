@@ -4,11 +4,14 @@ import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
+import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
+import mindustry.world.Tile;
+import mindustry.world.Tiles;
 
 import static classicMod.content.ClassicVars.*;
 import static mindustry.graphics.Pal.surge;
@@ -43,6 +46,9 @@ public class ClassicBullets {
     //v5 bullets
     fuseShot,
 
+    //funy modification
+    modifierBullet,
+
     //classic bullets
     titanshell, chain, plasmaflame, stone, iron, sniper, flameClassic, flakClassic, flakSpark,
 
@@ -51,6 +57,32 @@ public class ClassicBullets {
     ;
 
     public void load(){
+
+        modifierBullet = new BulletType(6, 0){
+
+            /*public void hit(Bullet b, float hitx, float hity) {
+                Tile a = Vars.world.tile(Mathf.round(b.x / Vars.tilesize), Mathf.round(b.y / Vars.tilesize));\
+                if(a != null){
+                    a.setBlock(Vars.content.block(Mathf.random(1, Vars.content.blocks().size)));
+                }
+            }*/
+
+            public void update(Bullet b){
+                Tile a = Vars.world.tile(Mathf.round(b.x / Vars.tilesize), Mathf.round(b.y / Vars.tilesize));\
+                if(a != null){
+                    a.setBlock(Vars.content.block(Mathf.random(1, Vars.content.blocks().size)));
+                }
+            }
+
+            {
+                shootEffect = Fx.none;
+                smokeEffect = Fx.none;
+                hitEffect = Fx.none;
+                despawnEffect = Fx.none;
+
+                lifetime = 60;
+        }};
+
         //classic bullets
         Color whiteOrange = Color.valueOf("fccca5");
         smol = new BulletType(1.5f*ClassicBulletsMultiplier, 2*ClassicBulletsMultiplier){

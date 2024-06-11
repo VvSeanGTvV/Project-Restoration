@@ -9,6 +9,7 @@ import classicMod.library.ability.*;
 import classicMod.library.ai.*;
 import classicMod.library.ai.factoryai.FactoryFlyingAI;
 import classicMod.library.ai.factoryai.FactoryGroundAI;
+import classicMod.library.desolate.TentacleUnitType;
 import mindustry.*;
 import mindustry.ai.types.*;
 import mindustry.content.*;
@@ -48,12 +49,46 @@ public class ClassicUnitTypes {
 
     bulwark,
     Oldincite, Oldemanate, //Unit - Core Units - Prototype [v7-dev]
-    osc, //Unit - Flying - v7-dev
+    osc, //Unit - Flying - [v7-dev]
 
-    effectDrone //Unit - Effect - Prototype [v7-dev]
+    effectDrone, //Unit - Effect - Prototype [v7-dev]
+
+    azathoth //Unit - Custom - Old Content [v5]
     ;
 
     public static void load() {
+        azathoth = new TentacleUnitType("azathoth"){{
+            outlines = true;
+            flying = true;
+
+            accel = 0.1f * 3f;
+            rotateSpeed = 2.25f * 3f;
+            speed = 3f;
+            drag = 2f;
+
+            health = Float.MAX_VALUE;
+            hitSize = 50f;
+
+            mineTier = 0;
+            buildSpeed = 0f;
+            itemCapacity = 0;
+
+            engineColor = Color.valueOf("ffd37f");
+
+            constructor = UnitEntity::create;
+
+            weapons.add(new Weapon("restored-mind-nullTexture"){{
+                y = 0f;
+                x = 0f;
+                mirror = false;
+                reload = 12f;
+
+                ejectEffect = ExtendedFx.none;
+
+                bullet = ClassicBullets.modifierBullet;
+            }});
+        }};
+
         /*enemyStandardT1 = new ClassicUnitType("standard-enemy-1"){{
             spriteName = "standard-enemy";
             Color.valueOf("ffe451");
