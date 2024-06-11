@@ -52,7 +52,7 @@ public class ClassicBlocks {
 
     warpGate, //Distribution [v4]
     melter, denseSmelter, arcSmelter,  smolSeparator, //Production [v4]
-    fuseMKII, fuseMKI, salvoAlpha, //Turret [v4]
+    fuseMKII, fuseMKI, salvoAlpha, arcAir, //Turret [v4]
     plasmaDrill, //Drills [v4]
 
 
@@ -664,7 +664,37 @@ public class ClassicBlocks {
             consumeItems(with(ClassicItems.stone, 2));
             consumeLiquid(Liquids.water, 0.3f / 60f);
 
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawDefault());
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawRegion("-spinner", 3, true), new DrawDefault());
+        }};
+
+        arcAir = new PowerTurret("arc-air"){{
+            requirements(Category.turret, with(Items.copper, 50, Items.lead, 50));
+            shootType = new LightningBulletType(){{
+                damage = 20;
+                lightningLength = 25;
+                collidesAir = false;
+                ammoMultiplier = 1f;
+
+                //for visual stats only.
+                buildingDamageMultiplier = 0.25f;
+
+                lightningType = arcOld;
+            }};
+            shake = 1f;
+            reload = 30f;
+            shootCone = 40f;
+            rotateSpeed = 8f;
+            targetAir = true;
+            targetGround = false;
+            range = 60f;
+            shootEffect = Fx.lightningShoot;
+            heatColor = Color.red;
+            recoil = 1f;
+            size = 1;
+            health = 260;
+            shootSound = Sounds.spark;
+            consumePower(3.3f);
+            coolant = consumeCoolant(0.1f);
         }};
     }
 

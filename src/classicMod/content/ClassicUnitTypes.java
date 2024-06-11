@@ -82,31 +82,23 @@ public class ClassicUnitTypes {
             health = 200f;
             flying = true;
             itemCapacity = 10;
-            engineColor = Color.valueOf("ffd37f");
+            engineColor = Color.valueOf("8582e7");
             buildSpeed = 1f;
             constructor = UnitEntity::create;
 
-            weapons.add(new Weapon("restored-mind-osc-weapon"){{
+            armor = 30f;
+            trailColor = Color.valueOf("6e6bcf");
+
+            weapons.add(new Weapon("restored-mind-nullTexture"){{
                 y = 3f;
                 x = 3f;
                 mirror = true;
                 layerOffset = -0.0001f;
-                reload = 40f;
+                reload = 12f;
 
-                bullet = new BasicBulletType(5f, 20){{
-                    pierceCap = 2;
-                    pierceBuilding = false;
-                    width = 7f;
-                    height = 12f;
-                    lifetime = 25f;
-                    shootEffect = Fx.sparkShoot;
-                    smokeEffect = Fx.shootBigSmoke;
-                    hitColor = backColor = trailColor = Pal.suppress;
-                    frontColor = Color.white;
-                    trailWidth = 1.5f;
-                    trailLength = 5;
-                    hitEffect = despawnEffect = Fx.hitBulletColor;
-                }};
+                ejectEffect = ExtendedFx.shellEjectSmall;
+
+                bullet = ClassicBullets.standardHalberd;
             }});
         }};
 
@@ -1343,7 +1335,7 @@ public class ClassicUnitTypes {
             controller = u -> new EffectDroneAI();
             payloadCapacity = 0f;
 
-            flying = false;
+            flying = true;
             targetable = false;
             bounded = false; //Map push unit
             drag = 0.08f;

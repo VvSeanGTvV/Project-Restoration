@@ -64,18 +64,21 @@ public class ExtendedSerpuloTechTree {
             });
         });
 
-        margeNode(fuse, () -> {
-            /*node(fuseMKI, () -> {
+        margeNode(ripple, () -> {
+            node(fuseMKI, () -> {
                 node(fuseMKII);
-            });*/
+            });
         });
+
+        margeNode(arc, () -> node(arcAir));
+
         margeNode(phaseConveyor, () -> {
             /*node(warpGate,() -> {
 
             });*/
         });
 
-        margeNode(mechanicalDrill, () -> {
+        margeNode(graphitePress, () -> {
             node(denseSmelter, () -> {
                 node(arcSmelter, () -> {
 
@@ -94,11 +97,11 @@ public class ExtendedSerpuloTechTree {
         });
 
         //item
-        /*margeNode(Items.coal, () -> {
+        margeNode(Items.lead, () -> {
             nodeProduce(ClassicItems.denseAlloy, () -> {
 
             });
-        });*/
+        });
 
         margeNode(impulsePump, () -> {
             node(thermalPump);

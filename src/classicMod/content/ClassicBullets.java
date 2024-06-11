@@ -26,10 +26,10 @@ public class ClassicBullets {
 
     //standard
     standardCopper, standardDense, standardThorium, standardHoming, standardIncendiary, standardMechSmall,
-    standardGlaive, standardDenseBig, standardThoriumBig, standardIncendiaryBig,
+    standardGlaive, standardDenseBig, standardThoriumBig, standardIncendiaryBig, standardHalberd,
 
     //electric
-    lancerLaser, meltdownLaser, arc, damageLightning,
+    lancerLaser, meltdownLaser, arc, damageLightning, arcOld,
 
     //liquid
     waterShot, cryoShot, slagShot, oilShot,
@@ -585,6 +585,18 @@ public class ClassicBullets {
             lifetime = 60f;
         }};
 
+        standardHalberd = new BasicBulletType(3.2f, 6, "bullet"){
+            {
+                width = 10f;
+                height = 12f;
+                frontColor = Color.valueOf("feb380");
+                backColor = Color.valueOf("ea8878");
+                incendSpread = 3f;
+                incendAmount = 1;
+                incendChance = 0.3f;
+            }
+        };
+
         standardMechSmall = new BasicBulletType(4f, 9, "bullet"){{
             width = 11f;
             height = 14f;
@@ -666,6 +678,24 @@ public class ClassicBullets {
         oilShot = new LiquidBulletType(Liquids.oil){{
             drag = 0.03f;
         }};
+
+        arcOld = new BulletType(0.001f, 11){
+            {
+                lifetime = 1;
+                despawnEffect = Fx.none;
+                hitEffect = ExtendedFx.hitLancer;
+            }
+
+            @Override
+            public void draw(Bullet b){
+            }
+
+            @Override
+            public void init(Bullet b){
+                Lightning.create(b.team, Color.valueOf("a9d8ff"), damage, b.x, b.y, b.deltaAngle(), 25);
+            }
+        };
+
 
         arc = new LightningBulletType(){{
             damage = 21;
