@@ -12,6 +12,7 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.world.Tile;
 import mindustry.world.Tiles;
+import mindustry.world.blocks.environment.Floor;
 
 import static classicMod.content.ClassicVars.*;
 import static mindustry.graphics.Pal.surge;
@@ -67,13 +68,25 @@ public class ClassicBullets {
                 }
             }*/
 
+            public Floor getFloorRandomize(){
+                Floor untitled = null;
+                var target = Mathf.random(0, Vars.content.blocks().size);
+                for(int i = target; i<Vars.content.blocks().size; i++){
+                    if(Vars.content.blocks().get(i) instanceof Floor f){
+                        untitled = f;
+                    }
+                }
+                return untitled;
+            }
+
             public void update(Bullet b){
                 Tile a = Vars.world.tile(Mathf.round(b.x / Vars.tilesize), Mathf.round(b.y / Vars.tilesize));
                 if(a != null){
                     for(int i = 0; i < 3; i ++){
                         createBullet(Vars.content.bullets().get(Mathf.random(1, Vars.content.bullets().size)), b.team, a.x, a.y, b.rotation() + Mathf.range(120f), flakSpark.damage, 1, 1);
                     }
-                    a.setOverlay(Vars.content.blocks().get(Mathf.random(1,Vars.content.blocks().size)));
+                    var f = getFloorRandomize();
+                    if(f!=null) a.setFloor(f);
                 }
             }
 
