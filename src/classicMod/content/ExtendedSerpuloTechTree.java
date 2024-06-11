@@ -103,6 +103,12 @@ public class ExtendedSerpuloTechTree {
             });
         });
 
+        margeNode(Items.sand, () -> {
+            nodeProduce(ClassicItems.stone, () -> {
+
+            });
+        });
+
         margeNode(impulsePump, () -> {
             node(thermalPump);
         });
