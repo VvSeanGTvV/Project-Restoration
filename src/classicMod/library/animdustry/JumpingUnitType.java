@@ -23,7 +23,7 @@ public class JumpingUnitType extends UnitType {
 
     @Override
     public void update(Unit unit) {
-        if(unit.controller() instanceof JumpingAI ai) { ai.timing += 0.5f * Time.delta; }
+        if(unit.controller() instanceof JumpingAI ai) { ai.timing += 0.1f * Time.delta; }
     }
 
     @Override
