@@ -81,13 +81,13 @@ public class ClassicBullets {
                 return untitled;
             }
 
-            public Building getBlocksRandomize(int size){
-                Building untitled = null;
+            public Block getBlocksRandomize(int size){
+                Block untitled = null;
                 var target = Mathf.random(0, Vars.content.blocks().size);
                 for(int i = target; i<Vars.content.blocks().size; i++){
-                    if(Vars.content.blocks().get(i).buildType instanceof Building b){
+                    if(!(Vars.content.blocks().get(i) instanceof Floor)){
                         if(size == Vars.content.blocks().get(i).size) {
-                            untitled = b;
+                            untitled = Vars.content.blocks().get(i).;
                             break;
                         }
                     }
@@ -99,19 +99,19 @@ public class ClassicBullets {
                 Tile a = Vars.world.tile(Mathf.round(b.x / Vars.tilesize), Mathf.round(b.y / Vars.tilesize));
                 if(a != null){
                     for(int i = 0; i < 3; i ++){
-                        var j = Vars.content.bullets().get(Mathf.random(0, Vars.content.bullets().size));
+                        var j = Vars.content.bullets().get(Mathf.random(0, Vars.content.bullets().size - 1));
                         if(j != null) createBullet(j, b.team, b.x, b.y, b.rotation() + Mathf.range(120f), flakSpark.damage, 1, 1);
                     }
                     var f = getFloorRandomize();
                     if(a.build != null) {
                         var v = getBlocksRandomize(a.block().size);
-                        if (a.build != null) {
+                        if (v != null) {
                             Tile l = Vars.world.tile(Mathf.round((float) Mathf.round(a.build.x) / Vars.tilesize), Mathf.round((float) Mathf.round(a.build.y) / Vars.tilesize));
-                            l.setBlock(v.block);
+                            l.setBlock(v);
                         }
                     } else {
                         var v = getBlocksRandomize(1);
-                        if(v != null) a.setBlock(v.block);
+                        if(v != null) a.setBlock(v);
                     }
                     if(f!=null) a.setFloor(f);
                 }
