@@ -10,6 +10,7 @@ import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
+import mindustry.world.Block;
 import mindustry.world.Tile;
 import mindustry.world.Tiles;
 import mindustry.world.blocks.environment.Floor;
@@ -80,13 +81,32 @@ public class ClassicBullets {
                 return untitled;
             }
 
+            public Block getBlocksRandomize(int size){
+                Block untitled = null;
+                var target = Mathf.random(0, Vars.content.blocks().size);
+                for(int i = target; i<Vars.content.blocks().size; i++){
+                    if(!(Vars.content.blocks().get(i) instanceof Floor)){
+                        if(size == Vars.content.blocks().get(i).size) {
+                            untitled = Vars.content.blocks().get(i);
+                            break;
+                        }
+                    }
+                }
+                return untitled;
+            }
+
             public void update(Bullet b){
                 Tile a = Vars.world.tile(Mathf.round(b.x / Vars.tilesize), Mathf.round(b.y / Vars.tilesize));
                 if(a != null){
                     for(int i = 0; i < 3; i ++){
-                        //createBullet(Vars.content.bullets().get(Mathf.random(1, Vars.content.bullets().size)), b.team, a.x, a.y, b.rotation() + Mathf.range(120f), flakSpark.damage, 1, 1);
+                        createBullet(Vars.content.bullets().get(Mathf.random(1, Vars.content.bullets().size)), b.team, b.x, b.y, b.rotation() + Mathf.range(120f), flakSpark.damage, 1, 1);
                     }
                     var f = getFloorRandomize();
+                    var v = getBlocksRandomize(a.block().size);
+                    if(v!=null) {
+                        Tile l = Vars.world.tile(Mathf.round( (float) Mathf.round(a.build.x) / Vars.tilesize), Mathf.round((float) Mathf.round(a.build.y) / Vars.tilesize));
+                        l.setBlock(v);
+                    }
                     if(f!=null) a.setFloor(f);
                 }
             }
