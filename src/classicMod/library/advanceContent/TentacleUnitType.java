@@ -7,6 +7,7 @@ import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.math.geom.Vec3;
 import arc.util.Time;
+import mindustry.Vars;
 import mindustry.gen.Unit;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
@@ -30,7 +31,6 @@ public class TentacleUnitType extends UnitType {
     /** Tentacle Offset Position **/
     public Vec3[] TentaclesOffset = new Vec3[]{new Vec3(45, 0, 175), new Vec3(23, -43, 175), new Vec3(-23, -43, 185), new Vec3(-43, 0, 185)};
 
-    private TentacleTiming TT = new TentacleTiming();
     public TentacleUnitType(String name) {
         super(name);
 
@@ -38,7 +38,7 @@ public class TentacleUnitType extends UnitType {
 
     @Override
     public void draw(Unit unit) {
-        TT.timing += 0.07f * Time.delta;
+        TentacleTiming.timing += 0.07f * Time.delta;
         Tentacle = Core.atlas.find(name + "-tentacle");
         TentacleEnd = Core.atlas.find(name + "-tentacle-end");
         Draw.z(Layer.flyingUnit);
@@ -77,7 +77,7 @@ public class TentacleUnitType extends UnitType {
         //var angleCorrection = -lineageCalculate(vec1, tPos);
         vec2.trns(unit.rotation + offsetAngle - 90, offsetX, startingLength + offsetY);
         for (var i = 0; i < segmentCount; i++) {
-            var sine = Mathf.sin(TT.timing + (i * segTimeOffset) + timeOffset, moveScale, moveMag + (i * moveMagOffset));
+            var sine = Mathf.sin(TentacleTiming.timing + (i * segTimeOffset) + timeOffset, moveScale, moveMag + (i * moveMagOffset));
 
             vec1.set(tPos.x, tPos.y);
 

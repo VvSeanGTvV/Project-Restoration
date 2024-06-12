@@ -35,8 +35,22 @@ public class JumpingAI extends AIController {
             Building core = unit.closestEnemyCore();
 
             if ((core == null || !unit.within(core, 0.5f))) {
-                boolean move = (Ju.getTimingSine(this) >= 0.5f);
+                boolean move = (Ju.getTimingSine(this) >= 0.5f && !hit);
                 stopMoving = false;
+
+                if(lH != unit.health){ hitTimer = 0; lH = unit.health; }
+                if(lastHealth != unit.health){
+                    hit = true;
+                    hitTimer++;
+                    stopMoving = true;
+                    move = false;
+
+                    if(hitTimer>200){
+                        hit = false;
+                        lastHealth = unit.health;
+                        hitTimer = 0;
+                    }
+                }
 
                 if (state.rules.waves && unit.team == state.rules.defaultTeam) {
                     Tile spawner = getClosestSpawner();
@@ -52,19 +66,7 @@ public class JumpingAI extends AIController {
 
                 if (move) pathfind(Pathfinder.fieldCore);
 
-                if(lH != unit.health){ hitTimer = 0; lH = unit.health; }
-                if(lastHealth != unit.health){
-                    hit = true;
-                    hitTimer++;
-                    stopMoving = true;
-                    move = false;
 
-                    if(hitTimer>200){
-                        hit = false;
-                        lastHealth = unit.health;
-                        hitTimer = 0;
-                    }
-                }
             }
         }else{
             unit.remove();
