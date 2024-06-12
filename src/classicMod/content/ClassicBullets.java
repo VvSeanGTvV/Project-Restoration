@@ -87,7 +87,7 @@ public class ClassicBullets {
                 for(int i = target; i<Vars.content.blocks().size; i++){
                     if(!(Vars.content.blocks().get(i) instanceof Floor)){
                         if(size == Vars.content.blocks().get(i).size) {
-                            untitled = Vars.content.blocks().get(i).;
+                            untitled = Vars.content.blocks().get(i);
                             break;
                         }
                     }
