@@ -3,6 +3,8 @@ package classicMod.library.ai;
 import classicMod.library.animdustry.JumpingUnitType;
 import mindustry.ai.*;
 import mindustry.ai.types.*;
+import mindustry.content.Fx;
+import mindustry.entities.Effect;
 import mindustry.entities.Units;
 import mindustry.entities.units.AIController;
 import mindustry.gen.*;
@@ -29,6 +31,10 @@ public class JumpingAI extends AIController {
     private boolean inraged;
     private Teamc targetInraged;
 
+    public Effect Stomp = Fx.unitLand;
+
+    private boolean once;
+
     @Override
     public void init() {
         super.init();
@@ -52,6 +58,9 @@ public class JumpingAI extends AIController {
             if ((core == null || !unit.within(core, 0.5f))) {
                 boolean move = (Ju.getTimingSine(this) >= 0.5f && !hit);
                 stopMoving = false;
+
+                if(!move && !once){ Stomp.at(unit); once = true; }
+                if(move && once){ once = false; }
 
                 if(lH != unit.health){ hitTimer = 0; lH = unit.health; }
                 if(lastHealth != unit.health){
@@ -90,6 +99,7 @@ public class JumpingAI extends AIController {
     }
 
     public void DamageBuild() {
+        Tile b = Tile.
         Building a = Units.findEnemyTile(unit.team, unit.x, unit.y, 10f, Building::isValid);
         if(a != null){
             a.damage(Float.MAX_VALUE);

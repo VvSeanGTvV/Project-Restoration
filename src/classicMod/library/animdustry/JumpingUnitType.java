@@ -7,6 +7,8 @@ import arc.math.Mathf;
 import arc.util.Log;
 import arc.util.Time;
 import classicMod.library.ai.JumpingAI;
+import mindustry.content.Fx;
+import mindustry.entities.Effect;
 import mindustry.gen.Unit;
 import mindustry.graphics.Layer;
 import mindustry.type.UnitType;
@@ -14,6 +16,8 @@ import mindustry.type.UnitType;
 public class JumpingUnitType extends UnitType {
 
     public TextureRegion ouch;
+
+
 
     public JumpingUnitType(String name) {
         super(name);
@@ -25,6 +29,9 @@ public class JumpingUnitType extends UnitType {
     public void update(Unit unit) {
         if(unit.controller() instanceof JumpingAI ai) {
             ai.timing += 0.1f * Time.delta;
+            if(getTimingSine(ai) > 0f){
+                ai.timingY -= 0.5f * Time.delta;
+            }
         }
     }
 
@@ -41,9 +48,9 @@ public class JumpingUnitType extends UnitType {
             if (sine < -0.85f){ ai.timing = 2f; ai.timingY = 0.5f; }
             if (sine > 0f && !ai.stopMoving) {
                 var Ysine = Mathf.sin(Mathf.sin(ai.timingY) * 3);
-                Draw.rect(region, unit.x, unit.y + 2 + Ysine * 5, (((float) region.width / 2) + sine * 5) * Draw.xscl, ((float) region.height / 2) - sine * 10);
-                if(ai.hit) Draw.rect(ouch, unit.x, unit.y + 2 + Ysine * 5, (((float) ouch.width / 2) + sine * 5) * Draw.xscl, ((float) ouch.height / 2) - sine * 10);
-                ai.timingY -= 0.1f * Time.delta;
+                Draw.rect(region, unit.x, unit.y + 2 + Ysine * 2, (((float) region.width / 2) + sine * 5) * Draw.xscl, ((float) region.height / 2) - sine * 10);
+                if(ai.hit) Draw.rect(ouch, unit.x, unit.y + 2 + Ysine * 2, (((float) ouch.width / 2) + sine * 5) * Draw.xscl, ((float) ouch.height / 2) - sine * 10);
+
             } else {
                 Draw.rect(region, unit.x, unit.y + 2, (((float) region.width / 2) * Draw.xscl), (float) region.height / 2);
                 if(ai.hit) Draw.rect(ouch, unit.x, unit.y + 2, (((float) ouch.width / 2) * Draw.xscl), ((float) ouch.height / 2));
