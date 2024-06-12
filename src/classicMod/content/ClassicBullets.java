@@ -85,7 +85,7 @@ public class ClassicBullets {
                 Building untitled = null;
                 var target = Mathf.random(0, Vars.content.blocks().size);
                 for(int i = target; i<Vars.content.blocks().size; i++){
-                    if((Vars.content.blocks().get(i) instanceof Building){
+                    if(Vars.content.blocks().get(i) instanceof Building){
                         if(size == Vars.content.blocks().get(i).size) {
                             untitled = Vars.content.blocks().get(i);
                             break;
