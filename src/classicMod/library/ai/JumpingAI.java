@@ -98,7 +98,11 @@ public class JumpingAI extends AIController {
                     stopMoving = true;
                 }
 
-                if (move) pathfind(Pathfinder.fieldCore);
+                if (move){ if(SolidOn() == null) pathfind(Pathfinder.fieldCore); else {
+                    if(core != null) moveTo(core, 0f);
+                    if(getClosestSpawner() != null) moveTo(getClosestSpawner(), 0f);
+                }
+                }}
                 faceMovement();
             }
         }else{
@@ -117,6 +121,15 @@ public class JumpingAI extends AIController {
 
     public Tile TileOn(){
         return Vars.world.tile(Mathf.round(unit.x / Vars.tilesize), Mathf.round(unit.y / Vars.tilesize));
+    }
+
+    public Block SolidOn(){
+        var v = Vars.world.tile(Mathf.round(unit.x / Vars.tilesize), Mathf.round(unit.y / Vars.tilesize));
+        Block f = null;
+        if(!(v.block() instanceof Floor a)){
+            f = v.block();
+        }
+        return f;
     }
 
     public Floor FloorOn(){
