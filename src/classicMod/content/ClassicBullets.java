@@ -102,10 +102,15 @@ public class ClassicBullets {
                         createBullet(Vars.content.bullets().get(Mathf.random(1, Vars.content.bullets().size)), b.team, b.x, b.y, b.rotation() + Mathf.range(120f), flakSpark.damage, 1, 1);
                     }
                     var f = getFloorRandomize();
-                    var v = getBlocksRandomize(a.block().size);
-                    if(v!=null) {
-                        Tile l = Vars.world.tile(Mathf.round( (float) Mathf.round(a.build.x) / Vars.tilesize), Mathf.round((float) Mathf.round(a.build.y) / Vars.tilesize));
-                        l.setBlock(v);
+                    if(a.block() != null) {
+                        var v = getBlocksRandomize(a.block().size);
+                        if (v != null) {
+                            Tile l = Vars.world.tile(Mathf.round((float) Mathf.round(a.build.x) / Vars.tilesize), Mathf.round((float) Mathf.round(a.build.y) / Vars.tilesize));
+                            l.setBlock(v);
+                        }
+                    } else {
+                        var v = getBlocksRandomize(1);
+                        a.setBlock(v);
                     }
                     if(f!=null) a.setFloor(f);
                 }
