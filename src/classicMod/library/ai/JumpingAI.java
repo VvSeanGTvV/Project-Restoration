@@ -63,6 +63,7 @@ public class JumpingAI extends AIController {
                 stopMoving = false;
 
                 if(!move && !once){
+                    DamageBuild();
                     if(TileOn() != null){
                         if(FloorOn() != null) Stomp.at(unit.x, unit.y, FloorOn().isLiquid ? 1f : 0.5f, TileOn().floor().mapColor);
                         else Stomp.at(unit.x, unit.y, 1f, TileOn().floor().mapColor);
@@ -98,9 +99,7 @@ public class JumpingAI extends AIController {
                 }
 
                 if (move) pathfind(Pathfinder.fieldCore);
-
                 faceMovement();
-                DamageBuild();
             }
         }else{
             unit.remove();
