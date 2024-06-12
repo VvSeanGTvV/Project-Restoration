@@ -25,10 +25,10 @@ public class JumpingUnitType extends UnitType {
     public void draw(Unit unit) {
         timing += 0.1f * Time.delta;
         var sine = Mathf.sin(timing);
-        if(sine < -0.85f) timing = 0;
+        if(sine < -0.85f) timing = 2f;
         if(sine > 0f) {
             timSine = sine;
-            Draw.rect(region, unit.x, unit.y, region.width + sine * 4, region.height - sine * 8);
+            Draw.rect(region, unit.x, unit.y, region.width + sine * 5, region.height - sine * 15);
         }
     }
 }
