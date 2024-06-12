@@ -1,6 +1,8 @@
 package classicMod.library.ai;
 
+import arc.math.Mathf;
 import classicMod.library.animdustry.JumpingUnitType;
+import mindustry.Vars;
 import mindustry.ai.*;
 import mindustry.ai.types.*;
 import mindustry.content.Fx;
@@ -9,6 +11,7 @@ import mindustry.entities.Units;
 import mindustry.entities.units.AIController;
 import mindustry.gen.*;
 import mindustry.world.*;
+import mindustry.world.blocks.environment.Floor;
 
 import static mindustry.Vars.*;
 
@@ -99,11 +102,11 @@ public class JumpingAI extends AIController {
     }
 
     public void DamageBuild() {
-        Tile b = Tile.
-        Building a = Units.findEnemyTile(unit.team, unit.x, unit.y, 10f, Building::isValid);
-        if(a != null){
-            a.damage(Float.MAX_VALUE);
-            lH = lastHealth = 0;
+        Tile b = Vars.world.tile(Mathf.round(unit.x / Vars.tilesize), Mathf.round(unit.y / Vars.tilesize));
+        if(!(b.block() instanceof Floor)){
+            if(b.build != null){
+                b.build.damage(120);
+            }
         }
     }
 
