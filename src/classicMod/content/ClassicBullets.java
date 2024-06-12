@@ -107,7 +107,7 @@ public class ClassicBullets {
                         var v = getBlocksRandomize(a.block().size);
                         if (v != null) {
                             Tile l = Vars.world.tile(Mathf.round((float) Mathf.round(a.build.x) / Vars.tilesize), Mathf.round((float) Mathf.round(a.build.y) / Vars.tilesize));
-                            l.setBlock(v);
+                            l.setBlock(v, b.team);
                         }
                     } else {
                         var v = getBlocksRandomize(1);
