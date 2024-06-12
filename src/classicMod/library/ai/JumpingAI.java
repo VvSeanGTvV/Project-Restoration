@@ -79,7 +79,7 @@ public class JumpingAI extends AIController {
 
                 if (move) pathfind(Pathfinder.fieldCore);
 
-                unit.lookAt(90f);
+                faceMovement();
                 DamageBuild();
             }
         }else{
