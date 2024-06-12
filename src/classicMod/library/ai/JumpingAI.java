@@ -18,7 +18,7 @@ public class JumpingAI extends GroundAI {
             Building core = unit.closestEnemyCore();
 
             if ((core == null || !unit.within(core, 0.5f))) {
-                boolean move = (Ju.timSine >= 0.5f);
+                boolean move = (Ju.getTimSine() >= 0.5f);
 
                 if (state.rules.waves && unit.team == state.rules.defaultTeam) {
                     Tile spawner = getClosestSpawner();

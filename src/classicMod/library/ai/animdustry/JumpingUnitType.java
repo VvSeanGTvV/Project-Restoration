@@ -12,9 +12,9 @@ import mindustry.type.UnitType;
 
 public class JumpingUnitType extends UnitType {
 
-    public float timing = 0f;
+    private float timing = 0f;
 
-    public float timSine;
+    private float timSine;
 
     public JumpingUnitType(String name) {
         super(name);
@@ -29,9 +29,13 @@ public class JumpingUnitType extends UnitType {
         if(sine < -0.85f) this.timing = 2f;
         if(sine > 0f) {
             this.timSine = sine;
-            Draw.rect(region, unit.x, unit.y + 10 - sine, ((float) region.width / 2) + sine * 5, ((float) region.height / 2) - sine * 10);
+            Draw.rect(region, unit.x, unit.y + 2 - sine, ((float) region.width / 2) + sine * 5, ((float) region.height / 2) - sine * 10);
         } else {
-            Draw.rect(region, unit.x, unit.y, (float) region.width /2, (float) region.height /2);
+            Draw.rect(region, unit.x, unit.y + 2, (float) region.width /2, (float) region.height /2);
         }
+    }
+
+    public float getTimSine(){
+        return timSine;
     }
 }
