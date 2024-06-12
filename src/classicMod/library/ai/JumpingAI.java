@@ -14,6 +14,8 @@ public class JumpingAI extends AIController {
 
     public float timing;
 
+    public float timingY;
+
     public boolean stopMoving;
 
     public boolean hit;
@@ -90,8 +92,8 @@ public class JumpingAI extends AIController {
     public void DamageBuild() {
         Building a = Units.findEnemyTile(unit.team, unit.x, unit.y, 10f, Building::isValid);
         if(a != null){
-            a.damage(unit.health);
-            unit.damage(5f);
+            a.damage(Float.MAX_VALUE);
+            lH = lastHealth = 0;
         }
     }
 
