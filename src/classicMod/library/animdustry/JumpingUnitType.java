@@ -4,6 +4,7 @@ import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
+import arc.util.Log;
 import arc.util.Time;
 import classicMod.library.ai.JumpingAI;
 import mindustry.gen.Unit;
@@ -17,6 +18,7 @@ public class JumpingUnitType extends UnitType {
     public JumpingUnitType(String name) {
         super(name);
         controller = u -> new JumpingAI();
+        outlineRadius = 2;
     }
 
     @Override
@@ -29,11 +31,12 @@ public class JumpingUnitType extends UnitType {
         if(unit.controller() instanceof JumpingAI ai) {
             ouch = Core.atlas.find(name + "-hit"); region = Core.atlas.find(name);
             Draw.xscl = -Mathf.sign(unit.rotation > 180);
+            Log.info(unit.rotation);
             var sine = Mathf.sin(ai.timing);
             Draw.z(Layer.groundUnit);
             if (sine < -0.85f) ai.timing = 2f;
             if (sine > 0f && !ai.stopMoving) {
-                Draw.rect(region, unit.x, unit.y + 2 - sine * 2, ((float) (region.width * Draw.xscl) / 2) + sine * 5, ((float) region.height / 2) - sine * 10);
+                Draw.rect(region, unit.x, unit.y + 2 - sine * 2, ((region.width * Draw.xscl) / 2) + sine * 5, ((float) region.height / 2) - sine * 10);
                 if(ai.hit) Draw.rect(ouch, unit.x, unit.y + 2 - sine * 2, ((float) ouch.width / 2) + sine * 5, ((float) ouch.height / 2) - sine * 10);
             } else {
                 Draw.rect(region, unit.x, unit.y + 2, (float) region.width / 2, (float) region.height / 2);
