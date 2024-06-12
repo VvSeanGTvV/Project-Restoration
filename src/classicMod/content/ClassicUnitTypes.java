@@ -62,7 +62,7 @@ public class ClassicUnitTypes {
     public static void load() {
 
         alphaChan = new JumpingUnitType("alphachan"){{
-            health = Float.MAX_VALUE;
+            health = 100f;
             hitSize = 10f;
 
             constructor = MechUnit::create;
