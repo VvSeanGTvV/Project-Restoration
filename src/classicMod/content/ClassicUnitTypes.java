@@ -61,10 +61,12 @@ public class ClassicUnitTypes {
 
     public static void load() {
 
+        // TODO effect
         alphaChan = new JumpingUnitType("alphachan"){{
             health = 200f;
             hitSize = 10f;
 
+            flying = true;
             constructor = UnitEntity::create;
         }};
 

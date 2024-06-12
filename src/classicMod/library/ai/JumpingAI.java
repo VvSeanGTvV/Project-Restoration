@@ -62,7 +62,12 @@ public class JumpingAI extends AIController {
                 boolean move = (Ju.getTimingSine(this) >= 0.5f && !hit);
                 stopMoving = false;
 
-                if(!move && !once){ Stomp.at(unit); once = true; }
+                if(!move && !once){
+                    if(TileOn() != null){
+                        Stomp.at(unit.x, unit.y, FloorOn().isLiquid ? 1f : 0.5f, TileOn().floor().mapColor);
+                    }
+                    once = true;
+                }
                 if(move && once){ once = false; }
 
                 if(lH != unit.health){ hitTimer = 0; lH = unit.health; }
@@ -110,5 +115,16 @@ public class JumpingAI extends AIController {
         }
     }
 
+    public Tile TileOn(){
+        return Vars.world.tile(Mathf.round(unit.x / Vars.tilesize), Mathf.round(unit.y / Vars.tilesize));
+    }
 
+    public Floor FloorOn(){
+        var v = Vars.world.tile(Mathf.round(unit.x / Vars.tilesize), Mathf.round(unit.y / Vars.tilesize));
+        Floor f = null;
+        if(v.block() instanceof Floor a){
+            f = a;
+        }
+        return f;
+    }
 }
