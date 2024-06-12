@@ -110,7 +110,7 @@ public class ClassicBullets {
                         }
                     } else {
                         var v = getBlocksRandomize(1);
-                        a.setBlock(v.block);
+                        if(v != null) a.setBlock(v.block);
                     }
                     if(f!=null) a.setFloor(f);
                 }
