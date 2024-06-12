@@ -23,6 +23,9 @@ public class JumpingAI extends AIController {
 
     private float lH;
 
+    private boolean inraged;
+    private Teamc targetInraged;
+
     @Override
     public void init() {
         super.init();
@@ -33,6 +36,15 @@ public class JumpingAI extends AIController {
     public void updateMovement() {
         if(unit.type instanceof JumpingUnitType Ju) {
             Building core = unit.closestEnemyCore();
+
+            if (core != null && unit.within(core, unit.range() / 1.3f + core.block.size * tilesize / 2f)) {
+                target = core;
+                for (var mount : unit.mounts) {
+                    if (mount.weapon.controllable && mount.weapon.bullet.collidesGround) {
+                        mount.target = core;
+                    }
+                }
+            }
 
             if ((core == null || !unit.within(core, 0.5f))) {
                 boolean move = (Ju.getTimingSine(this) >= 0.5f && !hit);
@@ -66,7 +78,7 @@ public class JumpingAI extends AIController {
 
                 if (move) pathfind(Pathfinder.fieldCore);
 
-
+                faceMovement();
             }
         }else{
             unit.remove();

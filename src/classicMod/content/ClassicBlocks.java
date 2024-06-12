@@ -1120,7 +1120,7 @@ public class ClassicBlocks {
         }};
 
         //Nuclear //TODO make it work??? & SPRITE OVERHAUL needed
-        warheadAssembler = new SingleBlockProducer("warhead-assembler") {{
+        /*warheadAssembler = new SingleBlockProducer("warhead-assembler") {{
             requirements(Category.crafting, with(Items.thorium, 100));
             result = nuclearWarhead;
             size = 3;
@@ -1135,7 +1135,7 @@ public class ClassicBlocks {
         nuclearWarhead = new NuclearWarhead("nuclear-warhead") {{
             requirements(Category.crafting, with(Items.thorium, 40));
             size = 2;
-        }};
+        }};*/
 
         //Turrets
         horde = new ItemTurretV6("horde"){{
