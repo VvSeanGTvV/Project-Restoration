@@ -85,9 +85,9 @@ public class ClassicBullets {
                 Building untitled = null;
                 var target = Mathf.random(0, Vars.content.blocks().size);
                 for(int i = target; i<Vars.content.blocks().size; i++){
-                    if(Vars.content.blocks().get(i) instanceof Building){
+                    if(Vars.content.blocks().get(i).buildType instanceof Building b){
                         if(size == Vars.content.blocks().get(i).size) {
-                            untitled = Vars.content.blocks().get(i);
+                            untitled = b;
                             break;
                         }
                     }
@@ -102,15 +102,15 @@ public class ClassicBullets {
                         createBullet(Vars.content.bullets().get(Mathf.random(1, Vars.content.bullets().size)), b.team, b.x, b.y, b.rotation() + Mathf.range(120f), flakSpark.damage, 1, 1);
                     }
                     var f = getFloorRandomize();
-                    if(a.build != null && a.build() instanceof Building) {
+                    if(a.build != null) {
                         var v = getBlocksRandomize(a.block().size);
                         if (a.build != null) {
                             Tile l = Vars.world.tile(Mathf.round((float) Mathf.round(a.build.x) / Vars.tilesize), Mathf.round((float) Mathf.round(a.build.y) / Vars.tilesize));
-                            l.setBlock(v);
+                            l.setBlock(v.block);
                         }
                     } else {
                         var v = getBlocksRandomize(1);
-                        a.setBlock(v);
+                        a.setBlock(v.block);
                     }
                     if(f!=null) a.setFloor(f);
                 }
