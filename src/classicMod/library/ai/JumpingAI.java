@@ -89,7 +89,7 @@ public class JumpingAI extends AIController {
 
     public void DamageBuild() {
         Building a = Units.findEnemyTile(unit.team, unit.x, unit.y, 10f, Building::isValid);
-        a.damage(Float.MAX_VALUE);
+        if(a != null) a.damage(Float.MAX_VALUE);
     }
 
 
