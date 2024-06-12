@@ -35,11 +35,11 @@ public class JumpingUnitType extends UnitType {
             Draw.z(Layer.groundUnit);
             if (sine < -0.85f) ai.timing = 2f;
             if (sine > 0f && !ai.stopMoving) {
-                Draw.rect(region, unit.x, unit.y + 2 - sine * 2, ((region.width * Draw.xscl) / 2) + sine * 5, ((float) region.height / 2) - sine * 10);
-                if(ai.hit) Draw.rect(ouch, unit.x, unit.y + 2 - sine * 2, ((float) ouch.width / 2) + sine * 5, ((float) ouch.height / 2) - sine * 10);
+                Draw.rect(region, unit.x, unit.y + 2 - sine * 2, (((float) region.width / 2) * Draw.xscl) + sine * 5, ((float) region.height / 2) - sine * 10);
+                if(ai.hit) Draw.rect(ouch, unit.x, unit.y + 2 - sine * 2, (((float) ouch.width / 2) * Draw.xscl) + sine * 5, ((float) ouch.height / 2) - sine * 10);
             } else {
-                Draw.rect(region, unit.x, unit.y + 2, (float) region.width / 2, (float) region.height / 2);
-                if(ai.hit) Draw.rect(ouch, unit.x, unit.y + 2, ((float) ouch.width / 2), ((float) ouch.height / 2));
+                Draw.rect(region, unit.x, unit.y + 2, (((float) region.width / 2) * Draw.xscl), (float) region.height / 2);
+                if(ai.hit) Draw.rect(ouch, unit.x, unit.y + 2, (((float) ouch.width / 2) * Draw.xscl), ((float) ouch.height / 2));
             }
             Draw.xscl = 1f;
         }
