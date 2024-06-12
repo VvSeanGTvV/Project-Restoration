@@ -70,7 +70,7 @@ public class ClassicBullets {
 
             public Floor getFloorRandomize(){
                 Floor untitled = null;
-                var target = Mathf.random(0, Vars.content.blocks().size);
+                var target = Mathf.random(0, Vars.content.blocks().size/6);
                 for(int i = target; i<Vars.content.blocks().size; i++){
                     if(Vars.content.blocks().get(i) instanceof Floor f){
                         untitled = f;
