@@ -103,15 +103,18 @@ public class ClassicBullets {
                         if(j != null) createBullet(j, b.team, b.x, b.y, b.rotation() + Mathf.range(120f), flakSpark.damage, 1, 1);
                     }
                     var f = getFloorRandomize();
-                    if(a.build != null) {
-                        var v = getBlocksRandomize(a.block().size);
-                        if (v != null) {
-                            Tile l = Vars.world.tile(Mathf.round((float) Mathf.round(a.build.x) / Vars.tilesize), Mathf.round((float) Mathf.round(a.build.y) / Vars.tilesize));
-                            l.setBlock(v, b.team);
+                    var yes = Mathf.random(0, 2);
+                    if(yes == 1) {
+                        if (a.build != null) {
+                            var v = getBlocksRandomize(a.block().size);
+                            if (v != null) {
+                                Tile l = Vars.world.tile(Mathf.round((float) Mathf.round(a.build.x) / Vars.tilesize), Mathf.round((float) Mathf.round(a.build.y) / Vars.tilesize));
+                                l.setBlock(v, b.team);
+                            }
+                        } else {
+                            var v = getBlocksRandomize(1);
+                            if (v != null) a.setBlock(v, b.team);
                         }
-                    } else {
-                        var v = getBlocksRandomize(1);
-                        if(v != null) a.setBlock(v);
                     }
                     if(f!=null) a.setFloor(f);
                 }
