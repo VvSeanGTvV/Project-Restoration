@@ -18,9 +18,13 @@ public class JumpingUnitType extends UnitType {
     }
 
     @Override
+    public void update(Unit unit) {
+        if(unit.controller() instanceof JumpingAI ai) { ai.timing += 0.1f * Time.delta; }
+    }
+
+    @Override
     public void draw(Unit unit) {
         if(unit.controller() instanceof JumpingAI ai) {
-            ai.timing += 0.1f * Time.delta;
             var sine = Mathf.sin(ai.timing);
             Draw.z(Layer.groundUnit);
             if (sine < -0.85f) ai.timing = 2f;

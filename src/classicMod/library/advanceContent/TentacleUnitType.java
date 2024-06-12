@@ -36,7 +36,7 @@ public class TentacleUnitType extends UnitType {
 
     @Override
     public void draw(Unit unit) {
-        timing += 0.07f * Time.delta;
+        TentacleTiming.timing += 0.07f * Time.delta;
         Tentacle = Core.atlas.find(name + "-tentacle");
         TentacleEnd = Core.atlas.find(name + "-tentacle-end");
         Draw.z(Layer.flyingUnit);
@@ -59,7 +59,6 @@ public class TentacleUnitType extends UnitType {
     private final Vec2 vec1 = new Vec2();
     private final Vec2 vec2 = new Vec2();
     private final Vec2 tPos = new Vec2();
-    private float timing = 0f;
 
     public void drawMultiTentacles(Unit unit, int startingLength, int segmentLength, int segmentCount, float segTimeOffset, float timeOffset, float moveMag, float moveMagOffset, float moveScale) {
         for (Vec3 buildTentacle : TentaclesOffset) {
@@ -76,7 +75,7 @@ public class TentacleUnitType extends UnitType {
         //var angleCorrection = -lineageCalculate(vec1, tPos);
         vec2.trns(unit.rotation + offsetAngle - 90, offsetX, startingLength + offsetY);
         for (var i = 0; i < segmentCount; i++) {
-            var sine = Mathf.sin(timing + (i * segTimeOffset) + timeOffset, moveScale, moveMag + (i * moveMagOffset));
+            var sine = Mathf.sin(TentacleTiming.timing + (i * segTimeOffset) + timeOffset, moveScale, moveMag + (i * moveMagOffset));
 
             vec1.set(tPos.x, tPos.y);
 
@@ -103,10 +102,8 @@ public class TentacleUnitType extends UnitType {
         Draw.color();
     }
 
-    public float lineageCalculate(Vec2 vec1, Vec2 vec2) {
-        var div1 = vec1.y - vec2.y;
-        var div2 = vec1.x - vec2.x;
-        return div1 / div2;
+    public static class TentacleTiming {
+        public static float timing = 0f;
     }
 
 }
