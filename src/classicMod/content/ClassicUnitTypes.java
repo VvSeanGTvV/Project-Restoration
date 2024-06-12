@@ -7,7 +7,7 @@ import arc.struct.*;
 import arc.util.*;
 import classicMod.library.ability.*;
 import classicMod.library.ai.*;
-import classicMod.library.ai.animdustry.JumpingUnitType;
+import classicMod.library.animdustry.JumpingUnitType;
 import classicMod.library.ai.factoryai.FactoryFlyingAI;
 import classicMod.library.ai.factoryai.FactoryGroundAI;
 import classicMod.library.advanceContent.TentacleUnitType;

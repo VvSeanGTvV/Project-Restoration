@@ -1,18 +1,31 @@
 package classicMod.library.ai;
 
-import arc.math.*;
-import classicMod.library.ai.animdustry.JumpingUnitType;
+import classicMod.library.animdustry.JumpingUnitType;
 import mindustry.ai.*;
 import mindustry.ai.types.*;
-import mindustry.entities.units.*;
+import mindustry.entities.units.AIController;
 import mindustry.gen.*;
 import mindustry.world.*;
 
 import static mindustry.Vars.*;
 
-public class JumpingAI extends GroundAI {
+public class JumpingAI extends AIController {
 
     public float timing;
+
+    public boolean stopMoving;
+
+    public boolean hit;
+
+    public float lastHealth;
+
+    public int hitTimer;
+
+    @Override
+    public void init() {
+        super.init();
+        lastHealth = unit.health;
+    }
 
     @Override
     public void updateMovement() {
@@ -21,19 +34,32 @@ public class JumpingAI extends GroundAI {
 
             if ((core == null || !unit.within(core, 0.5f))) {
                 boolean move = (Ju.getTimingSine(this) >= 0.5f);
+                stopMoving = false;
 
                 if (state.rules.waves && unit.team == state.rules.defaultTeam) {
                     Tile spawner = getClosestSpawner();
-                    if (spawner != null && unit.within(spawner, state.rules.dropZoneRadius + 120f)) move = false;
-                    if (spawner == null && core == null) move = false;
+                    if (spawner != null && unit.within(spawner, state.rules.dropZoneRadius + 120f)){ move = false; stopMoving = true; }
+                    if (spawner == null && core == null){ move = false; stopMoving = true; }
                 }
 
                 //no reason to move if there's nothing there
                 if (core == null && (!state.rules.waves || getClosestSpawner() == null)) {
                     move = false;
+                    stopMoving = true;
                 }
 
                 if (move) pathfind(Pathfinder.fieldCore);
+
+                if(lastHealth != unit.health){
+                    hit = true;
+                    hitTimer++;
+
+                    if(hitTimer>200){
+                        hit = false;
+                        lastHealth = unit.health;
+                        hitTimer = 0;
+                    }
+                }
             }
         }else{
             unit.remove();
