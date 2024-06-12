@@ -12,13 +12,15 @@ import static mindustry.Vars.*;
 
 public class JumpingAI extends GroundAI {
 
+    public float timing;
+
     @Override
     public void updateMovement() {
         if(unit.type instanceof JumpingUnitType Ju) {
             Building core = unit.closestEnemyCore();
 
             if ((core == null || !unit.within(core, 0.5f))) {
-                boolean move = (Ju.getTimSine() >= 0.5f);
+                boolean move = (Ju.getTimingSine(this) >= 0.5f);
 
                 if (state.rules.waves && unit.team == state.rules.defaultTeam) {
                     Tile spawner = getClosestSpawner();
