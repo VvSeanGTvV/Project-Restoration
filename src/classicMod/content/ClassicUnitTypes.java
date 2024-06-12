@@ -7,9 +7,10 @@ import arc.struct.*;
 import arc.util.*;
 import classicMod.library.ability.*;
 import classicMod.library.ai.*;
+import classicMod.library.ai.animdustry.JumpingUnitType;
 import classicMod.library.ai.factoryai.FactoryFlyingAI;
 import classicMod.library.ai.factoryai.FactoryGroundAI;
-import classicMod.library.desolate.TentacleUnitType;
+import classicMod.library.advanceContent.TentacleUnitType;
 import mindustry.*;
 import mindustry.ai.types.*;
 import mindustry.content.*;
@@ -53,10 +54,20 @@ public class ClassicUnitTypes {
 
     effectDrone, //Unit - Effect - Prototype [v7-dev]
 
-    azathoth //Unit - Custom - Old Content [v5]
+    azathoth, //Unit - Custom - Old Content [v5]
+
+    alphaChan //Unit - Old Content [Animdustry]
     ;
 
     public static void load() {
+
+        alphaChan = new JumpingUnitType("alphachan"){{
+            health = Float.MAX_VALUE;
+            hitSize = 10f;
+
+            constructor = MechUnit::create;
+        }};
+
         azathoth = new TentacleUnitType("azathoth"){{
             outlines = true;
             flying = true;
