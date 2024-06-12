@@ -30,8 +30,7 @@ public class JumpingUnitType extends UnitType {
     public void draw(Unit unit) {
         if(unit.controller() instanceof JumpingAI ai) {
             ouch = Core.atlas.find(name + "-hit"); region = Core.atlas.find(name);
-            Draw.xscl = -Mathf.sign(unit.rotation > 180);
-            Log.info(unit.rotation);
+            Draw.xscl = -Mathf.sign(unit.rotation < 90);
             var sine = Mathf.sin(ai.timing);
             Draw.z(Layer.groundUnit);
             if (sine < -0.85f) ai.timing = 2f;
