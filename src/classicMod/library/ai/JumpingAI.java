@@ -101,8 +101,8 @@ public class JumpingAI extends AIController {
                 if (move){ if(SolidOn() == null) pathfind(Pathfinder.fieldCore); else {
                     if(core != null) moveTo(core, 0f);
                     if(getClosestSpawner() != null) moveTo(getClosestSpawner(), 0f);
+                    }
                 }
-                }}
                 faceMovement();
             }
         }else{
