@@ -3,6 +3,7 @@ package classicMod.library.ai;
 import classicMod.library.animdustry.JumpingUnitType;
 import mindustry.ai.*;
 import mindustry.ai.types.*;
+import mindustry.entities.Units;
 import mindustry.entities.units.AIController;
 import mindustry.gen.*;
 import mindustry.world.*;
@@ -78,11 +79,17 @@ public class JumpingAI extends AIController {
 
                 if (move) pathfind(Pathfinder.fieldCore);
 
-                faceMovement();
+                unit.lookAt(90f);
+                DamageBuild();
             }
         }else{
             unit.remove();
         }
+    }
+
+    public void DamageBuild() {
+        Building a = Units.findEnemyTile(unit.team, unit.x, unit.y, 10f, Building::isValid);
+        a.damage(Float.MAX_VALUE);
     }
 
 
