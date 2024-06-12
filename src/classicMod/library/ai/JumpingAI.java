@@ -17,9 +17,11 @@ public class JumpingAI extends AIController {
 
     public boolean hit;
 
-    public float lastHealth;
+    private float lastHealth;
 
-    public int hitTimer;
+    private int hitTimer;
+
+    private float lH;
 
     @Override
     public void init() {
@@ -50,9 +52,12 @@ public class JumpingAI extends AIController {
 
                 if (move) pathfind(Pathfinder.fieldCore);
 
+                if(lH != unit.health){ hitTimer = 0; lH = unit.health; }
                 if(lastHealth != unit.health){
                     hit = true;
                     hitTimer++;
+                    stopMoving = true;
+                    move = false;
 
                     if(hitTimer>200){
                         hit = false;
