@@ -14,6 +14,8 @@ public class JumpingUnitType extends UnitType {
 
     public float timing = 0f;
 
+    public float timSine;
+
     public JumpingUnitType(String name) {
         super(name);
         controller = u -> new JumpingAI();
@@ -23,6 +25,7 @@ public class JumpingUnitType extends UnitType {
     public void draw(Unit unit) {
         timing += 0.07f * Time.delta;
         var sine = Mathf.sin(timing);
-        Draw.rect(region, unit.x, unit.y, region.width + sine, region.height - sine);
+        timSine = sine;
+        Draw.rect(region, unit.x, unit.y, region.width + sine * 4, region.height - sine * 4);
     }
 }
