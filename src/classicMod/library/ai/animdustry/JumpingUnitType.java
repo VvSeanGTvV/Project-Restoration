@@ -28,7 +28,9 @@ public class JumpingUnitType extends UnitType {
         if(sine < -0.85f) timing = 2f;
         if(sine > 0f) {
             timSine = sine;
-            Draw.rect(region, unit.x, unit.y, region.width + sine * 5, region.height - sine * 15);
+            Draw.rect(region, unit.x, unit.y, ((float) region.width / 2) + sine * 5, ((float) region.height / 2) - sine * 15);
+        } else {
+            Draw.rect(region, unit.x, unit.y, (float) region.width /2, (float) region.height /2);
         }
     }
 }
