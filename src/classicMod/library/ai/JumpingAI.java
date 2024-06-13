@@ -5,6 +5,7 @@ import arc.graphics.g2d.Lines;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.util.Log;
+import arc.util.Time;
 import classicMod.library.animdustry.JumpingUnitType;
 import mindustry.Vars;
 import mindustry.ai.*;
@@ -91,7 +92,7 @@ public class JumpingAI extends AIController {
                 if(lH != unit.health){ hitTimer = 0; lH = unit.health; }
                 if(lastHealth != unit.health){
                     hit = true;
-                    hitTimer++;
+                    hitTimer += 1 * Time.delta;
                     stopMoving = true;
                     move = false;
 
@@ -208,8 +209,8 @@ public class JumpingAI extends AIController {
         }
 
         if(f != null) {
-            targetTile = TileOn(targetTile.worldx(), targetTile.worldy());
-            //targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, Pathfinder.costLegs, pathTarget));
+            //targetTile = TileOn(targetTile.worldx(), targetTile.worldy());
+            targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, Pathfinder.costLegs, pathTarget));
             //f = Analyze(TileOn(targetTile.worldx(), targetTile.worldy()));
         }
 
@@ -219,7 +220,8 @@ public class JumpingAI extends AIController {
     }
 
     public void Wave(){
-        Fx.shockwave.at(unit.x, unit.y, 0f, Color.valueOf("ffd27e"));
+        Fx.greenBomb.at(unit);
+        Fx.dynamicWave.at(unit.x, unit.y, 0f, Color.valueOf("ffd27e"));
     }
 
     public void DamageBuild(Building b) {

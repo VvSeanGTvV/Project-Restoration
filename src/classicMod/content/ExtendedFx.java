@@ -14,6 +14,7 @@ import static mindustry.graphics.Pal.*;
 
 public class ExtendedFx extends Fx {
     public static final Effect
+
     //v5 Effects
     shellEjectSmall = new Effect(30f, 400f, e -> {
         Draw.color(lightOrange, Color.lightGray, Pal.lightishGray, e.fin());
