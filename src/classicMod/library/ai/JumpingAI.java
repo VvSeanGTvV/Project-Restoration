@@ -69,16 +69,6 @@ public class JumpingAI extends AIController {
                 boolean move = (Ju.getTimingSine(this) >= 0.5f && !hit);
                 stopMoving = false;
 
-                if(!move && !once){
-                    DamageBuild();
-                    if(TileOn() != null){
-                        if(FloorOn() != null) Stomp.at(unit.x, unit.y, FloorOn().isLiquid ? 1f : 0.5f, TileOn().floor().mapColor);
-                        else Stomp.at(unit.x, unit.y, 1f, TileOn().floor().mapColor);
-                    }
-                    once = true;
-                }
-                if(move && once){ once = false; }
-
                 if(lH != unit.health){ hitTimer = 0; lH = unit.health; }
                 if(lastHealth != unit.health){
                     hit = true;
@@ -104,6 +94,16 @@ public class JumpingAI extends AIController {
                     move = false;
                     stopMoving = true;
                 }
+
+                if(!move && !once){
+                    DamageBuild();
+                    if(TileOn() != null){
+                        if(FloorOn() != null) Stomp.at(unit.x, unit.y, FloorOn().isLiquid ? 1f : 0.5f, TileOn().floor().mapColor);
+                        else Stomp.at(unit.x, unit.y, 1f, TileOn().floor().mapColor);
+                    }
+                    once = true;
+                }
+                if(move && once && !stopMoving){ once = false; }
 
                 if (move && !stopMoving){ if(BlockOn() == null) pathfind(Pathfinder.fieldCore); else {
                     if(core != null) moveTo(core, 0f);
