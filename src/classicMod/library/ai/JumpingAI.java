@@ -169,18 +169,18 @@ public class JumpingAI extends AIController {
         if(tile == null) return;
         Tile targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, costType, pathTarget));
         Block f = Analyze(TileOn(targetTile.worldx(), targetTile.worldy())); //Checks ahead of the tile.
+        unit.elevation = (f != null || BlockOn() != null) ? 1 : 0;
 
         if(f != null) {
-            if(oS) {
+            targetTile = TileOn(targetTile.worldx(), targetTile.worldy())
+            /*if(oS) {
                 Wave();
                 DamageBuild(AnalyzeBuild(TileOn(targetTile.worldx(), targetTile.worldy())));
                 oS = false;
-            }
-            unit.elevation = 1;
-            targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, Pathfinder.costLegs, pathTarget));
-            f = Analyze(TileOn(targetTile.worldx(), targetTile.worldy()));
-        } else {
-            unit.elevation = 0;
+            }*/
+
+            //targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, Pathfinder.costLegs, pathTarget));
+            //f = Analyze(TileOn(targetTile.worldx(), targetTile.worldy()));
         }
 
         if(tile == targetTile || (costType == Pathfinder.costNaval && !targetTile.floor().isLiquid)) return;
