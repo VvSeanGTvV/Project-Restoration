@@ -129,7 +129,7 @@ public class JumpingAI extends AIController {
                 if(move && once && !stopMoving){ once = false; }
 
                 if (move && !stopMoving){
-                    pathfind(Pathfinder.fieldCore, Pathfinder.costGround);
+                    pathfind(Pathfinder.fieldCore, PathFinderCustom.costStomp);
                     /*if(SolidOn() == null) { pathfind(Pathfinder.fieldCore, Pathfinder.costLegs); unit.elevation = 1; } else
                     if(BlockOn() != null) { pathfind(Pathfinder.fieldCore, Pathfinder.costLegs); unit.elevation = 1; } else {
                         unit.elevation = 0;
@@ -148,7 +148,15 @@ public class JumpingAI extends AIController {
         if(tile == null) return;
         Tile targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, costType, pathTarget));
 
-        if(tile == targetTile || (costType == Pathfinder.costNaval && !targetTile.floor().isLiquid)) return;
+        var v = TileOn(targetTile.x, targetTile.y); //Checks ahead of the tile.
+        Block f = null;
+        if(v != null) {
+            if (!(v.block() instanceof Floor)) {
+                if(v.block() instanceof StaticWall || v.block() instanceof StaticTree) f = v.block();
+            }
+        }
+
+        if(tile == targetTile || (costType == Pathfinder.costNaval && !targetTile.floor().isLiquid) || f != null) return;
 
         unit.movePref(vec.trns(unit.angleTo(targetTile.worldx(), targetTile.worldy()), unit.speed()));
     }
@@ -166,8 +174,11 @@ public class JumpingAI extends AIController {
         }
     }
 
-    public Tile TileOn(){
+    public Tile TileOn(float x, float y){
         return Vars.world.tile(Mathf.round(unit.x / Vars.tilesize), Mathf.round(unit.y / Vars.tilesize));
+    }
+    public Tile TileOn(){
+        return TileOn(unit.x, unit.y);
     }
 
     public Block SolidOn(){
