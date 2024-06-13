@@ -209,8 +209,9 @@ public class JumpingAI extends AIController {
         }
 
         if(f != null) {
-            //targetTile = TileOn(targetTile.worldx(), targetTile.worldy());
-            targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, Pathfinder.costLegs, pathTarget));
+            targetTile = TileOn(targetTile.worldx(), targetTile.worldy());
+            //targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, Pathfinder.costLegs, pathTarget));
+
             //f = Analyze(TileOn(targetTile.worldx(), targetTile.worldy()));
         }
 
