@@ -64,7 +64,7 @@ public class JumpingAI extends AIController {
         if(BlockOn() != null){
             if(unit != null) v1 = new Vec2(unit.x, unit.y);
         } else {
-            if (v1 != null) unit.moveAt(v1);
+            if (v1 != null) moveTo(v1,0);
         }
     }
 
