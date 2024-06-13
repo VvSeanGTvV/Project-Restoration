@@ -44,7 +44,7 @@ public class JumpingAI extends AIController {
 
     public Effect Stomp = Fx.unitLand;
 
-    private boolean once;
+    boolean once; boolean oS;
 
     protected static final Vec2 v1 = new Vec2();
 
@@ -118,6 +118,7 @@ public class JumpingAI extends AIController {
                     if(BuildOn() != null) {
                         if (BlockOn() != null) if (BuildOn().team != unit.team) {
                             DamageBuild(BuildOn());
+                            oS = true;
                         }
                     }
                     if(TileOn() != null){
@@ -174,8 +175,11 @@ public class JumpingAI extends AIController {
         Log.info(AnalyzeBuild(TileOn(targetTile.worldx(), targetTile.worldy())));
 
         if(f != null) {
-            Wave();
-            DamageBuild(AnalyzeBuild(TileOn(targetTile.worldx(), targetTile.worldy())));
+            if(oS) {
+                Wave();
+                DamageBuild(AnalyzeBuild(TileOn(targetTile.worldx(), targetTile.worldy())));
+                oS = false;
+            }
             unit.elevation = 1;
             targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, Pathfinder.costLegs, pathTarget));
             f = Analyze(TileOn(targetTile.worldx(), targetTile.worldy()));
