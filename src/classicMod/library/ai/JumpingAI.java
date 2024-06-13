@@ -69,7 +69,7 @@ public class JumpingAI extends AIController {
 
     @Override
     public void updateMovement() {
-        OverrideVec2();
+
         if(unit.type instanceof JumpingUnitType Ju) {
             Building core = unit.closestEnemyCore();
 
@@ -129,10 +129,11 @@ public class JumpingAI extends AIController {
                 if(move && once && !stopMoving){ once = false; }
 
                 if (move && !stopMoving){
-                    if(SolidOn() == null) { pathfind(Pathfinder.fieldCore, Pathfinder.costLegs); unit.elevation = 1; } else
+                    pathfind(Pathfinder.fieldCore, Pathfinder.costLegs);
+                    /*if(SolidOn() == null) { pathfind(Pathfinder.fieldCore, Pathfinder.costLegs); unit.elevation = 1; } else
                     if(BlockOn() != null) { pathfind(Pathfinder.fieldCore, Pathfinder.costLegs); unit.elevation = 1; } else {
                         unit.elevation = 0;
-                    }
+                    }*/
                 }
                 faceMovement();
             }
