@@ -115,11 +115,17 @@ public class JumpingAI extends AIController {
                 }
                 if(move && once && !stopMoving){ once = false; }
 
+                if(BlockOn() != null){
+                    v1 = new Vec2(unit.x, unit.y);
+                } else {
+                    unit.moveAt(v1);
+                }
+
                 if (move && !stopMoving){
-                    if(SolidOn() == null) { pathfind(Pathfinder.fieldCore); v1 = new Vec2(unit.x, unit.y); } else
-                    if(BlockOn() != null) { pathfind(Pathfinder.fieldCore); v1 = new Vec2(unit.x, unit.y); } else {
-                        if (core != null) moveTo(v1, 0f);
-                        if (getClosestSpawner() != null) moveTo(v1, 0f);
+                    if(SolidOn() == null) { pathfind(Pathfinder.fieldCore); } else
+                    if(BlockOn() != null) { pathfind(Pathfinder.fieldCore); } else {
+                        moveTo(v1, 0f);
+                        if(v1 == null) unit.remove();
                     }
                 }
                 faceMovement();
