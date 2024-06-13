@@ -45,7 +45,7 @@ public class JumpingAI extends AIController {
 
     private boolean once;
 
-    protected static final Vec2 v1;
+    protected static final Vec2 v1 = new Vec2();
 
     @Override
     public void init() {

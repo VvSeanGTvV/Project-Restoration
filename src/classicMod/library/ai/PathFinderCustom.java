@@ -61,7 +61,7 @@ public class PathFinderCustom extends Pathfinder {
                             (PathTile.nearSolid(tile) ? 2 : 0) +
                             (PathTile.nearLiquid(tile) ? 6 : 0) +
                             (PathTile.deep(tile) ? 6000 : 0) +
-                            (PathTile.damages(tile) ? 30 : 0)
+                            (PathTile.damages(tile) ? 30 : 0))
                     /*(PathTile.allDeep(tile) || ((PathTile.team(tile) == team && !PathTile.teamPassable(tile)) || PathTile.team(tile) == 0) && PathTile.solid(tile)) ? impassable : 1 +
                             PathTile.health(tile) * 5 +
                             (PathTile.nearSolid(tile) ? 2 : 0) +
