@@ -62,7 +62,10 @@ public class JumpingAI extends AIController {
 
     public void OverrideVec2(){
         if(SolidOn() == null) { vec.set(unit); } else
-        if(BlockOn() != null) { vec.set(unit); }
+        if(BlockOn() != null) { vec.set(unit); } else {
+            unit.elevation = 0;
+            unit.moveAt(vec);
+        }
     }
 
     @Override
@@ -112,9 +115,11 @@ public class JumpingAI extends AIController {
                 }
 
                 if(!move && !once){
-                    if(BlockOn() != null) if(BuildOn().team != unit.team){
-                        Wave();
-                        DamageBuild();
+                    if(BuildOn() != null) {
+                        if (BlockOn() != null) if (BuildOn().team != unit.team) {
+                            Wave();
+                            DamageBuild();
+                        }
                     }
                     if(TileOn() != null){
                         if(FloorOn() != null) { Stomp.at(unit.x, unit.y, FloorOn().isLiquid ? 1f : 0.5f, TileOn().floor().mapColor); }
