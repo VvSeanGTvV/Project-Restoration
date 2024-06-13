@@ -66,7 +66,7 @@ public class ClassicUnitTypes {
             health = 200f;
             hitSize = 10f;
 
-            constructor = UnitEntity::create;
+            constructor = MechUnit::create;
         }};
 
         azathoth = new TentacleUnitType("azathoth"){{

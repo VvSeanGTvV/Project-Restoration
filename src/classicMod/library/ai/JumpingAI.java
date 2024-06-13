@@ -45,7 +45,7 @@ public class JumpingAI extends AIController {
 
     private boolean once;
 
-    private Vec2 v1;
+    protected static final Vec2 v1;
 
     @Override
     public void init() {
@@ -129,7 +129,7 @@ public class JumpingAI extends AIController {
                 if(move && once && !stopMoving){ once = false; }
 
                 if (move && !stopMoving){
-                    pathfind(Pathfinder.fieldCore, PathFinderCustom.costStomp);
+                    pathfind(Pathfinder.fieldCore, Pathfinder.costGround);
                     /*if(SolidOn() == null) { pathfind(Pathfinder.fieldCore, Pathfinder.costLegs); unit.elevation = 1; } else
                     if(BlockOn() != null) { pathfind(Pathfinder.fieldCore, Pathfinder.costLegs); unit.elevation = 1; } else {
                         unit.elevation = 0;
@@ -143,6 +143,7 @@ public class JumpingAI extends AIController {
     }
 
     public void pathfind(int pathTarget, int costType){
+        v1.set(unit);
         Tile tile = unit.tileOn();
         if(tile == null) return;
         Tile targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, costType, pathTarget));
