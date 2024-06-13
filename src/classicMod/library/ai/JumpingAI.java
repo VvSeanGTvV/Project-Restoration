@@ -95,7 +95,7 @@ public class JumpingAI extends AIController {
                     stopMoving = true;
                     move = false;
 
-                    if(hitTimer>200){
+                    if(hitTimer > 100){
                         hit = false;
                         lastHealth = unit.health;
                         hitTimer = 0;
@@ -117,10 +117,11 @@ public class JumpingAI extends AIController {
                 if(!move && !once){
                     if(BuildOn() != null) {
                         if (BlockOn() != null) if (BuildOn().team != unit.team) {
-                            DamageBuild(BuildOn());
                             oS = true;
+                            //DamageBuild(BuildOn());
                         }
                     }
+
                     if(TileOn() != null){
                         if(FloorOn() != null) { Stomp.at(unit.x, unit.y, FloorOn().isLiquid ? 1f : 0.5f, TileOn().floor().mapColor); }
                         else { Stomp.at(unit.x, unit.y, 1f, TileOn().floor().mapColor); }
@@ -169,15 +170,25 @@ public class JumpingAI extends AIController {
         if(tile == null) return;
         Tile targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, costType, pathTarget));
         Block f = Analyze(TileOn(targetTile.worldx(), targetTile.worldy())); //Checks ahead of the tile.
-        unit.elevation = (f != null || BlockOn() != null) ? 1 : 0;
+        unit.elevation = (f != null || BlockOn() != null) ? 0 : 1;
 
         if(f != null) {
             targetTile = TileOn(targetTile.worldx(), targetTile.worldy());
-            /*if(oS) {
+            if(oS) {
                 Wave();
                 DamageBuild(AnalyzeBuild(TileOn(targetTile.worldx(), targetTile.worldy())));
+                DamageBuild(AnalyzeBuild(TileOn(targetTile.worldx(), targetTile.worldy() + 1)));
+                DamageBuild(AnalyzeBuild(TileOn(targetTile.worldx(), targetTile.worldy() - 1)));
+
+                DamageBuild(AnalyzeBuild(TileOn(targetTile.worldx() + 1, targetTile.worldy())));
+                DamageBuild(AnalyzeBuild(TileOn(targetTile.worldx() + 1, targetTile.worldy() - 1)));
+                DamageBuild(AnalyzeBuild(TileOn(targetTile.worldx() + 1, targetTile.worldy() + 1)));
+
+                DamageBuild(AnalyzeBuild(TileOn(targetTile.worldx() - 1, targetTile.worldy() - 1)));
+                DamageBuild(AnalyzeBuild(TileOn(targetTile.worldx() - 1, targetTile.worldy() + 1)));
+                DamageBuild(AnalyzeBuild(TileOn(targetTile.worldx() - 1, targetTile.worldy())));
                 oS = false;
-            }*/
+            }
 
             //targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, Pathfinder.costLegs, pathTarget));
             //f = Analyze(TileOn(targetTile.worldx(), targetTile.worldy()));
