@@ -61,7 +61,7 @@ public class JumpingAI extends AIController {
     }
 
     public void OverrideVec2(){
-        if(BlockOn() != null) { vec.set(unit.lastX, unit.lastY).sub(unit); } else {
+        if(BlockOn() != null && SolidOn() == null) { vec.set(unit.lastX, unit.lastY).sub(unit); } else {
             unit.elevation = 0;
             unit.moveAt(vec);
         }
@@ -163,7 +163,7 @@ public class JumpingAI extends AIController {
         Block f = null;
         if(v != null) {
             if (!(v.block() instanceof Floor)) {
-                f = v.block();
+                if(v.block() instanceof StaticWall || v.block() instanceof StaticTree) f = v.block();
             }
         }
         return f;
