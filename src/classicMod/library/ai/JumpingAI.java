@@ -116,8 +116,7 @@ public class JumpingAI extends AIController {
                 if(!move && !once){
                     if(BuildOn() != null) {
                         if (BlockOn() != null) if (BuildOn().team != unit.team) {
-                            Wave();
-                            DamageBuild();
+                            DamageBuild(BuildOn());
                         }
                     }
                     if(TileOn() != null){
@@ -152,16 +151,31 @@ public class JumpingAI extends AIController {
         return f;
     }
 
+    Building AnalyzeBuild(Tile v){
+        Building f = null;
+        if(v != null) {
+            if (!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree)) {
+                f = v.build;
+            }
+        }
+        return f;
+    }
+
     public void pathfind(int pathTarget, int costType){
         v1.set(unit);
         Tile tile = unit.tileOn();
         if(tile == null) return;
         Tile targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, costType, pathTarget));
         Block f = Analyze(TileOn(targetTile.x, targetTile.y)); //Checks ahead of the tile.
-        
+
         if(f != null) {
+            Wave();
+            DamageBuild(AnalyzeBuild(TileOn(targetTile.x, targetTile.y)));
+            unit.elevation = 1;
             targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, Pathfinder.costLegs, pathTarget));
             f = Analyze(TileOn(targetTile.x, targetTile.y));
+        } else {
+            unit.elevation = 0;
         }
 
         if(tile == targetTile || (costType == Pathfinder.costNaval && !targetTile.floor().isLiquid)) return;
@@ -173,12 +187,9 @@ public class JumpingAI extends AIController {
         Fx.shockwave.at(unit.x, unit.y, 0f, Color.valueOf("ffd27e"));
     }
 
-    public void DamageBuild() {
-        Tile b = Vars.world.tile(Mathf.round(unit.x / Vars.tilesize), Mathf.round(unit.y / Vars.tilesize));
-        if(!(b.block() instanceof Floor)){
-            if(b.build != null){
-                b.build.damage(120);
-            }
+    public void DamageBuild(Building b) {
+        if(b != null){
+            b.damage(120);
         }
     }
 
