@@ -172,17 +172,19 @@ public class JumpingAI extends AIController {
         Tile targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, costType, pathTarget));
         Block f = Analyze(TileOn(targetTile.worldx(), targetTile.worldy())); //Checks ahead of the tile.
 
-        boolean SurroundedBlock = (AnalyzeBuild(TileOn(unit.x, unit.y)) != null ||
-                AnalyzeBuild(TileOn(unit.x, unit.y + 1)) != null ||
-                AnalyzeBuild(TileOn(unit.x, unit.y - 1)) != null ||
+        boolean SurroundedBlock = (Analyze(TileOn(unit.x, unit.y)) != null ||
+                Analyze(TileOn(unit.x, unit.y + 1)) != null ||
+                Analyze(TileOn(unit.x, unit.y - 1)) != null ||
 
-                AnalyzeBuild(TileOn(unit.x + 1, unit.y)) != null ||
-                AnalyzeBuild(TileOn(unit.x + 1, unit.y + 1)) != null ||
-                AnalyzeBuild(TileOn(unit.x + 1, unit.y - 1)) != null ||
+                Analyze(TileOn(unit.x + 1, unit.y)) != null ||
+                Analyze(TileOn(unit.x + 1, unit.y + 1)) != null ||
+                Analyze(TileOn(unit.x + 1, unit.y - 1)) != null ||
 
-                AnalyzeBuild(TileOn(unit.x - 1, unit.y)) != null ||
-                AnalyzeBuild(TileOn(unit.x - 1, unit.y + 1)) != null ||
-                AnalyzeBuild(TileOn(unit.x - 1, unit.y - 1)) != null);
+                Analyze(TileOn(unit.x - 1, unit.y)) != null ||
+                Analyze(TileOn(unit.x - 1, unit.y + 1)) != null ||
+                Analyze(TileOn(unit.x - 1, unit.y - 1)) != null);
+
+        Log.info(SurroundedBlock);
 
         unit.elevation = (f != null || BlockOn() != null || SurroundedBlock) ? 1 : 0;
 
