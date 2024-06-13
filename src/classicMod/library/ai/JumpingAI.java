@@ -60,17 +60,8 @@ public class JumpingAI extends AIController {
         }
     }
 
-    public void rePosition(){
-        if(BlockOn() != null){
-            if(unit != null) v1 = new Vec2(unit.x, unit.y);
-        } else {
-            if (v1 != null) moveTo(v1,0);
-        }
-    }
-
     @Override
     public void updateMovement() {
-        rePosition();
         if(unit.type instanceof JumpingUnitType Ju) {
             Building core = unit.closestEnemyCore();
 
@@ -128,9 +119,9 @@ public class JumpingAI extends AIController {
                 if(move && once && !stopMoving){ once = false; }
 
                 if (move && !stopMoving){
-                    if(SolidOn() == null) { pathfind(Pathfinder.fieldCore); } else
-                    if(BlockOn() != null) { pathfind(Pathfinder.fieldCore); } else {
-                        moveTo(v1, 0f);
+                    if(SolidOn() == null) { pathfind(Pathfinder.fieldCore); unit.elevation = 1; } else
+                    if(BlockOn() != null) { pathfind(Pathfinder.fieldCore); unit.elevation = 1; } else {
+                        unit.elevation = 0;
                     }
                 }
                 faceMovement();

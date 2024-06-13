@@ -65,8 +65,7 @@ public class ClassicUnitTypes {
         alphaChan = new JumpingUnitType("alphachan"){{
             health = 200f;
             hitSize = 10f;
-
-            flying = true;
+            
             constructor = UnitEntity::create;
         }};
 
