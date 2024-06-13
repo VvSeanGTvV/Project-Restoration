@@ -45,6 +45,13 @@ public class JumpingAI extends AIController {
     }
 
     @Override
+    public void updateVisuals(){
+        if(unit.isFlying()){
+            unit.lookAt(unit.prefRotation());
+        }
+    }
+
+    @Override
     public void updateMovement() {
         if(unit.type instanceof JumpingUnitType Ju) {
             Building core = unit.closestEnemyCore();
