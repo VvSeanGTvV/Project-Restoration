@@ -60,10 +60,20 @@ public class JumpingAI extends AIController {
         }
     }
 
+    public void rePosition(){
+        if(BlockOn() != null){
+            if(unit != null) v1 = new Vec2(unit.x, unit.y);
+        } else {
+            if (v1 != null) unit.moveAt(v1);
+        }
+    }
+
     @Override
     public void updateMovement() {
+        rePosition();
         if(unit.type instanceof JumpingUnitType Ju) {
             Building core = unit.closestEnemyCore();
+
 
            /* if (core != null && unit.within(core, unit.range() / 1.3f + core.block.size * tilesize / 2f)) {
                 target = core;
@@ -117,12 +127,6 @@ public class JumpingAI extends AIController {
                 }
                 if(move && once && !stopMoving){ once = false; }
 
-                if(BlockOn() != null){
-                    if(unit !=null) v1 = new Vec2(unit.x, unit.y);
-                } else {
-                    if (v1 != null) unit.moveAt(v1);
-                }
-
                 if (move && !stopMoving){
                     if(SolidOn() == null) { pathfind(Pathfinder.fieldCore); } else
                     if(BlockOn() != null) { pathfind(Pathfinder.fieldCore); } else {
@@ -156,8 +160,10 @@ public class JumpingAI extends AIController {
     public Block SolidOn(){
         var v = TileOn();
         Block f = null;
-        if(!(v.block() instanceof Floor)){
-            f = v.block();
+        if(v != null) {
+            if (!(v.block() instanceof Floor)) {
+                f = v.block();
+            }
         }
         return f;
     }
