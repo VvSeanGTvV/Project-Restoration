@@ -167,13 +167,26 @@ public class JumpingAI extends AIController {
     public void pathfind(int pathTarget, int costType){
         v1.set(unit);
         Tile tile = unit.tileOn();
+
         if(tile == null) return;
         Tile targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, costType, pathTarget));
         Block f = Analyze(TileOn(targetTile.worldx(), targetTile.worldy())); //Checks ahead of the tile.
-        unit.elevation = (f != null || BlockOn() != null) ? 1 : 0;
 
-        if(f != null) {
-            targetTile = TileOn(targetTile.worldx(), targetTile.worldy());
+        boolean SurroundedBlock = (AnalyzeBuild(TileOn(unit.x, unit.y)) != null ||
+                AnalyzeBuild(TileOn(unit.x, unit.y + 1)) != null ||
+                AnalyzeBuild(TileOn(unit.x, unit.y - 1)) != null ||
+
+                AnalyzeBuild(TileOn(unit.x + 1, unit.y)) != null ||
+                AnalyzeBuild(TileOn(unit.x + 1, unit.y + 1)) != null ||
+                AnalyzeBuild(TileOn(unit.x + 1, unit.y - 1)) != null ||
+
+                AnalyzeBuild(TileOn(unit.x - 1, unit.y)) != null ||
+                AnalyzeBuild(TileOn(unit.x - 1, unit.y + 1)) != null ||
+                AnalyzeBuild(TileOn(unit.x - 1, unit.y - 1)) != null);
+
+        unit.elevation = (f != null || BlockOn() != null || SurroundedBlock) ? 1 : 0;
+
+        if(f != null || BlockOn() != null){
             if(oS) {
                 Wave();
                 DamageBuild(AnalyzeBuild(TileOn(targetTile.worldx(), targetTile.worldy())));
@@ -189,7 +202,10 @@ public class JumpingAI extends AIController {
                 DamageBuild(AnalyzeBuild(TileOn(targetTile.worldx() - 1, targetTile.worldy())));
                 oS = false;
             }
+        }
 
+        if(f != null) {
+            targetTile = TileOn(targetTile.worldx(), targetTile.worldy());
             //targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, Pathfinder.costLegs, pathTarget));
             //f = Analyze(TileOn(targetTile.worldx(), targetTile.worldy()));
         }
