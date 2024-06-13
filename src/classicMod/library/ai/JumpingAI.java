@@ -122,7 +122,7 @@ public class JumpingAI extends AIController {
                     if(SolidOn() == null) { pathfind(Pathfinder.fieldCore); unit.elevation = 1; vec.set(unit); } else
                     if(BlockOn() != null) { pathfind(Pathfinder.fieldCore); unit.elevation = 1; vec.set(unit);; } else {
                         unit.elevation = 0;
-                        if(v1 != null) unit.moveAt(vec);
+                        unit.moveAt(vec);
                     }
                 }
                 faceMovement();
