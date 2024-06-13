@@ -98,7 +98,7 @@ public class JumpingAI extends AIController {
                     stopMoving = true;
                 }
 
-                if (move){ if(BlockOn() == null) pathfind(Pathfinder.fieldCore); else {
+                if (move && !stopMoving){ if(BlockOn() == null) pathfind(Pathfinder.fieldCore); else {
                     if(core != null) moveTo(core, 0f);
                     if(getClosestSpawner() != null) moveTo(getClosestSpawner(), 0f);
                     }
