@@ -3,6 +3,7 @@ package classicMod.library.ai;
 import arc.graphics.Color;
 import arc.graphics.g2d.Lines;
 import arc.math.Mathf;
+import arc.math.geom.Vec2;
 import classicMod.library.animdustry.JumpingUnitType;
 import mindustry.Vars;
 import mindustry.ai.*;
@@ -14,6 +15,8 @@ import mindustry.entities.units.AIController;
 import mindustry.gen.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.Floor;
+import mindustry.world.blocks.environment.StaticTree;
+import mindustry.world.blocks.environment.StaticWall;
 
 import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.stroke;
@@ -41,6 +44,8 @@ public class JumpingAI extends AIController {
     public Effect Stomp = Fx.unitLand;
 
     private boolean once;
+
+    private Vec2 v1;
 
     @Override
     public void init() {
@@ -110,10 +115,11 @@ public class JumpingAI extends AIController {
                 }
                 if(move && once && !stopMoving){ once = false; }
 
-                if (move && !stopMoving){ if(SolidOn() == null) pathfind(Pathfinder.fieldCore); else
-                    if(BlockOn() != null) pathfind(Pathfinder.fieldCore); else {
-                        if (core != null) moveTo(core, 0f);
-                        if (getClosestSpawner() != null) moveTo(getClosestSpawner(), 0f);
+                if (move && !stopMoving){
+                    if(SolidOn() == null) { pathfind(Pathfinder.fieldCore); v1 = new Vec2(unit.x, unit.y); } else
+                    if(BlockOn() != null) { pathfind(Pathfinder.fieldCore); v1 = new Vec2(unit.x, unit.y); } else {
+                        if (core != null) moveTo(v1, 0f);
+                        if (getClosestSpawner() != null) moveTo(v1, 0f);
                     }
                 }
                 faceMovement();
@@ -152,8 +158,8 @@ public class JumpingAI extends AIController {
     public Block BlockOn(){
         var v = Vars.world.tile(Mathf.round(unit.x / Vars.tilesize), Mathf.round(unit.y / Vars.tilesize));
         Block f = null;
-        if(!(v.block() instanceof Floor)){
-            if(v.block().health != -1 || v.block().health != Integer.MAX_VALUE) f = v.block();
+        if(!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree)){
+            f = v.block();
         }
         return f;
     }
