@@ -4,6 +4,7 @@ import arc.graphics.Color;
 import arc.graphics.g2d.Lines;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
+import arc.util.Log;
 import classicMod.library.animdustry.JumpingUnitType;
 import mindustry.Vars;
 import mindustry.ai.*;
@@ -167,6 +168,10 @@ public class JumpingAI extends AIController {
         if(tile == null) return;
         Tile targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, costType, pathTarget));
         Block f = Analyze(TileOn(targetTile.x, targetTile.y)); //Checks ahead of the tile.
+
+        Log.info(TileOn(targetTile.x, targetTile.y));
+        Log.info(f);
+        Log.info(AnalyzeBuild(TileOn(targetTile.x, targetTile.y)));
 
         if(f != null) {
             Wave();

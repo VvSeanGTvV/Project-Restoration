@@ -44,7 +44,7 @@ public class JumpingUnitType extends UnitType {
             int direction = Mathf.round (unit.rotation / 90);
             Draw.xscl = Mathf.sign(direction == 0 || direction == 1);
             var sine = Mathf.sin(ai.timing);
-            Draw.z(Layer.flyingUnitLow);
+            Draw.z(Layer.groundUnit);
 
             if (sine < -0.85f){ ai.timing = 2f; ai.timingY = 0.5f; }
             if (sine > 0f && !ai.stopMoving) {
