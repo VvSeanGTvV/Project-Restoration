@@ -170,7 +170,7 @@ public class JumpingAI extends AIController {
         if(tile == null) return;
         Tile targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, costType, pathTarget));
         Block f = Analyze(TileOn(targetTile.worldx(), targetTile.worldy())); //Checks ahead of the tile.
-        unit.elevation = (f != null || BlockOn() != null) ? 0 : 1;
+        unit.elevation = (f != null || BlockOn() != null) ? 1 : 0;
 
         if(f != null) {
             targetTile = TileOn(targetTile.worldx(), targetTile.worldy());
