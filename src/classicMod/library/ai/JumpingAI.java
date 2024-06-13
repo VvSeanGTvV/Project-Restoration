@@ -101,17 +101,19 @@ public class JumpingAI extends AIController {
 
                 if(!move && !once){
                     DamageBuild();
+                    if(BlockOn() != null) Wave();
                     if(TileOn() != null){
-                        if(FloorOn() != null) { Wave(); Stomp.at(unit.x, unit.y, FloorOn().isLiquid ? 1f : 0.5f, TileOn().floor().mapColor); }
-                        else { Wave(); Stomp.at(unit.x, unit.y, 1f, TileOn().floor().mapColor); }
+                        if(FloorOn() != null) { Stomp.at(unit.x, unit.y, FloorOn().isLiquid ? 1f : 0.5f, TileOn().floor().mapColor); }
+                        else { Stomp.at(unit.x, unit.y, 1f, TileOn().floor().mapColor); }
                     }
                     once = true;
                 }
                 if(move && once && !stopMoving){ once = false; }
 
-                if (move && !stopMoving){ if(BlockOn() == null) pathfind(Pathfinder.fieldCore); else {
-                    if(core != null) moveTo(core, 0f);
-                    if(getClosestSpawner() != null) moveTo(getClosestSpawner(), 0f);
+                if (move && !stopMoving){ if(SolidOn() == null) pathfind(Pathfinder.fieldCore); else
+                    if(BlockOn() != null) pathfind(Pathfinder.fieldCore); else {
+                        if (core != null) moveTo(core, 0f);
+                        if (getClosestSpawner() != null) moveTo(getClosestSpawner(), 0f);
                     }
                 }
                 faceMovement();
@@ -122,7 +124,7 @@ public class JumpingAI extends AIController {
     }
 
     public void Wave(){
-        Fx.dynamicWave.at(unit.x, unit.y, 0f, Color.valueOf("ffd27e"));
+        Fx.shockwave.at(unit.x, unit.y, 0f, Color.valueOf("ffd27e"));
     }
 
     public void DamageBuild() {

@@ -30,7 +30,7 @@ public class JumpingUnitType extends UnitType {
         if(unit.controller() instanceof JumpingAI ai) {
             ai.timing += 0.15f * Time.delta;
             if(getTimingSine(ai) > 0f){
-                ai.timingY -= 0.35f * Time.delta;
+                ai.timingY -= 0.275f * Time.delta;
             }
         }
     }
