@@ -30,7 +30,7 @@ public class JumpingUnitType extends UnitType {
         if(unit.controller() instanceof JumpingAI ai) {
             ai.timing += 0.15f * Time.delta;
             if(getTimingSine(ai) > 0f){
-                ai.timingY -= 0.25f * Time.delta;
+                ai.timingY -= 0.35f * Time.delta;
             }
         }
     }
@@ -48,8 +48,8 @@ public class JumpingUnitType extends UnitType {
             if (sine < -0.85f){ ai.timing = 2f; ai.timingY = 0.5f; }
             if (sine > 0f && !ai.stopMoving) {
                 var Ysine = Mathf.sin(Mathf.sin(ai.timingY) * 3);
-                Draw.rect(region, unit.x, unit.y + 2 + Ysine * 2, (((float) region.width / 2) + sine * 5) * Draw.xscl, ((float) region.height / 2) - sine * 10);
-                if(ai.hit) Draw.rect(ouch, unit.x, unit.y + 2 + Ysine * 2, (((float) ouch.width / 2) + sine * 5) * Draw.xscl, ((float) ouch.height / 2) - sine * 10);
+                Draw.rect(region, unit.x, unit.y + 2 + Ysine * 3, (((float) region.width / 2) + sine * 5) * Draw.xscl, ((float) region.height / 2) - sine * 10);
+                if(ai.hit) Draw.rect(ouch, unit.x, unit.y + 2 + Ysine * 3, (((float) ouch.width / 2) + sine * 5) * Draw.xscl, ((float) ouch.height / 2) - sine * 10);
 
             } else {
                 Draw.rect(region, unit.x, unit.y + 2, (((float) region.width / 2) * Draw.xscl), (float) region.height / 2);

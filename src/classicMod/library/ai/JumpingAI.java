@@ -1,5 +1,7 @@
 package classicMod.library.ai;
 
+import arc.graphics.Color;
+import arc.graphics.g2d.Lines;
 import arc.math.Mathf;
 import classicMod.library.animdustry.JumpingUnitType;
 import mindustry.Vars;
@@ -13,6 +15,8 @@ import mindustry.gen.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.Floor;
 
+import static arc.graphics.g2d.Draw.color;
+import static arc.graphics.g2d.Lines.stroke;
 import static mindustry.Vars.*;
 
 public class JumpingAI extends AIController {
@@ -98,8 +102,8 @@ public class JumpingAI extends AIController {
                 if(!move && !once){
                     DamageBuild();
                     if(TileOn() != null){
-                        if(FloorOn() != null) Stomp.at(unit.x, unit.y, FloorOn().isLiquid ? 1f : 0.5f, TileOn().floor().mapColor);
-                        else Stomp.at(unit.x, unit.y, 1f, TileOn().floor().mapColor);
+                        if(FloorOn() != null) { Wave(); Stomp.at(unit.x, unit.y, FloorOn().isLiquid ? 1f : 0.5f, TileOn().floor().mapColor); }
+                        else { Wave(); Stomp.at(unit.x, unit.y, 1f, TileOn().floor().mapColor); }
                     }
                     once = true;
                 }
@@ -115,6 +119,10 @@ public class JumpingAI extends AIController {
         }else{
             unit.remove();
         }
+    }
+
+    public void Wave(){
+        Fx.dynamicWave.at(unit.x, unit.y, 0f, Color.valueOf("ffd27e"));
     }
 
     public void DamageBuild() {
