@@ -129,7 +129,7 @@ public class JumpingAI extends AIController {
                 if(move && once && !stopMoving){ once = false; }
 
                 if (move && !stopMoving){
-                    pathfind(Pathfinder.fieldCore, Pathfinder.costLegs);
+                    pathfind(Pathfinder.fieldCore, PathFinderCustom.costStomp);
                     /*if(SolidOn() == null) { pathfind(Pathfinder.fieldCore, Pathfinder.costLegs); unit.elevation = 1; } else
                     if(BlockOn() != null) { pathfind(Pathfinder.fieldCore, Pathfinder.costLegs); unit.elevation = 1; } else {
                         unit.elevation = 0;
@@ -143,7 +143,6 @@ public class JumpingAI extends AIController {
     }
 
     public void pathfind(int pathTarget, int costType){
-
         Tile tile = unit.tileOn();
         if(tile == null) return;
         Tile targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, costType, pathTarget));
