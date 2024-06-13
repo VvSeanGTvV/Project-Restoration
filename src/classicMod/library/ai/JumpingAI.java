@@ -127,7 +127,6 @@ public class JumpingAI extends AIController {
                     if(SolidOn() == null) { pathfind(Pathfinder.fieldCore); } else
                     if(BlockOn() != null) { pathfind(Pathfinder.fieldCore); } else {
                         moveTo(v1, 0f);
-                        if(v1 == null) unit.remove();
                     }
                 }
                 faceMovement();
@@ -155,7 +154,7 @@ public class JumpingAI extends AIController {
     }
 
     public Block SolidOn(){
-        var v = Vars.world.tile(Mathf.round(unit.x / Vars.tilesize), Mathf.round(unit.y / Vars.tilesize));
+        var v = TileOn();
         Block f = null;
         if(!(v.block() instanceof Floor)){
             f = v.block();
@@ -164,28 +163,34 @@ public class JumpingAI extends AIController {
     }
 
     public Block BlockOn(){
-        var v = Vars.world.tile(Mathf.round(unit.x / Vars.tilesize), Mathf.round(unit.y / Vars.tilesize));
+        var v = TileOn();
         Block f = null;
-        if(!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree)){
-            f = v.block();
+        if(v != null) {
+            if (!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree)) {
+                f = v.block();
+            }
         }
         return f;
     }
 
     public Building BuildOn(){
-        var v = Vars.world.tile(Mathf.round(unit.x / Vars.tilesize), Mathf.round(unit.y / Vars.tilesize));
+        var v = TileOn();
         Building f = null;
-        if(!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree)){
-            f = v.build;
+        if(v != null) {
+            if (!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree)) {
+                f = v.build;
+            }
         }
         return f;
     }
 
     public Floor FloorOn(){
-        var v = Vars.world.tile(Mathf.round(unit.x / Vars.tilesize), Mathf.round(unit.y / Vars.tilesize));
+        var v = TileOn();
         Floor f = null;
-        if(v.block() instanceof Floor a){
-            f = a;
+        if(v != null) {
+            if (v.block() instanceof Floor a) {
+                f = a;
+            }
         }
         return f;
     }
