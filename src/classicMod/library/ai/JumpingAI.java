@@ -189,17 +189,17 @@ public class JumpingAI extends AIController {
         if(f != null || BlockOn() != null){
             if(oS) {
                 Wave();
-                DamageBuild(AnalyzeBuild(TileOn(targetTile.worldx(), targetTile.worldy())));
-                DamageBuild(AnalyzeBuild(TileOn(targetTile.worldx(), targetTile.worldy() + 1)));
-                DamageBuild(AnalyzeBuild(TileOn(targetTile.worldx(), targetTile.worldy() - 1)));
+                DamageBuild(AnalyzeBuild(TileOn(unit.x, unit.y)));
+                DamageBuild(AnalyzeBuild(TileOn(unit.x, unit.y + 1)));
+                DamageBuild(AnalyzeBuild(TileOn(unit.x, unit.y - 1)));
 
-                DamageBuild(AnalyzeBuild(TileOn(targetTile.worldx() + 1, targetTile.worldy())));
-                DamageBuild(AnalyzeBuild(TileOn(targetTile.worldx() + 1, targetTile.worldy() - 1)));
-                DamageBuild(AnalyzeBuild(TileOn(targetTile.worldx() + 1, targetTile.worldy() + 1)));
+                DamageBuild(AnalyzeBuild(TileOn(unit.x + 1, unit.y)));
+                DamageBuild(AnalyzeBuild(TileOn(unit.x + 1, unit.y - 1)));
+                DamageBuild(AnalyzeBuild(TileOn(unit.x + 1, unit.y + 1)));
 
-                DamageBuild(AnalyzeBuild(TileOn(targetTile.worldx() - 1, targetTile.worldy() - 1)));
-                DamageBuild(AnalyzeBuild(TileOn(targetTile.worldx() - 1, targetTile.worldy() + 1)));
-                DamageBuild(AnalyzeBuild(TileOn(targetTile.worldx() - 1, targetTile.worldy())));
+                DamageBuild(AnalyzeBuild(TileOn(unit.x - 1, unit.y - 1)));
+                DamageBuild(AnalyzeBuild(TileOn(unit.x - 1, unit.y + 1)));
+                DamageBuild(AnalyzeBuild(TileOn(unit.x - 1, unit.y)));
                 oS = false;
             }
         }
