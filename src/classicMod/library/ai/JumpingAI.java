@@ -194,7 +194,7 @@ public class JumpingAI extends AIController {
     }
 
     public Tile TileOn(float x, float y){
-        return Vars.world.tile(Mathf.round(unit.x / Vars.tilesize), Mathf.round(unit.y / Vars.tilesize));
+        return Vars.world.tile(Mathf.round(x / Vars.tilesize), Mathf.round(y / Vars.tilesize));
     }
     public Tile TileOn(){
         return TileOn(unit.x, unit.y);
