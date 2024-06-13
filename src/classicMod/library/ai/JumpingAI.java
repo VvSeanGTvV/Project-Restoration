@@ -61,10 +61,10 @@ public class JumpingAI extends AIController {
     }
 
     public void OverrideVec2(){
-        if(SolidOn() == null) { vec.set(unit); } else
-        if(BlockOn() != null) { vec.set(unit); } else {
+        if(SolidOn() == null) { vec.set(unit.lastX, unit.lastY).sub(unit); } else
+        if(BlockOn() != null) { vec.set(unit.lastX, unit.lastY).sub(unit); } else {
             unit.elevation = 0;
-            unit.moveAt(vec.sub(unit));
+            unit.moveAt(vec);
         }
     }
 
