@@ -23,6 +23,7 @@ public class JumpingUnitType extends UnitType {
         super(name);
         controller = u -> new JumpingAI();
         outlineRadius = 2;
+        flying = false;
     }
 
     @Override

@@ -129,8 +129,8 @@ public class JumpingAI extends AIController {
                 if(move && once && !stopMoving){ once = false; }
 
                 if (move && !stopMoving){
-                    if(SolidOn() == null) { pathfind(Pathfinder.fieldCore); unit.elevation = 1; } else
-                    if(BlockOn() != null) { pathfind(Pathfinder.fieldCore); unit.elevation = 1; } else {
+                    if(SolidOn() == null) { pathfind(Pathfinder.fieldCore, Pathfinder.costLegs); unit.elevation = 1; } else
+                    if(BlockOn() != null) { pathfind(Pathfinder.fieldCore, Pathfinder.costLegs); unit.elevation = 1; } else {
                         unit.elevation = 0;
                     }
                 }
@@ -139,6 +139,17 @@ public class JumpingAI extends AIController {
         }else{
             unit.remove();
         }
+    }
+
+    public void pathfind(int pathTarget, int costType){
+
+        Tile tile = unit.tileOn();
+        if(tile == null) return;
+        Tile targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, costType, pathTarget));
+
+        if(tile == targetTile || (costType == Pathfinder.costNaval && !targetTile.floor().isLiquid)) return;
+
+        unit.movePref(vec.trns(unit.angleTo(targetTile.worldx(), targetTile.worldy()), unit.speed()));
     }
 
     public void Wave(){
