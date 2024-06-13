@@ -129,7 +129,7 @@ public class JumpingAI extends AIController {
                 if(move && once && !stopMoving){ once = false; }
 
                 if (move && !stopMoving){
-                    pathfind(Pathfinder.fieldCore, PathFinderCustom.costStomp);
+                    pathfind(Pathfinder.fieldCore, Pathfinder.costLegs);
                     /*if(SolidOn() == null) { pathfind(Pathfinder.fieldCore, Pathfinder.costLegs); unit.elevation = 1; } else
                     if(BlockOn() != null) { pathfind(Pathfinder.fieldCore, Pathfinder.costLegs); unit.elevation = 1; } else {
                         unit.elevation = 0;
@@ -142,19 +142,23 @@ public class JumpingAI extends AIController {
         }
     }
 
-    public void pathfind(int pathTarget, int costType){
-        v1.set(unit);
-        Tile tile = unit.tileOn();
-        if(tile == null) return;
-        Tile targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, costType, pathTarget));
-
-        var v = TileOn(targetTile.x, targetTile.y); //Checks ahead of the tile.
+    Block Analyze(Tile v){
         Block f = null;
         if(v != null) {
             if (!(v.block() instanceof Floor)) {
                 if(v.block() instanceof StaticWall || v.block() instanceof StaticTree) f = v.block();
             }
         }
+        return f;
+    }
+
+    public void pathfind(int pathTarget, int costType){
+        v1.set(unit);
+        Tile tile = unit.tileOn();
+        if(tile == null) return;
+        Tile targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, costType, pathTarget));
+        Block f = Analyze(TileOn(targetTile.x, targetTile.y)); //Checks ahead of the tile.
+        if(f != null) { targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, Pathfinder.costGround, pathTarget)); f = Analyze(TileOn(targetTile.x, targetTile.y)); }
 
         if(tile == targetTile || (costType == Pathfinder.costNaval && !targetTile.floor().isLiquid) || f != null) return;
 
