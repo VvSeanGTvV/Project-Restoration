@@ -65,14 +65,14 @@ public class JumpingAI extends AIController {
         if(unit.type instanceof JumpingUnitType Ju) {
             Building core = unit.closestEnemyCore();
 
-            if (core != null && unit.within(core, unit.range() / 1.3f + core.block.size * tilesize / 2f)) {
+           /* if (core != null && unit.within(core, unit.range() / 1.3f + core.block.size * tilesize / 2f)) {
                 target = core;
                 for (var mount : unit.mounts) {
                     if (mount.weapon.controllable && mount.weapon.bullet.collidesGround) {
                         mount.target = core;
                     }
                 }
-            }
+            }*/
 
             if ((core == null || !unit.within(core, 0.5f))) {
                 boolean move = (Ju.getTimingSine(this) >= 0.5f && !hit);
@@ -105,8 +105,10 @@ public class JumpingAI extends AIController {
                 }
 
                 if(!move && !once){
-                    DamageBuild();
-                    if(BlockOn() != null) Wave();
+                    if(BlockOn() != null) if(BuildOn().team != unit.team){
+                        Wave();
+                        DamageBuild();
+                    }
                     if(TileOn() != null){
                         if(FloorOn() != null) { Stomp.at(unit.x, unit.y, FloorOn().isLiquid ? 1f : 0.5f, TileOn().floor().mapColor); }
                         else { Stomp.at(unit.x, unit.y, 1f, TileOn().floor().mapColor); }
@@ -166,6 +168,15 @@ public class JumpingAI extends AIController {
         Block f = null;
         if(!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree)){
             f = v.block();
+        }
+        return f;
+    }
+
+    public Building BuildOn(){
+        var v = Vars.world.tile(Mathf.round(unit.x / Vars.tilesize), Mathf.round(unit.y / Vars.tilesize));
+        Building f = null;
+        if(!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree)){
+            f = v.build;
         }
         return f;
     }
