@@ -64,7 +64,7 @@ public class JumpingAI extends AIController {
         if(SolidOn() == null) { vec.set(unit); } else
         if(BlockOn() != null) { vec.set(unit); } else {
             unit.elevation = 0;
-            unit.moveAt(vec);
+            unit.moveAt(vec.sub(unit));
         }
     }
 
@@ -133,7 +133,6 @@ public class JumpingAI extends AIController {
                     if(SolidOn() == null) { pathfind(Pathfinder.fieldCore); unit.elevation = 1; } else
                     if(BlockOn() != null) { pathfind(Pathfinder.fieldCore); unit.elevation = 1; } else {
                         unit.elevation = 0;
-                        unit.moveAt(vec);
                     }
                 }
                 faceMovement();
