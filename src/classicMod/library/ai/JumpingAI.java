@@ -172,17 +172,18 @@ public class JumpingAI extends AIController {
         Tile targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, costType, pathTarget));
         Block f = Analyze(TileOn(targetTile.worldx(), targetTile.worldy())); //Checks ahead of the tile.
 
-        boolean SurroundedBlock = (Analyze(TileOn(unit.x, unit.y)) != null ||
-                Analyze(TileOn(unit.x, unit.y + 1)) != null ||
-                Analyze(TileOn(unit.x, unit.y - 1)) != null ||
+        boolean SurroundedBlock = (
+                Analyze(TileOn(unit.x, unit.y)) != null ||
+                Analyze(TileOn(unit.x, unit.y + tilesize)) != null ||
+                Analyze(TileOn(unit.x, unit.y - tilesize)) != null ||
 
-                Analyze(TileOn(unit.x + 1, unit.y)) != null ||
-                Analyze(TileOn(unit.x + 1, unit.y + 1)) != null ||
-                Analyze(TileOn(unit.x + 1, unit.y - 1)) != null ||
+                Analyze(TileOn(unit.x + tilesize, unit.y)) != null ||
+                Analyze(TileOn(unit.x + tilesize, unit.y + tilesize)) != null ||
+                Analyze(TileOn(unit.x + tilesize, unit.y - tilesize)) != null ||
 
-                Analyze(TileOn(unit.x - 1, unit.y)) != null ||
-                Analyze(TileOn(unit.x - 1, unit.y + 1)) != null ||
-                Analyze(TileOn(unit.x - 1, unit.y - 1)) != null);
+                Analyze(TileOn(unit.x - tilesize, unit.y)) != null ||
+                Analyze(TileOn(unit.x - tilesize, unit.y + tilesize)) != null ||
+                Analyze(TileOn(unit.x - tilesize, unit.y - tilesize)) != null);
 
         Log.info(SurroundedBlock);
 
@@ -192,16 +193,16 @@ public class JumpingAI extends AIController {
             if(oS) {
                 Wave();
                 DamageBuild(AnalyzeBuild(TileOn(unit.x, unit.y)));
-                DamageBuild(AnalyzeBuild(TileOn(unit.x, unit.y + 1)));
-                DamageBuild(AnalyzeBuild(TileOn(unit.x, unit.y - 1)));
+                DamageBuild(AnalyzeBuild(TileOn(unit.x, unit.y + tilesize)));
+                DamageBuild(AnalyzeBuild(TileOn(unit.x, unit.y - tilesize)));
 
-                DamageBuild(AnalyzeBuild(TileOn(unit.x + 1, unit.y)));
-                DamageBuild(AnalyzeBuild(TileOn(unit.x + 1, unit.y - 1)));
-                DamageBuild(AnalyzeBuild(TileOn(unit.x + 1, unit.y + 1)));
+                DamageBuild(AnalyzeBuild(TileOn(unit.x + tilesize, unit.y)));
+                DamageBuild(AnalyzeBuild(TileOn(unit.x + tilesize, unit.y - 1)));
+                DamageBuild(AnalyzeBuild(TileOn(unit.x + tilesize, unit.y + 1)));
 
-                DamageBuild(AnalyzeBuild(TileOn(unit.x - 1, unit.y - 1)));
-                DamageBuild(AnalyzeBuild(TileOn(unit.x - 1, unit.y + 1)));
-                DamageBuild(AnalyzeBuild(TileOn(unit.x - 1, unit.y)));
+                DamageBuild(AnalyzeBuild(TileOn(unit.x - tilesize, unit.y - tilesize)));
+                DamageBuild(AnalyzeBuild(TileOn(unit.x - tilesize, unit.y + tilesize)));
+                DamageBuild(AnalyzeBuild(TileOn(unit.x - tilesize, unit.y)));
                 oS = false;
             }
         }
