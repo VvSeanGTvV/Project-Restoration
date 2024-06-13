@@ -172,7 +172,7 @@ public class JumpingAI extends AIController {
         unit.elevation = (f != null || BlockOn() != null) ? 1 : 0;
 
         if(f != null) {
-            targetTile = TileOn(targetTile.worldx(), targetTile.worldy())
+            targetTile = TileOn(targetTile.worldx(), targetTile.worldy());
             /*if(oS) {
                 Wave();
                 DamageBuild(AnalyzeBuild(TileOn(targetTile.worldx(), targetTile.worldy())));
