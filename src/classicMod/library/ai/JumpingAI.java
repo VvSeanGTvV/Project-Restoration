@@ -174,7 +174,8 @@ public class JumpingAI extends AIController {
         int yeet = 0;
         for (int x = 0; x < size; x++){
             for (int y = 0; y < size; y++){
-                yeet += Mathf.sign(TileUniformUnitSurround[y][x] != null && TileUniformUnitSurround[y][x].build.team != team);
+                var v = TileUniformUnitSurround[y][x];
+                if (!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree)) yeet += Mathf.sign(TileUniformUnitSurround[y][x] != null && TileUniformUnitSurround[y][x].build.team != team);
             }
         }
         return (yeet >= TileUniformUnitSurround.length);
