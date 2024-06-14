@@ -1,6 +1,7 @@
 package classicMod.library.animdustry;
 
 import arc.Core;
+import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
@@ -22,8 +23,10 @@ public class JumpingUnitType extends UnitType {
     public JumpingUnitType(String name) {
         super(name);
         controller = u -> new JumpingAI();
-        outlineRadius = 2;
+        outlineRadius = 1;
         flying = false;
+
+        outlineColor = Color.black;
     }
 
     @Override

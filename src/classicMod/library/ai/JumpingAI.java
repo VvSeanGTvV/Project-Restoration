@@ -94,7 +94,7 @@ public class JumpingAI extends AIController {
                 if(lH != unit.health){ hitTimer = 0; lH = unit.health; }
                 if(lastHealth != unit.health){
                     hit = true;
-                    hitTimer += 5f * Time.delta;
+                    hitTimer += 2.5f * Time.delta;
                     stopMoving = true;
                     move = false;
 

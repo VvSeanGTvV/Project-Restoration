@@ -9,6 +9,7 @@ import arc.graphics.g2d.Lines;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.*;
 import arc.util.*;
+import classicMod.content.ClassicSounds;
 import mindustry.*;
 import mindustry.content.*;
 import mindustry.gen.*;
@@ -148,7 +149,7 @@ public class MechPad extends Block{
         solid = false;
         hasPower = true;
         ambientSound = Sounds.respawning;
-        finishedSounds = Vars.tree.loadSound("v5_sounds_respawn");
+        finishedSounds = ClassicSounds.respawn;
     }
 
     public class MechPadBuild extends Building implements ControlBlock{
