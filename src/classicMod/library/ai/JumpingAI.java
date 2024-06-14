@@ -94,7 +94,7 @@ public class JumpingAI extends AIController {
                 if(lH != unit.health){ hitTimer = 0; lH = unit.health; }
                 if(lastHealth != unit.health){
                     hit = true;
-                    hitTimer += 2f * Time.delta;
+                    hitTimer += 10f * Time.delta;
                     stopMoving = true;
                     move = false;
 
@@ -119,7 +119,18 @@ public class JumpingAI extends AIController {
 
                 if(!move && !once){
                     if(isSurroundedBlock()){
-                        oS = true;
+                        Wave();
+                        DamageBuild(AnalyzeBuild(TileOn(unit.x, unit.y)));
+                        DamageBuild(AnalyzeBuild(TileOn(unit.x, unit.y + tilesize)));
+                        DamageBuild(AnalyzeBuild(TileOn(unit.x, unit.y - tilesize)));
+
+                        DamageBuild(AnalyzeBuild(TileOn(unit.x + tilesize, unit.y)));
+                        DamageBuild(AnalyzeBuild(TileOn(unit.x + tilesize, unit.y - 1)));
+                        DamageBuild(AnalyzeBuild(TileOn(unit.x + tilesize, unit.y + 1)));
+
+                        DamageBuild(AnalyzeBuild(TileOn(unit.x - tilesize, unit.y - tilesize)));
+                        DamageBuild(AnalyzeBuild(TileOn(unit.x - tilesize, unit.y + tilesize)));
+                        DamageBuild(AnalyzeBuild(TileOn(unit.x - tilesize, unit.y)));
                     }
 
                     if(TileOn() != null){
@@ -128,14 +139,12 @@ public class JumpingAI extends AIController {
                     }
                     once = true;
                 }
-                if(move && once && !stopMoving){ once = false; }
+                if(move && once && !stopMoving){
+                    once = false;
+                }
 
                 if (move && !stopMoving){
                     pathfind(Pathfinder.fieldCore, Pathfinder.costGround);
-                    /*if(SolidOn() == null) { pathfind(Pathfinder.fieldCore, Pathfinder.costLegs); unit.elevation = 1; } else
-                    if(BlockOn() != null) { pathfind(Pathfinder.fieldCore, Pathfinder.costLegs); unit.elevation = 1; } else {
-                        unit.elevation = 0;
-                    }*/
                 }
                 faceMovement();
             }
@@ -202,18 +211,7 @@ public class JumpingAI extends AIController {
 
         if(f != null || BlockOn() != null){
             if(oS) {
-                Wave();
-                DamageBuild(AnalyzeBuild(TileOn(unit.x, unit.y)));
-                DamageBuild(AnalyzeBuild(TileOn(unit.x, unit.y + tilesize)));
-                DamageBuild(AnalyzeBuild(TileOn(unit.x, unit.y - tilesize)));
 
-                DamageBuild(AnalyzeBuild(TileOn(unit.x + tilesize, unit.y)));
-                DamageBuild(AnalyzeBuild(TileOn(unit.x + tilesize, unit.y - 1)));
-                DamageBuild(AnalyzeBuild(TileOn(unit.x + tilesize, unit.y + 1)));
-
-                DamageBuild(AnalyzeBuild(TileOn(unit.x - tilesize, unit.y - tilesize)));
-                DamageBuild(AnalyzeBuild(TileOn(unit.x - tilesize, unit.y + tilesize)));
-                DamageBuild(AnalyzeBuild(TileOn(unit.x - tilesize, unit.y)));
                 oS = false;
             }
         }
