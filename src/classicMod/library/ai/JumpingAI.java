@@ -104,8 +104,9 @@ public class JumpingAI extends AIController {
                 }
 
                 if(!move && !once){
-                    SurroundingBlock(3);
-                    if(isSurroundedBlockEnemy(3, unit.team)){
+                    var size = 3;
+                    SurroundingBlock(size);
+                    if(isSurroundedBlockEnemy(size, unit.team)){
                         Wave(false);
 
                         for (int x = 0; x < 3; x++){
@@ -251,7 +252,7 @@ public class JumpingAI extends AIController {
 
     public void Wave(boolean coolExplosion){
         if(coolExplosion) ExtendedFx.dynamicSmallBomb.at(unit.x, unit.y, 0f, Color.valueOf("ffd27e"));
-        Fx.dynamicWave.at(unit.x, unit.y, 0f, Color.valueOf("ffd27e"));
+        ExtendedFx.dynamicWaveBig.at(unit.x, unit.y, 0f, Color.valueOf("ffd27e"));
     }
 
     public void DamageBuild(Building b) {

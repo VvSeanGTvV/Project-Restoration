@@ -35,6 +35,12 @@ public class ExtendedFx extends Fx {
         Drawf.light(e.x, e.y, circleRad * 0.8f, e.color, e.fout());
     }),
 
+    dynamicWaveBig = new Effect(22, e -> {
+        color(e.color, 0.7f);
+        stroke(e.fout() * 4f);
+        Lines.circle(e.x, e.y, 8f + e.finpow() * e.rotation);
+    }),
+
     //v5 Effects
     shellEjectSmall = new Effect(30f, 400f, e -> {
         Draw.color(lightOrange, Color.lightGray, Pal.lightishGray, e.fin());
