@@ -18,7 +18,7 @@ public class JumpingUnitType extends UnitType {
 
     public TextureRegion ouch;
 
-
+    public boolean onlySlide = false;
 
     public JumpingUnitType(String name) {
         super(name);
@@ -50,7 +50,7 @@ public class JumpingUnitType extends UnitType {
             Draw.z(Layer.groundUnit);
 
             if (sine < -0.85f){ ai.timing = 2f; ai.timingY = 0.5f; }
-            if (sine > 0f && !ai.stopMoving) {
+            if ((sine > 0f && !ai.stopMoving) && !onlySlide) {
                 var Ysine = Mathf.sin(Mathf.sin(ai.timingY) * 3);
                 Draw.rect(region, unit.x, unit.y + 2 + Ysine * 3, (((float) region.width / 2) + sine * 5) * Draw.xscl, ((float) region.height / 2) - sine * 10);
                 if(ai.hit) Draw.rect(ouch, unit.x, unit.y + 2 + Ysine * 3, (((float) ouch.width / 2) + sine * 5) * Draw.xscl, ((float) ouch.height / 2) - sine * 10);

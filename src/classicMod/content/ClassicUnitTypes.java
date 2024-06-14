@@ -80,6 +80,7 @@ public class ClassicUnitTypes {
             health = 200f;
             hitSize = 10f;
 
+            onlySlide = true; //hehehehehehehehehehheheheheheheheehehehehehehehehehehhehehehehehehehehhehehehehaw
             constructor = MechUnit::create;
         }};
 
