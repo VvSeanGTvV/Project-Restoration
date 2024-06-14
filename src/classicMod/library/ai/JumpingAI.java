@@ -2,8 +2,10 @@ package classicMod.library.ai;
 
 import arc.graphics.Color;
 import arc.graphics.g2d.Lines;
+import arc.math.Mat;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
+import arc.struct.Seq;
 import arc.util.Log;
 import arc.util.Time;
 import classicMod.content.ExtendedFx;
@@ -38,7 +40,7 @@ public class JumpingAI extends AIController {
 
     private float lastHealth;
 
-    private int hitTimer;
+    public int hitTimer;
 
     private float lH;
 
@@ -64,28 +66,13 @@ public class JumpingAI extends AIController {
         }
     }
 
-    public void OverrideVec2(){
-        if(BlockOn() != null && SolidOn() == null) { vec.set(unit.lastX, unit.lastY).sub(unit); } else {
-            unit.elevation = 0;
-            unit.moveAt(vec);
-        }
-    }
+    public Tile[][] TileUniformUnitSurround;
 
     @Override
     public void updateMovement() {
 
         if(unit.type instanceof JumpingUnitType Ju) {
             Building core = unit.closestEnemyCore();
-
-
-           /* if (core != null && unit.within(core, unit.range() / 1.3f + core.block.size * tilesize / 2f)) {
-                target = core;
-                for (var mount : unit.mounts) {
-                    if (mount.weapon.controllable && mount.weapon.bullet.collidesGround) {
-                        mount.target = core;
-                    }
-                }
-            }*/
 
             if ((core == null || !unit.within(core, 0.5f))) {
                 boolean move = (Ju.getTimingSine(this) >= 0.5f && !hit);
@@ -94,7 +81,6 @@ public class JumpingAI extends AIController {
                 if(lH != unit.health){ hitTimer = 0; lH = unit.health; }
                 if(lastHealth != unit.health){
                     hit = true;
-                    hitTimer += 2.5f * Time.delta;
                     stopMoving = true;
                     move = false;
 
@@ -118,9 +104,17 @@ public class JumpingAI extends AIController {
                 }
 
                 if(!move && !once){
-                    if(isSurroundedBlock()){
+                    SurroundingBlock(3);
+                    if(isSurroundedBlock(3)){
                         Wave(false);
-                        DamageBuild(AnalyzeBuild(TileOn(unit.x, unit.y)));
+
+                        for (int x = 0; x < 3; x++){
+                            for (int y = 0; y < 3; y++){
+                                DamageBuild(TileUniformUnitSurround[y][x].build);
+                            }
+                        }
+
+                        /*DamageBuild(AnalyzeBuild(TileOn(unit.x, unit.y)));
                         DamageBuild(AnalyzeBuild(TileOn(unit.x, unit.y + tilesize)));
                         DamageBuild(AnalyzeBuild(TileOn(unit.x, unit.y - tilesize)));
 
@@ -130,7 +124,7 @@ public class JumpingAI extends AIController {
 
                         DamageBuild(AnalyzeBuild(TileOn(unit.x - tilesize, unit.y - tilesize)));
                         DamageBuild(AnalyzeBuild(TileOn(unit.x - tilesize, unit.y + tilesize)));
-                        DamageBuild(AnalyzeBuild(TileOn(unit.x - tilesize, unit.y)));
+                        DamageBuild(AnalyzeBuild(TileOn(unit.x - tilesize, unit.y)));*/
                     }
 
                     if(TileOn() != null){
@@ -151,6 +145,29 @@ public class JumpingAI extends AIController {
         }else{
             unit.remove();
         }
+    }
+
+    void SurroundingBlock(int size){
+        if(size < 2) return;
+        TileUniformUnitSurround = new Tile[size][size];
+        boolean odd = ((size % 2) != 0);
+        for (int x = 0; x < size; x++){
+            for (int y = 0; y < size; y++){
+                var xv = tilesize * (x - Mathf.floor((float) size / 2));
+                var yv = tilesize * (y - Mathf.floor((float) size / 2));
+                TileUniformUnitSurround[y][x] = TileOn(unit.x + xv, unit.y + yv);
+            }
+        }
+    }
+
+    boolean isSurroundedBlock(int size){
+        int yeet = 0;
+        for (int x = 0; x < size; x++){
+            for (int y = 0; y < size; y++){
+                yeet += Mathf.sign(TileUniformUnitSurround[y][x] != null);
+            }
+        }
+        return (yeet >= TileUniformUnitSurround.length);
     }
 
     Block Analyze(Tile v){
