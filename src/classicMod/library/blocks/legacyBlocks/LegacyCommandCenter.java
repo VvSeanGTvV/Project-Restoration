@@ -141,18 +141,17 @@ public class LegacyCommandCenter extends Block {
                 if (targetM.isCommandable()) {
                     var ai = targetM.command();
                     if (Objects.equals(CommandOrigin, "rally")) {
-                        var building = Units.closestBuilding(targetM.team, targetM.x, targetM.y, MaximumRangeCommand, b -> (b instanceof LegacyCommandCenter.LegacyCommandCenterBuild) && b.isValid() && !(b.isNull()));
-                        if(targetM.isFlying()) ai.circle(building, 65f + Mathf.randomSeed(targetM.id) * 100); else { ai.moveTo(building, 65f + Mathf.randomSeed(targetM.id) * 100, 25f, true, Vec2.ZERO, true); ai.faceMovement();}
-                        ai.commandTarget(building);
-                        ai.command(UnitCommand.moveCommand);
 
                         if(targetClosest(targetM) != null){
                             var target = targetClosest(targetM);
                             if(target != null && targetM.hasWeapons()){
-                                targetM.lookAt(target);
-                                if(targetM.isFlying()) ai.circleAttack(65f + Mathf.randomSeed(targetM.id) * 100);
-                                ai.attackTarget = target;
+                                ai.command = targetM.type.defaultCommand == null ? targetM.type.commands[0] : targetM.type.defaultCommand;
                             }
+                        } else {
+                            var building = Units.closestBuilding(targetM.team, targetM.x, targetM.y, MaximumRangeCommand, b -> (b instanceof LegacyCommandCenter.LegacyCommandCenterBuild) && b.isValid() && !(b.isNull()));
+                            if(targetM.isFlying()) ai.circle(building, 65f + Mathf.randomSeed(targetM.id) * 100); else { ai.moveTo(building, 65f + Mathf.randomSeed(targetM.id) * 100, 25f, true, Vec2.ZERO, true); ai.faceMovement();}
+                            ai.commandTarget(building);
+                            ai.command(UnitCommand.moveCommand);
                         }
                     }
                     if (Objects.equals(CommandOrigin, "attack")) {
