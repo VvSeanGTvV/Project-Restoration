@@ -6,6 +6,7 @@ import arc.math.geom.Geometry;
 import arc.math.geom.Vec2;
 import arc.util.Time;
 import arc.util.Tmp;
+import classicMod.library.ai.OldFlyingAI;
 import classicMod.library.ai.RallyAI;
 import classicMod.library.blocks.DroneCenterNew;
 import classicMod.library.blocks.legacyBlocks.LegacyCommandCenter;
@@ -17,6 +18,8 @@ import mindustry.entities.bullet.BulletType;
 import mindustry.entities.units.WeaponMount;
 import mindustry.gen.BuildingTetherc;
 import mindustry.gen.Teamc;
+import mindustry.gen.UnitEntity;
+import mindustry.type.UnitType;
 import mindustry.type.Weapon;
 import mindustry.world.meta.BlockFlag;
 
@@ -34,6 +37,9 @@ public class FactoryFlyingAI extends RallyAI {
             if (!(unit instanceof BuildingTetherc tether) || tether.building() == null) return;
             if (!(tether.building().block instanceof LegacyUnitFactory block)) return;
             if (!(tether.building() instanceof LegacyUnitFactory.LegacyUnitFactoryBuild build)) return;
+        } else {
+            unit.type.constructor = UnitEntity::create;
+            unit.controller(new OldFlyingAI());
         }
 
         if(state == UnitState.attack) {

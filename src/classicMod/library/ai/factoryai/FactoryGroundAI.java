@@ -1,6 +1,7 @@
 package classicMod.library.ai.factoryai;
 
 import arc.math.Mathf;
+import classicMod.library.ai.OldFlyingAI;
 import classicMod.library.ai.RallyAI;
 import classicMod.library.blocks.legacyBlocks.LegacyCommandCenter;
 import classicMod.library.blocks.legacyBlocks.LegacyUnitFactory;
@@ -9,6 +10,8 @@ import mindustry.ai.Pathfinder;
 import mindustry.entities.Units;
 import mindustry.gen.Building;
 import mindustry.gen.BuildingTetherc;
+import mindustry.gen.MechUnit;
+import mindustry.gen.UnitEntity;
 import mindustry.world.Tile;
 
 import static classicMod.content.ClassicVars.MaximumRangeCommand;
@@ -23,6 +26,9 @@ public class FactoryGroundAI extends RallyAI {
             if (!(unit instanceof BuildingTetherc tether) || tether.building() == null) return;
             if (!(tether.building().block instanceof LegacyUnitFactory block)) return;
             if (!(tether.building() instanceof LegacyUnitFactory.LegacyUnitFactoryBuild build)) return;
+        } else {
+            unit.type.constructor = MechUnit::create;
+            unit.controller(new OldFlyingAI());
         }
 
         if(PublicState == UnitState.attack) {

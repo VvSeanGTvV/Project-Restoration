@@ -6,6 +6,7 @@ import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.util.Log;
 import arc.util.Time;
+import classicMod.content.ExtendedFx;
 import classicMod.library.animdustry.JumpingUnitType;
 import mindustry.Vars;
 import mindustry.ai.*;
@@ -92,11 +93,11 @@ public class JumpingAI extends AIController {
                 if(lH != unit.health){ hitTimer = 0; lH = unit.health; }
                 if(lastHealth != unit.health){
                     hit = true;
-                    hitTimer += 1 * Time.delta;
+                    hitTimer += 2f * Time.delta;
                     stopMoving = true;
                     move = false;
 
-                    if(hitTimer > 100){
+                    if(hitTimer > 1){
                         hit = false;
                         lastHealth = unit.health;
                         hitTimer = 0;
@@ -221,7 +222,7 @@ public class JumpingAI extends AIController {
     }
 
     public void Wave(){
-        Fx.greenBomb.at(unit);
+        ExtendedFx.dynamicSmallBomb.at(unit.x, unit.y, 0f, Color.valueOf("ffd27e"));
         Fx.dynamicWave.at(unit.x, unit.y, 0f, Color.valueOf("ffd27e"));
     }
 

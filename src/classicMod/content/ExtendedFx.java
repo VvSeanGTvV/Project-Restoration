@@ -10,10 +10,30 @@ import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.graphics.*;
 
+import static arc.graphics.g2d.Draw.color;
+import static arc.graphics.g2d.Lines.stroke;
 import static mindustry.graphics.Pal.*;
 
 public class ExtendedFx extends Fx {
     public static final Effect
+    dynamicSmallBomb = new Effect(40f, 100f, e -> {
+        color(e.color);
+        stroke(e.fout() * 1f);
+        float circleRad = 2f + e.finpow() * 16f;
+        Lines.circle(e.x, e.y, circleRad);
+
+        color(Pal.heal);
+        for(int i = 0; i < 4; i++){
+            Drawf.tri(e.x, e.y, 6f, 100f * e.fout(), i*90);
+        }
+
+        color();
+        for(int i = 0; i < 4; i++){
+            Drawf.tri(e.x, e.y, 3f, 35f * e.fout(), i*90);
+        }
+
+        Drawf.light(e.x, e.y, circleRad * 1.6f, e.color, e.fout());
+    }),
 
     //v5 Effects
     shellEjectSmall = new Effect(30f, 400f, e -> {
