@@ -22,17 +22,17 @@ public class ExtendedFx extends Fx {
         float circleRad = 2f + e.finpow() * 16f;
         Lines.circle(e.x, e.y, circleRad);
 
-        color(Pal.heal);
+        color(e.color);
         for(int i = 0; i < 4; i++){
-            Drawf.tri(e.x, e.y, 3f, 50f * e.fout(), i*90);
+            Drawf.tri(e.x, e.y, 1.5f, 25f * e.fout(), i*90);
         }
 
         color();
         for(int i = 0; i < 4; i++){
-            Drawf.tri(e.x, e.y, 1.5f, 12.5f * e.fout(), i*90);
+            Drawf.tri(e.x, e.y, 0.75f, 6.25f * e.fout(), i*90);
         }
 
-        Drawf.light(e.x, e.y, circleRad * 1.3f, e.color, e.fout());
+        Drawf.light(e.x, e.y, circleRad * 0.8f, e.color, e.fout());
     }),
 
     //v5 Effects

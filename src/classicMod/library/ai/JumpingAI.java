@@ -94,7 +94,7 @@ public class JumpingAI extends AIController {
                 if(lH != unit.health){ hitTimer = 0; lH = unit.health; }
                 if(lastHealth != unit.health){
                     hit = true;
-                    hitTimer += 10f * Time.delta;
+                    hitTimer += 5f * Time.delta;
                     stopMoving = true;
                     move = false;
 
@@ -119,7 +119,7 @@ public class JumpingAI extends AIController {
 
                 if(!move && !once){
                     if(isSurroundedBlock()){
-                        Wave();
+                        Wave(false);
                         DamageBuild(AnalyzeBuild(TileOn(unit.x, unit.y)));
                         DamageBuild(AnalyzeBuild(TileOn(unit.x, unit.y + tilesize)));
                         DamageBuild(AnalyzeBuild(TileOn(unit.x, unit.y - tilesize)));
@@ -209,13 +209,6 @@ public class JumpingAI extends AIController {
 
         unit.elevation = (f != null || BlockOn() != null || isSurroundedBlock()) ? 1 : 0;
 
-        if(f != null || BlockOn() != null){
-            if(oS) {
-
-                oS = false;
-            }
-        }
-
         if(f != null) {
             targetTile = TileOn(targetTile.worldx(), targetTile.worldy());
             //targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, Pathfinder.costLegs, pathTarget));
@@ -228,8 +221,8 @@ public class JumpingAI extends AIController {
         unit.movePref(vec.trns(unit.angleTo(targetTile.worldx(), targetTile.worldy()), unit.speed()));
     }
 
-    public void Wave(){
-        ExtendedFx.dynamicSmallBomb.at(unit.x, unit.y, 0f, Color.valueOf("ffd27e"));
+    public void Wave(boolean coolExplosion){
+        if(coolExplosion) ExtendedFx.dynamicSmallBomb.at(unit.x, unit.y, 0f, Color.valueOf("ffd27e"));
         Fx.dynamicWave.at(unit.x, unit.y, 0f, Color.valueOf("ffd27e"));
     }
 

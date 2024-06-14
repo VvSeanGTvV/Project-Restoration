@@ -56,13 +56,27 @@ public class ClassicUnitTypes {
 
     azathoth, //Unit - Custom - Old Content [v5]
 
-    alphaChan //Unit - Old Content [Animdustry]
+    alphaChan, crawlerChan, boulderChan //Unit - Old Content [Animdustry]
     ;
 
     public static void load() {
 
         // TODO effect
         alphaChan = new JumpingUnitType("alphachan"){{
+            health = 200f;
+            hitSize = 10f;
+
+            constructor = MechUnit::create;
+        }};
+
+        crawlerChan = new JumpingUnitType("crawlerchan"){{
+            health = 200f;
+            hitSize = 10f;
+
+            constructor = MechUnit::create;
+        }};
+
+        boulderChan = new JumpingUnitType("boulderchan"){{
             health = 200f;
             hitSize = 10f;
 
