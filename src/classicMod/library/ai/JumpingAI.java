@@ -15,6 +15,7 @@ import mindustry.content.Fx;
 import mindustry.entities.Effect;
 import mindustry.entities.Units;
 import mindustry.entities.units.AIController;
+import mindustry.game.Team;
 import mindustry.gen.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.Floor;
@@ -117,11 +118,8 @@ public class JumpingAI extends AIController {
                 }
 
                 if(!move && !once){
-                    if(BuildOn() != null) {
-                        if (BlockOn() != null) if (BuildOn().team != unit.team) {
-                            oS = true;
-                            //DamageBuild(BuildOn());
-                        }
+                    if(isSurroundedBlock()){
+                        oS = true;
                     }
 
                     if(TileOn() != null){
@@ -156,6 +154,17 @@ public class JumpingAI extends AIController {
         return f;
     }
 
+    Block AnalyzeTeam(Tile v){
+        Team team = unit.team;
+        Block f = null;
+        if(v != null) {
+            if (!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree)) {
+                if(team != v.team()) f = v.block();
+            }
+        }
+        return f;
+    }
+
     Building AnalyzeBuild(Tile v){
         Building f = null;
         if(v != null) {
@@ -166,30 +175,30 @@ public class JumpingAI extends AIController {
         return f;
     }
 
+    boolean isSurroundedBlock(){
+        return (
+                AnalyzeTeam(TileOn(unit.x, unit.y)) != null ||
+                        AnalyzeTeam(TileOn(unit.x, unit.y + tilesize)) != null ||
+                        AnalyzeTeam(TileOn(unit.x, unit.y - tilesize)) != null ||
+
+                        AnalyzeTeam(TileOn(unit.x + tilesize, unit.y)) != null ||
+                        AnalyzeTeam(TileOn(unit.x + tilesize, unit.y + tilesize)) != null ||
+                        AnalyzeTeam(TileOn(unit.x + tilesize, unit.y - tilesize)) != null ||
+
+                        AnalyzeTeam(TileOn(unit.x - tilesize, unit.y)) != null ||
+                        AnalyzeTeam(TileOn(unit.x - tilesize, unit.y + tilesize)) != null ||
+                        AnalyzeTeam(TileOn(unit.x - tilesize, unit.y - tilesize)) != null);
+    }
+
     public void pathfind(int pathTarget, int costType){
         v1.set(unit);
         Tile tile = unit.tileOn();
 
         if(tile == null) return;
         Tile targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, costType, pathTarget));
-        Block f = Analyze(TileOn(targetTile.worldx(), targetTile.worldy())); //Checks ahead of the tile.
+        Block f = AnalyzeTeam(TileOn(targetTile.worldx(), targetTile.worldy())); //Checks ahead of the tile.
 
-        boolean SurroundedBlock = (
-                Analyze(TileOn(unit.x, unit.y)) != null ||
-                Analyze(TileOn(unit.x, unit.y + tilesize)) != null ||
-                Analyze(TileOn(unit.x, unit.y - tilesize)) != null ||
-
-                Analyze(TileOn(unit.x + tilesize, unit.y)) != null ||
-                Analyze(TileOn(unit.x + tilesize, unit.y + tilesize)) != null ||
-                Analyze(TileOn(unit.x + tilesize, unit.y - tilesize)) != null ||
-
-                Analyze(TileOn(unit.x - tilesize, unit.y)) != null ||
-                Analyze(TileOn(unit.x - tilesize, unit.y + tilesize)) != null ||
-                Analyze(TileOn(unit.x - tilesize, unit.y - tilesize)) != null);
-
-        Log.info(SurroundedBlock);
-
-        unit.elevation = (f != null || BlockOn() != null || SurroundedBlock) ? 1 : 0;
+        unit.elevation = (f != null || BlockOn() != null || isSurroundedBlock()) ? 1 : 0;
 
         if(f != null || BlockOn() != null){
             if(oS) {
