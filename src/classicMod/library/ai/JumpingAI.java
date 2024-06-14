@@ -105,7 +105,7 @@ public class JumpingAI extends AIController {
 
                 if(!move && !once){
                     SurroundingBlock(3);
-                    if(isSurroundedBlock(3)){
+                    if(isSurroundedBlockEnemy(3, unit.team)){
                         Wave(false);
 
                         for (int x = 0; x < 3; x++){
@@ -165,6 +165,16 @@ public class JumpingAI extends AIController {
         for (int x = 0; x < size; x++){
             for (int y = 0; y < size; y++){
                 yeet += Mathf.sign(TileUniformUnitSurround[y][x] != null);
+            }
+        }
+        return (yeet >= TileUniformUnitSurround.length);
+    }
+
+    boolean isSurroundedBlockEnemy(int size, Team team){
+        int yeet = 0;
+        for (int x = 0; x < size; x++){
+            for (int y = 0; y < size; y++){
+                yeet += Mathf.sign(TileUniformUnitSurround[y][x] != null && TileUniformUnitSurround[y][x].build.team != team);
             }
         }
         return (yeet >= TileUniformUnitSurround.length);
