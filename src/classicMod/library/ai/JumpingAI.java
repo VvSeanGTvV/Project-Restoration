@@ -48,7 +48,7 @@ public class JumpingAI extends AIController {
     private boolean inraged;
     private Teamc targetInraged;
 
-    public Effect Stomp = Fx.unitLand;
+    public Effect Stomp;
 
     boolean once;
 
@@ -75,6 +75,7 @@ public class JumpingAI extends AIController {
     public void updateMovement() {
 
         if(unit.type instanceof JumpingUnitType Ju) {
+            Stomp = Ju.StompEffect;
             Building core = unit.closestEnemyCore();
 
             if ((core == null || !unit.within(core, 0.5f))) {
@@ -109,7 +110,7 @@ public class JumpingAI extends AIController {
                 if(!move && !once){
                     SurroundingBlock(size);
                     if(isSurroundedBlockEnemy(size, unit.team)){
-                        Wave(false);
+                        Wave(Ju);
 
                         for (int x = 0; x < 3; x++){
                             for (int y = 0; y < 3; y++){
@@ -237,9 +238,9 @@ public class JumpingAI extends AIController {
         unit.movePref(vec.trns(unit.angleTo(targetTile.worldx(), targetTile.worldy()), unit.speed()));
     }
 
-    public void Wave(boolean coolExplosion){
-        if(coolExplosion) ExtendedFx.dynamicSmallBomb.at(unit.x, unit.y, 0f, Color.valueOf("ffd27e"));
-        ExtendedFx.dynamicWaveBig.at(unit.x, unit.y, 10f, Color.valueOf("ffd27e"));
+    public void Wave(JumpingUnitType Ju){
+        if(Ju.StompExplosion) Ju.StompExplosionEffect.at(unit.x, unit.y, 0f, Ju.StompColor);
+        Ju.StompEffect.at(unit.x, unit.y, 10f, Ju.StompColor);
         //ExtendedFx.dynamicWave.at(unit.x, unit.y, 10f, Color.valueOf("ffd27e"));
     }
 

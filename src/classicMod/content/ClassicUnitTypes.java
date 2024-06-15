@@ -56,7 +56,7 @@ public class ClassicUnitTypes {
 
     azathoth, //Unit - Custom - Old Content [v5]
 
-    alphaChan, crawlerChan, boulderChan //Unit - Old Content [Animdustry]
+    alphaChan, crawlerChan, boulderChan, monoChan //Unit - Old Content [Animdustry]
     ;
 
     public static void load() {
@@ -73,6 +73,8 @@ public class ClassicUnitTypes {
             health = 200f;
             hitSize = 10f;
 
+            StompColor = Color.valueOf("edadff");
+
             constructor = MechUnit::create;
         }};
 
@@ -81,6 +83,16 @@ public class ClassicUnitTypes {
             hitSize = 10f;
 
             onlySlide = true; //hehehehehehehehehehheheheheheheheehehehehehehehehehehhehehehehehehehehhehehehehaw
+            constructor = MechUnit::create;
+        }};
+
+        monoChan = new JumpingUnitType("monochan"){{
+            health = 200f;
+            hitSize = 10f;
+
+            StompExplosion = true;
+            StompColor = Pal.heal;
+
             constructor = MechUnit::create;
         }};
 

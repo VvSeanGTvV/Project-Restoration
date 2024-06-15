@@ -7,6 +7,7 @@ import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
 import arc.util.Log;
 import arc.util.Time;
+import classicMod.content.ExtendedFx;
 import classicMod.library.ai.JumpingAI;
 import mindustry.content.Fx;
 import mindustry.entities.Effect;
@@ -20,6 +21,11 @@ public class JumpingUnitType extends UnitType {
 
     public boolean onlySlide = false;
 
+    public Effect StompEffect = ExtendedFx.dynamicWaveBig;
+    public Effect StompExplosionEffect = ExtendedFx.dynamicSmallBomb;
+    public Color StompColor = Color.valueOf("ffd27e");
+    public boolean StompExplosion = false;
+
     public JumpingUnitType(String name) {
         super(name);
         controller = u -> new JumpingAI();
@@ -27,6 +33,8 @@ public class JumpingUnitType extends UnitType {
         flying = false;
 
         outlineColor = Color.black;
+        logicControllable = playerControllable = allowedInPayloads = false;
+        //lowAltitude = drawCell = isEnemy = false;
     }
 
     @Override
@@ -47,7 +55,7 @@ public class JumpingUnitType extends UnitType {
         if(unit.controller() instanceof JumpingAI ai) {
             ouch = Core.atlas.find(name + "-hit"); region = Core.atlas.find(name);
 
-            int direction = Mathf.round (unit.rotation / 90);
+            int direction = Mathf.round((unit.rotation / 90) % 4);
             if(!(direction == 1 || direction == 3)) flip = (direction == 0);
             Draw.xscl = Mathf.sign(flip);
             var sine = Mathf.sin(ai.timing);
@@ -64,7 +72,6 @@ public class JumpingUnitType extends UnitType {
             }
             Draw.xscl = -1f;
         }
-
     }
 
     public float getTimingSine(JumpingAI ai){
