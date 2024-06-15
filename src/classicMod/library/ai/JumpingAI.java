@@ -132,8 +132,8 @@ public class JumpingAI extends AIController {
                     }
 
                     if(TileOn() != null){
-                        if(FloorOn() != null) { Stomp.at(unit.x, unit.y, FloorOn().isLiquid ? 1f : 0.5f, TileOn().floor().mapColor); }
-                        else { Stomp.at(unit.x, unit.y, 1f, TileOn().floor().mapColor); }
+                        if(FloorOn() != null) { Fx.unitLand.at(unit.x, unit.y, FloorOn().isLiquid ? 1f : 0.5f, TileOn().floor().mapColor); }
+                        else { Fx.unitLand.at(unit.x, unit.y, 1f, TileOn().floor().mapColor); }
                     }
                     once = true;
                 }
