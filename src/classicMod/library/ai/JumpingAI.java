@@ -21,6 +21,7 @@ import mindustry.game.Team;
 import mindustry.gen.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.Floor;
+import mindustry.world.blocks.environment.Prop;
 import mindustry.world.blocks.environment.StaticTree;
 import mindustry.world.blocks.environment.StaticWall;
 
@@ -49,7 +50,9 @@ public class JumpingAI extends AIController {
 
     public Effect Stomp = Fx.unitLand;
 
-    boolean once; boolean oS;
+    boolean once;
+
+    int size = 3;
 
     protected static final Vec2 v1 = new Vec2();
 
@@ -104,7 +107,6 @@ public class JumpingAI extends AIController {
                 }
 
                 if(!move && !once){
-                    var size = 3;
                     SurroundingBlock(size);
                     if(isSurroundedBlockEnemy(size, unit.team)){
                         Wave(false);
@@ -176,7 +178,7 @@ public class JumpingAI extends AIController {
         for (int x = 0; x < size; x++){
             for (int y = 0; y < size; y++){
                 var v = TileUniformUnitSurround[y][x];
-                if (!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree)) yeet += Mathf.sign(TileUniformUnitSurround[y][x] != null && TileUniformUnitSurround[y][x].build.team != team);
+                if (!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree || v.block() instanceof Prop)) yeet += Mathf.sign(TileUniformUnitSurround[y][x] != null && TileUniformUnitSurround[y][x].build.team != team);
             }
         }
         return (yeet >= TileUniformUnitSurround.length);
@@ -185,7 +187,7 @@ public class JumpingAI extends AIController {
     Block Analyze(Tile v){
         Block f = null;
         if(v != null) {
-            if (!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree)) {
+            if (!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree || v.block() instanceof Prop)) {
                 f = v.block();
             }
         }
@@ -196,7 +198,7 @@ public class JumpingAI extends AIController {
         Team team = unit.team;
         Block f = null;
         if(v != null) {
-            if (!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree)) {
+            if (!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree || v.block() instanceof Prop)) {
                 if(team != v.team()) f = v.block();
             }
         }
@@ -206,26 +208,11 @@ public class JumpingAI extends AIController {
     Building AnalyzeBuild(Tile v){
         Building f = null;
         if(v != null) {
-            if (!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree)) {
+            if (!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree || v.block() instanceof Prop)) {
                 f = v.build;
             }
         }
         return f;
-    }
-
-    boolean isSurroundedBlock(){
-        return (
-                AnalyzeTeam(TileOn(unit.x, unit.y)) != null ||
-                        AnalyzeTeam(TileOn(unit.x, unit.y + tilesize)) != null ||
-                        AnalyzeTeam(TileOn(unit.x, unit.y - tilesize)) != null ||
-
-                        AnalyzeTeam(TileOn(unit.x + tilesize, unit.y)) != null ||
-                        AnalyzeTeam(TileOn(unit.x + tilesize, unit.y + tilesize)) != null ||
-                        AnalyzeTeam(TileOn(unit.x + tilesize, unit.y - tilesize)) != null ||
-
-                        AnalyzeTeam(TileOn(unit.x - tilesize, unit.y)) != null ||
-                        AnalyzeTeam(TileOn(unit.x - tilesize, unit.y + tilesize)) != null ||
-                        AnalyzeTeam(TileOn(unit.x - tilesize, unit.y - tilesize)) != null);
     }
 
     public void pathfind(int pathTarget, int costType){
@@ -236,7 +223,7 @@ public class JumpingAI extends AIController {
         Tile targetTile = pathfinder.getTargetTile(tile, pathfinder.getField(unit.team, costType, pathTarget));
         Block f = AnalyzeTeam(TileOn(targetTile.worldx(), targetTile.worldy())); //Checks ahead of the tile.
 
-        unit.elevation = (f != null || BlockOn() != null || isSurroundedBlock()) ? 1 : 0;
+        unit.elevation = (f != null || BlockOn() != null || isSurroundedBlock(size)) ? 1 : 0;
 
         if(f != null) {
             targetTile = TileOn(targetTile.worldx(), targetTile.worldy());
@@ -252,7 +239,8 @@ public class JumpingAI extends AIController {
 
     public void Wave(boolean coolExplosion){
         if(coolExplosion) ExtendedFx.dynamicSmallBomb.at(unit.x, unit.y, 0f, Color.valueOf("ffd27e"));
-        ExtendedFx.dynamicWaveBig.at(unit.x, unit.y, 0f, Color.valueOf("ffd27e"));
+        ExtendedFx.dynamicWaveBig.at(unit.x, unit.y, 10f, Color.valueOf("ffd27e"));
+        //ExtendedFx.dynamicWave.at(unit.x, unit.y, 10f, Color.valueOf("ffd27e"));
     }
 
     public void DamageBuild(Building b) {
@@ -283,7 +271,7 @@ public class JumpingAI extends AIController {
         var v = TileOn();
         Block f = null;
         if(v != null) {
-            if (!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree)) {
+            if (!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree || v.block() instanceof Prop)) {
                 f = v.block();
             }
         }
@@ -294,7 +282,7 @@ public class JumpingAI extends AIController {
         var v = TileOn();
         Building f = null;
         if(v != null) {
-            if (!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree)) {
+            if (!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree || v.block() instanceof Prop)) {
                 f = v.build;
             }
         }

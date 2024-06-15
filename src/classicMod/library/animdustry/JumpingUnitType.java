@@ -41,13 +41,15 @@ public class JumpingUnitType extends UnitType {
         }
     }
 
+    boolean flip;
     @Override
     public void draw(Unit unit) {
         if(unit.controller() instanceof JumpingAI ai) {
             ouch = Core.atlas.find(name + "-hit"); region = Core.atlas.find(name);
 
             int direction = Mathf.round (unit.rotation / 90);
-            Draw.xscl = Mathf.sign(direction == 0 || direction == 1);
+            if(!(direction == 1 || direction == 3)) flip = (direction == 0);
+            Draw.xscl = Mathf.sign(flip);
             var sine = Mathf.sin(ai.timing);
             Draw.z(Layer.groundUnit);
 

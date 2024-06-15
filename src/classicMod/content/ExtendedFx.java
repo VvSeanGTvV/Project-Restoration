@@ -37,7 +37,7 @@ public class ExtendedFx extends Fx {
 
     dynamicWaveBig = new Effect(22, e -> {
         color(e.color, 0.7f);
-        stroke(e.fout() * 4f);
+        stroke(e.fout() * 2.5f);
         Lines.circle(e.x, e.y, 8f + e.finpow() * e.rotation);
     }),
 
