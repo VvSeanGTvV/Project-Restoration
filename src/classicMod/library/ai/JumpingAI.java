@@ -118,17 +118,10 @@ public class JumpingAI extends AIController {
                             }
                         }
 
-                        /*DamageBuild(AnalyzeBuild(TileOn(unit.x, unit.y)));
-                        DamageBuild(AnalyzeBuild(TileOn(unit.x, unit.y + tilesize)));
-                        DamageBuild(AnalyzeBuild(TileOn(unit.x, unit.y - tilesize)));
-
-                        DamageBuild(AnalyzeBuild(TileOn(unit.x + tilesize, unit.y)));
-                        DamageBuild(AnalyzeBuild(TileOn(unit.x + tilesize, unit.y - 1)));
-                        DamageBuild(AnalyzeBuild(TileOn(unit.x + tilesize, unit.y + 1)));
-
-                        DamageBuild(AnalyzeBuild(TileOn(unit.x - tilesize, unit.y - tilesize)));
-                        DamageBuild(AnalyzeBuild(TileOn(unit.x - tilesize, unit.y + tilesize)));
-                        DamageBuild(AnalyzeBuild(TileOn(unit.x - tilesize, unit.y)));*/
+                        if(Ju.healAmount > 0f && Ju.healRange > 0f){
+                            var baller = Units.closest(unit.team, unit.x, unit.y, Ju.healRange, u -> u.isValid() || u.health < u.maxHealth || !u.isEnemy());
+                            if(baller != null) baller.heal(Ju.healAmount);
+                        }
                     }
 
                     if(TileOn() != null){

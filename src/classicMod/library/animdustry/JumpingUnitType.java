@@ -26,6 +26,9 @@ public class JumpingUnitType extends UnitType {
     public Color StompColor = Color.valueOf("ffd27e");
     public boolean StompExplosion = false;
 
+    public float healAmount = 0f;
+    public float healRange = 0f;
+
     public JumpingUnitType(String name) {
         super(name);
         controller = u -> new JumpingAI();
