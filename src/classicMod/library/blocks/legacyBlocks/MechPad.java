@@ -54,7 +54,6 @@ public class MechPad extends Block{
         stats.remove(Stat.itemCapacity);
         stats.remove(Stat.input);
         stats.add(Stat.output, table -> {
-            table.center();
             table.table(Styles.none, t -> {
                 if(unitType.isBanned()){
                     t.image(Icon.cancel).color(Pal.remove).size(32);

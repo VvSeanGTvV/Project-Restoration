@@ -116,6 +116,12 @@ public class LegacyUnitFactory extends Block {
         public float fraction(){ return progress / buildTime; }
         public float fractionUnitCap(){ return (float)units.size / (FactoryunitCap); }
 
+        public void updateListUnits(){
+            for (int i = 0; i < units.size; i++){
+                Unit u = units.get(i);
+                if(!(!u.dead && u.isValid() && (u.team == this.team))) units.remove(i);
+            }
+        }
 
         @Override
         public void updateTile(){
@@ -125,7 +131,7 @@ public class LegacyUnitFactory extends Block {
                 unitIDs.each(i -> {
                     var unit = Groups.unit.getByID(i);
                     if(unit != null){
-                        units.add(unit);
+                        if(!unit.dead && unit.isValid() && (unit.team == this.team)) units.add(unit);
                     }
                 });
                 unitIDs.clear();
@@ -142,6 +148,7 @@ public class LegacyUnitFactory extends Block {
                 //ambientSound.at(unit);
             }else{
                 speedScl = Mathf.lerpDelta(speedScl, 0f, 0.05f);
+                updateListUnits();
             }
 
             if(progress >= buildTime) {
@@ -239,7 +246,7 @@ public class LegacyUnitFactory extends Block {
             stream.f(progress);
             stream.b(units.size);
             for(var unit : units){
-                stream.i(unit.id);
+                if(!unit.dead && unit.isValid() && (unit.team == this.team)) stream.i(unit.id);
             }
             //stream.i(unit == null ? -1 : unit.id);
         }
