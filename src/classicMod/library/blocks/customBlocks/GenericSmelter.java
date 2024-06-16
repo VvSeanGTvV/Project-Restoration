@@ -43,9 +43,27 @@ public class GenericSmelter extends GenericCrafter {
 
     @Override
     public void setStats(){
-        stats.timePeriod = craftTime;
+        //stats.timePeriod = craftTime;
 
-        stats.add(Stat.size, "@x@", size, size);
+        stats.timePeriod = craftTime;
+        super.setStats();
+        /*if((hasItems && itemCapacity > 0) || outputItems != null){
+            stats.add(Stat.productionTime, craftTime / 60f, StatUnit.seconds);
+        }
+
+        if(outputItems != null){
+            stats.add(Stat.output, StatValues.items(craftTime, outputItems));
+        }
+
+        if(outputLiquids != null){
+            stats.add(Stat.output, StatValues.liquids(1f, outputLiquids));
+        }*/
+
+        if(fuelItem != null){
+            stats.add(ExtendedStat.fuel, StatValues.items(burnTime, fuelItems));
+        }
+
+        /*stats.add(Stat.size, "@x@", size, size);
 
         if(synthetic()){
             stats.add(Stat.health, health, StatUnit.none);
@@ -85,7 +103,7 @@ public class GenericSmelter extends GenericCrafter {
 
         if(outputLiquids != null){
             stats.add(Stat.output, StatValues.liquids(1f, outputLiquids));
-        }
+        }*/
     }
 
     @Override

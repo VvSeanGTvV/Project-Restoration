@@ -83,14 +83,14 @@ public class DroneCenterNew extends Block {
 
         stats.add(ExtendedStat.StatusOutput, table -> {
             table.center();
-            table.table(Styles.none, t -> {
-                t.image(status.uiIcon).size(40).pad(10f).left().scaling(Scaling.fit);
+            table.table(Styles.grayPanel, t -> {
+                t.image(status.uiIcon).size(20).pad(10f).left().scaling(Scaling.fit);
 
                 t.table(info -> {
-                    info.add(status.localizedName).left();
+                    info.add(status.localizedName);
                     info.row();
                     info.add(Strings.autoFixed(statusDuration / 60f, 1) + " " + Core.bundle.get("unit.seconds")).color(Color.lightGray);
-                }).left();
+                }).left().pad(10f);
             });
         });
     }
