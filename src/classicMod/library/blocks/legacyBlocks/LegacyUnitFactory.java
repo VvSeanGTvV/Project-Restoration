@@ -5,6 +5,7 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.struct.*;
 import arc.util.Nullable;
+import arc.util.Scaling;
 import arc.util.io.*;
 import mindustry.*;
 import mindustry.content.*;
@@ -55,7 +56,14 @@ public class LegacyUnitFactory extends Block {
         stats.remove(Stat.itemCapacity);
         stats.add(Stat.productionTime, produceTime/60f, StatUnit.seconds);
         stats.add(Stat.maxUnits, maxSpawn, StatUnit.none);
-        stats.add(Stat.output, unitType.localizedName);
+        //tats.add(Stat.output, unitType.localizedName);
+        stats.add(Stat.output, table -> {
+            table.row();
+            table.table(Styles.grayPanel, t -> {
+                t.image(unitType.uiIcon).size(40).pad(10f).left().scaling(Scaling.fit);
+                t.add(unitType.localizedName).left();
+            });
+        });
 
         super.setStats();
     }

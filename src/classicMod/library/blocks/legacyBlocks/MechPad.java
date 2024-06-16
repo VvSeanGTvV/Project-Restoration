@@ -53,8 +53,15 @@ public class MechPad extends Block{
 
         stats.remove(Stat.itemCapacity);
         stats.remove(Stat.input);
-
         stats.add(Stat.output, table -> {
+            table.row();
+            table.table(Styles.grayPanel, t -> {
+                t.image(unitType.uiIcon).size(40).pad(10f).left().scaling(Scaling.fit);
+                t.add(unitType.localizedName).left();
+            });
+        });
+
+        /*stats.add(Stat.output, table -> {
             table.row();
 
             table.table(Styles.grayPanel, t -> {
@@ -80,7 +87,7 @@ public class MechPad extends Block{
                 }).right().grow().pad(10f);
             }).growX().pad(5);
             table.row();
-        });
+        });*/
     }
 
     @Override
