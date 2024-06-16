@@ -10,6 +10,8 @@ import arc.math.geom.Vec2;
 import arc.struct.IntSeq;
 import arc.struct.Seq;
 import arc.util.Nullable;
+import arc.util.Scaling;
+import arc.util.Strings;
 import arc.util.Time;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
@@ -25,6 +27,7 @@ import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.StatusEffect;
 import mindustry.type.UnitType;
+import mindustry.ui.Styles;
 import mindustry.world.Block;
 import mindustry.world.Tile;
 import mindustry.world.blocks.UnitTetherBlock;
@@ -75,8 +78,22 @@ public class DroneCenterNew extends Block {
         super.setStats();
 
         stats.add(Stat.range, droneRange / tilesize, StatUnit.blocks);
-        stats.add(ExtendedStat.StatusOutput, status.localizedName);
-        stats.add(ExtendedStat.StatusDuration, statusDuration / 60f, StatUnit.seconds);
+        //stats.add(ExtendedStat.StatusOutput, status.localizedName);
+        //stats.add(ExtendedStat.StatusDuration, statusDuration / 60f, StatUnit.seconds);
+
+        stats.add(ExtendedStat.StatusOutput, table -> {
+            table.table(Styles.none, t -> {
+                t.center();
+
+                t.image(status.uiIcon).size(40).pad(10f).left().scaling(Scaling.fit);
+
+                t.table(info -> {
+                    info.add(status.localizedName).left();
+                    info.row();
+                    info.add(Strings.autoFixed(statusDuration / 60f, 1) + " " + Core.bundle.get("unit.seconds")).color(Color.lightGray);
+                }).left();
+            });
+        });
     }
 
     @Override

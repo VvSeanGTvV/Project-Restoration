@@ -55,8 +55,15 @@ public class MechPad extends Block{
         stats.remove(Stat.input);
         stats.add(Stat.output, table -> {
             table.table(Styles.none, t -> {
+
+                if(unitType.isBanned()){
+                    t.image(Icon.cancel).color(Pal.remove).size(40);
+                    return;
+                }
+
+                t.center();
                 t.image(unitType.uiIcon).size(40).pad(10f).left().scaling(Scaling.fit);
-                t.add(unitType.localizedName).pad(10f).left();
+                t.add(unitType.localizedName).left();
             });
         });
 

@@ -58,9 +58,18 @@ public class LegacyUnitFactory extends Block {
         stats.add(Stat.maxUnits, maxSpawn, StatUnit.none);
         //stats.add(Stat.output, unitType.localizedName);
         stats.add(Stat.output, table -> {
+
+
             table.table(Styles.none, t -> {
+                t.center();
+
+                if(unitType.isBanned()){
+                    t.image(Icon.cancel).color(Pal.remove).size(40);
+                    return;
+                }
+
                 t.image(unitType.uiIcon).size(40).pad(10f).left().scaling(Scaling.fit);
-                t.add(unitType.localizedName).pad(10f).left();
+                t.add(unitType.localizedName).left();
             });
         });
 
