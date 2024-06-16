@@ -112,18 +112,18 @@ public class JumpingAI extends AIController {
                     if(isSurroundedBlockEnemy(size, unit.team)){
                         Wave(Ju);
 
-                        for (int x = 0; x < 3; x++){
-                            for (int y = 0; y < 3; y++){
+                        for (int x = 0; x < 3; x++) {
+                            for (int y = 0; y < 3; y++) {
                                 DamageBuild(TileUniformUnitSurround[y][x].build);
                             }
                         }
+                    }
 
-                        if(Ju.healAmount > 0f && Ju.healRange > 0f){
-                            var baller = Units.closest(unit.team, unit.x, unit.y, Ju.healRange, u -> u.isValid() || u.health < u.maxHealth || !u.isEnemy());
-                            if(baller != null){
-                                Fx.heal.at(baller);
-                                baller.heal(Ju.healAmount);
-                            }
+                    if(Ju.healAmount > 0f && Ju.healRange > 0f){
+                        var baller = Units.closest(unit.team, unit.x, unit.y, Ju.healRange, u -> u.isValid() && u.health < u.maxHealth);
+                        if(baller != null){
+                            Fx.heal.at(baller);
+                            baller.heal(Ju.healAmount);
                         }
                     }
 

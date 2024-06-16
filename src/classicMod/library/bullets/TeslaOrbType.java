@@ -6,6 +6,7 @@ import arc.graphics.g2d.*;
 import arc.math.geom.*;
 import arc.util.*;
 import classicMod.content.*;
+import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
@@ -64,7 +65,7 @@ public class TeslaOrbType extends BulletType {
 
     /** AutoTargets the nearest enemy unit/block while keeping track on a listed array, this could be saved on {@link #ArrayTarget} **/
     public void autoTarget(Bullet b){ //from Prog-mats
-        this.target = Units.closestTarget(b.team, b.x, b.y, range * b.fout(),
+        this.target = Units.closestTarget(b.team, b.x, b.y, (range / Vars.tilesize) * b.fout(),
                 e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !b.collided.contains(e.id),
                 t -> false);
         if( target != null && target instanceof Unit) {

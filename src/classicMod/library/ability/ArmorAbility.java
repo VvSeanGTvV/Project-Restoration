@@ -40,7 +40,7 @@ public class ArmorAbility extends Ability {
 
         @Override
         public void addStats(Table t){
-            t.add("[lightgray]" + Stat.healthMultiplier.localized() + ": [white]" + Math.round(healthMultiplier * 100f) + 100 + "%");
+            t.add("[lightgray]" + Stat.healthMultiplier.localized() + ": [white]" + Math.round(healthMultiplier * unitHealth) + "%");
         }
 
         //@Override
