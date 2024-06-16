@@ -1,11 +1,13 @@
 package classicMod.library.ability;
 
 import arc.*;
+import arc.scene.ui.layout.Table;
 import arc.util.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.abilities.*;
 import mindustry.gen.*;
+import mindustry.world.meta.Stat;
 
 public class SurroundRegenAbility extends Ability {
 
@@ -18,6 +20,12 @@ public class SurroundRegenAbility extends Ability {
         this.healAmount = healAmount;
         this.reload = reload;
         this.healRange = healRange;
+    }
+
+    @Override
+    public void addStats(Table t){
+        t.add("[lightgray]" + Stat.range.localized() + ": [white]" + healRange);
+        t.add("[lightgray]" + Stat.healing.localized() + ": [white]" + healAmount);
     }
 
     @Override

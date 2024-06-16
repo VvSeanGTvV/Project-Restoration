@@ -4,10 +4,12 @@ import arc.Core;
 import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
+import arc.scene.ui.layout.Table;
 import arc.util.*;
 import mindustry.entities.abilities.Ability;
 import mindustry.gen.*;
 import mindustry.graphics.*;
+import mindustry.world.meta.Stat;
 
 public class ArmorAbility extends Ability {
     
@@ -34,6 +36,11 @@ public class ArmorAbility extends Ability {
         @Override
         public String localized() {
             return Core.bundle.format("ability.armorability", healthMultiplier * unitHealth);
+        }
+
+        @Override
+        public void addStats(Table t){
+            t.add("[lightgray]" + Stat.healthMultiplier.localized() + ": [white]" + Math.round(healthMultiplier * 100f) + 100 + "%");
         }
 
         //@Override

@@ -107,7 +107,7 @@ public class ClassicUnitTypes {
             StompColor = Pal.heal;
 
             healAmount = 10f;
-            healRange = 30f;
+            healRange = 32f;
 
             constructor = MechUnit::create;
         }};
