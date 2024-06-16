@@ -82,9 +82,8 @@ public class DroneCenterNew extends Block {
         //stats.add(ExtendedStat.StatusDuration, statusDuration / 60f, StatUnit.seconds);
 
         stats.add(ExtendedStat.StatusOutput, table -> {
+            table.center();
             table.table(Styles.none, t -> {
-                t.center();
-
                 t.image(status.uiIcon).size(40).pad(10f).left().scaling(Scaling.fit);
 
                 t.table(info -> {

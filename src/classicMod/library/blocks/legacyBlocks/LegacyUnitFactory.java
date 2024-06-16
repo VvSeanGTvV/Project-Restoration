@@ -58,11 +58,8 @@ public class LegacyUnitFactory extends Block {
         stats.add(Stat.maxUnits, maxSpawn, StatUnit.none);
         //stats.add(Stat.output, unitType.localizedName);
         stats.add(Stat.output, table -> {
-
-
+            table.center();
             table.table(Styles.none, t -> {
-                t.center();
-
                 if(unitType.isBanned()){
                     t.image(Icon.cancel).color(Pal.remove).size(40);
                     return;
