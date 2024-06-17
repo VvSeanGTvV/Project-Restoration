@@ -4,14 +4,18 @@ import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
+import arc.util.Scaling;
+import classicMod.content.ExtendedStat;
 import mindustry.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
+import mindustry.ui.Styles;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.BaseShield;
 import mindustry.world.blocks.defense.ShieldWall;
+import mindustry.world.meta.Stat;
 
 import java.util.Objects;
 
@@ -43,6 +47,25 @@ public class ShieldBreaker extends Block{
     @Override
     protected TextureRegion[] icons() {
         return new TextureRegion[]{Core.atlas.find(name), Core.atlas.find(name + "-team")};
+    }
+
+    @Override
+    public void setStats() {
+        super.setStats();
+        stats.add(ExtendedStat.canBreak, table -> {
+            table.row();
+            table.table(Styles.grayPanel, t -> {
+                for (var blocko : toDestroy) {
+                    if (Vars.state.rules.isBanned(blocko)) {
+                        t.image(Icon.cancel).color(Pal.remove).size(32);
+                        return;
+                    }
+
+                    t.image(blocko.uiIcon).size(32).pad(2.5f).left().scaling(Scaling.fit);
+                    t.add(blocko.localizedName).left().pad(10f);
+                }
+            });
+        });
     }
 
     public class ShieldBreakerBuild extends Building{
