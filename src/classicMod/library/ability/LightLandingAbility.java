@@ -3,6 +3,7 @@ package classicMod.library.ability;
 
 import arc.Core;
 import arc.math.Mathf;
+import arc.scene.ui.layout.Table;
 import arc.util.*;
 import mindustry.Vars;
 import mindustry.content.*;
@@ -10,13 +11,19 @@ import mindustry.entities.*;
 import mindustry.entities.abilities.Ability;
 import mindustry.gen.*;
 import mindustry.graphics.*;
+import mindustry.world.meta.Stat;
 
 public class LightLandingAbility extends Ability {
 
-    public float damage = 17f;
-    protected boolean onLand; //Do not modify!
+    public float damage;
+    boolean onLand; //Do not modify!
     public LightLandingAbility(float damage) {
         this.damage = damage;
+    }
+
+    @Override
+    public void addStats(Table t){
+        t.add("[lightgray]" + Stat.damage.localized() + ": [white]" + damage);
     }
 
     @Override
