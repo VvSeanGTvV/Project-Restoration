@@ -2,8 +2,10 @@ package classicMod.library.ability;
 
 import arc.Core;
 import arc.math.Mathf;
+import arc.scene.ui.layout.Table;
 import mindustry.entities.abilities.Ability;
 import mindustry.gen.*;
+import mindustry.world.meta.Stat;
 
 public class RegenerationAbility extends Ability {
 
@@ -16,6 +18,11 @@ public class RegenerationAbility extends Ability {
 
     public RegenerationAbility(float healby){ //Use old V5 coding adn reformat into v7 style coding.
         this.healby = healby;
+    }
+
+    @Override
+    public void addStats(Table t){
+        t.add("[lightgray]" + Stat.healing.localized() + ": [white]" + healby);
     }
 
     @Override

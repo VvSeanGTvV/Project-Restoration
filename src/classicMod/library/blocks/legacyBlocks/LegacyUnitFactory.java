@@ -46,8 +46,6 @@ public class LegacyUnitFactory extends Block {
         hasItems = true;
         solid = false;
         flags = EnumSet.of(BlockFlag.factory);
-
-        if(!(unitType != null) && (requirement.length > 0)) new UnitFactory.UnitPlan(unitType, 60f * 15, requirement);
     }
 
     @Override
@@ -94,6 +92,7 @@ public class LegacyUnitFactory extends Block {
         if(maxSpawn < 1 || maxSpawn == 0){ maxSpawn = 4; }
         topRegion = Core.atlas.find(name + "-top");
         if(requirement != null){
+            if(!(unitType != null) && (requirement.length > 0)) new UnitFactory.UnitPlan(unitType, 60f * 15, requirement);
             capacities = new int[Vars.content.items().size];
             for(ItemStack stack : requirement){
                 capacities[stack.item.id] = Math.max(capacities[stack.item.id], stack.amount * 2);

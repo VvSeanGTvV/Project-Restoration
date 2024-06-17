@@ -4,6 +4,7 @@ import arc.graphics.Blending;
 import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
+import arc.scene.ui.layout.Table;
 import arc.util.*;
 import mindustry.Vars;
 import mindustry.content.*;
@@ -11,6 +12,7 @@ import mindustry.entities.*;
 import mindustry.entities.abilities.Ability;
 import mindustry.gen.*;
 import mindustry.graphics.*;
+import mindustry.world.meta.Stat;
 
 public class LightSpeedAbility extends Ability { //Combined of V5 and V7 coding just formatted to be compatible!
     public float damage;
@@ -33,6 +35,13 @@ public class LightSpeedAbility extends Ability { //Combined of V5 and V7 coding 
             Fx.hitLancer.at(unit.x, unit.y, Pal.lancerLaser);
             Lightning.create(unit.team(), Pal.lancerLaser, damage * Vars.state.rules.unitDamageMultiplier, unit.x + unit.vel().x, unit.y + unit.vel().y, unit.rotation, 14);
         }
+    }
+
+    @Override
+    public void addStats(Table t){
+        t.add("[lightgray]" + Stat.damage.localized() + ": [white]" + damage);
+        //t.add("[lightgray]" + Stat.damage.localized() + ": [white]" + maxSpeed);
+        //t.add("[lightgray]" + Stat.damage.localized() + ": [white]" + minSpeed);
     }
 
     private float scld(Unit unit) { //make a similar method
