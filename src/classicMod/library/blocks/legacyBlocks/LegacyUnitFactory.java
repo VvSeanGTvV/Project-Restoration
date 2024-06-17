@@ -17,9 +17,11 @@ import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.blocks.UnitTetherBlock;
+import mindustry.world.blocks.units.UnitFactory;
 import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
+import static mindustry.type.ItemStack.with;
 
 //Created by: VvSeanGtvV#2295 at Discord!
 //Similar to modern unit factory but in an older style mechanics, where it doesn't need payload!
@@ -44,6 +46,8 @@ public class LegacyUnitFactory extends Block {
         hasItems = true;
         solid = false;
         flags = EnumSet.of(BlockFlag.factory);
+
+        if(!(unitType != null) && (requirement.length > 0)) new UnitFactory.UnitPlan(unitType, 60f * 15, requirement);
     }
 
     @Override
