@@ -57,12 +57,13 @@ public class ShieldBreaker extends Block{
             table.table(Styles.grayPanel, t -> {
                 for (var blocko : toDestroy) {
                     if (Vars.state.rules.isBanned(blocko)) {
-                        t.image(Icon.cancel).color(Pal.remove).size(32);
+                        t.image(Icon.cancel).color(Pal.remove).size(40);
                         return;
                     }
 
-                    t.image(blocko.uiIcon).size(32).pad(2.5f).left().scaling(Scaling.fit);
+                    t.image(blocko.uiIcon).size(40).pad(10f).left().scaling(Scaling.fit);
                     t.add(blocko.localizedName).left().pad(10f);
+                    t.row();
                 }
             });
         });
