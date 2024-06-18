@@ -60,15 +60,15 @@ public class ClassicMod extends Mod{
                     Dialog dialog = new Dialog();
                     //BaseDialog dialog = new BaseDialog("@mod.restored-mind.earlyaccess.title");
 
-                    dialog.align(Align.top);
+                    /*dialog.align(Align.top);
                     dialog.table(Styles.none,t -> {
                         t.image(Core.atlas.find("restored-mind-logoMod")).pad(10f).align(Align.center).size(140f).scaling(Scaling.fit).row();
                         t.add("Version: " + ModVersion).align(Align.center).pad(10f).row();
                         t.add("Build: " + BuildVer).align(Align.center).pad(10f).row();
-                    });
+                    });*/
 
-                    dialog.align(Align.bottom);
-                    dialog.table(Styles.grayPanel,t -> {
+                    dialog.cont.align(Align.bottom);
+                    dialog.cont.table(Styles.grayPanel,t -> {
                         t.align(Align.center);
                         t.add("@mod.restored-mind.earlyaccess.title").pad(10f).row();
                         t.align(Align.left);
