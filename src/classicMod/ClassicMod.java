@@ -54,7 +54,8 @@ public class ClassicMod extends Mod{
                 }
             }
             boolean ignoreWarning = settings.getBool("ignore-warning");
-            if(ignoreWarning == defaultIgnoranceWarning) defaultIgnoranceWarning = ignoreWarning;
+            if(!ignoreWarning) defaultIgnoranceWarning = false;
+            if(defaultIgnoranceWarning) ignoreWarning = true;
             if (!ignoreWarning) {
                 Time.runTask(10f, () -> {
                     BaseDialog dialog = new BaseDialog("@mod.restored-mind.earlyaccess.title");
