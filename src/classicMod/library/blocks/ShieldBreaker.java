@@ -58,6 +58,7 @@ public class ShieldBreaker extends Block{
                 for (var blocko : toDestroy) {
                     if (Vars.state.rules.isBanned(blocko)) {
                         t.image(Icon.cancel).color(Pal.remove).size(40);
+                        t.add(blocko.localizedName).color(Pal.remove).left().pad(10f);
                         return;
                     }
 

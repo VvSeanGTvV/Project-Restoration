@@ -19,6 +19,7 @@ import mindustry.gen.*;
 import mindustry.mod.*;
 import mindustry.mod.Mods.*;
 import mindustry.type.UnitType;
+import mindustry.ui.dialogs.BaseDialog;
 import mindustry.ui.dialogs.SettingsMenuDialog.*;
 import mindustry.ui.dialogs.SettingsMenuDialog.SettingsTable.*;
 import mindustry.ui.fragments.*;
@@ -55,8 +56,20 @@ public class ClassicMod extends Mod{
             }
             boolean ingnoreWarning = settings.getBool("ignore-warning");
             if (!ingnoreWarning) {
-                ui.showOkText("@mod.restored-mind.earlyaccess.title", "@mod.restored-mind.earlyaccess.text", () -> {
+                Time.runTask(10f, () -> {
+                    BaseDialog dialog = new BaseDialog("@mod.restored-mind.earlyaccess.title");
+                    dialog.table(t -> {
+                        t.add("@mod.restored-mind.lucine.name");
+                        t.image(Core.atlas.find("restored-mind-lucineSmug")).pad(20f).left();
+                    });
+                    dialog.cont.add("@mod.restored-mind.earlyaccess.text").row();
+                    //dialog.cont.add("behold").row();
+                    //dialog.cont.image(Core.atlas.find("restored-mind-lucineSmug")).pad(20f).left();
+                    //dialog.cont.add("@mod.restored-mind.earlyaccess.text").row();
+                    dialog.cont.button("Ok", dialog::hide).size(130f, 50f);
+                    dialog.show();
                 });
+                //ui.showOkText("@mod.restored-mind.earlyaccess.title", "@mod.restored-mind.earlyaccess.text", () -> {});
             }
 
             if(settings.getBool("backward-v5", true)){ //TODO compatible to v5

@@ -63,6 +63,7 @@ public class LegacyUnitFactory extends Block {
             table.table(Styles.none, t -> {
                 if(unitType.isBanned()){
                     t.image(Icon.cancel).color(Pal.remove).size(32);
+                    t.add(unitType.localizedName).left().pad(10f);
                     return;
                 }
 
