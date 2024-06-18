@@ -10,7 +10,7 @@ public class ExtendedStat {
             fuel = new Stat("fuel", StatCat.crafting),
             inbetweenTeleport = new Stat("inbetween-teleport", StatCat.items),
             burnTime = new Stat("burn-time", StatCat.crafting),
-            canBreak = new Stat("can-break", StatCat.crafting),
+            canBreak = new Stat("can-break", StatCat.function),
             tierLevel = new Stat("unit-level")
     ;
 
