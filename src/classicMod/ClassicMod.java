@@ -60,23 +60,20 @@ public class ClassicMod extends Mod{
                     Dialog dialog = new Dialog();
                     //BaseDialog dialog = new BaseDialog("@mod.restored-mind.earlyaccess.title");
 
-                    dialog.cont.table(Styles.grayPanel,t -> {
-                        t.table(character -> {
-                            character.add(resMod.name).row();
-                            character.image(Core.atlas.find("restored-mind-icon")).pad(10f).size(140f).scaling(Scaling.stretch);
-                        }).right();
-                        t.add("Version: " + ModVersion).pad(10f).row();
-                        t.add("Build: " + BuildVer).pad(10f).row();
+                    dialog.cont.table(Styles.none,t -> {
+                        t.image(Core.atlas.find("restored-mind-icon")).pad(10f).align(Align.center).size(140f).scaling(Scaling.stretch);
+                        t.add("Version: " + ModVersion).align(Align.center).pad(10f).row();
+                        t.add("Build: " + BuildVer).align(Align.center).pad(10f).row();
                     }).row();
-                    
+
                     dialog.cont.table(Styles.grayPanel,t -> {
-                        t.add("@mod.restored-mind.earlyaccess.title").pad(10f).row();
+                        t.add("@mod.restored-mind.earlyaccess.title").pad(10f).align(Align.center).row();
                         t.table(character -> {
                             character.add("@mod.restored-mind.lucine.name").row();
                             character.image(Core.atlas.find("restored-mind-lucineSmug")).pad(10f).size(140f).scaling(Scaling.stretch);
                         }).right();
                         t.add("@mod.restored-mind.earlyaccess.text").pad(10f).row();
-                        t.button("@ok", dialog::hide).size(130f, 50f).right();
+                        t.button("@ok", dialog::hide).size(130f, 50f).align(Align.center);
                     });
 
                     //dialog.cont.add("behold").row();
