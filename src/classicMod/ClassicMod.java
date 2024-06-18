@@ -34,7 +34,6 @@ public class ClassicMod extends Mod{
     /** Mod's current Build **/
     public static final String BuildVer = "11";
     protected LoadedMod resMod = mods.locateMod("restored-mind");
-    boolean defaultIgnoranceWarning;
     public ClassicMod(){
         //Log.info("Loaded Classic constructor.");
         //listen for game load eventa
@@ -54,8 +53,6 @@ public class ClassicMod extends Mod{
                 }
             }
             boolean ignoreWarning = settings.getBool("ignore-warning");
-            if(!ignoreWarning) defaultIgnoranceWarning = false;
-            if(defaultIgnoranceWarning) ignoreWarning = true;
             if (!ignoreWarning) {
                 Time.runTask(10f, () -> {
                     BaseDialog dialog = new BaseDialog("@mod.restored-mind.earlyaccess.title");
@@ -69,10 +66,6 @@ public class ClassicMod extends Mod{
                     //dialog.cont.add("@mod.restored-mind.earlyaccess.text").row();
                     dialog.cont.table(t -> {
                         t.button("@ok", dialog::hide).size(130f, 50f);
-                        t.button("@be.ignore", () -> {
-                            defaultIgnoranceWarning = true;
-                            dialog.hide();
-                        }).size(130f, 50f);
                     });
                     //dialog.cont.button("@ok", dialog::hide).size(130f, 50f);
                     dialog.show();
@@ -151,7 +144,7 @@ public class ClassicMod extends Mod{
             //t.checkPref("use-custom-logo", false);
 
             t.pref(new Separator("restored-annoying-window"));
-            t.checkPref("ignore-warning", defaultIgnoranceWarning);
+            t.checkPref("ignore-warning", false);
             t.checkPref("ignore-update", false);
 
             //t.pref(new Separator("restored-update"));
