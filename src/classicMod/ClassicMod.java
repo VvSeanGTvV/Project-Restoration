@@ -60,13 +60,13 @@ public class ClassicMod extends Mod{
                     Dialog dialog = new Dialog();
                     //BaseDialog dialog = new BaseDialog("@mod.restored-mind.earlyaccess.title");
 
-                    dialog.cont.table(Styles.none,t -> {
-                        t.image(Core.atlas.find("restored-mind-icon")).pad(10f).align(Align.center).size(140f).scaling(Scaling.stretch);
+                    dialog.table(Styles.none,t -> {
+                        t.image(Core.atlas.find("restored-mind-logoMod")).pad(10f).align(Align.center).size(140f).scaling(Scaling.stretch).row();
                         t.add("Version: " + ModVersion).align(Align.center).pad(10f).row();
                         t.add("Build: " + BuildVer).align(Align.center).pad(10f).row();
-                    }).row();
+                    }).align(Align.top);
 
-                    dialog.cont.table(Styles.grayPanel,t -> {
+                    dialog.table(Styles.grayPanel,t -> {
                         t.add("@mod.restored-mind.earlyaccess.title").pad(10f).align(Align.center).row();
                         t.table(character -> {
                             character.add("@mod.restored-mind.lucine.name").row();
