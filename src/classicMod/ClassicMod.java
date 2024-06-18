@@ -66,20 +66,17 @@ public class ClassicMod extends Mod{
                         t.add("Version: " + ModVersion).align(Align.center).pad(10f).row();
                         t.add("Build: " + BuildVer).align(Align.center).pad(10f).row();
                     });*/
-
-                    dialog.cont.align(Align.bottom);
+                    
                     dialog.cont.table(Styles.grayPanel,t -> {
                         t.align(Align.center);
-                        t.add("@mod.restored-mind.earlyaccess.title").pad(10f).row();
-                        t.align(Align.left);
+                        t.add("@mod.restored-mind.earlyaccess.title").align(Align.center).pad(10f).row();
                         t.table(character -> {
                             character.add("@mod.restored-mind.lucine.name").row();
                             character.image(Core.atlas.find("restored-mind-lucineSmug")).pad(10f).size(140f).scaling(Scaling.stretch);
                         }).right();
                         t.add("@mod.restored-mind.earlyaccess.text").pad(10f).row();
-                        t.align(Align.center);
-                        t.button("@ok", dialog::hide).size(130f, 50f);
-                    });
+                        t.button("@ok", dialog::hide).align(Align.center).size(130f, 50f);
+                    }).align(Align.bottom);
 
                     //dialog.cont.add("behold").row();
                     //dialog.cont.image(Core.atlas.find("restored-mind-lucineSmug")).pad(20f).left();
