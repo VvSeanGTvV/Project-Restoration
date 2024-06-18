@@ -59,8 +59,8 @@ public class ClassicMod extends Mod{
                 Time.runTask(10f, () -> {
                     BaseDialog dialog = new BaseDialog("@mod.restored-mind.earlyaccess.title");
                     dialog.table(t -> {
-                        t.add("@mod.restored-mind.lucine.name");
-                        t.image(Core.atlas.find("restored-mind-lucineSmug")).pad(20f).left();
+                        t.add("@mod.restored-mind.lucine.name").row();
+                        t.image(Core.atlas.find("restored-mind-lucineSmug")).pad(20f);
                     });
                     dialog.cont.add("@mod.restored-mind.earlyaccess.text").row();
                     //dialog.cont.add("behold").row();
