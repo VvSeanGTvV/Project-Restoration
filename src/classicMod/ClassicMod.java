@@ -5,15 +5,11 @@ import arc.files.Fi;
 import arc.func.*;
 import arc.util.*;
 import classicMod.content.*;
-import classicMod.library.ai.EffectDroneAI;
 import classicMod.library.ai.ReplacementFlyingAI;
 import classicMod.library.ai.ReplacementGroundAI;
 import classicMod.library.ui.*;
 import classicMod.library.ui.menu.*;
-import mindustry.Vars;
 import mindustry.ai.types.CommandAI;
-import mindustry.ai.types.FlyingAI;
-import mindustry.ai.types.GroundAI;
 import mindustry.game.EventType.*;
 import mindustry.gen.*;
 import mindustry.mod.*;
@@ -24,6 +20,8 @@ import mindustry.ui.dialogs.SettingsMenuDialog.*;
 import mindustry.ui.dialogs.SettingsMenuDialog.SettingsTable.*;
 import mindustry.ui.fragments.*;
 import mindustry.world.blocks.legacy.*;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static arc.Core.*;
 import static classicMod.library.ui.menu.MenuUI.*;
@@ -36,6 +34,7 @@ public class ClassicMod extends Mod{
     /** Mod's current Build **/
     public static final String BuildVer = "11";
     protected LoadedMod resMod = mods.locateMod("restored-mind");
+    boolean defaultIgnoranceWarning;
     public ClassicMod(){
         //Log.info("Loaded Classic constructor.");
         //listen for game load eventa
@@ -54,8 +53,9 @@ public class ClassicMod extends Mod{
                     Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(random));
                 }
             }
-            boolean ingnoreWarning = settings.getBool("ignore-warning");
-            if (!ingnoreWarning) {
+            boolean ignoreWarning = settings.getBool("ignore-warning");
+            if(ignoreWarning == defaultIgnoranceWarning) defaultIgnoranceWarning = ignoreWarning;
+            if (!ignoreWarning) {
                 Time.runTask(10f, () -> {
                     BaseDialog dialog = new BaseDialog("@mod.restored-mind.earlyaccess.title");
                     dialog.cont.table(t -> {
@@ -66,7 +66,14 @@ public class ClassicMod extends Mod{
                     //dialog.cont.add("behold").row();
                     //dialog.cont.image(Core.atlas.find("restored-mind-lucineSmug")).pad(20f).left();
                     //dialog.cont.add("@mod.restored-mind.earlyaccess.text").row();
-                    dialog.cont.button("Ok", dialog::hide).size(130f, 50f);
+                    dialog.cont.table(t -> {
+                        t.button("@ok", dialog::hide).size(130f, 50f);
+                        t.button("@be.ignore", () -> {
+                            defaultIgnoranceWarning = true;
+                            dialog.hide();
+                        }).size(130f, 50f);
+                    });
+                    //dialog.cont.button("@ok", dialog::hide).size(130f, 50f);
                     dialog.show();
                 });
                 //ui.showOkText("@mod.restored-mind.earlyaccess.title", "@mod.restored-mind.earlyaccess.text", () -> {});
@@ -125,7 +132,7 @@ public class ClassicMod extends Mod{
             Func<String, String> getModBundle = value -> bundle.get("mod." + value);
 
             StringBuilder contributors = new StringBuilder(getModBundle.get(resMod.meta.name + ".author"));
-            contributors.append("\n\n").append("[#FCC21B]Credits:[]");
+            contributors.append("\n\n").append("[#FCC21B]@credits[]");
             int i = 0;
             while (bundle.has("mod." + resMod.meta.name + "-credits." + i)) {
                 contributors.append("\n        ").append(getModBundle.get(resMod.meta.name + "-credits." + i));
@@ -143,7 +150,7 @@ public class ClassicMod extends Mod{
             //t.checkPref("use-custom-logo", false);
 
             t.pref(new Separator("restored-annoying-window"));
-            t.checkPref("ignore-warning", false);
+            t.checkPref("ignore-warning", defaultIgnoranceWarning);
             t.checkPref("ignore-update", false);
 
             //t.pref(new Separator("restored-update"));
