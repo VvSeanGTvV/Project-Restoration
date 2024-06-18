@@ -60,21 +60,26 @@ public class ClassicMod extends Mod{
                     Dialog dialog = new Dialog();
                     //BaseDialog dialog = new BaseDialog("@mod.restored-mind.earlyaccess.title");
 
+                    dialog.align(Align.top);
                     dialog.table(Styles.none,t -> {
-                        t.image(Core.atlas.find("restored-mind-logoMod")).pad(10f).align(Align.center).size(140f).scaling(Scaling.stretch).row();
+                        t.image(Core.atlas.find("restored-mind-logoMod")).pad(10f).align(Align.center).size(140f).scaling(Scaling.fit).row();
                         t.add("Version: " + ModVersion).align(Align.center).pad(10f).row();
                         t.add("Build: " + BuildVer).align(Align.center).pad(10f).row();
-                    }).align(Align.top);
+                    });
 
+                    dialog.align(Align.bottom);
                     dialog.table(Styles.grayPanel,t -> {
-                        t.add("@mod.restored-mind.earlyaccess.title").pad(10f).align(Align.center).row();
+                        t.align(Align.center);
+                        t.add("@mod.restored-mind.earlyaccess.title").pad(10f).row();
+                        t.align(Align.left);
                         t.table(character -> {
                             character.add("@mod.restored-mind.lucine.name").row();
                             character.image(Core.atlas.find("restored-mind-lucineSmug")).pad(10f).size(140f).scaling(Scaling.stretch);
                         }).right();
                         t.add("@mod.restored-mind.earlyaccess.text").pad(10f).row();
-                        t.button("@ok", dialog::hide).size(130f, 50f).align(Align.center);
-                    }).align(Align.bottom);
+                        t.align(Align.center);
+                        t.button("@ok", dialog::hide).size(130f, 50f);
+                    });
 
                     //dialog.cont.add("behold").row();
                     //dialog.cont.image(Core.atlas.find("restored-mind-lucineSmug")).pad(20f).left();
