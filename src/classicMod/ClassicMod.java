@@ -3,6 +3,7 @@ package classicMod;
 import arc.*;
 import arc.files.Fi;
 import arc.func.*;
+import arc.scene.ui.Dialog;
 import arc.util.*;
 import classicMod.content.*;
 import classicMod.library.ai.ReplacementFlyingAI;
@@ -56,11 +57,12 @@ public class ClassicMod extends Mod{
             boolean ignoreWarning = settings.getBool("ignore-warning");
             if (!ignoreWarning) {
                 Time.runTask(10f, () -> {
-                    BaseDialog dialog = new BaseDialog("@mod.restored-mind.earlyaccess.title");
+                    Dialog dialog = new Dialog();
+                    //BaseDialog dialog = new BaseDialog("@mod.restored-mind.earlyaccess.title");
                     dialog.cont.table(Styles.grayPanel,t -> {
                         t.table(character -> {
                             character.add("@mod.restored-mind.lucine.name").row();
-                            character.image(Core.atlas.find("restored-mind-lucineSmug")).pad(20f).size(40f).scaling(Scaling.stretch);
+                            character.image(Core.atlas.find("restored-mind-lucineSmug")).pad(20f).size(140f).scaling(Scaling.stretch);
                         }).right();
                         t.add("@mod.restored-mind.earlyaccess.text").row();
                         t.button("@ok", dialog::hide).size(130f, 50f);
