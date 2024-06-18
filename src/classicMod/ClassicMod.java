@@ -15,6 +15,7 @@ import mindustry.gen.*;
 import mindustry.mod.*;
 import mindustry.mod.Mods.*;
 import mindustry.type.UnitType;
+import mindustry.ui.Styles;
 import mindustry.ui.dialogs.BaseDialog;
 import mindustry.ui.dialogs.SettingsMenuDialog.*;
 import mindustry.ui.dialogs.SettingsMenuDialog.SettingsTable.*;
@@ -56,11 +57,14 @@ public class ClassicMod extends Mod{
             if (!ignoreWarning) {
                 Time.runTask(10f, () -> {
                     BaseDialog dialog = new BaseDialog("@mod.restored-mind.earlyaccess.title");
-                    dialog.cont.table(t -> {
-                        t.add("@mod.restored-mind.lucine.name").row();
-                        t.image(Core.atlas.find("restored-mind-lucineSmug")).pad(40f).scaling(Scaling.stretch);
+                    dialog.cont.table(Styles.grayPanel,t -> {
+                        t.table(character -> {
+                            character.add("@mod.restored-mind.lucine.name").row();
+                            character.image(Core.atlas.find("restored-mind-lucineSmug")).pad(20f).size(40f).scaling(Scaling.stretch);
+                        });
+                        t.add("@mod.restored-mind.earlyaccess.text").row();
                     }).right();
-                    dialog.cont.add("@mod.restored-mind.earlyaccess.text").row();
+
                     //dialog.cont.add("behold").row();
                     //dialog.cont.image(Core.atlas.find("restored-mind-lucineSmug")).pad(20f).left();
                     //dialog.cont.add("@mod.restored-mind.earlyaccess.text").row();
