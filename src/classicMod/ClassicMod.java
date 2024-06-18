@@ -74,7 +74,7 @@ public class ClassicMod extends Mod{
                         }).right();
                         t.add("@mod.restored-mind.earlyaccess.text").pad(10f).row();
                         t.button("@ok", dialog::hide).size(130f, 50f).align(Align.center);
-                    });
+                    }).align(Align.bottom);
 
                     //dialog.cont.add("behold").row();
                     //dialog.cont.image(Core.atlas.find("restored-mind-lucineSmug")).pad(20f).left();
