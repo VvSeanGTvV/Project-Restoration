@@ -71,7 +71,7 @@ public class ClassicMod extends Mod{
                     dialog.cont.table(Styles.grayPanel, Align.bottom, t -> {
                         //t.add("@mod.restored-mind.earlyaccess.title").size(120f).pad(10f).row();
                         t.table(character -> {
-                            character.add("@mod.restored-mind.lucine.name").row();
+                            character.add("@mod.restored-mind.asmus.name").row();
                             character.image(Core.atlas.find("restored-mind-asmusAhead")).pad(10f).size(140f).scaling(Scaling.stretch);
                         }).right();
                         t.add("@mod.restored-mind.earlyaccess.text").pad(20f).row();
