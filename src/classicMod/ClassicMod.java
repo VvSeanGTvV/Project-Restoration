@@ -3,11 +3,7 @@ package classicMod;
 import arc.*;
 import arc.files.Fi;
 import arc.func.*;
-import arc.scene.style.Drawable;
-import arc.scene.style.TextureRegionDrawable;
 import arc.scene.ui.Dialog;
-import arc.scene.ui.Image;
-import arc.scene.ui.layout.Cell;
 import arc.util.*;
 import classicMod.content.*;
 import classicMod.library.ai.ReplacementFlyingAI;
@@ -15,7 +11,6 @@ import classicMod.library.ai.ReplacementGroundAI;
 import classicMod.library.ui.*;
 import classicMod.library.ui.dialog.epicCreditsDialog;
 import classicMod.library.ui.menu.*;
-import mindustry.Vars;
 import mindustry.ai.types.CommandAI;
 import mindustry.game.EventType.*;
 import mindustry.gen.*;
@@ -23,14 +18,11 @@ import mindustry.mod.*;
 import mindustry.mod.Mods.*;
 import mindustry.type.UnitType;
 import mindustry.ui.Styles;
-import mindustry.ui.dialogs.BaseDialog;
-import mindustry.ui.dialogs.SettingsMenuDialog;
-import mindustry.ui.dialogs.SettingsMenuDialog.*;
-import mindustry.ui.dialogs.SettingsMenuDialog.SettingsTable.*;
 import mindustry.ui.fragments.*;
-import mindustry.world.blocks.legacy.*;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 import static arc.Core.*;
 import static classicMod.library.ui.menu.MenuUI.*;
@@ -62,6 +54,11 @@ public class ClassicMod extends Mod{
                 }
             }
             boolean ignoreWarning = settings.getBool("ignore-warning");
+            try {
+                Log.info(path());
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
             if (!ignoreWarning) {
                 Time.runTask(10f, () -> {
                     Dialog dialog = new Dialog();
@@ -135,6 +132,18 @@ public class ClassicMod extends Mod{
     private void DeleteFile(Fi file){
         file.delete();
         ui.showOkText("@file.file-deleted", "@file.file-deleted", () -> {});
+    }
+    public String path() throws FileNotFoundException {
+        return new File("\\myfile.txt").getParentFile().getAbsolutePath();
+    }
+
+    public void reade() throws FileNotFoundException {
+
+        File myObj = new File("filename.txt");
+        Scanner myReader = new Scanner(myObj);
+        while (myReader.hasNextLine()) {
+            String data = myReader.nextLine();
+        }
     }
 
     public static Func<String, String> getModBundle = value -> bundle.get("mod." + value);
