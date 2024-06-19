@@ -76,8 +76,8 @@ public class epicCreditsDialog extends Dialog {
         for (float b = 0f; b < UIExtended.getHeight(); b += 0.275f  * Time.delta) {
             cont.clearChildren();
             in.setTranslation(0, b);
-            float finalB = b;
-            in.update(() -> setTranslation(0, finalB));
+            //float finalB = b;
+            //in.update(() -> setTranslation(0, finalB));
             cont.add(in);
         }
     }
