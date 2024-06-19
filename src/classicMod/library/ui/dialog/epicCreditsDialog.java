@@ -19,7 +19,7 @@ import static classicMod.ClassicMod.*;
 
 public class epicCreditsDialog extends Dialog {
     Table in = new Table();
-    float scrollbar;
+    float scrollbar = 0f;
 
     public void addCloseListener(){
         closeOnBack();
@@ -41,7 +41,6 @@ public class epicCreditsDialog extends Dialog {
     //Cell<Table> panel = new Cell<Table>(in);
     public epicCreditsDialog() {
         super();
-        scrollbar = 0f;
         //addCloseButton();
 
         in.center();
@@ -64,7 +63,7 @@ public class epicCreditsDialog extends Dialog {
         cont.clearChildren();
         cont.add(in);
         cont.setTranslation(0, scrollbar);
-        scrollbar += 0.001f;
+        scrollbar += 0.01f;
         return super.update(r);
     }
 }
