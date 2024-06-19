@@ -10,6 +10,7 @@ import classicMod.library.ai.ReplacementFlyingAI;
 import classicMod.library.ai.ReplacementGroundAI;
 import classicMod.library.ui.*;
 import classicMod.library.ui.menu.*;
+import mindustry.Vars;
 import mindustry.ai.types.CommandAI;
 import mindustry.game.EventType.*;
 import mindustry.gen.*;
@@ -66,14 +67,14 @@ public class ClassicMod extends Mod{
                         t.add("Version: " + ModVersion).align(Align.center).pad(10f).row();
                         t.add("Build: " + BuildVer).align(Align.center).pad(10f).row();
                     });*/
-
+                    dialog.cont.setSize(camera.width/2, camera.height/2);
                     dialog.cont.table(Styles.grayPanel, Align.bottom, t -> {
-                        t.add("@mod.restored-mind.earlyaccess.title").size(120f).pad(10f).row();
+                        //t.add("@mod.restored-mind.earlyaccess.title").size(120f).pad(10f).row();
                         t.table(character -> {
                             character.add("@mod.restored-mind.lucine.name").row();
                             character.image(Core.atlas.find("restored-mind-lucineSmug")).pad(10f).size(140f).scaling(Scaling.stretch);
                         }).right();
-                        t.add("@mod.restored-mind.earlyaccess.text").pad(10f).row();
+                        t.add("@mod.restored-mind.earlyaccess.text").pad(20f).row();
                         t.button("@ok", dialog::hide).marginRight(10f).size(130f, 50f);
                     }).bottom();
 
