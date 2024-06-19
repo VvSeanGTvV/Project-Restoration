@@ -8,6 +8,7 @@ import arc.scene.ui.*;
 import arc.scene.ui.Dialog;
 import arc.scene.ui.ScrollPane;
 import arc.scene.ui.layout.*;
+import arc.util.Time;
 import classicMod.library.ui.UIExtended;
 import mindustry.gen.*;
 import mindustry.ui.Styles;
@@ -57,6 +58,8 @@ public class epicCreditsDialog extends Dialog {
             }
         }});*/
 
+        show();
+
         in.center();
         in.image(Tex.clear).height(25).padTop(3f).row();
         in.image(Core.atlas.find("restored-mind-logoMod")).row();
@@ -69,12 +72,12 @@ public class epicCreditsDialog extends Dialog {
             i++;
         }
         cont.add(in);
-        show();
-        for (int b = 0; b < UIExtended.getHeight()*100; b++) {
+
+        for (float b = 0f; b < UIExtended.getHeight(); b += 0.275f  * Time.delta) {
             cont.clearChildren();
             in.setTranslation(0, b);
-            int finalB = b;
-            in.update(() -> setTranslation(0, (float) finalB /100));
+            float finalB = b;
+            in.update(() -> setTranslation(0, finalB));
             cont.add(in);
         }
     }
