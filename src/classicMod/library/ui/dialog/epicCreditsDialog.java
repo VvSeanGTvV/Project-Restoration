@@ -37,11 +37,14 @@ public class epicCreditsDialog extends Dialog {
         addCloseButton(210f);
     }
 
-    //ScrollPane pane = new ScrollPane(in);
-    //Cell<Table> panel = new Cell<Table>(in);
+    ScrollPane pane = new ScrollPane(in);
+
     public epicCreditsDialog() {
         super();
         //addCloseButton();
+        /*cont.pane(new Table() {{
+
+        }});*/
 
         in.center();
         in.image(Tex.clear).height(25).padTop(3f).row();
@@ -62,7 +65,7 @@ public class epicCreditsDialog extends Dialog {
     public Element update(Runnable r) {
         cont.clearChildren();
         cont.add(in);
-        cont.setTranslation(0, scrollbar);
+        in.setTranslation(0, scrollbar);
         scrollbar += 0.01f;
         return super.update(r);
     }
