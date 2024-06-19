@@ -67,7 +67,7 @@ public class ClassicMod extends Mod{
                         t.add("Version: " + ModVersion).align(Align.center).pad(10f).row();
                         t.add("Build: " + BuildVer).align(Align.center).pad(10f).row();
                     });*/
-                    dialog.cont.setSize(camera.width/2, camera.height/2);
+                    dialog.cont.setTranslation(camera.width/2, camera.height/2);
                     dialog.cont.table(Styles.grayPanel, Align.bottom, t -> {
                         //t.add("@mod.restored-mind.earlyaccess.title").size(120f).pad(10f).row();
                         t.table(character -> {
