@@ -19,21 +19,23 @@ public class epicCreditsDialog extends Dialog {
     Table in = new Table();
     float scrollbar;
     //ScrollPane pane = new ScrollPane(in);
+    //Cell<Table> panel = new Cell<Table>(in);
     public epicCreditsDialog() {
         super("Credits");
         scrollbar = 0f;
         addCloseButton();
-        cont.table((Drawable) in);
 
         in.center();
         in.image(Tex.clear).height(25).padTop(3f).row();
         in.image(Core.atlas.find("restored-mind-logoMod")).row();
         in.image(Tex.clear).height(25f).padTop(3f).row();
+
         int i = 0;
         while (bundle.has("mod." + resMod.meta.name + "-credits." + i)) {
             in.add(getModBundle.get(resMod.meta.name + "-credits." + i));
             i++;
         }
+        in.draw();
     }
 
     @Override
