@@ -45,7 +45,7 @@ public class epicCreditsDialog extends Dialog {
     public epicCreditsDialog() {
         super();
         addCloseButton();
-        /*cont.pane(new Table() {{
+        cont.pane(new Table() {{
             center();
             image(Tex.clear).height(25).padTop(3f).row();
             image(Core.atlas.find("restored-mind-logoMod")).row();
@@ -57,11 +57,11 @@ public class epicCreditsDialog extends Dialog {
                 row();
                 i++;
             }
-        }});*/
+        }});
 
         show();
 
-        in.center();
+        /*in.center();
         in.image(Tex.clear).height(25).padTop(3f).row();
         in.image(Core.atlas.find("restored-mind-logoMod")).row();
         in.image(Tex.clear).height(25f).padTop(3f).row();
@@ -80,6 +80,6 @@ public class epicCreditsDialog extends Dialog {
             float finalB = b;
             in.update(() -> setTranslation((float) UIExtended.getWidth() /2, finalB));
             cont.add(in);
-        }
+        }*/
     }
 }
