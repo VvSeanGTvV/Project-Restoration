@@ -9,13 +9,14 @@ import arc.scene.ui.ScrollPane;
 import arc.scene.ui.layout.*;
 import mindustry.gen.*;
 import mindustry.ui.Styles;
+import mindustry.ui.dialogs.BaseDialog;
 
 import java.awt.*;
 
 import static arc.Core.bundle;
 import static classicMod.ClassicMod.*;
 
-public class epicCreditsDialog extends Dialog {
+public class epicCreditsDialog extends BaseDialog {
     Table in = new Table();
     float scrollbar;
     //ScrollPane pane = new ScrollPane(in);
