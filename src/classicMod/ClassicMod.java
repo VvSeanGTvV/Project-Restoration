@@ -3,12 +3,17 @@ package classicMod;
 import arc.*;
 import arc.files.Fi;
 import arc.func.*;
+import arc.scene.style.Drawable;
+import arc.scene.style.TextureRegionDrawable;
 import arc.scene.ui.Dialog;
+import arc.scene.ui.Image;
+import arc.scene.ui.layout.Cell;
 import arc.util.*;
 import classicMod.content.*;
 import classicMod.library.ai.ReplacementFlyingAI;
 import classicMod.library.ai.ReplacementGroundAI;
 import classicMod.library.ui.*;
+import classicMod.library.ui.dialog.epicCreditsDialog;
 import classicMod.library.ui.menu.*;
 import mindustry.Vars;
 import mindustry.ai.types.CommandAI;
@@ -19,6 +24,7 @@ import mindustry.mod.Mods.*;
 import mindustry.type.UnitType;
 import mindustry.ui.Styles;
 import mindustry.ui.dialogs.BaseDialog;
+import mindustry.ui.dialogs.SettingsMenuDialog;
 import mindustry.ui.dialogs.SettingsMenuDialog.*;
 import mindustry.ui.dialogs.SettingsMenuDialog.SettingsTable.*;
 import mindustry.ui.fragments.*;
@@ -27,6 +33,7 @@ import mindustry.world.blocks.legacy.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static arc.Core.*;
+import static classicMod.library.ui.UIExtended.CreditsEpic;
 import static classicMod.library.ui.menu.MenuUI.*;
 import static mindustry.Vars.*;
 //v5-java-mod is the current use
@@ -36,7 +43,7 @@ public class ClassicMod extends Mod{
     public static String ModVersion = "3.2 PRE-ALPHA v146";
     /** Mod's current Build **/
     public static final String BuildVer = "11";
-    protected LoadedMod resMod = mods.locateMod("restored-mind");
+    public static LoadedMod resMod = mods.locateMod("restored-mind");
     public ClassicMod(){
         //Log.info("Loaded Classic constructor.");
         //listen for game load eventa
@@ -130,6 +137,8 @@ public class ClassicMod extends Mod{
         file.delete();
         ui.showOkText("@file.file-deleted", "@file.file-deleted", () -> {});
     }
+
+    public static Func<String, String> getModBundle = value -> bundle.get("mod." + value);
     
     @Override
     public void init() {
@@ -140,7 +149,7 @@ public class ClassicMod extends Mod{
         if(!headless) {
             resMod = mods.locateMod("restored-mind");
             resMod.meta.version = BuildVer;
-            Func<String, String> getModBundle = value -> bundle.get("mod." + value);
+
 
             StringBuilder contributors = new StringBuilder(getModBundle.get(resMod.meta.name + ".author"));
             contributors.append("\n\n").append("[#FCC21B]@credits[]");
@@ -155,24 +164,25 @@ public class ClassicMod extends Mod{
 
     private void loadSettings() {
         ui.settings.addCategory("@setting.restored-mind", "restored-mind-icoMenu", t -> {
-            t.pref(new Separator("restored-graphic"));
+            t.pref(new UIExtended.Banner("restored-mind-logoMod", -1));
+            t.pref(new UIExtended.Separator("restored-graphic"));
             t.checkPref("use-planetmenu", true);
             t.checkPref("use-lastplanet-bg", false);
             //t.checkPref("use-custom-logo", false);
 
-            t.pref(new Separator("restored-annoying-window"));
+            t.pref(new UIExtended.Separator("restored-annoying-window"));
             t.checkPref("ignore-warning", false);
             t.checkPref("ignore-update", false);
 
             //t.pref(new Separator("restored-update"));
             //t.checkPref("ignore-update", false);
             if(false) {
-                t.pref(new Separator("restored-updates"));
+                t.pref(new UIExtended.Separator("restored-updates"));
                 t.checkPref("beta-update", false);
             }
 
             t.row();
-            t.pref(new Separator("restored-content-addon"));
+            t.pref(new UIExtended.Separator("restored-content-addon"));
             t.checkPref("content-classic", false);
             t.checkPref("content-v4", false);
 
@@ -181,6 +191,7 @@ public class ClassicMod extends Mod{
                 t.checkPref("backward-v5", false); //TODO make some mods backwards compatiblilty with v5
                 t.checkPref("backward-v6", false); //TODO make some mods backwards compatiblilty with v6
             }*/
+            t.pref(new UIExtended.ButtonSetting(Core.bundle.get("credits"), Icon.info, epicCreditsDialog::new, 32));
             t.row();
             t.add(resMod.meta.displayName+" - Info").padTop(4f).row();
             t.add("Mod Version: "+ModVersion).row();
@@ -216,30 +227,4 @@ public class ClassicMod extends Mod{
             }
         }
     }
-
-    static class Separator extends Setting { //This is from prog-mats-java!
-        float height;
-
-        public Separator(String name){
-            super(name);
-        }
-
-        public Separator(float height){
-            this("");
-            this.height = height;
-        }
-
-        @Override
-        public void add(SettingsTable table){
-            if(name.isEmpty()){
-                table.image(Tex.clear).height(height).padTop(3f);
-            }else{
-                table.table(t -> {
-                    t.add(title).padTop(4f);
-                }).get().background(Tex.underline);
-            }
-            table.row();
-        }
-    }
-
 }
