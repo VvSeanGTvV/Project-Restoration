@@ -1,6 +1,7 @@
 package classicMod.library.ui.dialog;
 
 import arc.Core;
+import arc.func.Cons;
 import arc.scene.*;
 import arc.scene.style.*;
 import arc.scene.ui.*;
@@ -19,6 +20,23 @@ import static classicMod.ClassicMod.*;
 public class epicCreditsDialog extends Dialog {
     Table in = new Table();
     float scrollbar;
+
+    public void addCloseListener(){
+        closeOnBack();
+    }
+
+    public void addCloseButton(float width){
+        buttons.defaults().size(width, 64f);
+        buttons.button("@back", Icon.left, this::hide).size(width, 64f);
+
+        addCloseListener();
+    }
+
+    @Override
+    public void addCloseButton(){
+        addCloseButton(210f);
+    }
+
     //ScrollPane pane = new ScrollPane(in);
     //Cell<Table> panel = new Cell<Table>(in);
     public epicCreditsDialog() {
@@ -36,13 +54,14 @@ public class epicCreditsDialog extends Dialog {
             in.add(getModBundle.get(resMod.meta.name + "-credits." + i));
             i++;
         }
-        in.draw();
+        cont.add(in);
         show();
     }
 
     @Override
     public Element update(Runnable r) {
         in.setTranslation(0, scrollbar);
+        //in.setTranslation(0, scrollbar);
         scrollbar += 0.01f;
         return super.update(r);
     }
