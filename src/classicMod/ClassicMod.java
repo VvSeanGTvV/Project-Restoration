@@ -33,7 +33,6 @@ import mindustry.world.blocks.legacy.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static arc.Core.*;
-import static classicMod.library.ui.UIExtended.CreditsEpic;
 import static classicMod.library.ui.menu.MenuUI.*;
 import static mindustry.Vars.*;
 //v5-java-mod is the current use
