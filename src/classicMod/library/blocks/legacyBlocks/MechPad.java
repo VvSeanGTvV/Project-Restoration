@@ -115,6 +115,7 @@ public class MechPad extends Block{
     public static void spawnMech(UnitType unitType, Tile tile, Player player){
         //do not try to respawn in unsupported environments at all
         if(!unitType.supportsEnv(state.rules.env)) return;
+        if(unitType.isBanned()) return;
 
         if (Vars.net.server() || !Vars.net.active()){
             playerSpawn(tile, player);
@@ -150,9 +151,7 @@ public class MechPad extends Block{
             unit.add();
         }
 
-        if(state.isCampaign() && player == Vars.player){
-            block.unitType.unlock();
-        }
+
     }
 
     public MechPad(String name){
@@ -162,6 +161,15 @@ public class MechPad extends Block{
         hasPower = true;
         ambientSound = Sounds.respawning;
         finishedSounds = ClassicSounds.respawn;
+    }
+
+    @Override
+    public void onUnlock() {
+        super.onUnlock();
+
+        if(state.isCampaign()){
+            unitType.unlock();
+        }
     }
 
     public class MechPadBuild extends Building implements ControlBlock{

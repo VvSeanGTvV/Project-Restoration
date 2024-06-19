@@ -1412,6 +1412,7 @@ public class ClassicBlocks {
             requirements(Category.units, with(Items.tungsten, 150, Items.phaseFabric, 100));
 
             size = 3;
+            statusDuration = 60f * 10f;
             consumePower(3f);
 
             droneType = effectDrone;

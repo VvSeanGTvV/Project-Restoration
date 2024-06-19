@@ -17,7 +17,7 @@ public class ExtendedErekirTechTree {
     static TechTree.TechNode context = null;
 
     public static void load() {
-        margeNode(breach, () -> {
+        /*margeNode(breach, () -> {
             node(ClassicBlocks.shieldBreaker, Seq.with(new OnSector(intersect)), () -> {
                 node(ClassicBlocks.barrierProjector,Seq.with(new Objectives.Research(surgeCrucible), new Produce(scrap)), () -> {
 
@@ -26,7 +26,7 @@ public class ExtendedErekirTechTree {
         });
         margeNode(breach, () -> {
 
-        });
+        });*/
 
         margeNode(diffuse, () -> {
             node(fracture, Seq.with(new Objectives.OnSector(aegis)), () -> {
@@ -39,17 +39,21 @@ public class ExtendedErekirTechTree {
         });
 
         margeNode(electricHeater, () -> {
-            node(ClassicBlocks.heatReactor,Seq.with(new Objectives.OnSector(stronghold), new Produce(thorium) ,new Objectives.Research(atmosphericConcentrator), new Produce(nitrogen)), () -> {
-                node(cellSynthesisChamber);
+            node(ClassicBlocks.heatReactor, Seq.with(new Objectives.OnSector(stronghold), new Produce(thorium) ,new Objectives.Research(atmosphericConcentrator), new Produce(nitrogen)), () -> {
+
             });
         });
 
+        margeNode(fluxReactor, () -> {
+            node(cellSynthesisChamber, Seq.with(new Produce(carbide), new Produce(cyanogen), new Produce(phaseFabric)), () -> {});
+        });
+
         margeNode(slagIncinerator, () -> {
-            node(ClassicBlocks.slagCentrifuge,Seq.with(new Objectives.OnSector(crevice), new Produce(carbide), new Produce(Liquids.slag)), () -> {});
+            node(ClassicBlocks.slagCentrifuge,Seq.with(new Objectives.OnSector(crevice), new Produce(Items.sand), new Produce(Liquids.slag)), () -> {});
         });
 
         margeNode(basicAssemblerModule, () -> {
-            node(droneCenter, () -> {});
+            node(droneCenter,Seq.with(new Produce(phaseFabric)), () -> {});
         });
 
         margeNode(carbide, () -> {

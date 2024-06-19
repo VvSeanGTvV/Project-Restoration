@@ -34,7 +34,7 @@ import mindustry.world.blocks.UnitTetherBlock;
 import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatUnit;
 
-import static mindustry.Vars.tilesize;
+import static mindustry.Vars.*;
 
 public class DroneCenterNew extends Block {
 
@@ -48,7 +48,7 @@ public class DroneCenterNew extends Block {
     /** Duration of the currently selected status effect **/
     public float statusDuration = 60f * 2f;
     /** Effect Drone's maximum range **/
-    public float droneRange = 50f*2f;
+    public float droneRange = 52f*2f;
 
     public TextureRegion topRegion;
     public TextureRegion topRegion1;
@@ -83,11 +83,15 @@ public class DroneCenterNew extends Block {
 
         stats.add(ExtendedStat.StatusOutput, table -> {
             table.table(Styles.none, t -> {
-                t.image(status.uiIcon).size(32).pad(2.5f).left().scaling(Scaling.fit);
+                t.image(status.uiIcon).size(40).pad(2.5f).left().scaling(Scaling.fit);
 
                 t.table(info -> {
                     info.add(status.localizedName);
                     info.row();
+                    if(status.permanent){
+                        info.add("Permanent");
+                        return;
+                    }
                     info.add(Strings.autoFixed(statusDuration / 60f, 1) + " " + Core.bundle.get("unit.seconds")).color(Color.lightGray);
                 }).left().pad(10f);
             });

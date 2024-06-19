@@ -83,7 +83,7 @@ public class JumpingAI extends AIController {
                 stopMoving = false;
 
                 if(lH != unit.health){ hitTimer = 0; lH = unit.health; }
-                if(lastHealth != unit.health){
+                if(lastHealth > unit.health){
                     hit = true;
                     stopMoving = true;
                     move = false;
@@ -93,6 +93,9 @@ public class JumpingAI extends AIController {
                         lastHealth = unit.health;
                         hitTimer = 0;
                     }
+                }
+                if(lastHealth < unit.health){
+                    lastHealth = unit.health;
                 }
 
                 if (state.rules.waves && unit.team == state.rules.defaultTeam) {
@@ -119,11 +122,11 @@ public class JumpingAI extends AIController {
                         }
                     }
 
-                    if(Ju.healAmount > 0f && Ju.healRange > 0f){
+                    if(Ju.healPercent / 60f > 0f && Ju.healRange > 0f){
                         var baller = Units.closest(unit.team, unit.x, unit.y, Ju.healRange, u -> u.isValid() && u.health < u.maxHealth);
                         if(baller != null){
                             Fx.heal.at(baller);
-                            baller.heal(Ju.healAmount);
+                            baller.heal(Ju.healPercent / 60f);
                         }
                     }
 
@@ -175,7 +178,9 @@ public class JumpingAI extends AIController {
         for (int x = 0; x < size; x++){
             for (int y = 0; y < size; y++){
                 var v = TileUniformUnitSurround[y][x];
-                if (!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree || v.block() instanceof Prop)) yeet += Mathf.sign(TileUniformUnitSurround[y][x] != null && TileUniformUnitSurround[y][x].build.team != team);
+                if(v != null){
+                    if (!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree || v.block() instanceof Prop)) yeet += Mathf.sign(TileUniformUnitSurround[y][x] != null && TileUniformUnitSurround[y][x].build.team != team);
+                }
             }
         }
         return (yeet >= TileUniformUnitSurround.length);

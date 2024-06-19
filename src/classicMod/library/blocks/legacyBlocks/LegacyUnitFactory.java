@@ -108,6 +108,15 @@ public class LegacyUnitFactory extends Block {
         super.init();
     }
 
+    @Override
+    public void onUnlock() {
+        super.onUnlock();
+
+        if(state.isCampaign()){
+            unitType.unlock();
+        }
+    }
+
     public class LegacyUnitFactoryBuild extends Building implements UnitTetherBlock {
         public float progress, time, speedScl;
         public int FactoryunitCap;

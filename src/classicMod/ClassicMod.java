@@ -71,8 +71,8 @@ public class ClassicMod extends Mod{
                     dialog.cont.table(Styles.grayPanel, Align.bottom, t -> {
                         //t.add("@mod.restored-mind.earlyaccess.title").size(120f).pad(10f).row();
                         t.table(character -> {
-                            character.add("@mod.restored-mind.asmus.name").row();
-                            character.image(Core.atlas.find("restored-mind-asmusAhead")).pad(10f).size(140f).scaling(Scaling.stretch);
+                            character.add("@mod.restored-mind.lucine.name").row();
+                            character.image(Core.atlas.find("restored-mind-lucineSmug")).pad(10f).size(140f).scaling(Scaling.stretch);
                         }).right();
                         t.add("@mod.restored-mind.earlyaccess.text").pad(20f).row();
                         t.button("@ok", dialog::hide).marginRight(10f).size(130f, 50f);
@@ -90,7 +90,7 @@ public class ClassicMod extends Mod{
                 //ui.showOkText("@mod.restored-mind.earlyaccess.title", "@mod.restored-mind.earlyaccess.text", () -> {});
             }
 
-            if(settings.getBool("backward-v5", true)){ //TODO compatible to v5
+            /*if(settings.getBool("backward-v5", true)){
                 if(!settings.getBool("backward-v6", false)){
                     content.blocks().each(b -> {
                         if(b instanceof LegacyUnitFactory block){
@@ -101,7 +101,7 @@ public class ClassicMod extends Mod{
                         }
                     });
                 }
-            }
+            }*/
 
             LoadedMod lastModVer = mods.locateMod("classicv5");
             if (lastModVer != null) {
@@ -176,11 +176,11 @@ public class ClassicMod extends Mod{
             t.checkPref("content-classic", false);
             t.checkPref("content-v4", false);
 
-            if(false) {
+            /*if(false) {
                 t.pref(new Separator("restored-backwards-compatible"));
                 t.checkPref("backward-v5", false); //TODO make some mods backwards compatiblilty with v5
                 t.checkPref("backward-v6", false); //TODO make some mods backwards compatiblilty with v6
-            }
+            }*/
             t.row();
             t.add(resMod.meta.displayName+" - Info").padTop(4f).row();
             t.add("Mod Version: "+ModVersion).row();

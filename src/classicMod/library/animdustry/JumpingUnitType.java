@@ -14,6 +14,11 @@ import mindustry.entities.Effect;
 import mindustry.gen.Unit;
 import mindustry.graphics.Layer;
 import mindustry.type.UnitType;
+import mindustry.world.meta.Stat;
+import mindustry.world.meta.StatUnit;
+import mindustry.world.meta.StatValues;
+
+import static mindustry.Vars.tilesize;
 
 public class JumpingUnitType extends UnitType {
 
@@ -26,7 +31,7 @@ public class JumpingUnitType extends UnitType {
     public Color StompColor = Color.valueOf("ffd27e");
     public boolean StompExplosion = false;
 
-    public float healAmount = 0f;
+    public float healPercent = 0f;
     public float healRange = 0f;
 
     public JumpingUnitType(String name) {
@@ -38,6 +43,16 @@ public class JumpingUnitType extends UnitType {
         outlineColor = Color.black;
         logicControllable = playerControllable = allowedInPayloads = false;
         //lowAltitude = drawCell = isEnemy = false;
+    }
+
+    @Override
+    public void setStats() {
+        stats.add(Stat.health, health);
+        stats.add(Stat.size, StatValues.squared(hitSize / tilesize, StatUnit.blocks));
+        if(healPercent > 0f && healRange > 0f){
+            stats.add(Stat.healing, healPercent);
+            stats.add(Stat.range, StatValues.squared(healRange / tilesize, StatUnit.blocks));
+        }
     }
 
     @Override

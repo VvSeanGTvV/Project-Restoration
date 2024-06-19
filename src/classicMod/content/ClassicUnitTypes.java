@@ -56,7 +56,7 @@ public class ClassicUnitTypes {
 
     azathoth, //Unit - Custom - Old Content [v5]
 
-    alphaChan, crawlerChan, boulderChan, monoChan, octChan //Unit - Old Content [Animdustry]
+    alphaChan, crawlerChan, boulderChan, monoChan, octChan, oxynoeChan //Unit - Old Content [Animdustry]
     ;
 
     public static void load() {
@@ -70,7 +70,7 @@ public class ClassicUnitTypes {
         }};
 
         crawlerChan = new JumpingUnitType("crawlerchan"){{
-            health = 200f;
+            health = 150f;
             hitSize = 10f;
 
             StompColor = Color.valueOf("edadff");
@@ -79,7 +79,7 @@ public class ClassicUnitTypes {
         }};
 
         boulderChan = new JumpingUnitType("boulderchan"){{
-            health = 200f;
+            health = 500f;
             hitSize = 10f;
 
             onlySlide = true; //hehehehehehehehehehheheheheheheheehehehehehehehehehehhehehehehehehehehhehehehehaw
@@ -93,7 +93,7 @@ public class ClassicUnitTypes {
             StompExplosion = true;
             StompColor = Pal.heal;
 
-            healAmount = 10f;
+            healPercent = 10f;
             healRange = 30f;
 
             constructor = MechUnit::create;
@@ -106,8 +106,21 @@ public class ClassicUnitTypes {
             StompExplosion = true;
             StompColor = Pal.heal;
 
-            healAmount = 10f;
-            healRange = 32f;
+            healPercent = 12f;
+            healRange = 40f;
+
+            constructor = MechUnit::create;
+        }};
+
+        oxynoeChan = new JumpingUnitType("oxynoechan"){{
+            health = 200f;
+            hitSize = 10f;
+
+            StompExplosion = true;
+            StompColor = Pal.heal;
+
+            healPercent = 15f;
+            healRange = 50f;
 
             constructor = MechUnit::create;
         }};
