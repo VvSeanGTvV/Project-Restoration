@@ -42,7 +42,7 @@ public class epicCreditsDialog extends Dialog {
     public epicCreditsDialog() {
         super();
         scrollbar = 0f;
-        addCloseButton();
+        //addCloseButton();
 
         in.center();
         in.image(Tex.clear).height(25).padTop(3f).row();
@@ -52,17 +52,18 @@ public class epicCreditsDialog extends Dialog {
         int i = 0;
         while (bundle.has("mod." + resMod.meta.name + "-credits." + i)) {
             in.add(getModBundle.get(resMod.meta.name + "-credits." + i));
+            in.row();
             i++;
         }
-        cont.add(in);
         show();
     }
 
     @Override
     public Element update(Runnable r) {
+        cont.add(in);
         in.setTranslation(0, scrollbar);
-        //in.setTranslation(0, scrollbar);
         scrollbar += 0.01f;
+        cont.clearChildren();
         return super.update(r);
     }
 }
