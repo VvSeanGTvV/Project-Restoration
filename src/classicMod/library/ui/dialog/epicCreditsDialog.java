@@ -59,14 +59,12 @@ public class epicCreditsDialog extends Dialog {
         }
         cont.add(in);
         show();
-    }
-
-    @Override
-    public Element update(Runnable r) {
-        cont.clearChildren();
-        cont.add(in);
-        in.setTranslation(0, scrollbar);
-        scrollbar += 1f;
-        return super.update(r);
+        for (int b = 0; b < 10; b++) {
+            cont.clearChildren();
+            in.setTranslation(0, b);
+            int finalB = b;
+            in.update(() -> setTranslation(0, finalB));
+            cont.add(in);
+        }
     }
 }
