@@ -66,7 +66,7 @@ public class epicCreditsDialog extends Dialog {
         cont.clearChildren();
         cont.add(in);
         in.setTranslation(0, scrollbar);
-        scrollbar += 0.01f;
+        scrollbar += 1f;
         return super.update(r);
     }
 }
