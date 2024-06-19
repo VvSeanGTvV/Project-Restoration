@@ -61,7 +61,8 @@ public class epicCreditsDialog extends Dialog {
 
     @Override
     public Element update(Runnable r) {
-
+        cont.clearChildren();
+        cont.add(in);
         cont.setTranslation(0, scrollbar);
         scrollbar += 0.001f;
         return super.update(r);
