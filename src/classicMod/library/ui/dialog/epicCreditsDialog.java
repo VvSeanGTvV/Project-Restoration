@@ -16,13 +16,13 @@ import java.awt.*;
 import static arc.Core.bundle;
 import static classicMod.ClassicMod.*;
 
-public class epicCreditsDialog extends BaseDialog {
+public class epicCreditsDialog extends Dialog {
     Table in = new Table();
     float scrollbar;
     //ScrollPane pane = new ScrollPane(in);
     //Cell<Table> panel = new Cell<Table>(in);
     public epicCreditsDialog() {
-        super("Credits");
+        super();
         scrollbar = 0f;
         addCloseButton();
 
@@ -37,6 +37,7 @@ public class epicCreditsDialog extends BaseDialog {
             i++;
         }
         in.draw();
+        show();
     }
 
     @Override
