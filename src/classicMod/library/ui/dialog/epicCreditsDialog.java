@@ -8,6 +8,7 @@ import arc.scene.ui.*;
 import arc.scene.ui.Dialog;
 import arc.scene.ui.ScrollPane;
 import arc.scene.ui.layout.*;
+import classicMod.library.ui.UIExtended;
 import mindustry.gen.*;
 import mindustry.ui.Styles;
 import mindustry.ui.dialogs.BaseDialog;
@@ -41,9 +42,19 @@ public class epicCreditsDialog extends Dialog {
 
     public epicCreditsDialog() {
         super();
-        //addCloseButton();
+        addCloseButton();
         /*cont.pane(new Table() {{
+            center();
+            image(Tex.clear).height(25).padTop(3f).row();
+            image(Core.atlas.find("restored-mind-logoMod")).row();
+            image(Tex.clear).height(25f).padTop(3f).row();
 
+            int i = 0;
+            while (bundle.has("mod." + resMod.meta.name + "-credits." + i)) {
+                add(getModBundle.get(resMod.meta.name + "-credits." + i));
+                row();
+                i++;
+            }
         }});*/
 
         in.center();
@@ -59,11 +70,11 @@ public class epicCreditsDialog extends Dialog {
         }
         cont.add(in);
         show();
-        for (int b = 0; b < 10; b++) {
+        for (int b = 0; b < UIExtended.getHeight()*100; b++) {
             cont.clearChildren();
             in.setTranslation(0, b);
             int finalB = b;
-            in.update(() -> setTranslation(0, finalB));
+            in.update(() -> setTranslation(0, (float) finalB /100));
             cont.add(in);
         }
     }
