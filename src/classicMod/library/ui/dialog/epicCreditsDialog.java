@@ -10,6 +10,7 @@ import arc.scene.ui.ScrollPane;
 import arc.scene.ui.layout.*;
 import arc.util.Time;
 import classicMod.library.ui.UIExtended;
+import mindustry.core.UI;
 import mindustry.gen.*;
 import mindustry.ui.Styles;
 import mindustry.ui.dialogs.BaseDialog;
@@ -75,9 +76,9 @@ public class epicCreditsDialog extends Dialog {
 
         for (float b = 0f; b < UIExtended.getHeight(); b += 0.275f  * Time.delta) {
             cont.clearChildren();
-            in.setTranslation(0, b);
-            //float finalB = b;
-            //in.update(() -> setTranslation(0, finalB));
+            //in.setTranslation(0, b);
+            float finalB = b;
+            in.update(() -> setTranslation((float) UIExtended.getWidth() /2, finalB));
             cont.add(in);
         }
     }
