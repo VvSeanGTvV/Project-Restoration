@@ -158,19 +158,21 @@ public class ClassicMod extends Mod{
 
     public void printFileContent(String filePath) throws FileNotFoundException
     {
-        try (ZipFile zipFile = new JarFile(filePath)) {
+        try (ZipFile zipFile = new ZipFile(filePath)) {
+            Log.info(zipFile);
             Enumeration<? extends ZipEntry> entries = zipFile.entries();
             while (entries.hasMoreElements()) {
                 ZipEntry entry = entries.nextElement();
                 // Check if entry is a directory
                 if (!entry.isDirectory()) {
                     if(entry.getName().equals("mindustry-contributors.txt")) {
+                        Log.info(entry);
                         try (InputStream inputStream = zipFile.getInputStream(entry);
                              Scanner scanner = new Scanner(inputStream);) {
 
                             while (scanner.hasNextLine()) {
                                 String line = scanner.nextLine();
-                                System.out.println(line);
+                                Log.info(line);
                             }
                         }
                     }
