@@ -93,7 +93,7 @@ public class epicCreditsDialog extends Dialog {
     public void act(float delta) {
         super.act(delta);
         float maxScroll = 3.28f * Core.camera.height;
-        float barDef = (UIExtended.getHeight() + in.getRows()) * maxScroll;
+        float barDef = (UIExtended.getHeight() + in.getRows());
         //float maxY = in.ge();
         scrollbar += 1.25f  * Time.delta;
         cont.clearChildren();
