@@ -77,7 +77,7 @@ public class epicCreditsDialog extends Dialog {
     @Override
     public void act(float delta) {
         super.act(delta);
-        float maxScroll = 3.85f;
+        float maxScroll = ((float) UIExtended.getWidth() / UIExtended.getHeight());
         scrollbar += 1.25f  * Time.delta;
         cont.clearChildren();
         //in.setTranslation(0, b);;
