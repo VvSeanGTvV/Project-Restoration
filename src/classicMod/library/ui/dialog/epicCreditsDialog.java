@@ -8,6 +8,7 @@ import arc.scene.ui.*;
 import arc.scene.ui.Dialog;
 import arc.scene.ui.ScrollPane;
 import arc.scene.ui.layout.*;
+import arc.util.Align;
 import arc.util.Time;
 import classicMod.library.ui.UIExtended;
 import mindustry.core.UI;
@@ -77,13 +78,14 @@ public class epicCreditsDialog extends Dialog {
     public void act(float delta) {
         super.act(delta);
         float maxScroll = 1.28f * ((float) UIExtended.getWidth() / UIExtended.getHeight());
-        float maxY = in.getMaxHeight();
+        float barDef = UIExtended.getHeight();
+        //float maxY = in.ge();
         scrollbar += 1.25f  * Time.delta;
         cont.clearChildren();
         //in.setTranslation(0, b);;
-        in.update(() -> setTranslation((float) 0, scrollbar - (UIExtended.getHeight() + this.getHeight())));
+        in.update(() -> setTranslation((float) 0, scrollbar - (barDef)));
         cont.update(() -> {setTranslation(0, 0); setBackground(Styles.black);});
-        cont.add(in);
-        if(scrollbar >= (UIExtended.getHeight() + this.getHeight())) this.hide();
+        cont.add(in).align(Align.bottom);
+        if(scrollbar >= ((barDef * 2f))) this.hide();
     }
 }
