@@ -2,6 +2,7 @@ package classicMod.library.ui.dialog;
 
 import arc.Core;
 import arc.func.Cons;
+import arc.graphics.Camera;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.scene.*;
@@ -15,6 +16,7 @@ import arc.util.Align;
 import arc.util.Scaling;
 import arc.util.Time;
 import classicMod.library.ui.UIExtended;
+import mindustry.Vars;
 import mindustry.core.UI;
 import mindustry.gen.*;
 import mindustry.graphics.Pal;
@@ -31,7 +33,7 @@ public class epicCreditsDialog extends Dialog {
 
     Image i = new Image(new TextureRegionDrawable(Core.atlas.find("restored-mind-logoMod")), Scaling.fit);
     Table in = new Table(){{
-        add(i).size(240f).row();
+        add(i).size(540f).row();
         row();
         //image(Tex.clear).height(25).padTop(3f).row();
         //image(Core.atlas.find("restored-mind-logoMod")).row();
@@ -90,8 +92,8 @@ public class epicCreditsDialog extends Dialog {
     @Override
     public void act(float delta) {
         super.act(delta);
-        float maxScroll = 1.28f + ((float) UIExtended.getWidth() / UIExtended.getHeight());
-        float barDef = UIExtended.getHeight() * maxScroll;
+        float maxScroll = 3.28f * Core.camera.height;
+        float barDef = (UIExtended.getHeight() + in.getRows()) * maxScroll;
         //float maxY = in.ge();
         scrollbar += 1.25f  * Time.delta;
         cont.clearChildren();
