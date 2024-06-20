@@ -22,7 +22,9 @@ import mindustry.ui.fragments.*;
 
 import java.io.*;
 import java.util.Scanner;
+import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 import static arc.Core.*;
@@ -173,11 +175,23 @@ public class ClassicMod extends Mod{
             Zs = new ZipInputStream(
                     new BufferedInputStream(fs));
 
+            ZipFile zipFile = new ZipFile(filePath);
+
             // Loop to read and print the zip file name till
             // the end
             while ((ze = Zs.getNextEntry()) != null) {
-                Log.info(ze.getName());
-                //System.out.println(ze.getName());
+                //Log.info(ze.getName());
+                if(ze.getName() == "mindustry-contributors.txt"){
+                    try (InputStream inputStream = zipFile.getInputStream(ze);
+                         Scanner scanner = new Scanner(inputStream);) {
+
+                        while (scanner.hasNextLine()) {
+                            String line = scanner.nextLine();
+                            Log.info(line);
+                        }
+                    }
+                    break;
+                }
             }
 
             // Closing the file connection
