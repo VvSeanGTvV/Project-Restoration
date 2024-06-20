@@ -32,29 +32,37 @@ import static classicMod.ClassicMod.*;
 public class epicCreditsDialog extends Dialog {
 
     Image i = new Image(new TextureRegionDrawable(Core.atlas.find("restored-mind-logoMod")), Scaling.fit);
+
+    float rowList;
     Table in = new Table(){{
+        rowList = 0;
         add(i).size(540f).row();
         row();
+        rowList++;
         //image(Tex.clear).height(25).padTop(3f).row();
         //image(Core.atlas.find("restored-mind-logoMod")).row();
         //image(Tex.clear).height(25f).padTop(3f).row();
 
         add(bundle.get("credits.text")).row();
+        rowList++;
 
         int i = 0;
         while (bundle.has("mod." + resMod.meta.name + "-credits." + i)) {
             add(getModBundle.get(resMod.meta.name + "-credits." + i));
             row();
+            rowList++;
             i++;
         }
 
         add(bundle.get("contributors"));
         image(Tex.clear).height(55).padTop(3f).row();
+        rowList++;
 
         if(!contributors.isEmpty()){
             contributors.each(a -> {
                 add(a);
                 row();
+                rowList++;
             });
         }
     }};
@@ -93,14 +101,15 @@ public class epicCreditsDialog extends Dialog {
     public void act(float delta) {
         super.act(delta);
         float maxScroll = 3.28f * Core.camera.height;
-        float barDef = (UIExtended.getHeight() + in.getRows());
+        float halfRow = rowList / 2;
+        float barDef = (Core.camera.height * maxScroll);
         //float maxY = in.ge();
-        scrollbar += 1.25f  * Time.delta;
-        cont.clearChildren();
+        scrollbar += 1.25f * delta;
+        //cont.clearChildren();
         //in.setTranslation(0, b);;
         in.update(() -> setTranslation((float) 0, scrollbar - (barDef)));
-        cont.update(() -> {setTranslation(0, 0); setBackground(Styles.black);});
-        cont.add(in);
+        //cont.update(() -> {setTranslation(0, 0); setBackground(Styles.black);});
+        //cont.add(in);
         setStyle(baller);
         if(scrollbar >= ((barDef * 2f))) this.hide();
 
