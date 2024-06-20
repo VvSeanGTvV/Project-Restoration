@@ -85,8 +85,8 @@ public class epicCreditsDialog extends Dialog {
         //in.setTranslation(0, b);;
         in.update(() -> setTranslation((float) 0, scrollbar - (barDef)));
         cont.update(() -> {setTranslation(0, 0); setBackground(Styles.black);});
-        cont.add(in).bottom();
-        cont.keepInStage();
+        cont.add(in);
+        setBackground(Styles.none);
         if(scrollbar >= ((barDef * 2f))) this.hide();
     }
 }
