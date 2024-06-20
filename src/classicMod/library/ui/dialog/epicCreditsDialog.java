@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 import static arc.Core.bundle;
 import static classicMod.ClassicMod.*;
 
-public class epicCreditsDialog extends BaseDialog {
+public class epicCreditsDialog extends Dialog {
     Table in = new Table();
     float scrollbar = 0f;
 
@@ -41,11 +41,11 @@ public class epicCreditsDialog extends BaseDialog {
         addCloseButton(210f);
     }*/
 
-    ScrollPane pane = new ScrollPane(in);
+    //ScrollPane pane = new ScrollPane(in);
 
     public epicCreditsDialog() throws InterruptedException {
-        super("Credits");
-        addCloseButton();
+        super();
+        //addCloseButton();
         in.add(new Table() {{
             center();
             image(Tex.clear).height(25).padTop(3f).row();
@@ -71,40 +71,18 @@ public class epicCreditsDialog extends BaseDialog {
                 });
             }
         }});
-        //cont.pane(in).growX();
-
         show();
-
-        /*in.center();
-        in.image(Tex.clear).height(25).padTop(3f).row();
-        in.image(Core.atlas.find("restored-mind-logoMod")).row();
-        in.image(Tex.clear).height(25f).padTop(3f).row();
-
-        int i = 0;
-        while (bundle.has("mod." + resMod.meta.name + "-credits." + i)) {
-            in.add(getModBundle.get(resMod.meta.name + "-credits." + i));
-            in.row();
-            i++;
-        }
-        cont.add(in);
-
-        for (float b = 0f; b < UIExtended.getHeight(); b += 0.275f  * Time.delta) {
-            cont.clearChildren();
-            //in.setTranslation(0, b);
-            float finalB = b;
-            in.update(() -> setTranslation((float) UIExtended.getWidth() /2, finalB));
-            cont.add(in);
-        }*/
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-
+        float maxScroll = 550f;
         scrollbar += 2f  * Time.delta;
         cont.clearChildren();
         //in.setTranslation(0, b);;
-        in.update(() -> setTranslation((float) 0, (UIExtended.getHeight()) - scrollbar));
+        in.update(() -> setTranslation((float) 0, scrollbar - (UIExtended.getHeight() + maxScroll)));
         cont.add(in);
+        if(scrollbar >= (UIExtended.getHeight() + maxScroll)) this.hide();
     }
 }
