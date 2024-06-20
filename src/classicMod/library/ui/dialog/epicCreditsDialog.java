@@ -20,11 +20,11 @@ import java.awt.*;
 import static arc.Core.bundle;
 import static classicMod.ClassicMod.*;
 
-public class epicCreditsDialog extends Dialog {
+public class epicCreditsDialog extends BaseDialog {
     Table in = new Table();
     float scrollbar = 0f;
 
-    public void addCloseListener(){
+    /*public void addCloseListener(){
         closeOnBack();
     }
 
@@ -38,12 +38,12 @@ public class epicCreditsDialog extends Dialog {
     @Override
     public void addCloseButton(){
         addCloseButton(210f);
-    }
+    }*/
 
     ScrollPane pane = new ScrollPane(in);
 
     public epicCreditsDialog() {
-        super();
+        super("Credits");
         addCloseButton();
         cont.pane(new Table() {{
             center();
@@ -71,7 +71,7 @@ public class epicCreditsDialog extends Dialog {
                 contributors.clear();
             }
 
-        }});
+        }}).growX();
 
         show();
 
