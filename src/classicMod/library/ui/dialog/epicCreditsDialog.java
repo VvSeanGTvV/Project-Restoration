@@ -45,13 +45,14 @@ public class epicCreditsDialog extends BaseDialog {
     public epicCreditsDialog() {
         super("Credits");
         addCloseButton();
-        cont.pane(new Table() {{
+
+        in.add(new Table() {{
             center();
             image(Tex.clear).height(25).padTop(3f).row();
             image(Core.atlas.find("restored-mind-logoMod")).row();
             image(Tex.clear).height(25f).padTop(3f).row();
 
-            add(bundle.get("credits.text"));
+            add(bundle.get("credits.text")).row();
 
             int i = 0;
             while (bundle.has("mod." + resMod.meta.name + "-credits." + i)) {
@@ -61,7 +62,7 @@ public class epicCreditsDialog extends BaseDialog {
             }
 
             add(bundle.get("contributors"));
-            image(Tex.clear).height(25).padTop(3f).row();
+            image(Tex.clear).height(55).padTop(3f).row();
 
             if(!contributors.isEmpty()){
                 contributors.each(a -> {
@@ -70,8 +71,16 @@ public class epicCreditsDialog extends BaseDialog {
                 });
                 contributors.clear();
             }
+        }});
+        //cont.pane(in).growX();
 
-        }}).growX();
+        for (float b = 0f; b < 1f; b += 0.000275f  * Time.delta) {
+            cont.clearChildren();
+            //in.setTranslation(0, b);
+            float finalB = b;
+            in.update(() -> setTranslation((float) 0, finalB));
+            cont.add(in);
+        }
 
         show();
 
