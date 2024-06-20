@@ -221,13 +221,7 @@ public class ClassicMod extends Mod{
                 t.checkPref("backward-v5", false); //TODO make some mods backwards compatiblilty with v5
                 t.checkPref("backward-v6", false); //TODO make some mods backwards compatiblilty with v6
             }*/
-            t.pref(new UIExtended.ButtonSetting(Core.bundle.get("credits"), Icon.info, ()->{
-                try {
-                    new epicCreditsDialog();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }, 32));
+            t.pref(new UIExtended.ButtonSetting(Core.bundle.get("credits"), Icon.info, epicCreditsDialog::new, 32));
             t.row();
             t.add(resMod.meta.displayName+" - Info").padTop(4f).row();
             t.add("Mod Version: "+ModVersion).row();

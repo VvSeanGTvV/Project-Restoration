@@ -67,7 +67,7 @@ public class epicCreditsDialog extends Dialog {
 
     //ScrollPane pane = new ScrollPane(in);
 
-    public epicCreditsDialog() throws InterruptedException {
+    public epicCreditsDialog() {
         super();
         //addCloseButton();
         show();
@@ -81,9 +81,9 @@ public class epicCreditsDialog extends Dialog {
         scrollbar += 1.25f  * Time.delta;
         cont.clearChildren();
         //in.setTranslation(0, b);;
-        in.update(() -> setTranslation((float) 0, scrollbar - (UIExtended.getHeight() + maxY)));
+        in.update(() -> setTranslation((float) 0, scrollbar - (UIExtended.getHeight() + this.getHeight())));
         cont.update(() -> {setTranslation(0, 0); setBackground(Styles.black);});
         cont.add(in);
-        if(scrollbar >= (UIExtended.getHeight() + maxY)) this.hide();
+        if(scrollbar >= (UIExtended.getHeight() + this.getHeight())) this.hide();
     }
 }
