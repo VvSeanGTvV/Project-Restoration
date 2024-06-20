@@ -2,6 +2,8 @@ package classicMod.library.ui.dialog;
 
 import arc.Core;
 import arc.func.Cons;
+import arc.graphics.Color;
+import arc.graphics.g2d.Draw;
 import arc.scene.*;
 import arc.scene.style.*;
 import arc.scene.ui.*;
@@ -13,6 +15,7 @@ import arc.util.Time;
 import classicMod.library.ui.UIExtended;
 import mindustry.core.UI;
 import mindustry.gen.*;
+import mindustry.graphics.Pal;
 import mindustry.ui.Styles;
 import mindustry.ui.dialogs.BaseDialog;
 
@@ -92,5 +95,17 @@ public class epicCreditsDialog extends Dialog {
         cont.add(in);
         setStyle(baller);
         if(scrollbar >= ((barDef * 2f))) this.hide();
+
+
+
+    }
+
+    @Override
+    public void draw() {
+        var whiteui = (TextureRegionDrawable)Tex.whiteui;
+        whiteui.tint(Pal.coalBlack);
+        Draw.color(color.r, color.g, color.b, color.a * parentAlpha);
+        whiteui.draw(x, y, width, height);
+        super.draw();
     }
 }
