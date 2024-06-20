@@ -73,14 +73,6 @@ public class epicCreditsDialog extends BaseDialog {
         }});
         //cont.pane(in).growX();
 
-        update(() -> {
-            scrollbar += 0.000275f  * Time.delta;
-            cont.clearChildren();
-            //in.setTranslation(0, b);;
-            in.update(() -> setTranslation((float) 0, scrollbar - UIExtended.getHeight()));
-            cont.add(in);
-        });
-
         show();
 
         /*in.center();
@@ -103,5 +95,16 @@ public class epicCreditsDialog extends BaseDialog {
             in.update(() -> setTranslation((float) UIExtended.getWidth() /2, finalB));
             cont.add(in);
         }*/
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+
+        scrollbar += 0.000275f  * Time.delta;
+        cont.clearChildren();
+        //in.setTranslation(0, b);;
+        in.update(() -> setTranslation((float) 0, scrollbar - UIExtended.getHeight()));
+        cont.add(in);
     }
 }
