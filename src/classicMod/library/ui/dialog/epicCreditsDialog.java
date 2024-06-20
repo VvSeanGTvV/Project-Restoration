@@ -8,9 +8,11 @@ import arc.scene.*;
 import arc.scene.style.*;
 import arc.scene.ui.*;
 import arc.scene.ui.Dialog;
+import arc.scene.ui.Image;
 import arc.scene.ui.ScrollPane;
 import arc.scene.ui.layout.*;
 import arc.util.Align;
+import arc.util.Scaling;
 import arc.util.Time;
 import classicMod.library.ui.UIExtended;
 import mindustry.core.UI;
@@ -26,10 +28,13 @@ import static arc.Core.bundle;
 import static classicMod.ClassicMod.*;
 
 public class epicCreditsDialog extends Dialog {
+
+    Image i = new Image(new TextureRegionDrawable(Core.atlas.find(name)), Scaling.fit);
     Table in = new Table(){{
-        image(Tex.clear).height(25).padTop(3f).row();
-        image(Core.atlas.find("restored-mind-logoMod")).row();
-        image(Tex.clear).height(25f).padTop(3f).row();
+        add(i);
+        //image(Tex.clear).height(25).padTop(3f).row();
+        //image(Core.atlas.find("restored-mind-logoMod")).row();
+        //image(Tex.clear).height(25f).padTop(3f).row();
 
         add(bundle.get("credits.text")).row();
 
@@ -102,9 +107,6 @@ public class epicCreditsDialog extends Dialog {
 
     @Override
     public void draw() {
-        var whiteui = (TextureRegionDrawable)Tex.whiteui;
-        whiteui.tint(Pal.coalBlack);
-        Draw.color(color.r, color.g, color.b, color.a * parentAlpha);
         Styles.black.draw(0, 0, UIExtended.getWidth(), UIExtended.getHeight());
         super.draw();
     }
