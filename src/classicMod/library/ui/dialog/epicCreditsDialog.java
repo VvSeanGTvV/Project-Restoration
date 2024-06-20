@@ -25,7 +25,7 @@ public class epicCreditsDialog extends Dialog {
     Table in = new Table();
     float scrollbar = 0f;
 
-    /*public void addCloseListener(){
+    public void addCloseListener(){
         closeOnBack();
     }
 
@@ -39,7 +39,7 @@ public class epicCreditsDialog extends Dialog {
     @Override
     public void addCloseButton(){
         addCloseButton(210f);
-    }*/
+    }
 
     //ScrollPane pane = new ScrollPane(in);
 
@@ -77,12 +77,12 @@ public class epicCreditsDialog extends Dialog {
     @Override
     public void act(float delta) {
         super.act(delta);
-        float maxScroll = 550f;
-        scrollbar += 2f  * Time.delta;
+        float maxScroll = 750f;
+        scrollbar += 1.25f  * Time.delta;
         cont.clearChildren();
         //in.setTranslation(0, b);;
         in.update(() -> setTranslation((float) 0, scrollbar - (UIExtended.getHeight() + maxScroll)));
         cont.add(in);
-        if(scrollbar >= (UIExtended.getHeight() + maxScroll)) this.hide();
+        if(scrollbar >= (UIExtended.getHeight() + maxScroll * 2)) this.hide();
     }
 }
