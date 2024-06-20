@@ -101,10 +101,10 @@ public class epicCreditsDialog extends BaseDialog {
     public void act(float delta) {
         super.act(delta);
 
-        scrollbar += 0.5f  * Time.delta;
+        scrollbar += 2f  * Time.delta;
         cont.clearChildren();
         //in.setTranslation(0, b);;
-        in.update(() -> setTranslation((float) 0, (UIExtended.getHeight() + table().maxHeight()) - scrollbar));
+        in.update(() -> setTranslation((float) 0, (UIExtended.getHeight()) - scrollbar));
         cont.add(in);
     }
 }
