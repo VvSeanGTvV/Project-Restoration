@@ -29,7 +29,7 @@ import static classicMod.ClassicMod.*;
 
 public class epicCreditsDialog extends Dialog {
 
-    Image i = new Image(new TextureRegionDrawable(Core.atlas.find(name)), Scaling.fit);
+    Image i = new Image(new TextureRegionDrawable(Core.atlas.find("restored-mind-logoMod")), Scaling.fit);
     Table in = new Table(){{
         add(i);
         //image(Tex.clear).height(25).padTop(3f).row();
