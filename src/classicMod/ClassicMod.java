@@ -21,6 +21,7 @@ import mindustry.ui.Styles;
 import mindustry.ui.fragments.*;
 
 import java.io.*;
+import java.util.Enumeration;
 import java.util.Scanner;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
@@ -157,55 +158,26 @@ public class ClassicMod extends Mod{
 
     public void printFileContent(String filePath) throws FileNotFoundException
     {
+        try (ZipFile zipFile = new JarFile(filePath)) {
+            Enumeration<? extends ZipEntry> entries = zipFile.entries();
+            while (entries.hasMoreElements()) {
+                ZipEntry entry = entries.nextElement();
+                // Check if entry is a directory
+                if (!entry.isDirectory()) {
+                    if(entry.getName().equals("mindustry-contributors.txt")) {
+                        try (InputStream inputStream = zipFile.getInputStream(entry);
+                             Scanner scanner = new Scanner(inputStream);) {
 
-        // Creating objects for the classes and
-        // initializing them to null
-        FileInputStream fs = null;
-        ZipInputStream Zs = null;
-        ZipEntry ze = null;
-
-        // Try block to handle if exception occurs
-        try {
-
-            // Display message when program compiles
-            // successfully
-            //System.out.println("Files in the zip are as follows: ");
-
-            fs = new FileInputStream(filePath);
-            Zs = new ZipInputStream(
-                    new BufferedInputStream(fs));
-
-            ZipFile zipFile = new ZipFile(filePath);
-
-            // Loop to read and print the zip file name till
-            // the end
-            while ((ze = Zs.getNextEntry()) != null) {
-                //Log.info(ze.getName());
-                if(ze.getName() == "mindustry-contributors.txt"){
-                    try (InputStream inputStream = zipFile.getInputStream(ze);
-                         Scanner scanner = new Scanner(inputStream);) {
-
-                        while (scanner.hasNextLine()) {
-                            String line = scanner.nextLine();
-                            Log.info(line);
+                            while (scanner.hasNextLine()) {
+                                String line = scanner.nextLine();
+                                System.out.println(line);
+                            }
                         }
                     }
-                    break;
                 }
             }
-
-            // Closing the file connection
-            Zs.close();
-        }
-
-        // Catch block to handle if any exception related
-        // to file handling occurs
-        // Catch block to handle generic exceptions
-        catch (IOException ie) {
-
-            // Print the line line and exception
-            // of the program where it occurred
-            ie.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
