@@ -69,16 +69,15 @@ public class epicCreditsDialog extends BaseDialog {
                     add(a);
                     row();
                 });
-                contributors.clear();
             }
         }});
         //cont.pane(in).growX();
 
-        for (float b = 0f; b < 1f; b += 0.000275f  * Time.delta) {
+        for (float b = 0f; b < UIExtended.getHeight() * 2; b += 0.000275f  * Time.delta) {
             cont.clearChildren();
             //in.setTranslation(0, b);
             float finalB = b;
-            in.update(() -> setTranslation((float) 0, finalB));
+            in.update(() -> setTranslation((float) 0, finalB - UIExtended.getHeight()));
             cont.add(in);
         }
 
