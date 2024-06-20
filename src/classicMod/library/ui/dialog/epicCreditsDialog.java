@@ -46,7 +46,6 @@ public class epicCreditsDialog extends BaseDialog {
     public epicCreditsDialog() throws InterruptedException {
         super("Credits");
         addCloseButton();
-
         in.add(new Table() {{
             center();
             image(Tex.clear).height(25).padTop(3f).row();
@@ -74,14 +73,13 @@ public class epicCreditsDialog extends BaseDialog {
         }});
         //cont.pane(in).growX();
 
-        for (float b = 0f; b < UIExtended.getHeight() * 2; b += 0.000275f  * Time.delta) {
+        update(() -> {
+            scrollbar += 0.000275f  * Time.delta;
             cont.clearChildren();
-            //in.setTranslation(0, b);
-            float finalB = b;
-            in.update(() -> setTranslation((float) 0, finalB - UIExtended.getHeight()));
+            //in.setTranslation(0, b);;
+            in.update(() -> setTranslation((float) 0, scrollbar - UIExtended.getHeight()));
             cont.add(in);
-            TimeUnit.MILLISECONDS.sleep(500);
-        }
+        });
 
         show();
 
