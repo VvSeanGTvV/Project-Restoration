@@ -48,9 +48,9 @@ public class epicCreditsDialog extends Dialog {
         //addCloseButton();
         in.add(new Table() {{
             center();
-            image(Tex.clear).height(25).padTop(3f).row();
-            image(Core.atlas.find("restored-mind-logoMod")).row();
-            image(Tex.clear).height(25f).padTop(3f).row();
+            in.image(Tex.clear).height(25).padTop(3f).row();
+            in.image(Core.atlas.find("restored-mind-logoMod")).row();
+            in.image(Tex.clear).height(25f).padTop(3f).row();
 
             add(bundle.get("credits.text")).row();
 
@@ -77,7 +77,7 @@ public class epicCreditsDialog extends Dialog {
     @Override
     public void act(float delta) {
         super.act(delta);
-        float maxScroll = 4f;
+        float maxScroll = 3.85f;
         scrollbar += 1.25f  * Time.delta;
         cont.clearChildren();
         //in.setTranslation(0, b);;
