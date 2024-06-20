@@ -22,7 +22,31 @@ import static arc.Core.bundle;
 import static classicMod.ClassicMod.*;
 
 public class epicCreditsDialog extends Dialog {
-    Table in = new Table();
+    Table in = new Table(){{
+        image(Tex.clear).height(25).padTop(3f).row();
+        image(Core.atlas.find("restored-mind-logoMod")).row();
+        image(Tex.clear).height(25f).padTop(3f).row();
+
+        add(bundle.get("credits.text")).row();
+
+        int i = 0;
+        while (bundle.has("mod." + resMod.meta.name + "-credits." + i)) {
+            add(getModBundle.get(resMod.meta.name + "-credits." + i));
+            row();
+            i++;
+        }
+
+        add(bundle.get("contributors"));
+        image(Tex.clear).height(55).padTop(3f).row();
+
+        if(!contributors.isEmpty()){
+            contributors.each(a -> {
+                add(a);
+                row();
+            });
+        }
+    }};
+    Table imageLogo = new Table();
     float scrollbar = 0f;
 
     public void addCloseListener(){
@@ -46,31 +70,6 @@ public class epicCreditsDialog extends Dialog {
     public epicCreditsDialog() throws InterruptedException {
         super();
         //addCloseButton();
-        in.add(new Table() {{
-            center();
-            in.image(Tex.clear).height(25).padTop(3f).row();
-            in.image(Core.atlas.find("restored-mind-logoMod")).row();
-            in.image(Tex.clear).height(25f).padTop(3f).row();
-
-            add(bundle.get("credits.text")).row();
-
-            int i = 0;
-            while (bundle.has("mod." + resMod.meta.name + "-credits." + i)) {
-                add(getModBundle.get(resMod.meta.name + "-credits." + i));
-                row();
-                i++;
-            }
-
-            add(bundle.get("contributors"));
-            image(Tex.clear).height(55).padTop(3f).row();
-
-            if(!contributors.isEmpty()){
-                contributors.each(a -> {
-                    add(a);
-                    row();
-                });
-            }
-        }});
         show();
     }
 
@@ -78,12 +77,13 @@ public class epicCreditsDialog extends Dialog {
     public void act(float delta) {
         super.act(delta);
         float maxScroll = 1.28f * ((float) UIExtended.getWidth() / UIExtended.getHeight());
+        float maxY = in.getMaxHeight();
         scrollbar += 1.25f  * Time.delta;
         cont.clearChildren();
         //in.setTranslation(0, b);;
-        in.update(() -> setTranslation((float) 0, scrollbar - (UIExtended.getHeight() * maxScroll)));
+        in.update(() -> setTranslation((float) 0, scrollbar - (UIExtended.getHeight() + maxY)));
         cont.update(() -> {setTranslation(0, 0); setBackground(Styles.black);});
         cont.add(in);
-        if(scrollbar >= (UIExtended.getHeight() * maxScroll)) this.hide();
+        if(scrollbar >= (UIExtended.getHeight() + maxY)) this.hide();
     }
 }
