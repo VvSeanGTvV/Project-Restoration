@@ -16,6 +16,7 @@ import mindustry.ui.Styles;
 import mindustry.ui.dialogs.BaseDialog;
 
 import java.awt.*;
+import java.util.concurrent.TimeUnit;
 
 import static arc.Core.bundle;
 import static classicMod.ClassicMod.*;
@@ -42,7 +43,7 @@ public class epicCreditsDialog extends BaseDialog {
 
     ScrollPane pane = new ScrollPane(in);
 
-    public epicCreditsDialog() {
+    public epicCreditsDialog() throws InterruptedException {
         super("Credits");
         addCloseButton();
 
@@ -79,7 +80,7 @@ public class epicCreditsDialog extends BaseDialog {
             float finalB = b;
             in.update(() -> setTranslation((float) 0, finalB - UIExtended.getHeight()));
             cont.add(in);
-            for (float ti = 0; ti < 100f; ti += 0.0275f  * Time.delta);
+            TimeUnit.MILLISECONDS.sleep(500);
         }
 
         show();
