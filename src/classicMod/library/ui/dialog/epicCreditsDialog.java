@@ -105,11 +105,11 @@ public class epicCreditsDialog extends Dialog {
         float barDef = (Core.camera.height * maxScroll);
         //float maxY = in.ge();
         scrollbar += 1.25f * delta;
-        //cont.clearChildren();
+        cont.clearChildren();
         //in.setTranslation(0, b);;
         in.update(() -> setTranslation((float) 0, scrollbar - (barDef)));
         //cont.update(() -> {setTranslation(0, 0); setBackground(Styles.black);});
-        //cont.add(in);
+        cont.add(in);
         setStyle(baller);
         if(scrollbar >= ((barDef * 2f))) this.hide();
 
