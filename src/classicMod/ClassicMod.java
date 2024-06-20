@@ -20,9 +20,10 @@ import mindustry.type.UnitType;
 import mindustry.ui.Styles;
 import mindustry.ui.fragments.*;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.Scanner;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import static arc.Core.*;
 import static classicMod.library.ui.menu.MenuUI.*;
@@ -61,7 +62,7 @@ public class ClassicMod extends Mod{
             } catch (FileNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
-            
+
             if (!ignoreWarning) {
                 Time.runTask(10f, () -> {
                     Dialog dialog = new Dialog();
@@ -142,11 +143,57 @@ public class ClassicMod extends Mod{
 
     public void readA() throws FileNotFoundException {
 
-        File myObj = new File(resMod.file.absolutePath()+"/mindustry-contributors.txt");
+        printFileContent(resMod.file.absolutePath());
+
+        /*File myObj = new File(resMod.file.absolutePath()+"/mindustry-contributors.txt");
         Scanner myReader = new Scanner(myObj);
         while (myReader.hasNextLine()) {
             String data = myReader.nextLine();
             Log.info(data);
+        }*/
+    }
+
+    public void printFileContent(String filePath) throws FileNotFoundException
+    {
+
+        // Creating objects for the classes and
+        // initializing them to null
+        FileInputStream fs = null;
+        ZipInputStream Zs = null;
+        ZipEntry ze = null;
+
+        // Try block to handle if exception occurs
+        try {
+
+            // Display message when program compiles
+            // successfully
+            //System.out.println("Files in the zip are as follows: ");
+
+            fs = new FileInputStream(filePath);
+            Zs = new ZipInputStream(
+                    new BufferedInputStream(fs));
+
+            // Loop to read and print the zip file name till
+            // the end
+            while ((ze = Zs.getNextEntry()) != null) {
+                Log.info(ze.getName());
+                //System.out.println(ze.getName());
+            }
+
+            // Closing the file connection
+            Zs.close();
+        }
+
+        // Catch block to handle if any exception related
+        // to file handling occurs
+        // Catch block to handle generic exceptions
+        catch (IOException ie) {
+
+            // Print the line line and exception
+            // of the program where it occurred
+            ie.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
