@@ -31,7 +31,8 @@ public class epicCreditsDialog extends Dialog {
 
     Image i = new Image(new TextureRegionDrawable(Core.atlas.find("restored-mind-logoMod")), Scaling.fit);
     Table in = new Table(){{
-        add(i);
+        add(i).size(240f).row();
+        row();
         //image(Tex.clear).height(25).padTop(3f).row();
         //image(Core.atlas.find("restored-mind-logoMod")).row();
         //image(Tex.clear).height(25f).padTop(3f).row();
@@ -89,7 +90,7 @@ public class epicCreditsDialog extends Dialog {
     @Override
     public void act(float delta) {
         super.act(delta);
-        float maxScroll = 1.28f * ((float) UIExtended.getWidth() / UIExtended.getHeight());
+        float maxScroll = 1.28f + ((float) UIExtended.getWidth() / UIExtended.getHeight());
         float barDef = UIExtended.getHeight() * maxScroll;
         //float maxY = in.ge();
         scrollbar += 1.25f  * Time.delta;
