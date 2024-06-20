@@ -74,6 +74,10 @@ public class epicCreditsDialog extends Dialog {
         show();
     }
 
+    DialogStyle baller = new DialogStyle(){{
+       background = Styles.none;
+    }};
+
     @Override
     public void act(float delta) {
         super.act(delta);
@@ -86,7 +90,7 @@ public class epicCreditsDialog extends Dialog {
         in.update(() -> setTranslation((float) 0, scrollbar - (barDef)));
         cont.update(() -> {setTranslation(0, 0); setBackground(Styles.black);});
         cont.add(in);
-        setBackground(Styles.none);
+        setStyle(baller);
         if(scrollbar >= ((barDef * 2f))) this.hide();
     }
 }
