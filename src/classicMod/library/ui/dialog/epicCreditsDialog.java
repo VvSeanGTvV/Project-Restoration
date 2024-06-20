@@ -105,7 +105,7 @@ public class epicCreditsDialog extends Dialog {
         var whiteui = (TextureRegionDrawable)Tex.whiteui;
         whiteui.tint(Pal.coalBlack);
         Draw.color(color.r, color.g, color.b, color.a * parentAlpha);
-        whiteui.draw(0, 0, 150, 150);
+        Styles.black.draw(0, 0, UIExtended.getWidth(), UIExtended.getHeight());
         super.draw();
     }
 }
