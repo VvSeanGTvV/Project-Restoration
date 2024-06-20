@@ -51,12 +51,26 @@ public class epicCreditsDialog extends Dialog {
             image(Core.atlas.find("restored-mind-logoMod")).row();
             image(Tex.clear).height(25f).padTop(3f).row();
 
+            add(bundle.get("credits.text"));
+
             int i = 0;
             while (bundle.has("mod." + resMod.meta.name + "-credits." + i)) {
                 add(getModBundle.get(resMod.meta.name + "-credits." + i));
                 row();
                 i++;
             }
+
+            add(bundle.get("contributors"));
+            image(Tex.clear).height(25).padTop(3f).row();
+
+            if(!contributors.isEmpty()){
+                contributors.each(a -> {
+                    add(a);
+                    row();
+                });
+                contributors.clear();
+            }
+
         }});
 
         show();

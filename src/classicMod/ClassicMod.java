@@ -4,6 +4,8 @@ import arc.*;
 import arc.files.Fi;
 import arc.func.*;
 import arc.scene.ui.Dialog;
+import arc.scene.ui.layout.Table;
+import arc.struct.Seq;
 import arc.util.*;
 import classicMod.content.*;
 import classicMod.library.ai.ReplacementFlyingAI;
@@ -38,7 +40,9 @@ public class ClassicMod extends Mod{
     public static String ModVersion = "3.2 PRE-ALPHA v146";
     /** Mod's current Build **/
     public static final String BuildVer = "11";
-    public static LoadedMod resMod = mods.locateMod("restored-mind");
+    public static LoadedMod resMod = mods.locateMod("restored-mind");\
+
+    public static Seq<String> contributors = new Seq<>();
     public ClassicMod(){
         //Log.info("Loaded Classic constructor.");
         //listen for game load eventa
@@ -60,11 +64,7 @@ public class ClassicMod extends Mod{
             boolean ignoreWarning = settings.getBool("ignore-warning");
             Log.info(pathFile());
 
-            try {
-                readA();
-            } catch (FileNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
+            getContributors(resMod.file.absolutePath());
 
             if (!ignoreWarning) {
                 Time.runTask(10f, () -> {
@@ -143,36 +143,21 @@ public class ClassicMod extends Mod{
     public String pathFile() {
         return resMod.file.path();
     }
-
-    public void readA() throws FileNotFoundException {
-
-        printFileContent(resMod.file.absolutePath());
-
-        /*File myObj = new File(resMod.file.absolutePath()+"/mindustry-contributors.txt");
-        Scanner myReader = new Scanner(myObj);
-        while (myReader.hasNextLine()) {
-            String data = myReader.nextLine();
-            Log.info(data);
-        }*/
-    }
-
-    public void printFileContent(String filePath) throws FileNotFoundException
-    {
+    public void getContributors(String filePath) {
         try (ZipFile zipFile = new ZipFile(filePath)) {
-            Log.info(zipFile);
             Enumeration<? extends ZipEntry> entries = zipFile.entries();
             while (entries.hasMoreElements()) {
                 ZipEntry entry = entries.nextElement();
                 // Check if entry is a directory
                 if (!entry.isDirectory()) {
                     if(entry.getName().equals("mindustry-contributors.txt")) {
-                        Log.info(entry);
                         try (InputStream inputStream = zipFile.getInputStream(entry);
                              Scanner scanner = new Scanner(inputStream);) {
 
                             while (scanner.hasNextLine()) {
                                 String line = scanner.nextLine();
-                                Log.info(line);
+                                contributors.add(line);
+                                //Log.info(line);
                             }
                         }
                     }
@@ -197,7 +182,7 @@ public class ClassicMod extends Mod{
 
 
             StringBuilder contributors = new StringBuilder(getModBundle.get(resMod.meta.name + ".author"));
-            contributors.append("\n\n").append("[#FCC21B]@credits[]");
+            contributors.append("\n\n").append("[#FCC21B]Credits[]");
             int i = 0;
             while (bundle.has("mod." + resMod.meta.name + "-credits." + i)) {
                 contributors.append("\n        ").append(getModBundle.get(resMod.meta.name + "-credits." + i));

@@ -86,7 +86,7 @@ public class UIExtended {
             ImageButton b = Elem.newImageButton(icon, listener);
             b.resizeImage(iconSize);
             b.label(() -> title).padLeft(6).growX();
-            b.left();
+            b.center();
 
             addDesc(table.add(b).left().padTop(3f).get());
             table.row();
