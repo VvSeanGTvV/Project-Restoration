@@ -77,12 +77,13 @@ public class epicCreditsDialog extends Dialog {
     @Override
     public void act(float delta) {
         super.act(delta);
-        float maxScroll = ((float) UIExtended.getWidth() / UIExtended.getHeight());
+        float maxScroll = 1.28f * ((float) UIExtended.getWidth() / UIExtended.getHeight());
         scrollbar += 1.25f  * Time.delta;
         cont.clearChildren();
         //in.setTranslation(0, b);;
         in.update(() -> setTranslation((float) 0, scrollbar - (UIExtended.getHeight() * maxScroll)));
+        cont.update(() -> {setTranslation(0, 0); setBackground(Styles.black);});
         cont.add(in);
-        if(scrollbar >= (UIExtended.getHeight() * maxScroll * 2)) this.hide();
+        if(scrollbar >= (UIExtended.getHeight() * maxScroll)) this.hide();
     }
 }
