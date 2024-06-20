@@ -192,8 +192,6 @@ public class ClassicMod extends Mod{
             // Print the line line and exception
             // of the program where it occurred
             ie.printStackTrace();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
