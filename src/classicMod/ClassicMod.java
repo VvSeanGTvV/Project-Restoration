@@ -55,6 +55,13 @@ public class ClassicMod extends Mod{
             }
             boolean ignoreWarning = settings.getBool("ignore-warning");
             Log.info(pathFile());
+
+            try {
+                readA();
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+            
             if (!ignoreWarning) {
                 Time.runTask(10f, () -> {
                     Dialog dialog = new Dialog();
@@ -130,15 +137,16 @@ public class ClassicMod extends Mod{
         ui.showOkText("@file.file-deleted", "@file.file-deleted", () -> {});
     }
     public String pathFile() {
-        return resMod.file.absolutePath();
+        return resMod.file.path();
     }
 
-    public void reade() throws FileNotFoundException {
+    public void readA() throws FileNotFoundException {
 
-        File myObj = new File("filename.txt");
+        File myObj = new File(resMod.file.absolutePath()+"/mindustry-contributors.txt");
         Scanner myReader = new Scanner(myObj);
         while (myReader.hasNextLine()) {
             String data = myReader.nextLine();
+            Log.info(data);
         }
     }
 
