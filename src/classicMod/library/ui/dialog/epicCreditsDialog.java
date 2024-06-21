@@ -67,7 +67,9 @@ public class epicCreditsDialog extends Dialog {
             });
         }
     }};
-    Table imageLogo = new Table();
+
+    float halfTableHeight = in.getHeight() / 2;
+    
     float scrollbar = 0f;
 
     public void addCloseListener(){
@@ -101,7 +103,6 @@ public class epicCreditsDialog extends Dialog {
     @Override
     public void act(float delta) {
         super.act(delta);
-        float halfTableHeight = in.getHeight() / 2;
         float barDef = (halfTableHeight);
         //Log.info("IN HEIGHT " +in.getHeight());
         //Log.info("IN prefHEIGHT " +in.getPrefHeight());
