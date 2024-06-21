@@ -101,7 +101,7 @@ public class epicCreditsDialog extends Dialog {
         scrollbar = 0f;
         //addCloseButton();
         //staticTable.setTranslation(-(camera.width+128f), -(camera.height+128f));
-        cont.add(staticTable);
+        //cont.add(staticTable);
         cont.add(in).align(Align.bottom);
         show();
     }
@@ -130,9 +130,6 @@ public class epicCreditsDialog extends Dialog {
         in.update(() -> {
             setTranslation(0f, scrollbar - (halfTableHeight + Core.camera.height));
         });
-        staticTable.update(() -> {
-            setTranslation(staticTableWidth -(camera.width+128f),staticTableHeight -(camera.height+128f));
-        });
 
 
         setStyle(baller);
@@ -158,6 +155,10 @@ public class epicCreditsDialog extends Dialog {
 
     @Override
     public void draw() {
+        //staticTable.x = staticTableWidth -(camera.width+128f);
+        staticTable.y = staticTableHeight -(camera.height+128f));
+        //staticTable.setTranslation(staticTableWidth -(camera.width+128f),staticTableHeight -(camera.height+128f));
+        staticTable.draw();
         Styles.black.draw(0, 0, UIExtended.getWidth(), UIExtended.getHeight());
         super.draw();
     }
