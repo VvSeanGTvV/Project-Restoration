@@ -146,11 +146,11 @@ public class epicCreditsDialog extends Dialog {
                     if (doubleTapTimer > 100){ firstTap = false; doubleTapTimer = 0; }
                 }
             } else {
-                if(((scrollbar > (TableHeight)) && TableHeight > 0) || Core.input.isTouched()){ firstTap = true; onHold = true; }
+                if(((scrollbar > (TableHeight * 2)) && TableHeight > 0) || Core.input.isTouched()){ firstTap = true; onHold = true; }
             }
             //if(((scrollbar > (TableHeight)) && TableHeight > 0) || Core.input.isTouched()) this.hide();
         }
-        if(((scrollbar > (TableHeight)) && TableHeight > 0) || Core.input.keyDown(KeyCode.escape)) this.hide();
+        if(((scrollbar > (TableHeight * 2)) && TableHeight > 0) || Core.input.keyDown(KeyCode.escape)) this.hide();
     }
 
     @Override
