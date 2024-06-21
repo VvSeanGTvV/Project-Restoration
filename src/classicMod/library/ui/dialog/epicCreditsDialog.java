@@ -92,6 +92,7 @@ public class epicCreditsDialog extends Dialog {
 
     public epicCreditsDialog() {
         super();
+        scrollbar = 0f;
         //addCloseButton();
         show();
     }
@@ -116,7 +117,10 @@ public class epicCreditsDialog extends Dialog {
 
         cont.add(in).align(Align.bottom);
         setStyle(baller);
-        if(scrollbar >= ((TableHeight * 2f))) this.hide();
+        Log.info(scrollbar);
+        Log.info(TableHeight);
+        Log.info(scrollbar >= (TableHeight * 2f));
+        //if(scrollbar > ((TableHeight * 2f))) this.hide();
 
 
 
