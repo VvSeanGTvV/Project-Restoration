@@ -105,7 +105,10 @@ public class epicCreditsDialog extends Dialog {
         float halfRow = rowList / 2;
         float rowHeight = Core.camera.height / rowList;
         float barDef = (Core.camera.height * rowHeight);
-        Log.info(halfRow);
+        Log.info("IN HEIGHT " +in.getHeight());
+        Log.info("IN prefHEIGHT " +in.getPrefHeight());
+        Log.info("IN minHEIGHT " +in.getMinHeight());
+        Log.info("IN maxHEIGHT " +in.getMaxHeight());
         //float maxY = in.ge();
         scrollbar += 1.25f * Time.delta;
         cont.clearChildren();
