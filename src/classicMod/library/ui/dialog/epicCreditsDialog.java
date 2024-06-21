@@ -93,10 +93,11 @@ public class epicCreditsDialog extends Dialog {
         super();
         scrollbar = 0f;
         //addCloseButton();
-
+        cont.add(in).align(Align.bottom);
         show();
     }
-
+    int doubleTapTimer;
+    boolean firstTap;
     @Override
     public void act(float delta) {
         super.act(delta);
@@ -110,20 +111,27 @@ public class epicCreditsDialog extends Dialog {
         //Log.info("IN maxHEIGHT " +in.getMaxHeight());
 
         scrollbar += 1.25f * Time.delta;
-        cont.clearChildren();
+        //cont.clearChildren();
 
         in.update(() -> {
             setTranslation((float) 0, scrollbar - (halfTableHeight + Core.camera.height));
         });
 
-        cont.add(in).align(Align.bottom);
+
         setStyle(baller);
 
         //Log.info(scrollbar);
         //Log.info(TableHeight);
         //Log.info(scrollbar >= (TableHeight));
         if(Core.app.isMobile()){
-            if(((scrollbar > (TableHeight)) && TableHeight > 0) || Core.input.isTouched()) this.hide();
+            if(firstTap){
+                doubleTapTimer++;
+                if(((scrollbar > (TableHeight)) && TableHeight > 0) || Core.input.isTouched()) this.hide();
+                if(doubleTapTimer > 100) firstTap = false;
+            } else {
+                if(((scrollbar > (TableHeight)) && TableHeight > 0) || Core.input.isTouched()) firstTap = true;
+            }
+            //if(((scrollbar > (TableHeight)) && TableHeight > 0) || Core.input.isTouched()) this.hide();
         }
         if(((scrollbar > (TableHeight)) && TableHeight > 0) || Core.input.keyDown(KeyCode.escape)) this.hide();
     }
