@@ -97,6 +97,7 @@ public class epicCreditsDialog extends Dialog {
         show();
     }
     int doubleTapTimer;
+    boolean onHold;
     boolean firstTap;
     @Override
     public void act(float delta) {
@@ -125,11 +126,14 @@ public class epicCreditsDialog extends Dialog {
         //Log.info(scrollbar >= (TableHeight));
         if(Core.app.isMobile()){
             if(firstTap){
-                doubleTapTimer++;
-                if(((scrollbar > (TableHeight)) && TableHeight > 0) || Core.input.isTouched()) this.hide();
-                if(doubleTapTimer > 100) firstTap = false;
+                if(!Core.input.isTouched()) onHold = false;
+                if(!onHold) {
+                    doubleTapTimer++;
+                    if (((scrollbar > (TableHeight)) && TableHeight > 0) || Core.input.isTouched()) this.hide();
+                    if (doubleTapTimer > 100) firstTap = false;
+                }
             } else {
-                if(((scrollbar > (TableHeight)) && TableHeight > 0) || Core.input.isTouched()) firstTap = true;
+                if(((scrollbar > (TableHeight)) && TableHeight > 0) || Core.input.isTouched()){ firstTap = true; onHold = true; }
             }
             //if(((scrollbar > (TableHeight)) && TableHeight > 0) || Core.input.isTouched()) this.hide();
         }
