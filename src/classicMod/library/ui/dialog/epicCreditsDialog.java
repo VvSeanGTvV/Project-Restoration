@@ -94,6 +94,8 @@ public class epicCreditsDialog extends Dialog {
         super();
         scrollbar = 0f;
         //addCloseButton();
+        TableHeight = in.getHeight();
+        halfTableHeight = TableHeight / 2;
         show();
     }
 
