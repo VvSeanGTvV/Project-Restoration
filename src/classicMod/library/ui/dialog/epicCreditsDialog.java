@@ -28,7 +28,7 @@ import mindustry.ui.dialogs.BaseDialog;
 import java.awt.*;
 import java.util.concurrent.TimeUnit;
 
-import static arc.Core.bundle;
+import static arc.Core.*;
 import static classicMod.ClassicMod.*;
 
 public class epicCreditsDialog extends Dialog {
@@ -63,8 +63,15 @@ public class epicCreditsDialog extends Dialog {
             });
         }
     }};
-    float TableHeight = in.getHeight();
-    float halfTableHeight = TableHeight / 2;
+    float TableHeight;
+    float halfTableHeight;
+
+    Table staticTable = new Table(){{
+        add(getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()));
+    }};
+    float staticTableHeight;
+    float staticTableWidth;
+
     float scrollbar;
 
     DialogStyle baller = new DialogStyle(){{
@@ -93,6 +100,8 @@ public class epicCreditsDialog extends Dialog {
         super();
         scrollbar = 0f;
         //addCloseButton();
+        //staticTable.setTranslation(-(camera.width+128f), -(camera.height+128f));
+        cont.add(staticTable);
         cont.add(in).align(Align.bottom);
         show();
     }
@@ -106,6 +115,10 @@ public class epicCreditsDialog extends Dialog {
             TableHeight = in.getHeight();
             halfTableHeight = TableHeight / 1.75f;
         }
+        if(staticTableHeight <= 0){
+            staticTableHeight = staticTable.getHeight();
+            staticTableWidth = staticTable.getWidth();
+        }
         //Log.info("IN HEIGHT " +in.getHeight());
         //Log.info("IN prefHEIGHT " +in.getPrefHeight());
         //Log.info("IN minHEIGHT " +in.getMinHeight());
@@ -115,7 +128,10 @@ public class epicCreditsDialog extends Dialog {
         //cont.clearChildren();
 
         in.update(() -> {
-            setTranslation((float) 0, scrollbar - (halfTableHeight + Core.camera.height));
+            setTranslation(0f, scrollbar - (halfTableHeight + Core.camera.height));
+        });
+        staticTable.update(() -> {
+            setTranslation(staticTableWidth -(camera.width+128f),staticTableHeight -(camera.height+128f));
         });
 
 
@@ -126,11 +142,11 @@ public class epicCreditsDialog extends Dialog {
         //Log.info(scrollbar >= (TableHeight));
         if(Core.app.isMobile()){
             if(firstTap){
-                if(!Core.input.isTouched()) onHold = false;
+                if(!Core.input.isTouched()){ onHold = false; }
                 if(!onHold) {
                     doubleTapTimer++;
                     if (((scrollbar > (TableHeight)) && TableHeight > 0) || Core.input.isTouched()) this.hide();
-                    if (doubleTapTimer > 1000){ firstTap = false; doubleTapTimer = 0; }
+                    if (doubleTapTimer > 100){ firstTap = false; doubleTapTimer = 0; }
                 }
             } else {
                 if(((scrollbar > (TableHeight)) && TableHeight > 0) || Core.input.isTouched()){ firstTap = true; onHold = true; }
