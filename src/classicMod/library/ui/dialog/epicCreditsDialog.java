@@ -104,7 +104,7 @@ public class epicCreditsDialog extends Dialog {
         float halfRow = rowList / 2;
         float barDef = (Core.camera.height * halfRow / 10);
         //float maxY = in.ge();
-        scrollbar += 1.25f * delta;
+        scrollbar += 1.25f * Time.delta;
         cont.clearChildren();
         //in.setTranslation(0, b);;
         in.update(() -> setTranslation((float) 0, scrollbar - (barDef)));
