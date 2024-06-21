@@ -101,20 +101,18 @@ public class epicCreditsDialog extends Dialog {
     @Override
     public void act(float delta) {
         super.act(delta);
-        //float maxScroll = 3.28f * Core.camera.height;
-        float halfRow = rowList / 2;
-        float rowHeight = Core.camera.height / rowList;
-        float barDef = (Core.camera.height * rowHeight);
-        Log.info("IN HEIGHT " +in.getHeight());
-        Log.info("IN prefHEIGHT " +in.getPrefHeight());
-        Log.info("IN minHEIGHT " +in.getMinHeight());
-        Log.info("IN maxHEIGHT " +in.getMaxHeight());
-        //float maxY = in.ge();
+        float halfTableHeight = in.getHeight() / 2;
+        float barDef = (halfTableHeight);
+        //Log.info("IN HEIGHT " +in.getHeight());
+        //Log.info("IN prefHEIGHT " +in.getPrefHeight());
+        //Log.info("IN minHEIGHT " +in.getMinHeight());
+        //Log.info("IN maxHEIGHT " +in.getMaxHeight());
+
         scrollbar += 1.25f * Time.delta;
         cont.clearChildren();
-        //in.setTranslation(0, b);;
+
         in.update(() -> {setTranslation((float) 0, scrollbar - (barDef)); });
-        //cont.update(() -> {setTranslation(0, 0); setBackground(Styles.black);});
+
         cont.add(in).align(Align.bottom);
         setStyle(baller);
         if(scrollbar >= ((barDef * 2f))) this.hide();
