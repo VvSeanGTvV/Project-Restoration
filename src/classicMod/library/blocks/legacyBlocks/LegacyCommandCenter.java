@@ -80,6 +80,7 @@ public class LegacyCommandCenter extends Block {
         public void draw() {
             super.draw();
             TextureRegion c = Core.atlas.find(name+"-"+CommandOrigin);
+            TextureRegion top = Core.atlas.find(name+"-top");
 
             Draw.alpha(255/2f);
             Draw.color(Color.valueOf("5e5e5e"));
@@ -87,6 +88,7 @@ public class LegacyCommandCenter extends Block {
             Draw.alpha(0f);
             Draw.color(team.color);
             if(c != null)Draw.rect(c, x, y);
+            if(top != null)Draw.rect(top, x, y);
             Draw.reset();
         }
         public void UpdateCommand(RallyAI.UnitState State) {
