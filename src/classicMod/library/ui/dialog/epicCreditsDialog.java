@@ -109,23 +109,22 @@ public class epicCreditsDialog extends Dialog {
         if(TableHeight <= 0){
             TableHeight = in.getHeight();
             halfTableHeight = TableHeight / 2;
-        } else {
-            //Log.info("IN HEIGHT " +in.getHeight());
-            //Log.info("IN prefHEIGHT " +in.getPrefHeight());
-            //Log.info("IN minHEIGHT " +in.getMinHeight());
-            //Log.info("IN maxHEIGHT " +in.getMaxHeight());
-
-            scrollbar += 1.25f * Time.delta;
-            cont.clearChildren();
-
-            in.update(() -> {
-                setTranslation((float) 0, scrollbar - (TableHeight));
-            });
-
-            cont.add(in).align(Align.bottom);
-            setStyle(baller);
-            //if(scrollbar > ((TableHeight * 2f))) this.hide();
         }
+        //Log.info("IN HEIGHT " +in.getHeight());
+        //Log.info("IN prefHEIGHT " +in.getPrefHeight());
+        //Log.info("IN minHEIGHT " +in.getMinHeight());
+        //Log.info("IN maxHEIGHT " +in.getMaxHeight());
+
+        scrollbar += 1.25f * Time.delta;
+        cont.clearChildren();
+
+        in.update(() -> {
+            setTranslation((float) 0, scrollbar - (TableHeight));
+        });
+
+        cont.add(in).align(Align.bottom);
+        setStyle(baller);
+        //if(scrollbar > ((TableHeight * 2f))) this.hide();
         Log.info(scrollbar);
         Log.info(TableHeight);
         Log.info(scrollbar >= (TableHeight * 2f));
