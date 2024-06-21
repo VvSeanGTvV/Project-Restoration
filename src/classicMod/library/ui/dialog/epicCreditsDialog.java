@@ -37,7 +37,7 @@ public class epicCreditsDialog extends Dialog {
     float rowList;
     Table in = new Table(){{
         rowList = 0;
-        add(i).size(540f).row();
+        add(i).size(570f, 90f).row();
         row();
         rowList++;
         //image(Tex.clear).height(25).padTop(3f).row();
@@ -55,8 +55,8 @@ public class epicCreditsDialog extends Dialog {
             i++;
         }
 
-        add(bundle.get("contributors"));
-        image(Tex.clear).height(55).padTop(3f).row();
+        add(bundle.get("contributors")).row();
+        //image(Tex.clear).height(55).padTop(3f).row();
         rowList++;
 
         if(!contributors.isEmpty()){
@@ -104,13 +104,13 @@ public class epicCreditsDialog extends Dialog {
         //float maxScroll = 3.28f * Core.camera.height;
         float halfRow = rowList / 2;
         float rowHeight = 20f * halfRow;
-        float barDef = (Core.camera.height + rowHeight);
+        float barDef = (Core.camera.height + Core.camera.width);
         Log.info(halfRow);
         //float maxY = in.ge();
         scrollbar += 1.25f * Time.delta;
         cont.clearChildren();
         //in.setTranslation(0, b);;
-        in.update(() -> setTranslation((float) 0, scrollbar - (barDef)));
+        in.update(() -> {in.align(Align.bottom); setTranslation((float) 0, scrollbar - (barDef)); });
         //cont.update(() -> {setTranslation(0, 0); setBackground(Styles.black);});
         cont.add(in);
         setStyle(baller);
