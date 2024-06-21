@@ -194,7 +194,7 @@ public class ClassicMod extends Mod{
 
     private void loadSettings() {
         ui.settings.addCategory("@setting.restored-mind", "restored-mind-icoMenu", t -> {
-            t.pref(new UIExtended.Banner("restored-mind-logoMod", -1));
+            //t.pref(new UIExtended.Banner("restored-mind-logoMod", -1));
             t.pref(new UIExtended.Separator("restored-graphic"));
             t.checkPref("use-planetmenu", true);
             t.checkPref("use-lastplanet-bg", false);
