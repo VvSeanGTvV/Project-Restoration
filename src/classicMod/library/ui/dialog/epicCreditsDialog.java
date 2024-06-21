@@ -155,8 +155,8 @@ public class epicCreditsDialog extends Dialog {
 
     @Override
     public void draw() {
-        //staticTable.x = staticTableWidth -(camera.width+128f);
-        staticTable.y = -(camera.height+staticTableHeight);
+        staticTable.x = staticTableWidth + 50f;
+        staticTable.y = staticTableHeight + 50f;
 
         Styles.black.draw(0, 0, UIExtended.getWidth(), UIExtended.getHeight());
         staticTable.draw();
