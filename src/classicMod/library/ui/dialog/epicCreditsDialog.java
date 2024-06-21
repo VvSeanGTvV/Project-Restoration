@@ -119,13 +119,13 @@ public class epicCreditsDialog extends Dialog {
         cont.add(in).align(Align.bottom);
         setStyle(baller);
 
-        Log.info(scrollbar);
-        Log.info(TableHeight);
-        Log.info(scrollbar >= (halfTableHeight * 2f));
+        //Log.info(scrollbar);
+        //Log.info(TableHeight);
+        //Log.info(scrollbar >= (TableHeight));
         if(Core.app.isMobile()){
-            if(((scrollbar > (halfTableHeight * 2f)) && TableHeight > 0) || Core.input.isTouched()) this.hide();
+            if(((scrollbar > (TableHeight)) && TableHeight > 0) || Core.input.isTouched()) this.hide();
         }
-        if(((scrollbar > (halfTableHeight * 2f)) && TableHeight > 0) || Core.input.keyDown(KeyCode.escape)) this.hide();
+        if(((scrollbar > (TableHeight)) && TableHeight > 0) || Core.input.keyDown(KeyCode.escape)) this.hide();
     }
 
     @Override
