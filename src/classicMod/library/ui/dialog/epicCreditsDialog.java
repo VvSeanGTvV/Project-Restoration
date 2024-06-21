@@ -5,6 +5,7 @@ import arc.func.Cons;
 import arc.graphics.Camera;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
+import arc.input.KeyCode;
 import arc.scene.*;
 import arc.scene.style.*;
 import arc.scene.ui.*;
@@ -32,10 +33,10 @@ import static classicMod.ClassicMod.*;
 
 public class epicCreditsDialog extends Dialog {
 
-    Image i = new Image(new TextureRegionDrawable(Core.atlas.find("restored-mind-logoMod")), Scaling.fit);
+    Image logo = new Image(new TextureRegionDrawable(Core.atlas.find("restored-mind-logoMod")), Scaling.fit);
 
     Table in = new Table(){{
-        add(i).size(570f, 90f).row();
+        add(logo).size(570f, 90f).row();
         image(Tex.clear).height(55).padTop(3f).row();
         row();
         //image(Tex.clear).height(25).padTop(3f).row();
@@ -66,6 +67,10 @@ public class epicCreditsDialog extends Dialog {
     float halfTableHeight = TableHeight / 2;
     float scrollbar;
 
+    DialogStyle baller = new DialogStyle(){{
+        background = Styles.none;
+    }};
+
     public void addCloseListener(){
         closeOnBack();
     }
@@ -92,10 +97,6 @@ public class epicCreditsDialog extends Dialog {
         show();
     }
 
-    DialogStyle baller = new DialogStyle(){{
-       background = Styles.none;
-    }};
-
     @Override
     public void act(float delta) {
         super.act(delta);
@@ -121,7 +122,10 @@ public class epicCreditsDialog extends Dialog {
         Log.info(scrollbar);
         Log.info(TableHeight);
         Log.info(scrollbar >= (halfTableHeight * 2f));
-        if(scrollbar > ((halfTableHeight * 2f)) && TableHeight > 0) this.hide();
+        if(Core.app.isMobile()){
+            if(((scrollbar > (halfTableHeight * 2f)) && TableHeight > 0) || Core.input.isTouched()) this.hide();
+        }
+        if(((scrollbar > (halfTableHeight * 2f)) && TableHeight > 0) || Core.input.keyDown(KeyCode.escape)) this.hide();
     }
 
     @Override
