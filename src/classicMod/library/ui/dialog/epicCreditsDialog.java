@@ -43,7 +43,7 @@ public class epicCreditsDialog extends Dialog {
         //image(Tex.clear).height(25f).padTop(3f).row();
 
         add(bundle.get("credits.text")).row();
-        add(getModBundle.get(resMod.meta.name + "-credits.author"));
+        add(getModBundle.get(resMod.meta.name + "-credits.author")).row();
 
         int i = 0;
         while (bundle.has("mod." + resMod.meta.name + "-credits." + i)) {
