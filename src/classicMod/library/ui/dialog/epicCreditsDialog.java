@@ -130,7 +130,7 @@ public class epicCreditsDialog extends Dialog {
                 if(!onHold) {
                     doubleTapTimer++;
                     if (((scrollbar > (TableHeight)) && TableHeight > 0) || Core.input.isTouched()) this.hide();
-                    if (doubleTapTimer > 100) firstTap = false;
+                    if (doubleTapTimer > 1000){ firstTap = false; doubleTapTimer = 0; }
                 }
             } else {
                 if(((scrollbar > (TableHeight)) && TableHeight > 0) || Core.input.isTouched()){ firstTap = true; onHold = true; }
