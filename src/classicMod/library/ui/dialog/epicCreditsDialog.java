@@ -119,7 +119,7 @@ public class epicCreditsDialog extends Dialog {
         cont.clearChildren();
 
         in.update(() -> {
-            setTranslation((float) 0, scrollbar - (TableHeight));
+            setTranslation((float) 0, scrollbar - (halfTableHeight + Core.camera.height));
         });
 
         cont.add(in).align(Align.bottom);
@@ -127,7 +127,8 @@ public class epicCreditsDialog extends Dialog {
         //if(scrollbar > ((TableHeight * 2f))) this.hide();
         Log.info(scrollbar);
         Log.info(TableHeight);
-        Log.info(scrollbar >= (TableHeight * 2f));
+        Log.info(scrollbar >= (halfTableHeight * 2f));
+        if(scrollbar > ((halfTableHeight * 2f)) && TableHeight > 0) this.hide();
     }
 
     @Override
