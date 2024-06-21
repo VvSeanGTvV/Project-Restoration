@@ -13,6 +13,7 @@ import arc.scene.ui.Image;
 import arc.scene.ui.ScrollPane;
 import arc.scene.ui.layout.*;
 import arc.util.Align;
+import arc.util.Log;
 import arc.util.Scaling;
 import arc.util.Time;
 import classicMod.library.ui.UIExtended;
@@ -100,9 +101,11 @@ public class epicCreditsDialog extends Dialog {
     @Override
     public void act(float delta) {
         super.act(delta);
-        float maxScroll = 3.28f * Core.camera.height;
+        //float maxScroll = 3.28f * Core.camera.height;
         float halfRow = rowList / 2;
-        float barDef = (Core.camera.height);
+        float rowHeight = 20f * halfRow;
+        float barDef = (Core.camera.height + rowHeight);
+        Log.info(halfRow);
         //float maxY = in.ge();
         scrollbar += 1.25f * Time.delta;
         cont.clearChildren();
