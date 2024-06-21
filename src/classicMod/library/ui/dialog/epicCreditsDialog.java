@@ -35,7 +35,7 @@ public class epicCreditsDialog extends Dialog {
     Image i = new Image(new TextureRegionDrawable(Core.atlas.find("restored-mind-logoMod")), Scaling.fit);
 
     float rowList;
-    Table in = new Table(){{
+    Table in = new Table(Styles.grayPanel){{
         rowList = 0;
         add(i).size(570f, 90f).row();
         row();
@@ -103,16 +103,16 @@ public class epicCreditsDialog extends Dialog {
         super.act(delta);
         //float maxScroll = 3.28f * Core.camera.height;
         float halfRow = rowList / 2;
-        float rowHeight = 20f * halfRow;
-        float barDef = (Core.camera.height + Core.camera.width);
+        float rowHeight = Core.camera.height / rowList;
+        float barDef = (Core.camera.height * rowHeight);
         Log.info(halfRow);
         //float maxY = in.ge();
         scrollbar += 1.25f * Time.delta;
         cont.clearChildren();
         //in.setTranslation(0, b);;
-        in.update(() -> {in.align(Align.bottom); setTranslation((float) 0, scrollbar - (barDef)); });
+        in.update(() -> {setTranslation((float) 0, scrollbar - (barDef)); });
         //cont.update(() -> {setTranslation(0, 0); setBackground(Styles.black);});
-        cont.add(in);
+        cont.add(in).align(Align.bottom);
         setStyle(baller);
         if(scrollbar >= ((barDef * 2f))) this.hide();
 
