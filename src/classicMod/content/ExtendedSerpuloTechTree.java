@@ -8,6 +8,7 @@ import mindustry.type.*;
 
 import static classicMod.content.ClassicBlocks.*;
 import static mindustry.content.Blocks.*;
+import static mindustry.content.SectorPresets.planetaryTerminal;
 import static mindustry.content.TechTree.*;
 
 public class ExtendedSerpuloTechTree {
@@ -92,7 +93,7 @@ public class ExtendedSerpuloTechTree {
 
         margeNode(launchPad, () -> {
             node(launchPadLarge, () -> {
-                //node(ClassicBlocks.interplanetaryAccelerator, Seq.with(new SectorComplete(planetaryTerminal)), () -> {}); //Endgame bois
+                node(ClassicBlocks.interplanetaryAccelerator, Seq.with(new SectorComplete(planetaryTerminal)), () -> {}); //Endgame bois
             });
         });
 

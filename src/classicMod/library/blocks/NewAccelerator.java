@@ -8,6 +8,7 @@ import arc.math.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
 import classicMod.library.converter.*;
+import classicMod.library.ui.dialog.epicCreditsDialog;
 import mindustry.content.*;
 import mindustry.game.EventType.*;
 import mindustry.gen.*;
@@ -111,11 +112,10 @@ public class NewAccelerator extends Block{
 
             if(!state.isCampaign() || efficiency <= 0f) return;
 
-            ui.showInfo("This Block does not work or does not have a video implemented into this! Please check back for Update!");
+            //ui.showInfo("This Block does not work or does not have a video implemented into this! Please check back for Update!");
 
             //ui.campaignComplete.show(Planets.serpulo);
-            if(false)
-                table.button(Icon.upOpen, Styles.cleari, () -> {
+            table.button(Icon.upOpen, Styles.cleari, () -> {
                     /*ui.planet.showPlanetLaunch(state.rules.sector, sector -> {
                         if(state.isCampaign()){
                             universe.clearLoadoutInfo();
@@ -127,13 +127,9 @@ public class NewAccelerator extends Block{
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }*/
-                    try {
-                        VideoFrameExtractor.extractFrames();
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                    deselect();
-                }).size(40f);
+                new epicCreditsDialog();
+                deselect();
+            }).size(40f);
                 /*ui.planet.showPlanetLaunch(state.rules.sector, sector -> {
                     //TODO make cutscene from scratch
 

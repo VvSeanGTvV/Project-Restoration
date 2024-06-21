@@ -34,43 +34,37 @@ public class epicCreditsDialog extends Dialog {
 
     Image i = new Image(new TextureRegionDrawable(Core.atlas.find("restored-mind-logoMod")), Scaling.fit);
 
-    float rowList;
-    Table in = new Table(Styles.grayPanel){{
-        rowList = 0;
+    Table in = new Table(){{
         add(i).size(570f, 90f).row();
+        image(Tex.clear).height(55).padTop(3f).row();
         row();
-        rowList++;
         //image(Tex.clear).height(25).padTop(3f).row();
         //image(Core.atlas.find("restored-mind-logoMod")).row();
         //image(Tex.clear).height(25f).padTop(3f).row();
 
         add(bundle.get("credits.text")).row();
-        rowList++;
+        add(getModBundle.get(resMod.meta.name + "-credits.author"));
 
         int i = 0;
         while (bundle.has("mod." + resMod.meta.name + "-credits." + i)) {
             add(getModBundle.get(resMod.meta.name + "-credits." + i));
             row();
-            rowList++;
             i++;
         }
-
+        image(Tex.clear).height(55).padTop(3f).row();
         add(bundle.get("contributors")).row();
-        //image(Tex.clear).height(55).padTop(3f).row();
-        rowList++;
+        image(Tex.clear).height(55).padTop(3f).row();
 
         if(!contributors.isEmpty()){
             contributors.each(a -> {
                 add(a);
                 row();
-                rowList++;
             });
         }
     }};
     float TableHeight = in.getHeight();
     float halfTableHeight = TableHeight / 2;
-
-    float scrollbar = 0f;
+    float scrollbar;
 
     public void addCloseListener(){
         closeOnBack();
@@ -105,10 +99,9 @@ public class epicCreditsDialog extends Dialog {
     @Override
     public void act(float delta) {
         super.act(delta);
-        float barDef = (halfTableHeight);
         if(TableHeight <= 0){
             TableHeight = in.getHeight();
-            halfTableHeight = TableHeight / 2;
+            halfTableHeight = TableHeight / 1.75f;
         }
         //Log.info("IN HEIGHT " +in.getHeight());
         //Log.info("IN prefHEIGHT " +in.getPrefHeight());
@@ -124,7 +117,7 @@ public class epicCreditsDialog extends Dialog {
 
         cont.add(in).align(Align.bottom);
         setStyle(baller);
-        //if(scrollbar > ((TableHeight * 2f))) this.hide();
+
         Log.info(scrollbar);
         Log.info(TableHeight);
         Log.info(scrollbar >= (halfTableHeight * 2f));
