@@ -94,8 +94,7 @@ public class epicCreditsDialog extends Dialog {
         super();
         scrollbar = 0f;
         //addCloseButton();
-        TableHeight = in.getHeight();
-        halfTableHeight = TableHeight / 2;
+
         show();
     }
 
@@ -107,25 +106,29 @@ public class epicCreditsDialog extends Dialog {
     public void act(float delta) {
         super.act(delta);
         float barDef = (halfTableHeight);
-        //Log.info("IN HEIGHT " +in.getHeight());
-        //Log.info("IN prefHEIGHT " +in.getPrefHeight());
-        //Log.info("IN minHEIGHT " +in.getMinHeight());
-        //Log.info("IN maxHEIGHT " +in.getMaxHeight());
+        if(TableHeight <= 0){
+            TableHeight = in.getHeight();
+            halfTableHeight = TableHeight / 2;
+        } else {
+            //Log.info("IN HEIGHT " +in.getHeight());
+            //Log.info("IN prefHEIGHT " +in.getPrefHeight());
+            //Log.info("IN minHEIGHT " +in.getMinHeight());
+            //Log.info("IN maxHEIGHT " +in.getMaxHeight());
 
-        scrollbar += 1.25f * Time.delta;
-        cont.clearChildren();
+            scrollbar += 1.25f * Time.delta;
+            cont.clearChildren();
 
-        in.update(() -> {setTranslation((float) 0, scrollbar - (TableHeight)); });
+            in.update(() -> {
+                setTranslation((float) 0, scrollbar - (TableHeight));
+            });
 
-        cont.add(in).align(Align.bottom);
-        setStyle(baller);
-        Log.info(scrollbar);
-        Log.info(TableHeight);
-        Log.info(scrollbar >= (TableHeight * 2f));
-        //if(scrollbar > ((TableHeight * 2f))) this.hide();
-
-
-
+            cont.add(in).align(Align.bottom);
+            setStyle(baller);
+            Log.info(scrollbar);
+            Log.info(TableHeight);
+            Log.info(scrollbar >= (TableHeight * 2f));
+            //if(scrollbar > ((TableHeight * 2f))) this.hide();
+        }
     }
 
     @Override
