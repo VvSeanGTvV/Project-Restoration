@@ -67,9 +67,9 @@ public class epicCreditsDialog extends Dialog {
             });
         }
     }};
+    float TableHeight = in.getHeight();
+    float halfTableHeight = TableHeight / 2;
 
-    float halfTableHeight = in.getHeight() / 2;
-    
     float scrollbar = 0f;
 
     public void addCloseListener(){
@@ -112,11 +112,11 @@ public class epicCreditsDialog extends Dialog {
         scrollbar += 1.25f * Time.delta;
         cont.clearChildren();
 
-        in.update(() -> {setTranslation((float) 0, scrollbar - (barDef)); });
+        in.update(() -> {setTranslation((float) 0, scrollbar - (TableHeight)); });
 
         cont.add(in).align(Align.bottom);
         setStyle(baller);
-        if(scrollbar >= ((barDef * 2f))) this.hide();
+        if(scrollbar >= ((TableHeight * 2f))) this.hide();
 
 
 
