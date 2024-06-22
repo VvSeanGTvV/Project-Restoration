@@ -122,8 +122,6 @@ public class epicCreditsDialog extends Dialog {
         if(TableHeight <= 0){
             TableHeight = in.getHeight();
             halfTableHeight = TableHeight / 1.75f;
-        } else {
-            if((scrollbar >= (TableHeight * 2.25))) FinishedCredits();
         }
         if(staticTableHeight <= 0){
             staticTableHeight = staticTable.getHeight();
@@ -149,6 +147,7 @@ public class epicCreditsDialog extends Dialog {
         Log.info(scrollbar >= (TableHeight * 2.25));
 
         if(Core.input.keyDown(KeyCode.escape)) FinishedCredits();
+        if(scrollbar >= (TableHeight * 2.25)) FinishedCredits();
         if(Core.app.isMobile()){
             if(firstTap){
                 if(!Core.input.isTouched()){ onHold = false; }
@@ -173,7 +172,8 @@ public class epicCreditsDialog extends Dialog {
     @Override
     public void draw() {
         float IE = ((float) graphics.getWidth() / 1000);
-        staticTable.x = ((((float) getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() / getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length()) * 10f * IE));
+        float IA = ((float) graphics.getWidth() / 100);
+        staticTable.x = ((((float) getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() / getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length()) * IA * IE));
         staticTable.y = staticTableHeight + 20f;
 
         Styles.black.draw(0, 0, UIExtended.getWidth(), UIExtended.getHeight());
