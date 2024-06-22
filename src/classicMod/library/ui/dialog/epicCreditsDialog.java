@@ -116,11 +116,9 @@ public class epicCreditsDialog extends Dialog {
             TableHeight = in.getHeight();
             halfTableHeight = TableHeight / 1.75f;
         }
-        if(staticTableHeight <= 0 && staticTableWidth <= 0){
+        if(staticTableHeight <= 0){
             staticTableHeight = staticTable.getHeight();
             staticTableWidth = staticTable.getWidth();
-        } else {
-            staticTableDraw();
         }
         //Log.info("IN HEIGHT " +in.getHeight());
         //Log.info("IN prefHEIGHT " +in.getPrefHeight());
@@ -156,18 +154,14 @@ public class epicCreditsDialog extends Dialog {
         if(((scrollbar > (TableHeight * 2)) && TableHeight > 0) || Core.input.keyDown(KeyCode.escape)) this.hide();
     }
 
-    public void staticTableDraw(){
-        staticTable.validate();
-        staticTable.x = ((getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() * (staticTableWidth + 2f)) + 50f);
-        staticTable.y = staticTableHeight + 20f;
-
-        staticTable.draw();
-        Draw.flush();
-    }
-
     @Override
     public void draw() {
+        staticTable.x = ((getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() * 5f) + 50f);
+        staticTable.y = staticTableHeight + 20f;
+
         Styles.black.draw(0, 0, UIExtended.getWidth(), UIExtended.getHeight());
+        staticTable.draw();
+        Draw.flush();
         super.draw();
     }
 }
