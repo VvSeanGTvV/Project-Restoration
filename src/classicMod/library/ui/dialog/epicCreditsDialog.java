@@ -1,6 +1,7 @@
 package classicMod.library.ui.dialog;
 
 import arc.Core;
+import arc.Graphics;
 import arc.func.Cons;
 import arc.graphics.Camera;
 import arc.graphics.Color;
@@ -155,7 +156,7 @@ public class epicCreditsDialog extends Dialog {
 
     @Override
     public void draw() {
-        staticTable.x = (getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() * 10f) + 50f + staticTableWidth;
+        staticTable.x = (getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() * ((graphics.getAspect() / 2) * 10f) + 50f + staticTableWidth);
         staticTable.y = staticTableHeight + 20f;
 
         Styles.black.draw(0, 0, UIExtended.getWidth(), UIExtended.getHeight());
