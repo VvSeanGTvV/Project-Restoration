@@ -173,7 +173,7 @@ public class epicCreditsDialog extends Dialog {
     @Override
     public void draw() {
         float IE = ((float) graphics.getWidth() / 1000);
-        staticTable.x = ((((float) getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() / getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length()) * 5f * IE));
+        staticTable.x = ((((float) getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() / getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length()) * 10f * IE));
         staticTable.y = staticTableHeight + 20f;
 
         Styles.black.draw(0, 0, UIExtended.getWidth(), UIExtended.getHeight());
