@@ -136,33 +136,31 @@ public class epicCreditsDialog extends Dialog {
 
         setStyle(baller);
 
-        //Log.info(scrollbar);
-        //Log.info(TableHeight);
-        //Log.info(scrollbar >= (TableHeight));
+        Log.info(scrollbar);
+        Log.info(TableHeight);
+        Log.info(scrollbar >= (TableHeight));
 
-        Log.info(getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length());
-        Log.info(staticTableWidth);
-
+        if((scrollbar > (TableHeight * 2)) && TableHeight > 0) this.hide();
+        if(Core.input.keyDown(KeyCode.escape)) this.hide();
         if(Core.app.isMobile()){
             if(firstTap){
                 if(!Core.input.isTouched()){ onHold = false; }
                 if(!onHold) {
                     doubleTapTimer++;
-                    if (((scrollbar > (TableHeight)) && TableHeight > 0) || Core.input.isTouched()) this.hide();
+                    if (Core.input.isTouched()) this.hide();
                     if (doubleTapTimer > 100){ firstTap = false; doubleTapTimer = 0; }
                 }
             } else {
-                if(((scrollbar > (TableHeight * 2)) && TableHeight > 0) || Core.input.isTouched()){ firstTap = true; onHold = true; }
+                if(Core.input.isTouched()){ firstTap = true; onHold = true; }
             }
             //if(((scrollbar > (TableHeight)) && TableHeight > 0) || Core.input.isTouched()) this.hide();
         }
-        if(((scrollbar > (TableHeight * 2)) && TableHeight > 0) || Core.input.keyDown(KeyCode.escape)) this.hide();
     }
 
     @Override
     public void draw() {
         float IE = graphics.getAspect() * ((float) graphics.getWidth() / 1000);
-        staticTable.x = ((getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() * IE) + 50f);
+        staticTable.x = ((getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() * getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length()) - 50f);
         staticTable.y = staticTableHeight + 20f;
 
         Styles.black.draw(0, 0, UIExtended.getWidth(), UIExtended.getHeight());
