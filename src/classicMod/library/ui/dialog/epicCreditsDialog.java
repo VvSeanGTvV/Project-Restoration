@@ -7,6 +7,7 @@ import arc.graphics.Camera;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.input.KeyCode;
+import arc.math.Mathf;
 import arc.scene.*;
 import arc.scene.style.*;
 import arc.scene.ui.*;
@@ -79,6 +80,7 @@ public class epicCreditsDialog extends Dialog {
     float staticTableWidth;
 
     float scrollbar;
+    float scrollProgress;
 
     DialogStyle baller = new DialogStyle(){{
         background = Styles.none;
@@ -132,7 +134,8 @@ public class epicCreditsDialog extends Dialog {
         //Log.info("IN minHEIGHT " +in.getMinHeight());
         //Log.info("IN maxHEIGHT " +in.getMaxHeight());
 
-        scrollbar += 1.1f * Time.delta;
+        scrollProgress = Mathf.lerpDelta(scrollbar, (TableHeight * 1.65f), 0.5f);
+        scrollbar += scrollProgress * Time.delta;
         //cont.clearChildren();
 
         in.update(() -> {
@@ -143,12 +146,12 @@ public class epicCreditsDialog extends Dialog {
         setStyle(baller);
 
         Log.info(scrollbar);
-        Log.info(TableHeight * 1.65);
-        Log.info(scrollbar >= (TableHeight * 1.65));
+        Log.info(TableHeight * 1.65f);
+        Log.info(scrollbar >= (TableHeight * 1.65f));
         Log.info((float) getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() / 2);
 
         if(Core.input.keyDown(KeyCode.escape)) FinishedCredits();
-        if(scrollbar >= (TableHeight * 1.65)) FinishedCredits();
+        if(scrollbar >= (TableHeight * 1.65f)) FinishedCredits();
         if(Core.app.isMobile()){
             if(firstTap){
                 if(!Core.input.isTouched()){ onHold = false; }
