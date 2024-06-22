@@ -31,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 
 import static arc.Core.*;
 import static classicMod.ClassicMod.*;
+import static classicMod.content.ExtendedMusic.*;
 
 public class epicCreditsDialog extends Dialog {
 
@@ -101,6 +102,7 @@ public class epicCreditsDialog extends Dialog {
     public epicCreditsDialog() {
         super();
         scrollbar = 0f;
+        playMusic(credits);
         //addCloseButton();
         //staticTable.setTranslation(-(camera.width+128f), -(camera.height+128f));
         //cont.add(staticTable);
@@ -140,14 +142,14 @@ public class epicCreditsDialog extends Dialog {
         Log.info(TableHeight);
         Log.info(scrollbar >= (TableHeight));
 
-        if((scrollbar > (TableHeight * 2)) && TableHeight > 0) this.hide();
-        if(Core.input.keyDown(KeyCode.escape)) this.hide();
+        if((scrollbar > (TableHeight * 2)) && TableHeight > 0) FinishedCredits();
+        if(Core.input.keyDown(KeyCode.escape)) FinishedCredits();
         if(Core.app.isMobile()){
             if(firstTap){
                 if(!Core.input.isTouched()){ onHold = false; }
                 if(!onHold) {
                     doubleTapTimer++;
-                    if (Core.input.isTouched()) this.hide();
+                    if (Core.input.isTouched()) FinishedCredits();
                     if (doubleTapTimer > 100){ firstTap = false; doubleTapTimer = 0; }
                 }
             } else {
@@ -155,6 +157,11 @@ public class epicCreditsDialog extends Dialog {
             }
             //if(((scrollbar > (TableHeight)) && TableHeight > 0) || Core.input.isTouched()) this.hide();
         }
+    }
+
+    public void FinishedCredits(){
+        stopMusic(credits);
+        this.hide();
     }
 
     @Override

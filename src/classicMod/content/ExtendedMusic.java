@@ -16,14 +16,18 @@ public class ExtendedMusic {
             credits;
 
 
-    protected static void playMusic(Music music){
+    public static void playMusic(Music music){
         if(current != null || music == null || !(boolean)(Core.settings.getInt("musicvol") > 0)) return;
         lastMusicPlayed = music;
         current = music;
         current.setVolume(1f);
         current.setLooping(false);
         current.play();
+    }
 
+    public static void stopMusic(Music music){
+        if(current != null || music == null) return;
+        current.stop();
     }
 
     public static void load(){
@@ -31,7 +35,7 @@ public class ExtendedMusic {
             current = null;
             //music loader
             try {
-                credits = new Music(tree.get("music/wave1.ogg"));
+                credits = new Music(tree.get("music/credits.mp3"));
             } catch (Exception ex) {
                 // Music has exception throw, why it was created
                 throw new RuntimeException(ex);
