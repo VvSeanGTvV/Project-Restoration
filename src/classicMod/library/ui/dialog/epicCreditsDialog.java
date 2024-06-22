@@ -25,6 +25,7 @@ import mindustry.gen.*;
 import mindustry.graphics.Pal;
 import mindustry.ui.Styles;
 import mindustry.ui.dialogs.BaseDialog;
+import mindustry.world.meta.Stat;
 
 import java.awt.*;
 import java.util.concurrent.TimeUnit;
@@ -33,6 +34,7 @@ import static arc.Core.*;
 import static classicMod.ClassicMod.*;
 import static classicMod.content.ExtendedMusic.*;
 import static mindustry.Vars.control;
+import static mindustry.Vars.state;
 
 public class epicCreditsDialog extends Dialog {
 
@@ -103,7 +105,6 @@ public class epicCreditsDialog extends Dialog {
     public epicCreditsDialog() {
         super();
         scrollbar = 0f;
-        control.sound.stop();
         playMusic(credits);
         //addCloseButton();
         //staticTable.setTranslation(-(camera.width+128f), -(camera.height+128f));
@@ -116,6 +117,7 @@ public class epicCreditsDialog extends Dialog {
     boolean firstTap;
     @Override
     public void act(float delta) {
+        control.sound.stop();
         super.act(delta);
         if(TableHeight <= 0){
             TableHeight = in.getHeight();
@@ -170,7 +172,7 @@ public class epicCreditsDialog extends Dialog {
     @Override
     public void draw() {
         float IE = ((float) graphics.getWidth() / 100);
-        staticTable.x = (((getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() * getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length()) - IE) + 50f);
+        staticTable.x = (((getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() * getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length()) - IE) - 50f);
         staticTable.y = staticTableHeight + 20f;
 
         Styles.black.draw(0, 0, UIExtended.getWidth(), UIExtended.getHeight());
