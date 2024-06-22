@@ -72,7 +72,7 @@ public class epicCreditsDialog extends Dialog {
     float halfTableHeight;
 
     Table staticTable = new Table(){{
-        add(getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()));
+        add(getModBundle.get(resMod.meta.name + "-credits.mobiletrue"));
     }};
 
     float staticTableHeight;
