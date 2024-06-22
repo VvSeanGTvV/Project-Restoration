@@ -67,7 +67,7 @@ public class epicCreditsDialog extends Dialog {
     float TableHeight;
     float halfTableHeight;
 
-    Table staticTable = new Table(){{
+    Table staticTable = new Table(Styles.grayPanel){{
         add(getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()));
     }};
     float staticTableHeight;
@@ -156,7 +156,8 @@ public class epicCreditsDialog extends Dialog {
 
     @Override
     public void draw() {
-        staticTable.x = ((getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() * 5f) + 50f);
+        float IE = 5f * ((float) graphics.getWidth() / 1000);
+        staticTable.x = ((getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() * IE) + 50f);
         staticTable.y = staticTableHeight + 20f;
 
         Styles.black.draw(0, 0, UIExtended.getWidth(), UIExtended.getHeight());
