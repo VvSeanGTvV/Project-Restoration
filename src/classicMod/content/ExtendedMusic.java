@@ -25,9 +25,11 @@ public class ExtendedMusic {
         current.play();
     }
 
-    public static void stopMusic(Music music){
-        if(current != null || music == null) return;
-        current.stop();
+    public static void stopMusic(){
+        if(current != null) {
+            current.stop();
+            current = null;
+        }
     }
 
     public static void load(){

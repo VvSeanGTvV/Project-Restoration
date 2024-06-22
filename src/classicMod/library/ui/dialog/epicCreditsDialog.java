@@ -32,6 +32,7 @@ import java.util.concurrent.TimeUnit;
 import static arc.Core.*;
 import static classicMod.ClassicMod.*;
 import static classicMod.content.ExtendedMusic.*;
+import static mindustry.Vars.control;
 
 public class epicCreditsDialog extends Dialog {
 
@@ -102,6 +103,7 @@ public class epicCreditsDialog extends Dialog {
     public epicCreditsDialog() {
         super();
         scrollbar = 0f;
+        control.sound.stop();
         playMusic(credits);
         //addCloseButton();
         //staticTable.setTranslation(-(camera.width+128f), -(camera.height+128f));
@@ -160,7 +162,8 @@ public class epicCreditsDialog extends Dialog {
     }
 
     public void FinishedCredits(){
-        stopMusic(credits);
+        control.sound.update();
+        stopMusic();
         this.hide();
     }
 
