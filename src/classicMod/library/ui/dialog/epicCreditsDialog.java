@@ -114,7 +114,7 @@ public class epicCreditsDialog extends Dialog {
     boolean onHold;
     boolean firstTap;
 
-    float DurationDialog = 60f * 2f;
+    float DurationDialog = 20f;
     @Override
     public void act(float delta) {
         control.sound.stop();
