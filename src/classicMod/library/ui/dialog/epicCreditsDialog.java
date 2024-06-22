@@ -143,12 +143,12 @@ public class epicCreditsDialog extends Dialog {
         setStyle(baller);
 
         Log.info(scrollbar);
-        Log.info(TableHeight * 1.75);
-        Log.info(scrollbar >= (TableHeight * 1.75));
+        Log.info(TableHeight * 1.65);
+        Log.info(scrollbar >= (TableHeight * 1.65));
         Log.info((float) getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() / 2);
 
         if(Core.input.keyDown(KeyCode.escape)) FinishedCredits();
-        if(scrollbar >= (TableHeight * 1.75)) FinishedCredits();
+        if(scrollbar >= (TableHeight * 1.65)) FinishedCredits();
         if(Core.app.isMobile()){
             if(firstTap){
                 if(!Core.input.isTouched()){ onHold = false; }
