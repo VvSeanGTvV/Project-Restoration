@@ -76,11 +76,7 @@ public class epicCreditsDialog extends Dialog {
         add(getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()));
     }};
 
-    float staticTableHeight;
-    float staticTableWidth;
-
     float scrollbar;
-    float scrollProgress;
 
     DialogStyle baller = new DialogStyle(){{
         background = Styles.none;
@@ -117,6 +113,8 @@ public class epicCreditsDialog extends Dialog {
     int doubleTapTimer;
     boolean onHold;
     boolean firstTap;
+
+    float DurationDialog = 60f * 2f;
     @Override
     public void act(float delta) {
         control.sound.stop();
@@ -125,17 +123,12 @@ public class epicCreditsDialog extends Dialog {
             TableHeight = in.getHeight();
             halfTableHeight = TableHeight / 1.75f;
         }
-        if(staticTableHeight <= 0){
-            staticTableHeight = staticTable.getHeight();
-            staticTableWidth = staticTable.getWidth();
-        }
         //Log.info("IN HEIGHT " +in.getHeight());
         //Log.info("IN prefHEIGHT " +in.getPrefHeight());
         //Log.info("IN minHEIGHT " +in.getMinHeight());
         //Log.info("IN maxHEIGHT " +in.getMaxHeight());
 
-        scrollProgress = Mathf.lerpDelta(scrollbar, (TableHeight * 1.65f), 0.5f);
-        scrollbar += scrollProgress * Time.delta;
+        scrollbar += Time.delta / DurationDialog;
         //cont.clearChildren();
 
         in.update(() -> {
@@ -178,7 +171,7 @@ public class epicCreditsDialog extends Dialog {
         float IE = ((float) graphics.getWidth() / 1000);
         float IA = ((float) graphics.getWidth() / 225);
         staticTable.x = (((float) getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() / 2) * IA * IE);
-        staticTable.y = staticTableHeight + 20f;
+        staticTable.y = 20f;
 
         Styles.black.draw(0, 0, UIExtended.getWidth(), UIExtended.getHeight());
         staticTable.draw();
