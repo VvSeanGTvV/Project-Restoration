@@ -63,6 +63,8 @@ public class epicCreditsDialog extends Dialog {
                 row();
             });
         }
+        image(Tex.clear).height(55).padTop(3f).row();
+        add(staticTable);
     }};
     float TableHeight;
     float halfTableHeight;
@@ -70,6 +72,7 @@ public class epicCreditsDialog extends Dialog {
     Table staticTable = new Table(){{
         add(getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()));
     }};
+
     float staticTableHeight;
     float staticTableWidth;
 
