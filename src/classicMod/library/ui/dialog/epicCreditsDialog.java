@@ -155,8 +155,8 @@ public class epicCreditsDialog extends Dialog {
 
     @Override
     public void draw() {
-        staticTable.x = (getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() * 10f) + 50f;
-        staticTable.y = staticTableHeight + 50f;
+        staticTable.x = (getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() * 10f) + 50f + staticTableWidth;
+        staticTable.y = staticTableHeight + 20f;
 
         Styles.black.draw(0, 0, UIExtended.getWidth(), UIExtended.getHeight());
         staticTable.draw();
