@@ -143,11 +143,11 @@ public class epicCreditsDialog extends Dialog {
         setStyle(baller);
 
         Log.info(scrollbar);
-        Log.info(TableHeight * 2.25);
-        Log.info(scrollbar >= (TableHeight * 2.25));
+        Log.info(TableHeight * 1.75);
+        Log.info(scrollbar >= (TableHeight * 1.75));
 
         if(Core.input.keyDown(KeyCode.escape)) FinishedCredits();
-        if(scrollbar >= (TableHeight * 2.25)) FinishedCredits();
+        if(scrollbar >= (TableHeight * 1.75)) FinishedCredits();
         if(Core.app.isMobile()){
             if(firstTap){
                 if(!Core.input.isTouched()){ onHold = false; }
@@ -172,7 +172,7 @@ public class epicCreditsDialog extends Dialog {
     @Override
     public void draw() {
         float IE = ((float) graphics.getWidth() / 1000);
-        float IA = ((float) graphics.getWidth() / 50);
+        float IA = ((float) graphics.getWidth() / 35);
         staticTable.x = ((((float) getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() / getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length()) * IA * IE));
         staticTable.y = staticTableHeight + 20f;
 
