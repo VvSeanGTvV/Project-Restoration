@@ -63,8 +63,6 @@ public class epicCreditsDialog extends Dialog {
                 row();
             });
         }
-        image(Tex.clear).height(55).padTop(3f).row();
-        add(staticTable);
     }};
     float TableHeight;
     float halfTableHeight;
@@ -163,7 +161,7 @@ public class epicCreditsDialog extends Dialog {
 
     @Override
     public void draw() {
-        float IE = 5f * ((float) graphics.getWidth() / 1000);
+        float IE = graphics.getAspect() * ((float) graphics.getWidth() / 1000);
         staticTable.x = ((getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() * IE) + 50f);
         staticTable.y = staticTableHeight + 20f;
 
