@@ -122,6 +122,8 @@ public class epicCreditsDialog extends Dialog {
         if(TableHeight <= 0){
             TableHeight = in.getHeight();
             halfTableHeight = TableHeight / 1.75f;
+        } else {
+            if((scrollbar >= (TableHeight * 2.25))) FinishedCredits();
         }
         if(staticTableHeight <= 0){
             staticTableHeight = staticTable.getHeight();
@@ -143,10 +145,9 @@ public class epicCreditsDialog extends Dialog {
         setStyle(baller);
 
         Log.info(scrollbar);
-        Log.info(TableHeight);
-        Log.info(scrollbar >= (TableHeight));
+        Log.info(TableHeight * 2.25);
+        Log.info(scrollbar >= (TableHeight * 2.25));
 
-        if((scrollbar >= (TableHeight * 2.25))) FinishedCredits();
         if(Core.input.keyDown(KeyCode.escape)) FinishedCredits();
         if(Core.app.isMobile()){
             if(firstTap){
