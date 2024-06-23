@@ -1,5 +1,6 @@
 package classicMod.library.ui.menu;
 
+import arc.Core;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.graphics.gl.*;
@@ -25,14 +26,14 @@ public class SpaceMenuBackground extends MenuBackground {
 
         menuBuffer.begin(Color.clear);
 
-        params.alwaysDrawAtmosphere = true;
+        params.alwaysDrawAtmosphere = Core.settings.getBool("atmosphere");
         params.drawUi = false;
 
         if (menuParams == null) {
             menuParams = params;
         }
 
-        menuParams.camPos.rotate(Vec3.Y, fdelta(50f, 60f));
+        menuParams.camPos.rotate(Vec3.Y, fdelta(500f, 120f));
 
         renderer.planets.render(menuParams);
 
