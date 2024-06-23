@@ -37,7 +37,7 @@ public class ExtendedMusic {
             current = null;
             //music loader
             try {
-                credits = new Music(tree.get("music/credits.mp3"));
+                credits = new Music(tree.get("music/bleepsgalore.mp3"));
             } catch (Exception ex) {
                 // Music has exception throw, why it was created
                 throw new RuntimeException(ex);
