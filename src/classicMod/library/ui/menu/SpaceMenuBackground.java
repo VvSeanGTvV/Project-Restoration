@@ -33,7 +33,7 @@ public class SpaceMenuBackground extends MenuBackground {
             menuParams = params;
         }
 
-        menuParams.camPos.rotate(Vec3.Y, fdelta(500f, 120f));
+        menuParams.camPos.rotate(Vec3.Y, fdelta(250f, 120f));
 
         renderer.planets.render(menuParams);
 
