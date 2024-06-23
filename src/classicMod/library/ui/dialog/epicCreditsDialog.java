@@ -123,6 +123,7 @@ public class epicCreditsDialog extends Dialog {
             TableHeight = in.getHeight();
             halfTableHeight = TableHeight / 1.75f;
         }
+        if(scrollbar >= (TableHeight * 1.36f)){ FinishedCredits(); return; }
         //Log.info("IN HEIGHT " +in.getHeight());
         //Log.info("IN prefHEIGHT " +in.getPrefHeight());
         //Log.info("IN minHEIGHT " +in.getMinHeight());
@@ -138,13 +139,13 @@ public class epicCreditsDialog extends Dialog {
 
         setStyle(baller);
 
-        Log.info(scrollbar);
-        Log.info(TableHeight * 1.375f);
-        Log.info(scrollbar >= (TableHeight * 1.375f));
+        //Log.info(scrollbar);
+        //Log.info(TableHeight * 1.36f);
+        //Log.info(scrollbar >= (TableHeight * 1.36f));
         Log.info((float) getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() / 2);
 
         if(Core.input.keyDown(KeyCode.escape)) FinishedCredits();
-        if(scrollbar >= (TableHeight * 1.375f)) FinishedCredits();
+
         if(Core.app.isMobile()){
             if(firstTap){
                 if(!Core.input.isTouched()){ onHold = false; }
