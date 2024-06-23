@@ -104,9 +104,15 @@ public class UIExtended {
         return Core.graphics.getHeight();
     }
 
-    public static float fdelta(float nanoseconds, float smoothFrame){
+    /**
+     * An aligner/timing set to perfectly timed with the Client's FPS
+     * @param nanoseconds Nanoseconds, timing second
+     * @param targetFPS Target Frame
+     * @return FPS Timing correctly to the Client's FPS
+     */
+    public static float fdelta(float nanoseconds, float targetFPS){
         float target = 1000 / nanoseconds;
         float fpstarget = target * Core.graphics.getFramesPerSecond();
-        return smoothFrame / fpstarget;
+        return targetFPS / fpstarget;
     }
 }

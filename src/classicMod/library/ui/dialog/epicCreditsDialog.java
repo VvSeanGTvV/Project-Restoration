@@ -8,6 +8,7 @@ import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.input.KeyCode;
 import arc.math.Mathf;
+import arc.math.geom.Plane;
 import arc.scene.*;
 import arc.scene.style.*;
 import arc.scene.ui.*;
@@ -24,6 +25,7 @@ import mindustry.Vars;
 import mindustry.core.UI;
 import mindustry.gen.*;
 import mindustry.graphics.Pal;
+import mindustry.type.Planet;
 import mindustry.ui.Styles;
 import mindustry.ui.dialogs.BaseDialog;
 import mindustry.world.meta.Stat;
@@ -111,11 +113,11 @@ public class epicCreditsDialog extends Dialog {
         cont.add(in).align(Align.bottom);
         show();
     }
+
     int doubleTapTimer;
     boolean onHold;
     boolean firstTap;
 
-    float DurationDialog = 2f;
     @Override
     public void act(float delta) {
         control.sound.stop();
@@ -147,7 +149,6 @@ public class epicCreditsDialog extends Dialog {
         //Log.info((float) getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() / 2);
 
         if(Core.input.keyDown(KeyCode.escape)) FinishedCredits();
-
         if(Core.app.isMobile()){
             if(firstTap){
                 if(!Core.input.isTouched()){ onHold = false; }
