@@ -129,7 +129,7 @@ public class epicCreditsDialog extends Dialog {
         //Log.info("IN minHEIGHT " +in.getMinHeight());
         //Log.info("IN maxHEIGHT " +in.getMaxHeight());
 
-        scrollbar += Time.delta / DurationDialog;
+        scrollbar += 1f;
         //cont.clearChildren();
 
         in.update(() -> {
