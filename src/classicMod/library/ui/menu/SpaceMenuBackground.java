@@ -7,6 +7,7 @@ import arc.math.geom.*;
 import mindustry.graphics.g3d.*;
 
 import static arc.Core.*;
+import static classicMod.library.ui.UIExtended.fdelta;
 import static mindustry.Vars.*;
 
 public class SpaceMenuBackground extends MenuBackground {
@@ -31,7 +32,7 @@ public class SpaceMenuBackground extends MenuBackground {
             menuParams = params;
         }
 
-        menuParams.camPos.rotate(Vec3.Y, 0.05f);
+        menuParams.camPos.rotate(Vec3.Y, fdelta(50f, 60f));
 
         renderer.planets.render(menuParams);
 

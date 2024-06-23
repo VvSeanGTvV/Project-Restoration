@@ -8,6 +8,8 @@ import arc.scene.ui.ImageButton;
 import arc.scene.ui.layout.Cell;
 import arc.scene.utils.Elem;
 import arc.util.Scaling;
+import arc.util.Threads;
+import arc.util.Time;
 import classicMod.library.ui.dialog.*;
 import mindustry.gen.Tex;
 import mindustry.ui.dialogs.SettingsMenuDialog;
@@ -100,5 +102,11 @@ public class UIExtended {
     /** Get the Device's Height resolution **/
     public static int getHeight(){
         return Core.graphics.getHeight();
+    }
+
+    public static float fdelta(float nanoseconds, float smoothFrame){
+        float target = 1000 / nanoseconds;
+        float fpstarget = target * Core.graphics.getFramesPerSecond();
+        return smoothFrame / fpstarget;
     }
 }

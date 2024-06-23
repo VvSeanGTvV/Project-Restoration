@@ -34,6 +34,7 @@ import java.util.concurrent.TimeUnit;
 import static arc.Core.*;
 import static classicMod.ClassicMod.*;
 import static classicMod.content.ExtendedMusic.*;
+import static classicMod.library.ui.UIExtended.fdelta;
 import static mindustry.Vars.control;
 import static mindustry.Vars.state;
 
@@ -129,7 +130,7 @@ public class epicCreditsDialog extends Dialog {
         //Log.info("IN minHEIGHT " +in.getMinHeight());
         //Log.info("IN maxHEIGHT " +in.getMaxHeight());
 
-        scrollbar += 1f;
+        scrollbar += fdelta(1000f, 120f);
         //cont.clearChildren();
 
         in.update(() -> {
