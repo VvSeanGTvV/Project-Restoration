@@ -131,8 +131,8 @@ public class epicCreditsDialog extends Dialog {
         //Log.info("IN prefHEIGHT " +in.getPrefHeight());
         //Log.info("IN minHEIGHT " +in.getMinHeight());
         //Log.info("IN maxHEIGHT " +in.getMaxHeight());
-
-        scrollbar += fdelta(500f, 120f);
+        var bot = (Core.settings.getBool("vsync")) ? 120f : 60f;
+        scrollbar += fdelta(500f, bot);
         //cont.clearChildren();
 
         in.update(() -> {
