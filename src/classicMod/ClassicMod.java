@@ -199,7 +199,7 @@ public class ClassicMod extends Mod{
             t.pref(new UIExtended.Separator("restored-graphic"));
             t.checkPref("use-planetmenu", true);
             t.checkPref("use-lastplanet-bg", false);
-            //t.checkPref("vsync", true, b -> Core.graphics.setVSync(b));
+            t.checkPref("vsync", true, b -> Core.graphics.setVSync(b));
             //t.checkPref("use-custom-logo", false);
 
             t.pref(new UIExtended.Separator("restored-annoying-window"));
