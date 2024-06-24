@@ -131,21 +131,20 @@ public class epicCreditsDialog extends Dialog {
         //Log.info("IN prefHEIGHT " +in.getPrefHeight());
         //Log.info("IN minHEIGHT " +in.getMinHeight());
         //Log.info("IN maxHEIGHT " +in.getMaxHeight());
-        var bot = (Vars.mobile) ? 120f : 60f;
-        scrollbar += fdelta(500f, bot);
+        var bot = (Vars.mobile) ? 120f : 60f; //alignment for mobile kinda off bud
+        scrollbar += fdelta(650f, bot);
         //cont.clearChildren();
 
         in.update(() -> {
             setTranslation(0f, scrollbar - (halfTableHeight + Core.camera.height));
         });
 
-
         setStyle(baller);
 
-        Log.info("Crolld "+ scrollbar);
-        Log.info("Crollf "+ scrollbar * 1.15f);
-        Log.info("Crollh "+ TableHeight * 1.462f);
-        Log.info(scrollbar * 1.15f >= (TableHeight * 1.462f));
+        //Log.info("Crolld "+ scrollbar);
+        //Log.info("Crollf "+ scrollbar * 1.15f);
+        //Log.info("Crollh "+ TableHeight * 1.462f);
+        //Log.info(scrollbar * 1.15f >= (TableHeight * 1.462f));
         //Log.info((float) getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() / 2);
 
         if(Core.input.keyDown(KeyCode.escape)) FinishedCredits();

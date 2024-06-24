@@ -4,11 +4,17 @@ import arc.graphics.g2d.*;
 import arc.math.geom.*;
 //re implemenation of uCore Graphics, can onky be used by this at the moment...
 public class uCoreLines extends Lines {
-    private static Vec2 vector = new Vec2();
+    private static final Vec2 vector = new Vec2();
     public static void swirl(float x, float y, float radius, float finion){
         swirl(x, y, radius, finion, 0f);
     }
 
+    /**
+     * Creates a Swirl like effect from uCore's Graphics.
+     * @param x X position.
+     * @param y Y position.
+     * @param radius How large is it.
+     */
     public static void swirl(float x, float y, float radius, float finion, float angle){
         int sides = 50;
         int max = (int) (sides * (finion + 0.001f));
