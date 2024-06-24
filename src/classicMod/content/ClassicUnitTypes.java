@@ -56,12 +56,11 @@ public class ClassicUnitTypes {
 
     azathoth, //Unit - Custom - Old Content [v5]
 
-    alphaChan, crawlerChan, boulderChan, monoChan, octChan, oxynoeChan //Unit - Old Content [Animdustry]
+    alphaChan, crawlerChan, boulderChan, monoChan, octChan, oxynoeChan, quadChan, seiChan, zenithChan //Unit - Old Content [Animdustry]
     ;
 
     public static void load() {
 
-        // TODO effect
         alphaChan = new JumpingUnitType("alphachan"){{
             health = 200f;
             hitSize = 10f;
@@ -121,6 +120,37 @@ public class ClassicUnitTypes {
 
             healPercent = 15f;
             healRange = 50f;
+
+            constructor = MechUnit::create;
+        }};
+
+        quadChan = new JumpingUnitType("quadchan"){{
+            health = 200f;
+            hitSize = 10f;
+
+            StompExplosion = true;
+            StompColor = Pal.heal;
+
+            healPercent = 12f;
+            healRange = 60f;
+
+            constructor = MechUnit::create;
+        }};
+
+        seiChan = new JumpingUnitType("seichan"){{
+            health = 200f;
+            hitSize = 10f;
+
+            StompColor = Color.valueOf("ffa665");
+
+            constructor = MechUnit::create;
+        }};
+
+        zenithChan = new JumpingUnitType("zenithchan"){{
+            health = 200f;
+            hitSize = 10f;
+
+            StompColor = Color.valueOf("ffcc8a");
 
             constructor = MechUnit::create;
         }};

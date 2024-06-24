@@ -2,9 +2,13 @@ package classicMod.library.animdustry;
 
 import arc.Core;
 import arc.graphics.Color;
+import arc.graphics.Pixmap;
+import arc.graphics.Pixmaps;
 import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.TextureAtlas;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
+import arc.struct.Seq;
 import arc.util.Log;
 import arc.util.Time;
 import classicMod.content.ExtendedFx;
@@ -12,13 +16,16 @@ import classicMod.library.ai.JumpingAI;
 import mindustry.content.Fx;
 import mindustry.entities.Effect;
 import mindustry.gen.Unit;
+import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
+import mindustry.graphics.MultiPacker;
 import mindustry.type.UnitType;
 import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatUnit;
 import mindustry.world.meta.StatValues;
 
 import static mindustry.Vars.tilesize;
+import static mindustry.core.UI.packer;
 
 public class JumpingUnitType extends UnitType {
 
@@ -50,8 +57,8 @@ public class JumpingUnitType extends UnitType {
         stats.add(Stat.health, health);
         stats.add(Stat.size, StatValues.squared(hitSize / tilesize, StatUnit.blocks));
         if(healPercent > 0f && healRange > 0f){
-            stats.add(Stat.healing, healPercent);
-            stats.add(Stat.range, StatValues.squared(healRange / tilesize, StatUnit.blocks));
+            stats.add(Stat.healing, healPercent, StatUnit.percent);
+            stats.add(Stat.range, StatValues.squared(healRange / tilesize, StatUnit.none));
         }
     }
 
@@ -65,6 +72,13 @@ public class JumpingUnitType extends UnitType {
 
             if(ai.hit) ai.hitTimer += 2.25f * Time.delta;
         }
+    }
+
+    @Override
+    public void init() {
+        super.init();
+
+        ouch = Core.atlas.find(name + "-hit"); region = Core.atlas.find(name);
     }
 
     boolean flip;
@@ -82,13 +96,32 @@ public class JumpingUnitType extends UnitType {
             if (sine < -0.85f){ ai.timing = 2f; ai.timingY = 0.5f; }
             if ((sine > 0f && !ai.stopMoving) && !onlySlide) {
                 var Ysine = Mathf.sin(Mathf.sin(ai.timingY) * 3);
-                Draw.rect(region, unit.x, unit.y + 2 + Ysine * 3, (((float) region.width / 2) + sine * 5) * Draw.xscl, ((float) region.height / 2) - sine * 10);
+                if(!ai.hit) Draw.rect(region, unit.x, unit.y + 2 + Ysine * 3, (((float) region.width / 2) + sine * 5) * Draw.xscl, ((float) region.height / 2) - sine * 10);
                 if(ai.hit) Draw.rect(ouch, unit.x, unit.y + 2 + Ysine * 3, (((float) ouch.width / 2) + sine * 5) * Draw.xscl, ((float) ouch.height / 2) - sine * 10);
             } else {
-                Draw.rect(region, unit.x, unit.y + 2, (((float) region.width / 2) * Draw.xscl), (float) region.height / 2);
+                if(!ai.hit) Draw.rect(region, unit.x, unit.y + 2, (((float) region.width / 2) * Draw.xscl), (float) region.height / 2);
                 if(ai.hit) Draw.rect(ouch, unit.x, unit.y + 2, (((float) ouch.width / 2) * Draw.xscl), ((float) ouch.height / 2));
             }
             Draw.xscl = -1f;
+        }
+    }
+
+    @Override
+    public void createIcons(MultiPacker packer) {
+        super.createIcons(packer);
+
+        var toOutline = new Seq<TextureRegion>();
+        getRegionsToOutline(toOutline);
+
+        for(var ouch : toOutline){
+            if(region instanceof TextureAtlas.AtlasRegion atlas){
+                String regionName = atlas.name;
+                Pixmap outlined = Pixmaps.outline(Core.atlas.getPixmap(region), outlineColor, outlineRadius);
+
+                Drawf.checkBleed(outlined);
+
+                packer.add(MultiPacker.PageType.main, regionName + "-outline", outlined);
+            }
         }
     }
 
