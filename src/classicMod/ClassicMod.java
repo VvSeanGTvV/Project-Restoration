@@ -199,6 +199,7 @@ public class ClassicMod extends Mod{
             t.pref(new UIExtended.Separator("restored-graphic"));
             t.checkPref("use-planetmenu", true);
             t.checkPref("use-lastplanet-bg", false);
+            //t.checkPref("vsync", true, b -> Core.graphics.setVSync(b));
             //t.checkPref("use-custom-logo", false);
 
             t.pref(new UIExtended.Separator("restored-annoying-window"));
@@ -217,6 +218,7 @@ public class ClassicMod extends Mod{
             t.checkPref("content-classic", false);
             t.checkPref("content-v4", false);
 
+
             /*if(false) {
                 t.pref(new Separator("restored-backwards-compatible"));
                 t.checkPref("backward-v5", false); //TODO make some mods backwards compatiblilty with v5
@@ -229,6 +231,7 @@ public class ClassicMod extends Mod{
             t.add("Mod Version: "+ModVersion).row();
             t.add("Build Version: "+BuildVer).row();
             t.add("Latest Release: "+!AutoUpdate.overBuild).row();
+            t.add("Mobile VSync: "+settings.getBool("vsync")).row();
             //t.add("Latest Pre-Release: "+AutoUpdate.overBuild).row();
             //t.add("Github Build Version: "+AutoUpdate.getLatestBuild()).row();
             //t.areaTextPref("Mod Stats","Mod Version: "+ModVersion+"\nBuild Version: "+BuildVer+"\nPre-Release: "+overBuild);
