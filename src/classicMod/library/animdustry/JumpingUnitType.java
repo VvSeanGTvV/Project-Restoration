@@ -113,9 +113,11 @@ public class JumpingUnitType extends UnitType {
         var toOutline = new Seq<TextureRegion>();
         getRegionsToOutline(toOutline);
 
-        for(var ouch : toOutline){
+        for(var region : toOutline){
             if(region instanceof TextureAtlas.AtlasRegion atlas){
-                String regionName = atlas.name;
+                Log.info(atlas.name);
+                Log.info(region);
+                String regionName = atlas.name + "-hit";
                 Pixmap outlined = Pixmaps.outline(Core.atlas.getPixmap(region), outlineColor, outlineRadius);
 
                 Drawf.checkBleed(outlined);
