@@ -112,19 +112,15 @@ public class JumpingUnitType extends UnitType {
 
         var toOutline = new Seq<TextureRegion>();
         getRegionsToOutline(toOutline);
-
-        for(var region : toOutline){
-            if(region instanceof TextureAtlas.AtlasRegion atlas){
-                Log.info(atlas.name);
-                Log.info(region);
-                String regionName = atlas.name + "-hit";
+        var atlas = ouch.asAtlas();
+            if(atlas != null){
+                String regionName = atlas.name;
                 Pixmap outlined = Pixmaps.outline(Core.atlas.getPixmap(region), outlineColor, outlineRadius);
 
                 Drawf.checkBleed(outlined);
 
                 packer.add(MultiPacker.PageType.main, regionName + "-outline", outlined);
             }
-        }
     }
 
     public float getTimingSine(JumpingAI ai){
