@@ -73,7 +73,7 @@ public class JumpingUnitType extends UnitType {
                 ai.timingY -= 0.275f * Time.delta;
             }
 
-            if(ai.hit){ ai.hitTimer += 0.25f * Time.delta; Log.info(ai.hitTimer);}
+            if(ai.hit){ ai.hitTimer += 1.15f * Time.delta; Log.info(ai.hitTimer); Log.info(1.15f * Time.delta);}
         }
     }
 
