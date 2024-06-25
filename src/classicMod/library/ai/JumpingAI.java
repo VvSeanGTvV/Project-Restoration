@@ -207,16 +207,6 @@ public class JumpingAI extends AIController {
         return f;
     }
 
-    Building AnalyzeBuild(Tile v){
-        Building f = null;
-        if(v != null) {
-            if (!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree || v.block() instanceof Prop)) {
-                f = v.build;
-            }
-        }
-        return f;
-    }
-
     public void pathfind(int pathTarget, int costType){
         v1.set(unit);
         Tile tile = unit.tileOn();

@@ -24,8 +24,10 @@ import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatUnit;
 import mindustry.world.meta.StatValues;
 
+import static classicMod.library.ui.UIExtended.fdelta;
 import static mindustry.Vars.tilesize;
 import static mindustry.core.UI.packer;
+import static mindustry.world.meta.StatValues.fixValue;
 
 public class JumpingUnitType extends UnitType {
 
@@ -46,6 +48,7 @@ public class JumpingUnitType extends UnitType {
         controller = u -> new JumpingAI();
         outlineRadius = 1;
         flying = false;
+        drawBody = false;
 
         outlineColor = Color.black;
         logicControllable = playerControllable = allowedInPayloads = false;
@@ -58,7 +61,7 @@ public class JumpingUnitType extends UnitType {
         stats.add(Stat.size, StatValues.squared(hitSize / tilesize, StatUnit.blocks));
         if(healPercent > 0f && healRange > 0f){
             stats.add(Stat.healing, healPercent, StatUnit.percent);
-            stats.add(Stat.range, StatValues.squared(healRange / tilesize, StatUnit.none));
+            stats.add(Stat.range, fixValue(healRange / tilesize), StatUnit.blocks);
         }
     }
 
@@ -70,7 +73,7 @@ public class JumpingUnitType extends UnitType {
                 ai.timingY -= 0.275f * Time.delta;
             }
 
-            if(ai.hit) ai.hitTimer += 2.25f * Time.delta;
+            if(ai.hit) ai.hitTimer += fdelta(500f, 60f);
         }
     }
 
@@ -88,6 +91,7 @@ public class JumpingUnitType extends UnitType {
     public void draw(Unit unit) {
         if(unit.controller() instanceof JumpingAI ai) {
             ouch = Core.atlas.find(name + "-hit"); region = Core.atlas.find(name); outlineOuchRegion = Core.atlas.find(name + "-hit-outline");
+            Draw.reset();
 
             int direction = Mathf.round((unit.rotation / 90) % 4);
             if(!(direction == 1 || direction == 3)) flip = (direction == 0);
@@ -98,13 +102,19 @@ public class JumpingUnitType extends UnitType {
             if (sine < -0.85f){ ai.timing = 2f; ai.timingY = 0.5f; }
             if ((sine > 0f && !ai.stopMoving) && !onlySlide) {
                 var Ysine = Mathf.sin(Mathf.sin(ai.timingY) * 3);
-                if(!ai.hit) Draw.rect(region, unit.x, unit.y + 2 + Ysine * 3, (((float) region.width / 2) + sine * 5) * Draw.xscl, ((float) region.height / 2) - sine * 10);
+                if(!ai.hit) {
+                    drawBodyOutline(unit);
+                    Draw.rect(region, unit.x, unit.y + 2 + Ysine * 3, (((float) region.width / 2) + sine * 5) * Draw.xscl, ((float) region.height / 2) - sine * 10);
+                }
                 if(ai.hit){
                     drawOuchOutline(unit);
                     Draw.rect(ouch, unit.x, unit.y + 2 + Ysine * 3, (((float) ouch.width / 2) + sine * 5) * Draw.xscl, ((float) ouch.height / 2) - sine * 10);
                 }
             } else {
-                if(!ai.hit) Draw.rect(region, unit.x, unit.y + 2, (((float) region.width / 2) * Draw.xscl), (float) region.height / 2);
+                if(!ai.hit) {
+                    drawBodyOutline(unit);
+                    Draw.rect(region, unit.x, unit.y + 2, (((float) region.width / 2) * Draw.xscl), (float) region.height / 2);
+                }
                 if(ai.hit){
                     drawOuchOutline(unit);
                     Draw.rect(ouch, unit.x, unit.y + 2, (((float) ouch.width / 2) * Draw.xscl), ((float) ouch.height / 2));
@@ -122,6 +132,17 @@ public class JumpingUnitType extends UnitType {
             applyOutlineColor(unit);
             Draw.rect(outlineOuchRegion, unit.x, unit.y + 2, (((float) ouch.width / 2) * Draw.xscl), ((float) ouch.height / 2));
             //Draw.rect(outlineOuchRegion, unit.x, unit.y, unit.rotation - 90);
+            Draw.reset();
+        }
+    }
+
+    public void drawBodyOutline(Unit unit){
+        Draw.reset();
+
+        if(Core.atlas.isFound(outlineRegion)){
+            applyColor(unit);
+            applyOutlineColor(unit);
+            Draw.rect(outlineRegion, unit.x, unit.y, unit.rotation - 90);
             Draw.reset();
         }
     }
