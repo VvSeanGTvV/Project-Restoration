@@ -48,7 +48,6 @@ public class JumpingUnitType extends UnitType {
         controller = u -> new JumpingAI();
         outlineRadius = 1;
         flying = false;
-        drawBody = false;
 
         outlineColor = Color.black;
         logicControllable = playerControllable = allowedInPayloads = false;
@@ -72,6 +71,7 @@ public class JumpingUnitType extends UnitType {
             if(getTimingSine(ai) > 0f){
                 ai.timingY -= 0.275f * Time.delta;
             }
+            if(ai.hit) ai.hitTimer += fdelta(500f, 60f);
         }
     }
 
