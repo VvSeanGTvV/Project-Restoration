@@ -42,7 +42,7 @@ public class JumpingAI extends AIController {
 
     private float lastHealth;
 
-    public int hitTimer;
+    public float hitTimer;
 
     private float lH;
 
