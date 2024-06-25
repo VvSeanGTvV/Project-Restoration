@@ -123,7 +123,7 @@ public class JumpingAI extends AIController {
                     }
 
                     if(Ju.healPercent / 60f > 0f && Ju.healRange > 0f){
-                        var baller = Units.closest(unit.team, unit.x, unit.y, Ju.healRange, u -> u.isValid() && u.health < u.maxHealth);
+                        var baller = Units.closest(unit.team, unit.x, unit.y, Ju.healRange, u -> u.isValid() && u.health < u.maxHealth && u != this.unit);
                         if(baller != null){
                             Fx.heal.at(baller);
                             baller.heal(Ju.healPercent / 60f);

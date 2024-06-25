@@ -104,7 +104,7 @@ public class JumpingUnitType extends UnitType {
             if ((sine > 0f && !ai.stopMoving) && !onlySlide) {
                 var Ysine = Mathf.sin(Mathf.sin(ai.timingY) * 3);
                 if(!ai.hit) {
-                    drawBodyOutline(unit);
+                    //drawBodyOutline(unit);
                     Draw.rect(body, unit.x, unit.y + 2 + Ysine * 3, (((float) body.width / 2) + sine * 5) * Draw.xscl, ((float) body.height / 2) - sine * 10);
                 }
                 if(ai.hit){
@@ -113,7 +113,7 @@ public class JumpingUnitType extends UnitType {
                 }
             } else {
                 if(!ai.hit) {
-                    drawBodyOutline(unit);
+                    //drawBodyOutline(unit);
                     Draw.rect(body, unit.x, unit.y + 2, (((float) body.width / 2) * Draw.xscl), (float) body.height / 2);
                 }
                 if(ai.hit){
