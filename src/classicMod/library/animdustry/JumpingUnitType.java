@@ -29,7 +29,7 @@ import static mindustry.core.UI.packer;
 
 public class JumpingUnitType extends UnitType {
 
-    public TextureRegion ouch;
+    public TextureRegion ouch, outlineOuchRegion;
 
     public boolean onlySlide = false;
 
@@ -78,14 +78,16 @@ public class JumpingUnitType extends UnitType {
     public void init() {
         super.init();
 
-        ouch = Core.atlas.find(name + "-hit"); region = Core.atlas.find(name);
+        ouch = Core.atlas.find(name + "-hit");
+        region = Core.atlas.find(name);
+        outlineOuchRegion = Core.atlas.find(name + "-hit-outline");
     }
 
     boolean flip;
     @Override
     public void draw(Unit unit) {
         if(unit.controller() instanceof JumpingAI ai) {
-            ouch = Core.atlas.find(name + "-hit"); region = Core.atlas.find(name);
+            ouch = Core.atlas.find(name + "-hit"); region = Core.atlas.find(name); outlineOuchRegion = Core.atlas.find(name + "-hit-outline");
 
             int direction = Mathf.round((unit.rotation / 90) % 4);
             if(!(direction == 1 || direction == 3)) flip = (direction == 0);
@@ -97,12 +99,29 @@ public class JumpingUnitType extends UnitType {
             if ((sine > 0f && !ai.stopMoving) && !onlySlide) {
                 var Ysine = Mathf.sin(Mathf.sin(ai.timingY) * 3);
                 if(!ai.hit) Draw.rect(region, unit.x, unit.y + 2 + Ysine * 3, (((float) region.width / 2) + sine * 5) * Draw.xscl, ((float) region.height / 2) - sine * 10);
-                if(ai.hit) Draw.rect(ouch, unit.x, unit.y + 2 + Ysine * 3, (((float) ouch.width / 2) + sine * 5) * Draw.xscl, ((float) ouch.height / 2) - sine * 10);
+                if(ai.hit){
+                    drawOuchOutline(unit);
+                    Draw.rect(ouch, unit.x, unit.y + 2 + Ysine * 3, (((float) ouch.width / 2) + sine * 5) * Draw.xscl, ((float) ouch.height / 2) - sine * 10);
+                }
             } else {
                 if(!ai.hit) Draw.rect(region, unit.x, unit.y + 2, (((float) region.width / 2) * Draw.xscl), (float) region.height / 2);
-                if(ai.hit) Draw.rect(ouch, unit.x, unit.y + 2, (((float) ouch.width / 2) * Draw.xscl), ((float) ouch.height / 2));
+                if(ai.hit){
+                    drawOuchOutline(unit);
+                    Draw.rect(ouch, unit.x, unit.y + 2, (((float) ouch.width / 2) * Draw.xscl), ((float) ouch.height / 2));
+                }
             }
             Draw.xscl = -1f;
+        }
+    }
+
+    public void drawOuchOutline(Unit unit){
+        Draw.reset();
+
+        if(Core.atlas.isFound(outlineOuchRegion)){
+            applyColor(unit);
+            applyOutlineColor(unit);
+            Draw.rect(outlineOuchRegion, unit.x, unit.y, unit.rotation - 90);
+            Draw.reset();
         }
     }
 
