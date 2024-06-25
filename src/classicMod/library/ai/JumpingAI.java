@@ -79,28 +79,32 @@ public class JumpingAI extends AIController {
             Stomp = Ju.StompEffect;
             Building core = unit.closestEnemyCore();
 
+            if(lH != unit.health){ hitTimer = 0; lH = unit.health; }
+
+            if(lastHealth > unit.health){
+                hit = true;
+                stopMoving = true;
+                move = false;
+                this.hitTimer += fdelta(500, 60f);
+
+                Log.info(this.hitTimer);
+                Log.info(this.hitTimer >= 2f);
+                if(this.hitTimer >= 2f){
+                    hit = false;
+                    lastHealth = unit.health;
+                    this.hitTimer = 0;
+                }
+            }
+            if(lastHealth < unit.health){
+                lastHealth = unit.health;
+            }
+
             if ((core == null || !unit.within(core, 0.5f))) {
                 boolean move = (Ju.getTimingSine(this) >= 0.5f && !hit);
                 stopMoving = false;
 
-                if(lH != unit.health){ hitTimer = 0; lH = unit.health; }
-                if(lastHealth > unit.health){
-                    hit = true;
-                    stopMoving = true;
-                    move = false;
-                    this.hitTimer += fdelta(500, 60f);
 
-                    Log.info(this.hitTimer);
-                    Log.info(this.hitTimer >= 2f);
-                    if(this.hitTimer >= 2f){
-                        hit = false;
-                        lastHealth = unit.health;
-                        this.hitTimer = 0;
-                    }
-                }
-                if(lastHealth < unit.health){
-                    lastHealth = unit.health;
-                }
+
 
                 if (state.rules.waves && unit.team == state.rules.defaultTeam) {
                     Tile spawner = getClosestSpawner();
