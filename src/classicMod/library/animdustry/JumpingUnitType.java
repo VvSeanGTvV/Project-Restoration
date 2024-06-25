@@ -103,7 +103,7 @@ public class JumpingUnitType extends UnitType {
             if ((sine > 0f && !ai.stopMoving) && !onlySlide) {
                 var Ysine = Mathf.sin(Mathf.sin(ai.timingY) * 3);
                 if(!ai.hit) {
-                    drawBodyOutline(unit);
+                    //drawBodyOutline(unit);
                     Draw.rect(region, unit.x, unit.y + 2 + Ysine * 3, (((float) region.width / 2) + sine * 5) * Draw.xscl, ((float) region.height / 2) - sine * 10);
                 }
                 if(ai.hit){
@@ -112,7 +112,7 @@ public class JumpingUnitType extends UnitType {
                 }
             } else {
                 if(!ai.hit) {
-                    drawBodyOutline(unit);
+                    //drawBodyOutline(unit);
                     Draw.rect(region, unit.x, unit.y + 2, (((float) region.width / 2) * Draw.xscl), (float) region.height / 2);
                 }
                 if(ai.hit){
@@ -130,8 +130,7 @@ public class JumpingUnitType extends UnitType {
         if(Core.atlas.isFound(outlineOuchRegion)){
             applyColor(unit);
             applyOutlineColor(unit);
-            Draw.rect(outlineOuchRegion, unit.x, unit.y + 2, (((float) ouch.width / 2) * Draw.xscl), ((float) ouch.height / 2));
-            //Draw.rect(outlineOuchRegion, unit.x, unit.y, unit.rotation - 90);
+            Draw.rect(region, unit.x, unit.y + 2, (((float) region.width / 2) * Draw.xscl), (float) region.height / 2);
             Draw.reset();
         }
     }
@@ -142,7 +141,7 @@ public class JumpingUnitType extends UnitType {
         if(Core.atlas.isFound(outlineRegion)){
             applyColor(unit);
             applyOutlineColor(unit);
-            Draw.rect(outlineRegion, unit.x, unit.y, unit.rotation - 90);
+            Draw.rect(region, unit.x, unit.y + 2 + Ysine * 3, (((float) region.width / 2) + sine * 5) * Draw.xscl, ((float) region.height / 2) - sine * 10);
             Draw.reset();
         }
     }
@@ -151,17 +150,15 @@ public class JumpingUnitType extends UnitType {
     public void createIcons(MultiPacker packer) {
         super.createIcons(packer);
 
-        var toOutline = new Seq<TextureRegion>();
-        getRegionsToOutline(toOutline);
         var atlas = Core.atlas.find(name + "-hit").asAtlas();
-            if(atlas != null){
-                String regionName = atlas.name;
-                Pixmap outlined = Pixmaps.outline(Core.atlas.getPixmap(region), outlineColor, outlineRadius);
+        if(atlas != null){
+            String regionName = atlas.name;
+            Pixmap outlined = Pixmaps.outline(Core.atlas.getPixmap(region), outlineColor, outlineRadius);
 
-                Drawf.checkBleed(outlined);
+            Drawf.checkBleed(outlined);
 
-                packer.add(MultiPacker.PageType.main, regionName + "-outline", outlined);
-            }
+            packer.add(MultiPacker.PageType.main, regionName + "-outline", outlined);
+        }
     }
 
     public float getTimingSine(JumpingAI ai){
