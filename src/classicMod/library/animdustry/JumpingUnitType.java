@@ -120,7 +120,8 @@ public class JumpingUnitType extends UnitType {
         if(Core.atlas.isFound(outlineOuchRegion)){
             applyColor(unit);
             applyOutlineColor(unit);
-            Draw.rect(outlineOuchRegion, unit.x, unit.y, unit.rotation - 90);
+            Draw.rect(outlineOuchRegion, unit.x, unit.y + 2, (((float) ouch.width / 2) * Draw.xscl), ((float) ouch.height / 2));
+            //Draw.rect(outlineOuchRegion, unit.x, unit.y, unit.rotation - 90);
             Draw.reset();
         }
     }
