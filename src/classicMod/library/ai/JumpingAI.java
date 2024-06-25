@@ -24,6 +24,7 @@ import mindustry.world.blocks.environment.Floor;
 import mindustry.world.blocks.environment.Prop;
 import mindustry.world.blocks.environment.StaticTree;
 import mindustry.world.blocks.environment.StaticWall;
+import org.jetbrains.annotations.NotNull;
 
 import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.stroke;
@@ -89,10 +90,10 @@ public class JumpingAI extends AIController {
                     stopMoving = true;
                     move = false;
 
-                    if(this.hitTimer >= 2f){
+                    if(hitTimer >= 2f){
                         hit = false;
                         lastHealth = unit.health;
-                        this.hitTimer = 0;
+                        hitTimer = 0;
                     }
                 }
                 if(lastHealth < unit.health){
@@ -167,12 +168,18 @@ public class JumpingAI extends AIController {
 
     boolean isSurroundedBlock(int size){
         int yeet = 0;
-        for (int x = 0; x < size; x++){
-            for (int y = 0; y < size; y++){
-                yeet += Mathf.sign(TileUniformUnitSurround[y][x] != null);
+        boolean ret;
+        if(TileUniformUnitSurround != null) {
+            for (int x = 0; x < size; x++) {
+                for (int y = 0; y < size; y++) {
+                    yeet += Mathf.sign(TileUniformUnitSurround[y][x] != null);
+                }
             }
+            ret = (yeet >= TileUniformUnitSurround.length);
+        } else {
+            ret = false;
         }
-        return (yeet >= TileUniformUnitSurround.length);
+        return ret;
     }
 
     boolean isSurroundedBlockEnemy(int size, Team team){
@@ -232,9 +239,11 @@ public class JumpingAI extends AIController {
     }
 
     public void Wave(JumpingUnitType Ju){
-        if(Ju.StompExplosion) Ju.StompExplosionEffect.at(unit.x, unit.y, 0f, Ju.StompColor);
-        Ju.StompEffect.at(unit.x, unit.y, 10f, Ju.StompColor);
-        //ExtendedFx.dynamicWave.at(unit.x, unit.y, 10f, Color.valueOf("ffd27e"));
+        if(Ju != null) {
+            if (Ju.StompExplosion) Ju.StompExplosionEffect.at(unit.x, unit.y, 0f, Ju.StompColor);
+            Ju.StompEffect.at(unit.x, unit.y, 10f, Ju.StompColor);
+            //ExtendedFx.dynamicWave.at(unit.x, unit.y, 10f, Color.valueOf("ffd27e"));
+        }
     }
 
     public void DamageBuild(Building b) {
