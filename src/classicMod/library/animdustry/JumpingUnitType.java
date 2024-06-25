@@ -112,7 +112,7 @@ public class JumpingUnitType extends UnitType {
 
         var toOutline = new Seq<TextureRegion>();
         getRegionsToOutline(toOutline);
-        var atlas = ouch.asAtlas();
+        var atlas = Core.atlas.find(name + "-hit").asAtlas();
             if(atlas != null){
                 String regionName = atlas.name;
                 Pixmap outlined = Pixmaps.outline(Core.atlas.getPixmap(region), outlineColor, outlineRadius);
