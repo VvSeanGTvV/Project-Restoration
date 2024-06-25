@@ -80,6 +80,12 @@ public class JumpingAI extends AIController {
             Building core = unit.closestEnemyCore();
 
             if(lH != unit.health){ hitTimer = 0; lH = unit.health; }
+            if(hit){
+                this.hitTimer += fdelta(500, 60f);
+
+                Log.info(this.hitTimer);
+                Log.info(this.hitTimer >= 2f);
+            }
 
             if ((core == null || !unit.within(core, 0.5f))) {
                 boolean move = (Ju.getTimingSine(this) >= 0.5f && !hit);
@@ -89,10 +95,7 @@ public class JumpingAI extends AIController {
                     hit = true;
                     stopMoving = true;
                     move = false;
-                    this.hitTimer += fdelta(500, 60f);
 
-                    Log.info(this.hitTimer);
-                    Log.info(this.hitTimer >= 2f);
                     if(this.hitTimer >= 2f){
                         hit = false;
                         lastHealth = unit.health;
