@@ -24,6 +24,7 @@ import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatUnit;
 import mindustry.world.meta.StatValues;
 
+import static classicMod.content.ExtendedStat.squaredRange;
 import static classicMod.library.ui.UIExtended.fdelta;
 import static mindustry.Vars.tilesize;
 import static mindustry.core.UI.packer;
@@ -60,7 +61,7 @@ public class JumpingUnitType extends UnitType {
         stats.add(Stat.size, StatValues.squared(hitSize / tilesize, StatUnit.blocks));
         if(healPercent > 0f && healRange > 0f){
             stats.add(Stat.healing, healPercent, StatUnit.percent);
-            stats.add(Stat.range, fixValue(healRange / tilesize), StatUnit.blocks);
+            stats.add(Stat.range, squaredRange((healRange / tilesize), StatUnit.blocks));
         }
     }
 
@@ -71,7 +72,7 @@ public class JumpingUnitType extends UnitType {
             if(getTimingSine(ai) > 0f){
                 ai.timingY -= 0.275f * Time.delta;
             }
-            if(ai.hit) ai.hitTimer += 0.25f;
+            if(ai.hit) ai.hitTimer += 0.25f * Time.delta;
         }
     }
 

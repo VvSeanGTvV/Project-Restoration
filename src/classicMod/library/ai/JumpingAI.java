@@ -79,7 +79,6 @@ public class JumpingAI extends AIController {
             Stomp = Ju.StompEffect;
             Building core = unit.closestEnemyCore();
 
-            if(lH != unit.health){ hitTimer = 0; lH = unit.health; }
             if ((core == null || !unit.within(core, 0.5f))) {
                 boolean move = (Ju.getTimingSine(this) >= 0.5f && !hit);
                 stopMoving = false;
@@ -183,15 +182,22 @@ public class JumpingAI extends AIController {
 
     boolean isSurroundedBlockEnemy(int size, Team team){
         int yeet = 0;
-        for (int x = 0; x < size; x++){
-            for (int y = 0; y < size; y++){
-                var v = TileUniformUnitSurround[y][x];
-                if(v != null){
-                    if (!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree || v.block() instanceof Prop)) yeet += Mathf.sign(TileUniformUnitSurround[y][x] != null && TileUniformUnitSurround[y][x].build.team != team);
+        boolean ret;
+        if(TileUniformUnitSurround != null) {
+            for (int x = 0; x < size; x++) {
+                for (int y = 0; y < size; y++) {
+                    var v = TileUniformUnitSurround[y][x];
+                    if (v != null) {
+                        if (!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree || v.block() instanceof Prop))
+                            yeet += Mathf.sign(TileUniformUnitSurround[y][x] != null && TileUniformUnitSurround[y][x].build.team != team);
+                    }
                 }
             }
+            ret = (yeet >= TileUniformUnitSurround.length);
+        } else {
+            ret = false;
         }
-        return (yeet >= TileUniformUnitSurround.length);
+        return ret;
     }
 
     Block Analyze(Tile v){
