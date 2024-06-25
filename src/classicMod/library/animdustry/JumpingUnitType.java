@@ -31,7 +31,7 @@ import static mindustry.world.meta.StatValues.fixValue;
 
 public class JumpingUnitType extends UnitType {
 
-    public TextureRegion ouch, outlineOuchRegion;
+    public TextureRegion ouch, outlineOuchRegion, body, bodyOutline;
 
     public boolean onlySlide = false;
 
@@ -82,15 +82,16 @@ public class JumpingUnitType extends UnitType {
         super.init();
 
         ouch = Core.atlas.find(name + "-hit");
-        region = Core.atlas.find(name);
+        body = Core.atlas.find(name);
         outlineOuchRegion = Core.atlas.find(name + "-hit-outline");
+        bodyOutline = Core.atlas.find(name + "-outline");
     }
 
     boolean flip;
     @Override
     public void draw(Unit unit) {
         if(unit.controller() instanceof JumpingAI ai) {
-            ouch = Core.atlas.find(name + "-hit"); region = Core.atlas.find(name); outlineOuchRegion = Core.atlas.find(name + "-hit-outline");
+            ouch = Core.atlas.find(name + "-hit"); body = Core.atlas.find(name); outlineOuchRegion = Core.atlas.find(name + "-hit-outline"); bodyOutline = Core.atlas.find(name + "-outline");
             Draw.reset();
 
             int direction = Mathf.round((unit.rotation / 90) % 4);
@@ -103,8 +104,8 @@ public class JumpingUnitType extends UnitType {
             if ((sine > 0f && !ai.stopMoving) && !onlySlide) {
                 var Ysine = Mathf.sin(Mathf.sin(ai.timingY) * 3);
                 if(!ai.hit) {
-                    //drawBodyOutline(unit);
-                    Draw.rect(region, unit.x, unit.y + 2 + Ysine * 3, (((float) region.width / 2) + sine * 5) * Draw.xscl, ((float) region.height / 2) - sine * 10);
+                    drawBodyOutline(unit);
+                    Draw.rect(body, unit.x, unit.y + 2 + Ysine * 3, (((float) body.width / 2) + sine * 5) * Draw.xscl, ((float) body.height / 2) - sine * 10);
                 }
                 if(ai.hit){
                     drawOuchOutline(unit);
@@ -112,8 +113,8 @@ public class JumpingUnitType extends UnitType {
                 }
             } else {
                 if(!ai.hit) {
-                    //drawBodyOutline(unit);
-                    Draw.rect(region, unit.x, unit.y + 2, (((float) region.width / 2) * Draw.xscl), (float) region.height / 2);
+                    drawBodyOutline(unit);
+                    Draw.rect(body, unit.x, unit.y + 2, (((float) body.width / 2) * Draw.xscl), (float) body.height / 2);
                 }
                 if(ai.hit){
                     drawOuchOutline(unit);
@@ -138,10 +139,10 @@ public class JumpingUnitType extends UnitType {
     public void drawBodyOutline(Unit unit){
         Draw.reset();
 
-        if(Core.atlas.isFound(outlineRegion)){
+        if(Core.atlas.isFound(bodyOutline)){
             applyColor(unit);
             applyOutlineColor(unit);
-            Draw.rect(outlineRegion, unit.x, unit.y + 2, (((float) region.width / 2) * Draw.xscl), (float) region.height / 2);
+            Draw.rect(bodyOutline, unit.x, unit.y + 2, (((float) body.width / 2) * Draw.xscl), (float) body.height / 2);
             Draw.reset();
         }
     }
@@ -150,10 +151,20 @@ public class JumpingUnitType extends UnitType {
     public void createIcons(MultiPacker packer) {
         super.createIcons(packer);
 
-        var atlas = Core.atlas.find(name + "-hit").asAtlas();
-        if(atlas != null){
-            String regionName = atlas.name;
-            Pixmap outlined = Pixmaps.outline(Core.atlas.getPixmap(region), outlineColor, outlineRadius);
+        var atlasA = Core.atlas.find(name + "-hit").asAtlas();
+        if(atlasA != null){
+            String regionName = atlasA.name;
+            Pixmap outlined = Pixmaps.outline(Core.atlas.getPixmap(Core.atlas.find(name + "-hit")), outlineColor, outlineRadius);
+
+            Drawf.checkBleed(outlined);
+
+            packer.add(MultiPacker.PageType.main, regionName + "-outline", outlined);
+        }
+
+        var atlasB = Core.atlas.find(name).asAtlas();
+        if(atlasB != null){
+            String regionName = atlasB.name;
+            Pixmap outlined = Pixmaps.outline(Core.atlas.getPixmap(Core.atlas.find(name)), outlineColor, outlineRadius);
 
             Drawf.checkBleed(outlined);
 
