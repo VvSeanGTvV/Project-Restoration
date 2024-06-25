@@ -107,7 +107,7 @@ public class JumpingUnitType extends UnitType {
                     Draw.rect(body, unit.x, unit.y + 2 + Ysine * 3, (((float) body.width / 2) + sine * 5) * Draw.xscl, ((float) body.height / 2) - sine * 10);
                 }
                 if(ai.hit){
-                    drawOuchOutline(unit);
+                    drawOuchOutline(unit, Mathf.sign(flip));
                     Draw.rect(ouch, unit.x, unit.y + 2 + Ysine * 3, (((float) ouch.width / 2) + sine * 5) * Draw.xscl, ((float) ouch.height / 2) - sine * 10);
                 }
             } else {
@@ -115,7 +115,7 @@ public class JumpingUnitType extends UnitType {
                     Draw.rect(body, unit.x, unit.y + 2, (((float) body.width / 2) * Draw.xscl), (float) body.height / 2);
                 }
                 if(ai.hit){
-                    drawOuchOutline(unit);
+                    drawOuchOutline(unit, Mathf.sign(flip));
                     Draw.rect(ouch, unit.x, unit.y + 2, (((float) ouch.width / 2) * Draw.xscl), ((float) ouch.height / 2));
                 }
             }
@@ -123,13 +123,13 @@ public class JumpingUnitType extends UnitType {
         }
     }
 
-    public void drawOuchOutline(Unit unit){
+    public void drawOuchOutline(Unit unit, float xscl){
         Draw.reset();
 
         if(Core.atlas.isFound(outlineOuchRegion)){
             applyColor(unit);
             applyOutlineColor(unit);
-            Draw.rect(outlineOuchRegion, unit.x, unit.y + 2, (((float) ouch.width / 2) * Draw.xscl), (float) ouch.height / 2);
+            Draw.rect(outlineOuchRegion, unit.x, unit.y + 2, (((float) ouch.width / 2) * xscl), (float) ouch.height / 2);
             Draw.reset();
         }
     }

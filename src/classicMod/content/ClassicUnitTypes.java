@@ -1,6 +1,7 @@
 package classicMod.content;
 
 import arc.graphics.*;
+import arc.graphics.g2d.Draw;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
@@ -11,6 +12,7 @@ import classicMod.library.animdustry.JumpingUnitType;
 import classicMod.library.ai.factoryai.FactoryFlyingAI;
 import classicMod.library.ai.factoryai.FactoryGroundAI;
 import classicMod.library.advanceContent.TentacleUnitType;
+import classicMod.library.bullets.HealBulletType;
 import mindustry.*;
 import mindustry.ai.types.*;
 import mindustry.content.*;
@@ -44,6 +46,7 @@ public class ClassicUnitTypes {
 
     crawler, dagger, titan, fortress, eruptor, chaosArray, eradicator, //Unit - Ground [v5]
 
+    vanguardShip, //Mech - Air - Prototype [v6-dev]
     oculon, //Unit - Ground - Prototype [v6-dev]
     cix, //Unit - Legs - Prototype [v6-dev]
     vanguard, //Unit - Naval - Prototype [v7-dev]
@@ -187,6 +190,57 @@ public class ClassicUnitTypes {
             }});
         }};
 
+        vanguardShip = new UnitType("vanguard-ship"){
+
+            final float cellTrnsY; //old translation Y
+
+            {
+            mineTier = 1;
+            mineSpeed = 4f;
+            speed = 0.49f;
+            drag = 0.09f;
+            health = 200f;
+            //weaponOffsetX = -1;
+            engineSize = 2.3f;
+            //weaponOffsetY = -1;
+            engineColor = Pal.lightTrail;
+            cellTrnsY = 1f;
+            buildSpeed = 1.2f;
+
+            constructor = UnitEntity::create;
+            alwaysUnlocked = true;
+            weapons.add(new Weapon("restored-mind-nullTexture"){{
+                x = -1 + 1.5f;
+                y = -1;
+                //length = 1.5f;
+                reload = 30f;
+                //roundrobin = true;
+                inaccuracy = 6f;
+                velocityRnd = 0.1f;
+                ejectEffect = Fx.none;
+                bullet = new HealBulletType(){{
+                    backColor = engineColor;
+                    homingPower = 20f;
+                    height = 4f;
+                    width = 1.5f;
+                    damage = 3f;
+                    speed = 4f;
+                    lifetime = 40f;
+                    shootEffect = Fx.shootHealYellow;
+                    smokeEffect = hitEffect = despawnEffect = ExtendedFx.hitYellowLaser;
+                }};
+            }});
+        }
+            @Override
+            public void drawCell(Unit unit){
+                applyColor(unit);
+
+                Draw.color(cellColor(unit));
+                Draw.rect(cellRegion, unit.x, unit.y + cellTrnsY, unit.rotation - 90);
+                Draw.reset();
+            }
+        };
+
         /*enemyStandardT1 = new ClassicUnitType("standard-enemy-1"){{
             spriteName = "standard-enemy";
             Color.valueOf("ffe451");
@@ -221,6 +275,7 @@ public class ClassicUnitTypes {
 
             armor = 30f;
             trailColor = Color.valueOf("6e6bcf");
+            trailLength = 3;
 
             weapons.add(new Weapon("restored-mind-nullTexture"){{
                 y = 3f;
@@ -308,7 +363,6 @@ public class ClassicUnitTypes {
                 inaccuracy = 0f;
                 ejectEffect = Fx.none;
                 shootSound = Sounds.spark;
-                ;
                 shootX = -2.6f;
                 mirror = true;
                 bullet = new LightningBulletType() {{ //reformat v5 coding into v7

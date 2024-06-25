@@ -16,6 +16,14 @@ import static mindustry.graphics.Pal.*;
 
 public class ExtendedFx extends Fx {
     public static final Effect
+
+    hitYellowLaser = new Effect(8, e -> {
+        color(Color.white, lightTrail, e.fin());
+        stroke(0.5f + e.fout());
+        Lines.circle(e.x, e.y, e.fin() * 5f);
+
+        Drawf.light(e.x, e.y, 23f, lightTrail, e.fout() * 0.7f);
+    }),
     dynamicSmallBomb = new Effect(40f, 100f, e -> {
         color(e.color);
         stroke(e.fout());
