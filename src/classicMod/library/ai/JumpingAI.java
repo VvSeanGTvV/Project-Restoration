@@ -91,7 +91,7 @@ public class JumpingAI extends AIController {
                     this.hitTimer += fdelta(500, 60f);
 
                     Log.info(this.hitTimer);
-                    Log.info(this.hitTimer  >= 2f);
+                    Log.info(this.hitTimer >= 2f);
                     if(this.hitTimer >= 2f){
                         hit = false;
                         lastHealth = unit.health;
