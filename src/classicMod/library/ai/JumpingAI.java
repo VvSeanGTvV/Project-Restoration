@@ -42,7 +42,7 @@ public class JumpingAI extends AIController {
 
     private float lastHealth;
 
-    public float hitTimer;
+    public float hitDelay;
 
     private float lH;
 
@@ -88,10 +88,10 @@ public class JumpingAI extends AIController {
                     stopMoving = true;
                     move = false;
 
-                    if(hitTimer >= 2f){
+                    if(hitDelay >= 2f){
                         hit = false;
                         lastHealth = unit.health;
-                        hitTimer = 0;
+                        hitDelay = 0;
                     }
                 }
                 if(lastHealth < unit.health){
