@@ -73,7 +73,7 @@ public class JumpingUnitType extends UnitType {
                 ai.timingY -= 0.275f * Time.delta;
             }
 
-            if(ai.hit) ai.hitTimer += fdelta(500f, 60f);
+            if(ai.hit){ ai.hitTimer += fdelta(500f, 60f); Log.info(ai.hitTimer);}
         }
     }
 
@@ -100,6 +100,7 @@ public class JumpingUnitType extends UnitType {
             var sine = Mathf.sin(ai.timing);
             Draw.z(Layer.groundUnit);
 
+            applyColor(unit);
             if (sine < -0.85f){ ai.timing = 2f; ai.timingY = 0.5f; }
             if ((sine > 0f && !ai.stopMoving) && !onlySlide) {
                 var Ysine = Mathf.sin(Mathf.sin(ai.timingY) * 3);
