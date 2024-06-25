@@ -190,22 +190,16 @@ public class ClassicUnitTypes {
             }});
         }};
 
-        vanguardShip = new UnitType("vanguard-ship"){
-
-            final float cellTrnsY; //old translation Y
-
-            {
+        vanguardShip = new UnitType("vanguard-ship"){{
             mineTier = 1;
             mineSpeed = 4f;
             speed = 0.49f;
             drag = 0.09f;
             health = 200f;
-            //weaponOffsetX = -1;
             engineSize = 2.3f;
-            //weaponOffsetY = -1;
             engineColor = Pal.lightTrail;
-            cellTrnsY = 1f;
             buildSpeed = 1.2f;
+            outlines = false;
 
             constructor = UnitEntity::create;
             alwaysUnlocked = true;
@@ -231,14 +225,6 @@ public class ClassicUnitTypes {
                 }};
             }});
         }
-            @Override
-            public void drawCell(Unit unit){
-                applyColor(unit);
-
-                Draw.color(cellColor(unit));
-                Draw.rect(cellRegion, unit.x, unit.y + cellTrnsY, unit.rotation - 90);
-                Draw.reset();
-            }
         };
 
         /*enemyStandardT1 = new ClassicUnitType("standard-enemy-1"){{

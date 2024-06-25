@@ -124,7 +124,7 @@ public class JumpingUnitType extends UnitType {
     }
 
     public void drawOuchOutline(Unit unit, float xscl){
-        Draw.reset();
+        //Draw.reset();
 
         if(Core.atlas.isFound(outlineOuchRegion)){
             applyColor(unit);
