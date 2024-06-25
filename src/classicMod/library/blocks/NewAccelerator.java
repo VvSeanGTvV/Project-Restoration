@@ -117,33 +117,20 @@ public class NewAccelerator extends Block{
 
             //ui.campaignComplete.show(Planets.serpulo);
             table.button(Icon.upOpen, Styles.cleari, () -> {
-                    /*ui.planet.showPlanetLaunch(state.rules.sector, sector -> {
-                        if(state.isCampaign()){
-                            universe.clearLoadoutInfo();
-                            universe.updateLoadout(sector.planet.generator.defaultLoadout.findCore(), sector.planet.generator.defaultLoadout);
-                        }
-                    });*/
-                    /*try {
-                        UIExtended.cutsceneEnding.runCutscene(Planets.serpulo);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }*/
-
-                consume();
-                ui.campaignComplete.show(Planets.serpulo);
-                new epicCreditsDialog();
-
-                deselect();
-            }).size(40f);
-                /*ui.planet.showPlanetLaunch(state.rules.sector, sector -> {
-                    //TODO make cutscene from scratch
+                ui.planet.showPlanetLaunch(state.rules.sector, sector -> {
+                    //TODO cutscene, etc...
 
                     //TODO should consume resources based on destination schem
+
+
                     consume();
 
                     universe.clearLoadoutInfo();
                     universe.updateLoadout(sector.planet.generator.defaultLoadout.findCore(), sector.planet.generator.defaultLoadout);
-                });*/
+                });
+
+                deselect();
+            }).size(40f);
 
             Events.fire(Trigger.acceleratorUse);
         }
