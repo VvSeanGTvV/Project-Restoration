@@ -27,6 +27,7 @@ import mindustry.world.blocks.environment.StaticWall;
 
 import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.stroke;
+import static classicMod.library.ui.UIExtended.fdelta;
 import static mindustry.Vars.*;
 
 public class JumpingAI extends AIController {
@@ -87,13 +88,14 @@ public class JumpingAI extends AIController {
                     hit = true;
                     stopMoving = true;
                     move = false;
+                    this.hitTimer += fdelta(500, 60f);
 
-                    Log.info(hitTimer);
-                    Log.info(hitTimer  >= 2f);
-                    if(hitTimer >= 2f){
+                    Log.info(this.hitTimer);
+                    Log.info(this.hitTimer  >= 2f);
+                    if(this.hitTimer >= 2f){
                         hit = false;
                         lastHealth = unit.health;
-                        hitTimer = 0;
+                        this.hitTimer = 0;
                     }
                 }
                 if(lastHealth < unit.health){
