@@ -88,6 +88,8 @@ public class JumpingAI extends AIController {
                     stopMoving = true;
                     move = false;
 
+                    Log.info(hitTimer);
+                    Log.info(hitTimer  >= 2f);
                     if(hitTimer >= 2f){
                         hit = false;
                         lastHealth = unit.health;
