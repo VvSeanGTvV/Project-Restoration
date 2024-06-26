@@ -66,7 +66,7 @@ public class TeslaOrbType extends BulletType {
     /** AutoTargets the nearest enemy unit/block while keeping track on a listed array, this could be saved on {@link #ArrayTarget} **/
     public void autoTarget(Bullet b){ //from Prog-mats
         this.target = Units.closestTarget(b.team, b.x, b.y, (range / Vars.tilesize) * b.fout(),
-                e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !b.collided.contains(e.id),
+                e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !b.collided.contains(e.id) && !invalidateTargetArray(this.ArrayTarget, e),
                 t -> false);
         if( target != null && target instanceof Unit) {
             this.ArrayTarget = new Teamc[]{this.target};
@@ -76,6 +76,16 @@ public class TeslaOrbType extends BulletType {
             ArrayVec2 = null;
             b.time = b.lifetime + 1f;
         }
+    }
+
+    public boolean invalidateTargetArray(Teamc[] Array, Teamc Current){
+        boolean invalid = false;
+        if(Array == null) return false;
+        for(var Teamc : Array){
+            invalid = (Current == Teamc);
+            if(invalid) break;
+        }
+        return invalid;
     }
 
     @Override
