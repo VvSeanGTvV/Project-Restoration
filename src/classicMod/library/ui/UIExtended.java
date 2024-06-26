@@ -105,7 +105,7 @@ public class UIExtended {
     }
 
     public static float FPNS(float smoothFrame){
-        float FPSttarget = smoothFrame / 1000;
+        float FPSttarget = smoothFrame / 10;
         return FPSttarget / Core.graphics.getDeltaTime();
     }
 
