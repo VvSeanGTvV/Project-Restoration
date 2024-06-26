@@ -16,21 +16,21 @@ import mindustry.type.UnitType;
 
 public class NewTeslaOrbType extends BulletType {
 
-    float maxRange;
+    float maxR;
     int hitCap;
     Seq<Teamc> TargetList;
     public Effect beamEffect = ExtendedFx.teslaBeam;
 
     /**
      * Creates a Tesla orb that jumps other enemy's unit/block.
-     * @param Maxrange The maximum range that the arc can jump to other team's unit/block.
+     * @param maxRange The maximum range that the arc can jump to other team's unit/block. (maxRange/tilesize)
      * @param damage Damage per tick
      * @param maxHits Maximum hits before despawning immediately.
      **/
-    public NewTeslaOrbType(float Maxrange, int damage, int maxHits){
+    public NewTeslaOrbType(float maxRange, int damage, int maxHits){
         this.damage = damage;
-        this.range = Maxrange;
-        this.maxRange = Maxrange;
+        this.range = maxRange;
+        this.maxR = maxRange / Vars.tilesize;
         hitEffect = ExtendedFx.laserhit;
         despawnEffect = Fx.none;
         drawSize = 200f;
@@ -40,7 +40,7 @@ public class NewTeslaOrbType extends BulletType {
 
     @Override
     public void update(Bullet b) {
-        b.vel = new Vec2();
+        b.vel.setZero();
         TargetList = AutoTargetList(hitCap, b);
         if(TargetList.size > 0){
             Vec2 lastVec = new Vec2(b.x, b.y);
@@ -53,6 +53,8 @@ public class NewTeslaOrbType extends BulletType {
             }
             b.time = b.lifetime + 1f;
             TargetList.clear();
+        } else {
+            b.time = b.lifetime + 1f;
         }
     }
 
@@ -65,7 +67,14 @@ public class NewTeslaOrbType extends BulletType {
     public Seq<Teamc> AutoTargetList(int Amount, Bullet b){
         var tlist = new Seq<Teamc>();
         while (tlist.size < Amount){
-            Teamc valid = Units.closestTarget(b.team, b.x, b.y, (maxRange / Vars.tilesize) * b.fout(),
+            var x = b.x;
+            var y = b.y;
+            if(tlist.size > 0){
+                var current = tlist.get(tlist.size);
+                x = current.x();
+                y = current.y();
+            }
+            Teamc valid = Units.closestTarget(b.team, x, y, (maxR / Vars.tilesize) * b.fout(),
                     e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !b.collided.contains(e.id) && !tlist.contains(e),
                     t -> false);
             if(valid != null){
