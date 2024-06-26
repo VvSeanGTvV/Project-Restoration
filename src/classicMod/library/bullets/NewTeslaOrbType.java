@@ -29,7 +29,6 @@ public class NewTeslaOrbType extends BulletType {
      **/
     public NewTeslaOrbType(float maxRange, int damage, int maxHits){
         this.damage = damage;
-        this.range = maxRange;
         this.max = maxRange;
         hitEffect = ExtendedFx.laserhit;
         despawnEffect = Fx.none;
@@ -67,15 +66,18 @@ public class NewTeslaOrbType extends BulletType {
      **/
     public Seq<Teamc> AutoTargetList(int Amount, Bullet b){
         var tlist = new Seq<Teamc>();
-        while (tlist.size < Amount){
+        while (tlist.size < Amount - 1){
             var x = b.x;
             var y = b.y;
+            var currentRange = range;
+            
             if(tlist.size > 0){
                 var current = tlist.get(tlist.size - 1);
                 x = current.x();
                 y = current.y();
+                currentRange = max;
             }
-            Teamc valid = Units.closestTarget(b.team, x, y, max * b.fout(),
+            Teamc valid = Units.closestTarget(b.team, x, y, currentRange * b.fout(),
                     e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !b.collided.contains(e.id) && !tlist.contains(e),
                     t -> false);
             if(valid != null){
