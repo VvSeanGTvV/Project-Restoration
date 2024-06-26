@@ -53,13 +53,13 @@ public class TeslaOrbType extends BulletType {
             b.time = b.lifetime + 1f;
         }
         autoTarget(b);
-        drawOutScreen(b);
         b.type.pierce = true;
         b.type.pierceCap = Integer.MAX_VALUE;
         if (ArrayTarget != null) for (Teamc target : ArrayTarget) {
             float x = target.getX();
             float y = target.getY();
             this.ArrayVec2 = new Vec2[]{new Vec2(x, y)};
+            b.set(x, y);
             l++;
         }
     }
@@ -83,25 +83,21 @@ public class TeslaOrbType extends BulletType {
         boolean invalid = false;
         if(Array == null) return false;
         for(var Teamc : Array){
-            invalid = (Current == Teamc);
+            invalid = (Current.id() == Teamc.id());
             if(invalid) break;
         }
         return invalid;
     }
 
-    public void drawOutScreen(Bullet b){
+    @Override
+    public void draw(Bullet b) {
         Draw.color(Color.white);
         Vec2 lastVec = new Vec2(b.x, b.y);
         if(ArrayVec2 != null) for (Vec2 vec2 : ArrayVec2){
             beamEffect.at(lastVec.x, lastVec.y, b.rotation(), Color.white, new Vec2().set(vec2));
-            b.set(vec2);
+
             b.vel = new Vec2();
             if(lastVec!=vec2) lastVec = vec2;
         }
-    }
-
-    @Override
-    public void draw(Bullet b) {
-
     }
 }
