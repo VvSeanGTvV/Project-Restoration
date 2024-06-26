@@ -16,7 +16,6 @@ import mindustry.type.UnitType;
 
 public class NewTeslaOrbType extends BulletType {
 
-    float maxR;
     int hitCap;
     Seq<Teamc> TargetList;
     public Effect beamEffect = ExtendedFx.teslaBeam;
@@ -30,7 +29,6 @@ public class NewTeslaOrbType extends BulletType {
     public NewTeslaOrbType(float maxRange, int damage, int maxHits){
         this.damage = damage;
         this.range = maxRange;
-        this.maxR = maxRange / Vars.tilesize;
         hitEffect = ExtendedFx.laserhit;
         despawnEffect = Fx.none;
         drawSize = 200f;
@@ -74,13 +72,12 @@ public class NewTeslaOrbType extends BulletType {
                 x = current.x();
                 y = current.y();
             }
-            Teamc valid = Units.closestTarget(b.team, x, y, (maxR / Vars.tilesize) * b.fout(),
+            Teamc valid = Units.closestTarget(b.team, x, y, range * b.fout(),
                     e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !b.collided.contains(e.id) && !tlist.contains(e),
                     t -> false);
             if(valid != null){
                 if(valid instanceof Unit) tlist.add(valid);
-            }
-            if(tlist.size > 0 && valid == null){
+            } else {
                 break;
             }
         }
