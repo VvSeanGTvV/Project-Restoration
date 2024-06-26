@@ -104,6 +104,10 @@ public class UIExtended {
         return Core.graphics.getHeight();
     }
 
+    public static float FPNS(float smoothFrame){
+        return smoothFrame / Core.graphics.getDeltaTime();
+    }
+
     /**
      * An aligner/timing set to perfectly timed with the Client's FPS
      * @param nanoseconds Nanoseconds, timing second
@@ -112,7 +116,8 @@ public class UIExtended {
      */
     public static float fdelta(float nanoseconds, float targetFPS){
         float target = 1000 / nanoseconds;
-        float fpstarget = target * Core.graphics.getFramesPerSecond();
+        float fps = FPNS(target);
+        float fpstarget = target * fps;
         return targetFPS / fpstarget;
     }
 }
