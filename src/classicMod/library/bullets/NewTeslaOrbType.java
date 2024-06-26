@@ -56,6 +56,12 @@ public class NewTeslaOrbType extends BulletType {
         }
     }
 
+    /**
+     * Creates a list closest to the bullet.
+     * @param Amount The maximum amount that it can auto target
+     * @param b bullet
+     * @return List of targets (Enemy side)
+     **/
     public Seq<Teamc> AutoTargetList(int Amount, Bullet b){
         var tlist = new Seq<Teamc>();
         while (tlist.size < Amount){
