@@ -16,9 +16,11 @@ import mindustry.type.UnitType;
 
 public class NewTeslaOrbType extends BulletType {
 
+    boolean hitActive;
     int hitCap;
     Seq<Teamc> TargetList;
     public Effect beamEffect = ExtendedFx.teslaBeam;
+
     /**
      * Creates a Tesla orb that jumps other enemy's unit/block.
      * @param range The maximum range that the arc can jump to other team's unit/block.
@@ -32,6 +34,7 @@ public class NewTeslaOrbType extends BulletType {
         despawnEffect = Fx.none;
         drawSize = 200f;
         hitCap = maxHits;
+        hitActive = false;
         this.lifetime = Float.MAX_VALUE;
     }
 
@@ -48,7 +51,7 @@ public class NewTeslaOrbType extends BulletType {
                     u.damage(b.damage);
                 }
             }
-            b.remove();
+            b.time = b.lifetime + 1f;
             TargetList.clear();
         }
     }
