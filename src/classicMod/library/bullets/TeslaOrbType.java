@@ -53,6 +53,7 @@ public class TeslaOrbType extends BulletType {
             b.time = b.lifetime + 1f;
         }
         autoTarget(b);
+        drawOutScreen(b);
         b.type.pierce = true;
         b.type.pierceCap = Integer.MAX_VALUE;
         if (ArrayTarget != null) for (Teamc target : ArrayTarget) {
@@ -88,8 +89,7 @@ public class TeslaOrbType extends BulletType {
         return invalid;
     }
 
-    @Override
-    public void draw(Bullet b) {
+    public void drawOutScreen(Bullet b){
         Draw.color(Color.white);
         Vec2 lastVec = new Vec2(b.x, b.y);
         if(ArrayVec2 != null) for (Vec2 vec2 : ArrayVec2){
@@ -98,5 +98,10 @@ public class TeslaOrbType extends BulletType {
             b.vel = new Vec2();
             if(lastVec!=vec2) lastVec = vec2;
         }
+    }
+
+    @Override
+    public void draw(Bullet b) {
+
     }
 }
