@@ -119,13 +119,16 @@ public class ExtendedFx extends Fx {
 
     //Modified effects for Good Reason
     teslaBeam = new Effect(30f, 300f, e -> {
-        if(!(e.data instanceof Position pos)) return;
 
         float rand = 1f;
-        Draw.color(e.color, e.fout());
-        Lines.stroke(2f * e.fout());
-        Lines.line(e.x + Mathf.range(rand), e.y + Mathf.range(rand), pos.getX() + Mathf.range(rand), pos.getY() + Mathf.range(rand));
-        Drawf.light(e.x + Mathf.range(rand), e.y + Mathf.range(rand), pos.getX() + Mathf.range(rand), pos.getY() + Mathf.range(rand), 20f, e.color, 0.6f * e.fout());
+
+        //Draw the line if it has position data.
+        if(e.data instanceof Position pos) {
+            Draw.color(e.color, e.fout());
+            Lines.stroke(2f * e.fout());
+            Lines.line(e.x + Mathf.range(rand), e.y + Mathf.range(rand), pos.getX() + Mathf.range(rand), pos.getY() + Mathf.range(rand));
+            Drawf.light(e.x + Mathf.range(rand), e.y + Mathf.range(rand), pos.getX() + Mathf.range(rand), pos.getY() + Mathf.range(rand), 20f, e.color, 0.6f * e.fout());
+        }
 
         float rad = 7f * e.fout();
         Draw.rect(Core.atlas.find("restored-mind-circle"), e.x + Mathf.range(rand), e.y + Mathf.range(rand), rad, rad);

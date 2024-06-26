@@ -9,6 +9,7 @@ import mindustry.content.Fx;
 import mindustry.entities.Effect;
 import mindustry.entities.Units;
 import mindustry.entities.bullet.BulletType;
+import mindustry.gen.Building;
 import mindustry.gen.Bullet;
 import mindustry.gen.Teamc;
 import mindustry.gen.Unit;
@@ -29,6 +30,7 @@ public class NewTeslaOrbType extends BulletType {
      **/
     public NewTeslaOrbType(float maxRange, int damage, int maxHits){
         this.damage = damage;
+        this.range = maxRange;
         this.max = maxRange;
         hitEffect = ExtendedFx.laserhit;
         despawnEffect = Fx.none;
@@ -46,11 +48,11 @@ public class NewTeslaOrbType extends BulletType {
             for (var blasted : TargetList){
                 beamEffect.at(lastVec.x, lastVec.y, b.rotation(), Color.white, new Vec2().set(new Vec2(blasted.x(), blasted.y())));
                 lastVec = new Vec2(blasted.x(), blasted.y());
-                if(blasted instanceof Unit u){
-                    u.damage(b.damage);
-                }
+
+                if(blasted instanceof Unit unit) unit.damage(b.damage);
+                if(blasted instanceof Building building) building.damage(b.damage);
             }
-            beamEffect.at(lastVec.x, lastVec.y, b.rotation(), Color.white, new Vec2().set(new Vec2(lastVec.x, lastVec.y)));
+            beamEffect.at(lastVec.x, lastVec.y, b.rotation(), Color.white);
             b.time = b.lifetime + 1f;
             TargetList.clear();
         } else {
@@ -70,7 +72,7 @@ public class NewTeslaOrbType extends BulletType {
             var x = b.x;
             var y = b.y;
             var currentRange = range;
-            
+
             if(tlist.size > 0){
                 var current = tlist.get(tlist.size - 1);
                 x = current.x();
@@ -78,10 +80,10 @@ public class NewTeslaOrbType extends BulletType {
                 currentRange = max;
             }
             Teamc valid = Units.closestTarget(b.team, x, y, currentRange * b.fout(),
-                    e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !b.collided.contains(e.id) && !tlist.contains(e),
-                    t -> false);
+                    e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !tlist.contains(e),
+                    t -> t.isValid() && !tlist.contains(t));
             if(valid != null){
-                if(valid instanceof Unit) tlist.add(valid);
+                if(valid instanceof Unit || valid instanceof Building) tlist.add(valid);
             } else {
                 break;
             }
