@@ -16,19 +16,21 @@ import mindustry.type.UnitType;
 
 public class NewTeslaOrbType extends BulletType {
 
+    float max;
     int hitCap;
     Seq<Teamc> TargetList;
     public Effect beamEffect = ExtendedFx.teslaBeam;
 
     /**
      * Creates a Tesla orb that jumps other enemy's unit/block.
-     * @param maxRange The maximum range that the arc can jump to other team's unit/block. (maxRange/tilesize)
+     * @param maxRange The maximum range that the arc can jump to other team's unit/block. (tilesize)
      * @param damage Damage per tick
      * @param maxHits Maximum hits before despawning immediately.
      **/
     public NewTeslaOrbType(float maxRange, int damage, int maxHits){
         this.damage = damage;
         this.range = maxRange;
+        this.max = maxRange;
         hitEffect = ExtendedFx.laserhit;
         despawnEffect = Fx.none;
         drawSize = 200f;
@@ -49,6 +51,7 @@ public class NewTeslaOrbType extends BulletType {
                     u.damage(b.damage);
                 }
             }
+            beamEffect.at(lastVec.x, lastVec.y, b.rotation(), Color.white, new Vec2().set(new Vec2(lastVec.x, lastVec.y)));
             b.time = b.lifetime + 1f;
             TargetList.clear();
         } else {
@@ -72,7 +75,7 @@ public class NewTeslaOrbType extends BulletType {
                 x = current.x();
                 y = current.y();
             }
-            Teamc valid = Units.closestTarget(b.team, x, y, range * b.fout(),
+            Teamc valid = Units.closestTarget(b.team, x, y, max * b.fout(),
                     e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !b.collided.contains(e.id) && !tlist.contains(e),
                     t -> false);
             if(valid != null){
