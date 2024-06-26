@@ -257,6 +257,9 @@ public class ClassicMod extends Mod{
         for (var sectorsd : content.sectors()){
             sectorsd.alwaysUnlocked = true;
         }
+        for (var effect : content.statusEffects()){
+            effect.unlock();
+        }
     }
 
     @Override

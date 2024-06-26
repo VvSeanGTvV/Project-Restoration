@@ -131,7 +131,7 @@ public class ExtendedFx extends Fx {
         Draw.rect(Core.atlas.find("restored-mind-circle"), e.x + Mathf.range(rand), e.y + Mathf.range(rand), rad, rad);
     }),
 
-    laserBeam = new Effect(4f, 300f, e -> {
+    laserBeam = new Effect(8f, 300f, e -> {
         if(!(e.data instanceof Position pos)) return;
 
         float lighten = (Mathf.sin(Time.time/1.2f) + 1f) / 10f;
