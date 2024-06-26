@@ -324,11 +324,11 @@ public class ClassicBlocks {
         laserTurret = new PowerTurret("laser-turret"){{
             requirements(Category.turret, with(Items.titanium, 12, ClassicItems.steel, 12));
             range = 74.5f;
-            shootType = new LaserOnTargetType(range, 10, Color.sky);
+            shootType = new LaserOnTargetType(range, 10, Color.sky, 60f * 1.5f);
             shootSound = lazerShot;
             shootEffect = Fx.none;
             smokeEffect = Fx.none;
-            reload = 4f;
+            reload = 8f;
             health = 150;
             consumePower(0.2f * 4f);
             outlineColor = Color.valueOf("6d5bec");

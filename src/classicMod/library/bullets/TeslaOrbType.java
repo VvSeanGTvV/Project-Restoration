@@ -12,7 +12,7 @@ import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 
-
+// TODO this thing is scuffed not gonna lie
 public class TeslaOrbType extends BulletType {
     /** Array of the listed target **/
     public @Nullable Teamc[] ArrayTarget;

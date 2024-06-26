@@ -22,16 +22,17 @@ public class LaserOnTargetType extends BulletType {
      * Creates a Laser bullet that goes on target.
      * @param range The maximum range
      * @param damage Damage per tick
-     * @param beamC Color of the beam
+     * @param beamColor Color of the beam
+     * @param lifetime How long does bullet last?
      **/
-    public LaserOnTargetType(float range, int damage, Color beamC){
+    public LaserOnTargetType(float range, int damage, Color beamColor, float lifetime){
         this.damage = damage;
         this.range = range;
-        this.beamColor = beamC;
+        this.beamColor = beamColor;
         hitEffect = ExtendedFx.laserhit;
         despawnEffect = Fx.none;
         drawSize = 200f;
-        this.lifetime = range;
+        this.lifetime = lifetime;
     }
 
     @Override
