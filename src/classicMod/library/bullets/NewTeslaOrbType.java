@@ -79,7 +79,8 @@ public class NewTeslaOrbType extends BulletType {
                     t -> false);
             if(valid != null){
                 if(valid instanceof Unit) tlist.add(valid);
-            } else {
+            }
+            if(tlist.size > 0 && valid == null){
                 break;
             }
         }
