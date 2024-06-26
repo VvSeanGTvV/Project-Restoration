@@ -68,7 +68,7 @@ public class NewTeslaOrbType extends BulletType {
             var x = b.x;
             var y = b.y;
             if(tlist.size > 0){
-                var current = tlist.get(tlist.size);
+                var current = tlist.get(tlist.size - 1);
                 x = current.x();
                 y = current.y();
             }
