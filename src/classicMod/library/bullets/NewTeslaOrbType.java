@@ -48,6 +48,7 @@ public class NewTeslaOrbType extends BulletType {
                     u.damage(b.damage);
                 }
             }
+            b.remove();
             TargetList.clear();
         }
     }
