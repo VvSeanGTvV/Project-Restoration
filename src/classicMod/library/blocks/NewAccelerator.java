@@ -68,7 +68,7 @@ public class NewAccelerator extends Block{
             heat = Mathf.lerpDelta(heat, efficiency, 0.05f);
             statusLerp = Mathf.lerpDelta(statusLerp, power.status, 0.05f);
             if(heat < 0.0001f){
-                heatOpposite = 1f;
+                heatOpposite = 0f;
             } else {
                 heatOpposite +=  fdelta(50f, 60f) / 50f;
                 Log.info(heatOpposite);
