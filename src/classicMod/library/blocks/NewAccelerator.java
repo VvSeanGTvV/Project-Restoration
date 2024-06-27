@@ -87,13 +87,15 @@ public class NewAccelerator extends Block{
                     planetInfo.add(Destination.planet.localizedName).color(Destination.planet.iconColor).row();
                 }).left().pad(10f);
                 t.row();
+
+                t.image(launching.uiIcon).size(40).pad(2.5f).left().scaling(Scaling.fit);
+                t.table(coreInfo -> {
+                    //coreInfo.image(launching.uiIcon).size(40).pad(2.5f).left().scaling(Scaling.fit);
+                    coreInfo.add(getStatBundle.get("starting-core")).color(Pal.accent).row();
+                    coreInfo.add(launching.localizedName);
+                }).left().pad(10f);
+
                 t.table(info -> {
-                    info.image(launching.uiIcon).size(40).pad(2.5f).left().scaling(Scaling.fit);
-                    info.table(coreInfo -> {
-                        //coreInfo.image(launching.uiIcon).size(40).pad(2.5f).left().scaling(Scaling.fit);
-                        coreInfo.add(getStatBundle.get("starting-core")).color(Pal.accent).row();
-                        coreInfo.add(launching.localizedName);
-                    }).left().pad(10f);
                     //info.add(getStatBundle.get("starting-core") + ": " + launching.localizedName);
 
                     info.row();
