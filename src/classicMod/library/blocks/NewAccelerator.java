@@ -13,6 +13,7 @@ import classicMod.library.converter.*;
 import classicMod.library.ui.dialog.epicCreditsDialog;
 import mindustry.Vars;
 import mindustry.content.*;
+import mindustry.entities.units.UnitController;
 import mindustry.game.EventType.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
@@ -32,7 +33,7 @@ public class NewAccelerator extends Block{
     public TextureRegion arrowRegion = Core.atlas.find("launch-arrow");
 
     //TODO dynamic
-    boolean launchingStartup;
+    boolean launchingStartup, once;
     public Block launching = Blocks.coreBastion;
     public Block requirementsBlock = Blocks.coreNucleus;
 
@@ -68,6 +69,7 @@ public class NewAccelerator extends Block{
     public class NewAcceleratorBuild extends Building implements ControlBlock{
         public float heat, statusLerp, blockLerp, heatOpposite;
         public @Nullable BlockUnitc unit;
+        public UnitController origin;
 
         @Override
         public void updateTile(){
@@ -78,19 +80,28 @@ public class NewAccelerator extends Block{
                 if(heatOpposite < 1f) heatOpposite += fdelta(50f, 60f) / 50f;
                 blockLerp = Mathf.clamp(Mathf.lerpDelta(blockLerp, heatOpposite, 0.05f));
             } else {
-
                 heatOpposite = 0f;
                 blockLerp = Mathf.clamp(Mathf.lerpDelta(blockLerp, efficiency, 0.05f));
                 launchingStartup = false;
+                once = false;
             }
             if(launchingStartup){
-                player.clearUnit();
-                unit.controller(player);
-                player.set(this);
-                camera.position.set(this);
+                if(!once) {
+                    player.clearUnit();
+                    unit.controller(player);
+
+                    player.set(this);
+                    camera.position.set(this);
+                    once = true;
+                }
                 renderer.scaleCamera(4.5f * 4);
             }else{
-                unit.controller(null);
+                if(origin == null){
+                    origin = unit.controller();
+                }else{
+                    unit.controller(origin);
+                }
+                //unit.controller();
             }
         }
 
