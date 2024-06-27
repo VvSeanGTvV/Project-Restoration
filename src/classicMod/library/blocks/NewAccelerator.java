@@ -218,6 +218,7 @@ public class NewAccelerator extends Block{
         public void buildConfiguration(Table table){
             //deselect();
 
+            if(isControlled()) deselect();
             if(!state.isCampaign() || efficiency <= 0f) return;
 
             //ui.showInfo("This Block does not work or does not have a video implemented into this! Please check back for Update!");
