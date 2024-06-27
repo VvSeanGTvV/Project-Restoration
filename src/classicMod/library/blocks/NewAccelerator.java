@@ -92,7 +92,7 @@ public class NewAccelerator extends Block{
                 launchingStartup = false;
                 once = false;
             }
-            if(launchingStartup) {
+            if(launchingStartup || isControlled()) {
                 if (!once) {
                     player.clearUnit();
                     unit.controller(player);
