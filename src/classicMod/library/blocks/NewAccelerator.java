@@ -156,8 +156,8 @@ public class NewAccelerator extends Block{
                         ui.showException("[accent]" + Core.bundle.get("savefail"), e);
                     }
                 }
-
                 Events.fire(new SectorLaunchEvent(Destination));
+                control.playSector(Destination);
                 /*ui.planet.showPlanetLaunch(state.rules.sector, sector -> {
                     //TODO cutscene, etc...
 
