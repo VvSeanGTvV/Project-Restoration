@@ -27,6 +27,7 @@ public class NewAccelerator extends Block{
 
     //TODO dynamic
     public Block launching = Blocks.coreBastion;
+    public Block requirementsBlock = Blocks.coreNucleus;
 
     public Sector Destination = SectorPresets.onset.sector;
     public int[] capacities = {};
@@ -44,11 +45,11 @@ public class NewAccelerator extends Block{
     public void init(){
         itemCapacity = 0;
         capacities = new int[content.items().size];
-        for(ItemStack stack : launching.requirements){
+        for(ItemStack stack : requirementsBlock.requirements){
             capacities[stack.item.id] = stack.amount;
             itemCapacity += stack.amount;
         }
-        consumeItems(launching.requirements);
+        consumeItems(requirementsBlock.requirements);
         super.init();
     }
 
