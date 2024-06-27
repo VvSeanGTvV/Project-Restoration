@@ -20,6 +20,7 @@ import mindustry.ui.*;
 import mindustry.ui.dialogs.PlanetDialog;
 import mindustry.world.*;
 
+import static arc.Core.camera;
 import static classicMod.library.ui.UIExtended.fdelta;
 import static mindustry.Vars.*;
 import static mindustry.ui.dialogs.PlanetDialog.Mode.select;
@@ -28,6 +29,7 @@ public class NewAccelerator extends Block{
     public TextureRegion arrowRegion = Core.atlas.find("launch-arrow");
 
     //TODO dynamic
+    boolean launchingStartup;
     public Block launching = Blocks.coreBastion;
     public Block requirementsBlock = Blocks.coreNucleus;
 
@@ -147,8 +149,9 @@ public class NewAccelerator extends Block{
                 //state.rules.sector.info.destination = Destination;
                 //TODO cutscene, etc...
 
+                launchingStartup = true;
                 //Save before heading
-                if(control.saves.getCurrent() != null && Vars.state.isGame()){
+                /*if(control.saves.getCurrent() != null && Vars.state.isGame()){
                     try{
                         control.saves.getCurrent().save();
                     }catch(Throwable e){
@@ -158,6 +161,7 @@ public class NewAccelerator extends Block{
                 }
                 Events.fire(new SectorLaunchEvent(Destination));
                 control.playSector(Destination);
+                */
                 /*ui.planet.showPlanetLaunch(state.rules.sector, sector -> {
                     //TODO cutscene, etc...
 
@@ -183,7 +187,7 @@ public class NewAccelerator extends Block{
 
         @Override
         public boolean acceptItem(Building source, Item item){
-            return items.get(item) < getMaximumAccepted(item);
+            return items.get(item) < getMaximumAccepted(item) && !launchingStartup;
         }
     }
 }
