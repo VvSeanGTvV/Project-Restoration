@@ -4,6 +4,8 @@ import arc.*;
 import arc.Graphics.*;
 import arc.Graphics.Cursor.*;
 import arc.graphics.Color;
+import arc.graphics.Pixmap;
+import arc.graphics.Pixmaps;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.scene.ui.layout.*;
@@ -17,6 +19,7 @@ import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.entities.units.UnitController;
 import mindustry.game.EventType.*;
+import mindustry.game.Team;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
@@ -81,7 +84,6 @@ public class NewAccelerator extends Block{
         stats.add(ExtendedStat.launchPlanet, table -> {
             table.row();
             table.table(Styles.grayPanel, t -> {
-                t.row();
                 t.add(Destination.planet.localizedName).color(Destination.planet.iconColor).row();
                 t.row();
 
@@ -194,7 +196,6 @@ public class NewAccelerator extends Block{
             Draw.reset();
         }
 
-        //a
         public void DrawCore(){
             Draw.reset();
             Draw.alpha(Mathf.clamp(blockLerp * 12f));
@@ -203,6 +204,25 @@ public class NewAccelerator extends Block{
             Color epic = new Color(team.color.r, team.color.g, team.color.b, 1f - Mathf.clamp(blockLerp * 3f));
             if(efficiency > 0) Drawf.additive(launching.uiIcon, epic, x, y);
             Draw.reset();
+        }
+
+        public void createOutlineCore(TextureRegion region) {
+            MultiPacker packer = new MultiPacker();
+            var atlasA = region.asAtlas();
+            if (atlasA != null) {
+                String regionName = atlasA.name;
+                Pixmap outlined = Pixmaps.outline(Core.atlas.getPixmap(Core.atlas.find(name + "-hit")), outlineColor, outlineRadius);
+
+                Drawf.checkBleed(outlined);
+
+                packer.add(MultiPacker.PageType.main, regionName + "-outline", outlined);
+            }
+        }
+
+        @Override
+        public Building init(Tile tile, Team team, boolean shouldAdd, int rotation) {
+            createOutlineCore(launching.uiIcon);
+            return super.init(tile, team, shouldAdd, rotation);
         }
 
         @Override
