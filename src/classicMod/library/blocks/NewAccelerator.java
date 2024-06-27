@@ -69,11 +69,10 @@ public class NewAccelerator extends Block{
             statusLerp = Mathf.lerpDelta(statusLerp, power.status, 0.05f);
             if(heat < 0.0001f){
                 heatOpposite = 0f;
+                blockLerp = 0f;
             } else {
-                heatOpposite +=  fdelta(50f, 60f) / 50f;
-                Log.info(heatOpposite);
+                if(heatOpposite < 1f) heatOpposite += fdelta(50f, 60f) / 50f;
                 blockLerp = Mathf.clamp(Mathf.lerpDelta(blockLerp, heatOpposite, 0.05f));
-                Log.info(blockLerp);
             }
         }
 
@@ -121,6 +120,7 @@ public class NewAccelerator extends Block{
         //a
         public void DrawCore(){
             Draw.reset();
+            Draw.alpha(Mathf.clamp(heat * 3f));
             Draw.rect(launching.uiIcon, x, y);
 
             Draw.color(team.color);
