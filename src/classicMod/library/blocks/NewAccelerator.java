@@ -82,7 +82,6 @@ public class NewAccelerator extends Block{
             table.row();
             table.table(Styles.grayPanel, t -> {
                 t.row();
-                t.image(Destination.planet.fullIcon).size(40).pad(2.5f).left().scaling(Scaling.fit);
                 t.table(planetInfo -> {
                     planetInfo.add(getStatBundle.get("planet-to") + ":").row();
                     planetInfo.add(Destination.planet.localizedName).color(Destination.planet.iconColor).row();
@@ -142,7 +141,6 @@ public class NewAccelerator extends Block{
                     once = true;
                 }
                 if (isControlled()) renderer.setScale(Scl.scl(1.5f));
-                if (efficiency > 0) launchingStartup = isControlled();
             }else{
                 if(unit != null) {
                     if (origin == null) {
@@ -155,6 +153,7 @@ public class NewAccelerator extends Block{
                 }
                 //unit.controller();
             }
+            if(launchingStartup && !isControlled()) launchingStartup = false;
         }
 
         @Override
@@ -267,18 +266,6 @@ public class NewAccelerator extends Block{
         @Override
         public boolean acceptItem(Building source, Item item){
             return items.get(item) < getMaximumAccepted(item);
-        }
-
-        @Override
-        public void write(Writes write) {
-            super.write(write);
-            write.bool(launchingStartup);
-        }
-
-        @Override
-        public void read(Reads read) {
-            super.read(read);
-            launchingStartup = read.bool();
         }
 
         @Override
