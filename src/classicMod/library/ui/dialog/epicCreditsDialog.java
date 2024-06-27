@@ -149,6 +149,11 @@ public class epicCreditsDialog extends Dialog {
 
         if(Core.input.keyDown(KeyCode.escape)) FinishedCredits();
         if(Core.app.isMobile()){
+
+            if(app.isAndroid()){
+                if(Core.input.keyDown(KeyCode.back)) FinishedCredits();
+            }
+
             if(firstTap){
                 if(!Core.input.isTouched()){ onHold = false; }
                 if(!onHold) {
