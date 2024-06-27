@@ -106,14 +106,19 @@ public class NewAccelerator extends Block{
                 Draw.rect(arrowRegion, x + Angles.trnsx(rot, length), y + Angles.trnsy(rot, length), rot + 180f);
             }
 
+            DrawCore();
+            Draw.reset();
+        }
+
+        public void DrawCore(){
+            Draw.reset();
+
             Draw.alpha(1f - Mathf.clamp(blockLerp * 3f));
             Draw.color(team.color);
-            Draw.rect(Core.atlas.white(), x, y, launching.uiIcon.width, launching.uiIcon.height);
+            Draw.rect(Core.atlas.white(), x, y, (float) launching.uiIcon.width / tilesize, (float) launching.uiIcon.height / tilesize);
 
             Draw.alpha(1f);
             Draw.rect(launching.uiIcon, x, y);
-
-            Draw.reset();
         }
 
         @Override
