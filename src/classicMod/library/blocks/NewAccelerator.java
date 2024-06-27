@@ -81,6 +81,7 @@ public class NewAccelerator extends Block{
 
         @Override
         public void draw(){
+            launchingStartup = false;
             super.draw();
 
             for(int l = 0; l < 4; l++){
