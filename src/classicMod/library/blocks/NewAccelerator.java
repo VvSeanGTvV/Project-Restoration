@@ -124,13 +124,13 @@ public class NewAccelerator extends Block{
         //a
         public void DrawCore(){
             Draw.reset();
-            //Draw.alpha(Mathf.clamp(heat * 3f));
-            //Draw.rect(launching.uiIcon, x, y);
+            Draw.alpha(Mathf.clamp(heat * 3f));
+            Draw.rect(launching.uiIcon, x, y);
             Draw.draw(Layer.block, () -> {
                 Shaders.build.region = launching.uiIcon;
-                Shaders.build.progress = Mathf.clamp(blockLerp * 3f);
+                Shaders.build.progress = 1f - Mathf.clamp(blockLerp * 3f);
                 Shaders.build.color.set(Pal.accent);
-                Shaders.build.time = -Mathf.clamp(blockLerp * 3f);
+                Shaders.build.time = Mathf.clamp(blockLerp * 3f);
 
                 Draw.shader(Shaders.build, true);
                 Draw.rect(launching.uiIcon, tile.drawx(), tile.drawy());
