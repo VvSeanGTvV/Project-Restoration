@@ -20,6 +20,7 @@ import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.ui.dialogs.PlanetDialog;
 import mindustry.world.*;
+import mindustry.world.blocks.ControlBlock;
 
 import static arc.Core.camera;
 import static classicMod.library.ui.UIExtended.fdelta;
@@ -64,8 +65,9 @@ public class NewAccelerator extends Block{
         return false;
     }
 
-    public class NewAcceleratorBuild extends Building{
+    public class NewAcceleratorBuild extends Building implements ControlBlock{
         public float heat, statusLerp, blockLerp, heatOpposite;
+        public @Nullable BlockUnitc unit;
 
         @Override
         public void updateTile(){
@@ -77,10 +79,12 @@ public class NewAccelerator extends Block{
                 blockLerp = Mathf.clamp(Mathf.lerpDelta(blockLerp, heatOpposite, 0.05f));
             } else {
                 heatOpposite = 0f;
-                blockLerp = 0f;
+                blockLerp = Mathf.clamp(Mathf.lerpDelta(blockLerp, efficiency, 0.05f));
                 launchingStartup = false;
             }
             if(launchingStartup){
+                player.clearUnit();
+                unit.controller(player);
                 player.set(this);
                 camera.position.set(this);
                 renderer.scaleCamera(10.5f);
@@ -131,11 +135,11 @@ public class NewAccelerator extends Block{
         //a
         public void DrawCore(){
             Draw.reset();
-            Draw.alpha(Mathf.clamp(blockLerp * 6f));
+            Draw.alpha(Mathf.clamp(blockLerp * 12f));
             Draw.rect(launching.uiIcon, x, y);
 
             Color epic = new Color(team.color.r, team.color.g, team.color.b, 1f - Mathf.clamp(blockLerp * 3f));
-            Drawf.additive(launching.uiIcon, epic, x, y);
+            if(efficiency > 0) Drawf.additive(launching.uiIcon, epic, x, y);
             Draw.reset();
         }
 
@@ -202,6 +206,15 @@ public class NewAccelerator extends Block{
         public void write(Writes write) {
             super.write(write);
             launchingStartup = false;
+        }
+
+        @Override
+        public Unit unit(){
+            if(unit == null){
+                unit = (BlockUnitc) UnitTypes.block.create(team);
+                unit.tile(this);
+            }
+            return (Unit)unit;
         }
     }
 }
