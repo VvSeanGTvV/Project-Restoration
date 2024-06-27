@@ -88,7 +88,7 @@ public class NewAccelerator extends Block{
                 unit.controller(player);
                 player.set(this);
                 camera.position.set(this);
-                renderer.scaleCamera(10.5f);
+                renderer.scaleCamera(4.5f * 4);
             }else{
                 unit.controller(null);
             }
