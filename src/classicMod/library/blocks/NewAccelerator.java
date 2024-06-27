@@ -78,6 +78,11 @@ public class NewAccelerator extends Block{
         }
 
         @Override
+        public boolean shouldAutoTarget() {
+            return false;
+        }
+
+        @Override
         public void updateTile(){
             super.updateTile();
             heat = Mathf.lerpDelta(heat, efficiency, 0.05f);
@@ -92,15 +97,19 @@ public class NewAccelerator extends Block{
                 once = false;
             }
             if(launchingStartup){
-                if(!once) {
-                    player.clearUnit();
-                    unit.controller(player);
+                if(!canControl()){
+                    launchingStartup = true;
+                } else {
+                    if (!once) {
+                        player.clearUnit();
+                        unit.controller(player);
 
-                    player.set(this);
-                    camera.position.set(this);
-                    once = true;
+                        player.set(this);
+                        camera.position.set(this);
+                        once = true;
+                    }
+                    if (isControlled()) renderer.setScale(Scl.scl(1.5f));
                 }
-                if(isControlled()) renderer.setScale(Scl.scl(1.5f));
             }else{
                 if(unit != null) {
                     if (origin == null) {
