@@ -73,11 +73,6 @@ public class NewAccelerator extends Block{
         public Unit originUnit;
 
         @Override
-        public boolean canControl() {
-            return launchingStartup;
-        }
-
-        @Override
         public boolean shouldAutoTarget() {
             return false;
         }
@@ -96,20 +91,16 @@ public class NewAccelerator extends Block{
                 launchingStartup = false;
                 once = false;
             }
-            if(launchingStartup){
-                if(!canControl()){
-                    launchingStartup = true;
-                } else {
-                    if (!once) {
-                        player.clearUnit();
-                        unit.controller(player);
+            if(launchingStartup) {
+                if (!once) {
+                    player.clearUnit();
+                    unit.controller(player);
 
-                        player.set(this);
-                        camera.position.set(this);
-                        once = true;
-                    }
-                    if (isControlled()) renderer.setScale(Scl.scl(1.5f));
+                    player.set(this);
+                    camera.position.set(this);
+                    once = true;
                 }
+                if (isControlled()) renderer.setScale(Scl.scl(1.5f));
             }else{
                 if(unit != null) {
                     if (origin == null) {
