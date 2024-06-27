@@ -124,7 +124,7 @@ public class NewAccelerator extends Block{
 
             Draw.color(team.color);
             Draw.alpha(1f - Mathf.clamp(blockLerp * 3f));
-            Draw.rect(Core.atlas.white(), x, y, (float) launching.uiIcon.width / tilesize, (float) launching.uiIcon.height / tilesize);
+            Draw.rect(Core.atlas.white(), x, y, (float) launching.uiIcon.width * 2 / tilesize, (float) launching.uiIcon.height * 2 / tilesize);
             Draw.reset();
         }
 
