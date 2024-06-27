@@ -19,6 +19,7 @@ import mindustry.ui.*;
 import mindustry.ui.dialogs.PlanetDialog;
 import mindustry.world.*;
 
+import static classicMod.library.ui.UIExtended.fdelta;
 import static mindustry.Vars.*;
 import static mindustry.ui.dialogs.PlanetDialog.Mode.select;
 
@@ -59,15 +60,20 @@ public class NewAccelerator extends Block{
     }
 
     public class NewAcceleratorBuild extends Building{
-        public float heat, statusLerp, blockLerp;
+        public float heat, statusLerp, blockLerp, heatOpposite;
 
         @Override
         public void updateTile(){
             super.updateTile();
             heat = Mathf.lerpDelta(heat, efficiency, 0.05f);
             statusLerp = Mathf.lerpDelta(statusLerp, power.status, 0.05f);
-            if(heat < 0.0001f) return;
-            blockLerp = Mathf.lerpDelta(blockLerp, efficiency, 0.05f);
+            if(heat < 0.0001f){
+                heatOpposite = 1f;
+            } else {
+                heatOpposite -= 1.15f * Time.delta;
+                Log.info(heatOpposite);
+                blockLerp = Mathf.lerpDelta(blockLerp, heatOpposite, 0.05f);
+            }
         }
 
         @Override
@@ -85,6 +91,8 @@ public class NewAccelerator extends Block{
             }
 
             if(heat < 0.0001f) return;
+
+            DrawCore();
 
             float rad = size * tilesize / 2f * 0.74f;
             float scl = 2f;
@@ -106,19 +114,19 @@ public class NewAccelerator extends Block{
                 Draw.rect(arrowRegion, x + Angles.trnsx(rot, length), y + Angles.trnsy(rot, length), rot + 180f);
             }
 
-            DrawCore();
             Draw.reset();
         }
 
         public void DrawCore(){
             Draw.reset();
+            Draw.rect(launching.uiIcon, x, y);
+
 
             Draw.alpha(1f - Mathf.clamp(blockLerp * 3f));
             Draw.color(team.color);
             Draw.rect(Core.atlas.white(), x, y, (float) launching.uiIcon.width / tilesize, (float) launching.uiIcon.height / tilesize);
 
-            Draw.alpha(1f);
-            Draw.rect(launching.uiIcon, x, y);
+
         }
 
         @Override
