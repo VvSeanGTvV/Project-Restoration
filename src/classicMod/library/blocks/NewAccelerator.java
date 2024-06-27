@@ -16,15 +16,19 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.ui.*;
+import mindustry.ui.dialogs.PlanetDialog;
 import mindustry.world.*;
 
 import static mindustry.Vars.*;
+import static mindustry.ui.dialogs.PlanetDialog.Mode.select;
 
 public class NewAccelerator extends Block{
     public TextureRegion arrowRegion = Core.atlas.find("launch-arrow");
 
     //TODO dynamic
-    public Block launching = Blocks.coreNucleus;
+    public Block launching = Blocks.coreBastion;
+
+    public Sector Destination = SectorPresets.onset.sector;
     public int[] capacities = {};
 
     public NewAccelerator(String name){
@@ -54,13 +58,15 @@ public class NewAccelerator extends Block{
     }
 
     public class NewAcceleratorBuild extends Building{
-        public float heat, statusLerp;
+        public float heat, statusLerp, blockLerp;
 
         @Override
         public void updateTile(){
             super.updateTile();
             heat = Mathf.lerpDelta(heat, efficiency, 0.05f);
             statusLerp = Mathf.lerpDelta(statusLerp, power.status, 0.05f);
+            if(heat < 0.0001f) return;
+            blockLerp = Mathf.lerpDelta(blockLerp, efficiency, 0.05f);
         }
 
         @Override
@@ -99,6 +105,13 @@ public class NewAccelerator extends Block{
                 Draw.rect(arrowRegion, x + Angles.trnsx(rot, length), y + Angles.trnsy(rot, length), rot + 180f);
             }
 
+            Draw.alpha(1f - Mathf.clamp(blockLerp * 3f));
+            Draw.color(team.color);
+            Draw.rect(Core.atlas.white(), x, y, launching.uiIcon.width, launching.uiIcon.height);
+
+            Draw.alpha(1f);
+            Draw.rect(launching.uiIcon, x, y);
+
             Draw.reset();
         }
 
@@ -117,7 +130,21 @@ public class NewAccelerator extends Block{
 
             //ui.campaignComplete.show(Planets.serpulo);
             table.button(Icon.upOpen, Styles.cleari, () -> {
-                ui.planet.showPlanetLaunch(state.rules.sector, sector -> {
+                //state.rules.sector.info.destination = Destination;
+                //TODO cutscene, etc...
+
+                //Save before heading
+                if(control.saves.getCurrent() != null && Vars.state.isGame()){
+                    try{
+                        control.saves.getCurrent().save();
+                    }catch(Throwable e){
+                        e.printStackTrace();
+                        ui.showException("[accent]" + Core.bundle.get("savefail"), e);
+                    }
+                }
+
+                Events.fire(new SectorLaunchEvent(Destination));
+                /*ui.planet.showPlanetLaunch(state.rules.sector, sector -> {
                     //TODO cutscene, etc...
 
                     //TODO should consume resources based on destination schem
@@ -127,7 +154,7 @@ public class NewAccelerator extends Block{
 
                     universe.clearLoadoutInfo();
                     universe.updateLoadout(sector.planet.generator.defaultLoadout.findCore(), sector.planet.generator.defaultLoadout);
-                });
+                });*/
 
                 deselect();
             }).size(40f);

@@ -35,14 +35,14 @@ public class NewTeslaOrbType extends BulletType {
         hitEffect = ExtendedFx.laserhit;
         despawnEffect = Fx.none;
         drawSize = 200f;
-        hitCap = maxHits;
+        this.hitCap = maxHits;
         this.lifetime = Float.MAX_VALUE;
     }
 
     @Override
     public void update(Bullet b) {
         b.vel.setZero();
-        TargetList = AutoTargetList(hitCap, b);
+        TargetList = AutoTargetList(this.hitCap, b);
         if(TargetList.size > 0){
             Vec2 lastVec = new Vec2(b.x, b.y);
             for (var blasted : TargetList){

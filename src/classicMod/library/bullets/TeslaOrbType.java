@@ -12,7 +12,7 @@ import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 
-// TODO this thing is scuffed not gonna lie
+@Deprecated
 public class TeslaOrbType extends BulletType {
     /** Array of the listed target **/
     public @Nullable Teamc[] ArrayTarget;
@@ -34,19 +34,21 @@ public class TeslaOrbType extends BulletType {
      * @param maxHits Maximum hits before despawning immediately.
      **/
     public TeslaOrbType(float range, int damage, int maxHits){
-        this.damage = damage;
+        new NewTeslaOrbType(range, damage, maxHits);
+        /*this.damage = damage;
         this.range = range;
         hitEffect = ExtendedFx.laserhit;
         despawnEffect = Fx.none;
         drawSize = 200f;
         hitCap = maxHits;
-        this.lifetime = Float.MAX_VALUE;
+        this.lifetime = Float.MAX_VALUE;*/
     }
 
     @Override
     public void update(Bullet b) {
         super.update(b);
-        if(l >= hitCap*2) { //Allows to detect whether if the bullet hit count has reached maximum peak.
+        b.time = b.lifetime;
+        /*if(l >= hitCap*2) { //Allows to detect whether if the bullet hit count has reached maximum peak.
             l = 0;
             ArrayTarget = null;
             ArrayVec2 = null;
@@ -61,7 +63,7 @@ public class TeslaOrbType extends BulletType {
             this.ArrayVec2 = new Vec2[]{new Vec2(x, y)};
             b.set(x, y);
             l++;
-        }
+        }*/
     }
 
     /** AutoTargets the nearest enemy unit/block while keeping track on a listed array, this could be saved on {@link #ArrayTarget} **/

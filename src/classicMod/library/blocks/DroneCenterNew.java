@@ -72,7 +72,7 @@ public class DroneCenterNew extends Block {
             drawPlaceText(Core.bundle.get("bar.cargounitcap"), x, y, valid);
         }
 
-        Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, droneRange * tilesize, player.team().color);
+        Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, droneRange / tilesize, player.team().color);
     }
 
     @Override
