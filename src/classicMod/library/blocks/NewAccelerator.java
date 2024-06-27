@@ -70,6 +70,7 @@ public class NewAccelerator extends Block{
         public float heat, statusLerp, blockLerp, heatOpposite;
         public @Nullable BlockUnitc unit;
         public UnitController origin;
+        public Unit originUnit;
 
         @Override
         public void updateTile(){
@@ -87,6 +88,7 @@ public class NewAccelerator extends Block{
             }
             if(launchingStartup){
                 if(!once) {
+
                     player.clearUnit();
                     unit.controller(player);
 
@@ -96,10 +98,15 @@ public class NewAccelerator extends Block{
                 }
                 renderer.scaleCamera(4.5f * 4);
             }else{
-                if(origin == null){
-                    origin = unit.controller();
-                }else{
-                    unit.controller(origin);
+                if(unit != null) {
+
+                    if (origin == null) {
+                        origin = unit.controller();
+                        originUnit = player.unit();
+                    } else {
+                        unit.controller(origin);
+                        unit.spawnedByCore(true);
+                    }
                 }
                 //unit.controller();
             }
