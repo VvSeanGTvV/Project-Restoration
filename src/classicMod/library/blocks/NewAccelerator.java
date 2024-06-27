@@ -3,6 +3,7 @@ package classicMod.library.blocks;
 import arc.*;
 import arc.Graphics.*;
 import arc.Graphics.Cursor.*;
+import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.scene.ui.layout.*;
@@ -123,9 +124,8 @@ public class NewAccelerator extends Block{
             Draw.alpha(Mathf.clamp(heat * 3f));
             Draw.rect(launching.uiIcon, x, y);
 
-            Draw.color(team.color);
-            Draw.alpha(1f - Mathf.clamp(blockLerp * 3f));
-            Draw.rect(Core.atlas.white(), x, y, (float) launching.uiIcon.width * 2 / tilesize, (float) launching.uiIcon.height * 2 / tilesize);
+            Color epic = new Color(team.color.r, team.color.g, team.color.b, 1f - Mathf.clamp(blockLerp * 3f));
+            Drawf.additive(launching.uiIcon, epic, x, y);
             Draw.reset();
         }
 
