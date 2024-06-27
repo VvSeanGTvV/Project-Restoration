@@ -70,9 +70,9 @@ public class NewAccelerator extends Block{
             if(heat < 0.0001f){
                 heatOpposite = 1f;
             } else {
-                heatOpposite += 50f / fdelta(100f, 60f);
+                heatOpposite +=  fdelta(50f, 60f) / 50f;
                 Log.info(heatOpposite);
-                blockLerp = Mathf.lerpDelta(blockLerp, heatOpposite, 0.05f);
+                blockLerp = Mathf.clamp(Mathf.lerpDelta(blockLerp, heatOpposite, 0.05f));
                 Log.info(blockLerp);
             }
         }
