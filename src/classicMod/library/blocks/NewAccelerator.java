@@ -82,24 +82,19 @@ public class NewAccelerator extends Block{
             table.row();
             table.table(Styles.grayPanel, t -> {
                 t.row();
-                t.table(planetInfo -> {
-                    planetInfo.add(getStatBundle.get("planet-to") + ":").row();
-                    planetInfo.add(Destination.planet.localizedName).color(Destination.planet.iconColor).row();
-                }).left().pad(10f);
+                t.add(Destination.planet.localizedName).color(Destination.planet.iconColor).row();
                 t.row();
 
-                t.image(launching.uiIcon).size(40).pad(2.5f).left().scaling(Scaling.fit);
+                t.image(launching.uiIcon).size(40).left().scaling(Scaling.fit);
                 t.table(coreInfo -> {
                     //coreInfo.image(launching.uiIcon).size(40).pad(2.5f).left().scaling(Scaling.fit);
                     coreInfo.add(getStatBundle.get("starting-core")).color(Pal.accent).row();
                     coreInfo.add(launching.localizedName);
                 }).left().pad(10f);
 
+                t.row();
                 t.table(info -> {
-                    //info.add(getStatBundle.get("starting-core") + ": " + launching.localizedName);
-
-                    info.row();
-                    info.add(Core.bundle.get("stat.launchtime"));
+                    info.add(Core.bundle.get("stat.launchtime")).row();
                     info.add(Strings.autoFixed(launchTime / 60f, 1) + " " + Core.bundle.get("unit.seconds")).color(Color.lightGray);
                 }).left().pad(10f);
 
