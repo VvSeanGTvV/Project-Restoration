@@ -8,6 +8,7 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
+import arc.util.io.Reads;
 import arc.util.io.Writes;
 import classicMod.library.converter.*;
 import classicMod.library.ui.dialog.epicCreditsDialog;
@@ -229,7 +230,13 @@ public class NewAccelerator extends Block{
         @Override
         public void write(Writes write) {
             super.write(write);
-            launchingStartup = false;
+            write.bool(launchingStartup);
+        }
+
+        @Override
+        public void read(Reads read) {
+            super.read(read);
+            launchingStartup = read.bool();
         }
 
         @Override
