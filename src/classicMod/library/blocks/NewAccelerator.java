@@ -79,29 +79,28 @@ public class NewAccelerator extends Block{
 
         //stats.add(Stat.launchTime, launchTime);
         stats.add(ExtendedStat.launchPlanet, table -> {
+            table.row();
             table.table(Styles.grayPanel, t -> {
                 t.row();
                 t.image(Destination.planet.fullIcon).size(40).pad(2.5f).left().scaling(Scaling.fit);
                 t.table(planetInfo -> {
                     planetInfo.add(getStatBundle.get("planet-to") + ":").row();
                     planetInfo.add(Destination.planet.localizedName).color(Destination.planet.iconColor).row();
-                }).left().row();
-
+                }).left().pad(10f);
                 t.row();
-
                 t.table(info -> {
                     info.image(launching.uiIcon).size(40).pad(2.5f).left().scaling(Scaling.fit);
                     info.table(coreInfo -> {
                         //coreInfo.image(launching.uiIcon).size(40).pad(2.5f).left().scaling(Scaling.fit);
                         coreInfo.add(getStatBundle.get("starting-core")).color(Pal.accent).row();
                         coreInfo.add(launching.localizedName);
-                    }).left().row();
+                    }).left().pad(10f);
                     //info.add(getStatBundle.get("starting-core") + ": " + launching.localizedName);
 
                     info.row();
-                    info.add(Core.bundle.get("stat.launchTime"));
+                    info.add(Core.bundle.get("stat.launchtime"));
                     info.add(Strings.autoFixed(launchTime / 60f, 1) + " " + Core.bundle.get("unit.seconds")).color(Color.lightGray);
-                }).left();
+                }).left().pad(10f);
 
             });
         });
@@ -143,6 +142,7 @@ public class NewAccelerator extends Block{
                     once = true;
                 }
                 if (isControlled()) renderer.setScale(Scl.scl(1.5f));
+                if (efficiency > 0) launchingStartup = isControlled();
             }else{
                 if(unit != null) {
                     if (origin == null) {
