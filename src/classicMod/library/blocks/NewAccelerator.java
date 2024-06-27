@@ -72,7 +72,7 @@ public class NewAccelerator extends Block{
             super.updateTile();
             heat = Mathf.lerpDelta(heat, efficiency, 0.05f);
             statusLerp = Mathf.lerpDelta(statusLerp, power.status, 0.05f);
-            if(heat > 0f){
+            if(efficiency > 0){
                 if(heatOpposite < 1f) heatOpposite += fdelta(50f, 60f) / 50f;
                 blockLerp = Mathf.clamp(Mathf.lerpDelta(blockLerp, heatOpposite, 0.05f));
             } else {
@@ -83,7 +83,7 @@ public class NewAccelerator extends Block{
             if(launchingStartup){
                 player.set(this);
                 camera.position.set(this);
-                renderer.scaleCamera(4.5f);
+                renderer.scaleCamera(10.5f);
             }
         }
 
