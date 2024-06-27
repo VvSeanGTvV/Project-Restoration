@@ -28,6 +28,7 @@ import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.heat.*;
 import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
+import mindustry.world.blocks.storage.StorageBlock;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
@@ -71,8 +72,9 @@ public class ClassicBlocks {
     warheadAssembler, ballisticSilo, nuclearWarhead, //Nuclear - Prototype [v7-dev] TODO what to do with this
     shieldProjector, shieldBreaker, largeShieldProjector, barrierProjector, //Projectors - Erekir - Prototype [v7-dev]
     heatReactor, //Heat Producers - Erekir - Prototype [v7-dev]
-    cellSynthesisChamber, //Liquid Converter - Erekir - Prototype [v7-dev]
-    slagCentrifuge, //Generic Crafters - Erekir - Prototype [v7-dev]
+    //cellSynthesisChamber, //Liquid Converter - Erekir - Prototype [v7-dev]
+    slagCentrifuge, cellSynthesisChamber, //Generic Crafters - Erekir - Prototype [v7-dev]
+    reinforcedSafe, //Storage - Erekir - Prototype [v7-dev]
 
     droneCenter, payloadLaunchpad, commandCenter, //TEMPORARY TESTING
 
@@ -1468,5 +1470,13 @@ public class ClassicBlocks {
             hasPower = true;
             consumePower(4f);
         }};*/
+
+        reinforcedSafe = new StorageBlock("reinforced-safe"){{
+            requirements(Category.effect, with(Items.tungsten, 250, Items.carbide, 125, Items.beryllium, 100));
+            size = 4;
+            itemCapacity = 1200;
+            scaledHealth = 120;
+            coreMerge = false;
+        }};
     }
 }

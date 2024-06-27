@@ -64,6 +64,10 @@ public class ExtendedErekirTechTree {
             nodeProduce(fissileMatter);
             nodeProduce(scrap);
         });
+
+        margeNode(reinforcedVault, () -> {
+            node(reinforcedSafe);
+        });
     }
 
 
