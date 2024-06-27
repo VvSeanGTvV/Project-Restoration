@@ -96,7 +96,7 @@ public class NewAccelerator extends Block{
                     camera.position.set(this);
                     once = true;
                 }
-                renderer.scaleCamera(renderer.maxScale());
+                renderer.scaleCamera(1.5f);
             }else{
                 if(unit != null) {
                     if (origin == null) {
