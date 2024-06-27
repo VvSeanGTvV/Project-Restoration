@@ -8,6 +8,7 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
+import arc.util.io.Writes;
 import classicMod.library.converter.*;
 import classicMod.library.ui.dialog.epicCreditsDialog;
 import mindustry.Vars;
@@ -70,18 +71,18 @@ public class NewAccelerator extends Block{
             super.updateTile();
             heat = Mathf.lerpDelta(heat, efficiency, 0.05f);
             statusLerp = Mathf.lerpDelta(statusLerp, power.status, 0.05f);
-            if(heat < 0.0001f){
-                heatOpposite = 0f;
-                blockLerp = 0f;
-            } else {
+            if(heat >= 0f){
                 if(heatOpposite < 1f) heatOpposite += fdelta(50f, 60f) / 50f;
                 blockLerp = Mathf.clamp(Mathf.lerpDelta(blockLerp, heatOpposite, 0.05f));
+            } else {
+                heatOpposite = 0f;
+                blockLerp = 0f;
             }
+            if(launchingStartup) camera.position.set(this);
         }
 
         @Override
         public void draw(){
-            launchingStartup = false;
             super.draw();
 
             for(int l = 0; l < 4; l++){
@@ -198,7 +199,13 @@ public class NewAccelerator extends Block{
 
         @Override
         public boolean acceptItem(Building source, Item item){
-            return items.get(item) < getMaximumAccepted(item) && !launchingStartup;
+            return items.get(item) < getMaximumAccepted(item);
+        }
+
+        @Override
+        public void write(Writes write) {
+            super.write(write);
+            launchingStartup = false;
         }
     }
 }
