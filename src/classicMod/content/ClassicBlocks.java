@@ -1477,6 +1477,12 @@ public class ClassicBlocks {
             itemCapacity = 1200;
             scaledHealth = 120;
             coreMerge = false;
-        }};
+        }
+            @Override
+            public TextureRegion[] icons() {
+                return new TextureRegion[]{region, teamRegion};
+            }
+
+        };
     }
 }

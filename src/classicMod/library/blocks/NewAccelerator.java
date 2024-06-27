@@ -77,29 +77,31 @@ public class NewAccelerator extends Block{
     public void setStats() {
         super.setStats();
 
-        stats.add(Stat.launchTime, launchTime);
+        //stats.add(Stat.launchTime, launchTime);
         stats.add(ExtendedStat.launchPlanet, table -> {
             table.table(Styles.grayPanel, t -> {
                 t.row();
-                t.image(Destination.planet.uiIcon).size(40).pad(2.5f).left().scaling(Scaling.fit);
+                t.image(Destination.planet.fullIcon).size(40).pad(2.5f).left().scaling(Scaling.fit);
                 t.table(planetInfo -> {
                     planetInfo.add(getStatBundle.get("planet-to") + ":").row();
-                    planetInfo.add(Destination.planet.localizedName).row();
-                }).row();
+                    planetInfo.add(Destination.planet.localizedName).color(Destination.planet.iconColor).row();
+                }).left().row();
 
                 t.row();
+
                 t.table(info -> {
-                    info.image(launching.uiIcon);
+                    info.image(launching.uiIcon).size(40).pad(2.5f).left().scaling(Scaling.fit);
                     info.table(coreInfo -> {
-                        coreInfo.image(launching.uiIcon);
-                        coreInfo.add(getStatBundle.get("starting-core") + ":");
+                        //coreInfo.image(launching.uiIcon).size(40).pad(2.5f).left().scaling(Scaling.fit);
+                        coreInfo.add(getStatBundle.get("starting-core")).color(Pal.accent).row();
                         coreInfo.add(launching.localizedName);
-                    }).row();
+                    }).left().row();
                     //info.add(getStatBundle.get("starting-core") + ": " + launching.localizedName);
-                    
+
                     info.row();
+                    info.add(Core.bundle.get("stat.launchTime"));
                     info.add(Strings.autoFixed(launchTime / 60f, 1) + " " + Core.bundle.get("unit.seconds")).color(Color.lightGray);
-                });
+                }).left();
 
             });
         });
