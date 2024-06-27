@@ -118,6 +118,7 @@ public class NewAccelerator extends Block{
             Draw.reset();
         }
 
+        //a
         public void DrawCore(){
             Draw.reset();
             Draw.rect(launching.uiIcon, x, y);
