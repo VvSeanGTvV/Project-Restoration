@@ -144,6 +144,7 @@ public class ClassicMod extends Mod{
     public String pathFile() {
         return resMod.file.path();
     }
+
     public void getContributors(String filePath) {
         try (ZipFile zipFile = new ZipFile(filePath)) {
             Enumeration<? extends ZipEntry> entries = zipFile.entries();
@@ -170,6 +171,8 @@ public class ClassicMod extends Mod{
     }
 
     public static Func<String, String> getModBundle = value -> bundle.get("mod." + value);
+
+    public static Func<String, String> getStatBundle = value -> bundle.get("stat." + value);
     
     @Override
     public void init() {

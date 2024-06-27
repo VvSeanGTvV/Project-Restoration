@@ -15,6 +15,7 @@ import mindustry.world.blocks.production.*;
 import mindustry.world.consumers.*;
 import mindustry.world.meta.*;
 
+@Deprecated
 public class LiquidConverter extends GenericCrafter { //TODO fix this old converter
     public float ConvertTime = 10f;
     public Liquid ConvertLiquid = Liquids.water;

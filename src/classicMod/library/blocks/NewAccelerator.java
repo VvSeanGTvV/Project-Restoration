@@ -10,6 +10,7 @@ import arc.scene.ui.layout.*;
 import arc.util.*;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
+import classicMod.content.ExtendedStat;
 import classicMod.library.converter.*;
 import classicMod.library.ui.dialog.epicCreditsDialog;
 import mindustry.Vars;
@@ -23,11 +24,14 @@ import mindustry.ui.*;
 import mindustry.ui.dialogs.PlanetDialog;
 import mindustry.world.*;
 import mindustry.world.blocks.ControlBlock;
+import mindustry.world.meta.Stat;
 
 import static arc.Core.camera;
+import static classicMod.ClassicMod.getStatBundle;
 import static classicMod.library.ui.UIExtended.fdelta;
 import static mindustry.Vars.*;
 import static mindustry.input.Binding.zoom;
+import static mindustry.ui.dialogs.PlanetDialog.Mode.planetLaunch;
 import static mindustry.ui.dialogs.PlanetDialog.Mode.select;
 
 public class NewAccelerator extends Block{
@@ -40,6 +44,8 @@ public class NewAccelerator extends Block{
 
     public Sector Destination = SectorPresets.onset.sector;
     public int[] capacities = {};
+
+    public float launchTime = 60f * 5f;
 
     public NewAccelerator(String name){
         super(name);
@@ -65,6 +71,39 @@ public class NewAccelerator extends Block{
     @Override
     public boolean outputsItems(){
         return false;
+    }
+
+    @Override
+    public void setStats() {
+        super.setStats();
+
+        stats.add(Stat.launchTime, launchTime);
+        stats.add(ExtendedStat.launchPlanet, table -> {
+            table.table(Styles.grayPanel, t -> {
+                t.row();
+                t.image(Destination.planet.uiIcon).size(40).pad(2.5f).left().scaling(Scaling.fit);
+                t.table(planetInfo -> {
+                    planetInfo.add(getStatBundle.get("planet-to") + ":").row();
+                    planetInfo.add(Destination.planet.localizedName).row();
+                }).row();
+
+                t.row();
+                t.table(info -> {
+                    info.image(launching.uiIcon);
+                    info.table(coreInfo -> {
+                        coreInfo.image(launching.uiIcon);
+                        coreInfo.add(getStatBundle.get("starting-core") + ":");
+                        coreInfo.add(launching.localizedName);
+                    }).row();
+                    //info.add(getStatBundle.get("starting-core") + ": " + launching.localizedName);
+                    
+                    info.row();
+                    info.add(Strings.autoFixed(launchTime / 60f, 1) + " " + Core.bundle.get("unit.seconds")).color(Color.lightGray);
+                });
+
+            });
+        });
+        //stats.add(Strings.autoFixed(launchTime / 60f, 1) + " " + Core.bundle.get("unit.seconds")).color(Color.lightGray);
     }
 
     public class NewAcceleratorBuild extends Building implements ControlBlock{
