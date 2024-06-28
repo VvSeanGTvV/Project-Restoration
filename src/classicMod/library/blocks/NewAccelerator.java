@@ -362,7 +362,7 @@ public class NewAccelerator extends Block{
 
             float alpha = Interp.pow5Out.apply(launcpadTimer);
             float scale = (1f - alpha) * 1.3f + 1f;
-            float cx = x, cy = y + Interp.slope.apply(launcpadTimer) * 100f;
+            float cx = x, cy = y + Interp.sineOut.apply(launcpadTimer) * 100f;
             float rotation = launcpadTimer * (130f + Mathf.randomSeedRange(id(), 50f));
 
             //float rad = 0.2f + fslope();
@@ -373,14 +373,12 @@ public class NewAccelerator extends Block{
             }
 
             TextureRegion region = launching.fullIcon;
-            scale *= region.scl();
-            float rw = region.width * scale, rh = region.height * scale;
 
             Draw.color();
 
             Draw.z(Layer.weather - 1);
 
-            Draw.rect(region, x, cy, rw, rh, rotation);
+            Draw.rect(region, x, cy, region.width, region.height, rotation);
 
 
             /*float alpha = Interp.pow5Out.apply(launcpadTimer);
