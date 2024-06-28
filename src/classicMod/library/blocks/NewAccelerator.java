@@ -358,6 +358,7 @@ public class NewAccelerator extends Block{
             return (0.5f - Math.abs(launcpadTimer - 0.5f)) * 2f;
         }
 
+        //damn
         public void DrawCoreLaunchLikeLaunchpod(){
 
             float alpha = Interp.pow5Out.apply(launcpadTimer);
