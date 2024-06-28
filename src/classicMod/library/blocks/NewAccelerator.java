@@ -176,6 +176,10 @@ public class NewAccelerator extends Block{
             unit.ammo(unit.type().ammoCapacity * fraction());
 
             if(progress >= launchTime && items.total() >= itemCapacity){
+                if(mobile){
+                    camera.position.set(this);
+                }                       
+
 
                 StartAnimation = true;
                 //unit.spawnedByCore(false);
@@ -188,7 +192,10 @@ public class NewAccelerator extends Block{
                 }
                 if(stageLaunch == 1){
                     launchOppositeAnimation = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta);
-                    zoomStyle = 6f;
+                    if(launchAnimation < 0.01f)zoomStyle = 6f; else {
+                        if(zoomStyle > 1.5f) zoomStyle -= 0.025f * Time.delta;
+                    }
+                    
                     launchOppositeAnimation1 = 1f;
                 }
                 if(stageLaunch == 2){
@@ -271,14 +278,22 @@ public class NewAccelerator extends Block{
 
             if(stageLaunchAnimation == 0) {
                 Draw.rect(launching.uiIcon, x, y);
-                
-                Draw.z(Layer.bullet - 0.0001f);
 
                 Color epic = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation));
                 Drawf.additive(launching.uiIcon, epic, x, y);
 
                 Color woah = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation * 3f));
                 Drawf.additive(launching.uiIcon, woah, x, y);
+                
+                Draw.z(Layer.bullet - 0.0001f);
+
+                Color bruh = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation));
+                Draw.color(bruh);
+                Draw.rect(launching.uiIcon, x, y);
+
+                Color glow = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation * 1.5f));
+                Draw.color(glow);
+                Draw.rect(launching.uiIcon, x, y);
                 
                 Lines.stroke(1.75f, Pal.accent);
                 Lines.square(x, y, rad * 1.22f, 45f);
@@ -290,13 +305,7 @@ public class NewAccelerator extends Block{
                     Lines.square(x, y + 10f * centre * centre, rad * 1.22f * i, 90f);
                 }
 
-                Color bruh = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation));
-                Draw.color(bruh);
-                Draw.rect(launching.uiIcon, x, y);
-
-                Color glow = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation * 1.5f));
-                Draw.color(glow);
-                Draw.rect(launching.uiIcon, x, y);
+                
             }
 
             Draw.reset();
