@@ -262,8 +262,11 @@ public class NewAccelerator extends Block{
             Draw.reset();
             if(stageLaunchAnimation == 1){
 
-                Color epic = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation * 3f));
+                Color epic = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation));
                 Drawf.additive(launching.uiIcon, epic, x, y);
+
+                Color woah = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation * 3f));
+                Drawf.additive(launching.uiIcon, woah, x, y);
 
                 Draw.reset();
 
