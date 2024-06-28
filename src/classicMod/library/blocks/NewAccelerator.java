@@ -398,11 +398,11 @@ public class NewAccelerator extends Block{
             for(int i = 0; i < 4; i++){
                 Tmp.v1.trns(i * 90 + rotation, 1f);
 
-                Tmp.v1.setLength((size * tilesize/2f + 1f)*scl + strength*2f + offset);
+                Tmp.v1.setLength((size + 1f)*scl + strength*2f + offset);
                 Draw.color(Pal.accent);
                 Fill.circle(Tmp.v1.x + x, Tmp.v1.y + y, 6f * strength);
 
-                Tmp.v1.setLength((size * tilesize/2f + 1f)*scl + strength*0.5f + offset);
+                Tmp.v1.setLength((size + 1f)*scl + strength*0.5f + offset);
                 Draw.color(Color.white);
                 Fill.circle(Tmp.v1.x + x, Tmp.v1.y + y, 3.5f * strength);
             }
