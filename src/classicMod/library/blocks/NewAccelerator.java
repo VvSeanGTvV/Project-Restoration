@@ -369,8 +369,11 @@ public class NewAccelerator extends Block{
 
             Draw.alpha(alpha);
             for(int i = 0; i < 4; i++){
-                Drawf.tri(cx, cy, 6f, 60f * (1f - launcpadTimer), i * 90f + rotation);
+                Drawf.tri(cx, cy, 12f, 60f * (1f - launcpadTimer), i * 90f + rotation);
             }
+
+            float r = 3f;
+            Fx.rocketSmoke.at(cx() + Mathf.range(r), cy() + Mathf.range(r), launcpadTimer);
 
             TextureRegion region = launching.fullIcon;
 
@@ -378,7 +381,7 @@ public class NewAccelerator extends Block{
 
             Draw.z(Layer.weather - 1);
 
-            Draw.rect(region, x, cy, (float) region.width / 4, (float) region.height / 4, rotation);
+            Draw.rect(region, x, cy, (float) region.width / 4 * launcpadTimer, (float) region.height / 4 * launcpadTimer, rotation);
 
 
             /*float alpha = Interp.pow5Out.apply(launcpadTimer);
