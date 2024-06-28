@@ -199,7 +199,7 @@ public class NewAccelerator extends Block{
                 if(stageLaunch == 1){
                     launchOppositeAnimation = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta);
                     if(launchAnimation < 0.01f){ Effect.shake(3f, 3f, this); }
-                    Interp.pow3In.apply(Scl.scl(0.02f), Scl.scl(4f), 1f - launchpadTimer);
+                    zoomStyle = Interp.pow3In.apply(Scl.scl(0.02f), Scl.scl(4f), 1f - launchpadTimer);
                     launchpadPrepTimer = Mathf.clamp(launchpadPrepTimer + 0.005f * Time.delta);
                     if(launchpadPrepTimer >= 1f)launchpadTimer = Mathf.clamp(launchpadTimer + 0.005f * Time.delta);
                     if(launchpadTimer >= 1f) stageLaunch += 1;
@@ -374,7 +374,8 @@ public class NewAccelerator extends Block{
         public void DrawCoreLaunchLikeLaunchpod(){
 
             float thrustTimer = Interp.sineOut.apply(launchpadPrepTimer);
-            float cx = x, cy = y + Interp.sineOut.apply(launchpadTimer) * 200f;
+            float cx = x, cy = y + Interp.sineIn.apply(launchpadTimer) * 200f;
+            float rotation = launchpadTimer * (130f + Mathf.randomSeedRange(id(), 50f));
             float thrustOpen = 0.25f;
             float thrusterFrame = thrustTimer >= thrustOpen ? 1f : thrustTimer / thrustOpen;
 
