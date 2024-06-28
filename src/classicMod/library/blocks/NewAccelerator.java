@@ -121,7 +121,7 @@ public class NewAccelerator extends Block{
     }
 
     public class NewAcceleratorBuild extends Building implements ControlBlock{
-        public float heat, statusLerp, blockLerp, heatOpposite, progress, launchCounter;
+        public float heat, statusLerp, blockLerp, heatOpposite, progress;
         public @Nullable BlockUnitc unit;
 
         //counter
@@ -146,15 +146,11 @@ public class NewAccelerator extends Block{
                 if(heatOpposite < 1f) heatOpposite += fdelta(50f, 60f) / 50f;
                 blockLerp = Mathf.clamp(Mathf.lerpDelta(blockLerp, heatOpposite, 0.05f));
             } else {
+                progress = 0;
                 heatOpposite = 0f;
                 blockLerp = Mathf.clamp(Mathf.lerpDelta(blockLerp, efficiency, 0.05f));
                 launchingStartup = false;
                 once = false;
-            }
-            if(isControlled() && launchingStartup){
-                launchCounter += edelta();
-            } else {
-                launchCounter = 0f;
             }
             if(!StartAnimation) {
                 if (launchingStartup || isControlled()) {
@@ -192,7 +188,7 @@ public class NewAccelerator extends Block{
 
 
 
-            if(launchCounter >= launchTime && items.total() >= itemCapacity && efficiency > 0){
+            if(progress >= launchTime && items.total() >= itemCapacity){
                 StartAnimation = true;
                 unit.spawnedByCore(false);
                 renderer.setScale(Scl.scl(1.5f));
