@@ -215,8 +215,11 @@ public class NewAccelerator extends Block{
                 }
             }
 
-            if(StartAnimation) DrawAnimation();
-            if(heat < 0.0001f && !StartAnimation) return;
+            if(StartAnimation) {
+                DrawAnimation();
+                return;
+            }
+            if(heat < 0.0001f) return;
 
             DrawCore();
 
