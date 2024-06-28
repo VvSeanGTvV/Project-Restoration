@@ -201,7 +201,7 @@ public class NewAccelerator extends Block{
                     if(launchAnimation < 0.01f){ Effect.shake(3f, 3f, this); }
                     zoomStyle = Interp.pow3In.apply(Scl.scl(0.02f), Scl.scl(4f), 1f - launchpadTimer);
                     launchpadPrepTimer = Mathf.clamp(launchpadPrepTimer + 0.0025f * Time.delta);
-                    if(launchpadPrepTimer >= 1f)launchpadTimer = Mathf.clamp(launchpadTimer + 0.005f * Time.delta);
+                    if(launchpadPrepTimer >= 0.5f)launchpadTimer = Mathf.clamp(launchpadTimer + 0.0075f * Time.delta);
                     if(launchpadTimer >= 1f) stageLaunch += 1;
                 }
                 if(stageLaunch >= 2){
