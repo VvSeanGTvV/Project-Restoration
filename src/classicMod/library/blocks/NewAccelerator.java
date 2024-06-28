@@ -336,7 +336,7 @@ public class NewAccelerator extends Block{
 
                 Draw.reset();
 
-                var Opposite = 1f - launchAnimation;
+                var Opposite = (1f - Mathf.clamp(launchAnimation * 2f);
 
                 Draw.z(Layer.bullet - 0.0001f);
                 //Lines.stroke(1.75f, Pal.accent);
@@ -346,7 +346,7 @@ public class NewAccelerator extends Block{
                     var stroke = warpSquareStroke * (strokeScaling * i);
                     //var centre = i - (i * Mathf.clamp(Opposite));
                     Lines.stroke(stroke * Mathf.clamp(Opposite * 2f / bop), Pal.accent);
-                    Lines.square(x, y + 10f, (rad * 1.22f * i) * Mathf.clamp(Opposite * 2f / bop), 90f);
+                    Lines.square(x, y, (rad * 1.22f * i) * Mathf.clamp(Opposite * 2f / bop), 90f);
                 }
 
                 Draw.reset();
@@ -386,23 +386,23 @@ public class NewAccelerator extends Block{
             Draw.rect(launching.fullIcon, cx, cy, rotation);
             drawThrusters(cx, cy, rotation, thrusterFrame);
 
-            if(launchpadPrepTimer >= 1f) {
-                float thrusterSize = Mathf.sample(thrusterSizes, launchpadTimer);
-                float strength = (1f + (size - 3) / 2.5f) * scl * thrusterSize * (0.95f + Mathf.absin(2f, 0.1f));
-                float offset = (size - 3) * 3f * scl;
+            float thrusterSize = Mathf.sample(thrusterSizes, launchpadPrepTimer);
+            float strength = (1f + (size - 3) / 2.5f) * scl * thrusterSize * (0.95f + Mathf.absin(2f, 0.1f));
+            float offset = (size - 3) * 3f * scl;
 
-                for (int i = 0; i < 4; i++) {
-                    Tmp.v1.trns(i * 90 + rotation, 1f);
+            for (int i = 0; i < 4; i++) {
+                Tmp.v1.trns(i * 90 + rotation, 1f);
 
-                    Tmp.v1.setLength((size * tilesize / 2f + 1f) * scl + strength * 2f + offset);
-                    Draw.color(Pal.accent);
-                    Fill.circle(Tmp.v1.x + cx, Tmp.v1.y + cy, 6f * strength);
+                Tmp.v1.setLength((size * tilesize / 2f + 1f) * scl + strength * 2f + offset);
+                Draw.color(Pal.accent);
+                Fill.circle(Tmp.v1.x + cx, Tmp.v1.y + cy, 6f * strength);
 
-                    Tmp.v1.setLength((size * tilesize / 2f + 1f) * scl + strength * 0.5f + offset);
-                    Draw.color(Color.white);
-                    Fill.circle(Tmp.v1.x + cx, Tmp.v1.y + cy, 3.5f * strength);
-                }
+                Tmp.v1.setLength((size * tilesize / 2f + 1f) * scl + strength * 0.5f + offset);
+                Draw.color(Color.white);
+                Fill.circle(Tmp.v1.x + cx, Tmp.v1.y + cy, 3.5f * strength);
+            }
 
+            if(launchpadPrepTimer >= 0.25f) {
                 tile.getLinkedTiles(t -> {
                     if (Mathf.chance(0.4f)) {
                         Fx.coreLandDust.at(t.worldx(), t.worldy(), angleTo(t.worldx(), t.worldy()) + Mathf.range(30f), Tmp.c1.set(t.floor().mapColor).mul(1.5f + Mathf.range(0.15f)));
