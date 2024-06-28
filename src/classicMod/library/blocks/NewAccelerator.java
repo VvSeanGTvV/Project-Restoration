@@ -180,7 +180,7 @@ public class NewAccelerator extends Block{
                 StartAnimation = true;
                 //unit.spawnedByCore(false);
                 renderer.setScale(Scl.scl(1.5f));
-                launchAnimation = Mathf.clamp(launchAnimation + 0.001f * Time.delta);
+                launchAnimation = Mathf.clamp(launchAnimation + 0.0025f * Time.delta);
                 if(launchAnimation >= 1f){ stageLaunch += 1; launchAnimation = 0f; }
                 if(stageLaunch == 0){ launchOppositeAnimation = 1f; }
                 if(stageLaunch == 1){ launchOppositeAnimation = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta); }
@@ -266,16 +266,15 @@ public class NewAccelerator extends Block{
                 Drawf.additive(launching.uiIcon, epic, x, y);
 
                 Draw.reset();
-                
+
                 Draw.z(Layer.bullet - 0.0001f);
                 Lines.stroke(1.75f, Pal.accent);
                 Lines.square(x, y, rad * 1.22f, 45f);
                 for (int i = 1; i < 5; i++) {
                     var bop = i * 1.5f;
                     var stroke = 1.75f * (2f * i);
-                    var centre = i - (i * Mathf.clamp(launchOppositeAnimation));
-                    Lines.stroke(stroke * Mathf.clamp(launchAnimation * bop), Pal.accent);
-                    Lines.square(x, y + 10f * centre * centre, rad * 1.22f * i, 90f);
+                    Lines.stroke(stroke * Mathf.clamp(launchOppositeAnimation * bop), Pal.accent);
+                    Lines.square(x, y + 10f, rad * 1.22f * i, 90f);
                 }
             }
         }
