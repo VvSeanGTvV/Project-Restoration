@@ -235,12 +235,6 @@ public class NewAccelerator extends Block{
         }
 
         @Override
-        public Building init(Tile tile, Team team, boolean shouldAdd, int rotation) {
-            createOutlineCore(Core.atlas.find(launching.name));
-            return super.init(tile, team, shouldAdd, rotation);
-        }
-
-        @Override
         public Cursor getCursor(){
             return !state.isCampaign() || efficiency <= 0f ? SystemCursor.arrow : super.getCursor();
         }
