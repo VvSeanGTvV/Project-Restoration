@@ -17,6 +17,7 @@ import classicMod.library.converter.*;
 import classicMod.library.ui.dialog.epicCreditsDialog;
 import mindustry.Vars;
 import mindustry.content.*;
+import mindustry.entities.Effect;
 import mindustry.entities.units.UnitController;
 import mindustry.game.EventType.*;
 import mindustry.game.Team;
@@ -110,7 +111,7 @@ public class NewAccelerator extends Block{
         public @Nullable BlockUnitc unit;
 
         //counter
-        public float launchAnimation, launchOppositeAnimation, zoomStyle, launchOppositeAnimation1;
+        public float launchAnimation, launchOppositeAnimation, zoomStyle, launcpadTimer;
         int stageLaunch = 0;
         public UnitController origin;
         public Unit originUnit;
@@ -195,24 +196,16 @@ public class NewAccelerator extends Block{
                     if(launchAnimation < 0.01f)zoomStyle = 6f; else {
                         if(zoomStyle > 1.5f) zoomStyle -= 0.025f * Time.delta;
                     }
-                    
-                    launchOppositeAnimation1 = 1f;
+                    launcpadTimer = Mathf.clamp(launchAnimation + 0.025f * Time.delta);
                 }
-                if(stageLaunch == 2){
+                if(stageLaunch >= 2){
 
-                    launchAnimation = 0f;
+                    launcpadTimer = 0;
+                    launchAnimation = 0;
                     StartAnimation = false;
                     progress = 0;
                     StartNewPlanet(Destination);
-                    
-                    //launchOppositeAnimation1 = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta);
-                    //if(zoomStyle > 1.5f) zoomStyle -= 0.0025f * Time.delta;
-                }
-                if(stageLaunch >= 3){
-                    launchAnimation = 0f;
-                    StartAnimation = false;
-                    progress = 0;
-                    StartNewPlanet(Destination);
+
                 }
             } else if (progress <= 0 && StartAnimation) {
                 player.clearUnit();
@@ -327,24 +320,62 @@ public class NewAccelerator extends Block{
                 Lines.stroke(1.75f * launchOppositeAnimation, Pal.accent);
                 Lines.square(x, y, rad * 1.22f * launchOppositeAnimation, 45f);
 
-                for (int i=1; i < 50f; i++){
-                    Draw.color(Pal.accent);
-                    Draw.alpha(1f - Mathf.clamp(launchAnimation * 15f / i));
-                    Draw.rect(Core.atlas.white(), x, y + 1f * i * i, (float) launching.uiIcon.width / 4f, ((float) launching.uiIcon.height / 4f) + 1f * i * i);
-                }
-
+                DrawCoreLaunchLikeLaunchpod();
                 
                 //Drawf.additive(launching.uiIcon, bruh, x, y);
             }
+        }
+
+
+        float cx(){
+            return x + Interp.pow2In.apply(launcpadTimer) * (12f + Mathf.randomSeedRange(id() + 3, 4f));
+        }
+
+        float cy(){
+            return y + Interp.pow5In.apply(launcpadTimer) * (100f + Mathf.randomSeedRange(id() + 2, 30f));
+        }
+
+        float fslope(){
+            return (0.5f - Math.abs(launcpadTimer - 0.5f)) * 2f;
+        }
+
+        public void DrawCoreLaunchLikeLaunchpod(){
+            float alpha = Interp.pow5Out.apply(launcpadTimer);
+            float scale = (1f - alpha) * 1.3f + 1f;
+            float cx = cx(), cy = cy();
+            float rotation = launcpadTimer * (130f + Mathf.randomSeedRange(id(), 50f));
+
+            Draw.z(Layer.effect + 0.001f);
+
+            Draw.color(Pal.engine);
+
+            float rad = 0.2f + fslope();
+
+            Fill.light(cx, cy, 10, 25f * (rad + scale-1f), Tmp.c2.set(Pal.engine).a(alpha), Tmp.c1.set(Pal.engine).a(0f));
+
+            Draw.alpha(alpha);
+            for(int i = 0; i < 4; i++){
+                Drawf.tri(cx, cy, 6f, 40f * (rad + scale-1f), i * 90f + rotation);
+            }
+
+            Draw.color();
+
+            Draw.z(Layer.weather - 1);
+
+            TextureRegion region = launching.region;
+            scale *= region.scl();
+            float rw = region.width * scale, rh = region.height * scale;
+
+            Draw.alpha(alpha);
+            Draw.rect(region, cx, cy, rw, rh, rotation);
+
+            Tmp.v1.trns(225f, Interp.pow3In.apply(launcpadTimer) * 250f);
+
+            Draw.z(Layer.flyingUnit + 1);
+            Draw.color(0, 0, 0, 0.22f * alpha);
+            Draw.rect(region, cx + Tmp.v1.x, cy + Tmp.v1.y, rw, rh, rotation);
 
             Draw.reset();
-            if(stageLaunchAnimation == 2){
-
-                Draw.reset();
-                Draw.alpha(1f);
-
-                
-            }
         }
 
         public void DrawCore(){
@@ -438,5 +469,14 @@ public class NewAccelerator extends Block{
             }
             return (Unit)unit;
         }
+
+        public static final Effect
+        CoreLaunchpadComp = new Effect(1, e -> {
+            float alpha = e.fout(Interp.pow5Out);
+            float scale = (1f - alpha) * 1.3f + 1f;
+            //float cx = cx(), cy = cy();
+            float rotation = e.fin() * (130f + Mathf.randomSeedRange(e.id, 50f));
+
+        });
     }
 }
