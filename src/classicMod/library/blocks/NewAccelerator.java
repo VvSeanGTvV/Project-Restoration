@@ -198,9 +198,8 @@ public class NewAccelerator extends Block{
                 }
                 if(stageLaunch == 1){
                     launchOppositeAnimation = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta);
-                    if(launchAnimation < 0.01f){ zoomStyle = 6f; Effect.shake(3f, 3f, this); } else {
-                        if(zoomStyle > 1.5f) zoomStyle -= 1f * Time.delta;
-                    }
+                    if(launchAnimation < 0.01f){ Effect.shake(3f, 3f, this); }
+                    Interp.pow3In.apply(Scl.scl(0.02f), Scl.scl(4f), 1f - launchpadTimer);
                     launchpadPrepTimer = Mathf.clamp(launchpadPrepTimer + 0.005f * Time.delta);
                     if(launchpadPrepTimer >= 1f)launchpadTimer = Mathf.clamp(launchpadTimer + 0.005f * Time.delta);
                     if(launchpadTimer >= 1f) stageLaunch += 1;
