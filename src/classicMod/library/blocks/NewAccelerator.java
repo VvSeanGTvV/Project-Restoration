@@ -143,6 +143,7 @@ public class NewAccelerator extends Block{
             heat = Mathf.lerpDelta(heat, efficiency, 0.05f);
             statusLerp = Mathf.lerpDelta(statusLerp, power.status, 0.05f);
             if(efficiency > 0){
+                progress += edelta();
                 if(heatOpposite < 1f) heatOpposite += fdelta(50f, 60f) / 50f;
                 blockLerp = Mathf.clamp(Mathf.lerpDelta(blockLerp, heatOpposite, 0.05f));
             } else {
@@ -183,7 +184,6 @@ public class NewAccelerator extends Block{
                     once = false;
                 }
             }
-            progress += edelta();
             unit.ammo(unit.type().ammoCapacity * fraction());
 
 
