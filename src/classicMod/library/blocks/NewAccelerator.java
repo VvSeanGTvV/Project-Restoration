@@ -196,7 +196,7 @@ public class NewAccelerator extends Block{
                     if(launchAnimation < 0.01f){ zoomStyle = 3f; Effect.shake(3f, 3f, this); } else {
                         //if(zoomStyle > 1.5f) zoomStyle -= 1f * Time.delta;
                     }
-                    launcpadTimer = Mathf.clamp(launcpadTimer + 0.025f * Time.delta);
+                    launcpadTimer = Mathf.clamp(launcpadTimer + 0.005f * Time.delta);
                     if(launcpadTimer >= 1f) stageLaunch += 1;
                 }
                 if(stageLaunch >= 2){
@@ -299,6 +299,27 @@ public class NewAccelerator extends Block{
                     Lines.square(x, y + 10f * centre * centre, rad * 1.22f * i, 90f);
                 }
 
+                var Opposite = 1f - launchAnimation;
+
+                Lines.stroke(1.75f * Opposite, Pal.accent);
+                Lines.square(x, y, rad * 1.22f * Opposite, 45f);
+
+                Lines.stroke(1.75f * Opposite, Pal.accent);
+                Lines.square(x, y, rad * 1.22f, 45f);
+
+                Lines.stroke(3f * Opposite, Pal.accent);
+                Lines.square(x, y, rad, Time.time / scl);
+                Lines.square(x, y, rad, -Time.time / scl);
+
+                Draw.color(team.color);
+                Draw.alpha(Mathf.clamp(Opposite * 3f));
+
+                for(int i = 0; i < 4; i++){
+                    float rot = i*90f + 45f + (-Time.time /3f)%360f;
+                    float length = 26f * Opposite;
+                    Draw.rect(arrowRegion, x + Angles.trnsx(rot, length), y + Angles.trnsy(rot, length), rot + 180f);
+                }
+
                 
             }
 
@@ -315,25 +336,6 @@ public class NewAccelerator extends Block{
                     var stroke = 1.75f * (2f * i);
                     Lines.stroke(stroke * Mathf.clamp(launchOppositeAnimation * bop), Pal.accent);
                     Lines.square(x, y, rad * 1.22f * i, 90f);
-                }
-
-                Lines.stroke(1.75f * launchOppositeAnimation, Pal.accent);
-                Lines.square(x, y, rad * 1.22f * launchOppositeAnimation, 45f);
-
-                Lines.stroke(1.75f * launchOppositeAnimation, Pal.accent);
-                Lines.square(x, y, rad * 1.22f, 45f);
-
-                Lines.stroke(3f * launchOppositeAnimation, Pal.accent);
-                Lines.square(x, y, rad, Time.time / scl);
-                Lines.square(x, y, rad, -Time.time / scl);
-
-                Draw.color(team.color);
-                Draw.alpha(Mathf.clamp(launchOppositeAnimation * 3f));
-
-                for(int i = 0; i < 4; i++){
-                    float rot = i*90f + 45f + (-Time.time /3f)%360f;
-                    float length = 26f * launchOppositeAnimation;
-                    Draw.rect(arrowRegion, x + Angles.trnsx(rot, length), y + Angles.trnsy(rot, length), rot + 180f);
                 }
 
                 DrawCoreLaunchLikeLaunchpod();
