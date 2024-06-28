@@ -374,6 +374,7 @@ public class NewAccelerator extends Block{
             float thrustOpen = 0.25f;
             float thrusterFrame = fin >= thrustOpen ? 1f : fin / thrustOpen;
 
+            Draw.rect(launching.fullIcon, x, y, rotation);
             drawLandingThrusters(x, y, rotation, thrusterFrame);
 
             /*float fout = 1f - launcpadTimer;
@@ -454,11 +455,11 @@ public class NewAccelerator extends Block{
                     //second pass applies extra layer of shading
                     if(j == 1){
                         Tmp.v1.rotate(-90f);
-                        Draw.alpha((rotation % 90f) / 90f * alpha);
+                        //Draw.alpha((rotation % 90f) / 90f * alpha);
                         rot -= 90f;
                         Draw.rect(reg, x + Tmp.v1.x, y + Tmp.v1.y, rot);
                     }else{
-                        Draw.alpha(alpha);
+                        //Draw.alpha(alpha);
                         Draw.rect(reg, x + Tmp.v1.x, y + Tmp.v1.y, rot);
                     }
                 }
