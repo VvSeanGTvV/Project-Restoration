@@ -105,21 +105,6 @@ public class NewAccelerator extends Block{
         //stats.add(Strings.autoFixed(launchTime / 60f, 1) + " " + Core.bundle.get("unit.seconds")).color(Color.lightGray);
     }
 
-    @Override
-    public void createIcons(MultiPacker packer) {
-        super.createIcons(packer);
-
-        var atlasA = Core.atlas.find("core-bastion");
-        if (atlasA != null) {
-            String regionName = atlasA.name;
-            Pixmap outlined = Pixmaps.outline(Core.atlas.getPixmap(atlasA), outlineColor, outlineRadius);
-
-            Drawf.checkBleed(outlined);
-
-            packer.add(MultiPacker.PageType.main, regionName + "-outline", outlined);
-        }
-    }
-
     public class NewAcceleratorBuild extends Building implements ControlBlock{
         public float heat, statusLerp, blockLerp, heatOpposite, progress;
         public @Nullable BlockUnitc unit;
@@ -143,7 +128,11 @@ public class NewAccelerator extends Block{
             heat = Mathf.lerpDelta(heat, efficiency, 0.05f);
             statusLerp = Mathf.lerpDelta(statusLerp, power.status, 0.05f);
             if(efficiency > 0){
-                progress += edelta();
+                if(isControlled()) {
+                    progress += edelta();
+                } else {
+                    progress = 0;
+                }
                 if(heatOpposite < 1f) heatOpposite += fdelta(50f, 60f) / 50f;
                 blockLerp = Mathf.clamp(Mathf.lerpDelta(blockLerp, heatOpposite, 0.05f));
             } else {
