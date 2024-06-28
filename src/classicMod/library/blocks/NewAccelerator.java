@@ -374,39 +374,46 @@ public class NewAccelerator extends Block{
         public void DrawCoreLaunchLikeLaunchpod(){
 
             float thrustTimer = Interp.sineIn.apply(Mathf.clamp(launchpadPrepTimer * 2f));
-            float cx = x, cy = y;
+            //float cx = x, cy = y;
             float rotation = launchpadTimer * (130f + Mathf.randomSeedRange(id(), 50f));
             float thrustOpen = 0.25f;
             float thrusterFrame = thrustTimer >= thrustOpen ? 1f : thrustTimer / thrustOpen;
             float scl = Scl.scl(4f) / renderer.getDisplayScale();
 
+            float s = region.width * region.scl() * scl * 3.6f * Interp.pow2Out.apply(1f - thrustTimer);
+
+            Draw.color(Pal.lightTrail);
+            //TODO spikier heat
+            Draw.rect("circle-shadow", x, y, s, s);
+
             Draw.z(Layer.weather - 1);
             Draw.scl(scl);
 
+
             float thrusterSize = Mathf.sample(thrusterSizes, launchpadPrepTimer);
-            float strength = (1f + (size - 3) / 2.5f) * scl * thrusterSize * (0.95f + Mathf.absin(2f, 0.1f));
+
+            float strength = (1f + (size - 3)/2.5f) * scl * thrusterSize * (0.95f + Mathf.absin(2f, 0.1f));
             float offset = (size - 3) * 3f * scl;
 
-            for (int i = 0; i < 4; i++) {
+            for(int i = 0; i < 4; i++){
                 Tmp.v1.trns(i * 90 + rotation, 1f);
 
-                Tmp.v1.setLength((size * tilesize / 2f + 1f) * scl + strength * 2f + offset);
+                Tmp.v1.setLength((size * tilesize/2f + 1f)*scl + strength*2f + offset);
                 Draw.color(Pal.accent);
-                Fill.circle(Tmp.v1.x + cx, Tmp.v1.y + cy, 6f * strength);
+                Fill.circle(Tmp.v1.x + x, Tmp.v1.y + y, 6f * strength);
 
-                Tmp.v1.setLength((size * tilesize / 2f + 1f) * scl + strength * 0.5f + offset);
+                Tmp.v1.setLength((size * tilesize/2f + 1f)*scl + strength*0.5f + offset);
                 Draw.color(Color.white);
-                Fill.circle(Tmp.v1.x + cx, Tmp.v1.y + cy, 3.5f * strength);
+                Fill.circle(Tmp.v1.x + x, Tmp.v1.y + y, 3.5f * strength);
             }
 
-            drawThrusters(cx, cy, rotation, thrusterFrame);
-            Draw.scl(scl + 0.25f);
-            Draw.rect(launching.fullIcon, cx, cy, rotation);
+            drawLandingThrusters(x, y, rotation, thrusterFrame);
 
+            Drawf.spinSprite(launching.fullIcon, x, y, rotation);
 
-
-
-
+            Draw.alpha(Interp.pow4In.apply(thrusterFrame));
+            drawLandingThrusters(x, y, rotation, thrusterFrame);
+            Draw.alpha(1f);
 
             if(launchpadPrepTimer >= 0.25f) {
                 tile.getLinkedTiles(t -> {
@@ -415,6 +422,10 @@ public class NewAccelerator extends Block{
                     }
                 });
             }
+
+            Draw.color();
+            Draw.scl();
+            Draw.reset();
 
             /*float fout = 1f - launcpadTimer;
 
@@ -490,26 +501,24 @@ public class NewAccelerator extends Block{
         }
 
         protected void drawLandingThrusters(float x, float y, float rotation, float frame){
-            TextureRegion thruster1 = Core.atlas.find(launching.name + "-thruster1");
-            TextureRegion thruster2 = Core.atlas.find(launching.name + "-thruster2");
             float length = thrusterLength * (frame - 1f) - 1f/4f;
-            float alpha = 1f;
+            float alpha = Draw.getColor().a;
 
             //two passes for consistent lighting
             for(int j = 0; j < 2; j++){
                 for(int i = 0; i < 4; i++){
-                    TextureRegion reg = i >= 2 ? thruster2 : thruster1;
+                    var reg = i >= 2 ? thruster2 : thruster1;
                     float rot = (i * 90) + rotation % 90f;
                     Tmp.v1.trns(rot, length * Draw.xscl);
 
                     //second pass applies extra layer of shading
                     if(j == 1){
                         Tmp.v1.rotate(-90f);
-                        //Draw.alpha((rotation % 90f) / 90f * alpha);
+                        Draw.alpha((rotation % 90f) / 90f * alpha);
                         rot -= 90f;
                         Draw.rect(reg, x + Tmp.v1.x, y + Tmp.v1.y, rot);
                     }else{
-                        //Draw.alpha(alpha);
+                        Draw.alpha(alpha);
                         Draw.rect(reg, x + Tmp.v1.x, y + Tmp.v1.y, rot);
                     }
                 }
