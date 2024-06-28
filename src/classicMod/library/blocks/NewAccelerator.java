@@ -363,6 +363,7 @@ public class NewAccelerator extends Block{
 
             float alpha = Interp.pow5Out.apply(launcpadTimer);
             float scale = (1f - alpha) * 1.3f + 1f;
+            float oppositeTimer = 1f - launcpadTimer;
             float cx = x, cy = y + Interp.sineOut.apply(launcpadTimer) * 100f;
             float rotation = launcpadTimer * (130f + Mathf.randomSeedRange(id(), 50f));
 
@@ -382,7 +383,21 @@ public class NewAccelerator extends Block{
 
             Draw.z(Layer.weather - 1);
 
-            Draw.rect(region, x, cy, (float) region.width / 4 * launcpadTimer, (float) region.height / 4 * launcpadTimer, rotation);
+            Draw.rect(region, x, cy, (float) (region.width / 4) * oppositeTimer, (float) (region.height / 4) * oppositeTimer, rotation);
+
+            Color orange = new Color(1f, 0.612f, 0f, 1f - Mathf.clamp(launcpadTimer * 3f));
+            Draw.color(orange);
+            Draw.rect(region, x, cy + 1.15f, (float) (region.width / 4) * oppositeTimer, (float) (region.height / 4) * oppositeTimer, rotation);
+
+            Draw.z(Layer.weather - 1.5f);
+            //Color orange = new Color(1f, 0.612f, 0f, 1f - Mathf.clamp(launcpadTimer * 3f));
+            Draw.color(orange);
+            Draw.rect(region, x, cy - 2f, (float) (region.width / 3.85) * oppositeTimer, (float) (region.height / 3.85) * oppositeTimer, rotation);
+
+            Draw.z(Layer.weather - 1.55f);
+            Color red = new Color(1f, 0f, 0f, 1f - Mathf.clamp(launcpadTimer * 1.5f));
+            Draw.color(red);
+            Draw.rect(region, x, cy - 4f, (float) (region.width / 3.75) * oppositeTimer, (float) (region.height / 3.75) * oppositeTimer, rotation);
 
 
             /*float alpha = Interp.pow5Out.apply(launcpadTimer);
