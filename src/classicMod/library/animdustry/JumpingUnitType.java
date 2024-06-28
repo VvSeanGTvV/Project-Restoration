@@ -141,7 +141,7 @@ public class JumpingUnitType extends UnitType {
         var atlasA = Core.atlas.find(name + "-hit").asAtlas();
         if(atlasA != null){
             String regionName = atlasA.name;
-            Pixmap outlined = Pixmaps.outline(Core.atlas.getPixmap(Core.atlas.find(name + "-hit")), outlineColor, outlineRadius);
+            Pixmap outlined = Pixmaps.outline(Core.atlas.getPixmap(atlasA), outlineColor, outlineRadius);
 
             Drawf.checkBleed(outlined);
 

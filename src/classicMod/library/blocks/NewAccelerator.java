@@ -109,10 +109,10 @@ public class NewAccelerator extends Block{
     public void createIcons(MultiPacker packer) {
         super.createIcons(packer);
 
-        var atlasA = region.asAtlas();
+        var atlasA = launching.fullIcon.asAtlas();
         if (atlasA != null) {
             String regionName = atlasA.name;
-            Pixmap outlined = Pixmaps.outline(Core.atlas.getPixmap(Core.atlas.find(name + "-hit")), outlineColor, outlineRadius);
+            Pixmap outlined = Pixmaps.outline(Core.atlas.getPixmap(atlasA), outlineColor, outlineRadius);
 
             Drawf.checkBleed(outlined);
 
@@ -218,7 +218,7 @@ public class NewAccelerator extends Block{
 
             for(int i = 0; i < 10; i++){
                 var offsetY = i * 10f;
-                Draw.rect(Core.atlas.find(launching.name + "-outline"), x, y + offsetY);
+                Draw.rect(Core.atlas.find(launching.fullIcon.asAtlas().name + "-outline"), x, y + offsetY);
             }
 
             Draw.reset();
