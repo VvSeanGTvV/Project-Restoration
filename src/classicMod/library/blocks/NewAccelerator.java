@@ -367,7 +367,7 @@ public class NewAccelerator extends Block{
             float alpha = Interp.pow5Out.apply(launcpadTimer);
             float scale = (1f - alpha) * 1.3f + 1f;
             float oppositeTimer = 1f - launcpadTimer;
-            float cx = x, cy = y + Interp.sineOut.apply(launcpadTimer) * 100f;
+            float cx = x, cy = y + Interp.sineOut.apply(launcpadTimer) * 200f;
             float rotation = launcpadTimer * (130f + Mathf.randomSeedRange(id(), 50f));
 
             //float rad = 0.2f + fslope();
