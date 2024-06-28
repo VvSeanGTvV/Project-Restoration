@@ -192,8 +192,14 @@ public class NewAccelerator extends Block{
                     launchOppositeAnimation1 = 1f;
                 }
                 if(stageLaunch == 2){
-                    launchOppositeAnimation1 = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta);
-                    if(zoomStyle > 1.5f) zoomStyle -= 0.0025f * Time.delta;
+
+                    launchAnimation = 0f;
+                    StartAnimation = false;
+                    progress = 0;
+                    StartNewPlanet(Destination);
+                    
+                    //launchOppositeAnimation1 = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta);
+                    //if(zoomStyle > 1.5f) zoomStyle -= 0.0025f * Time.delta;
                 }
                 if(stageLaunch >= 3){
                     launchAnimation = 0f;
@@ -260,11 +266,20 @@ public class NewAccelerator extends Block{
 
         public void DrawAnimation(int stageLaunchAnimation){
             Draw.reset();
-            Draw.rect(launching.uiIcon, x, y);
+            
             float rad = size * tilesize / 2f * 0.74f;
 
             if(stageLaunchAnimation == 0) {
+                Draw.rect(launching.uiIcon, x, y);
+                
                 Draw.z(Layer.bullet - 0.0001f);
+
+                Color epic = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation));
+                Drawf.additive(launching.uiIcon, epic, x, y);
+
+                Color woah = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation * 3f));
+                Drawf.additive(launching.uiIcon, woah, x, y);
+                
                 Lines.stroke(1.75f, Pal.accent);
                 Lines.square(x, y, rad * 1.22f, 45f);
                 for (int i = 1; i < 5; i++) {
@@ -274,22 +289,24 @@ public class NewAccelerator extends Block{
                     Lines.stroke(stroke * Mathf.clamp(launchAnimation * bop), Pal.accent);
                     Lines.square(x, y + 10f * centre * centre, rad * 1.22f * i, 90f);
                 }
+
+                Color bruh = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation));
+                Draw.color(bruh);
+                Draw.rect(launching.uiIcon, x, y);
+
+                Color glow = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation * 1.5f));
+                Draw.color(glow);
+                Draw.rect(launching.uiIcon, x, y);
             }
 
             Draw.reset();
             if(stageLaunchAnimation == 1){
 
-                Color epic = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation));
-                Drawf.additive(launching.uiIcon, epic, x, y);
-
-                Color woah = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation * 3f));
-                Drawf.additive(launching.uiIcon, woah, x, y);
-
                 Draw.reset();
 
                 Draw.z(Layer.bullet - 0.0001f);
-                Lines.stroke(1.75f, Pal.accent);
-                Lines.square(x, y, rad * 1.22f, 45f);
+                //Lines.stroke(1.75f, Pal.accent);
+                //Lines.square(x, y, rad * 1.22f, 45f);
                 for (int i = 1; i < 5; i++) {
                     var bop = i * 1.5f;
                     var stroke = 1.75f * (2f * i);
@@ -297,9 +314,17 @@ public class NewAccelerator extends Block{
                     Lines.square(x, y, rad * 1.22f * i, 90f);
                 }
 
-                Color bruh = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation * 3f));
-                Draw.color(bruh);
-                Draw.rect(launching.uiIcon, x, y);
+                Draw.z(Layer.bullet - 0.0001f);
+                Lines.stroke(1.75f * launchOppositeAnimation, Pal.accent);
+                Lines.square(x, y, rad * 1.22f * launchOppositeAnimation, 45f);
+
+                for (int i=1; i < 50f; i++){
+                    Draw.color(Pal.accent);
+                    Draw.alpha(1f - Mathf.clamp(launchAnimation * 15f / i));
+                    Draw.rect(Core.atlas.white(), x, y + 1f * i * i, (float) launching.uiIcon.width / 4f, ((float) launching.uiIcon.height / 4f) + 1f * i * i);
+                }
+
+                
                 //Drawf.additive(launching.uiIcon, bruh, x, y);
             }
 
@@ -309,15 +334,7 @@ public class NewAccelerator extends Block{
                 Draw.reset();
                 Draw.alpha(1f);
 
-                Draw.z(Layer.bullet - 0.0001f);
-                Lines.stroke(1.75f * launchOppositeAnimation1, Pal.accent);
-                Lines.square(x, y, rad * 1.22f * launchOppositeAnimation1, 45f);
-
-                for (int i=1; i < 50f; i++){
-                    Draw.color(Pal.accent);
-                    Draw.alpha(1f - Mathf.clamp(launchAnimation * 10f / i));
-                    Draw.rect(Core.atlas.white(), x, y + 2f * i * i, (float) launching.uiIcon.width / 4f, ((float) launching.uiIcon.height / 4f) + 2f * i * i);
-                }
+                
             }
         }
 
