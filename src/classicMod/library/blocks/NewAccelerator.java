@@ -175,12 +175,18 @@ public class NewAccelerator extends Block{
             unit.ammo(unit.type().ammoCapacity * fraction());
 
             if(progress >= launchTime && items.total() >= itemCapacity){
+
                 StartAnimation = true;
                 //unit.spawnedByCore(false);
                 renderer.setScale(Scl.scl(1.5f));
                 launchAnimation = Mathf.clamp(launchAnimation + 0.001f * Time.delta);
             } else if (progress <= 0 && StartAnimation) {
-                StartAnimation = false;
+                player.clearUnit();
+                unit.controller(player);
+
+                player.set(this);
+                //StartAnimation = false;
+                //launchAnimation = 0f;
             }
         }
 
