@@ -407,12 +407,12 @@ public class NewAccelerator extends Block{
             Draw.z(Layer.weather - 1.5f);
             Color orangeB = new Color(1f, 0.612f, 0f, 1f - Mathf.clamp(launcpadTimer * 1.5f));
             Draw.color(orangeB);
-            Draw.rect(region, x, cy - 2f, (float) (region.width / 3.85) * oppositeTimer, (float) (region.height / 3.85) * oppositeTimer, rotation);
+            Draw.rect(region, x, cy - 2f, (float) (region.width / 3.75) * oppositeTimer, (float) (region.height / 3.75) * oppositeTimer, rotation);
 
             Draw.z(Layer.weather - 1.55f);
             Color red = new Color(1f, 0f, 0f, 1f - Mathf.clamp(launcpadTimer * 3f));
             Draw.color(red);
-            Draw.rect(region, x, cy - 4f, (float) (region.width / 3.75) * oppositeTimer, (float) (region.height / 3.75) * oppositeTimer, rotation);
+            Draw.rect(region, x, cy - 4f, (float) (region.width / 3.6) * oppositeTimer, (float) (region.height / 3.6) * oppositeTimer, rotation);
 
 
             /*float alpha = Interp.pow5Out.apply(launcpadTimer);
