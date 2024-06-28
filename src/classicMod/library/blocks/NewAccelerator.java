@@ -370,7 +370,7 @@ public class NewAccelerator extends Block{
         //damn
         public void DrawCoreLaunchLikeLaunchpod(){
 
-            float fin = 1f - Interp.sineOut.apply(launchpadPrepTimer);
+            float fin = Interp.sineOut.apply(launchpadPrepTimer);
             float thrustOpen = 0.25f;
             float thrusterFrame = fin >= thrustOpen ? 1f : fin / thrustOpen;
 
@@ -442,7 +442,7 @@ public class NewAccelerator extends Block{
             TextureRegion thruster1 = Core.atlas.find(launching.name + "-thruster1");
             TextureRegion thruster2 = Core.atlas.find(launching.name + "-thruster2");
             float length = thrusterLength * (frame - 1f) - 1f/4f;
-            float alpha = Draw.getColor().a;
+            float alpha = 1f;
 
             //two passes for consistent lighting
             for(int j = 0; j < 2; j++){
