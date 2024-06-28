@@ -504,6 +504,9 @@ public class NewAccelerator extends Block{
             float length = thrusterLength * (frame - 1f) - 1f/4f;
             float alpha = Draw.getColor().a;
 
+            TextureRegion thruster1 = Core.atlas.find(launching.name + "-thruster1");
+            TextureRegion thruster2 = Core.atlas.find(launching.name + "-thruster2");
+
             //two passes for consistent lighting
             for(int j = 0; j < 2; j++){
                 for(int i = 0; i < 4; i++){
