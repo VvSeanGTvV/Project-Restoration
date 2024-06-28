@@ -199,7 +199,7 @@ public class NewAccelerator extends Block{
 
             for(int i = 0; i < 10; i++){
                 var offsetY = i * 10f;
-                
+
             }
 
             float rad = size * tilesize / 2f * 0.74f;
@@ -219,6 +219,18 @@ public class NewAccelerator extends Block{
             for(int i = 0; i < 4; i++){
                 float rot = i*90f + 45f + (-Time.time /3f)%360f;
                 float length = 26f * heat;
+                Draw.rect(arrowRegion, x + Angles.trnsx(rot, length), y + Angles.trnsy(rot, length), rot + 180f);
+            }
+
+            for(int i = 0; i < 4; i++){
+                float rot = i*90f + 90f + (-Time.time /6f)%360f;
+                float length = 29f * heat;
+                Draw.rect(arrowRegion, x + Angles.trnsx(rot, length), y + Angles.trnsy(rot, length), rot + 180f);
+            }
+
+            for(int i = 0; i < 4; i++){
+                float rot = i*90f + 135f + (-Time.time /12f)%360f;
+                float length = 32f * heat;
                 Draw.rect(arrowRegion, x + Angles.trnsx(rot, length), y + Angles.trnsy(rot, length), rot + 180f);
             }
 
