@@ -255,8 +255,8 @@ public class NewAccelerator extends Block{
             Draw.color(team.color);
             Draw.alpha(Mathf.clamp(heat * 3f));
 
-            for(int i = 0; i < 4; i++){
-                float rot = i*90f + 45f + (-Time.time /3f)%360f;
+            for (int i = 0; i < 4; i++) {
+                float rot = i * 90f + 45f + (-Time.time / 3f) % 360f;
                 float length = 26f * heat;
                 Draw.rect(arrowRegion, x + Angles.trnsx(rot, length), y + Angles.trnsy(rot, length), rot + 180f);
             }
@@ -269,6 +269,9 @@ public class NewAccelerator extends Block{
             
             float rad = size * tilesize / 2f * 0.74f;
             float scl = 2f;
+
+            float strokeScaling = 1.25f;
+            float warpSquareStroke = 1.25f;
 
             if(stageLaunchAnimation == 0) {
                 Draw.rect(launching.uiIcon, x, y);
@@ -293,9 +296,9 @@ public class NewAccelerator extends Block{
                 Lines.square(x, y, rad * 1.22f, 45f);
                 for (int i = 1; i < 5; i++) {
                     var bop = i * 1.5f;
-                    var stroke = 1.75f * (2f * i);
+                    var stroke = warpSquareStroke * (strokeScaling * i);
                     var centre = i - (i * Mathf.clamp(launchAnimation));
-                    Lines.stroke(stroke * Mathf.clamp(launchAnimation * bop), Pal.accent);
+                    Lines.stroke(stroke * Mathf.clamp(launchAnimation * 2f / bop), Pal.accent);
                     Lines.square(x, y + 10f * centre * centre, rad * 1.22f * i, 90f);
                 }
 
@@ -333,9 +336,9 @@ public class NewAccelerator extends Block{
                 //Lines.square(x, y, rad * 1.22f, 45f);
                 for (int i = 1; i < 5; i++) {
                     var bop = i * 1.5f;
-                    var stroke = 1.75f * (2f * i);
-                    Lines.stroke(stroke * Mathf.clamp(launchOppositeAnimation * bop), Pal.accent);
-                    Lines.square(x, y, rad * 1.22f * i, 90f);
+                    var stroke = warpSquareStroke * (strokeScaling * i);
+                    Lines.stroke(stroke * Mathf.clamp(launchOppositeAnimation * 2f / bop), Pal.accent);
+                    Lines.square(x, y, (rad * 1.22f * i) * Mathf.clamp(launchOppositeAnimation * 2f / bop) , 90f);
                 }
 
                 DrawCoreLaunchLikeLaunchpod();
@@ -375,7 +378,7 @@ public class NewAccelerator extends Block{
             }
 
             float r = 3f;
-            Fx.rocketSmoke.at(cx, cy() + Mathf.range(r), launcpadTimer);
+            Fx.rocketSmoke.at(cx, cy + Mathf.range(r), launcpadTimer);
 
             TextureRegion region = launching.fullIcon;
 
@@ -386,17 +389,17 @@ public class NewAccelerator extends Block{
             Draw.rect(region, x, cy, (float) (region.width / 4) * oppositeTimer, (float) (region.height / 4) * oppositeTimer, rotation);
 
             Draw.z(Layer.weather - 0.9f);
-            Color orange = new Color(1f, 0.612f, 0f, 1f - Mathf.clamp(launcpadTimer * 3f));
+            Color orange = new Color(1f, 0.612f, 0f, 1f - Mathf.clamp(launcpadTimer));
             Draw.color(orange);
             Draw.rect(region, x, cy + 2.15f, (float) (region.width / 4) * oppositeTimer, (float) (region.height / 4) * oppositeTimer, rotation);
 
             Draw.z(Layer.weather - 1.5f);
-            //Color orange = new Color(1f, 0.612f, 0f, 1f - Mathf.clamp(launcpadTimer * 3f));
-            Draw.color(orange);
+            Color orangeB = new Color(1f, 0.612f, 0f, 1f - Mathf.clamp(launcpadTimer * 1.5f));
+            Draw.color(orangeB);
             Draw.rect(region, x, cy - 2f, (float) (region.width / 3.85) * oppositeTimer, (float) (region.height / 3.85) * oppositeTimer, rotation);
 
             Draw.z(Layer.weather - 1.55f);
-            Color red = new Color(1f, 0f, 0f, 1f - Mathf.clamp(launcpadTimer * 1.5f));
+            Color red = new Color(1f, 0f, 0f, 1f - Mathf.clamp(launcpadTimer * 3f));
             Draw.color(red);
             Draw.rect(region, x, cy - 4f, (float) (region.width / 3.75) * oppositeTimer, (float) (region.height / 3.75) * oppositeTimer, rotation);
 
@@ -447,7 +450,11 @@ public class NewAccelerator extends Block{
 
             Draw.z(Layer.effect + 0.001f);
             Color epic = new Color(team.color.r, team.color.g, team.color.b, 1f - Mathf.clamp(blockLerp * 3f));
-            if(efficiency > 0) Drawf.additive(launching.uiIcon, epic, x, y);
+            if(efficiency > 0) {
+                Drawf.additive(launching.uiIcon, epic, x, y);
+                Draw.color(epic);
+                Draw.rect(launching.uiIcon, x, y);
+            }
             Draw.reset();
         }
 
