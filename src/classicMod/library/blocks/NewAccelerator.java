@@ -196,7 +196,7 @@ public class NewAccelerator extends Block{
                 StartAnimation = true;
                 unit.spawnedByCore(false);
                 renderer.setScale(Scl.scl(1.5f));
-                launchAnimation = Mathf.lerpDelta(launchAnimation, 1f, 0.05f);
+                launchAnimation = Mathf.lerpDelta(launchAnimation, 1f, 0.01f);
             }
         }
 
@@ -258,7 +258,7 @@ public class NewAccelerator extends Block{
                 var bop = i * 3f;
                 var stroke = 1.75f * (2f * i);
                 Lines.stroke(stroke * Mathf.clamp(launchAnimation * bop), Pal.accent);
-                Lines.square(x, y + 10f * i, rad * 1.22f, 90f);
+                Lines.square(x, y + 10f * i * i, rad * 1.22f, 90f);
             }
         }
 
