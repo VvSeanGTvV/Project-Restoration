@@ -378,15 +378,16 @@ public class NewAccelerator extends Block{
             float rotation = launchpadTimer * (130f + Mathf.randomSeedRange(id(), 50f));
             float thrustOpen = 0.25f;
             float thrusterFrame = thrustTimer >= thrustOpen ? 1f : thrustTimer / thrustOpen;
+            float scl = Scl.scl(4f) / renderer.getDisplayScale();
 
             Draw.z(Layer.weather - 1);
+            Draw.scl(scl);
 
             Draw.rect(launching.fullIcon, cx, cy, rotation);
             drawThrusters(cx, cy, rotation, thrusterFrame);
 
             if(launchpadPrepTimer >= 1f) {
                 float thrusterSize = Mathf.sample(thrusterSizes, launchpadTimer);
-                float scl = Scl.scl(4f) / renderer.getDisplayScale();
                 float strength = (1f + (size - 3) / 2.5f) * scl * thrusterSize * (0.95f + Mathf.absin(2f, 0.1f));
                 float offset = (size - 3) * 3f * scl;
 
