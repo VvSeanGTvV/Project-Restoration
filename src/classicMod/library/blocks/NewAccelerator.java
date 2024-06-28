@@ -394,13 +394,13 @@ public class NewAccelerator extends Block{
             Draw.color(orange);
             //Drawf.additive(region, orange, x, cy + 2.15f);
             Draw.blend(Blending.additive);
-            Draw.rect(region, x, cy + 2.15f, (float) (region.width / 4) * oppositeTimer, (float) (region.height / 4) * oppositeTimer, rotation);
+            Draw.rect(region, x, cy + 1.15f, (float) (region.width / 4) * 1.35f  * oppositeTimer, (float) (region.height / 4) * 1.35f * oppositeTimer, rotation);
 
             Color Palf = new Color(Pal.accent.r, Pal.accent.g, Pal.accent.b, 1f - Mathf.clamp(launcpadTimer));
             //Drawf.additive(region, Palf, x, cy + 4.15f, rotation);
             Draw.color(Palf);
             Draw.blend(Blending.additive);
-            Draw.rect(region, x, cy + 4.15f, (float) (region.width / 4) * oppositeTimer, (float) (region.height / 4) * oppositeTimer, rotation);
+            Draw.rect(region, x, cy + 2.15f, (float) (region.width / 4) * 1.15f * oppositeTimer, (float) (region.height / 4) * 1.15f * oppositeTimer, rotation);
 
             Draw.blend();
 
