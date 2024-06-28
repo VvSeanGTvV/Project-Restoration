@@ -198,8 +198,8 @@ public class NewAccelerator extends Block{
                 }
                 if(stageLaunch == 1){
                     launchOppositeAnimation = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta);
-                    if(launchAnimation < 0.01f){ zoomStyle = 3f; Effect.shake(3f, 3f, this); } else {
-                        //if(zoomStyle > 1.5f) zoomStyle -= 1f * Time.delta;
+                    if(launchAnimation < 0.01f){ zoomStyle = 6f; Effect.shake(3f, 3f, this); } else {
+                        if(zoomStyle > 1.5f) zoomStyle -= 1f * Time.delta;
                     }
                     launchpadPrepTimer = Mathf.clamp(launchpadPrepTimer + 0.005f * Time.delta);
                     if(launchpadPrepTimer >= 1f)launchpadTimer = Mathf.clamp(launchpadTimer + 0.005f * Time.delta);
@@ -276,7 +276,7 @@ public class NewAccelerator extends Block{
             float rad = size * tilesize / 2f * 0.74f;
             float scl = 2f;
 
-            float strokeScaling = 1.55f;
+            float strokeScaling = 1.75f;
             float warpSquareStroke = 1.25f;
 
             if(stageLaunchAnimation == 0) {
@@ -337,14 +337,17 @@ public class NewAccelerator extends Block{
 
                 Draw.reset();
 
+                var Opposite = 1f - launchAnimation;
+
                 Draw.z(Layer.bullet - 0.0001f);
                 //Lines.stroke(1.75f, Pal.accent);
                 //Lines.square(x, y, rad * 1.22f, 45f);
                 for (int i = 1; i < 5; i++) {
                     var bop = i * 1.5f;
                     var stroke = warpSquareStroke * (strokeScaling * i);
-                    Lines.stroke(stroke * Mathf.clamp(launchOppositeAnimation * 2f / bop), Pal.accent);
-                    Lines.square(x, y, (rad * 1.22f * i) * Mathf.clamp(launchOppositeAnimation * 2f / bop) , 90f);
+                    //var centre = i - (i * Mathf.clamp(Opposite));
+                    Lines.stroke(stroke * Mathf.clamp(Opposite * 2f / bop), Pal.accent);
+                    Lines.square(x, y + 10f, (rad * 1.22f * i) * Mathf.clamp(Opposite * 2f / bop), 90f);
                 }
 
                 Draw.reset();
