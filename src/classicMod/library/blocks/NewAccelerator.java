@@ -110,7 +110,7 @@ public class NewAccelerator extends Block{
         public @Nullable BlockUnitc unit;
 
         //counter
-        public float launchAnimation, launchOppositeAnimation;
+        public float launchAnimation, launchOppositeAnimation, zoomStyle;
         int stageLaunch = 0;
         public UnitController origin;
         public Unit originUnit;
@@ -156,7 +156,7 @@ public class NewAccelerator extends Block{
                         camera.position.set(this);
                     }
 
-                    if (isControlled()) renderer.setScale(Scl.scl(1.5f));
+                    if (isControlled()) renderer.setScale(Scl.scl(6f));
                 } else {
                     if (unit != null) {
                         if (origin == null) {
@@ -179,11 +179,11 @@ public class NewAccelerator extends Block{
 
                 StartAnimation = true;
                 //unit.spawnedByCore(false);
-                renderer.setScale(Scl.scl(1.5f));
+                renderer.setScale(Scl.scl(zoomStyle));
                 launchAnimation = Mathf.clamp(launchAnimation + 0.0025f * Time.delta);
                 if(launchAnimation >= 1f){ stageLaunch += 1; launchAnimation = 0f; }
-                if(stageLaunch == 0){ launchOppositeAnimation = 1f; }
-                if(stageLaunch == 1){ launchOppositeAnimation = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta); }
+                if(stageLaunch == 0){ launchOppositeAnimation = 1f; zoomStyle = 1.5f; }
+                if(stageLaunch == 1){ launchOppositeAnimation = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta); zoomStyle = 6f; }
             } else if (progress <= 0 && StartAnimation) {
                 player.clearUnit();
                 unit.controller(player);
@@ -274,7 +274,7 @@ public class NewAccelerator extends Block{
                     var bop = i * 1.5f;
                     var stroke = 1.75f * (2f * i);
                     Lines.stroke(stroke * Mathf.clamp(launchOppositeAnimation * bop), Pal.accent);
-                    Lines.square(x, y + 10f, rad * 1.22f * i, 90f);
+                    Lines.square(x, y, rad * 1.22f * i, 90f);
                 }
             }
         }
