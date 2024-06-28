@@ -270,7 +270,7 @@ public class NewAccelerator extends Block{
             float rad = size * tilesize / 2f * 0.74f;
             float scl = 2f;
 
-            float strokeScaling = 1.25f;
+            float strokeScaling = 1.55f;
             float warpSquareStroke = 1.25f;
 
             if(stageLaunchAnimation == 0) {
@@ -452,8 +452,8 @@ public class NewAccelerator extends Block{
             Color epic = new Color(team.color.r, team.color.g, team.color.b, 1f - Mathf.clamp(blockLerp * 3f));
             if(efficiency > 0) {
                 Drawf.additive(launching.uiIcon, epic, x, y);
-                Draw.color(epic);
-                Draw.rect(launching.uiIcon, x, y);
+                //Draw.color(epic);
+                //Draw.rect(launching.uiIcon, x, y);
             }
             Draw.reset();
         }
