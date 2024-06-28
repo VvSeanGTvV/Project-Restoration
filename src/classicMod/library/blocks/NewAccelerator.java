@@ -315,8 +315,8 @@ public class NewAccelerator extends Block{
 
                 for (int i=1; i < 50f; i++){
                     Draw.color(Pal.accent);
-                    Draw.alpha(1f - Mathf.clamp(launchAnimation / i));
-                    Draw.rect(Core.atlas.white(), x, y + 2f * i * i, (float) launching.uiIcon.width / tilesize, ((float) launching.uiIcon.height / tilesize) + 2f * i * i);
+                    Draw.alpha(1f - Mathf.clamp(launchAnimation * 10f / i));
+                    Draw.rect(Core.atlas.white(), x, y + 2f * i * i, (float) launching.uiIcon.width / 4f, ((float) launching.uiIcon.height / 4f) + 2f * i * i);
                 }
             }
         }
