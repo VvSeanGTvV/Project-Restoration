@@ -196,10 +196,9 @@ public class NewAccelerator extends Block{
                     if(launchAnimation < 0.01f){ zoomStyle = 6f; Effect.shake(3f, 3f, this); } else {
                         if(zoomStyle > 1.5f) zoomStyle -= 0.025f * Time.delta;
                     }
-                    launcpadTimer = Mathf.clamp(launchAnimation + 1.15f * Time.delta);
+                    launcpadTimer = Mathf.clamp(launchAnimation + 2f * Time.delta);
                 }
                 if(stageLaunch >= 2){
-
                     launcpadTimer = 0;
                     launchAnimation = 0;
                     StartAnimation = false;
@@ -268,6 +267,7 @@ public class NewAccelerator extends Block{
             Draw.reset();
             
             float rad = size * tilesize / 2f * 0.74f;
+            float scl = 2f;
 
             if(stageLaunchAnimation == 0) {
                 Draw.rect(launching.uiIcon, x, y);
@@ -316,9 +316,24 @@ public class NewAccelerator extends Block{
                     Lines.square(x, y, rad * 1.22f * i, 90f);
                 }
 
-                Draw.z(Layer.bullet - 0.0001f);
                 Lines.stroke(1.75f * launchOppositeAnimation, Pal.accent);
                 Lines.square(x, y, rad * 1.22f * launchOppositeAnimation, 45f);
+
+                Lines.stroke(1.75f * launchOppositeAnimation, Pal.accent);
+                Lines.square(x, y, rad * 1.22f, 45f);
+
+                Lines.stroke(3f * launchOppositeAnimation, Pal.accent);
+                Lines.square(x, y, rad, Time.time / scl);
+                Lines.square(x, y, rad, -Time.time / scl);
+
+                Draw.color(team.color);
+                Draw.alpha(Mathf.clamp(launchOppositeAnimation * 3f));
+
+                for(int i = 0; i < 4; i++){
+                    float rot = i*90f + 45f + (-Time.time /3f)%360f;
+                    float length = 26f * launchOppositeAnimation;
+                    Draw.rect(arrowRegion, x + Angles.trnsx(rot, length), y + Angles.trnsy(rot, length), rot + 180f);
+                }
 
                 DrawCoreLaunchLikeLaunchpod();
 
@@ -355,8 +370,8 @@ public class NewAccelerator extends Block{
             Fill.light(cx, cy, 10, 25f * (rad + scale-1f), Tmp.c2.set(Pal.engine).a(alpha), Tmp.c1.set(Pal.engine).a(0f));
 
             Draw.alpha(alpha);
-            for(int i = 0; i < 4; i++){
-                Drawf.tri(cx, cy, 6f, 40f * (rad + scale-1f), i * 90f + rotation);
+            for(int i = 0; i < 8; i++){
+                Drawf.tri(cx, cy, 6f, 40f * (rad + scale-1f), i * 45f + rotation);
             }
 
             Draw.color();
@@ -367,14 +382,14 @@ public class NewAccelerator extends Block{
             scale *= region.scl();
             float rw = region.width * scale, rh = region.height * scale;
 
-            Draw.alpha(alpha);
+            Draw.alpha(1f - launcpadTimer);
             Draw.rect(region, cx, cy, rw, rh, rotation);
 
-            Tmp.v1.trns(225f, Interp.pow3In.apply(launcpadTimer) * 260f);
+            Tmp.v1.trns(225f, Interp.slope.apply(launcpadTimer) * 260f);
 
             Draw.z(Layer.flyingUnit + 1);
-            //Draw.color(0, 0, 0, 0.22f * alpha);
-            Draw.alpha(1f - launcpadTimer);
+            Draw.color(0, 0, 0, 0.22f * alpha);
+            //Draw.alpha(1f - launcpadTimer);
             Draw.rect(region, cx + Tmp.v1.x, cy + Tmp.v1.y, rw, rh, rotation);
 
             Draw.reset();
