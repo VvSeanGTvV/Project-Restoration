@@ -251,10 +251,11 @@ public class NewAccelerator extends Block{
             Lines.stroke(1.75f, Pal.accent);
             Lines.square(x, y, rad * 1.22f, 45f);
             for (int i = 1; i < 5; i++){
-                var bop = i * 3f;
+                var bop = i * 1.5f;
                 var stroke = 1.75f * (2f * i);
+                var centre = i - (i * Mathf.clamp(launchAnimation));
                 Lines.stroke(stroke * Mathf.clamp(launchAnimation * bop), Pal.accent);
-                Lines.square(x, y + 10f * i * i, rad * 1.22f, 90f);
+                Lines.square(x, y + 10f * centre * centre, rad * 1.22f, 90f);
             }
         }
 
