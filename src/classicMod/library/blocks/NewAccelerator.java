@@ -195,6 +195,12 @@ public class NewAccelerator extends Block{
                     launchOppositeAnimation1 = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta);
                     if(zoomStyle > 1.5f) zoomStyle -= 0.0025f * Time.delta;
                 }
+                if(stageLaunch >= 3){
+                    launchAnimation = 0f;
+                    StartAnimation = false;
+                    progress = 0;
+                    StartNewPlanet(Destination);
+                }
             } else if (progress <= 0 && StartAnimation) {
                 player.clearUnit();
                 unit.controller(player);
@@ -299,12 +305,6 @@ public class NewAccelerator extends Block{
 
             Draw.reset();
             if(stageLaunchAnimation == 2){
-                
-                for (int i=1; i < 50f; i++){
-                    Draw.color(Pal.accent);
-                    Draw.alpha(1f - Mathf.clamp(launchAnimation / i));
-                    Draw.rect(Core.atlas.white(), x, y + 2f * i * i, (float) launching.uiIcon.width / 2, ((float) launching.uiIcon.height / 2) + 2f * i * i);
-                }
 
                 Draw.reset();
                 Draw.alpha(1f);
@@ -312,6 +312,12 @@ public class NewAccelerator extends Block{
                 Draw.z(Layer.bullet - 0.0001f);
                 Lines.stroke(1.75f * launchOppositeAnimation1, Pal.accent);
                 Lines.square(x, y, rad * 1.22f * launchOppositeAnimation1, 45f);
+
+                for (int i=1; i < 50f; i++){
+                    Draw.color(Pal.accent);
+                    Draw.alpha(1f - Mathf.clamp(launchAnimation / i));
+                    Draw.rect(Core.atlas.white(), x, y + 2f * i * i, (float) launching.uiIcon.width / tilesize, ((float) launching.uiIcon.height / tilesize) + 2f * i * i);
+                }
             }
         }
 
