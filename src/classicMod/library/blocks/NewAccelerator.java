@@ -370,12 +370,40 @@ public class NewAccelerator extends Block{
         //damn
         public void DrawCoreLaunchLikeLaunchpod(){
 
-            float fin = Interp.sineOut.apply(launchpadPrepTimer);
+            float thrustTimer = Interp.sineOut.apply(launchpadPrepTimer);
+            float cx = x, cy = y + Interp.sineOut.apply(launchpadTimer) * 200f;
             float thrustOpen = 0.25f;
-            float thrusterFrame = fin >= thrustOpen ? 1f : fin / thrustOpen;
+            float thrusterFrame = thrustTimer >= thrustOpen ? 1f : thrustTimer / thrustOpen;
 
-            Draw.rect(launching.fullIcon, x, y, rotation);
-            drawLandingThrusters(x, y, rotation, thrusterFrame);
+            Draw.z(Layer.weather - 1);
+
+            Draw.rect(launching.fullIcon, cx, cy, rotation);
+            drawLandingThrusters(cx, cy, rotation, thrusterFrame);
+
+            if(launchpadPrepTimer >= 1f) {
+                float thrusterSize = Mathf.sample(thrusterSizes, launchpadTimer);
+                float scl = Scl.scl(4f) / renderer.getDisplayScale();
+                float strength = (1f + (size - 3) / 2.5f) * scl * thrusterSize * (0.95f + Mathf.absin(2f, 0.1f));
+                float offset = (size - 3) * 3f * scl;
+
+                for (int i = 0; i < 4; i++) {
+                    Tmp.v1.trns(i * 90 + rotation, 1f);
+
+                    Tmp.v1.setLength((size * tilesize / 2f + 1f) * scl + strength * 2f + offset);
+                    Draw.color(Pal.accent);
+                    Fill.circle(Tmp.v1.x + cx, Tmp.v1.y + cy, 6f * strength);
+
+                    Tmp.v1.setLength((size * tilesize / 2f + 1f) * scl + strength * 0.5f + offset);
+                    Draw.color(Color.white);
+                    Fill.circle(Tmp.v1.x + cx, Tmp.v1.y + cy, 3.5f * strength);
+                }
+
+                tile.getLinkedTiles(t -> {
+                    if (Mathf.chance(0.4f)) {
+                        Fx.coreLandDust.at(t.worldx(), t.worldy(), angleTo(t.worldx(), t.worldy()) + Mathf.range(30f), Tmp.c1.set(t.floor().mapColor).mul(1.5f + Mathf.range(0.15f)));
+                    }
+                });
+            }
 
             /*float fout = 1f - launcpadTimer;
 
