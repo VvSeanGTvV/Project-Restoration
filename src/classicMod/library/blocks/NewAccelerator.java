@@ -187,7 +187,7 @@ public class NewAccelerator extends Block{
                     once = false;
                 }
             }
-            progress = Math.min((float)items.total() / itemCapacity, launchCounter / launchTime);
+            progress += edelta();
             unit.ammo(unit.type().ammoCapacity * fraction());
 
 
