@@ -54,7 +54,7 @@ public class NewAccelerator extends Block{
     public float launchTime = 60f * 5f;
 
     public float thrusterLength = 14f/4f;
-    protected static final float[] thrusterSizes = {0f, 0f, 0f, 0f, 0.3f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 0f};
+    protected static final float[] thrusterSizes = {0f, 0f, 0.15f, 0.3f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f};
 
     public NewAccelerator(String name){
         super(name);
@@ -194,13 +194,13 @@ public class NewAccelerator extends Block{
                 if(launchAnimation >= 1f && stageLaunch < 1){ stageLaunch += 1; launchAnimation = 0f; }
                 if(stageLaunch == 0){
                     launchOppositeAnimation = 1f;
-                    zoomStyle = 1.5f;
+                    zoomStyle = Interp.pow3In.apply(Scl.scl(5f), Scl.scl(0.02f), 1f - launchAnimation);;
                 }
                 if(stageLaunch == 1){
                     launchOppositeAnimation = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta);
                     if(launchAnimation < 0.01f){ Effect.shake(3f, 3f, this); }
                     zoomStyle = Interp.pow3In.apply(Scl.scl(0.02f), Scl.scl(4f), 1f - launchpadTimer);
-                    launchpadPrepTimer = Mathf.clamp(launchpadPrepTimer + 0.005f * Time.delta);
+                    launchpadPrepTimer = Mathf.clamp(launchpadPrepTimer + 0.0025f * Time.delta);
                     if(launchpadPrepTimer >= 1f)launchpadTimer = Mathf.clamp(launchpadTimer + 0.005f * Time.delta);
                     if(launchpadTimer >= 1f) stageLaunch += 1;
                 }
@@ -394,11 +394,11 @@ public class NewAccelerator extends Block{
                 for (int i = 0; i < 4; i++) {
                     Tmp.v1.trns(i * 90 + rotation, 1f);
 
-                    Tmp.v1.setLength((size * tilesize / 1f + 1f) * scl + strength * 2f + offset);
+                    Tmp.v1.setLength((size * tilesize / 2f + 1f) * scl + strength * 2f + offset);
                     Draw.color(Pal.accent);
                     Fill.circle(Tmp.v1.x + cx, Tmp.v1.y + cy, 6f * strength);
 
-                    Tmp.v1.setLength((size * tilesize / 1f + 1f) * scl + strength * 0.5f + offset);
+                    Tmp.v1.setLength((size * tilesize / 2f + 1f) * scl + strength * 0.5f + offset);
                     Draw.color(Color.white);
                     Fill.circle(Tmp.v1.x + cx, Tmp.v1.y + cy, 3.5f * strength);
                 }
