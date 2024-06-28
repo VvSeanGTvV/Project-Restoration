@@ -469,14 +469,5 @@ public class NewAccelerator extends Block{
             }
             return (Unit)unit;
         }
-
-        public static final Effect
-        CoreLaunchpadComp = new Effect(1, e -> {
-            float alpha = e.fout(Interp.pow5Out);
-            float scale = (1f - alpha) * 1.3f + 1f;
-            //float cx = cx(), cy = cy();
-            float rotation = e.fin() * (130f + Mathf.randomSeedRange(e.id, 50f));
-
-        });
     }
 }
