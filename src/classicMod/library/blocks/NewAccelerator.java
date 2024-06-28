@@ -181,6 +181,7 @@ public class NewAccelerator extends Block{
         @Override
         public void draw(){
             super.draw();
+            arrowRegion = Core.atlas.find("launch-arrow");
 
             for(int l = 0; l < 4; l++){
                 float length = 7f + l * 5f;
@@ -198,7 +199,7 @@ public class NewAccelerator extends Block{
 
             for(int i = 0; i < 10; i++){
                 var offsetY = i * 10f;
-                Drawf.additive(Core.atlas.find("core-bastion" + "-outline"), Pal.accent, x, y + offsetY);
+                
             }
 
             float rad = size * tilesize / 2f * 0.74f;
