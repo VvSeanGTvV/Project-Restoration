@@ -192,7 +192,8 @@ public class NewAccelerator extends Block{
                     launchOppositeAnimation1 = 1f;
                 }
                 if(stageLaunch == 2){
-
+                    launchOppositeAnimation1 = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta);
+                    if(zoomStyle > 1.5f) zoomStyle -= 0.0025f * Time.delta;
                 }
             } else if (progress <= 0 && StartAnimation) {
                 player.clearUnit();
@@ -293,19 +294,20 @@ public class NewAccelerator extends Block{
                 Color bruh = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation * 3f));
                 Draw.color(bruh);
                 Draw.rect(launching.uiIcon, x, y);
-                Drawf.additive(launching.uiIcon, bruh, x, y);
+                //Drawf.additive(launching.uiIcon, bruh, x, y);
             }
 
             Draw.reset();
             if(stageLaunchAnimation == 2){
-
-                Color epic = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation));
-                Drawf.additive(launching.uiIcon, epic, x, y);
-
-                Color woah = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation * 3f));
-                Drawf.additive(launching.uiIcon, woah, x, y);
+                
+                for (int i=1; i < 50f; i++){
+                    Draw.color(Pal.accent);
+                    Draw.alpha(1f - Mathf.clamp(launchAnimation / i));
+                    Draw.rect(Core.atlas.white(), x, y + 2f * i * i, (float) launching.uiIcon.width / 2, ((float) launching.uiIcon.height / 2) + 2f * i * i);
+                }
 
                 Draw.reset();
+                Draw.alpha(1f);
 
                 Draw.z(Layer.bullet - 0.0001f);
                 Lines.stroke(1.75f * launchOppositeAnimation1, Pal.accent);
@@ -326,6 +328,19 @@ public class NewAccelerator extends Block{
         @Override
         public Cursor getCursor(){
             return !state.isCampaign() || efficiency <= 0f ? SystemCursor.arrow : super.getCursor();
+        }
+
+        public void StartNewPlanet(Sector to){
+            if(control.saves.getCurrent() != null && Vars.state.isGame()){
+                try{
+                    control.saves.getCurrent().save();
+                }catch(Throwable e){
+                    e.printStackTrace();
+                    ui.showException("[accent]" + Core.bundle.get("savefail"), e);
+                }
+            }
+            Events.fire(new SectorLaunchEvent(to));
+            control.playSector(to);
         }
 
         @Override
