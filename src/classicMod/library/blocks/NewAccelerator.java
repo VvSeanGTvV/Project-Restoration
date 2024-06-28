@@ -373,7 +373,7 @@ public class NewAccelerator extends Block{
         //damn
         public void DrawCoreLaunchLikeLaunchpod(){
 
-            float thrustTimer = Interp.sineOut.apply(launchpadPrepTimer);
+            float thrustTimer = Interp.sineIn.apply(Mathf.clamp(launchpadPrepTimer * 2f));
             float cx = cx(), cy = y;
             float rotation = launchpadTimer * (130f + Mathf.randomSeedRange(id(), 50f));
             float thrustOpen = 0.25f;
