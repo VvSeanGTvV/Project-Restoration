@@ -375,7 +375,7 @@ public class NewAccelerator extends Block{
             }
 
             float r = 3f;
-            Fx.rocketSmoke.at(cx() + Mathf.range(r), cy() + Mathf.range(r), launcpadTimer);
+            Fx.rocketSmoke.at(cx, cy() + Mathf.range(r), launcpadTimer);
 
             TextureRegion region = launching.fullIcon;
 
@@ -385,9 +385,10 @@ public class NewAccelerator extends Block{
 
             Draw.rect(region, x, cy, (float) (region.width / 4) * oppositeTimer, (float) (region.height / 4) * oppositeTimer, rotation);
 
+            Draw.z(Layer.weather - 0.9f);
             Color orange = new Color(1f, 0.612f, 0f, 1f - Mathf.clamp(launcpadTimer * 3f));
             Draw.color(orange);
-            Draw.rect(region, x, cy + 1.15f, (float) (region.width / 4) * oppositeTimer, (float) (region.height / 4) * oppositeTimer, rotation);
+            Draw.rect(region, x, cy + 2.15f, (float) (region.width / 4) * oppositeTimer, (float) (region.height / 4) * oppositeTimer, rotation);
 
             Draw.z(Layer.weather - 1.5f);
             //Color orange = new Color(1f, 0.612f, 0f, 1f - Mathf.clamp(launcpadTimer * 3f));
