@@ -336,7 +336,7 @@ public class NewAccelerator extends Block{
 
                 Draw.reset();
 
-                var Opposite = (1f - Mathf.clamp(launchAnimation * 2f);
+                var Opposite = (1f - Mathf.clamp(launchAnimation * 2f));
 
                 Draw.z(Layer.bullet - 0.0001f);
                 //Lines.stroke(1.75f, Pal.accent);
@@ -374,7 +374,7 @@ public class NewAccelerator extends Block{
         public void DrawCoreLaunchLikeLaunchpod(){
 
             float thrustTimer = Interp.sineOut.apply(launchpadPrepTimer);
-            float cx = x, cy = y;
+            float cx = cx(), cy = y;
             float rotation = launchpadTimer * (130f + Mathf.randomSeedRange(id(), 50f));
             float thrustOpen = 0.25f;
             float thrusterFrame = thrustTimer >= thrustOpen ? 1f : thrustTimer / thrustOpen;
