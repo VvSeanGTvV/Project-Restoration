@@ -124,6 +124,7 @@ public class NewAccelerator extends Block{
         public float heat, statusLerp, blockLerp, heatOpposite, progress, launchCounter;
         public @Nullable BlockUnitc unit;
 
+        //counter
         public float launchAnimation;
         public UnitController origin;
         public Unit originUnit;
