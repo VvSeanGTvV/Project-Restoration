@@ -247,9 +247,11 @@ public class NewAccelerator extends Block{
         }
 
         public void DrawAnimation(){
+            Draw.reset();
             Draw.rect(launching.uiIcon, x, y);
             float rad = size * tilesize / 2f * 0.74f;
 
+            Draw.z(Layer.bullet - 0.0001f);
             Lines.stroke(1.75f, Pal.accent);
             Lines.square(x, y, rad * 1.22f, 45f);
             for (int i = 1; i < 5; i++){
