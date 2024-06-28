@@ -374,11 +374,11 @@ public class NewAccelerator extends Block{
         public void DrawCoreLaunchLikeLaunchpod(){
 
             float thrustTimer = Interp.sineIn.apply(Mathf.clamp(launchpadPrepTimer * 2f));
-            float cx = cx(), cy = y;
+            float cx = x, cy = y;
             float rotation = launchpadTimer * (130f + Mathf.randomSeedRange(id(), 50f));
             float thrustOpen = 0.25f;
             float thrusterFrame = thrustTimer >= thrustOpen ? 1f : thrustTimer / thrustOpen;
-            float scl = Scl.scl(3.5f) / renderer.getDisplayScale();
+            float scl = Scl.scl(4f) / renderer.getDisplayScale();
 
             Draw.z(Layer.weather - 1);
             Draw.scl(scl);
@@ -390,11 +390,11 @@ public class NewAccelerator extends Block{
             for (int i = 0; i < 4; i++) {
                 Tmp.v1.trns(i * 90 + rotation, 1f);
 
-                Tmp.v1.setLength((size * tilesize / 4f + 1f) * scl + strength * 2f + offset);
+                Tmp.v1.setLength((size * tilesize / 2f + 1f) * scl + strength * 2f + offset);
                 Draw.color(Pal.accent);
                 Fill.circle(Tmp.v1.x + cx, Tmp.v1.y + cy, 6f * strength);
 
-                Tmp.v1.setLength((size * tilesize / 4f + 1f) * scl + strength * 0.5f + offset);
+                Tmp.v1.setLength((size * tilesize / 2f + 1f) * scl + strength * 0.5f + offset);
                 Draw.color(Color.white);
                 Fill.circle(Tmp.v1.x + cx, Tmp.v1.y + cy, 3.5f * strength);
             }
