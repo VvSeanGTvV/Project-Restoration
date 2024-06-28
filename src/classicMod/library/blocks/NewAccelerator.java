@@ -41,7 +41,7 @@ public class NewAccelerator extends Block{
     public TextureRegion arrowRegion = Core.atlas.find("launch-arrow");
 
     //TODO dynamic
-    boolean launchingStartup, once;
+    boolean launchingStartup, once, StartAnimation;
     public Block launching = Blocks.coreBastion;
     public Block requirementsBlock = Blocks.coreNucleus;
 
@@ -121,21 +121,24 @@ public class NewAccelerator extends Block{
     }
 
     public class NewAcceleratorBuild extends Building implements ControlBlock{
-        public float heat, statusLerp, blockLerp, heatOpposite;
+        public float heat, statusLerp, blockLerp, heatOpposite, progress, launchCounter;
         public @Nullable BlockUnitc unit;
+
+        public float launchAnimation;
         public UnitController origin;
         public Unit originUnit;
-
-        TextureRegion outlineCore;
 
         @Override
         public boolean shouldAutoTarget() {
             return false;
         }
 
+        public float fraction(){ return progress / launchTime; }
+
         @Override
         public void updateTile(){
             super.updateTile();
+
             heat = Mathf.lerpDelta(heat, efficiency, 0.05f);
             statusLerp = Mathf.lerpDelta(statusLerp, power.status, 0.05f);
             if(efficiency > 0){
@@ -147,34 +150,52 @@ public class NewAccelerator extends Block{
                 launchingStartup = false;
                 once = false;
             }
-            if(launchingStartup || isControlled()) {
-                if (!once || mobile) {
-                    if(!once) {
-                        player.clearUnit();
-                        unit.controller(player);
-
-                        player.set(this);
-                        once = true;
-                    }
-                    camera.position.set(this);
-                }
-
-                if (isControlled()) renderer.setScale(Scl.scl(1.5f));
-            }else{
-                if(unit != null) {
-                    if (origin == null) {
-                        origin = unit.controller();
-                        originUnit = player.unit();
-                    } else {
-                        unit.controller(origin);
-                        unit.spawnedByCore(true);
-                    }
-                }
-                //unit.controller();
+            if(isControlled() && launchingStartup){
+                launchCounter += edelta();
+            } else {
+                launchCounter = 0f;
             }
-            if((launchingStartup || once) && !isControlled()){
-                launchingStartup = false;
-                once = false;
+            if(!StartAnimation) {
+                if (launchingStartup || isControlled()) {
+                    if (!once || mobile) {
+                        if (!once) {
+                            player.clearUnit();
+                            unit.controller(player);
+
+                            player.set(this);
+                            once = true;
+                        }
+                        camera.position.set(this);
+                    }
+
+                    if (isControlled()) renderer.setScale(Scl.scl(1.5f));
+                } else {
+                    if (unit != null) {
+                        if (origin == null) {
+                            origin = unit.controller();
+                            originUnit = player.unit();
+                        } else {
+                            unit.controller(origin);
+                            unit.spawnedByCore(true);
+                        }
+                    }
+                    //unit.controller();
+                }
+                if ((launchingStartup || once) && !isControlled()) {
+                    launchingStartup = false;
+                    once = false;
+                }
+            }
+            progress = Math.min((float)items.total() / itemCapacity, launchCounter / launchTime);
+            unit.ammo(unit.type().ammoCapacity * fraction());
+
+
+
+            if(launchCounter >= launchTime && items.total() >= itemCapacity && efficiency > 0){
+                StartAnimation = true;
+                unit.spawnedByCore(false);
+                renderer.setScale(Scl.scl(1.5f));
+                launchAnimation = Mathf.lerpDelta(launchAnimation, 1f, 0.05f);
             }
         }
 
@@ -193,14 +214,10 @@ public class NewAccelerator extends Block{
                 }
             }
 
-            if(heat < 0.0001f) return;
+            if(StartAnimation) DrawAnimation();
+            if(heat < 0.0001f && !StartAnimation) return;
 
             DrawCore();
-
-            for(int i = 0; i < 10; i++){
-                var offsetY = i * 10f;
-
-            }
 
             float rad = size * tilesize / 2f * 0.74f;
             float scl = 2f;
@@ -222,19 +239,20 @@ public class NewAccelerator extends Block{
                 Draw.rect(arrowRegion, x + Angles.trnsx(rot, length), y + Angles.trnsy(rot, length), rot + 180f);
             }
 
-            for(int i = 0; i < 4; i++){
-                float rot = i*90f + 90f + (-Time.time /6f)%360f;
-                float length = 29f * heat;
-                Draw.rect(arrowRegion, x + Angles.trnsx(rot, length), y + Angles.trnsy(rot, length), rot + 180f);
-            }
-
-            for(int i = 0; i < 4; i++){
-                float rot = i*90f + 135f + (-Time.time /12f)%360f;
-                float length = 32f * heat;
-                Draw.rect(arrowRegion, x + Angles.trnsx(rot, length), y + Angles.trnsy(rot, length), rot + 180f);
-            }
-
             Draw.reset();
+        }
+
+        public void DrawAnimation(){
+            Draw.rect(launching.uiIcon, x, y);
+            float rad = size * tilesize / 2f * 0.74f;
+
+            Lines.stroke(1.75f, Pal.accent);
+            Lines.square(x, y, rad * 1.22f, 45f);
+            for (int i = 1; i < 5; i++){
+                var bop = i * 3f;
+                Lines.stroke(1.75f * i * Mathf.clamp(blockLerp * bop), Pal.accent);
+                Lines.square(x, y + 10f * i, rad * 1.22f, 90f);
+            }
         }
 
         public void DrawCore(){
