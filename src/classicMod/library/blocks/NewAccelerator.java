@@ -196,7 +196,7 @@ public class NewAccelerator extends Block{
                 StartAnimation = true;
                 unit.spawnedByCore(false);
                 renderer.setScale(Scl.scl(1.5f));
-                launchAnimation = Mathf.lerpDelta(launchAnimation, 1f, 0.01f);
+                launchAnimation = Mathf.clamp(launchAnimation + fdelta(100f, 60f));
             }
         }
 
