@@ -3,6 +3,7 @@ package classicMod.library.blocks;
 import arc.*;
 import arc.Graphics.*;
 import arc.Graphics.Cursor.*;
+import arc.graphics.Blending;
 import arc.graphics.Color;
 import arc.graphics.Pixmap;
 import arc.graphics.Pixmaps;
@@ -391,14 +392,17 @@ public class NewAccelerator extends Block{
             Draw.z(Layer.weather - 0.9f);
             Color orange = new Color(1f, 0.612f, 0f, 1f - Mathf.clamp(launcpadTimer));
             Draw.color(orange);
-            Drawf.additive(region, orange, x, cy + 2.15f);
-            //Draw.rect(region, x, cy + 2.15f, (float) (region.width / 4) * oppositeTimer, (float) (region.height / 4) * oppositeTimer, rotation);
+            //Drawf.additive(region, orange, x, cy + 2.15f);
+            Draw.blend(Blending.additive);
+            Draw.rect(region, x, cy + 2.15f, (float) (region.width / 4) * oppositeTimer, (float) (region.height / 4) * oppositeTimer, rotation);
 
             Color Palf = new Color(Pal.accent.r, Pal.accent.g, Pal.accent.b, 1f - Mathf.clamp(launcpadTimer));
-            Drawf.additive(region, Palf, x, cy + 4.15f);
-            //Draw.color();
+            //Drawf.additive(region, Palf, x, cy + 4.15f, rotation);
+            Draw.color(Palf);
+            Draw.blend(Blending.additive);
+            Draw.rect(region, x, cy + 4.15f, (float) (region.width / 4) * oppositeTimer, (float) (region.height / 4) * oppositeTimer, rotation);
 
-            //Draw.rect(region, x, cy + 4.15f, (float) (region.width / 4) * oppositeTimer, (float) (region.height / 4) * oppositeTimer, rotation);
+            Draw.blend();
 
             Draw.z(Layer.weather - 1.5f);
             Color orangeB = new Color(1f, 0.612f, 0f, 1f - Mathf.clamp(launcpadTimer * 1.5f));
