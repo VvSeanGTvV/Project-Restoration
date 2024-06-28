@@ -185,6 +185,7 @@ public class NewAccelerator extends Block{
                 unit.controller(player);
 
                 player.set(this);
+                progress = launchTime;
                 //StartAnimation = false;
                 //launchAnimation = 0f;
             }
