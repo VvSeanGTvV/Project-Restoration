@@ -52,6 +52,9 @@ public class NewAccelerator extends Block{
 
     public float launchTime = 60f * 5f;
 
+    public float thrusterLength = 14f/4f;
+    protected static final float[] thrusterSizes = {0f, 0f, 0f, 0f, 0.3f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 0f};
+
     public NewAccelerator(String name){
         super(name);
         update = true;
@@ -365,93 +368,94 @@ public class NewAccelerator extends Block{
         //damn
         public void DrawCoreLaunchLikeLaunchpod(){
 
-            float alpha = Interp.pow5Out.apply(launcpadTimer);
-            float scale = (1f - alpha) * 1.3f + 1f;
-            float oppositeTimer = 1f - launcpadTimer;
-            float cx = x, cy = y + Interp.sineOut.apply(launcpadTimer) * 200f;
-            float rotation = launcpadTimer * (130f + Mathf.randomSeedRange(id(), 50f));
+            float fout = 1f - launcpadTimer;
 
-            //float rad = 0.2f + fslope();
+            if(renderer.isLaunching()) fout = 1f - fout;
 
-            Draw.alpha(alpha);
+            float fin = 1f - fout;
+
+            float scl = Scl.scl(4f) / renderer.getDisplayScale();
+            float shake = 0f;
+            float s = region.width * region.scl() * scl * 3.6f * Interp.pow2Out.apply(fout);
+            float rotation = Interp.pow2In.apply(fout) * 135f;
+            x += Mathf.range(shake);
+            y += Mathf.range(shake);
+            float thrustOpen = 0.25f;
+            float thrusterFrame = fin >= thrustOpen ? 1f : fin / thrustOpen;
+            float thrusterSize = Mathf.sample(thrusterSizes, fin);
+
+            //when launching, thrusters stay out the entire time.
+            if(renderer.isLaunching()){
+                Interp i = Interp.pow2Out;
+                thrusterFrame = i.apply(Mathf.clamp(fout*13f));
+                thrusterSize = i.apply(Mathf.clamp(fout*9f));
+            }
+
+            Draw.color(Pal.lightTrail);
+            //TODO spikier heat
+            Draw.rect("circle-shadow", x, y, s, s);
+
+            Draw.scl(scl);
+
+            //draw thruster flame
+            float strength = (1f + (size - 3)/2.5f) * scl * thrusterSize * (0.95f + Mathf.absin(2f, 0.1f));
+            float offset = (size - 3) * 3f * scl;
+
             for(int i = 0; i < 4; i++){
-                Drawf.tri(cx, cy, 12f, 60f * (1f - launcpadTimer), i * 90f + rotation);
+                Tmp.v1.trns(i * 90 + rotation, 1f);
+
+                Tmp.v1.setLength((size * tilesize/2f + 1f)*scl + strength*2f + offset);
+                Draw.color(Pal.accent);
+                Fill.circle(Tmp.v1.x + x, Tmp.v1.y + y, 6f * strength);
+
+                Tmp.v1.setLength((size * tilesize/2f + 1f)*scl + strength*0.5f + offset);
+                Draw.color(Color.white);
+                Fill.circle(Tmp.v1.x + x, Tmp.v1.y + y, 3.5f * strength);
             }
 
-            float r = 3f;
-            Fx.rocketSmoke.at(cx, cy + Mathf.range(r), launcpadTimer);
+            drawLandingThrusters(x, y, rotation, thrusterFrame);
 
-            TextureRegion region = launching.fullIcon;
+            Drawf.spinSprite(region, x, y, rotation);
+
+            Draw.alpha(Interp.pow4In.apply(thrusterFrame));
+            drawLandingThrusters(x, y, rotation, thrusterFrame);
+            Draw.alpha(1f);
+
+            //if(teamRegions[build.team.id] == teamRegion) Draw.color(Team.sharded.color);
+
+            Drawf.spinSprite(launching.fullIcon, x, y, rotation);
 
             Draw.color();
+            Draw.scl();
+            Draw.reset();
+        }
 
-            Draw.z(Layer.weather - 1);
+        protected void drawLandingThrusters(float x, float y, float rotation, float frame){
+            TextureRegion thruster1 = Core.atlas.find(launching.name + "-thruster1");
+            TextureRegion thruster2 = Core.atlas.find(launching.name + "-thruster2");
+            float length = thrusterLength * (frame - 1f) - 1f/4f;
+            float alpha = Draw.getColor().a;
 
-            Draw.rect(region, x, cy, (float) (region.width / 4) * oppositeTimer, (float) (region.height / 4) * oppositeTimer, rotation);
+            //two passes for consistent lighting
+            for(int j = 0; j < 2; j++){
+                for(int i = 0; i < 4; i++){
+                    TextureRegion reg = i >= 2 ? thruster2 : thruster1;
+                    float rot = (i * 90) + rotation % 90f;
+                    Tmp.v1.trns(rot, length * Draw.xscl);
 
-            Draw.z(Layer.weather - 0.9f);
-            Color orange = new Color(1f, 0.612f, 0f, 1f - Mathf.clamp(launcpadTimer));
-            Draw.color(orange);
-            //Drawf.additive(region, orange, x, cy + 2.15f);
-            Draw.blend(Blending.additive);
-            Draw.rect(region, x, cy + 1.15f, (float) (region.width / 4) * 1.35f  * oppositeTimer, (float) (region.height / 4) * 1.35f * oppositeTimer, rotation);
-
-            Color Palf = new Color(Pal.accent.r, Pal.accent.g, Pal.accent.b, 1f - Mathf.clamp(launcpadTimer));
-            //Drawf.additive(region, Palf, x, cy + 4.15f, rotation);
-            Draw.color(Palf);
-            Draw.blend(Blending.additive);
-            Draw.rect(region, x, cy + 2.15f, (float) (region.width / 4) * 1.15f * oppositeTimer, (float) (region.height / 4) * 1.15f * oppositeTimer, rotation);
-
-            Draw.blend();
-
-            Draw.z(Layer.weather - 1.5f);
-            Color orangeB = new Color(1f, 0.612f, 0f, 1f - Mathf.clamp(launcpadTimer * 1.5f));
-            Draw.color(orangeB);
-            Draw.rect(region, x, cy - 2f, (float) (region.width / 3.75) * oppositeTimer, (float) (region.height / 3.75) * oppositeTimer, rotation);
-
-            Draw.z(Layer.weather - 1.55f);
-            Color red = new Color(1f, 0f, 0f, 1f - Mathf.clamp(launcpadTimer * 3f));
-            Draw.color(red);
-            Draw.rect(region, x, cy - 4f, (float) (region.width / 3.6) * oppositeTimer, (float) (region.height / 3.6) * oppositeTimer, rotation);
-
-
-            /*float alpha = Interp.pow5Out.apply(launcpadTimer);
-            float scale = (1f - alpha) * 1.3f + 1f;
-            float cx = cx(), cy = cy();
-            float rotation = launcpadTimer * (130f + Mathf.randomSeedRange(id(), 50f));
-
-            Draw.z(Layer.effect + 0.001f);
-
-            Draw.color(Pal.engine);
-
-            float rad = 0.2f + fslope();
-
-            Fill.light(cx, cy, 10, 25f * (rad + scale-1f), Tmp.c2.set(Pal.engine).a(alpha), Tmp.c1.set(Pal.engine).a(0f));
-
-            Draw.alpha(alpha);
-            for(int i = 0; i < 8; i++){
-                Drawf.tri(cx, cy, 6f, 40f * (rad + scale-1f), i * 45f + rotation);
+                    //second pass applies extra layer of shading
+                    if(j == 1){
+                        Tmp.v1.rotate(-90f);
+                        Draw.alpha((rotation % 90f) / 90f * alpha);
+                        rot -= 90f;
+                        Draw.rect(reg, x + Tmp.v1.x, y + Tmp.v1.y, rot);
+                    }else{
+                        Draw.alpha(alpha);
+                        Draw.rect(reg, x + Tmp.v1.x, y + Tmp.v1.y, rot);
+                    }
+                }
             }
-
-            Draw.color();
-
-            Draw.z(Layer.weather - 1);
-
-            TextureRegion region = launching.fullIcon;
-            scale *= region.scl();
-            float rw = region.width * scale, rh = region.height * scale;
-
-            Draw.alpha(1f - launcpadTimer);
-            Draw.rect(region, cx, cy, rw, rh, rotation);
-
-            Tmp.v1.trns(225f, Interp.pow2In.apply(launcpadTimer) * 360f);
-
-            Draw.z(Layer.flyingUnit + 1);
-            Draw.color(0, 0, 0, 0.22f * alpha);
-            //Draw.alpha(1f - launcpadTimer);
-            Draw.rect(region, cx + Tmp.v1.x, cy + Tmp.v1.y, rw, rh, rotation);
-
-            Draw.reset();*/
+            Draw.alpha(1f);
         }
 
         public void DrawCore(){
