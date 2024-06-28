@@ -1471,16 +1471,19 @@ public class ClassicBlocks {
             consumePower(4f);
         }};*/
 
-        reinforcedSafe = new StorageBlock("reinforced-safe"){{
-            requirements(Category.effect, with(Items.tungsten, 250, Items.carbide, 125, Items.beryllium, 100));
-            size = 4;
-            itemCapacity = 1200;
-            scaledHealth = 120;
-            coreMerge = false;
-        }
+        reinforcedSafe = new StorageBlock("reinforced-safe"){
+            TextureRegion team;
+            {
+                requirements(Category.effect, with(Items.tungsten, 250, Items.carbide, 125, Items.beryllium, 100));
+                size = 4;
+                itemCapacity = 1200;
+                scaledHealth = 120;
+                coreMerge = false;
+            }
+
             @Override
             public TextureRegion[] icons() {
-                return new TextureRegion[]{region, teamRegion};
+                return new TextureRegion[]{region, Core.atlas.find(name + "-team-" + "sharded")};
             }
 
         };
