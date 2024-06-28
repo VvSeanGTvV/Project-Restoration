@@ -193,10 +193,10 @@ public class NewAccelerator extends Block{
                 }
                 if(stageLaunch == 1){
                     launchOppositeAnimation = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta);
-                    if(launchAnimation < 0.01f){ zoomStyle = 6f; Effect.shake(3f, 3f, this); } else {
-                        if(zoomStyle > 1.5f) zoomStyle -= 0.025f * Time.delta;
+                    if(launchAnimation < 0.01f){ zoomStyle = 3f; Effect.shake(3f, 3f, this); } else {
+                        //if(zoomStyle > 1.5f) zoomStyle -= 1f * Time.delta;
                     }
-                    launcpadTimer = Mathf.clamp(launchAnimation + 2f * Time.delta);
+                    launcpadTimer = Mathf.clamp(launchAnimation + 5f * Time.delta);
                 }
                 if(stageLaunch >= 2){
                     launcpadTimer = 0;
@@ -385,7 +385,7 @@ public class NewAccelerator extends Block{
             Draw.alpha(1f - launcpadTimer);
             Draw.rect(region, cx, cy, rw, rh, rotation);
 
-            Tmp.v1.trns(225f, Interp.slope.apply(launcpadTimer) * 260f);
+            Tmp.v1.trns(225f, Interp.pow2In.apply(launcpadTimer) * 360f);
 
             Draw.z(Layer.flyingUnit + 1);
             Draw.color(0, 0, 0, 0.22f * alpha);
