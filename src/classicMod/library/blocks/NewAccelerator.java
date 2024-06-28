@@ -378,13 +378,10 @@ public class NewAccelerator extends Block{
             float rotation = launchpadTimer * (130f + Mathf.randomSeedRange(id(), 50f));
             float thrustOpen = 0.25f;
             float thrusterFrame = thrustTimer >= thrustOpen ? 1f : thrustTimer / thrustOpen;
-            float scl = Scl.scl(4f) / renderer.getDisplayScale();
+            float scl = Scl.scl(3.5f) / renderer.getDisplayScale();
 
             Draw.z(Layer.weather - 1);
             Draw.scl(scl);
-
-            Draw.rect(launching.fullIcon, cx, cy, rotation);
-            drawThrusters(cx, cy, rotation, thrusterFrame);
 
             float thrusterSize = Mathf.sample(thrusterSizes, launchpadPrepTimer);
             float strength = (1f + (size - 3) / 2.5f) * scl * thrusterSize * (0.95f + Mathf.absin(2f, 0.1f));
@@ -401,6 +398,15 @@ public class NewAccelerator extends Block{
                 Draw.color(Color.white);
                 Fill.circle(Tmp.v1.x + cx, Tmp.v1.y + cy, 3.5f * strength);
             }
+
+            drawThrusters(cx, cy, rotation, thrusterFrame);
+            Draw.scl(scl + 0.25f);
+            Draw.rect(launching.fullIcon, cx, cy, rotation);
+
+
+
+
+
 
             if(launchpadPrepTimer >= 0.25f) {
                 tile.getLinkedTiles(t -> {
