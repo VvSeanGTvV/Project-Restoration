@@ -362,14 +362,14 @@ public class NewAccelerator extends Block{
 
             float alpha = Interp.pow5Out.apply(launcpadTimer);
             float scale = (1f - alpha) * 1.3f + 1f;
-            float cx = x, cy = cy();
+            float cx = x, cy = Interp.slope.apply(launcpadTimer) * 100f;
             float rotation = launcpadTimer * (130f + Mathf.randomSeedRange(id(), 50f));
 
-            float rad = 0.2f + fslope();
+            //float rad = 0.2f + fslope();
 
             Draw.alpha(alpha);
-            for(int i = 0; i < 8; i++){
-                Drawf.tri(cx, cy, 6f, 40f * (rad + scale-1f), i * 45f + rotation);
+            for(int i = 0; i < 4; i++){
+                Drawf.tri(cx, cy, 6f, 60f * (1f - launcpadTimer), i * 90f + rotation);
             }
 
             TextureRegion region = launching.fullIcon;
