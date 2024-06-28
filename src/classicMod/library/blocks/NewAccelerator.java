@@ -105,6 +105,21 @@ public class NewAccelerator extends Block{
         //stats.add(Strings.autoFixed(launchTime / 60f, 1) + " " + Core.bundle.get("unit.seconds")).color(Color.lightGray);
     }
 
+    @Override
+    public void createIcons(MultiPacker packer) {
+        super.createIcons(packer);
+
+        var atlasA = region.asAtlas();
+        if (atlasA != null) {
+            String regionName = atlasA.name;
+            Pixmap outlined = Pixmaps.outline(Core.atlas.getPixmap(Core.atlas.find(name + "-hit")), outlineColor, outlineRadius);
+
+            Drawf.checkBleed(outlined);
+
+            packer.add(MultiPacker.PageType.main, regionName + "-outline", outlined);
+        }
+    }
+
     public class NewAcceleratorBuild extends Building implements ControlBlock{
         public float heat, statusLerp, blockLerp, heatOpposite;
         public @Nullable BlockUnitc unit;
@@ -217,19 +232,6 @@ public class NewAccelerator extends Block{
             Color epic = new Color(team.color.r, team.color.g, team.color.b, 1f - Mathf.clamp(blockLerp * 3f));
             if(efficiency > 0) Drawf.additive(launching.uiIcon, epic, x, y);
             Draw.reset();
-        }
-
-        public void createOutlineCore(TextureRegion region) {
-            MultiPacker packer = new MultiPacker();
-            var atlasA = region.asAtlas();
-            if (atlasA != null) {
-                String regionName = atlasA.name;
-                Pixmap outlined = Pixmaps.outline(Core.atlas.getPixmap(Core.atlas.find(name + "-hit")), outlineColor, outlineRadius);
-
-                Drawf.checkBleed(outlined);
-
-                packer.add(MultiPacker.PageType.main, regionName + "-outline", outlined);
-            }
         }
 
         @Override
