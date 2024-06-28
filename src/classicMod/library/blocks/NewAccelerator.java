@@ -115,7 +115,7 @@ public class NewAccelerator extends Block{
         public @Nullable BlockUnitc unit;
 
         //counter
-        public float launchAnimation, launchOppositeAnimation, zoomStyle, launcpadTimer;
+        public float launchAnimation, launchOppositeAnimation, zoomStyle, launchpadTimer, launchpadPrepTimer;
         int stageLaunch = 0;
         public UnitController origin;
         public Unit originUnit;
@@ -200,11 +200,12 @@ public class NewAccelerator extends Block{
                     if(launchAnimation < 0.01f){ zoomStyle = 3f; Effect.shake(3f, 3f, this); } else {
                         //if(zoomStyle > 1.5f) zoomStyle -= 1f * Time.delta;
                     }
-                    launcpadTimer = Mathf.clamp(launcpadTimer + 0.005f * Time.delta);
-                    if(launcpadTimer >= 1f) stageLaunch += 1;
+                    launchpadPrepTimer = Mathf.clamp(launchpadPrepTimer + 0.005f * Time.delta);
+                    if(launchpadPrepTimer >= 1f)launchpadTimer = Mathf.clamp(launchpadTimer + 0.005f * Time.delta);
+                    if(launchpadTimer >= 1f) stageLaunch += 1;
                 }
                 if(stageLaunch >= 2){
-                    launcpadTimer = 0;
+                    launchpadTimer = 0;
                     launchAnimation = 0;
                     StartAnimation = false;
                     progress = 0;
@@ -345,6 +346,7 @@ public class NewAccelerator extends Block{
                     Lines.square(x, y, (rad * 1.22f * i) * Mathf.clamp(launchOppositeAnimation * 2f / bop) , 90f);
                 }
 
+                Draw.reset();
                 DrawCoreLaunchLikeLaunchpod();
 
                 
@@ -354,21 +356,27 @@ public class NewAccelerator extends Block{
 
 
         float cx(){
-            return x + Interp.pow2In.apply(launcpadTimer) * (12f + Mathf.randomSeedRange(id() + 3, 4f));
+            return x + Interp.pow2In.apply(launchpadTimer) * (12f + Mathf.randomSeedRange(id() + 3, 4f));
         }
 
         float cy(){
-            return y + Interp.sineIn.apply(launcpadTimer) * (100f + Mathf.randomSeedRange(id() + 2, 30f));
+            return y + Interp.sineIn.apply(launchpadTimer) * (100f + Mathf.randomSeedRange(id() + 2, 30f));
         }
 
         float fslope(){
-            return (0.5f - Math.abs(launcpadTimer - 0.5f)) * 2f;
+            return (0.5f - Math.abs(launchpadTimer - 0.5f)) * 2f;
         }
 
         //damn
         public void DrawCoreLaunchLikeLaunchpod(){
 
-            float fout = 1f - launcpadTimer;
+            float fin = 1f - Interp.sineOut.apply(launchpadPrepTimer);
+            float thrustOpen = 0.25f;
+            float thrusterFrame = fin >= thrustOpen ? 1f : fin / thrustOpen;
+
+            drawLandingThrusters(x, y, rotation, thrusterFrame);
+
+            /*float fout = 1f - launcpadTimer;
 
             if(renderer.isLaunching()) fout = 1f - fout;
 
@@ -427,7 +435,7 @@ public class NewAccelerator extends Block{
 
             Draw.color();
             Draw.scl();
-            Draw.reset();
+            Draw.reset();*/
         }
 
         protected void drawLandingThrusters(float x, float y, float rotation, float frame){
