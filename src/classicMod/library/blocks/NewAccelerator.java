@@ -186,7 +186,7 @@ public class NewAccelerator extends Block{
                 //unit.spawnedByCore(false);
                 renderer.setScale(Scl.scl(zoomStyle));
                 launchAnimation = Mathf.clamp(launchAnimation + 0.0025f * Time.delta);
-                if(launchAnimation >= 1f){ stageLaunch += 1; launchAnimation = 0f; }
+                if(launchAnimation >= 1f && stageLaunch < 1){ stageLaunch += 1; launchAnimation = 0f; }
                 if(stageLaunch == 0){
                     launchOppositeAnimation = 1f;
                     zoomStyle = 1.5f;
@@ -299,7 +299,7 @@ public class NewAccelerator extends Block{
                     Lines.square(x, y + 10f * centre * centre, rad * 1.22f * i, 90f);
                 }
 
-                var Opposite = 1f - launchAnimation;
+                var Opposite = 1f - Mathf.clamp(launchAnimation * 3f);
 
                 Lines.stroke(1.75f * Opposite, Pal.accent);
                 Lines.square(x, y, rad * 1.22f * Opposite, 45f);
@@ -359,7 +359,31 @@ public class NewAccelerator extends Block{
         }
 
         public void DrawCoreLaunchLikeLaunchpod(){
+
             float alpha = Interp.pow5Out.apply(launcpadTimer);
+            float scale = (1f - alpha) * 1.3f + 1f;
+            float cx = x, cy = cy();
+            float rotation = launcpadTimer * (130f + Mathf.randomSeedRange(id(), 50f));
+
+            float rad = 0.2f + fslope();
+
+            Draw.alpha(alpha);
+            for(int i = 0; i < 8; i++){
+                Drawf.tri(cx, cy, 6f, 40f * (rad + scale-1f), i * 45f + rotation);
+            }
+
+            TextureRegion region = launching.fullIcon;
+            scale *= region.scl();
+            float rw = region.width * scale, rh = region.height * scale;
+
+            Draw.color();
+
+            Draw.z(Layer.weather - 1);
+
+            Draw.rect(region, x, cy, rw, rh, rotation);
+
+
+            /*float alpha = Interp.pow5Out.apply(launcpadTimer);
             float scale = (1f - alpha) * 1.3f + 1f;
             float cx = cx(), cy = cy();
             float rotation = launcpadTimer * (130f + Mathf.randomSeedRange(id(), 50f));
@@ -395,7 +419,7 @@ public class NewAccelerator extends Block{
             //Draw.alpha(1f - launcpadTimer);
             Draw.rect(region, cx + Tmp.v1.x, cy + Tmp.v1.y, rw, rh, rotation);
 
-            Draw.reset();
+            Draw.reset();*/
         }
 
         public void DrawCore(){
