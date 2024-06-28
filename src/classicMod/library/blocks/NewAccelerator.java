@@ -110,7 +110,7 @@ public class NewAccelerator extends Block{
         public @Nullable BlockUnitc unit;
 
         //counter
-        public float launchAnimation, launchOppositeAnimation, zoomStyle;
+        public float launchAnimation, launchOppositeAnimation, zoomStyle, launchOppositeAnimation1;
         int stageLaunch = 0;
         public UnitController origin;
         public Unit originUnit;
@@ -182,8 +182,18 @@ public class NewAccelerator extends Block{
                 renderer.setScale(Scl.scl(zoomStyle));
                 launchAnimation = Mathf.clamp(launchAnimation + 0.0025f * Time.delta);
                 if(launchAnimation >= 1f){ stageLaunch += 1; launchAnimation = 0f; }
-                if(stageLaunch == 0){ launchOppositeAnimation = 1f; zoomStyle = 1.5f; }
-                if(stageLaunch == 1){ launchOppositeAnimation = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta); zoomStyle = 6f; }
+                if(stageLaunch == 0){
+                    launchOppositeAnimation = 1f;
+                    zoomStyle = 1.5f;
+                }
+                if(stageLaunch == 1){
+                    launchOppositeAnimation = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta);
+                    zoomStyle = 6f;
+                    launchOppositeAnimation1 = 1f;
+                }
+                if(stageLaunch == 2){
+
+                }
             } else if (progress <= 0 && StartAnimation) {
                 player.clearUnit();
                 unit.controller(player);
@@ -279,6 +289,27 @@ public class NewAccelerator extends Block{
                     Lines.stroke(stroke * Mathf.clamp(launchOppositeAnimation * bop), Pal.accent);
                     Lines.square(x, y, rad * 1.22f * i, 90f);
                 }
+
+                Color bruh = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation * 3f));
+                Draw.color(bruh);
+                Draw.rect(launching.uiIcon, x, y);
+                Drawf.additive(launching.uiIcon, bruh, x, y);
+            }
+
+            Draw.reset();
+            if(stageLaunchAnimation == 2){
+
+                Color epic = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation));
+                Drawf.additive(launching.uiIcon, epic, x, y);
+
+                Color woah = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation * 3f));
+                Drawf.additive(launching.uiIcon, woah, x, y);
+
+                Draw.reset();
+
+                Draw.z(Layer.bullet - 0.0001f);
+                Lines.stroke(1.75f * launchOppositeAnimation1, Pal.accent);
+                Lines.square(x, y, rad * 1.22f * launchOppositeAnimation1, 45f);
             }
         }
 
