@@ -109,7 +109,7 @@ public class NewAccelerator extends Block{
     public void createIcons(MultiPacker packer) {
         super.createIcons(packer);
 
-        var atlasA = launching.fullIcon.asAtlas();
+        var atlasA = Core.atlas.find("core-bastion");
         if (atlasA != null) {
             String regionName = atlasA.name;
             Pixmap outlined = Pixmaps.outline(Core.atlas.getPixmap(atlasA), outlineColor, outlineRadius);
@@ -218,7 +218,7 @@ public class NewAccelerator extends Block{
 
             for(int i = 0; i < 10; i++){
                 var offsetY = i * 10f;
-                Draw.rect(Core.atlas.find(launching.fullIcon.asAtlas().name + "-outline"), x, y + offsetY);
+                Draw.rect(Core.atlas.find("core-bastion" + "-outline"), x, y + offsetY);
             }
 
             Draw.reset();
