@@ -9,6 +9,7 @@ import arc.graphics.Pixmap;
 import arc.graphics.Pixmaps;
 import arc.graphics.g2d.*;
 import arc.math.*;
+import arc.math.geom.Geometry;
 import arc.scene.ui.layout.*;
 import arc.util.*;
 import arc.util.io.Reads;
@@ -378,7 +379,7 @@ public class NewAccelerator extends Block{
             Draw.z(Layer.weather - 1);
 
             Draw.rect(launching.fullIcon, cx, cy, rotation);
-            drawLandingThrusters(cx, cy, rotation, thrusterFrame);
+            drawThrusters(cx, cy, rotation, thrusterFrame);
 
             if(launchpadPrepTimer >= 1f) {
                 float thrusterSize = Mathf.sample(thrusterSizes, launchpadTimer);
@@ -389,11 +390,11 @@ public class NewAccelerator extends Block{
                 for (int i = 0; i < 4; i++) {
                     Tmp.v1.trns(i * 90 + rotation, 1f);
 
-                    Tmp.v1.setLength((size * tilesize / 2f + 1f) * scl + strength * 2f + offset);
+                    Tmp.v1.setLength((size * tilesize / 1f + 1f) * scl + strength * 2f + offset);
                     Draw.color(Pal.accent);
                     Fill.circle(Tmp.v1.x + cx, Tmp.v1.y + cy, 6f * strength);
 
-                    Tmp.v1.setLength((size * tilesize / 2f + 1f) * scl + strength * 0.5f + offset);
+                    Tmp.v1.setLength((size * tilesize / 1f + 1f) * scl + strength * 0.5f + offset);
                     Draw.color(Color.white);
                     Fill.circle(Tmp.v1.x + cx, Tmp.v1.y + cy, 3.5f * strength);
                 }
@@ -465,6 +466,17 @@ public class NewAccelerator extends Block{
             Draw.color();
             Draw.scl();
             Draw.reset();*/
+        }
+
+        public void drawThrusters(float x, float y, float rotation, float frame){
+            TextureRegion thruster1 = Core.atlas.find(launching.name + "-thruster1");
+            TextureRegion thruster2 = Core.atlas.find(launching.name + "-thruster2");
+            float length = thrusterLength * (frame - 1f) - 1f/4f;
+            for(int i = 0; i < 4; i++){
+                TextureRegion reg = i >= 2 ? thruster2 : thruster1;
+                float dx = Geometry.d4x[i] * length, dy = Geometry.d4y[i] * length;
+                Draw.rect(reg, x + dx, y + dy, i * 90 + rotation);
+            }
         }
 
         protected void drawLandingThrusters(float x, float y, float rotation, float frame){
