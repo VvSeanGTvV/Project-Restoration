@@ -196,7 +196,7 @@ public class NewAccelerator extends Block{
                     if(launchAnimation < 0.01f){ zoomStyle = 3f; Effect.shake(3f, 3f, this); } else {
                         //if(zoomStyle > 1.5f) zoomStyle -= 1f * Time.delta;
                     }
-                    launcpadTimer = Mathf.clamp(launcpadTimer + 0.075f * Time.delta);
+                    launcpadTimer = Mathf.clamp(launcpadTimer + 0.025f * Time.delta);
                     if(launcpadTimer >= 1f) stageLaunch += 1;
                 }
                 if(stageLaunch >= 2){
@@ -401,6 +401,7 @@ public class NewAccelerator extends Block{
             Draw.alpha(Mathf.clamp(blockLerp * 12f));
             Draw.rect(launching.uiIcon, x, y);
 
+            Draw.z(Layer.effect + 0.001f);
             Color epic = new Color(team.color.r, team.color.g, team.color.b, 1f - Mathf.clamp(blockLerp * 3f));
             if(efficiency > 0) Drawf.additive(launching.uiIcon, epic, x, y);
             Draw.reset();
