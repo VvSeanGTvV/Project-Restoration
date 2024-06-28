@@ -196,6 +196,11 @@ public class NewAccelerator extends Block{
 
             DrawCore();
 
+            for(int i = 0; i < 10; i++){
+                var offsetY = i * 10f;
+                Drawf.additive(Core.atlas.find("core-bastion" + "-outline"), Pal.accent, x, y + offsetY);
+            }
+
             float rad = size * tilesize / 2f * 0.74f;
             float scl = 2f;
 
@@ -214,11 +219,6 @@ public class NewAccelerator extends Block{
                 float rot = i*90f + 45f + (-Time.time /3f)%360f;
                 float length = 26f * heat;
                 Draw.rect(arrowRegion, x + Angles.trnsx(rot, length), y + Angles.trnsy(rot, length), rot + 180f);
-            }
-
-            for(int i = 0; i < 10; i++){
-                var offsetY = i * 10f;
-                Draw.rect(Core.atlas.find("core-bastion" + "-outline"), x, y + offsetY);
             }
 
             Draw.reset();
