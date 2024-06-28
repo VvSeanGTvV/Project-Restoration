@@ -255,7 +255,7 @@ public class NewAccelerator extends Block{
                 var stroke = 1.75f * (2f * i);
                 var centre = i - (i * Mathf.clamp(launchAnimation));
                 Lines.stroke(stroke * Mathf.clamp(launchAnimation * bop), Pal.accent);
-                Lines.square(x, y + 10f * centre * centre, rad * 1.22f, 90f);
+                Lines.square(x, y + 10f * centre * centre, rad * 1.22f * i, 90f);
             }
         }
 
