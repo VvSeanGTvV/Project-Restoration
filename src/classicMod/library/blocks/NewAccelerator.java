@@ -378,7 +378,7 @@ public class NewAccelerator extends Block{
 
             Draw.z(Layer.weather - 1);
 
-            Draw.rect(region, x, cy, region.width, region.height, rotation);
+            Draw.rect(region, x, cy, (float) region.width / 4, (float) region.height / 4, rotation);
 
 
             /*float alpha = Interp.pow5Out.apply(launcpadTimer);
