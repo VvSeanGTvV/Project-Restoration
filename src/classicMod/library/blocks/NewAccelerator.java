@@ -193,10 +193,10 @@ public class NewAccelerator extends Block{
                 }
                 if(stageLaunch == 1){
                     launchOppositeAnimation = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta);
-                    if(launchAnimation < 0.01f)zoomStyle = 6f; else {
+                    if(launchAnimation < 0.01f){ zoomStyle = 6f; Effect.shake(3f, 3f, this); } else {
                         if(zoomStyle > 1.5f) zoomStyle -= 0.025f * Time.delta;
                     }
-                    launcpadTimer = Mathf.clamp(launchAnimation + 0.025f * Time.delta);
+                    launcpadTimer = Mathf.clamp(launchAnimation + 0.25f * Time.delta);
                 }
                 if(stageLaunch >= 2){
 
@@ -321,6 +321,7 @@ public class NewAccelerator extends Block{
                 Lines.square(x, y, rad * 1.22f * launchOppositeAnimation, 45f);
 
                 DrawCoreLaunchLikeLaunchpod();
+
                 
                 //Drawf.additive(launching.uiIcon, bruh, x, y);
             }
@@ -362,14 +363,14 @@ public class NewAccelerator extends Block{
 
             Draw.z(Layer.weather - 1);
 
-            TextureRegion region = launching.region;
+            TextureRegion region = launching.fullIcon;
             scale *= region.scl();
             float rw = region.width * scale, rh = region.height * scale;
 
             Draw.alpha(alpha);
             Draw.rect(region, cx, cy, rw, rh, rotation);
 
-            Tmp.v1.trns(225f, Interp.pow3In.apply(launcpadTimer) * 250f);
+            Tmp.v1.trns(225f, Interp.pow3In.apply(launcpadTimer) * 260f);
 
             Draw.z(Layer.flyingUnit + 1);
             Draw.color(0, 0, 0, 0.22f * alpha);
