@@ -111,6 +111,8 @@ public class NewAccelerator extends Block{
         public UnitController origin;
         public Unit originUnit;
 
+        TextureRegion outlineCore;
+
         @Override
         public boolean shouldAutoTarget() {
             return false;
@@ -131,14 +133,17 @@ public class NewAccelerator extends Block{
                 once = false;
             }
             if(launchingStartup || isControlled()) {
-                if (!once) {
-                    player.clearUnit();
-                    unit.controller(player);
+                if (!once || mobile) {
+                    if(!once) {
+                        player.clearUnit();
+                        unit.controller(player);
 
-                    player.set(this);
+                        player.set(this);
+                        once = true;
+                    }
                     camera.position.set(this);
-                    once = true;
                 }
+
                 if (isControlled()) renderer.setScale(Scl.scl(1.5f));
             }else{
                 if(unit != null) {
@@ -152,7 +157,10 @@ public class NewAccelerator extends Block{
                 }
                 //unit.controller();
             }
-            if(launchingStartup && !isControlled()) launchingStartup = false;
+            if((launchingStartup || once) && !isControlled()){
+                launchingStartup = false;
+                once = false;
+            }
         }
 
         @Override
@@ -193,6 +201,11 @@ public class NewAccelerator extends Block{
                 Draw.rect(arrowRegion, x + Angles.trnsx(rot, length), y + Angles.trnsy(rot, length), rot + 180f);
             }
 
+            for(int i = 0; i < 10; i++){
+                var offsetY = i * 10f;
+                Draw.rect(Core.atlas.find(launching.name + "-outline"), x, y + offsetY);
+            }
+
             Draw.reset();
         }
 
@@ -221,7 +234,7 @@ public class NewAccelerator extends Block{
 
         @Override
         public Building init(Tile tile, Team team, boolean shouldAdd, int rotation) {
-            createOutlineCore(launching.uiIcon);
+            createOutlineCore(Core.atlas.find(launching.name));
             return super.init(tile, team, shouldAdd, rotation);
         }
 
