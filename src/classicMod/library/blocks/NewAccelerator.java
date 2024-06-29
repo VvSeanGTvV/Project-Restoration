@@ -202,7 +202,7 @@ public class NewAccelerator extends Block{
                     zoomStyle = Interp.pow3In.apply(Scl.scl(0.02f), Scl.scl(4f), 1f - launchpadTimer);
                     launchpadPrepTimer = Mathf.clamp(launchpadPrepTimer + 0.0025f * Time.delta);
                     if(launchpadPrepTimer >= 0.25f)launchpadTimer = Mathf.clamp(launchpadTimer + 0.0075f * Time.delta);
-                    if(launchpadTimer >= 0.75f) stageLaunch += 1;
+                    if(launchpadTimer >= 0.5f) stageLaunch += 1;
                 }
                 if(stageLaunch >= 2){
                     launchpadTimer = 0;
@@ -394,19 +394,19 @@ public class NewAccelerator extends Block{
 
                 Tmp.v1.setLength((size + 1f)*scl + strength*2f + offset);
                 Draw.color(Pal.accent);
-                Fill.circle(Tmp.v1.x + x + cx, Tmp.v1.y + y, 6f * strength);
+                Fill.circle(Tmp.v1.x + cx, Tmp.v1.y + y, 6f * strength);
 
                 Tmp.v1.setLength((size + 1f)*scl + strength*0.5f + offset);
                 Draw.color(Color.white);
-                Fill.circle(Tmp.v1.x + x + cx, Tmp.v1.y + y, 3.5f * strength);
+                Fill.circle(Tmp.v1.x + cx, Tmp.v1.y + y, 3.5f * strength);
             }
 
-            drawLandingThrusters(x + cx, y, rotation, thrusterFrame);
+            drawLandingThrusters(cx, y, rotation, thrusterFrame);
 
-            Drawf.spinSprite(launching.fullIcon, x + cx, y, rotation);
+            Drawf.spinSprite(launching.fullIcon, cx, y, rotation);
 
             Draw.alpha(Interp.pow4In.apply(thrusterFrame));
-            drawLandingThrusters(x + cx, y, rotation, thrusterFrame);
+            drawLandingThrusters(cx, y, rotation, thrusterFrame);
             Draw.alpha(1f);
 
             if(launchpadPrepTimer >= 0.25f) {
