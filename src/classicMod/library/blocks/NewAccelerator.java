@@ -435,7 +435,7 @@ public class NewAccelerator extends Block{
             circles(x, y, 5f * (size * tilesize/2f + 1f) * scl * frame, 10f * frame, Color.white);
         }
 
-        public static void circles(float x, float y, float rad, float thickness, Color color){
+        public void circles(float x, float y, float rad, float thickness, Color color){
             Lines.stroke(3f + thickness, Pal.gray);
             Lines.circle(x, y, rad);
             Lines.stroke(thickness, color);
