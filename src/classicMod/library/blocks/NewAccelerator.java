@@ -202,7 +202,7 @@ public class NewAccelerator extends Block{
                     zoomStyle = Interp.pow3In.apply(Scl.scl(0.02f), Scl.scl(4f), 1f - launchpadTimer);
                     launchpadPrepTimer = Mathf.clamp(launchpadPrepTimer + 0.0025f * Time.delta);
                     if(launchpadPrepTimer >= 0.25f)launchpadTimer = Mathf.clamp(launchpadTimer + 0.0075f * Time.delta);
-                    if(launchpadTimer >= 1f) stageLaunch += 1;
+                    if(launchpadTimer >= 0.75f) stageLaunch += 1;
                 }
                 if(stageLaunch >= 2){
                     launchpadTimer = 0;
