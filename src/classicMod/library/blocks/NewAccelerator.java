@@ -411,8 +411,8 @@ public class NewAccelerator extends Block{
             drawLandingThrusters(x, y, rotation, thrusterFrame);
             Draw.alpha(1f);
 
-            drawShockwave(x, y, scl, Mathf.clamp(shockwaveTimer * 4f));
-            drawShockwave(x, y, scl, Mathf.clamp(shockwaveTimer * 2f));
+            drawShockwave(x, y, scl, 7.5f, 10f, Mathf.clamp(shockwaveTimer * 4f));
+            drawShockwave(x, y, scl, 5f, 20f, Mathf.clamp(shockwaveTimer * 2f));
 
             if(launchpadPrepTimer >= 0.05f) {
                 tile.getLinkedTiles(t -> {
@@ -427,16 +427,16 @@ public class NewAccelerator extends Block{
             Draw.reset();
         }
 
-        public void drawShockwave(float x, float y, float scl, float frame){
+        public void drawShockwave(float x, float y, float scl, float radOffset, float thick, float frame){
             if(!(frame <= 0)) {
                 var opposite = 1f - frame;
-                circles(x, y, (size * tilesize / 2f + 1f) * scl * frame, 20f * opposite, Color.white);
+                circles(x, y, (size * tilesize / 2f + 1f) * radOffset * scl * frame, thick * opposite, Color.white);
             }
         }
 
         public void circles(float x, float y, float rad, float thickness, Color color){
-            Lines.stroke(3f + thickness, Pal.gray);
-            Lines.circle(x, y, rad);
+            //Lines.stroke(3f + thickness, Pal.gray);
+            //Lines.circle(x, y, rad);
             Lines.stroke(thickness, color);
             Lines.circle(x, y, rad);
             Draw.reset();
