@@ -28,6 +28,7 @@ import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.heat.*;
 import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
+import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.blocks.storage.StorageBlock;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
@@ -35,6 +36,7 @@ import mindustry.world.meta.*;
 import static classicMod.content.ClassicBullets.*;
 import static classicMod.content.ClassicSounds.*;
 import static classicMod.content.ClassicUnitTypes.*;
+import static mindustry.content.Blocks.coreBastion;
 import static mindustry.type.ItemStack.*;
 
 public class ClassicBlocks {
@@ -69,12 +71,12 @@ public class ClassicBlocks {
 
     thermalPump, //Pump - Old Content [v6]
 
-    warheadAssembler, ballisticSilo, nuclearWarhead, //Nuclear - Prototype [v7-dev] TODO what to do with this
+    warheadAssembler, ballisticSilo, nuclearWarhead, //Nuclear - Prototype [v7-dev] TODO make it work
     shieldProjector, shieldBreaker, largeShieldProjector, barrierProjector, //Projectors - Erekir - Prototype [v7-dev]
     heatReactor, //Heat Producers - Erekir - Prototype [v7-dev]
     //cellSynthesisChamber, //Liquid Converter - Erekir - Prototype [v7-dev]
     slagCentrifuge, cellSynthesisChamber, //Generic Crafters - Erekir - Prototype [v7-dev]
-    reinforcedSafe, //Storage - Erekir - Prototype [v7-dev]
+    reinforcedSafe, coreTin, //Storage - Erekir - Prototype [v7-dev]
 
     droneCenter, payloadLaunchpad, commandCenter, //TEMPORARY TESTING
 
@@ -1487,5 +1489,17 @@ public class ClassicBlocks {
             }
 
         };
+
+        coreTin = new CoreBlock("core-tin"){{
+
+            requirements(Category.effect, ItemStack.mult(coreBastion.requirements, 0.5f));
+
+            unitType = UnitTypes.alpha;
+            health = coreBastion.health / 2;
+            itemCapacity = coreBastion.itemCapacity / 2; //TODO more or less?
+            size = 3;
+
+            unitCapModifier = 10;
+        }};
     }
 }
