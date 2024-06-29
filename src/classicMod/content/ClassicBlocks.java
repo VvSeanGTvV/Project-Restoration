@@ -535,8 +535,8 @@ public class ClassicBlocks {
             }
         };
 
-        salvoAlpha = new ItemTurretV6("alpha-salvo"){{
-            requirements(Category.turret, with(ClassicItems.tungstenOld, 210, Items.carbide, 190, Items.thorium, 130));
+        /*salvoAlpha = new ItemTurretV6("alpha-salvo"){{
+            requirements(Category.turret, with(Items.tungsten, 210, Items.carbide, 190, Items.thorium, 130));
             ammo(
                     Items.copper,  new BasicBulletType(2.5f, 11){{
                         width = 7f;
@@ -595,7 +595,7 @@ public class ClassicBlocks {
             shoot.shotDelay = 4;
             shoot.shots = 3;
             ammoUseEffect = ExtendedFx.shellEjectBig;
-        }};
+        }};*/
 
         fuseMKII = new ItemTurretV6("fuse-surge"){{
             requirements(Category.turret, ItemStack.with(Items.copper, 450, Items.graphite, 450, Items.surgeAlloy, 220));
