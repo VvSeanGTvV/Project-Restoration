@@ -432,7 +432,8 @@ public class NewAccelerator extends Block{
         }
 
         public void drawShockwave(float x, float y, float scl, float frame){
-            circles(x, y, 5f * (size * tilesize/2f + 1f) * scl * frame, 10f * frame, Color.white);
+            var opposite = 1f - frame;
+            circles(x, y, 5f * (size * tilesize/2f + 1f) * scl * frame, 20f * opposite, Color.white);
         }
 
         public void circles(float x, float y, float rad, float thickness, Color color){
