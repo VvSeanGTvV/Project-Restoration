@@ -51,7 +51,7 @@ public class NewAccelerator extends Block{
     public Sector Destination = SectorPresets.onset.sector;
     public int[] capacities = {};
 
-    public float launchTime = 60f * 5f;
+    public float launchTime = 60f * 10f;
 
     public float thrusterLength = 14f/4f;
     protected static final float[] thrusterSizes = {0f, 0f, 0.15f, 0.3f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f};
@@ -85,18 +85,22 @@ public class NewAccelerator extends Block{
     @Override
     public void setStats() {
         super.setStats();
-        
+
         stats.add(ExtendedStat.launchSector, table -> {
             table.row();
             table.table(Styles.grayPanel, t -> {
                 t.table(infoSector -> {
-                    infoSector.add(getStatBundle.get("sector-land")).row();
-                    infoSector.add(Destination.preset.localizedName + ", ");
-                    infoSector.add(Destination.planet.localizedName).color(Destination.planet.iconColor).row();
+                    infoSector.add(getStatBundle.get("sector-land")).center().row();
+
+                    infoSector.image(Icon.icons.get(Destination.planet.icon + "Small", Icon.icons.get(Destination.planet.icon, Icon.commandRallySmall))).color(Destination.planet.iconColor);
+                    infoSector.add(Destination.planet.localizedName);
+                    infoSector.add(" : ");
+                    infoSector.add(Destination.preset.localizedName).row();
+
                 }).left().pad(10f).row();
 
                 t.table(coreInfo -> {
-                    coreInfo.image(launching.uiIcon).size(40).left().scaling(Scaling.fit);
+                    coreInfo.image(launching.uiIcon).size(40).pad(2.5f).left().scaling(Scaling.fit);
                     coreInfo.table(info -> {
                         info.add(getStatBundle.get("starting-core")).color(Pal.accent).row();
                         info.add(launching.localizedName);
@@ -104,7 +108,7 @@ public class NewAccelerator extends Block{
                 }).left().pad(10f).row();
 
                 t.table(info -> {
-                    info.add(Core.bundle.get("stat.launchtime")).row();
+                    info.add(getStatBundle.get("sector-launchtime")).row();
                     info.add(Strings.autoFixed(launchTime / 60f, 1) + " " + Core.bundle.get("unit.seconds")).color(Color.lightGray);
                 }).left().pad(10f).row();
             });
@@ -407,10 +411,10 @@ public class NewAccelerator extends Block{
             drawLandingThrusters(x, y, rotation, thrusterFrame);
             Draw.alpha(1f);
 
-
-            if(launchpadTimer >= 0.25f && launchpadTimer <= 0.27f){
-                Fx.shockwave.at(this);
+            if(launchpadTimer >= 0.25f) {
+                drawShockwave(x, y, scl, 1f - Mathf.clamp(launchpadTimer * 2f));
             }
+
 
             if(launchpadPrepTimer >= 0.05f) {
                 tile.getLinkedTiles(t -> {
@@ -423,6 +427,10 @@ public class NewAccelerator extends Block{
             Draw.color();
             Draw.scl();
             Draw.reset();
+        }
+
+        public void drawShockwave(float x, float y, float scl, float frame){
+            Drawf.circles(x, y, 5f * (size * tilesize/2f + 1f) * scl * frame, Color.white);
         }
 
         public void drawThrusters(float x, float y, float rotation, float frame){
