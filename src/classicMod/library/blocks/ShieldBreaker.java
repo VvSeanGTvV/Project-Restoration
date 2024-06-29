@@ -46,7 +46,7 @@ public class ShieldBreaker extends Block{
 
     @Override
     protected TextureRegion[] icons() {
-        return new TextureRegion[]{Core.atlas.find(name), Core.atlas.find(name + "-team")};
+        return new TextureRegion[]{Core.atlas.find(name), Core.atlas.find(name + "-team-" + "sharded")};
     }
 
     @Override

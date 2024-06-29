@@ -966,7 +966,14 @@ public class ClassicBlocks {
             envEnabled |= Env.space;
 
             consumePower(4f);
-        }};
+        }
+
+            @Override
+            public TextureRegion[] icons() {
+                return new TextureRegion[]{region, Core.atlas.find(name + "-team-" + "sharded")};
+            }
+
+        };
 
         shieldProjector = new BaseShield("shield-projector"){{
             category = Category.effect;
@@ -976,7 +983,14 @@ public class ClassicBlocks {
             generatedIcons = new TextureRegion[]{Core.atlas.find(name), Core.atlas.find(name + "-team")};
 
             consumePower(5f);
-        }};
+        }
+
+            @Override
+            public TextureRegion[] icons() {
+                return new TextureRegion[]{region, Core.atlas.find(name + "-team-" + "sharded")};
+            }
+
+        };
 
         shieldBreaker = new ShieldBreaker("shield-breaker"){{ //TODO fix break block bugs
             requirements(Category.effect, with(Items.tungsten, 700, Items.graphite, 620, Items.silicon, 250));
@@ -988,7 +1002,14 @@ public class ClassicBlocks {
             scaledHealth = 120f;
 
             consumeItem(Items.tungsten, 100);
-        }};
+        }
+
+            @Override
+            public TextureRegion[] icons() {
+                return new TextureRegion[]{region, Core.atlas.find(name + "-team-" + "sharded")};
+            }
+
+        };
 
         largeShieldProjector = new BaseShield("large-shield-projector"){{
             requirements(Category.effect, ItemStack.mult(shieldProjector.requirements,2));
@@ -998,7 +1019,14 @@ public class ClassicBlocks {
             generatedIcons = new TextureRegion[]{Core.atlas.find(name), Core.atlas.find(name + "-team")};
 
             consumePower(5f);
-        }};
+        }
+
+            @Override
+            public TextureRegion[] icons() {
+                return new TextureRegion[]{region, Core.atlas.find(name + "-team-" + "sharded")};
+            }
+
+        };
 
         //Crafting
         heatReactor = new HeatProducer("heat-reactor"){{
@@ -1500,6 +1528,13 @@ public class ClassicBlocks {
             size = 3;
 
             unitCapModifier = 10;
-        }};
+        }
+
+            @Override
+            public TextureRegion[] icons() {
+                return new TextureRegion[]{region, Core.atlas.find(name + "-team-" + "sharded")};
+            }
+
+        };
     }
 }
