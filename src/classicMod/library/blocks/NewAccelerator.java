@@ -384,6 +384,7 @@ public class NewAccelerator extends Block{
 
             float thrusterSize = Mathf.sample(thrusterSizes, launchpadPrepTimer);
 
+            float size = launching.size;
             float strength = (1f + (size - 3)/2.5f) * scl * thrusterSize * (0.95f + Mathf.absin(2f, 0.1f));
             float offset = (size - 3) * 3f * scl;
 
