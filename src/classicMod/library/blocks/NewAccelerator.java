@@ -412,7 +412,7 @@ public class NewAccelerator extends Block{
             Draw.alpha(1f);
 
             drawShockwave(x, y, scl, 7.5f, 10f, Mathf.clamp(shockwaveTimer * 4f));
-            drawShockwave(x, y, scl, 5f, 20f, Mathf.clamp(shockwaveTimer * 2f));
+            drawShockwave(x, y, scl, 6f, 20f, Mathf.clamp(shockwaveTimer * 3f));
 
             if(launchpadPrepTimer >= 0.05f) {
                 tile.getLinkedTiles(t -> {
