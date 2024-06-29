@@ -92,10 +92,12 @@ public class NewAccelerator extends Block{
                 t.table(infoSector -> {
                     infoSector.add(getStatBundle.get("sector-land")).row();
                     //infoSector.image(Icon.icons.get(Destination.planet.icon + "Small", Icon.icons.get(Destination.planet.icon, Icon.commandRallySmall))).color(Destination.planet.iconColor);
-                    infoSector.add(Destination.planet.localizedName).color(Destination.planet.iconColor);
-                    infoSector.add(" : ");
-                    infoSector.add(Destination.preset.localizedName).row();
-
+                    infoSector.table(details -> {
+                        details.image(Icon.icons.get(Destination.planet.icon + "Small", Icon.icons.get(Destination.planet.icon, Icon.commandRallySmall))).color(Destination.planet.iconColor);
+                        details.add(Destination.planet.localizedName).color(Destination.planet.iconColor);
+                        details.add(" : ");
+                        details.add(Destination.preset.localizedName).row();
+                    });
                 }).left().pad(10f).row();
 
                 t.table(coreInfo -> {
@@ -120,7 +122,7 @@ public class NewAccelerator extends Block{
         public @Nullable BlockUnitc unit;
 
         //counter
-        public float launchAnimation, launchOppositeAnimation, zoomStyle, launchpadTimer, launchpadPrepTimer;
+        public float launchAnimation, launchOppositeAnimation, zoomStyle, launchpadTimer, launchpadPrepTimer, shockwaveTimer;
         int stageLaunch = 0;
         public UnitController origin;
         public Unit originUnit;
@@ -206,11 +208,11 @@ public class NewAccelerator extends Block{
                     zoomStyle = Interp.pow3In.apply(Scl.scl(0.02f), Scl.scl(4f), 1f - launchpadTimer);
                     launchpadPrepTimer = Mathf.clamp(launchpadPrepTimer + 0.0035f * Time.delta);
                     if(launchpadPrepTimer >= 0.25f) launchpadTimer = Mathf.clamp(launchpadTimer + 0.0075f * Time.delta);
-                    if(launchpadTimer >= 0.5f) stageLaunch += 1;
+                    if(launchpadTimer >= 0.6f) stageLaunch += 1;
+                    if(launchpadTimer >= 0.25f) shockwaveTimer = Mathf.clamp(launchpadTimer + 0.01f * Time.delta);
                 }
                 if(stageLaunch >= 2){
                     StartNewPlanet(Destination);
-
                 }
             } else if (progress <= 0 && StartAnimation) {
                 player.clearUnit();
@@ -410,13 +412,8 @@ public class NewAccelerator extends Block{
             drawLandingThrusters(x, y, rotation, thrusterFrame);
             Draw.alpha(1f);
 
-            if(launchpadTimer >= 0.15f) {
-                drawShockwave(x, y, scl, Mathf.clamp(launchpadTimer * 4f));
-                if(launchpadTimer >= 0.25f) {
-                    drawShockwave(x, y, scl, Mathf.clamp(launchpadTimer * 2f));
-                }
-            }
-
+            drawShockwave(x, y, scl, Mathf.clamp(shockwaveTimer * 4f));
+            drawShockwave(x, y, scl, Mathf.clamp(shockwaveTimer * 2f));
 
             if(launchpadPrepTimer >= 0.05f) {
                 tile.getLinkedTiles(t -> {
