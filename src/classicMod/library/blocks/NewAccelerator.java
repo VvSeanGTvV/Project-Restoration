@@ -369,7 +369,7 @@ public class NewAccelerator extends Block{
                 }
 
                 Draw.reset();
-                DrawCoreLaunchLikeLaunchpod();
+                DrawCoreLaunch();
                 
                 //Drawf.additive(launching.uiIcon, bruh, x, y);
             }
@@ -389,7 +389,7 @@ public class NewAccelerator extends Block{
         }
 
         //damn
-        public void DrawCoreLaunchLikeLaunchpod(){
+        public void DrawCoreLaunch(){
 
             float thrustTimer = Interp.pow2In.apply(Mathf.clamp(launchpadPrepTimer));
             //float cx = cx(), cy = y;
@@ -428,8 +428,8 @@ public class NewAccelerator extends Block{
             drawLandingThrusters(x, y, rotation, thrusterFrame);
             Draw.alpha(1f);
 
-            drawShockwave(x, y, scl, 5f, 20f, Mathf.clamp(shockwaveTimer * 4f));
-            drawShockwave(x, y, scl, 4f, 40f, Mathf.clamp(shockwaveTimer * 3f));
+            drawShockwave(x, y, scl, 6f, 50f, Mathf.clamp(shockwaveTimer * 4f));
+            drawShockwave(x, y, scl, 3f, 50f, Mathf.clamp(shockwaveTimer * 3f));
 
             if(launchpadPrepTimer >= 0.05f) {
                 tile.getLinkedTiles(t -> {
@@ -448,28 +448,15 @@ public class NewAccelerator extends Block{
             if(!(frame <= 0)) {
                 var opposite = 1f - frame;
                 Draw.alpha(opposite);
-                circles(x, y, (size * tilesize / 2f + 1f) * radOffset * scl * frame, thick * opposite, Color.white);
+                circles(x, y, radOffset * (size * tilesize / 2f + 1f) * scl * frame, thick * opposite, Color.white);
                 Draw.alpha(1f);
             }
         }
 
         public void circles(float x, float y, float rad, float thickness, Color color){
-            //Lines.stroke(3f + thickness, Pal.gray);
-            //Lines.circle(x, y, rad);
             Lines.stroke(thickness, color);
             Lines.circle(x, y, rad);
             Draw.reset();
-        }
-
-        public void drawThrusters(float x, float y, float rotation, float frame){
-            TextureRegion thruster1 = Core.atlas.find(launching.name + "-thruster1");
-            TextureRegion thruster2 = Core.atlas.find(launching.name + "-thruster2");
-            float length = thrusterLength * (frame - 1f) - 1f/4f;
-            for(int i = 0; i < 4; i++){
-                TextureRegion reg = i >= 2 ? thruster2 : thruster1;
-                float dx = Geometry.d4x[i] * length, dy = Geometry.d4y[i] * length;
-                Draw.rect(reg, x + dx, y + dy, i * 90 + rotation);
-            }
         }
 
         protected void drawLandingThrusters(float x, float y, float rotation, float frame){
@@ -510,8 +497,6 @@ public class NewAccelerator extends Block{
             Color epic = new Color(team.color.r, team.color.g, team.color.b, 1f - Mathf.clamp(blockLerp * 3f));
             if(efficiency > 0) {
                 Drawf.additive(launching.uiIcon, epic, x, y);
-                //Draw.color(epic);
-                //Draw.rect(launching.uiIcon, x, y);
             }
             Draw.reset();
         }
@@ -534,47 +519,15 @@ public class NewAccelerator extends Block{
             Events.fire(new SectorLaunchEvent(to));
             control.playSector(to);
             reset = true;
+            renderer.setScale(Scl.scl(zoomStyle));
         }
 
         @Override
         public void buildConfiguration(Table table){
-            //deselect();
-
             if(isControlled()) deselect();
             if(!state.isCampaign() || efficiency <= 0f) return;
-
-            //ui.showInfo("This Block does not work or does not have a video implemented into this! Please check back for Update!");
-
-            //ui.campaignComplete.show(Planets.serpulo);
             table.button(Icon.upOpen, Styles.cleari, () -> {
-                //state.rules.sector.info.destination = Destination;
-                //TODO cutscene, etc...
-
                 launchingStartup = true;
-                //Save before heading
-                /*if(control.saves.getCurrent() != null && Vars.state.isGame()){
-                    try{
-                        control.saves.getCurrent().save();
-                    }catch(Throwable e){
-                        e.printStackTrace();
-                        ui.showException("[accent]" + Core.bundle.get("savefail"), e);
-                    }
-                }
-                Events.fire(new SectorLaunchEvent(Destination));
-                control.playSector(Destination);
-                */
-                /*ui.planet.showPlanetLaunch(state.rules.sector, sector -> {
-                    //TODO cutscene, etc...
-
-                    //TODO should consume resources based on destination schem
-
-
-                    consume();
-
-                    universe.clearLoadoutInfo();
-                    universe.updateLoadout(sector.planet.generator.defaultLoadout.findCore(), sector.planet.generator.defaultLoadout);
-                });*/
-
                 deselect();
             }).size(40f);
 
