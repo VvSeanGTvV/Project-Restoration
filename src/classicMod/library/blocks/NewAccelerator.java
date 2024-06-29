@@ -205,17 +205,18 @@ public class NewAccelerator extends Block{
                 StartAnimation = true;
                 //unit.spawnedByCore(false);
                 renderer.setScale(Scl.scl(zoomStyle));
+                var maxScaleZoom = (Vars.mobile) ? Core.graphics.getAspect() : 4f;
                 launchAnimation = Mathf.clamp(launchAnimation + 0.0025f * Time.delta);
                 if(launchAnimation >= 1f && stageLaunch < 1){ stageLaunch += 1; launchAnimation = 0f; }
                 if(stageLaunch == 0){
                     launchOppositeAnimation = 1f;
-                    zoomStyle = Interp.pow3In.apply(Scl.scl(2f), Scl.scl(4f), Mathf.clamp(launchAnimation * 6f));
+                    zoomStyle = Interp.pow3In.apply(Scl.scl(2f), Scl.scl(maxScaleZoom), Mathf.clamp(launchAnimation * 6f));
                 }
                 if(stageLaunch == 1){
                     launchOppositeAnimation = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta);
                     if(launchAnimation < 0.01f){ Effect.shake(3f, 3f, this); }
 
-                    zoomStyle = Interp.pow3In.apply(Scl.scl(0.02f), Scl.scl(4f), 1f - launchpadTimer);
+                    zoomStyle = Interp.pow3In.apply(Scl.scl(0.02f), Scl.scl(maxScaleZoom), 1f - launchpadTimer);
                     launchpadPrepTimer = Mathf.clamp(launchpadPrepTimer + 0.0035f * Time.delta);
 
                     if(launchpadPrepTimer >= 0.25f) launchpadTimer = Mathf.clamp(launchpadTimer + 0.0075f * Time.delta);
