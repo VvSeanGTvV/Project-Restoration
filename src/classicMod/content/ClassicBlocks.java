@@ -76,7 +76,7 @@ public class ClassicBlocks {
     heatReactor, //Heat Producers - Erekir - Prototype [v7-dev]
     //cellSynthesisChamber, //Liquid Converter - Erekir - Prototype [v7-dev]
     slagCentrifuge, cellSynthesisChamber, //Generic Crafters - Erekir - Prototype [v7-dev]
-    reinforcedSafe, coreTin, //Storage - Erekir - Prototype [v7-dev]
+    reinforcedSafe, coreAegis, //Storage - Erekir - Prototype [v7-dev]
 
     droneCenter, payloadLaunchpad, commandCenter, //TEMPORARY TESTING
 
@@ -1518,7 +1518,7 @@ public class ClassicBlocks {
 
         };
 
-        coreTin = new CoreBlock("core-tin"){{
+        coreAegis = new CoreBlock("core-aegis"){{
 
             requirements(Category.effect, ItemStack.mult(coreBastion.requirements, 0.5f));
 
