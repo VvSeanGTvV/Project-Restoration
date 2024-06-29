@@ -353,7 +353,6 @@ public class NewAccelerator extends Block{
 
                 Draw.reset();
                 DrawCoreLaunchLikeLaunchpod();
-
                 
                 //Drawf.additive(launching.uiIcon, bruh, x, y);
             }
@@ -429,8 +428,10 @@ public class NewAccelerator extends Block{
         }
 
         public void drawShockwave(float x, float y, float scl, float frame){
-            var opposite = 1f - frame;
-            circles(x, y, 5f * (size * tilesize/2f + 1f) * scl * frame, 20f * opposite, Color.white);
+            if(!(frame <= 0)) {
+                var opposite = 1f - frame;
+                circles(x, y, (size * tilesize / 2f + 1f) * scl * frame, 20f * opposite, Color.white);
+            }
         }
 
         public void circles(float x, float y, float rad, float thickness, Color color){
