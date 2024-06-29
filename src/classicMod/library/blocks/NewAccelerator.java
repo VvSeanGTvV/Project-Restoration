@@ -194,7 +194,7 @@ public class NewAccelerator extends Block{
                 if(launchAnimation >= 1f && stageLaunch < 1){ stageLaunch += 1; launchAnimation = 0f; }
                 if(stageLaunch == 0){
                     launchOppositeAnimation = 1f;
-                    zoomStyle = Scl.scl(0.02f);
+                    zoomStyle = Scl.scl(2f);
                 }
                 if(stageLaunch == 1){
                     launchOppositeAnimation = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta);
