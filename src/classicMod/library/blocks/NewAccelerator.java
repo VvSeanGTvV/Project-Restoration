@@ -90,10 +90,9 @@ public class NewAccelerator extends Block{
             table.row();
             table.table(Styles.grayPanel, t -> {
                 t.table(infoSector -> {
-                    infoSector.add(getStatBundle.get("sector-land")).center().row();
-
-                    infoSector.image(Icon.icons.get(Destination.planet.icon + "Small", Icon.icons.get(Destination.planet.icon, Icon.commandRallySmall))).color(Destination.planet.iconColor);
-                    infoSector.add(Destination.planet.localizedName);
+                    infoSector.add(getStatBundle.get("sector-land")).row();
+                    //infoSector.image(Icon.icons.get(Destination.planet.icon + "Small", Icon.icons.get(Destination.planet.icon, Icon.commandRallySmall))).color(Destination.planet.iconColor);
+                    infoSector.add(Destination.planet.localizedName).color(Destination.planet.iconColor);
                     infoSector.add(" : ");
                     infoSector.add(Destination.preset.localizedName).row();
 
