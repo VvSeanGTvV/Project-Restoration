@@ -201,14 +201,10 @@ public class NewAccelerator extends Block{
                     if(launchAnimation < 0.01f){ Effect.shake(3f, 3f, this); }
                     zoomStyle = Interp.pow3In.apply(Scl.scl(0.02f), Scl.scl(4f), 1f - launchpadTimer);
                     launchpadPrepTimer = Mathf.clamp(launchpadPrepTimer + 0.0035f * Time.delta);
-                    if(launchpadPrepTimer >= 0.25f)launchpadTimer = Mathf.clamp(launchpadTimer + 0.0075f * Time.delta);
+                    if(launchpadPrepTimer >= 0.25f) launchpadTimer = Mathf.clamp(launchpadTimer + 0.0075f * Time.delta);
                     if(launchpadTimer >= 0.5f) stageLaunch += 1;
                 }
                 if(stageLaunch >= 2){
-                    launchpadTimer = 0;
-                    launchAnimation = 0;
-                    StartAnimation = false;
-                    progress = 0;
                     StartNewPlanet(Destination);
 
                 }
@@ -411,6 +407,10 @@ public class NewAccelerator extends Block{
             Draw.alpha(1f);
 
 
+            if(launchpadTimer >= 0.25f && launchpadTimer <= 0.27f){
+                Fx.shockwave.at(this);
+            }
+
             if(launchpadPrepTimer >= 0.05f) {
                 tile.getLinkedTiles(t -> {
                     if (Mathf.chance(0.4f * Mathf.clamp(launchpadTimer * 1.5f))) {
@@ -493,8 +493,14 @@ public class NewAccelerator extends Block{
                     ui.showException("[accent]" + Core.bundle.get("savefail"), e);
                 }
             }
+
             Events.fire(new SectorLaunchEvent(to));
             control.playSector(to);
+
+            launchpadTimer = 0;
+            launchAnimation = 0;
+            StartAnimation = false;
+            progress = 0;
         }
 
         @Override
