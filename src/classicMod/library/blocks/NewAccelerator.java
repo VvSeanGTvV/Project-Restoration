@@ -194,7 +194,7 @@ public class NewAccelerator extends Block{
                 if(launchAnimation >= 1f && stageLaunch < 1){ stageLaunch += 1; launchAnimation = 0f; }
                 if(stageLaunch == 0){
                     launchOppositeAnimation = 1f;
-                    zoomStyle = Interp.pow3In.apply(Scl.scl(5f), Scl.scl(0.02f), 1f - launchAnimation);;
+                    zoomStyle = Scl.scl(0.02f);
                 }
                 if(stageLaunch == 1){
                     launchOppositeAnimation = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta);
@@ -392,11 +392,11 @@ public class NewAccelerator extends Block{
             for(int i = 0; i < 4; i++){
                 Tmp.v1.trns(i * 90 + rotation, 1f);
 
-                Tmp.v1.setLength((size + 1f)*scl + strength*2f + offset);
+                Tmp.v1.setLength((size * tilesize/2f + 1f)*scl + strength*2f + offset);
                 Draw.color(Pal.accent);
                 Fill.circle(Tmp.v1.x + x, Tmp.v1.y + y, 6f * strength);
 
-                Tmp.v1.setLength((size + 1f)*scl + strength*0.5f + offset);
+                Tmp.v1.setLength((size * tilesize/2f + 1f)*scl + strength*0.5f + offset);
                 Draw.color(Color.white);
                 Fill.circle(Tmp.v1.x + x, Tmp.v1.y + y, 3.5f * strength);
             }
@@ -409,9 +409,10 @@ public class NewAccelerator extends Block{
             drawLandingThrusters(x, y, rotation, thrusterFrame);
             Draw.alpha(1f);
 
-            if(launchpadPrepTimer >= 0.25f) {
+
+            if(launchpadPrepTimer >= 0.05f) {
                 tile.getLinkedTiles(t -> {
-                    if (Mathf.chance(0.4f)) {
+                    if (Mathf.chance(0.4f * Mathf.clamp(launchpadTimer * 1.5f))) {
                         Fx.coreLandDust.at(t.worldx(), t.worldy(), angleTo(t.worldx(), t.worldy()) + Mathf.range(30f), Tmp.c1.set(t.floor().mapColor).mul(1.5f + Mathf.range(0.15f)));
                     }
                 });
