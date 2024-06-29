@@ -214,8 +214,10 @@ public class NewAccelerator extends Block{
                 if(stageLaunch == 1){
                     launchOppositeAnimation = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta);
                     if(launchAnimation < 0.01f){ Effect.shake(3f, 3f, this); }
+                    
                     zoomStyle = Interp.pow3In.apply(Scl.scl(0.02f), Scl.scl(4f), 1f - launchpadTimer);
                     launchpadPrepTimer = Mathf.clamp(launchpadPrepTimer + 0.0035f * Time.delta);
+
                     if(launchpadPrepTimer >= 0.25f) launchpadTimer = Mathf.clamp(launchpadTimer + 0.0075f * Time.delta);
                     if(launchpadTimer >= 0.5f) stageLaunch += 1;
                     if(launchpadTimer >= 0.25f) shockwaveTimer = Mathf.clamp(launchpadTimer + 0.01f * Time.delta);
@@ -350,8 +352,6 @@ public class NewAccelerator extends Block{
                 var Opposite = (1f - Mathf.clamp(launchOppositeAnimation));
 
                 Draw.z(Layer.bullet - 0.0001f);
-                //Lines.stroke(1.75f, Pal.accent);
-                //Lines.square(x, y, rad * 1.22f, 45f);
                 for (int i = 1; i < 5; i++) {
                     var bop = i * 1.5f;
                     var stroke = warpSquareStroke * (strokeScaling * i);
@@ -376,7 +376,7 @@ public class NewAccelerator extends Block{
         }
 
 
-        float cx(){
+        /*float cx(){
             return x + Interp.pow2In.apply(launchpadTimer) * (12f + Mathf.randomSeedRange(id() + 3, 4f));
         }
 
@@ -386,7 +386,7 @@ public class NewAccelerator extends Block{
 
         float fslope(){
             return (0.5f - Math.abs(launchpadTimer - 0.5f)) * 2f;
-        }
+        }*/
 
         //damn
         public void DrawCoreLaunch(){
@@ -456,7 +456,6 @@ public class NewAccelerator extends Block{
         public void circles(float x, float y, float rad, float thickness, Color color){
             Lines.stroke(thickness, color);
             Lines.circle(x, y, rad);
-            Draw.reset();
         }
 
         protected void drawLandingThrusters(float x, float y, float rotation, float frame){
