@@ -373,8 +373,8 @@ public class NewAccelerator extends Block{
         //damn
         public void DrawCoreLaunchLikeLaunchpod(){
 
-            float thrustTimer = Interp.pow2In.apply(Mathf.clamp(launchpadPrepTimer * 2f));
-            float cx = cx(), cy = y;
+            float thrustTimer = Interp.pow2In.apply(Mathf.clamp(launchpadPrepTimer));
+            //float cx = cx(), cy = y;
             float rotation = launchpadTimer * (130f + Mathf.randomSeedRange(id(), 50f));
             float thrustOpen = 0.25f;
             float thrusterFrame = thrustTimer >= thrustOpen ? 1f : thrustTimer / thrustOpen;
@@ -394,19 +394,19 @@ public class NewAccelerator extends Block{
 
                 Tmp.v1.setLength((size + 1f)*scl + strength*2f + offset);
                 Draw.color(Pal.accent);
-                Fill.circle(Tmp.v1.x + cx, Tmp.v1.y + y, 6f * strength);
+                Fill.circle(Tmp.v1.x + x, Tmp.v1.y + y, 6f * strength);
 
                 Tmp.v1.setLength((size + 1f)*scl + strength*0.5f + offset);
                 Draw.color(Color.white);
-                Fill.circle(Tmp.v1.x + cx, Tmp.v1.y + y, 3.5f * strength);
+                Fill.circle(Tmp.v1.x + x, Tmp.v1.y + y, 3.5f * strength);
             }
 
-            drawLandingThrusters(cx, y, rotation, thrusterFrame);
+            drawLandingThrusters(x, y, rotation, thrusterFrame);
 
-            Drawf.spinSprite(launching.fullIcon, cx, y, rotation);
+            Drawf.spinSprite(launching.fullIcon, x, y, rotation);
 
             Draw.alpha(Interp.pow4In.apply(thrusterFrame));
-            drawLandingThrusters(cx, y, rotation, thrusterFrame);
+            drawLandingThrusters(x, y, rotation, thrusterFrame);
             Draw.alpha(1f);
 
             if(launchpadPrepTimer >= 0.25f) {
