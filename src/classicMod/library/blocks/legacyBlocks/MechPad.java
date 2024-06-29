@@ -53,6 +53,7 @@ public class MechPad extends Block{
 
         stats.remove(Stat.itemCapacity);
         stats.remove(Stat.input);
+        stats.add(Stat.productionTime, buildTime/60f, StatUnit.seconds);
         stats.add(Stat.output, table -> {
             table.table(Styles.none, t -> {
                 if(unitType.isBanned()){

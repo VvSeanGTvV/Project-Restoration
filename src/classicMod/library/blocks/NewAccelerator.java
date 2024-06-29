@@ -85,27 +85,28 @@ public class NewAccelerator extends Block{
     @Override
     public void setStats() {
         super.setStats();
-
-        //stats.add(Stat.launchTime, launchTime);
-        stats.add(ExtendedStat.launchPlanet, table -> {
+        
+        stats.add(ExtendedStat.launchSector, table -> {
             table.row();
             table.table(Styles.grayPanel, t -> {
-                t.add(Destination.planet.localizedName).color(Destination.planet.iconColor).row();
-                t.row();
+                t.table(infoSector -> {
+                    infoSector.add(getStatBundle.get("sector-land")).row();
+                    infoSector.add(Destination.preset.localizedName + ", ");
+                    infoSector.add(Destination.planet.localizedName).color(Destination.planet.iconColor).row();
+                }).left().pad(10f).row();
 
-                t.image(launching.uiIcon).size(40).left().scaling(Scaling.fit);
                 t.table(coreInfo -> {
-                    //coreInfo.image(launching.uiIcon).size(40).pad(2.5f).left().scaling(Scaling.fit);
-                    coreInfo.add(getStatBundle.get("starting-core")).color(Pal.accent).row();
-                    coreInfo.add(launching.localizedName);
-                }).left().pad(10f);
+                    coreInfo.image(launching.uiIcon).size(40).left().scaling(Scaling.fit);
+                    coreInfo.table(info -> {
+                        info.add(getStatBundle.get("starting-core")).color(Pal.accent).row();
+                        info.add(launching.localizedName);
+                    });
+                }).left().pad(10f).row();
 
-                t.row();
                 t.table(info -> {
                     info.add(Core.bundle.get("stat.launchtime")).row();
                     info.add(Strings.autoFixed(launchTime / 60f, 1) + " " + Core.bundle.get("unit.seconds")).color(Color.lightGray);
-                }).left().pad(10f);
-
+                }).left().pad(10f).row();
             });
         });
         //stats.add(Strings.autoFixed(launchTime / 60f, 1) + " " + Core.bundle.get("unit.seconds")).color(Color.lightGray);

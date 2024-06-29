@@ -13,7 +13,7 @@ public class ExtendedStat {
             inbetweenTeleport = new Stat("inbetween-teleport", StatCat.items),
             burnTime = new Stat("burn-time", StatCat.crafting),
             canBreak = new Stat("can-break", StatCat.function),
-            launchPlanet = new Stat("launch-planet", StatCat.function),
+            launchSector = new Stat("launch-sector", StatCat.function),
             tierLevel = new Stat("unit-level")
     ;
 

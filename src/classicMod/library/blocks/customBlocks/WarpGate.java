@@ -28,6 +28,7 @@ import static arc.Core.*;
 import static arc.math.Mathf.rand;
 import static mindustry.Vars.*;
 
+//TODO make this more functional
 public class WarpGate extends Block {
 
     protected static final Color[] selection = new Color[]{Color.royal, Color.orange, Color.scarlet, Color.forest, Color.purple, Color.gold, Color.pink, Color.white};
