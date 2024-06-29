@@ -200,7 +200,7 @@ public class NewAccelerator extends Block{
                 if(launchAnimation >= 1f && stageLaunch < 1){ stageLaunch += 1; launchAnimation = 0f; }
                 if(stageLaunch == 0){
                     launchOppositeAnimation = 1f;
-                    zoomStyle = Interp.pow3In.apply(Scl.scl(2f), Scl.scl(4f), Mathf.clamp(launchAnimation * 4f));
+                    zoomStyle = Interp.pow3In.apply(Scl.scl(2f), Scl.scl(4f), Mathf.clamp(launchAnimation * 6f));
                 }
                 if(stageLaunch == 1){
                     launchOppositeAnimation = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta);
@@ -338,7 +338,7 @@ public class NewAccelerator extends Block{
 
                 Draw.reset();
 
-                var Opposite = (1f - Mathf.clamp(launchAnimation * 2f));
+                var Opposite = (1f - Mathf.clamp(launchOppositeAnimation));
 
                 Draw.z(Layer.bullet - 0.0001f);
                 //Lines.stroke(1.75f, Pal.accent);
@@ -430,7 +430,9 @@ public class NewAccelerator extends Block{
         public void drawShockwave(float x, float y, float scl, float radOffset, float thick, float frame){
             if(!(frame <= 0)) {
                 var opposite = 1f - frame;
+                Draw.alpha(opposite);
                 circles(x, y, (size * tilesize / 2f + 1f) * radOffset * scl * frame, thick * opposite, Color.white);
+                Draw.alpha(1f);
             }
         }
 
