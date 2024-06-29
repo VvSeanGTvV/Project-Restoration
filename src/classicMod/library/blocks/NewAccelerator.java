@@ -507,6 +507,7 @@ public class NewAccelerator extends Block{
         }
 
         public void StartNewPlanet(Sector to){
+            renderer.setScale(Scl.scl(zoomStyle));
             if(control.saves.getCurrent() != null && Vars.state.isGame()){
                 try{
                     control.saves.getCurrent().save();
@@ -519,7 +520,6 @@ public class NewAccelerator extends Block{
             Events.fire(new SectorLaunchEvent(to));
             control.playSector(to);
             reset = true;
-            renderer.setScale(Scl.scl(zoomStyle));
         }
 
         @Override

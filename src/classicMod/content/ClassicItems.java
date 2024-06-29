@@ -8,7 +8,7 @@ import mindustry.type.*;
 public class ClassicItems extends Items {
     public static Item
             //v4 items
-            denseAlloy, tungstenOld,
+            denseAlloy,
 
             //v4 & Classic Hybrid Items
             stone,
@@ -20,10 +20,6 @@ public class ClassicItems extends Items {
     public static final Seq<Item> classicOnlyItems = new Seq<>();
 
     public static void load(){
-
-        tungstenOld = new Item("tungsten-old", Color.valueOf("a0b0c8")) {{
-            hardness = 1;
-        }};
 
         denseAlloy = new Item("dense-alloy", Color.valueOf("b2c6d2")){{
             cost = 1.2f;
