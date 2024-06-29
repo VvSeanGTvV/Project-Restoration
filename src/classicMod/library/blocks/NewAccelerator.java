@@ -410,8 +410,11 @@ public class NewAccelerator extends Block{
             drawLandingThrusters(x, y, rotation, thrusterFrame);
             Draw.alpha(1f);
 
-            if(launchpadTimer >= 0.25f) {
-                drawShockwave(x, y, scl, 1f - Mathf.clamp(launchpadTimer * 2f));
+            if(launchpadTimer >= 0.15f) {
+                drawShockwave(x, y, scl, Mathf.clamp(launchpadTimer * 4f));
+                if(launchpadTimer >= 0.25f) {
+                    drawShockwave(x, y, scl, Mathf.clamp(launchpadTimer * 2f));
+                }
             }
 
 
@@ -429,7 +432,15 @@ public class NewAccelerator extends Block{
         }
 
         public void drawShockwave(float x, float y, float scl, float frame){
-            Drawf.circles(x, y, 5f * (size * tilesize/2f + 1f) * scl * frame, Color.white);
+            circles(x, y, 5f * (size * tilesize/2f + 1f) * scl * frame, 10f * frame, Color.white);
+        }
+
+        public static void circles(float x, float y, float rad, float thickness, Color color){
+            Lines.stroke(3f + thickness, Pal.gray);
+            Lines.circle(x, y, rad);
+            Lines.stroke(thickness, color);
+            Lines.circle(x, y, rad);
+            Draw.reset();
         }
 
         public void drawThrusters(float x, float y, float rotation, float frame){
