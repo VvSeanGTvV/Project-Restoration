@@ -124,6 +124,7 @@ public class NewAccelerator extends Block{
         //counter
         public float launchAnimation, launchOppositeAnimation, zoomStyle, launchpadTimer, launchpadPrepTimer, shockwaveTimer;
         int stageLaunch = 0;
+        boolean reset;
         public UnitController origin;
         public Unit originUnit;
 
@@ -137,6 +138,14 @@ public class NewAccelerator extends Block{
         @Override
         public void updateTile(){
             super.updateTile();
+
+            if(reset){
+                launchpadTimer = 0;
+                launchAnimation = 0;
+                StartAnimation = false;
+                progress = 0;
+                reset = false;
+            }
 
             heat = Mathf.lerpDelta(heat, efficiency, 0.05f);
             statusLerp = Mathf.lerpDelta(statusLerp, power.status, 0.05f);
@@ -208,7 +217,7 @@ public class NewAccelerator extends Block{
                     zoomStyle = Interp.pow3In.apply(Scl.scl(0.02f), Scl.scl(4f), 1f - launchpadTimer);
                     launchpadPrepTimer = Mathf.clamp(launchpadPrepTimer + 0.0035f * Time.delta);
                     if(launchpadPrepTimer >= 0.25f) launchpadTimer = Mathf.clamp(launchpadTimer + 0.0075f * Time.delta);
-                    if(launchpadTimer >= 0.6f) stageLaunch += 1;
+                    if(launchpadTimer >= 0.5f) stageLaunch += 1;
                     if(launchpadTimer >= 0.25f) shockwaveTimer = Mathf.clamp(launchpadTimer + 0.01f * Time.delta);
                 }
                 if(stageLaunch >= 2){
@@ -351,6 +360,14 @@ public class NewAccelerator extends Block{
                     Lines.square(x, y, (rad * 1.22f * i) * Mathf.clamp(Opposite * 2f / bop), 90f);
                 }
 
+                for (int i = 1; i < 5; i++) {
+                    var bop = i * 1.5f;
+                    var stroke = warpSquareStroke * (strokeScaling * i);
+                    //var centre = i - (i * Mathf.clamp(Opposite));
+                    Lines.stroke(stroke * Mathf.clamp(launchOppositeAnimation * 2f / bop), Pal.accent);
+                    Lines.square(x, y, (rad * 1.22f * i) * Mathf.clamp(launchOppositeAnimation * 2f / bop), 90f);
+                }
+
                 Draw.reset();
                 DrawCoreLaunchLikeLaunchpod();
                 
@@ -411,8 +428,8 @@ public class NewAccelerator extends Block{
             drawLandingThrusters(x, y, rotation, thrusterFrame);
             Draw.alpha(1f);
 
-            drawShockwave(x, y, scl, 7.5f, 10f, Mathf.clamp(shockwaveTimer * 4f));
-            drawShockwave(x, y, scl, 6f, 20f, Mathf.clamp(shockwaveTimer * 3f));
+            drawShockwave(x, y, scl, 5f, 20f, Mathf.clamp(shockwaveTimer * 4f));
+            drawShockwave(x, y, scl, 4f, 40f, Mathf.clamp(shockwaveTimer * 3f));
 
             if(launchpadPrepTimer >= 0.05f) {
                 tile.getLinkedTiles(t -> {
@@ -516,11 +533,7 @@ public class NewAccelerator extends Block{
 
             Events.fire(new SectorLaunchEvent(to));
             control.playSector(to);
-
-            launchpadTimer = 0;
-            launchAnimation = 0;
-            StartAnimation = false;
-            progress = 0;
+            reset = true;
         }
 
         @Override
