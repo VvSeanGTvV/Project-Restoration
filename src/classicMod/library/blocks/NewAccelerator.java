@@ -214,7 +214,7 @@ public class NewAccelerator extends Block{
                 if(stageLaunch == 1){
                     launchOppositeAnimation = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta);
                     if(launchAnimation < 0.01f){ Effect.shake(3f, 3f, this); }
-                    
+
                     zoomStyle = Interp.pow3In.apply(Scl.scl(0.02f), Scl.scl(4f), 1f - launchpadTimer);
                     launchpadPrepTimer = Mathf.clamp(launchpadPrepTimer + 0.0035f * Time.delta);
 
