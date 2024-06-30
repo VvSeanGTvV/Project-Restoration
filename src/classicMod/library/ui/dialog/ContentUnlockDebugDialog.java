@@ -65,7 +65,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
 
                         info.table(yes -> {
                             yes.button("@lock", Content::clearUnlock).size(64f, 64f).pad(2.5f);
-                            yes.button("@unlock", Content::unlock).size(52.5f,, 64f).pad(2.5f);
+                            yes.button("@unlock", Content::unlock).size(64f, 64f).pad(2.5f);
                         }).right().pad(2.5f);
                     }).left();
                     row();
