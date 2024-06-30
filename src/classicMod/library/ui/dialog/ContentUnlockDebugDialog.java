@@ -36,7 +36,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                         info.table(yes -> {
                             yes.button("@lock", Content::clearUnlock).size(buttonWidth, buttonHeight).pad(2.5f);
                             yes.button("@unlock", Content::unlock).size(buttonWidth, buttonHeight).pad(2.5f);
-                        }).right().pad(2.5f);
+                        }).left().pad(2.5f);
                     }).left();
                     row();
                 }
@@ -53,7 +53,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                         info.table(yes -> {
                             yes.button("@lock", Content::clearUnlock).size(buttonWidth, buttonHeight).pad(2.5f);
                             yes.button("@unlock", Content::unlock).size(buttonWidth, buttonHeight).pad(2.5f);
-                        }).right().pad(2.5f);
+                        }).left().pad(2.5f);
                     }).left();
                     row();
                 }
@@ -71,7 +71,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                         info.table(yes -> {
                             yes.button("@lock", Content::clearUnlock).size(buttonWidth, buttonHeight).pad(2.5f);
                             yes.button("@unlock", Content::unlock).size(buttonWidth, buttonHeight).pad(2.5f);
-                        }).right().pad(2.5f);
+                        }).left().pad(2.5f);
                     }).left();
                     row();
                 }
@@ -89,7 +89,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                             yes.button("@lock", Content::clearUnlock).size(buttonWidth, buttonHeight).pad(2.5f);
                             yes.button("@unlock", Content::unlock).size(buttonWidth, buttonHeight).pad(2.5f);
                             yes.button("@launch-to", () -> StartSector(Content)).size(105f, 64f).pad(2.5f);
-                        }).right().pad(2.5f);
+                        }).left().pad(2.5f);
                     }).left();
                     row();
                 }
