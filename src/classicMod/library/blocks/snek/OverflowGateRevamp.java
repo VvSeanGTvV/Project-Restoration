@@ -72,11 +72,11 @@ public class OverflowGateRevamp extends Block {
             if (from == -1) return null;
             int[] allDirections = new int[]{
                     0, // Up -> Down
-                    1, // Left -> Right
+                    1, // Right -> Left
                     2, // Left -> Right
                     3  // Down -> Up
             };
-            Building to = fromBlock.nearby(from);
+            Building to = fromBlock.nearby(Mathf.mod(from + 2, 4));
             boolean canFoward = to != null && to.acceptItem(src, item) && to.team == team;
 
             if(!canFoward || flip){

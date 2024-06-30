@@ -123,7 +123,7 @@ public class SorterRevamp extends Block {
             int from = relativeToEdge(src.tile);
             if(from == -1) return null;
 
-            Building to = fromBlock.nearby(from);
+            Building to = fromBlock.nearby(Mathf.mod(from + 2, 4));
             boolean canFoward = (((item == sortItem) != invert) == enabled);
 
             if(!canFoward || flip){
