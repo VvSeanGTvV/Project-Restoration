@@ -124,8 +124,8 @@ public class SorterRevamp extends Block {
             Building to;
 
             Building[] Buildingthis = new Building[]{nearby(from), nearby(from + 2), nearby(from + 1), nearby(from + 3)};
-            Building a = Buildingthis[Mathf.mod(from + 1, 4)];
-            Building b = Buildingthis[Mathf.mod(from - 1, 4)];
+            Building a = Buildingthis[Mathf.mod(from - 1, 4)];
+            Building b = Buildingthis[Mathf.mod(from + 1, 4)];
             boolean okayA = a != null && a.team == team && a.acceptItem(this, item) && (((item == sortItem) != invert) == enabled);
             boolean okayB = b != null && b.team == team && b.acceptItem(this, item) && (((item == sortItem) != invert) == enabled);
             Log.info("sorter a "+a);
