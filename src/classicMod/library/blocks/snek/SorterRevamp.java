@@ -16,6 +16,7 @@ import arc.util.io.Writes;
 import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;
 import mindustry.gen.Unit;
+import mindustry.graphics.Pal;
 import mindustry.type.Item;
 import mindustry.world.Block;
 import mindustry.world.DirectionalItemBuffer;
@@ -131,11 +132,11 @@ public class SorterRevamp extends Block {
                     var offset = (reverse) ? -1 : 1;
                     Building a = fromBlock.nearby(Mathf.mod(from + offset, 4));
                     boolean aB = a != null && a.team == team && a.acceptItem(fromBlock, item);
+                    reverse = !reverse;
                     if(aB) {
                         to = a;
                         break;
                     }
-                    reverse = !reverse;
                 }
             }
 
