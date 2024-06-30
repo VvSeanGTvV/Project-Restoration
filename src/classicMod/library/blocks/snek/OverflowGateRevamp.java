@@ -68,26 +68,25 @@ public class OverflowGateRevamp extends Block {
         public @Nullable Building getTileTarget(Item item, Building fromBlock, Building src, boolean flip) {
             int from = relativeToEdge(src.tile);
             if (from == -1) return null;
-            Building to = src.front();
+            Building to;
 
             Building[] Buildingthis = new Building[]{src.front(), src.back(), src.left(), src.right()};
             Building a = Buildingthis[Mathf.mod(from + 1, 4)];
             Building b = Buildingthis[Mathf.mod(from - 1, 4)];
-            if (a != null) {
-                boolean okay = a.team == team && a.acceptItem(this, item);
-                if (okay) {
-                    to = a;
-                }
-            } else if (b != null) {
-                boolean okay = b.team == team && b.acceptItem(this, item);
-                if (okay) {
-                    to = b;
-                }
+            boolean okayA = a != null && a.team == team && a.acceptItem(this, item);
+            boolean okayB = b != null &&b.team == team && b.acceptItem(this, item);
+
+            if (okayA && !okayB) {
+                to = a;
+            } else if (!okayA && okayB) {
+                to = b;
+            } else if (!okayB) {
+                return null;
             } else {
                 to = (rotation & (1 << from)) == 0 ? a : b;
                 if (flip) rotation ^= (1 << from);
             }
-            
+
             return to;
         }
 
