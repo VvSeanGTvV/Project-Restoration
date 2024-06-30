@@ -8,6 +8,7 @@ import arc.scene.ui.layout.Table;
 import arc.util.Scaling;
 import mindustry.Vars;
 import mindustry.game.EventType;
+import mindustry.gen.Icon;
 import mindustry.type.Sector;
 import mindustry.type.SectorPreset;
 import mindustry.ui.Styles;
@@ -22,6 +23,8 @@ public class ContentUnlockDebugDialog extends BaseDialog {
         super("@CUD.title");
         addCloseButton();
 
+        float buttonWidth = 72f;
+
         cont.pane(new Table() {
             {
                 for (var Content : Vars.content.items()){
@@ -30,8 +33,8 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                         info.add(Content.localizedName).left();
 
                         info.table(yes -> {
-                            yes.button("@lock", Content::clearUnlock).size(64f, 64f).pad(2.5f);
-                            yes.button("@unlock", Content::unlock).size(64f, 64f).pad(2.5f);
+                            yes.button("@lock", Content::clearUnlock).size(buttonWidth, 64f).pad(2.5f);
+                            yes.button("@unlock", Content::unlock).size(buttonWidth, 64f).pad(2.5f);
                         }).right().pad(2.5f);
                     }).left();
                     row();
@@ -47,8 +50,8 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                         info.add(Content.localizedName).left();
 
                         info.table(yes -> {
-                            yes.button("@lock", Content::clearUnlock).size(64f, 64f).pad(2.5f);
-                            yes.button("@unlock", Content::unlock).size(64f, 64f).pad(2.5f);
+                            yes.button("@lock", Content::clearUnlock).size(buttonWidth, 64f).pad(2.5f);
+                            yes.button("@unlock", Content::unlock).size(buttonWidth, 64f).pad(2.5f);
                         }).right().pad(2.5f);
                     }).left();
                     row();
@@ -59,13 +62,14 @@ public class ContentUnlockDebugDialog extends BaseDialog {
         cont.pane(new Table() {
             {
                 for (var Content : Vars.content.units()){
+                    if(Content.isHidden()) continue;
                     table(Styles.grayPanel, info -> {
                         info.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
                         info.add(Content.localizedName).left();
 
                         info.table(yes -> {
-                            yes.button("@lock", Content::clearUnlock).size(64f, 64f).pad(2.5f);
-                            yes.button("@unlock", Content::unlock).size(64f, 64f).pad(2.5f);
+                            yes.button("@lock", Content::clearUnlock).size(buttonWidth, 64f).pad(2.5f);
+                            yes.button("@unlock", Content::unlock).size(buttonWidth, 64f).pad(2.5f);
                         }).right().pad(2.5f);
                     }).left();
                     row();
@@ -77,13 +81,13 @@ public class ContentUnlockDebugDialog extends BaseDialog {
             {
                 for (var Content : Vars.content.sectors()){
                     table(Styles.grayPanel, info -> {
-                        info.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left().color(Content.planet.iconColor);
+                        info.image(Icon.icons.get(Content.planet.icon + "Small", Icon.icons.get(Content.planet.icon, Icon.commandRallySmall))).size(32f).scaling(Scaling.fit).pad(10f).left().color(Content.planet.iconColor);
                         info.add(Content.localizedName).left();
 
                         info.table(yes -> {
-                            yes.button("@lock", Content::clearUnlock).size(64f, 64f).pad(2.5f);
-                            yes.button("@unlock", Content::unlock).size(64f, 64f).pad(2.5f);
-                            yes.button("@launch-to", () -> StartSector(Content)).size(64f, 64f).pad(2.5f);
+                            yes.button("@lock", Content::clearUnlock).size(buttonWidth, 64f).pad(2.5f);
+                            yes.button("@unlock", Content::unlock).size(buttonWidth, 64f).pad(2.5f);
+                            yes.button("@launch-to", () -> StartSector(Content)).size(buttonWidth, 64f).pad(2.5f);
                         }).right().pad(2.5f);
                     }).left();
                     row();
