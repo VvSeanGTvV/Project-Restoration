@@ -235,6 +235,7 @@ public class ClassicMod extends Mod{
             t.add("Mod Version: "+ModVersion).row();
             t.add("Build Version: "+BuildVer).row();
             t.add("Latest Release: "+!AutoUpdate.overBuild).row();
+            t.checkPref("launched-planetary", false);
             //t.add("Mobile VSync: "+settings.getBool("vsync")).row();
             //t.add("Latest Pre-Release: "+AutoUpdate.overBuild).row();
             //t.add("Github Build Version: "+AutoUpdate.getLatestBuild()).row();
