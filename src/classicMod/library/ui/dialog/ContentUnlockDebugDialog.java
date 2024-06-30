@@ -79,6 +79,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
     public void addLeft(){
         buttons.defaults().size(width, 64f);
         buttons.button(Icon.left, () -> {
+            setScrollLastY(Page);
             if(Page > 0) Page -= 1;
             if(Page < 0) Page = 0;
             rebuild();
@@ -88,6 +89,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
     public void addRight(){
         buttons.defaults().size(width, 64f);
         buttons.button(Icon.right, () -> {
+            setScrollLastY(Page);
             if(Page < 5) Page += 1;
             if (Page > 5) Page = 5;
             rebuild();
@@ -361,10 +363,8 @@ public class ContentUnlockDebugDialog extends BaseDialog {
     void rebuild(){
         cont.clearChildren();
         if(!mobile) for(int i = 0; i < 5; i++){
-            setScrollLastY(i);
             rebuild(i);
         } else {
-            setScrollLastY(Page);
             rebuild(Page);
         }
     }
