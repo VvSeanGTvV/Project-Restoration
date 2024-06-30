@@ -80,7 +80,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
         buttons.defaults().size(width, 64f);
         buttons.button(Icon.left, () -> {
             if(Page > 0) Page -= 1;
-            if(Page < 0) Page = 5;
+            if(Page < 0) Page = 0;
             rebuild();
         }).size(64f, 64f);
     }
@@ -89,7 +89,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
         buttons.defaults().size(width, 64f);
         buttons.button(Icon.right, () -> {
             if(Page < 5) Page += 1;
-            if (Page > 5) Page = 0;
+            if (Page > 5) Page = 5;
             rebuild();
         }).size(64f, 64f);
     }
@@ -316,12 +316,6 @@ public class ContentUnlockDebugDialog extends BaseDialog {
     float lastYSector = 0f;
 
     void rebuild(int Table){
-        if (Table == 0 && Items != null && ItemPane != null) lastYItem = ItemPane.getScrollY();
-        if (Table == 1 && Liquids != null && LiquidPane != null) lastYLiquid = LiquidPane.getScrollY();
-        if (Table == 2 && Units != null && UnitPane != null) lastYUnit = UnitPane.getScrollY();
-        if (Table == 3 && Blocks != null && BlockPane != null) lastYBlock = BlockPane.getScrollY();
-        if (Table == 4 && Status != null && StatPane != null) lastYStat = StatPane.getScrollY();
-        if (Table == 5 && SectorPresets != null && SectorPane != null) lastYSector = SectorPane.getScrollY();
         rebuildTable();
         if(Table == 0){
             var PaneAdd = ItemPane;
@@ -355,9 +349,22 @@ public class ContentUnlockDebugDialog extends BaseDialog {
         }
     }
 
+    void setScrollLastY(int Table){
+        if (Table == 0 && Items != null && ItemPane != null) lastYItem = ItemPane.getScrollY();
+        if (Table == 1 && Liquids != null && LiquidPane != null) lastYLiquid = LiquidPane.getScrollY();
+        if (Table == 2 && Units != null && UnitPane != null) lastYUnit = UnitPane.getScrollY();
+        if (Table == 3 && Blocks != null && BlockPane != null) lastYBlock = BlockPane.getScrollY();
+        if (Table == 4 && Status != null && StatPane != null) lastYStat = StatPane.getScrollY();
+        if (Table == 5 && SectorPresets != null && SectorPane != null) lastYSector = SectorPane.getScrollY();
+    }
+
     void rebuild(){
         cont.clearChildren();
-        if(!mobile) for(int i = 0; i < 5; i++) rebuild(i); else {
+        if(!mobile) for(int i = 0; i < 5; i++){
+            setScrollLastY(i);
+            rebuild(i);
+        } else {
+            setScrollLastY(Page);
             rebuild(Page);
         }
     }
