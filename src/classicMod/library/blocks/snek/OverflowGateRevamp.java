@@ -73,10 +73,12 @@ public class OverflowGateRevamp extends Block {
             Building[] Buildingthis = new Building[]{src.front(), src.back(), src.left(), src.right()};
             Building a = Buildingthis[Mathf.mod(from + 1, 4)];
             if(a != null) {
-                boolean okay = a.team == team && a.acceptItem(this, item) && a != fromBlock;
+                boolean okay = a.team == team && a.acceptItem(this, item);
                 if (okay) {
                     to = a;
                 }
+            } else {
+                return null;
             }
 
 
