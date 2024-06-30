@@ -24,7 +24,7 @@ public class OverridableContent {
             buildCostMultiplier = 3f;
         }};
 
-        Blocks.underflowGate = new OverflowGateRevamp("overflow-gate"){{
+        Blocks.underflowGate = new OverflowGateRevamp("underflow-gate"){{
             requirements(Category.distribution, with(Items.lead, 2, Items.copper, 4));
             buildCostMultiplier = 3f;
             invert = true;
