@@ -7,6 +7,7 @@ import arc.graphics.g2d.Fill;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
 import arc.scene.ui.layout.Table;
+import arc.struct.Seq;
 import arc.util.Eachable;
 import arc.util.Nullable;
 import arc.util.io.Reads;
@@ -71,6 +72,8 @@ public class SorterRevamp extends Block {
     public class SorterRevampBuild extends Building {
         public @Nullable Item sortItem;
 
+        public Seq<Building> ConnectedBuilding;
+
         @Override
         public void configured(Unit player, Object value) {
             super.configured(player, value);
@@ -98,18 +101,36 @@ public class SorterRevamp extends Block {
 
         @Override
         public boolean acceptItem(Building source, Item item) {
-            Building to = getTileTarget(item, source, false);
+            Building to = getTileTarget(item, source, this);
 
             return to != null && to.acceptItem(this, item) && to.team == team;
         }
 
         @Override
         public void handleItem(Building source, Item item) {
-            getTileTarget(item, source, true).handleItem(this, item);
+            Building target = getTileTarget(item, source, this);
+
+            if(target != null) target.handleItem(this, item);
         }
 
         public boolean isSame(Building other) {
             return other != null && other.block.instantTransfer;
+        }
+
+        public @Nullable Building getTileTarget(Item item, Building fromBlock, Building src){
+            int from = relativeToEdge(src.tile);
+            if(from == -1) return null;
+            Building to = nearby((from + 2) % 4);
+
+            Building[] Buildingthis = new Building[]{front(), back(), left(), right()};
+            Building a = Buildingthis[Mathf.mod(from + 1, 4)];
+            boolean okay = a.team == team && a.acceptItem(this, item) && a != null && a != fromBlock;
+            if (okay){
+                to = a;
+            }
+
+
+            return to;
         }
 
         public Building getTileTarget(Item item, Building source, boolean flip) {
@@ -118,27 +139,36 @@ public class SorterRevamp extends Block {
             Building to;
 
             if (((item == sortItem) != invert) == enabled) {
-                //don't prevent 3-chains
-
                 to = nearby(dir);
             } else {
-                Building a = nearby(Mathf.mod(dir - 1, 4));
-                Building b = nearby(Mathf.mod(dir + 1, 4));
-                boolean ac = a != null &&
-                        a.acceptItem(this, item);
-                boolean bc = b != null &&
-                        b.acceptItem(this, item);
-
-                if (ac && !bc) {
+                var aDir = Mathf.mod(dir - 1, 4);
+                var bDir = Mathf.mod(dir + 1, 4);
+                Building a = nearby(aDir);
+                Building b = nearby(bDir);
+                boolean existA = a != null && a.acceptItem(this, item);
+                boolean existB = b != null && b.acceptItem(this, item);
+                if (existA && !existB) {
                     to = a;
-                } else if (bc && !ac) {
+                    ConnectedBuilding.add(a);
+                } else
+                if (!existA && existB) {
                     to = b;
-                } else if (!bc) {
-                    return null;
-                } else {
+                    ConnectedBuilding.add(b);
+                } else
+                if (!existB) return null; else {
                     to = (rotation & (1 << dir)) == 0 ? a : b;
-                    if (flip) rotation ^= (1 << dir);
+                    if(flip) rotation ^= (1 << dir);
                 }
+            }
+
+            return to;
+        }
+
+        public Building getConnectionTarget(Item item, Building source, boolean flip){
+            Building to = null;
+
+            for (var Building : ConnectedBuilding){
+                if(Building != null) to = Building; else to = getTileTarget(item, source, flip);
             }
 
             return to;

@@ -4,6 +4,7 @@ import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
+import arc.struct.Seq;
 import arc.util.Nullable;
 import arc.util.io.Reads;
 import mindustry.gen.Building;
@@ -47,7 +48,7 @@ public class OverflowGateRevamp extends Block {
 
         @Override
         public boolean acceptItem(Building source, Item item){
-            Building to = getTileTarget(item, source, false);
+            Building to = getTileTarget(item, source, this);
 
             return to != null && to.acceptItem(this, item) && to.team == team;
         }
@@ -59,9 +60,25 @@ public class OverflowGateRevamp extends Block {
 
         @Override
         public void handleItem(Building source, Item item){
-            Building target = getTileTarget(item, source, true);
+            Building target = getTileTarget(item, source, this);
 
             if(target != null) target.handleItem(this, item);
+        }
+
+        public @Nullable Building getTileTarget(Item item, Building fromBlock, Building src){
+            int from = relativeToEdge(src.tile);
+            if(from == -1) return null;
+            Building to = nearby((from + 2) % 4);
+
+            Building[] Buildingthis = new Building[]{front(), back(), left(), right()};
+            Building a = Buildingthis[Mathf.mod(from + 1, 4)];
+            boolean okay = a.team == team && a.acceptItem(this, item) && a != null && a != fromBlock;
+            if (okay){
+                to = a;
+            }
+
+
+            return to;
         }
 
         public @Nullable Building getTileTarget(Item item, Building src, boolean flip){
