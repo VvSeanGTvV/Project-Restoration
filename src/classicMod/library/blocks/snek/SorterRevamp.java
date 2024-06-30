@@ -127,12 +127,16 @@ public class SorterRevamp extends Block {
             boolean canFoward = (((item == sortItem) != invert) == enabled);
 
             if(!canFoward || flip){
-                var offset = (reverse) ? -1 : 1;
-                Building a = fromBlock.nearby(Mathf.mod(from + offset, 4));
-                boolean aB = a != null && a.team == team && a.acceptItem(src, item);
-                if(!aB) reverse = !reverse;
-                reverse = !reverse;
-                if(aB) to = a;
+                for (int i=0; i<1; i++){
+                    var offset = (reverse) ? -1 : 1;
+                    Building a = fromBlock.nearby(Mathf.mod(from + offset, 4));
+                    boolean aB = a != null && a.team == team && a.acceptItem(fromBlock, item);
+                    if(aB) {
+                        to = a;
+                        break;
+                    }
+                    reverse = !reverse;
+                }
             }
 
             return to;

@@ -77,15 +77,19 @@ public class OverflowGateRevamp extends Block {
                     3  // Down -> Up
             };
             Building to = fromBlock.nearby(Mathf.mod(from + 2, 4));
-            boolean canFoward = to != null && to.acceptItem(src, item) && to.team == team;
+            boolean canFoward = to != null && to.acceptItem(fromBlock, item) && to.team == team;
 
             if(!canFoward || flip){
-                var offset = (reverse) ? -1 : 1;
-                Building a = fromBlock.nearby(Mathf.mod(from + offset, 4));
-                boolean aB = a != null && a.team == team && a.acceptItem(src, item);
-                if(!aB) reverse = !reverse;
-                reverse = !reverse;
-                if(aB) to = a;
+                for (int i=0; i<1; i++){
+                    var offset = (reverse) ? -1 : 1;
+                    Building a = fromBlock.nearby(Mathf.mod(from + offset, 4));
+                    boolean aB = a != null && a.team == team && a.acceptItem(fromBlock, item);
+                    if(aB) {
+                        to = a;
+                        break;
+                    }
+                    reverse = !reverse;
+                }
             }
 
             Log.info("overflow dir "+from);
