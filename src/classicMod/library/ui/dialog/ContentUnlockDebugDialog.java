@@ -201,7 +201,10 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                     info.row();
                     info.table(yes -> {
                         if(Content.alwaysUnlocked) {
-                            yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent);
+                            yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent).row();
+                            yes.button("@transform", () -> {
+                                spawnMech(Content, player);
+                            }).size(buttonWidth, buttonHeight).pad(2.5f);
                         } else {
                             if (Content.unlocked()) {
                                 yes.button("@lock", () -> {
@@ -264,7 +267,11 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                     info.row();
                     info.table(yes -> {
                         if (Content.alwaysUnlocked) {
-                            yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent);
+                            yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent).row();
+                            yes.button("@launch-to", () -> {
+                                StartSector(Content);
+                                hide();
+                            }).size(105f, 64f).pad(2.5f);
                         } else {
                             if (Content.unlocked()) {
                                 yes.button("@lock", () -> {
@@ -310,12 +317,12 @@ public class ContentUnlockDebugDialog extends BaseDialog {
     ScrollPane StatPane;
     ScrollPane SectorPane;
 
-    float lastYItem = 0f;
-    float lastYLiquid = 0f;
-    float lastYUnit = 0f;
-    float lastYBlock = 0f;
-    float lastYStat = 0f;
-    float lastYSector = 0f;
+    float lastYItem;
+    float lastYLiquid;
+    float lastYUnit;
+    float lastYBlock;
+    float lastYStat;
+    float lastYSector;
 
     void rebuild(int Table){
         rebuildTable();
@@ -352,12 +359,12 @@ public class ContentUnlockDebugDialog extends BaseDialog {
     }
 
     void setScrollLastY(int Table){
-        if (Table == 0 && Items != null && ItemPane != null) lastYItem = ItemPane.getScrollY();
-        if (Table == 1 && Liquids != null && LiquidPane != null) lastYLiquid = LiquidPane.getScrollY();
-        if (Table == 2 && Units != null && UnitPane != null) lastYUnit = UnitPane.getScrollY();
-        if (Table == 3 && Blocks != null && BlockPane != null) lastYBlock = BlockPane.getScrollY();
-        if (Table == 4 && Status != null && StatPane != null) lastYStat = StatPane.getScrollY();
-        if (Table == 5 && SectorPresets != null && SectorPane != null) lastYSector = SectorPane.getScrollY();
+        if (Table == 0 && ItemPane != null) lastYItem = ItemPane.getScrollY();
+        if (Table == 1 && LiquidPane != null) lastYLiquid = LiquidPane.getScrollY();
+        if (Table == 2 && UnitPane != null) lastYUnit = UnitPane.getScrollY();
+        if (Table == 3 && BlockPane != null) lastYBlock = BlockPane.getScrollY();
+        if (Table == 4 && StatPane != null) lastYStat = StatPane.getScrollY();
+        if (Table == 5 && SectorPane != null) lastYSector = SectorPane.getScrollY();
     }
 
     void rebuild(){
