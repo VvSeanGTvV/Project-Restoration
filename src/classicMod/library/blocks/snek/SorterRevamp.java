@@ -101,14 +101,14 @@ public class SorterRevamp extends Block {
 
         @Override
         public boolean acceptItem(Building source, Item item) {
-            Building to = getTileTarget(item, source, this);
+            Building to = getTileTarget(item, this, source);
 
             return to != null && to.acceptItem(this, item) && to.team == team;
         }
 
         @Override
         public void handleItem(Building source, Item item) {
-            Building target = getTileTarget(item, source, this);
+            Building target = getTileTarget(item, this, source);
 
             if(target != null) target.handleItem(this, item);
         }
@@ -122,7 +122,7 @@ public class SorterRevamp extends Block {
             if(from == -1) return null;
             Building to = nearby((from + 2) % 4);
 
-            Building[] Buildingthis = new Building[]{front(), back(), left(), right()};
+            Building[] Buildingthis = new Building[]{src.front(), src.back(), left(), src.right()};
             Building a = Buildingthis[Mathf.mod(from + 1, 4)];
             boolean okay = a.team == team && a.acceptItem(this, item) && a != null && a != fromBlock;
             if (okay){
