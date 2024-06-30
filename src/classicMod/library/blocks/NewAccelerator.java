@@ -215,7 +215,10 @@ public class NewAccelerator extends Block{
                 }
                 if(stageLaunch == 1){
                     launchOppositeAnimation = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta);
-                    if(launchAnimation < 0.01f){ Effect.shake(3f, 3f, this); }
+                    if(launchAnimation < 0.01f){
+                        Effect.shake(3f, 3f, this);
+                        settings.put("launched-planetary", true);
+                    }
 
                     zoomStyle = Interp.pow3In.apply(Scl.scl(0.02f), Scl.scl(maxScaleZoom), 1f - launchpadTimer);
                     launchpadPrepTimer = Mathf.clamp(launchpadPrepTimer + 0.0035f * Time.delta);
@@ -517,12 +520,6 @@ public class NewAccelerator extends Block{
                     ui.showException("[accent]" + Core.bundle.get("savefail"), e);
                 }
             }
-
-            to.preset.alwaysUnlocked = true;
-            to.preset.unlocked();
-
-            settings.put("launched-planetary", true);
-            Log.info(settings.get("launched-planetary", false));
 
             Events.fire(new SectorLaunchEvent(to));
             control.playSector(to);

@@ -8,6 +8,7 @@ import mindustry.type.Planet;
 import mindustry.type.Sector;
 import mindustry.type.SectorPreset;
 
+import static arc.Core.settings;
 import static mindustry.content.SectorPresets.planetaryTerminal;
 
 public class VisualObjectives extends Objectives {
@@ -29,7 +30,7 @@ public class VisualObjectives extends Objectives {
 
         @Override
         public boolean complete() {
-            return false;
+            return (boolean)settings.get("launched-planetary", false);
         }
 
         @Override

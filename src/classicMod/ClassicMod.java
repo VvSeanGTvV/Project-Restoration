@@ -11,6 +11,7 @@ import classicMod.content.*;
 import classicMod.library.ai.ReplacementFlyingAI;
 import classicMod.library.ai.ReplacementGroundAI;
 import classicMod.library.ui.*;
+import classicMod.library.ui.dialog.ContentUnlockDebugDialog;
 import classicMod.library.ui.dialog.epicCreditsDialog;
 import classicMod.library.ui.menu.*;
 import mindustry.Vars;
@@ -228,7 +229,7 @@ public class ClassicMod extends Mod{
                 t.checkPref("backward-v6", false); //TODO make some mods backwards compatiblilty with v6
             }*/
             t.pref(new UIExtended.ButtonSetting(Core.bundle.get("credits"), Icon.info, epicCreditsDialog::new, 32));
-            t.pref(new UIExtended.ButtonSetting(getModBundle.get(resMod.meta.name + "-debug.unlock"), Icon.download, this::unlockAll, 32));
+            t.pref(new UIExtended.ButtonSetting(getModBundle.get(resMod.meta.name + "-debug.unlock"), Icon.download, ContentUnlockDebugDialog::new, 32));
             t.row();
             t.add(resMod.meta.displayName+" - Info").padTop(4f).row();
             t.add("Mod Version: "+ModVersion).row();
