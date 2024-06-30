@@ -4,6 +4,7 @@ import arc.Core;
 import arc.Events;
 import arc.math.geom.Vec2;
 import arc.scene.ui.Dialog;
+import arc.scene.ui.ScrollPane;
 import arc.scene.ui.layout.Scl;
 import arc.scene.ui.layout.Table;
 import arc.util.Scaling;
@@ -20,12 +21,15 @@ import mindustry.type.UnitType;
 import mindustry.ui.Styles;
 import mindustry.ui.dialogs.BaseDialog;
 import mindustry.world.Tile;
+import mindustry.world.blocks.environment.*;
 
 import static mindustry.Vars.*;
 import static mindustry.Vars.control;
 
 public class ContentUnlockDebugDialog extends BaseDialog {
 
+    float buttonWidth = 92f;
+    float buttonHeight = 32f;
     public ContentUnlockDebugDialog() {
         super("@CUD.title");
         addUnlockAllButton();
@@ -61,202 +65,243 @@ public class ContentUnlockDebugDialog extends BaseDialog {
         addLockAllButton(210f);
     }
 
+    Table Items = new Table() {{
+            for (var Content : Vars.content.items()) {
+                table(Styles.grayPanel, info -> {
+                    info.table(details -> {
+                        details.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
+                        details.add(Content.localizedName).left().pad(10f);
+                    });
+
+                    info.row();
+                    info.table(yes -> {
+                        if (Content.alwaysUnlocked) {
+                            yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent);
+                        } else {
+                            if (Content.unlocked()) yes.button("@lock", () -> {
+                                Content.clearUnlock();
+                                rebuild();
+                            }).size(buttonWidth, buttonHeight).pad(2.5f);
+                            else yes.button("@unlock", () -> {
+                                Content.unlock();
+                                rebuild();
+                            }).size(buttonWidth, buttonHeight).pad(2.5f);
+                        }
+                    }).left().pad(2.5f);
+                }).left().pad(10f);
+                row();
+            }
+    }};
+
+    Table Liquids = new Table() {{
+        for (var Content : Vars.content.liquids()) {
+            table(Styles.grayPanel, info -> {
+                info.table(details -> {
+                    details.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
+                    details.add(Content.localizedName).left().pad(10f);
+                });
+
+                info.row();
+                info.table(yes -> {
+                    if (Content.alwaysUnlocked) {
+                        yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent);
+                    } else {
+                        if (Content.unlocked()) yes.button("@lock", () -> {
+                            Content.clearUnlock();
+                            rebuild();
+                        }).size(buttonWidth, buttonHeight).pad(2.5f);
+                        else yes.button("@unlock", () -> {
+                            Content.unlock();
+                            rebuild();
+                        }).size(buttonWidth, buttonHeight).pad(2.5f);
+                    }
+                }).left().pad(2.5f);
+            }).left().pad(10f);
+            row();
+        }
+    }};
+
+    Table Blocks = new Table() {{
+        for (var Content : Vars.content.blocks()){
+            if(Content instanceof StaticTree ||
+                    Content instanceof StaticWall ||
+                    Content instanceof Floor ||
+                    Content instanceof AirBlock ||
+                    Content instanceof SpawnBlock ||
+                    Content instanceof ShallowLiquid
+            ) continue;
+            table(Styles.grayPanel, info -> {
+                info.table(details -> {
+                    details.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
+                    details.add(Content.localizedName).left().pad(10f);
+                });
+
+                info.row();
+                info.table(yes -> {
+                    if(Content.alwaysUnlocked) {
+                        yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent);
+                    } else {
+                        if (Content.unlocked()) yes.button("@lock", () -> {
+                            Content.clearUnlock();
+                            rebuild();
+                        }).size(buttonWidth, buttonHeight).pad(2.5f);
+                        else yes.button("@unlock", () -> {
+                            Content.unlock();
+                            rebuild();
+                        }).size(buttonWidth, buttonHeight).pad(2.5f);
+                    }
+                }).left().pad(2.5f);
+            }).left().pad(10f);
+            row();
+        }
+    }};
+
+    Table Units = new Table() {{
+        for (var Content : Vars.content.units()){
+            if(Content.isHidden()) continue;
+            table(Styles.grayPanel, info -> {
+                info.table(details -> {
+                    details.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
+                    details.add(Content.localizedName).left().pad(10f);
+                });
+
+                info.row();
+                info.table(yes -> {
+                    if(Content.alwaysUnlocked) {
+                        yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent);
+                    } else {
+                        if (Content.unlocked()) {
+                            yes.button("@lock", () -> {
+                                Content.clearUnlock();
+                                rebuild();
+                            }).size(buttonWidth, buttonHeight).pad(2.5f);
+
+                            yes.button("@transform", () -> {
+                                spawnMech(Content, player);
+                            }).size(buttonWidth, buttonHeight).pad(2.5f);
+
+                        } else yes.button("@unlock", () -> {
+                            Content.unlock();
+                            rebuild();
+                        }).size(buttonWidth, buttonHeight).pad(2.5f);
+                    }
+                }).left().pad(2.5f);
+            }).left().pad(10f);
+            row();
+        }
+    }};
+
+    Table Status = new Table() {{
+        for (var Content : Vars.content.statusEffects()){
+            if(Content.isHidden()) continue;
+            table(Styles.grayPanel, info -> {
+                info.table(details -> {
+                    details.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
+                    details.add(Content.localizedName).left().pad(10f);
+                });
+
+                info.row();
+                info.table(yes -> {
+                    if(Content.alwaysUnlocked) {
+                        yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent);
+                    } else {
+                        if (Content.unlocked()) yes.button("@lock", () -> {
+                            Content.clearUnlock();
+                            rebuild();
+                        }).size(buttonWidth, buttonHeight).pad(2.5f);
+                        else yes.button("@unlock", () -> {
+                            Content.unlock();
+                            rebuild();
+                        }).size(buttonWidth, buttonHeight).pad(2.5f);
+                    }
+                }).left().pad(2.5f);
+            }).left().pad(10f);
+            row();
+        }
+    }};
+
+    Table SectorPresets = new Table() {{
+        for (var Content : Vars.content.sectors()) {
+            table(Styles.grayPanel, info -> {
+                info.table(details -> {
+                    details.image(Icon.icons.get(Content.planet.icon + "Small", Icon.icons.get(Content.planet.icon, Icon.commandRallySmall))).size(32f).scaling(Scaling.fit).pad(10f).left().color(Content.planet.iconColor);
+                    details.add(Content.localizedName).left().pad(10f);
+                });
+
+                info.row();
+                info.table(yes -> {
+                    if (Content.alwaysUnlocked) {
+                        yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent);
+                    } else {
+                        if (Content.unlocked()) {
+                            yes.button("@lock", () -> {
+                                Content.clearUnlock();
+                                rebuild();
+                            }).size(buttonWidth, buttonHeight).pad(2.5f);
+                            yes.button("@launch-to", () -> {
+                                StartSector(Content);
+                                hide();
+                            }).size(105f, 64f).pad(2.5f);
+                        } else yes.button("@unlock", () -> {
+                            Content.unlock();
+                            rebuild();
+                        }).size(buttonWidth, buttonHeight).pad(2.5f);
+                    }
+                }).left().pad(2.5f);
+            }).left().pad(10f);
+            row();
+        }
+    }};
+
+    ScrollPane ItemPane = new ScrollPane(Items);
+    ScrollPane LiquidPane = new ScrollPane(Liquids);
+    ScrollPane BlockPane = new ScrollPane(Blocks);
+    ScrollPane UnitPane = new ScrollPane(Units);
+    ScrollPane StatPane = new ScrollPane(Status);
+    ScrollPane SectorPane = new ScrollPane(SectorPresets);
+
+    void rebuild(int Table){
+        if(Table == 0){
+            var PaneAdd = ItemPane;
+            var lastY = PaneAdd.getScrollPercentY();
+            cont.add(PaneAdd);
+            PaneAdd.setScrollY(lastY);
+        }
+        if(Table == 1){
+            var PaneAdd = LiquidPane;
+            var lastY = PaneAdd.getScrollPercentY();
+            cont.add(PaneAdd);
+            PaneAdd.setScrollY(lastY);
+        }
+        if(Table == 2){
+            var PaneAdd = UnitPane;
+            var lastY = PaneAdd.getScrollPercentY();
+            cont.add(PaneAdd);
+            PaneAdd.setScrollY(lastY);
+        }
+        if(Table == 3){
+            var PaneAdd = BlockPane;
+            var lastY = PaneAdd.getScrollPercentY();
+            cont.add(PaneAdd);
+            PaneAdd.setScrollY(lastY);
+        }
+        if(Table == 4){
+            var PaneAdd = StatPane;
+            var lastY = PaneAdd.getScrollPercentY();
+            cont.add(PaneAdd);
+            PaneAdd.setScrollY(lastY);
+        }
+        if(Table == 5){
+            var PaneAdd = SectorPane;
+            var lastY = PaneAdd.getScrollPercentY();
+            cont.add(PaneAdd);
+            PaneAdd.setScrollY(lastY);
+        }
+    }
+
     void rebuild(){
-        float buttonWidth = 92f;
-        float buttonHeight = 32f;
         cont.clearChildren();
-        cont.pane(new Table() {
-            {
-                for (var Content : Vars.content.items()){
-                    table(Styles.grayPanel, info -> {
-                        info.table(details -> {
-                            details.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
-                            details.add(Content.localizedName).left().pad(10f);
-                        });
-
-                        info.row();
-                        info.table(yes -> {
-                            if(Content.alwaysUnlocked) {
-                                yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent);
-                            } else {
-                                if (Content.unlocked()) yes.button("@lock", () -> {
-                                    Content.clearUnlock();
-                                    rebuild();
-                                }).size(buttonWidth, buttonHeight).pad(2.5f);
-                                else yes.button("@unlock", () -> {
-                                    Content.unlock();
-                                    rebuild();
-                                }).size(buttonWidth, buttonHeight).pad(2.5f);
-                            }
-                        }).left().pad(2.5f);
-                    }).left().pad(10f);
-                    row();
-                }
-            }
-        });
-
-        cont.pane(new Table() {
-            {
-                for (var Content : Vars.content.liquids()){
-                    table(Styles.grayPanel, info -> {
-                        info.table(details -> {
-                            details.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
-                            details.add(Content.localizedName).left().pad(10f);
-                        });
-
-                        info.row();
-                        info.table(yes -> {
-                            if(Content.alwaysUnlocked) {
-                                yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent);
-                            } else {
-                                if (Content.unlocked()) yes.button("@lock", () -> {
-                                    Content.clearUnlock();
-                                    rebuild();
-                                }).size(buttonWidth, buttonHeight).pad(2.5f);
-                                else yes.button("@unlock", () -> {
-                                    Content.unlock();
-                                    rebuild();
-                                }).size(buttonWidth, buttonHeight).pad(2.5f);
-                            }
-                        }).left().pad(2.5f);
-                    }).left().pad(10f);
-                    row();
-                }
-            }
-        });
-
-        cont.pane(new Table() {
-            {
-                for (var Content : Vars.content.blocks()){
-                    table(Styles.grayPanel, info -> {
-                        info.table(details -> {
-                            details.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
-                            details.add(Content.localizedName).left().pad(10f);
-                        });
-
-                        info.row();
-                        info.table(yes -> {
-                            if(Content.alwaysUnlocked) {
-                                yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent);
-                            } else {
-                                if (Content.unlocked()) yes.button("@lock", () -> {
-                                    Content.clearUnlock();
-                                    rebuild();
-                                }).size(buttonWidth, buttonHeight).pad(2.5f);
-                                else yes.button("@unlock", () -> {
-                                    Content.unlock();
-                                    rebuild();
-                                }).size(buttonWidth, buttonHeight).pad(2.5f);
-                            }
-                        }).left().pad(2.5f);
-                    }).left().pad(10f);
-                    row();
-                }
-            }
-        });
-
-        cont.pane(new Table() {
-            {
-                for (var Content : Vars.content.units()){
-                    if(Content.isHidden()) continue;
-                    table(Styles.grayPanel, info -> {
-                        info.table(details -> {
-                            details.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
-                            details.add(Content.localizedName).left().pad(10f);
-                        });
-
-                        info.row();
-                        info.table(yes -> {
-                            if(Content.alwaysUnlocked) {
-                                yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent);
-                            } else {
-                                if (Content.unlocked()) {
-                                    yes.button("@lock", () -> {
-                                        Content.clearUnlock();
-                                        rebuild();
-                                    }).size(buttonWidth, buttonHeight).pad(2.5f);
-
-                                    yes.button("@transform", () -> {
-                                        spawnMech(Content, player);
-                                    }).size(buttonWidth, buttonHeight).pad(2.5f);
-
-                                } else yes.button("@unlock", () -> {
-                                    Content.unlock();
-                                    rebuild();
-                                }).size(buttonWidth, buttonHeight).pad(2.5f);
-                            }
-                        }).left().pad(2.5f);
-                    }).left().pad(10f);
-                    row();
-                }
-            }
-        });
-
-        cont.pane(new Table() {
-            {
-                for (var Content : Vars.content.statusEffects()){
-                    if(Content.isHidden()) continue;
-                    table(Styles.grayPanel, info -> {
-                        info.table(details -> {
-                            details.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
-                            details.add(Content.localizedName).left().pad(10f);
-                        });
-
-                        info.row();
-                        info.table(yes -> {
-                            if(Content.alwaysUnlocked) {
-                                yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent);
-                            } else {
-                                if (Content.unlocked()) yes.button("@lock", () -> {
-                                    Content.clearUnlock();
-                                    rebuild();
-                                }).size(buttonWidth, buttonHeight).pad(2.5f);
-                                else yes.button("@unlock", () -> {
-                                    Content.unlock();
-                                    rebuild();
-                                }).size(buttonWidth, buttonHeight).pad(2.5f);
-                            }
-                        }).left().pad(2.5f);
-                    }).left().pad(10f);
-                    row();
-                }
-            }
-        });
-
-        cont.pane(new Table() {
-            {
-                for (var Content : Vars.content.sectors()){
-                    table(Styles.grayPanel, info -> {
-                        info.table(details -> {
-                            details.image(Icon.icons.get(Content.planet.icon + "Small", Icon.icons.get(Content.planet.icon, Icon.commandRallySmall))).size(32f).scaling(Scaling.fit).pad(10f).left().color(Content.planet.iconColor);
-                            details.add(Content.localizedName).left().pad(10f);
-                        });
-
-                        info.row();
-                        info.table(yes -> {
-                            if(Content.alwaysUnlocked) {
-                                yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent);
-                            } else {
-                                if(Content.unlocked()) {
-                                    yes.button("@lock", () -> {
-                                        Content.clearUnlock();
-                                        rebuild();
-                                    }).size(buttonWidth, buttonHeight).pad(2.5f);
-                                    yes.button("@launch-to", () -> {
-                                        StartSector(Content);
-                                        hide();
-                                    }).size(105f, 64f).pad(2.5f);
-                                } else yes.button("@unlock", () -> {
-                                    Content.unlock();
-                                    rebuild();
-                                }).size(buttonWidth, buttonHeight).pad(2.5f);
-                            }
-                        }).left().pad(2.5f);
-                    }).left().pad(10f);
-                    row();
-                }
-            }
-        });
+        for(int i = 0; i < 4; i++) rebuild(i);
     }
 
 
