@@ -5,6 +5,7 @@ import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
 import arc.struct.Seq;
+import arc.util.Log;
 import arc.util.Nullable;
 import arc.util.io.Reads;
 import mindustry.gen.Building;
@@ -75,6 +76,9 @@ public class OverflowGateRevamp extends Block {
             Building b = Buildingthis[Mathf.mod(from - 1, 4)];
             boolean okayA = a != null && a.team == team && a.acceptItem(this, item);
             boolean okayB = b != null &&b.team == team && b.acceptItem(this, item);
+
+            Log.info("overflow a "+a);
+            Log.info("overflow b "+b);
 
             if (okayA && !okayB) {
                 to = a;

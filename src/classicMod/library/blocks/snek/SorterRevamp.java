@@ -9,6 +9,7 @@ import arc.math.Mathf;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
 import arc.util.Eachable;
+import arc.util.Log;
 import arc.util.Nullable;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
@@ -126,8 +127,9 @@ public class SorterRevamp extends Block {
             Building a = Buildingthis[Mathf.mod(from + 1, 4)];
             Building b = Buildingthis[Mathf.mod(from - 1, 4)];
             boolean okayA = a != null && a.team == team && a.acceptItem(this, item) && (((item == sortItem) != invert) == enabled);
-            boolean okayB = b != null &&b.team == team && b.acceptItem(this, item) && (((item == sortItem) != invert) == enabled);
-
+            boolean okayB = b != null && b.team == team && b.acceptItem(this, item) && (((item == sortItem) != invert) == enabled);
+            Log.info("sorter a "+a);
+            Log.info("sorter b "+b);
             if (okayA && !okayB) {
                 to = a;
             } else if (!okayA && okayB) {
