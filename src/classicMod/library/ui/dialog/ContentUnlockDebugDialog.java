@@ -23,7 +23,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
         super("@CUD.title");
         addCloseButton();
 
-        float buttonWidth = 72f;
+        float buttonWidth = 92f;
         float buttonHeight = 32f;
 
         cont.pane(new Table() {
@@ -32,7 +32,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                     table(Styles.grayPanel, info -> {
                         info.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
                         info.add(Content.localizedName).left();
-
+                        info.row();
                         info.table(yes -> {
                             yes.button("@lock", Content::clearUnlock).size(buttonWidth, buttonHeight).pad(2.5f);
                             yes.button("@unlock", Content::unlock).size(buttonWidth, buttonHeight).pad(2.5f);
@@ -49,7 +49,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                     table(Styles.grayPanel, info -> {
                         info.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
                         info.add(Content.localizedName).left();
-
+                        info.row();
                         info.table(yes -> {
                             yes.button("@lock", Content::clearUnlock).size(buttonWidth, buttonHeight).pad(2.5f);
                             yes.button("@unlock", Content::unlock).size(buttonWidth, buttonHeight).pad(2.5f);
@@ -67,7 +67,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                     table(Styles.grayPanel, info -> {
                         info.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
                         info.add(Content.localizedName).left();
-
+                        info.row();
                         info.table(yes -> {
                             yes.button("@lock", Content::clearUnlock).size(buttonWidth, buttonHeight).pad(2.5f);
                             yes.button("@unlock", Content::unlock).size(buttonWidth, buttonHeight).pad(2.5f);
@@ -84,7 +84,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                     table(Styles.grayPanel, info -> {
                         info.image(Icon.icons.get(Content.planet.icon + "Small", Icon.icons.get(Content.planet.icon, Icon.commandRallySmall))).size(32f).scaling(Scaling.fit).pad(10f).left().color(Content.planet.iconColor);
                         info.add(Content.localizedName).left();
-
+                        info.row();
                         info.table(yes -> {
                             yes.button("@lock", Content::clearUnlock).size(buttonWidth, buttonHeight).pad(2.5f);
                             yes.button("@unlock", Content::unlock).size(buttonWidth, buttonHeight).pad(2.5f);
