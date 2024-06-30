@@ -30,8 +30,11 @@ public class ContentUnlockDebugDialog extends BaseDialog {
             {
                 for (var Content : Vars.content.items()){
                     table(Styles.grayPanel, info -> {
-                        info.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
-                        info.add(Content.localizedName).left();
+                        info.table(details -> {
+                            details.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
+                            details.add(Content.localizedName).left();
+                        });
+
                         info.row();
                         info.table(yes -> {
                             yes.button("@lock", Content::clearUnlock).size(buttonWidth, buttonHeight).pad(2.5f);
@@ -47,8 +50,11 @@ public class ContentUnlockDebugDialog extends BaseDialog {
             {
                 for (var Content : Vars.content.liquids()){
                     table(Styles.grayPanel, info -> {
-                        info.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
-                        info.add(Content.localizedName).left();
+                        info.table(details -> {
+                            details.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
+                            details.add(Content.localizedName).left();
+                        });
+
                         info.row();
                         info.table(yes -> {
                             yes.button("@lock", Content::clearUnlock).size(buttonWidth, buttonHeight).pad(2.5f);
@@ -65,8 +71,11 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                 for (var Content : Vars.content.units()){
                     if(Content.isHidden()) continue;
                     table(Styles.grayPanel, info -> {
-                        info.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
-                        info.add(Content.localizedName).left();
+                        info.table(details -> {
+                            details.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
+                            details.add(Content.localizedName).left();
+                        });
+
                         info.row();
                         info.table(yes -> {
                             yes.button("@lock", Content::clearUnlock).size(buttonWidth, buttonHeight).pad(2.5f);
@@ -82,8 +91,11 @@ public class ContentUnlockDebugDialog extends BaseDialog {
             {
                 for (var Content : Vars.content.sectors()){
                     table(Styles.grayPanel, info -> {
-                        info.image(Icon.icons.get(Content.planet.icon + "Small", Icon.icons.get(Content.planet.icon, Icon.commandRallySmall))).size(32f).scaling(Scaling.fit).pad(10f).left().color(Content.planet.iconColor);
-                        info.add(Content.localizedName).left();
+                        info.table(details -> {
+                            details.image(Icon.icons.get(Content.planet.icon + "Small", Icon.icons.get(Content.planet.icon, Icon.commandRallySmall))).size(32f).scaling(Scaling.fit).pad(10f).left().color(Content.planet.iconColor);
+                            details.add(Content.localizedName).left();
+                        });
+
                         info.row();
                         info.table(yes -> {
                             yes.button("@lock", Content::clearUnlock).size(buttonWidth, buttonHeight).pad(2.5f);
