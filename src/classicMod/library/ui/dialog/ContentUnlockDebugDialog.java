@@ -28,8 +28,9 @@ public class ContentUnlockDebugDialog extends BaseDialog {
 
     public ContentUnlockDebugDialog() {
         super("@CUD.title");
-        addCloseButton();
         addUnlockAllButton();
+        addCloseButton();
+        addLockAllButton();
 
         rebuild();
 
@@ -38,11 +39,26 @@ public class ContentUnlockDebugDialog extends BaseDialog {
 
     public void addUnlockAllButton(float width){
         buttons.defaults().size(width, 64f);
-        buttons.button("@unlockall", Icon.download, ClassicMod::unlockAll).size(width, 64f);
+        buttons.button("@unlockall", Icon.download, () -> {
+            ClassicMod.unlockAll();
+            rebuild();
+        }).size(width, 64f);
     }
 
     public void addUnlockAllButton(){
         addUnlockAllButton(210f);
+    }
+
+    public void addLockAllButton(float width){
+        buttons.defaults().size(width, 64f);
+        buttons.button("@lockall", Icon.download, () -> {
+            ClassicMod.lockAll();
+            rebuild();
+        }).size(width, 64f);
+    }
+
+    public void addLockAllButton(){
+        addLockAllButton(210f);
     }
 
     void rebuild(){
