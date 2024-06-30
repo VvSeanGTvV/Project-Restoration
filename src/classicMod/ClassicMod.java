@@ -242,7 +242,7 @@ public class ClassicMod extends Mod{
         });
     }
 
-    public void unlockAll(){
+    public static void unlockAll(){
         for (var blocks : content.blocks()){
             blocks.unlock();
         }
