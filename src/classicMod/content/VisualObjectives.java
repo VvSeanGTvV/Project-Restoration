@@ -1,6 +1,7 @@
 package classicMod.content;
 
 import arc.Core;
+import arc.util.Log;
 import classicMod.library.blocks.NewAccelerator;
 import mindustry.ctype.UnlockableContent;
 import mindustry.game.Objectives;
@@ -30,6 +31,7 @@ public class VisualObjectives extends Objectives {
 
         @Override
         public boolean complete() {
+            Log.info(settings.get("launched-planetary", false));
             return (boolean)settings.get("launched-planetary", false);
         }
 
