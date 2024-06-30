@@ -522,6 +522,7 @@ public class NewAccelerator extends Block{
             to.preset.unlocked();
 
             settings.put("launched-planetary", true);
+            Log.info(settings.get("launched-planetary", false));
 
             Events.fire(new SectorLaunchEvent(to));
             control.playSector(to);
