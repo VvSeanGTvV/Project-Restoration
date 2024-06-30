@@ -1,6 +1,7 @@
 package classicMod.library.blocks.snek;
 
 import arc.Core;
+import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
 import arc.util.Nullable;
@@ -49,6 +50,11 @@ public class OverflowGateRevamp extends Block {
             Building to = getTileTarget(item, source, false);
 
             return to != null && to.acceptItem(this, item) && to.team == team;
+        }
+
+        @Override
+        public void draw() {
+            Draw.rect(Core.atlas.find(name), x, y);
         }
 
         @Override

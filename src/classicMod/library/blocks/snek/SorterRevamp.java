@@ -41,8 +41,8 @@ public class SorterRevamp extends Block {
         saveConfig = true;
         clearOnDoubleTap = true;
 
-        config(Item.class, (Sorter.SorterBuild tile, Item item) -> tile.sortItem = item);
-        configClear((Sorter.SorterBuild tile) -> tile.sortItem = null);
+        config(Item.class, (SorterRevampBuild tile, Item item) -> tile.sortItem = item);
+        configClear((SorterRevampBuild tile) -> tile.sortItem = null);
 
         region = Core.atlas.find(name);
     }
@@ -82,7 +82,8 @@ public class SorterRevamp extends Block {
 
         @Override
         public void draw() {
-            region = Core.atlas.find(name);
+            //region = Core.atlas.find(name);
+            Draw.rect(Core.atlas.find(name), x, y);
             TextureRegion cross = Core.atlas.find(name+"-cross", "cross-full");
             if (sortItem == null) {
                 Draw.rect(cross, x, y);
@@ -92,7 +93,7 @@ public class SorterRevamp extends Block {
                 Draw.color();
             }
 
-            super.draw();
+            //super.draw();
         }
 
         @Override
