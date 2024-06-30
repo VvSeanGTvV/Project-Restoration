@@ -59,7 +59,7 @@ public class SorterRevamp extends Block {
 
     @Override
     public int minimapColor(Tile tile) {
-        var build = (Sorter.SorterBuild) tile.build;
+        var build = (SorterRevampBuild) tile.build;
         return build == null || build.sortItem == null ? 0 : build.sortItem.color.rgba();
     }
 
