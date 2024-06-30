@@ -87,7 +87,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
 
     public void addRight(){
         buttons.defaults().size(width, 64f);
-        buttons.button(Icon.left, () -> {
+        buttons.button(Icon.right, () -> {
             if(Page < 5) Page += 1;
             if (Page > 5) Page = 0;
             rebuild();
@@ -308,13 +308,14 @@ public class ContentUnlockDebugDialog extends BaseDialog {
     ScrollPane StatPane;
     ScrollPane SectorPane;
 
+    var lastYItem = 0f;
+    var lastYLiquid = 0f;
+    var lastYUnit = 0f;
+    var lastYBlock = 0f;
+    var lastYStat = 0f;
+    var lastYSector = 0f;
+
     void rebuild(int Table){
-        var lastYItem = 0f;
-        var lastYLiquid = 0f;
-        var lastYUnit = 0f;
-        var lastYBlock = 0f;
-        var lastYStat = 0f;
-        var lastYSector = 0f;
         if (Table == 0 && Items != null && ItemPane != null) lastYItem = ItemPane.getScrollY();
         if (Table == 1 && Liquids != null && LiquidPane != null) lastYLiquid = LiquidPane.getScrollY();
         if (Table == 2 && Units != null && UnitPane != null) lastYUnit = UnitPane.getScrollY();
