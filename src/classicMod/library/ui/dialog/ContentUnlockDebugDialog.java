@@ -254,6 +254,13 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                 row();
             }
         }};
+
+        ItemPane = new ScrollPane(Items);
+        LiquidPane = new ScrollPane(Liquids);
+        BlockPane = new ScrollPane(Blocks);
+        UnitPane = new ScrollPane(Units);
+        StatPane = new ScrollPane(Status);
+        SectorPane = new ScrollPane(SectorPresets);
     }
     Table Items;
     Table Liquids;
@@ -265,12 +272,12 @@ public class ContentUnlockDebugDialog extends BaseDialog {
 
     Table SectorPresets;
 
-    ScrollPane ItemPane = new ScrollPane(Items);
-    ScrollPane LiquidPane = new ScrollPane(Liquids);
-    ScrollPane BlockPane = new ScrollPane(Blocks);
-    ScrollPane UnitPane = new ScrollPane(Units);
-    ScrollPane StatPane = new ScrollPane(Status);
-    ScrollPane SectorPane = new ScrollPane(SectorPresets);
+    ScrollPane ItemPane;
+    ScrollPane LiquidPane;
+    ScrollPane BlockPane;
+    ScrollPane UnitPane;
+    ScrollPane StatPane;
+    ScrollPane SectorPane;
 
     void rebuild(int Table){
         rebuildTable();
