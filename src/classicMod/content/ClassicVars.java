@@ -1,5 +1,6 @@
 package classicMod.content;
 
+import arc.graphics.Color;
 import classicMod.library.ai.RallyAI;
 
 public class ClassicVars {

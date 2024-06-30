@@ -33,6 +33,7 @@ import mindustry.world.blocks.ControlBlock;
 import mindustry.world.meta.Stat;
 
 import static arc.Core.camera;
+import static arc.Core.settings;
 import static classicMod.ClassicMod.getStatBundle;
 import static classicMod.library.ui.UIExtended.fdelta;
 import static mindustry.Vars.*;
@@ -516,6 +517,11 @@ public class NewAccelerator extends Block{
                     ui.showException("[accent]" + Core.bundle.get("savefail"), e);
                 }
             }
+
+            to.preset.alwaysUnlocked = true;
+            to.preset.unlocked();
+
+            settings.put("launched-planetary", true);
 
             Events.fire(new SectorLaunchEvent(to));
             control.playSector(to);

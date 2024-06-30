@@ -1,6 +1,7 @@
 package classicMod.content;
 
 import arc.struct.*;
+import classicMod.library.blocks.NewAccelerator;
 import mindustry.content.*;
 import mindustry.ctype.*;
 import mindustry.game.Objectives.*;
@@ -8,6 +9,7 @@ import mindustry.type.*;
 
 import static classicMod.content.ClassicBlocks.*;
 import static mindustry.content.Blocks.*;
+import static mindustry.content.SectorPresets.onset;
 import static mindustry.content.SectorPresets.planetaryTerminal;
 import static mindustry.content.TechTree.*;
 
@@ -114,6 +116,10 @@ public class ExtendedSerpuloTechTree {
             node(thermalPump);
         });
 
+        margeNode(planetaryTerminal, () -> {
+            nodePlanetary(onset, ClassicBlocks.interplanetaryAccelerator, () -> {});
+        });
+
     }
 
     private static void margeNode(UnlockableContent parent, Runnable children){ //from betamindy!
@@ -157,5 +163,9 @@ public class ExtendedSerpuloTechTree {
 
     private static void nodeProduce(UnlockableContent content){
         nodeProduce(content, Seq.with(), () -> {});
+    }
+
+    private static void nodePlanetary(UnlockableContent content, UnlockableContent thisOne, Runnable children){
+            node(content, Seq.with(new VisualObjectives.LaunchedPlanetaryAccelerator(thisOne)), children);
     }
 }

@@ -272,7 +272,7 @@ public class ClassicMod extends Mod{
         Log.info("Loading contents...");
         new ClassicItems().load();
         new ClassicLiquids().load();
-        new ClassicBlocks().loadOverride();
+        new OverridableContent().loadOverride();
         new ClassicBullets().load();
         new ClassicUnitTypes().load();
         new ClassicBlocks().load();

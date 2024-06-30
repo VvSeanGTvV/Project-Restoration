@@ -1,0 +1,41 @@
+package classicMod.content;
+
+import arc.Core;
+import classicMod.library.blocks.NewAccelerator;
+import mindustry.ctype.UnlockableContent;
+import mindustry.game.Objectives;
+import mindustry.type.Planet;
+import mindustry.type.Sector;
+import mindustry.type.SectorPreset;
+
+import static mindustry.content.SectorPresets.planetaryTerminal;
+
+public class VisualObjectives extends Objectives {
+
+    /** this is just visual usage not that useful **/
+    public static class LaunchedPlanetaryAccelerator implements Objective{
+        public SectorPreset sector;
+        public UnlockableContent accelerator;
+
+        public LaunchedPlanetaryAccelerator(SectorPreset sector, UnlockableContent accelerator){
+            this.sector = sector;
+            this.accelerator = accelerator;
+        }
+
+        public LaunchedPlanetaryAccelerator(UnlockableContent accelerator){
+            this.sector = planetaryTerminal;
+            this.accelerator = accelerator;
+        }
+
+        @Override
+        public boolean complete() {
+            return false;
+        }
+
+        @Override
+        public String display(){
+            return Core.bundle.format("requirement.launchedAccelerator", accelerator.localizedName);
+        }
+    }
+
+}
