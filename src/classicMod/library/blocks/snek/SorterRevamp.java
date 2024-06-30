@@ -123,7 +123,7 @@ public class SorterRevamp extends Block {
             if(from == -1) return null;
             Building to;
 
-            Building[] Buildingthis = new Building[]{src.front(), src.back(), src.left(), src.right()};
+            Building[] Buildingthis = new Building[]{nearby(from), nearby(from + 2), nearby(from + 1), nearby(from + 3)};
             Building a = Buildingthis[Mathf.mod(from + 1, 4)];
             Building b = Buildingthis[Mathf.mod(from - 1, 4)];
             boolean okayA = a != null && a.team == team && a.acceptItem(this, item) && (((item == sortItem) != invert) == enabled);
