@@ -104,14 +104,14 @@ public class SorterRevamp extends Block {
 
         @Override
         public boolean acceptItem(Building source, Item item) {
-            Building to = getTileTarget(item, this, source, true);
+            Building to = getTileTarget(item, this, source);
 
             return to != null && to.acceptItem(this, item) && to.team == team;
         }
 
         @Override
         public void handleItem(Building source, Item item) {
-            Building target = getTileTarget(item, this, source, false);
+            Building target = getTileTarget(item, this, source);
 
             if(target != null) target.handleItem(this, item);
         }
@@ -120,7 +120,7 @@ public class SorterRevamp extends Block {
             return other != null && other.block.instantTransfer;
         }
 
-        public @Nullable Building getTileTarget(Item item, Building fromBlock, Building src, boolean flip) {
+        public @Nullable Building getTileTarget(Item item, Building fromBlock, Building src) {
             int from = relativeToEdge(src.tile);
             if(from == -1) return null;
 
@@ -131,9 +131,10 @@ public class SorterRevamp extends Block {
 
             if(!canFoward || inv){
                 for (int i=0; i<1; i++){
-                    var offset = (flip) ? -1 : 1;
+                    var offset = (reverse) ? 1 : -1;
                     Building a = fromBlock.nearby(Mathf.mod(from + offset, 4));
                     boolean aB = a != null && a.team == team && a.acceptItem(fromBlock, item);
+                    reverse = !reverse;
                     if(aB) {
                         to = a;
                         break;
