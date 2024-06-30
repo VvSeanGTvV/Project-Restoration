@@ -124,9 +124,11 @@ public class SorterRevamp extends Block {
 
             Building[] Buildingthis = new Building[]{src.front(), src.back(), left(), src.right()};
             Building a = Buildingthis[Mathf.mod(from + 1, 4)];
-            boolean okay = a.team == team && a.acceptItem(this, item) && a != null && a != fromBlock;
-            if (okay){
-                to = a;
+            if(a != null) {
+                boolean okay = a.team == team && a.acceptItem(this, item) && a != fromBlock;
+                if (okay) {
+                    to = a;
+                }
             }
 
 
