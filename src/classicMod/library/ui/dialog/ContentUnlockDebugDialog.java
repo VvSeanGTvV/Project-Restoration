@@ -127,6 +127,36 @@ public class ContentUnlockDebugDialog extends BaseDialog {
 
         cont.pane(new Table() {
             {
+                for (var Content : Vars.content.blocks()){
+                    table(Styles.grayPanel, info -> {
+                        info.table(details -> {
+                            details.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
+                            details.add(Content.localizedName).left().pad(10f);
+                        });
+
+                        info.row();
+                        info.table(yes -> {
+                            if(Content.alwaysUnlocked) {
+                                yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent);
+                            } else {
+                                if (Content.unlocked()) yes.button("@lock", () -> {
+                                    Content.clearUnlock();
+                                    rebuild();
+                                }).size(buttonWidth, buttonHeight).pad(2.5f);
+                                else yes.button("@unlock", () -> {
+                                    Content.unlock();
+                                    rebuild();
+                                }).size(buttonWidth, buttonHeight).pad(2.5f);
+                            }
+                        }).left().pad(2.5f);
+                    }).left().pad(10f);
+                    row();
+                }
+            }
+        });
+
+        cont.pane(new Table() {
+            {
                 for (var Content : Vars.content.units()){
                     if(Content.isHidden()) continue;
                     table(Styles.grayPanel, info -> {
