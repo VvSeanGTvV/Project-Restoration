@@ -39,8 +39,8 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                         info.table(yes -> {
                             yes.button("@lock", Content::clearUnlock).size(buttonWidth, buttonHeight).pad(2.5f);
                             yes.button("@unlock", Content::unlock).size(buttonWidth, buttonHeight).pad(2.5f);
-                        }).left().pad(10f);
-                    }).left();
+                        }).left().pad(2.5f);
+                    }).left().pad(10f);
                     row();
                 }
             }
@@ -59,8 +59,8 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                         info.table(yes -> {
                             yes.button("@lock", Content::clearUnlock).size(buttonWidth, buttonHeight).pad(2.5f);
                             yes.button("@unlock", Content::unlock).size(buttonWidth, buttonHeight).pad(2.5f);
-                        }).left().pad(10f);
-                    }).left();
+                        }).left().pad(2.5f);
+                    }).left().pad(10f);
                     row();
                 }
             }
@@ -80,8 +80,8 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                         info.table(yes -> {
                             yes.button("@lock", Content::clearUnlock).size(buttonWidth, buttonHeight).pad(2.5f);
                             yes.button("@unlock", Content::unlock).size(buttonWidth, buttonHeight).pad(2.5f);
-                        }).left().pad(10f);
-                    }).left();
+                        }).left().pad(2.5f);
+                    }).left().pad(10f);
                     row();
                 }
             }
@@ -101,8 +101,8 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                             yes.button("@lock", Content::clearUnlock).size(buttonWidth, buttonHeight).pad(2.5f);
                             yes.button("@unlock", Content::unlock).size(buttonWidth, buttonHeight).pad(2.5f);
                             yes.button("@launch-to", () -> StartSector(Content)).size(105f, 64f).pad(2.5f);
-                        }).left().pad(10f);
-                    }).left();
+                        }).left().pad(2.5f);
+                    }).left().pad(10f);
                     row();
                 }
             }
@@ -113,6 +113,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
     public void StartSector(SectorPreset to){
         var sector = to.sector;
 
+        to.unlock();
         Events.fire(new EventType.SectorLaunchEvent(sector));
         control.playSector(sector);
     }
