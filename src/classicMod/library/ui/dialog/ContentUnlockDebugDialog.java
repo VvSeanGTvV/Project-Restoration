@@ -30,8 +30,8 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                         info.add(Content.localizedName).left();
 
                         info.table(yes -> {
-                            yes.button("@lock", Content::clearUnlock).size(105f, 64f).pad(2.5f);
-                            yes.button("@unlock", Content::unlock).size(105f, 64f).pad(2.5f);
+                            yes.button("@lock", Content::clearUnlock).size(64f, 64f).pad(2.5f);
+                            yes.button("@unlock", Content::unlock).size(64f, 64f).pad(2.5f);
                         }).right().pad(2.5f);
                     }).left();
                     row();
@@ -47,8 +47,8 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                         info.add(Content.localizedName).left();
 
                         info.table(yes -> {
-                            yes.button("@lock", Content::clearUnlock).size(105f, 64f).pad(2.5f);
-                            yes.button("@unlock", Content::unlock).size(105f, 64f).pad(2.5f);
+                            yes.button("@lock", Content::clearUnlock).size(64f, 64f).pad(2.5f);
+                            yes.button("@unlock", Content::unlock).size(64f, 64f).pad(2.5f);
                         }).right().pad(2.5f);
                     }).left();
                     row();
@@ -64,8 +64,8 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                         info.add(Content.localizedName).left();
 
                         info.table(yes -> {
-                            yes.button("@lock", Content::clearUnlock).size(105f, 64f).pad(2.5f);
-                            yes.button("@unlock", Content::unlock).size(105f, 64f).pad(2.5f);
+                            yes.button("@lock", Content::clearUnlock).size(64f, 64f).pad(2.5f);
+                            yes.button("@unlock", Content::unlock).size(52.5f,, 64f).pad(2.5f);
                         }).right().pad(2.5f);
                     }).left();
                     row();
@@ -77,13 +77,13 @@ public class ContentUnlockDebugDialog extends BaseDialog {
             {
                 for (var Content : Vars.content.sectors()){
                     table(Styles.grayPanel, info -> {
-                        info.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
+                        info.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left().color(Content.planet.iconColor);
                         info.add(Content.localizedName).left();
 
                         info.table(yes -> {
-                            yes.button("@lock", Content::clearUnlock).size(105f, 64f).pad(2.5f);
-                            yes.button("@unlock", Content::unlock).size(105f, 64f).pad(2.5f);
-                            yes.button("@launch-to", () -> StartSector(Content)).size(105f, 64f).pad(2.5f);
+                            yes.button("@lock", Content::clearUnlock).size(64f, 64f).pad(2.5f);
+                            yes.button("@unlock", Content::unlock).size(64f, 64f).pad(2.5f);
+                            yes.button("@launch-to", () -> StartSector(Content)).size(64f, 64f).pad(2.5f);
                         }).right().pad(2.5f);
                     }).left();
                     row();
