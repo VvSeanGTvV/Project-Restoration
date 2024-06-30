@@ -99,6 +99,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
     void rebuildTable(){
         Items = new Table() {{
             for (var Content : Vars.content.items()) {
+                if(Content.isHidden()) continue;
                 table(Styles.grayPanel, info -> {
                     info.table(details -> {
                         details.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
@@ -127,6 +128,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
 
         Liquids = new Table() {{
             for (var Content : Vars.content.liquids()) {
+                if(Content.isHidden()) continue;
                 table(Styles.grayPanel, info -> {
                     info.table(details -> {
                         details.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
@@ -258,6 +260,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
 
         SectorPresets = new Table() {{
             for (var Content : Vars.content.sectors()) {
+                if(Content.isHidden()) continue;
                 table(Styles.grayPanel, info -> {
                     info.table(details -> {
                         details.image(Icon.icons.get(Content.planet.icon + "Small", Icon.icons.get(Content.planet.icon, Icon.commandRallySmall))).size(32f).scaling(Scaling.fit).pad(10f).left().color(Content.planet.iconColor);
