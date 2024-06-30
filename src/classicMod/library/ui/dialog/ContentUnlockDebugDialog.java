@@ -30,11 +30,22 @@ public class ContentUnlockDebugDialog extends BaseDialog {
 
     float buttonWidth = 92f;
     float buttonHeight = 32f;
+    int Page;
     public ContentUnlockDebugDialog() {
         super("@CUD.title");
-        addUnlockAllButton();
-        addCloseButton();
-        addLockAllButton();
+        Page = 0;
+
+        if(mobile){
+            addLeft();
+            addUnlockAllButton();
+            addCloseButton();
+            addLockAllButton();
+            addRight();
+        } else {
+            addUnlockAllButton();
+            addCloseButton();
+            addLockAllButton();
+        }
 
         rebuild();
 
@@ -63,6 +74,24 @@ public class ContentUnlockDebugDialog extends BaseDialog {
 
     public void addLockAllButton(){
         addLockAllButton(210f);
+    }
+
+    public void addLeft(){
+        buttons.defaults().size(width, 64f);
+        buttons.button(Icon.left, () -> {
+            if(Page > 0) Page -= 1;
+            if(Page < 0) Page = 5;
+            rebuild();
+        }).size(64f, 64f);
+    }
+
+    public void addRight(){
+        buttons.defaults().size(width, 64f);
+        buttons.button(Icon.left, () -> {
+            if(Page < 5) Page += 1;
+            if (Page > 5) Page = 0;
+            rebuild();
+        }).size(64f, 64f);
     }
 
     void rebuildTable(){
@@ -280,48 +309,56 @@ public class ContentUnlockDebugDialog extends BaseDialog {
     ScrollPane SectorPane;
 
     void rebuild(int Table){
+        var lastYItem = 0f;
+        var lastYLiquid = 0f;
+        var lastYUnit = 0f;
+        var lastYBlock = 0f;
+        var lastYStat = 0f;
+        var lastYSector = 0f;
+        if (Table == 0 && Items != null && ItemPane != null) lastYItem = ItemPane.getScrollY();
+        if (Table == 1 && Liquids != null && LiquidPane != null) lastYLiquid = LiquidPane.getScrollY();
+        if (Table == 2 && Units != null && UnitPane != null) lastYUnit = UnitPane.getScrollY();
+        if (Table == 3 && Blocks != null && BlockPane != null) lastYBlock = BlockPane.getScrollY();
+        if (Table == 4 && Status != null && StatPane != null) lastYStat = StatPane.getScrollY();
+        if (Table == 5 && SectorPresets != null && SectorPane != null) lastYSector = SectorPane.getScrollY();
         rebuildTable();
         if(Table == 0){
             var PaneAdd = ItemPane;
-            var lastY = PaneAdd.getScrollY();
             cont.add(PaneAdd);
-            PaneAdd.setScrollY(lastY);
+            PaneAdd.setScrollY(lastYItem);
         }
         if(Table == 1){
             var PaneAdd = LiquidPane;
-            var lastY = PaneAdd.getScrollY();
             cont.add(PaneAdd);
-            PaneAdd.setScrollY(lastY);
+            PaneAdd.setScrollY(lastYLiquid);
         }
         if(Table == 2){
             var PaneAdd = UnitPane;
-            var lastY = PaneAdd.getScrollY();
             cont.add(PaneAdd);
-            PaneAdd.setScrollY(lastY);
+            PaneAdd.setScrollY(lastYUnit);
         }
         if(Table == 3){
             var PaneAdd = BlockPane;
-            var lastY = PaneAdd.getScrollY();
             cont.add(PaneAdd);
-            PaneAdd.setScrollY(lastY);
+            PaneAdd.setScrollY(lastYBlock);
         }
         if(Table == 4){
             var PaneAdd = StatPane;
-            var lastY = PaneAdd.getScrollY();
             cont.add(PaneAdd);
-            PaneAdd.setScrollY(lastY);
+            PaneAdd.setScrollY(lastYStat);
         }
         if(Table == 5){
             var PaneAdd = SectorPane;
-            var lastY = PaneAdd.getScrollY();
             cont.add(PaneAdd);
-            PaneAdd.setScrollY(lastY);
+            PaneAdd.setScrollY(lastYSector);
         }
     }
 
     void rebuild(){
         cont.clearChildren();
-        for(int i = 0; i < 5; i++) rebuild(i);
+        if(!mobile) for(int i = 0; i < 5; i++) rebuild(i); else {
+            rebuild(Page);
+        }
     }
 
 
