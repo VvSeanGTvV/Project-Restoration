@@ -10,6 +10,7 @@ import classicMod.ClassicMod;
 import mindustry.Vars;
 import mindustry.game.EventType;
 import mindustry.gen.Icon;
+import mindustry.graphics.Pal;
 import mindustry.type.Sector;
 import mindustry.type.SectorPreset;
 import mindustry.ui.Styles;
@@ -32,7 +33,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
 
     public void addUnlockAllButton(float width){
         buttons.defaults().size(width, 64f);
-        buttons.button("@unlockall", Icon.left, ClassicMod::unlockAll).size(width, 64f);
+        buttons.button("@unlockall", Icon.download, ClassicMod::unlockAll).size(width, 64f);
     }
 
     public void addUnlockAllButton(){
@@ -54,14 +55,18 @@ public class ContentUnlockDebugDialog extends BaseDialog {
 
                         info.row();
                         info.table(yes -> {
-                            if(Content.unlocked()) yes.button("@lock", () -> {
-                                Content.clearUnlock();
-                                rebuild();
-                            }).size(buttonWidth, buttonHeight).pad(2.5f);
-                            else yes.button("@unlock", () -> {
-                                Content.unlock();
-                                rebuild();
-                            }).size(buttonWidth, buttonHeight).pad(2.5f);
+                            if(Content.alwaysUnlocked) {
+                                yes.add("@alwaysUnlock").color(Pal.accent);
+                            } else {
+                                if (Content.unlocked()) yes.button("@lock", () -> {
+                                    Content.clearUnlock();
+                                    rebuild();
+                                }).size(buttonWidth, buttonHeight).pad(2.5f);
+                                else yes.button("@unlock", () -> {
+                                    Content.unlock();
+                                    rebuild();
+                                }).size(buttonWidth, buttonHeight).pad(2.5f);
+                            }
                         }).left().pad(2.5f);
                     }).left().pad(10f);
                     row();
@@ -80,14 +85,18 @@ public class ContentUnlockDebugDialog extends BaseDialog {
 
                         info.row();
                         info.table(yes -> {
-                            if(Content.unlocked()) yes.button("@lock", () -> {
-                                Content.clearUnlock();
-                                rebuild();
-                            }).size(buttonWidth, buttonHeight).pad(2.5f);
-                            else yes.button("@unlock", () -> {
-                                Content.unlock();
-                                rebuild();
-                            }).size(buttonWidth, buttonHeight).pad(2.5f);
+                            if(Content.alwaysUnlocked) {
+                                yes.add("@alwaysUnlock").color(Pal.accent);
+                            } else {
+                                if (Content.unlocked()) yes.button("@lock", () -> {
+                                    Content.clearUnlock();
+                                    rebuild();
+                                }).size(buttonWidth, buttonHeight).pad(2.5f);
+                                else yes.button("@unlock", () -> {
+                                    Content.unlock();
+                                    rebuild();
+                                }).size(buttonWidth, buttonHeight).pad(2.5f);
+                            }
                         }).left().pad(2.5f);
                     }).left().pad(10f);
                     row();
@@ -107,14 +116,49 @@ public class ContentUnlockDebugDialog extends BaseDialog {
 
                         info.row();
                         info.table(yes -> {
-                            if(Content.unlocked()) yes.button("@lock", () -> {
-                                Content.clearUnlock();
-                                rebuild();
-                            }).size(buttonWidth, buttonHeight).pad(2.5f);
-                            else yes.button("@unlock", () -> {
-                                Content.unlock();
-                                rebuild();
-                            }).size(buttonWidth, buttonHeight).pad(2.5f);
+                            if(Content.alwaysUnlocked) {
+                                yes.add("@alwaysUnlock").color(Pal.accent);
+                            } else {
+                                if (Content.unlocked()) yes.button("@lock", () -> {
+                                    Content.clearUnlock();
+                                    rebuild();
+                                }).size(buttonWidth, buttonHeight).pad(2.5f);
+                                else yes.button("@unlock", () -> {
+                                    Content.unlock();
+                                    rebuild();
+                                }).size(buttonWidth, buttonHeight).pad(2.5f);
+                            }
+                        }).left().pad(2.5f);
+                    }).left().pad(10f);
+                    row();
+                }
+            }
+        });
+
+        cont.pane(new Table() {
+            {
+                for (var Content : Vars.content.statusEffects()){
+                    if(Content.isHidden()) continue;
+                    table(Styles.grayPanel, info -> {
+                        info.table(details -> {
+                            details.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
+                            details.add(Content.localizedName).left().pad(10f);
+                        });
+
+                        info.row();
+                        info.table(yes -> {
+                            if(Content.alwaysUnlocked) {
+                                yes.add("@alwaysUnlock").color(Pal.accent);
+                            } else {
+                                if (Content.unlocked()) yes.button("@lock", () -> {
+                                    Content.clearUnlock();
+                                    rebuild();
+                                }).size(buttonWidth, buttonHeight).pad(2.5f);
+                                else yes.button("@unlock", () -> {
+                                    Content.unlock();
+                                    rebuild();
+                                }).size(buttonWidth, buttonHeight).pad(2.5f);
+                            }
                         }).left().pad(2.5f);
                     }).left().pad(10f);
                     row();
@@ -133,19 +177,23 @@ public class ContentUnlockDebugDialog extends BaseDialog {
 
                         info.row();
                         info.table(yes -> {
-                            if(Content.unlocked()) {
-                                yes.button("@lock", () -> {
-                                    Content.clearUnlock();
+                            if(Content.alwaysUnlocked) {
+                                add("@alwaysUnlock");
+                            } else {
+                                if(Content.unlocked()) {
+                                    yes.button("@lock", () -> {
+                                        Content.clearUnlock();
+                                        rebuild();
+                                    }).size(buttonWidth, buttonHeight).pad(2.5f);
+                                    yes.button("@launch-to", () -> {
+                                        StartSector(Content);
+                                        hide();
+                                    }).size(105f, 64f).pad(2.5f);
+                                } else yes.button("@unlock", () -> {
+                                    Content.unlock();
                                     rebuild();
                                 }).size(buttonWidth, buttonHeight).pad(2.5f);
-                                yes.button("@launch-to", () -> {
-                                    StartSector(Content);
-                                    hide();
-                                }).size(105f, 64f).pad(2.5f);
-                            } else yes.button("@unlock", () -> {
-                                Content.unlock();
-                                rebuild();
-                            }).size(buttonWidth, buttonHeight).pad(2.5f);
+                            }
                         }).left().pad(2.5f);
                     }).left().pad(10f);
                     row();
