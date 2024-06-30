@@ -263,6 +263,27 @@ public class ClassicMod extends Mod{
         }
     }
 
+    public static void lockAll(){
+        for (var blocks : content.blocks()){
+            blocks.clearUnlock();
+        }
+        for (var sectors : content.sectors()){
+            sectors.clearUnlock();
+        }
+        for (var units : content.units()){
+            units.clearUnlock();
+        }
+        for (var liquids : content.liquids()){
+            liquids.clearUnlock();
+        }
+        for (var items : content.items()){
+            items.clearUnlock();
+        }
+        for (var effect : content.statusEffects()){
+            effect.clearUnlock();
+        }
+    }
+
     @Override
     public void loadContent(){
         boolean Classic = settings.getBool("content-classic");

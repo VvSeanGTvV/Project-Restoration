@@ -2,19 +2,24 @@ package classicMod.library.ui.dialog;
 
 import arc.Core;
 import arc.Events;
+import arc.math.geom.Vec2;
 import arc.scene.ui.Dialog;
 import arc.scene.ui.layout.Scl;
 import arc.scene.ui.layout.Table;
 import arc.util.Scaling;
 import classicMod.ClassicMod;
+import classicMod.library.blocks.legacyBlocks.MechPad;
 import mindustry.Vars;
+import mindustry.content.Fx;
 import mindustry.game.EventType;
-import mindustry.gen.Icon;
+import mindustry.gen.*;
 import mindustry.graphics.Pal;
 import mindustry.type.Sector;
 import mindustry.type.SectorPreset;
+import mindustry.type.UnitType;
 import mindustry.ui.Styles;
 import mindustry.ui.dialogs.BaseDialog;
+import mindustry.world.Tile;
 
 import static mindustry.Vars.*;
 import static mindustry.Vars.control;
@@ -56,7 +61,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                         info.row();
                         info.table(yes -> {
                             if(Content.alwaysUnlocked) {
-                                yes.add("@alwaysUnlock").color(Pal.accent);
+                                yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent);
                             } else {
                                 if (Content.unlocked()) yes.button("@lock", () -> {
                                     Content.clearUnlock();
@@ -86,7 +91,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                         info.row();
                         info.table(yes -> {
                             if(Content.alwaysUnlocked) {
-                                yes.add("@alwaysUnlock").color(Pal.accent);
+                                yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent);
                             } else {
                                 if (Content.unlocked()) yes.button("@lock", () -> {
                                     Content.clearUnlock();
@@ -117,13 +122,19 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                         info.row();
                         info.table(yes -> {
                             if(Content.alwaysUnlocked) {
-                                yes.add("@alwaysUnlock").color(Pal.accent);
+                                yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent);
                             } else {
-                                if (Content.unlocked()) yes.button("@lock", () -> {
-                                    Content.clearUnlock();
-                                    rebuild();
-                                }).size(buttonWidth, buttonHeight).pad(2.5f);
-                                else yes.button("@unlock", () -> {
+                                if (Content.unlocked()) {
+                                    yes.button("@lock", () -> {
+                                        Content.clearUnlock();
+                                        rebuild();
+                                    }).size(buttonWidth, buttonHeight).pad(2.5f);
+
+                                    yes.button("@transform", () -> {
+                                        spawnMech(Content, player);
+                                    }).size(buttonWidth, buttonHeight).pad(2.5f);
+
+                                } else yes.button("@unlock", () -> {
                                     Content.unlock();
                                     rebuild();
                                 }).size(buttonWidth, buttonHeight).pad(2.5f);
@@ -148,7 +159,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                         info.row();
                         info.table(yes -> {
                             if(Content.alwaysUnlocked) {
-                                yes.add("@alwaysUnlock").color(Pal.accent);
+                                yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent);
                             } else {
                                 if (Content.unlocked()) yes.button("@lock", () -> {
                                     Content.clearUnlock();
@@ -178,7 +189,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                         info.row();
                         info.table(yes -> {
                             if(Content.alwaysUnlocked) {
-                                yes.add("@alwaysUnlock");
+                                yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent);
                             } else {
                                 if(Content.unlocked()) {
                                     yes.button("@lock", () -> {
@@ -202,6 +213,39 @@ public class ContentUnlockDebugDialog extends BaseDialog {
         });
     }
 
+
+    public void spawnMech(UnitType unitType, Player player){
+        //do not try to respawn in unsupported environments at all
+        if(!unitType.supportsEnv(state.rules.env)) return;
+        if(unitType.isBanned()) return;
+
+        if (Vars.net.server() || !Vars.net.active()){
+            playerSpawn(player, unitType);
+        }
+
+        if (Vars.net.server()) {
+            PlayerSpawnCallPacket packet = new PlayerSpawnCallPacket();
+            packet.player = player;
+            Vars.net.send(packet, true);
+        }
+    }
+
+    public void playerSpawn(Player player, UnitType unitType){
+        if(player == null) return;
+        var lastPos = new Vec2(player.unit().x, player.unit().y);
+
+        player.set(lastPos);
+
+        if(!net.client()){
+            Unit unit = unitType.create(player.unit().team);
+            unit.set(lastPos);
+            unit.rotation(90f);
+            unit.impulse(0f, 3f);
+            unit.controller(player);
+            unit.spawnedByCore(true);
+            unit.add();
+        }
+    }
 
     public void StartSector(SectorPreset to){
         var sector = to.sector;
