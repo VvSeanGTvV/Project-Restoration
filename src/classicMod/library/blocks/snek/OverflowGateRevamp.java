@@ -47,6 +47,7 @@ public class OverflowGateRevamp extends Block {
 
     public class OverflowGateRevampBuild extends Building {
 
+        boolean reverse;
         @Override
         public boolean acceptItem(Building source, Item item){
             Building to = getTileTarget(item, this, source, false);
@@ -69,28 +70,26 @@ public class OverflowGateRevamp extends Block {
         public @Nullable Building getTileTarget(Item item, Building fromBlock, Building src, boolean flip) {
             int from = relativeToEdge(src.tile);
             if (from == -1) return null;
-            Building to;
+            int[] allDirections = new int[]{
+                    0, // Up -> Down
+                    1, // Left -> Right
+                    2, // Left -> Right
+                    3  // Down -> Up
+            };
+            Building to = fromBlock.nearby(from);
+            boolean canFoward = to != null && to.acceptItem(src, item) && to.team == team;
 
-            Building[] Buildingthis = new Building[]{nearby(from), nearby(from + 2), nearby(from + 1), nearby(from + 3)};
-            Building a = Buildingthis[Mathf.mod(from - 1, 4)];
-            Building b = Buildingthis[Mathf.mod(from + 1, 4)];
-            boolean okayA = a != null && a.team == team && a.acceptItem(this, item);
-            boolean okayB = b != null &&b.team == team && b.acceptItem(this, item);
+            if(!canFoward || flip){
+                var offset = (reverse) ? -1 : 1;
+                Building a = fromBlock.nearby(Mathf.mod(from + offset, 4));
+                boolean aB = a != null && a.team == team && a.acceptItem(src, item);
+                if(!aB) reverse = !reverse;
+                reverse = !reverse;
+                if(aB) to = a;
+            }
 
             Log.info("overflow dir "+from);
-            Log.info("overflow a "+a);
-            Log.info("overflow b "+b);
-
-            if (okayA && !okayB) {
-                to = a;
-            } else if (!okayA && okayB) {
-                to = b;
-            } else if (!okayB) {
-                return null;
-            } else {
-                to = (rotation & (1 << from)) == 0 ? a : b;
-                if (flip) rotation ^= (1 << from);
-            }
+            Log.info("overflow output "+to);
 
             return to;
         }

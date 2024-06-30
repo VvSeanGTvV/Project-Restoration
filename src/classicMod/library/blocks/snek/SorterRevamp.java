@@ -73,6 +73,7 @@ public class SorterRevamp extends Block {
     public class SorterRevampBuild extends Building {
         public @Nullable Item sortItem;
 
+        boolean reverse;
         public Seq<Building> ConnectedBuilding;
 
         @Override
@@ -121,24 +122,17 @@ public class SorterRevamp extends Block {
         public @Nullable Building getTileTarget(Item item, Building fromBlock, Building src, boolean flip){
             int from = relativeToEdge(src.tile);
             if(from == -1) return null;
-            Building to;
 
-            Building[] Buildingthis = new Building[]{nearby(from), nearby(from + 2), nearby(from + 1), nearby(from + 3)};
-            Building a = Buildingthis[Mathf.mod(from - 1, 4)];
-            Building b = Buildingthis[Mathf.mod(from + 1, 4)];
-            boolean okayA = a != null && a.team == team && a.acceptItem(this, item) && (((item == sortItem) != invert) == enabled);
-            boolean okayB = b != null && b.team == team && b.acceptItem(this, item) && (((item == sortItem) != invert) == enabled);
-            Log.info("sorter a "+a);
-            Log.info("sorter b "+b);
-            if (okayA && !okayB) {
-                to = a;
-            } else if (!okayA && okayB) {
-                to = b;
-            } else if (!okayB) {
-                return null;
-            } else {
-                to = (rotation & (1 << from)) == 0 ? a : b;
-                if (flip) rotation ^= (1 << from);
+            Building to = fromBlock.nearby(from);
+            boolean canFoward = (((item == sortItem) != invert) == enabled);
+
+            if(!canFoward || flip){
+                var offset = (reverse) ? -1 : 1;
+                Building a = fromBlock.nearby(Mathf.mod(from + offset, 4));
+                boolean aB = a != null && a.team == team && a.acceptItem(src, item);
+                if(!aB) reverse = !reverse;
+                reverse = !reverse;
+                if(aB) to = a;
             }
 
             return to;
