@@ -308,12 +308,12 @@ public class ContentUnlockDebugDialog extends BaseDialog {
     ScrollPane StatPane;
     ScrollPane SectorPane;
 
-    var lastYItem = 0f;
-    var lastYLiquid = 0f;
-    var lastYUnit = 0f;
-    var lastYBlock = 0f;
-    var lastYStat = 0f;
-    var lastYSector = 0f;
+    float lastYItem = 0f;
+    float lastYLiquid = 0f;
+    float lastYUnit = 0f;
+    float lastYBlock = 0f;
+    float lastYStat = 0f;
+    float lastYSector = 0f;
 
     void rebuild(int Table){
         if (Table == 0 && Items != null && ItemPane != null) lastYItem = ItemPane.getScrollY();
