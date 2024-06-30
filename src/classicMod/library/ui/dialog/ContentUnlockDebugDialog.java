@@ -178,7 +178,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                         info.row();
                         info.table(yes -> {
                             if(Content.alwaysUnlocked) {
-                                add("@alwaysUnlock");
+                                yes.add("@alwaysUnlock");
                             } else {
                                 if(Content.unlocked()) {
                                     yes.button("@lock", () -> {
