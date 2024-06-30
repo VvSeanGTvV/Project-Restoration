@@ -27,5 +27,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                 }
             }
         });
+
+        show();
     }
 }
