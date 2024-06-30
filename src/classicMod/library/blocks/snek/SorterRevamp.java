@@ -101,14 +101,14 @@ public class SorterRevamp extends Block {
 
         @Override
         public boolean acceptItem(Building source, Item item) {
-            Building to = getTileTarget(item, this, source);
+            Building to = getTileTarget(item, this, source, true);
 
             return to != null && to.acceptItem(this, item) && to.team == team;
         }
 
         @Override
         public void handleItem(Building source, Item item) {
-            Building target = getTileTarget(item, this, source);
+            Building target = getTileTarget(item, this, source, false);
 
             if(target != null) target.handleItem(this, item);
         }
@@ -117,22 +117,29 @@ public class SorterRevamp extends Block {
             return other != null && other.block.instantTransfer;
         }
 
-        public @Nullable Building getTileTarget(Item item, Building fromBlock, Building src){
+        public @Nullable Building getTileTarget(Item item, Building fromBlock, Building src, boolean flip){
             int from = relativeToEdge(src.tile);
             if(from == -1) return null;
             Building to = nearby((from + 2) % 4);
 
             Building[] Buildingthis = new Building[]{src.front(), src.back(), src.left(), src.right()};
             Building a = Buildingthis[Mathf.mod(from + 1, 4)];
-            if(a != null) {
-                boolean okay = a.team == team && a.acceptItem(this, item) && ((item == sortItem) != invert) == enabled;
+            Building b = Buildingthis[Mathf.mod(from - 1, 4)];
+
+            if (a != null) {
+                boolean okay = a.team == team && a.acceptItem(this, item);
                 if (okay) {
                     to = a;
                 }
+            } else if (b != null) {
+                boolean okay = b.team == team && b.acceptItem(this, item);
+                if (okay) {
+                    to = b;
+                }
             } else {
-                return null;
+                to = (rotation & (1 << from)) == 0 ? a : b;
+                if (flip) rotation ^= (1 << from);
             }
-
 
             return to;
         }
