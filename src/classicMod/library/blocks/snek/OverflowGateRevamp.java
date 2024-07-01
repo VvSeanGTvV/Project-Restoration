@@ -50,7 +50,6 @@ public class OverflowGateRevamp extends Block {
         boolean reverse;
         @Override
         public boolean acceptItem(Building source, Item item){
-            reverse = !reverse;
             Building to = getTileTarget(item, this, source);
 
             return to != null && to.acceptItem(this, item) && to.team == team;
@@ -58,6 +57,7 @@ public class OverflowGateRevamp extends Block {
 
         @Override
         public void draw() {
+            reverse = !reverse;
             Draw.rect(Core.atlas.find(name), x, y);
         }
 
