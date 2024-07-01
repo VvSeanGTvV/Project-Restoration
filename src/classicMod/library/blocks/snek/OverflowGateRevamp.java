@@ -47,12 +47,12 @@ public class OverflowGateRevamp extends Block {
 
     public class OverflowGateRevampBuild extends Building {
 
-        boolean reverse;
+        int last;
         @Override
         public boolean acceptItem(Building source, Item item){
             Building to = getTileTarget(item, this, source);
 
-            return to != null && to.acceptItem(this, item) && to.team == team;
+            if (to != null) return to.acceptItem(this, item) && to.team == team; else return false;
         }
 
         @Override
@@ -62,7 +62,6 @@ public class OverflowGateRevamp extends Block {
 
         @Override
         public void handleItem(Building source, Item item){
-            reverse = !reverse;
             Building target = getTileTarget(item, this, source);
 
             if(target != null) target.handleItem(this, item);
@@ -77,44 +76,15 @@ public class OverflowGateRevamp extends Block {
                     inv = invert == enabled;
 
             if(!canFoward || inv){
-                var offset = (reverse) ? 1 : -1;
+                var offset = 1;
+                if(offset == this.last) offset = -1;
                 Building a = fromBlock.nearby(Mathf.mod(from + offset, 4));
                 boolean aB = a != null && a.team == team && a.acceptItem(fromBlock, item);
                 if (aB) {
                     to = a;
                 }
-            }
+                this.last = offset;
 
-            return to;
-        }
-
-        public @Nullable Building getTileTarget(Item item, Building src, boolean flip){
-            int from = relativeToEdge(src.tile);
-            if(from == -1) return null;
-            Building to = nearby((from + 2) % 4);
-            boolean
-                    //fromInst = src.block.instantTransfer, < ignore this bud
-                    canForward = to != null && to.team == team && to.acceptItem(this, item),
-                    inv = invert == enabled;
-
-            if(!canForward || inv){
-                Building a = nearby(Mathf.mod(from - 1, 4));
-                Building b = nearby(Mathf.mod(from + 1, 4));
-                boolean ac = a != null && a.team == team && a.acceptItem(this, item);
-                boolean bc = b != null && b.team == team && b.acceptItem(this, item);
-
-                if(!ac && !bc){
-                    return inv && canForward ? to : null;
-                }
-
-                if(ac && !bc){
-                    to = a;
-                }else if(bc && !ac){
-                    to = b;
-                }else{
-                    to = (rotation & (1 << from)) == 0 ? a : b;
-                    if(flip) rotation ^= (1 << from);
-                }
             }
 
             return to;

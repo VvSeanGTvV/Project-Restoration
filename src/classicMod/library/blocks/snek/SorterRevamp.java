@@ -74,7 +74,7 @@ public class SorterRevamp extends Block {
     public class SorterRevampBuild extends Building {
         public @Nullable Item sortItem;
 
-        boolean reverse;
+        int last;
         public Seq<Building> ConnectedBuilding;
 
         @Override
@@ -105,12 +105,11 @@ public class SorterRevamp extends Block {
         public boolean acceptItem(Building source, Item item) {
             Building to = getTileTarget(item, this, source);
 
-            return to != null && to.acceptItem(this, item) && to.team == team;
+            if (to != null) return to.acceptItem(this, item) && to.team == team; else return false;
         }
 
         @Override
         public void handleItem(Building source, Item item) {
-            reverse = !reverse;
             Building target = getTileTarget(item, this, source);
 
             if(target != null) target.handleItem(this, item);
@@ -127,12 +126,14 @@ public class SorterRevamp extends Block {
 
             if(!canFoward || inv){
                 to = null;
-                var offset = (reverse) ? 1 : -1;
+                var offset = 1;
+                if(offset == this.last) offset = -1;
                 Building a = fromBlock.nearby(Mathf.mod(from + offset, 4));
                 boolean aB = a != null && a.team == team && a.acceptItem(fromBlock, item);
                 if (aB) {
                     to = a;
                 }
+                this.last = offset;
             }
 
             return to;
