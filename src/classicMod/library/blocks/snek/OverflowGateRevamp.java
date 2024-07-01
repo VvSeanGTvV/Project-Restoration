@@ -51,6 +51,8 @@ public class OverflowGateRevamp extends Block {
 
         Item lastitem;
         Building tehSource;
+        float time;
+        
         @Override
         public void draw() {
             var teh = (invert) ? Core.atlas.find("underflow-gate") : Core.atlas.find("overflow-gate");
@@ -61,13 +63,15 @@ public class OverflowGateRevamp extends Block {
         public boolean acceptItem(Building source, Item item) {
             //Building target = getTargetTile(lastitem, this, source, false);
             
-            return source.team == team && this.items.total() == 0;
+            return source.team == team && this.items.total() == 0 && lastitem == null;
         }
 
         @Override
-        public void handleItem(Building source, Item item) {
-            lastitem = item;
-            tehSource = source;
+        public void handleItem(Building source, Item item){
+            items.add(item, 1);
+            lastItem = item;
+            time = 0f;
+            tehSource = source.tile();
         }
 
         public @Nullable Building getTargetTile(Item item, Building fromBlock, Building source, boolean flip){
@@ -103,25 +107,22 @@ public class OverflowGateRevamp extends Block {
         @Override
         public void update() {
 
-            if(lastitem != null && tehSource != null){
-                Building target = getTargetTile(lastitem, this, tehSource, false);
+            if(lastItem == null && items.any()){
+                lastItem = items.first();
+            }
 
-                if(target != null){
-                    getTargetTile(lastitem, this, tehSource, true);
-                    if(target.acceptItem(this, lastitem) && target.team == team){
-                        target.handleItem(this, lastitem);
-                        this.items.remove(lastitem, 1);
-                        //this.items.clear();
-                        lastitem = null;
-                    }
+            if(lastItem != null){
+                time += 1f / speed * delta();
+                Building target = getTileTarget(lastItem, this, lastInput, false);
+
+                if(target != null && (time >= 1f){
+                    getTileTarget(lastItem, this, lastInput, true);
+                    target.handleItem(this, lastItem);
+                    items.remove(lastItem, 1);
+                    lastItem = null;
                 }
             }
-
-            if(lastitem == null && this.items.total() > 0){
-                this.items.clear();
-                //lastitem = null;
-            }
-
+            
         }
 
         @Override
