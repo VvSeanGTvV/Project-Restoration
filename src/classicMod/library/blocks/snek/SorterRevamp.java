@@ -44,6 +44,7 @@ public class SorterRevamp extends Block {
         unloadable = false;
         saveConfig = true;
         clearOnDoubleTap = true;
+        itemCapacity = 1;
 
         config(Item.class, (SorterRevampBuild tile, Item item) -> tile.sortItem = item);
         configClear((SorterRevampBuild tile) -> tile.sortItem = null);

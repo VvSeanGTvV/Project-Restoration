@@ -25,13 +25,12 @@ public class OverflowGateRevamp extends Block {
         super(name);
         hasItems = true;
         underBullets = true;
-        update = false;
+        update = true;
         destructible = true;
         group = BlockGroup.transportation;
-        instantTransfer = false;
         unloadable = false;
         canOverdrive = false;
-        itemCapacity = 0;
+        itemCapacity = 1;
 
         region = Core.atlas.find(name);
     }
@@ -48,44 +47,71 @@ public class OverflowGateRevamp extends Block {
 
     public class OverflowGateRevampBuild extends Building {
 
+        Item lastitem;
+        Building tehSource;
         @Override
         public void draw() {
             Draw.rect(Core.atlas.find(name), x, y);
         }
 
-        Boolean r0 = false, r1 = false;
         @Override
         public boolean acceptItem(Building source, Item item) {
-            Building to = getTargetTile(item, this, source, r0);
-
-            r0 = !r0;
-            return to != null && to.acceptItem(this, item) && to.team == team;
+            lastitem = item;
+            tehSource = source;
+            return source.team == team && this.items.total() == 0;
         }
 
         @Override
         public void handleItem(Building source, Item item) {
-            var to = getTargetTile(item, this, source, r1);
-            if(to != null) { to.handleItem(this, item); }
-            r1 = !r1;
+
         }
 
         public @Nullable Building getTargetTile(Item item, Building fromBlock, Building source, boolean flip){
             int from = relativeToEdge(source.tile);
             Building to = fromBlock.nearby(Mathf.mod(from + 2, 4));
             boolean
-                    canFoward = to != null && to.acceptItem(fromBlock, item) && to.team == team,
+                    canForward = to != null && to.acceptItem(fromBlock, item) && to.team == team && !(to instanceof OverflowGateRevampBuild),
                     inv = invert == enabled;
 
-            if(!canFoward || inv){
-                var offset = (flip) ? -1 : 1;
-                Building a = fromBlock.nearby(Mathf.mod(from + offset, 4));
-                boolean aB = a != null && a.team == team && a.acceptItem(fromBlock, item);
-                if (aB) {
+            if(!canForward || inv){
+                Building a = nearby(Mathf.mod(from - 1, 4));
+                Building b = nearby(Mathf.mod(from + 1, 4));
+                boolean ac = a != null && a.team == team && a.acceptItem(this, item);
+                boolean bc = b != null && b.team == team && b.acceptItem(this, item);
+
+                if(!ac && !bc){
+                    return inv && canForward ? to : null;
+                }
+
+                if(ac && !bc){
                     to = a;
+                }else if(bc && !ac){
+                    to = b;
+                }else{
+                    if(rotation == 0){
+                        to = a;
+                        if(flip) fromBlock.rotation(1);
+                    } else {
+                       to = b;
+                       if(flip) fromBlock.rotation(0);
+                    }
                 }
             }
 
             return to;
+        }
+
+        @Override
+        public void update() {
+
+            if(lastitem != null && tehSource != null){
+                Building target = getTargetTile(lastitem, this, tehSource)
+            }
+
+            if(lastitem == null && this.items.total() > 0){
+                this.items.clear();
+            }
+
         }
 
         //dude serious
