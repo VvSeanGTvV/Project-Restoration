@@ -78,14 +78,13 @@ public class OverflowGateRevamp extends Block {
 
             if(!canFoward || inv){
                 to = null;
-                var offset = ((reverse % 1f) >= 0.5f) ? -1 : 1;
-                Log.info((reverse % 1f));
+                var offset = ((reverse % 1.5f) >= 0.5f) ? -1 : 1;
                 Building a = fromBlock.nearby(Mathf.mod(from + offset, 4));
                 boolean aB = a != null && a.team == team && a.acceptItem(fromBlock, item);
-                if (aB) {
-                    to = a;
-                }
                 reverse += 0.5f;
+                if (aB) {
+                    return a;
+                }
             }
 
             return to;
