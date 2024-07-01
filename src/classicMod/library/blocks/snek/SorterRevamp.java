@@ -123,7 +123,7 @@ public class SorterRevamp extends Block {
                     inv = invert == enabled;
 
             if(!canFoward || inv){
-                to = null;
+                if(!inv) to = null;
                 var offset = (flip) ? -1 : 1;
                 Building a = fromBlock.nearby(Mathf.mod(from + offset, 4));
                 boolean aB = a != null && a.team == team && a.acceptItem(fromBlock, item);
