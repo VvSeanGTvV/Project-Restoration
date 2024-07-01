@@ -23,10 +23,10 @@ let flowgate = (block) => {
             }
 
             if(this.lastItem != null){
-                let target = this.getTargetTile(this.lastItem, this.lastInput, false);
+                let target = this.getTileTarget(this.lastItem, this.lastInput, false);
 
                 if(target != null){
-                    this.getTargetTile(this.lastItem, this.lastInput, true);
+                    this.getTileTarget(this.lastItem, this.lastInput, true);
                     target.handleItem(this, this.lastItem);
                     this.items.remove(this.lastItem, 1);
                     this.lastItem = null;
