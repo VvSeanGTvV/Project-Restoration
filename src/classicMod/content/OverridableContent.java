@@ -8,12 +8,11 @@ import mindustry.gen.Building;
 import mindustry.type.Category;
 import mindustry.world.Block;
 import mindustry.world.blocks.distribution.Sorter;
+import mindustry.world.meta.BuildVisibility;
 
 import static mindustry.type.ItemStack.with;
 
 public class OverridableContent {
-
-    private Block overflowGate;
 
     public void loadOverride(){
         Blocks.stone.itemDrop = ClassicItems.stone;
@@ -30,33 +29,31 @@ public class OverridableContent {
         Blocks.overflowGate.instantTransfer =
                 Blocks.underflowGate.instantTransfer =
                         false;
+
         Blocks.overflowGate.itemCapacity =
                 Blocks.underflowGate.itemCapacity =
                         1;
 
-        Prov<Building> buildingProv = () -> (OverflowGateRevamp.OverflowGateRevampBuild) OverflowGateRevamp.OverflowGateRevampBuild.create();
+        /*Prov<Building> buildingProv = OverflowGateRevamp.OverflowGateRevampBuild::create;
         Blocks.overflowGate.buildType = buildingProv;
-        Blocks.underflowGate.buildType = buildingProv;
+        Blocks.underflowGate.buildType = buildingProv;*/
 
-        /*Blocks.underflowGate = new OverflowGateRevamp("underflow-gate"){{
+        /*Blocks.overflowGate.buildVisibility = Blocks.underflowGate.buildVisibility = BuildVisibility.hidden;
+        Blocks.overflowGate = new OverflowGateRevamp("overflow-gate"){{
+                requirements(Category.distribution, with(Items.lead, 2, Items.copper, 4));
+                buildCostMultiplier = 3f;
+        }};
+
+        Blocks.underflowGate = new OverflowGateRevamp("underflow-gate"){{
             requirements(Category.distribution, with(Items.lead, 2, Items.copper, 4));
             buildCostMultiplier = 3f;
             invert = true;
         }};
 
-        Blocks.sorter = new SorterRevamp("sorter"){{
-            requirements(Category.distribution, with(Items.lead, 2, Items.copper, 2));
-            buildCostMultiplier = 3f;
-        }};
-
-        Blocks.invertedSorter = new SorterRevamp("inverted-sorter"){{
-            requirements(Category.distribution, with(Items.lead, 2, Items.copper, 2));
+        /*Blocks.underflowGate = new OverflowGateRevamp("underflow-gate"){{
+            requirements(Category.distribution, with(Items.lead, 2, Items.copper, 4));
             buildCostMultiplier = 3f;
             invert = true;
         }};*/
-
     }
-
-
-
 }

@@ -9,10 +9,12 @@ import arc.util.Interval;
 import arc.util.Log;
 import arc.util.Nullable;
 import arc.util.io.Reads;
+import mindustry.content.Blocks;
 import mindustry.gen.Building;
 import mindustry.type.Item;
 import mindustry.world.Block;
 import mindustry.world.DirectionalItemBuffer;
+import mindustry.world.blocks.distribution.OverflowGate;
 import mindustry.world.meta.BlockGroup;
 
 import java.awt.*;
@@ -33,19 +35,16 @@ public class OverflowGateRevamp extends Block {
         canOverdrive = false;
         itemCapacity = 1;
 
+        var teh = (invert) ? Blocks.underflowGate.localizedName : Blocks.overflowGate.localizedName;
+        localizedName = teh;
         region = Core.atlas.find(name);
     }
 
     @Override
-    public boolean outputsItems(){
-        return true;
-    }
-
-    /*@Override
     protected TextureRegion[] icons() {
         var teh = (invert) ? Core.atlas.find("underflow-gate") : Core.atlas.find("overflow-gate");
         return new TextureRegion[]{teh};
-    }*/
+    }
 
     public class OverflowGateRevampBuild extends Building {
 
@@ -53,11 +52,11 @@ public class OverflowGateRevamp extends Block {
         Building lastInput;
         float time;
 
-        /*@Override
+        @Override
         public void draw() {
             var teh = (invert) ? Core.atlas.find("underflow-gate") : Core.atlas.find("overflow-gate");
             Draw.rect(teh, x, y);
-        }*/
+        }
 
         @Override
         public boolean acceptItem(Building source, Item item) {
@@ -74,7 +73,7 @@ public class OverflowGateRevamp extends Block {
             lastInput = source;
         }
 
-        public @Nullable Building getTargetTile(Item item, Building fromBlock, Building source, boolean flip){
+        public @Nullable Building getTargetTile(Item item, Building source, boolean flip){
             int from = relativeToEdge(source.tile);
             Building to = nearby(Mathf.mod(from + 2, 4));
             boolean
@@ -116,10 +115,10 @@ public class OverflowGateRevamp extends Block {
             }
 
             if(lastItem != null){
-                Building target = getTargetTile(lastItem, this, lastInput, false);
+                Building target = getTargetTile(lastItem, lastInput, false);
 
                 if(target != null){
-                    getTargetTile(lastItem, this, lastInput, true);
+                    getTargetTile(lastItem, lastInput, true);
                     target.handleItem(this, lastItem);
                     items.remove(lastItem, 1);
                     lastItem = null;
