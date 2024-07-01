@@ -34,7 +34,7 @@ public class SorterRevamp extends Block {
 
     public SorterRevamp(String name) {
         super(name);
-        update = true;
+        update = false;
         destructible = true;
         underBullets = true;
         instantTransfer = false;
@@ -109,6 +109,7 @@ public class SorterRevamp extends Block {
 
         @Override
         public void handleItem(Building source, Item item) {
+            reverse = !reverse;
             Building target = getTileTarget(item, this, source);
 
             if(target != null) target.handleItem(this, item);
@@ -120,7 +121,7 @@ public class SorterRevamp extends Block {
             if (from == -1) return null;
             Building to = fromBlock.nearby(Mathf.mod(from + 2, 4));
             boolean
-                    canFoward = to != null && to.acceptItem(fromBlock, item) && to.team == team,
+                    canFoward = (((item == sortItem) != invert) == enabled) && to != null && to.acceptItem(fromBlock, item) && to.team == team,
                     inv = invert == enabled;
 
             if(!canFoward || inv){
@@ -130,6 +131,13 @@ public class SorterRevamp extends Block {
                 boolean aB = a != null && a.team == team && a.acceptItem(fromBlock, item);
                 if (aB) {
                     to = a;
+                }
+
+                var offsetb = (reverse) ? 1 : -1;
+                Building ab = fromBlock.nearby(Mathf.mod(from + offsetb, 4));
+                boolean aBb = ab != null && ab.team == team && ab.acceptItem(fromBlock, item);
+                if (!aB && aBb) {
+                    to = ab;
                 }
             }
 

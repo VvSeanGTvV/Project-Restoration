@@ -24,7 +24,7 @@ public class OverflowGateRevamp extends Block {
         super(name);
         hasItems = true;
         underBullets = true;
-        update = true;
+        update = false;
         destructible = true;
         group = BlockGroup.transportation;
         instantTransfer = false;
@@ -62,6 +62,7 @@ public class OverflowGateRevamp extends Block {
 
         @Override
         public void handleItem(Building source, Item item) {
+            reverse = !reverse;
             Building target = getTileTarget(item, this, source);
 
             if(target != null) target.handleItem(this, item);
@@ -84,14 +85,16 @@ public class OverflowGateRevamp extends Block {
                 if (aB) {
                     to = a;
                 }
+
+                var offsetb = (reverse) ? 1 : -1;
+                Building ab = fromBlock.nearby(Mathf.mod(from + offsetb, 4));
+                boolean aBb = ab != null && ab.team == team && ab.acceptItem(fromBlock, item);
+                if (!aB && aBb) {
+                    to = ab;
+                }
             }
 
             return to;
-        }
-
-        @Override
-        public void update() {
-            reverse = !reverse;
         }
 
         //dude serious
