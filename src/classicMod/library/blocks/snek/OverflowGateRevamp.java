@@ -53,7 +53,7 @@ public class OverflowGateRevamp extends Block {
             Draw.rect(Core.atlas.find(name), x, y);
         }
 
-        Boolean r0, r1;
+        Boolean r0 = false, r1 = false;
         @Override
         public boolean acceptItem(Building source, Item item) {
             Building to = getTargetTile(item, this, source, r0);

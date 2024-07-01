@@ -99,7 +99,7 @@ public class SorterRevamp extends Block {
             //super.draw();
         }
 
-        Boolean r0, r1;
+        Boolean r0 = false, r1 = false;
         @Override
         public boolean acceptItem(Building source, Item item) {
             Building to = getTargetTile(item, this, source, r0);
