@@ -123,7 +123,7 @@ public class OverflowGateRevamp extends Block {
         @Override
         public void update() {
             if(lastItem == null && items.total() > 0){
-                lastItem = items.clear();
+                items.clear();
             }
         }
 
