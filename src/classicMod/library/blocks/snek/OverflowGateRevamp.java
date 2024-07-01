@@ -62,12 +62,10 @@ public class OverflowGateRevamp extends Block {
 
         @Override
         public void handleItem(Building source, Item item) {
-            Building target = getTileTarget(item, this, source);
-
-            if(target != null) target.handleItem(this, item);
+            handleItemSide(item, this, source);
         }
 
-        float reverse;
+        boolean r0, r1;
         public @Nullable Building getTileTarget(Item item, Building fromBlock, Building src) {
             int from = relativeToEdge(src.tile);
             if (from == -1) return null;
@@ -78,16 +76,28 @@ public class OverflowGateRevamp extends Block {
 
             if(!canFoward || inv){
                 to = null;
-                var offset = ((reverse % 1.5f) >= 0.5f) ? -1 : 1;
+                var offset = (r0) ? -1 : 1;
                 Building a = fromBlock.nearby(Mathf.mod(from + offset, 4));
                 boolean aB = a != null && a.team == team && a.acceptItem(fromBlock, item);
-                reverse += 0.5f;
                 if (aB) {
-                    return a;
+                    to = a;
                 }
+                r0 = !r0;
             }
 
             return to;
+        }
+
+        public void handleItemSide(Item item, Building fromBlock, Building src){
+            if(fromBlock.left() != null && r1){
+                fromBlock.left().handleItem(this, item);
+            }
+
+            if(fromBlock.right() != null && !r1){
+                fromBlock.right().handleItem(this, item);
+            }
+            r1 = !r1;
+
         }
 
         //dude serious
