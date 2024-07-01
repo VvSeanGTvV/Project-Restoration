@@ -130,15 +130,18 @@ public class SorterRevamp extends Block {
                     inv = invert == enabled;
 
             if(!canFoward || inv){
-                for (int i=0; i<1; i++){
+                int retry = 0;
+                while (retry < 2) {
                     var offset = (reverse) ? 1 : -1;
                     Building a = fromBlock.nearby(Mathf.mod(from + offset, 4));
                     boolean aB = a != null && a.team == team && a.acceptItem(fromBlock, item);
                     reverse = !reverse;
-                    if(aB) {
+                    Log.info("overflow output " + a + " yes " + aB + " opposite " + reverse);
+                    if (aB) {
                         to = a;
                         break;
                     }
+                    retry++;
                 }
             }
 
