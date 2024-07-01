@@ -20,4 +20,4 @@ version: 0.3.5r1 Unstable Alpha
 minGameVersion: 145
 
 #this is a java mod
-java: true
+#java: true
