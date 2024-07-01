@@ -74,7 +74,6 @@ public class SorterRevamp extends Block {
     public class SorterRevampBuild extends Building {
         public @Nullable Item sortItem;
 
-        int last;
         public Seq<Building> ConnectedBuilding;
 
         @Override
@@ -103,78 +102,35 @@ public class SorterRevamp extends Block {
 
         @Override
         public boolean acceptItem(Building source, Item item) {
-            Building to = getTileTarget(item, this, source);
+            Building to = getTileTarget(item, this, source, true);
 
-            if (to != null) return to.acceptItem(this, item) && to.team == team; else return false;
+            return to != null && to.acceptItem(this, item) && to.team == team;
         }
 
         @Override
         public void handleItem(Building source, Item item) {
-            Building target = getTileTarget(item, this, source);
+            Building target = getTileTarget(item, this, source, false);
 
             if(target != null) target.handleItem(this, item);
         }
 
-        public @Nullable Building getTileTarget(Item item, Building fromBlock, Building src) {
+        public @Nullable Building getTileTarget(Item item, Building fromBlock, Building src, boolean flip) {
             int from = relativeToEdge(src.tile);
             if(from == -1) return null;
 
             Building to = fromBlock.nearby(Mathf.mod(from + 2, 4));
             boolean
-                    canFoward = (((item == sortItem) != invert) == enabled) && to.acceptItem(fromBlock, item) && to.team == team,
+                    canFoward = (((item == sortItem) != invert) == enabled) && to != null && to.acceptItem(fromBlock, item) && to.team == team,
                     inv = invert == enabled;
 
             if(!canFoward || inv){
                 to = null;
-                var offset = 1;
-                if(offset == this.last) offset = -1;
+                var offset = (flip) ? -1 : 1;
                 Building a = fromBlock.nearby(Mathf.mod(from + offset, 4));
                 boolean aB = a != null && a.team == team && a.acceptItem(fromBlock, item);
                 if (aB) {
                     to = a;
                 }
-                this.last = offset;
-            }
-
-            return to;
-        }
-
-        public Building getTileTarget(Item item, Building source, boolean flip) {
-            int dir = source.relativeTo(tile.x, tile.y);
-            if (dir == -1) return null;
-            Building to;
-
-            if (((item == sortItem) != invert) == enabled) {
-                to = nearby(dir);
-            } else {
-                var aDir = Mathf.mod(dir - 1, 4);
-                var bDir = Mathf.mod(dir + 1, 4);
-                Building a = nearby(aDir);
-                Building b = nearby(bDir);
-                boolean existA = a != null && a.acceptItem(this, item);
-                boolean existB = b != null && b.acceptItem(this, item);
-                if (existA && !existB) {
-                    to = a;
-                    ConnectedBuilding.add(a);
-                } else
-                if (!existA && existB) {
-                    to = b;
-                    ConnectedBuilding.add(b);
-                } else
-                if (!existB) return null; else {
-                    to = (rotation & (1 << dir)) == 0 ? a : b;
-                    if(flip) rotation ^= (1 << dir);
-                }
-            }
-
-            return to;
-        }
-
-        public Building getConnectionTarget(Item item, Building source, boolean flip){
-            Building to = null;
-
-            for (var Building : ConnectedBuilding){
-                if(Building != null) to = Building; else to = getTileTarget(item, source, flip);
             }
 
             return to;

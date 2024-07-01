@@ -47,13 +47,6 @@ public class OverflowGateRevamp extends Block {
 
     public class OverflowGateRevampBuild extends Building {
 
-        int last;
-        @Override
-        public boolean acceptItem(Building source, Item item){
-            Building to = getTileTarget(item, this, source);
-
-            if (to != null) return to.acceptItem(this, item) && to.team == team; else return false;
-        }
 
         @Override
         public void draw() {
@@ -61,13 +54,20 @@ public class OverflowGateRevamp extends Block {
         }
 
         @Override
-        public void handleItem(Building source, Item item){
-            Building target = getTileTarget(item, this, source);
+        public boolean acceptItem(Building source, Item item) {
+            Building to = getTileTarget(item, this, source, true);
+
+            return to != null && to.acceptItem(this, item) && to.team == team;
+        }
+
+        @Override
+        public void handleItem(Building source, Item item) {
+            Building target = getTileTarget(item, this, source, false);
 
             if(target != null) target.handleItem(this, item);
         }
 
-        public @Nullable Building getTileTarget(Item item, Building fromBlock, Building src) {
+        public @Nullable Building getTileTarget(Item item, Building fromBlock, Building src, boolean flip) {
             int from = relativeToEdge(src.tile);
             if (from == -1) return null;
             Building to = fromBlock.nearby(Mathf.mod(from + 2, 4));
@@ -76,15 +76,13 @@ public class OverflowGateRevamp extends Block {
                     inv = invert == enabled;
 
             if(!canFoward || inv){
-                var offset = 1;
-                if(offset == this.last) offset = -1;
+                to = null;
+                var offset = (flip) ? -1 : 1;
                 Building a = fromBlock.nearby(Mathf.mod(from + offset, 4));
                 boolean aB = a != null && a.team == team && a.acceptItem(fromBlock, item);
                 if (aB) {
                     to = a;
                 }
-                this.last = offset;
-
             }
 
             return to;
