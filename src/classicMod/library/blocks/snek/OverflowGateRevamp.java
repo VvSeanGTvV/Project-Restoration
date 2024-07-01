@@ -122,7 +122,15 @@ public class OverflowGateRevamp extends Block {
                     lastItem = null;
                 }
             }
-            
+        }
+
+        @Override
+        public int removeStack(Item item, int amount){
+            int result = super.removeStack(item, amount);
+            if(result != 0 && item == lastItem){
+                lastItem = null;
+            }
+            return result;
         }
 
         @Override
