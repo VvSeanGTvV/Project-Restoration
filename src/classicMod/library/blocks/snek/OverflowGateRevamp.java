@@ -51,13 +51,14 @@ public class OverflowGateRevamp extends Block {
         Building tehSource;
         @Override
         public void draw() {
-            Draw.rect(Core.atlas.find(name), x, y);
+            var teh = (invert) ? Core.atlas.find("underflow-gate") : Core.atlas.find("overflow-gate");
+            Draw.rect(teh, x, y);
         }
 
         @Override
         public boolean acceptItem(Building source, Item item) {
-
-            return source.team == team && this.items.total() == 0;
+            Building target = getTargetTile(lastitem, this, tehSource, false);
+            return source.team == team && this.items.total() == 0 && target != null;
         }
 
         @Override
