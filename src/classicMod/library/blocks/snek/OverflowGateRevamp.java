@@ -62,7 +62,7 @@ public class OverflowGateRevamp extends Block {
 
         @Override
         public void handleItem(Building source, Item item) {
-            handleItemSide(item, this, source);
+            if(source.left() != this && source.right() != this) handleItemSide(item, this, source);
         }
 
         boolean r0, r1;
