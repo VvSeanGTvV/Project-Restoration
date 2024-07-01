@@ -49,7 +49,7 @@ public class OverflowGateRevamp extends Block {
 
     public class OverflowGateRevampBuild extends Building {
 
-        Item lastitem;
+        Item lastItem;
         Building tehSource;
         float time;
         
