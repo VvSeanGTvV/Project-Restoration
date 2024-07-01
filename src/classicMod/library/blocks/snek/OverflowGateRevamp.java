@@ -43,7 +43,8 @@ public class OverflowGateRevamp extends Block {
 
     @Override
     protected TextureRegion[] icons() {
-        return new TextureRegion[]{Core.atlas.find(name)};
+        var teh = (invert) ? Core.atlas.find("underflow-gate") : Core.atlas.find("overflow-gate");
+        return new TextureRegion[]{teh};
     }
 
     public class OverflowGateRevampBuild extends Building {
@@ -112,8 +113,8 @@ public class OverflowGateRevamp extends Block {
                 if(target != null){
                     getTargetTile(lastitem, this, tehSource, true);
                     target.handleItem(this, lastitem);
-                    //this.items.remove(lastitem, 1);
-                    this.items.clear();
+                    this.items.remove(lastitem, 1);
+                    //this.items.clear();
                     lastitem = null;
                 }
             }
