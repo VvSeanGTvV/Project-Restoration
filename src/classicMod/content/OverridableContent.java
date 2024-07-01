@@ -6,11 +6,16 @@ import classicMod.library.blocks.snek.SorterRevamp;
 import mindustry.content.*;
 import mindustry.gen.Building;
 import mindustry.type.Category;
+import mindustry.world.Block;
 import mindustry.world.blocks.distribution.Sorter;
 
 import static mindustry.type.ItemStack.with;
 
 public class OverridableContent {
+
+    private Block overflowGate;
+    private Prov<Building> buildingProv;
+
     public void loadOverride(){
         Blocks.stone.itemDrop = ClassicItems.stone;
         Blocks.stone.playerUnmineable = true;
@@ -19,12 +24,12 @@ public class OverridableContent {
         Blocks.craters.playerUnmineable = true;
 
         SectorPresets.onset.alwaysUnlocked = false;
-        Blocks.overflowGate = new OverflowGateRevamp("overflow-gate"){{
-            requirements(Category.distribution, with(Items.lead, 2, Items.copper, 4));
-            buildCostMultiplier = 3f;
-        }};
+        Blocks.overflowGate.update = Blocks.underflowGate.update = true;
+        buildingProv = () -> OverflowGateRevamp.OverflowGateRevampBuild;
+        Blocks.overflowGate.buildType = buildingProv;
+        Blocks.underflowGate.buildType = buildingProv;
 
-        Blocks.underflowGate = new OverflowGateRevamp("underflow-gate"){{
+        /*Blocks.underflowGate = new OverflowGateRevamp("underflow-gate"){{
             requirements(Category.distribution, with(Items.lead, 2, Items.copper, 4));
             buildCostMultiplier = 3f;
             invert = true;
@@ -39,6 +44,10 @@ public class OverridableContent {
             requirements(Category.distribution, with(Items.lead, 2, Items.copper, 2));
             buildCostMultiplier = 3f;
             invert = true;
-        }};
+        }};*/
+
     }
+
+
+
 }
