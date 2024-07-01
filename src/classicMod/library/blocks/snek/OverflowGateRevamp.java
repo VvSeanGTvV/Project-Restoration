@@ -17,6 +17,7 @@ import mindustry.world.meta.BlockGroup;
 
 import java.awt.*;
 
+/* Build 102 Overflow gate modified code to v7 */
 public class OverflowGateRevamp extends Block {
     public float speed = 1f;
     public boolean invert = false;
@@ -116,14 +117,13 @@ public class OverflowGateRevamp extends Block {
                 }
             }
 
-            if((lastitem == null && this.items.total() > 0) || this.items.total() <= 0 && lastitem != null){
+            if(lastitem == null && this.items.total() > 0){
                 this.items.clear();
-                lastitem = null;
+                //lastitem = null;
             }
 
         }
 
-        //dude serious
         @Override
         public byte version(){
             return 4;
