@@ -112,13 +112,14 @@ public class OverflowGateRevamp extends Block {
                 if(target != null){
                     getTargetTile(lastitem, this, tehSource, true);
                     target.handleItem(this, lastitem);
-                    this.items.remove(lastitem, 1);
+                    //this.items.remove(lastitem, 1);
+                    this.items.clear();
                     lastitem = null;
                 }
             }
 
             if(lastitem == null && this.items.total() > 0){
-                this.items.clear();
+                //this.items.clear();
                 //lastitem = null;
             }
 
