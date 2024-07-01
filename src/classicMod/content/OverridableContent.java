@@ -25,7 +25,7 @@ public class OverridableContent {
 
         SectorPresets.onset.alwaysUnlocked = false;
         Blocks.overflowGate.update = Blocks.underflowGate.update = true;
-        buildingProv = () -> OverflowGateRevamp.OverflowGateRevampBuild;
+        buildingProv = () -> OverflowGateRevamp.OverflowGateRevampBuild.create();
         Blocks.overflowGate.buildType = buildingProv;
         Blocks.underflowGate.buildType = buildingProv;
 
