@@ -102,12 +102,6 @@ public class SorterRevamp extends Block {
         }
 
         @Override
-        public Interval timer() {
-            if(once) once = false;
-            return super.timer();
-        }
-
-        @Override
         public boolean acceptItem(Building source, Item item) {
             Building to = getTileTarget(item, this, source);
 
@@ -121,28 +115,24 @@ public class SorterRevamp extends Block {
             if(target != null) target.handleItem(this, item);
         }
 
-        boolean reverse, once;
+        float reverse;
         public @Nullable Building getTileTarget(Item item, Building fromBlock, Building src) {
             int from = relativeToEdge(src.tile);
             if (from == -1) return null;
             Building to = fromBlock.nearby(Mathf.mod(from + 2, 4));
             boolean
-                    canFoward = to != null && to.acceptItem(fromBlock, item) && to.team == team,
+                    canFoward = to != null && to.acceptItem(fromBlock, item) && to.team == team && (((item == sortItem) != invert) == enabled),
                     inv = invert == enabled;
 
             if(!canFoward || inv){
                 to = null;
-                var offset = (reverse) ? -1 : 1;
+                var offset = ((reverse % 1f) >= 0.5f) ? -1 : 1;
                 Building a = fromBlock.nearby(Mathf.mod(from + offset, 4));
                 boolean aB = a != null && a.team == team && a.acceptItem(fromBlock, item);
                 if (aB) {
                     to = a;
                 }
-
-                if(!once){
-                    reverse = !reverse;
-                    once = true;
-                }
+                reverse += 0.5f;
             }
 
             return to;
