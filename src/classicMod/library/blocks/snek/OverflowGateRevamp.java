@@ -81,7 +81,7 @@ public class OverflowGateRevamp extends Block {
                 Building a = fromBlock.nearby(Mathf.mod(from + offset, 4));
                 boolean aB = a != null && a.team == team && a.acceptItem(fromBlock, item);
                 if (aB) {
-                    return a;
+                    to = a;
                 }
             }
 
