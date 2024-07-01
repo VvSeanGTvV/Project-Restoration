@@ -53,22 +53,34 @@ public class OverflowGateRevamp extends Block {
             Draw.rect(Core.atlas.find(name), x, y);
         }
 
+        boolean r0, r1;
         @Override
         public boolean acceptItem(Building source, Item item) {
-            Building to = getTileTarget(item, this, source);
+            var fromBlock = this;
+            int from = relativeToEdge(source.tile);
+            Building to = fromBlock.nearby(Mathf.mod(from + 2, 4));
+            boolean
+                    canFoward = to != null && to.acceptItem(fromBlock, item) && to.team == team,
+                    inv = invert == enabled;
+
+            if(!canFoward || inv){
+                to = null;
+                var offset = (r0) ? -1 : 1;
+                Building a = fromBlock.nearby(Mathf.mod(from + offset, 4));
+                boolean aB = a != null && a.team == team && a.acceptItem(fromBlock, item);
+                if (aB) {
+                    to = a;
+                }
+                r1 = !r1;
+            }
 
             return to != null && to.acceptItem(this, item) && to.team == team;
         }
 
         @Override
         public void handleItem(Building source, Item item) {
-            if(source.left() != this && source.right() != this) handleItemSide(item, this, source);
-        }
-
-        boolean r0, r1;
-        public @Nullable Building getTileTarget(Item item, Building fromBlock, Building src) {
-            int from = relativeToEdge(src.tile);
-            if (from == -1) return null;
+            var fromBlock = this;
+            int from = relativeToEdge(source.tile);
             Building to = fromBlock.nearby(Mathf.mod(from + 2, 4));
             boolean
                     canFoward = to != null && to.acceptItem(fromBlock, item) && to.team == team,
@@ -84,20 +96,7 @@ public class OverflowGateRevamp extends Block {
                 }
                 r0 = !r0;
             }
-
-            return to;
-        }
-
-        public void handleItemSide(Item item, Building fromBlock, Building src){
-            if(fromBlock.left() != null && r1){
-                fromBlock.left().handleItem(this, item);
-            }
-
-            if(fromBlock.right() != null && !r1){
-                fromBlock.right().handleItem(this, item);
-            }
-            r1 = !r1;
-
+            if(to != null) to.handleItem(this, item);
         }
 
         //dude serious
