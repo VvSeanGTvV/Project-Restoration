@@ -88,8 +88,6 @@ public class SorterRevamp extends Block {
 
         @Override
         public void draw() {
-            reverse = !reverse;
-            //region = Core.atlas.find(name);
             Draw.rect(Core.atlas.find(name), x, y);
             TextureRegion cross = Core.atlas.find(name+"-cross", "cross-full");
             if (sortItem == null) {
@@ -112,6 +110,7 @@ public class SorterRevamp extends Block {
 
         @Override
         public void handleItem(Building source, Item item) {
+            reverse = !reverse;
             Building target = getTileTarget(item, this, source);
 
             if(target != null) target.handleItem(this, item);
@@ -133,6 +132,8 @@ public class SorterRevamp extends Block {
                 if (aB) {
                     to = a;
                 }
+            } else {
+                to = fromBlock.nearby(Mathf.mod(from + 2, 4));
             }
 
             return to;
