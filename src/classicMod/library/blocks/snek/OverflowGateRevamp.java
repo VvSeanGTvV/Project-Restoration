@@ -85,7 +85,7 @@ public class OverflowGateRevamp extends Block {
                     Log.info("overflow output " + a + " yes " + aB + " opposite " + reverse);
                     if (aB) {
                         to = a;
-                        break;
+                        retry += 100;
                     }
                     retry++;
                 }
