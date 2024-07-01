@@ -24,7 +24,17 @@ public class OverridableContent {
         Blocks.craters.playerUnmineable = true;
 
         SectorPresets.onset.alwaysUnlocked = false;
-        Blocks.overflowGate.update = Blocks.underflowGate.update = true;
+        Blocks.overflowGate.update =
+                Blocks.underflowGate.update =
+                        true;
+
+        Blocks.overflowGate.instantTransfer =
+                Blocks.underflowGate.instantTransfer =
+                        false;
+        Blocks.overflowGate.itemCapacity =
+                Blocks.underflowGate.itemCapacity =
+                        1;
+
         buildingProv = () -> OverflowGateRevamp.OverflowGateRevampBuild.create();
         Blocks.overflowGate.buildType = buildingProv;
         Blocks.underflowGate.buildType = buildingProv;
