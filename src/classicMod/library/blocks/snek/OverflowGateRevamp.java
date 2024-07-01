@@ -84,7 +84,7 @@ public class OverflowGateRevamp extends Block {
                 boolean bc = b != null && b.team == team && b.acceptItem(this, item);
 
                 if(!ac && !bc){
-                    return inv && canForward ? to : null;
+                    if(!inv) return null; else return to;
                 }
 
                 if(ac && !bc){
@@ -92,13 +92,8 @@ public class OverflowGateRevamp extends Block {
                 }else if(bc && !ac){
                     to = b;
                 }else{
-                    if(rotation == 0){
-                        to = a;
-                        if(flip) fromBlock.rotation(1);
-                    } else {
-                       to = b;
-                       if(flip) fromBlock.rotation(0);
-                    }
+                    to = (rotation & (1 << from)) == 0 ? a : b;
+                    if(flip) rotation ^= (1 << from);
                 }
             }
 
