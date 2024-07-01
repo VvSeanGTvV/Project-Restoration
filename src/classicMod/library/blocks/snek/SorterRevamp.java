@@ -75,8 +75,6 @@ public class SorterRevamp extends Block {
     public class SorterRevampBuild extends Building {
         public @Nullable Item sortItem;
 
-        public Seq<Building> ConnectedBuilding;
-
         @Override
         public void configured(Unit player, Object value) {
             super.configured(player, value);
@@ -101,33 +99,23 @@ public class SorterRevamp extends Block {
             //super.draw();
         }
 
-        boolean r0, r1;
+        Boolean r0, r1;
         @Override
         public boolean acceptItem(Building source, Item item) {
-            var fromBlock = this;
-            int from = relativeToEdge(source.tile);
-            Building to = fromBlock.nearby(Mathf.mod(from + 2, 4));
-            boolean
-                    canFoward = to != null && to.acceptItem(fromBlock, item) && to.team == team && (((item == sortItem) != invert) == enabled),
-                    inv = invert == enabled;
+            Building to = getTargetTile(item, this, source, r0);
 
-            if(!canFoward || inv){
-                to = null;
-                var offset = (r0) ? -1 : 1;
-                Building a = fromBlock.nearby(Mathf.mod(from + offset, 4));
-                boolean aB = a != null && a.team == team && a.acceptItem(fromBlock, item);
-                if (aB) {
-                    to = a;
-                }
-                r1 = !r1;
-            }
-
+            r0 = !r0;
             return to != null && to.acceptItem(this, item) && to.team == team;
         }
 
         @Override
         public void handleItem(Building source, Item item) {
-            var fromBlock = this;
+            var to = getTargetTile(item, this, source, r1);
+            if(to != null) { to.handleItem(this, item); }
+            r1 = !r1;
+        }
+
+        public @Nullable Building getTargetTile(Item item, Building fromBlock, Building source, boolean flip){
             int from = relativeToEdge(source.tile);
             Building to = fromBlock.nearby(Mathf.mod(from + 2, 4));
             boolean
@@ -136,15 +124,15 @@ public class SorterRevamp extends Block {
 
             if(!canFoward || inv){
                 to = null;
-                var offset = (r0) ? -1 : 1;
+                var offset = (flip) ? -1 : 1;
                 Building a = fromBlock.nearby(Mathf.mod(from + offset, 4));
                 boolean aB = a != null && a.team == team && a.acceptItem(fromBlock, item);
                 if (aB) {
                     to = a;
                 }
-                r0 = !r0;
             }
-            if(to != null) to.handleItem(this, item);
+
+            return to;
         }
 
 
