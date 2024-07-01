@@ -29,7 +29,7 @@ public class OverflowGateRevamp extends Block {
         update = true;
         destructible = true;
         group = BlockGroup.transportation;
-        unloadable = false;
+        unloadable = true;
         canOverdrive = false;
         itemCapacity = 1;
 
@@ -59,8 +59,9 @@ public class OverflowGateRevamp extends Block {
 
         @Override
         public boolean acceptItem(Building source, Item item) {
-            //Building target = getTargetTile(lastitem, this, source, false);
-            return source.team == team && this.items.total() == 0;
+            Building target = getTargetTile(lastitem, this, source, false);
+            
+            return source.team == team && this.items.total() == 0 && target.acceptItem(this, item);
         }
 
         @Override
@@ -71,9 +72,9 @@ public class OverflowGateRevamp extends Block {
 
         public @Nullable Building getTargetTile(Item item, Building fromBlock, Building source, boolean flip){
             int from = relativeToEdge(source.tile);
-            Building to = fromBlock.nearby(Mathf.mod(from + 2, 4));
+            Building to = nearby(Mathf.mod(from + 2, 4));
             boolean
-                    canForward = to != null && to.acceptItem(fromBlock, item) && to.team == team && !(to instanceof OverflowGateRevampBuild),
+                    canForward = to != null && to.acceptItem(this, item) && to.team == team && !(to instanceof OverflowGateRevampBuild),
                     inv = invert == enabled;
 
             if(!canForward || inv){
@@ -120,7 +121,7 @@ public class OverflowGateRevamp extends Block {
             }
 
             if(lastitem == null && this.items.total() > 0){
-                //this.items.clear();
+                this.items.clear();
                 //lastitem = null;
             }
 
