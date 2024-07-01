@@ -62,13 +62,11 @@ public class OverflowGateRevamp extends Block {
 
         @Override
         public void handleItem(Building source, Item item) {
-            reverse = !reverse;
             Building target = getTileTarget(item, this, source);
 
             if(target != null) target.handleItem(this, item);
         }
-
-        boolean reverse;
+        
         public @Nullable Building getTileTarget(Item item, Building fromBlock, Building src) {
             int from = relativeToEdge(src.tile);
             if (from == -1) return null;
@@ -79,18 +77,13 @@ public class OverflowGateRevamp extends Block {
 
             if(!canFoward || inv){
                 to = null;
-                var offset = (reverse) ? -1 : 1;
-                Building a = fromBlock.nearby(Mathf.mod(from + offset, 4));
+                Building a = fromBlock.nearby(Mathf.mod(from - 1, 4));
+                if(a == null){
+                    a = fromBlock.nearby(Mathf.mod(from + 1, 4));
+                }
                 boolean aB = a != null && a.team == team && a.acceptItem(fromBlock, item);
                 if (aB) {
                     to = a;
-                }
-
-                var offsetb = (reverse) ? 1 : -1;
-                Building ab = fromBlock.nearby(Mathf.mod(from + offsetb, 4));
-                boolean aBb = ab != null && ab.team == team && ab.acceptItem(fromBlock, item);
-                if (!aB && aBb) {
-                    to = ab;
                 }
             }
 
