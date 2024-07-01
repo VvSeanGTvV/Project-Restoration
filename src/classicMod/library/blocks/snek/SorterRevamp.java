@@ -9,6 +9,7 @@ import arc.math.Mathf;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
 import arc.util.Eachable;
+import arc.util.Interval;
 import arc.util.Log;
 import arc.util.Nullable;
 import arc.util.io.Reads;
@@ -101,6 +102,12 @@ public class SorterRevamp extends Block {
         }
 
         @Override
+        public Interval timer() {
+            if(once) once = false;
+            return super.timer();
+        }
+
+        @Override
         public boolean acceptItem(Building source, Item item) {
             Building to = getTileTarget(item, this, source);
 
@@ -114,23 +121,27 @@ public class SorterRevamp extends Block {
             if(target != null) target.handleItem(this, item);
         }
 
+        boolean reverse, once;
         public @Nullable Building getTileTarget(Item item, Building fromBlock, Building src) {
             int from = relativeToEdge(src.tile);
             if (from == -1) return null;
             Building to = fromBlock.nearby(Mathf.mod(from + 2, 4));
             boolean
-                    canFoward = (((item == sortItem) != invert) == enabled) && to != null && to.acceptItem(fromBlock, item) && to.team == team,
+                    canFoward = to != null && to.acceptItem(fromBlock, item) && to.team == team,
                     inv = invert == enabled;
 
             if(!canFoward || inv){
                 to = null;
-                Building a = fromBlock.nearby(Mathf.mod(from - 1, 4));
-                if(a == null){
-                    a = fromBlock.nearby(Mathf.mod(from + 1, 4));
-                }
+                var offset = (reverse) ? -1 : 1;
+                Building a = fromBlock.nearby(Mathf.mod(from + offset, 4));
                 boolean aB = a != null && a.team == team && a.acceptItem(fromBlock, item);
                 if (aB) {
                     to = a;
+                }
+
+                if(!once){
+                    reverse = !reverse;
+                    once = true;
                 }
             }
 

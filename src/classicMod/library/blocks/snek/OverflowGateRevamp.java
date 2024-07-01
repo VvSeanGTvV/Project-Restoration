@@ -5,6 +5,7 @@ import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
 import arc.struct.Seq;
+import arc.util.Interval;
 import arc.util.Log;
 import arc.util.Nullable;
 import arc.util.io.Reads;
@@ -47,10 +48,15 @@ public class OverflowGateRevamp extends Block {
 
     public class OverflowGateRevampBuild extends Building {
 
-
         @Override
         public void draw() {
             Draw.rect(Core.atlas.find(name), x, y);
+        }
+
+        @Override
+        public Interval timer() {
+            if(once) once = false;
+            return super.timer();
         }
 
         @Override
@@ -66,7 +72,8 @@ public class OverflowGateRevamp extends Block {
 
             if(target != null) target.handleItem(this, item);
         }
-        
+
+        boolean reverse, once;
         public @Nullable Building getTileTarget(Item item, Building fromBlock, Building src) {
             int from = relativeToEdge(src.tile);
             if (from == -1) return null;
@@ -77,13 +84,16 @@ public class OverflowGateRevamp extends Block {
 
             if(!canFoward || inv){
                 to = null;
-                Building a = fromBlock.nearby(Mathf.mod(from - 1, 4));
-                if(a == null){
-                    a = fromBlock.nearby(Mathf.mod(from + 1, 4));
-                }
+                var offset = (reverse) ? -1 : 1;
+                Building a = fromBlock.nearby(Mathf.mod(from + offset, 4));
                 boolean aB = a != null && a.team == team && a.acceptItem(fromBlock, item);
                 if (aB) {
                     to = a;
+                }
+
+                if(!once){
+                    reverse = !reverse;
+                    once = true;
                 }
             }
 
