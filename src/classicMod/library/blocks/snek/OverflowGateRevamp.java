@@ -120,7 +120,7 @@ public class OverflowGateRevamp extends Block {
                 time += 1f / speed * delta();
                 Building target = getTargetTile(lastItem, this, tehSource, false);
 
-                if(target != null && (time >= 1f)){
+                if(target != null && (time >= 0f)){
                     getTargetTile(lastItem, this, tehSource, true);
                     target.handleItem(this, lastItem);
                     items.remove(lastItem, 1);
