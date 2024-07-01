@@ -19,7 +19,7 @@ import java.awt.*;
 
 /* Build 102 Overflow gate modified code to v7 */
 public class OverflowGateRevamp extends Block {
-    public static Building OverflowGateRevampBuild;
+    public static OverflowGateRevampBuild OverflowGateRevampBuild;
     public float speed = 1f;
     public boolean invert = false;
 

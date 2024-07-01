@@ -14,7 +14,6 @@ import static mindustry.type.ItemStack.with;
 public class OverridableContent {
 
     private Block overflowGate;
-    private Prov<Building> buildingProv;
 
     public void loadOverride(){
         Blocks.stone.itemDrop = ClassicItems.stone;
@@ -35,7 +34,7 @@ public class OverridableContent {
                 Blocks.underflowGate.itemCapacity =
                         1;
 
-        buildingProv = () -> OverflowGateRevamp.OverflowGateRevampBuild.create();
+        Prov<Building> buildingProv = () -> OverflowGateRevamp.OverflowGateRevampBuild;
         Blocks.overflowGate.buildType = buildingProv;
         Blocks.underflowGate.buildType = buildingProv;
 
