@@ -113,7 +113,7 @@ public class OverflowGateRevamp extends Block {
 
                 if(target != null){
                     getTargetTile(lastitem, this, tehSource, true);
-                    if(target.acceptItem(this, item) && target.team == team){
+                    if(target.acceptItem(this, lastitem) && target.team == team){
                         target.handleItem(this, lastitem);
                         this.items.remove(lastitem, 1);
                         //this.items.clear();
