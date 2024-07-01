@@ -34,7 +34,7 @@ public class OverridableContent {
                 Blocks.underflowGate.itemCapacity =
                         1;
 
-        Prov<Building> buildingProv = () -> OverflowGateRevamp.OverflowGateRevampBuild;
+        Prov<Building> buildingProv = () -> OverflowGateRevamp.newOverflowGateRevampBuild;
         Blocks.overflowGate.buildType = buildingProv;
         Blocks.underflowGate.buildType = buildingProv;
 
