@@ -50,6 +50,7 @@ public class OverflowGateRevamp extends Block {
         boolean reverse;
         @Override
         public boolean acceptItem(Building source, Item item){
+            reverse = !reverse;
             Building to = getTileTarget(item, this, source);
 
             return to != null && to.acceptItem(this, item) && to.team == team;
@@ -79,8 +80,6 @@ public class OverflowGateRevamp extends Block {
                 var offset = (reverse) ? 1 : -1;
                 Building a = fromBlock.nearby(Mathf.mod(from + offset, 4));
                 boolean aB = a != null && a.team == team && a.acceptItem(fromBlock, item);
-                reverse = !reverse;
-                Log.info("overflow output " + a + " yes " + aB + " opposite " + reverse);
                 if (aB) {
                     return a;
                 }
