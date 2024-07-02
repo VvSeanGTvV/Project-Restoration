@@ -138,7 +138,7 @@ public class OverflowGateRevamp extends Block {
             }
 
             if(items.total() > 0 && lastItem != null && !alreadyHandled) {
-                Building target = getTargetTile(lastItem, source, false);
+                Building target = getTargetTile(lastItem, lastInput, false);
 
                 if (target != null) {
                     getTargetTile(lastItem, lastInput, true);
