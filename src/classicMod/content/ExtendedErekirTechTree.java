@@ -34,6 +34,10 @@ public class ExtendedErekirTechTree {
             });
         });
 
+        margeNode(breach, () -> {
+            node(tinyBreach);
+        });
+
         margeNode(afflict, () -> {
             node(chrome,Seq.with(new Objectives.Research(ClassicBlocks.heatReactor), new Produce(fissileMatter)), () -> {});
         });

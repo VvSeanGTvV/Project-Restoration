@@ -76,17 +76,17 @@ public class DuctOvercharge extends Duct {
             }
 
             Draw.scl(xscl, yscl);
-            drawAt(x, y, blendbits, rotation, SliceMode.none);
+            drawAtWithGlow(x, y, blendbits, rotation, SliceMode.none);
             Draw.reset();
         }
 
         protected void drawAtWithGlow(float x, float y, int bits, float rotation, SliceMode slice){
 
-            if(glowRegions[bits].found() && power != null && power.status > 0f){
+            if(sliced(glowRegions[bits], slice).found() && power != null && power.status > 0f){
                 Draw.z(Layer.blockAdditive);
                 Draw.color(glowColor, glowAlpha * power.status);
                 Draw.blend(Blending.additive);
-                Draw.rect(glowRegions[bits], x, y, rotation * 90);
+                Draw.rect(sliced(glowRegions[bits], slice), x, y, rotation * 90);
                 Draw.blend();
                 Draw.color();
             }
