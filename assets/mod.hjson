@@ -14,10 +14,10 @@ main: "classicMod.ClassicMod"
 description: "A Mindustry builds including some classic ones are added to Mindustry v7!"
 
 #the mod version
-version: 0.3.5r1 Unstable Alpha
+version: 0.3.5r2 Unstable Alpha
 
 #the minimum game build required to run this mod
 minGameVersion: 145
 
 #this is a java mod
-#java: true
+java: true
