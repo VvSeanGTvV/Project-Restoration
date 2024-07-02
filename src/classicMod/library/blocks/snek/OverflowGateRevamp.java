@@ -133,17 +133,6 @@ public class OverflowGateRevamp extends Block {
             if(lastItem == null && items.total() > 0){
                 items.clear();
             }
-
-            if(lastItem != null){
-                Building target = getTargetTile(lastItem, lastInput, false);
-
-                if(target != null){
-                    getTargetTile(lastItem, lastInput, true);
-                    target.handleItem(this, lastItem);
-                    items.remove(lastItem, 1);
-                    lastItem = null;
-                }
-            }
         }
 
         @Override
