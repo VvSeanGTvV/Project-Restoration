@@ -35,7 +35,11 @@ public class ExtendedErekirTechTree {
         });
 
         margeNode(afflict, () -> {
-            node(titanold,Seq.with(new Objectives.Research(ClassicBlocks.heatReactor), new Produce(fissileMatter)), () -> {});
+            node(chrome,Seq.with(new Objectives.Research(ClassicBlocks.heatReactor), new Produce(fissileMatter)), () -> {});
+        });
+
+        margeNode(armoredDuct, () -> {
+            node(surgeDuct);
         });
 
         margeNode(electricHeater, () -> {

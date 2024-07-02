@@ -24,6 +24,7 @@ import mindustry.world.*;
 import mindustry.world.blocks.campaign.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.*;
+import mindustry.world.blocks.distribution.Duct;
 import mindustry.world.blocks.distribution.StackConveyor;
 import mindustry.world.blocks.distribution.StackRouter;
 import mindustry.world.blocks.environment.*;
@@ -79,11 +80,11 @@ public class ClassicBlocks {
     //cellSynthesisChamber, //Liquid Converter - Erekir - Prototype [v7-dev]
     slagCentrifuge, cellSynthesisChamber, //Generic Crafters - Erekir - Prototype [v7-dev]
     reinforcedSafe, coreAegis, //Storage - Erekir - Prototype [v7-dev]
-    surgeConveyor, surgeRouter, //Distribution - Stacked - Prototype [v7-dev]
+    surgeConveyor, surgeRouter, surgeDuct, //Distribution - Stacked - Prototype [v7-dev]
 
     droneCenter, payloadLaunchpad, commandCenter, //TEMPORARY TESTING
 
-    fracture, horde, titanold, //Turrets - Erekir - Prototype [v7-dev]
+    fracture, horde, chrome, tinyBreach, //Turrets - Erekir - Prototype [v7-dev]
 
     interplanetaryAccelerator //Endgame - Mindustry
     ;
@@ -1039,41 +1040,6 @@ public class ClassicBlocks {
             outputItem = new ItemStack(Items.fissileMatter, 1);
         }};
 
-        /*cellSynthesisChamber = new LiquidConverter("cell-synthesis-chamber") {{
-            requirements(Category.crafting, with(Items.thorium, 75, Items.phaseFabric, 95, Items.tungsten, 155, Items.surgeAlloy, 65));
-            outputLiquid = new LiquidStack(Liquids.neoplasm, 0.4f);
-            ConvertTime = 200f;
-            size = 3;
-            hasPower = true;
-            hasItems = true;
-            hasLiquids = true;
-            rotate = false;
-            solid = true;
-            outputsLiquid = true;
-            envEnabled = Env.
-            drawer = new DrawCells() {{
-                color = Color.valueOf("9e172c");
-                particleColorFrom = Color.valueOf("9e172c");
-                particleColorTo = Color.valueOf("f98f4a");
-                radius = 2.5f;
-                lifetime = 1400f;
-                recurrence = 2f;
-                particles = 20;
-                range = 3f;
-            }};
-            liquidCapacity = 30f;
-
-            ConvertLiquid = Liquids.cyanogen;
-            ConvertLiquidAmount = 0.8f;
-
-            //consumeLiquid(Liquids.water, 8f);
-            consumePower(2f);
-            consumeItems(with(Items.carbide, 3, Items.phaseFabric, 1));
-
-            /* consumes.power(2f);
-            consumes.items(with(Items.sporePod, 3, Items.phaseFabric, 1));
-            consumes.liquid(Liquids.water, 0.8f);
-        }}; */
 
         cellSynthesisChamber = new GenericCrafter("cell-synthesis-chamber") {{
             requirements(Category.crafting, with(Items.thorium, 75, Items.phaseFabric, 95, Items.tungsten, 155, Items.surgeAlloy, 65));
@@ -1166,12 +1132,76 @@ public class ClassicBlocks {
             size = 2;
         }};*/
 
+        //Distribution
+        surgeDuct = new DuctOvercharge("surge-duct"){{
+            requirements(Category.distribution, with(Items.beryllium, 1, Items.surgeAlloy, 1));
+            health = 90;
+            speed = 5f;
+
+            hasPower = true;
+            consumesPower = true;
+            conductivePower = true;
+            baseEfficiency = 1f;
+
+            researchCost = with(Items.beryllium, 5, Items.surgeAlloy, 5);
+        }};
+
         //Turrets
+        tinyBreach = new ItemTurretV6("tiny-breach"){{
+            requirements(Category.turret, with(Items.beryllium, 35, Items.silicon, 20));
+            ammo(
+                    Items.beryllium, new BasicBulletType(7f, 40){{
+                        width = 8f;
+                        height = 14f;
+                        shootEffect = Fx.colorSpark;
+                        smokeEffect = Fx.shootBigSmoke;
+                        ammoMultiplier = 1;
+                        pierce = true;
+                        pierceBuilding = true;
+                        hitColor = backColor = trailColor = Pal.berylShot;
+                        frontColor = Color.white;
+                        trailWidth = 1.5f;
+                        trailLength = 10;
+                        hitEffect = despawnEffect = Fx.hitBulletColor;
+                    }},
+                    Items.tungsten, new BasicBulletType(6.6f, 55){{
+                        width = 9f;
+                        height = 14f;
+                        shootEffect = Fx.colorSpark;
+                        smokeEffect = Fx.shootBigSmoke;
+                        ammoMultiplier = 1;
+                        reloadMultiplier = 0.7f;
+                        pierce = true;
+                        pierceBuilding = true;
+                        hitColor = backColor = trailColor = Pal.tungstenShot;
+                        frontColor = Color.white;
+                        trailWidth = 1.6f;
+                        trailLength = 10;
+                        hitEffect = despawnEffect = Fx.hitBulletColor;
+                        rangeChange = 40f;
+                    }}
+            );
+
+            drawer = new DrawTurret("reinforced-");
+            shootLength = 0f;
+            outlineColor = Pal.darkOutline;
+            size = 2;
+            envEnabled |= Env.space;
+            reload = 35f;
+            restitution = 0.03f;
+            range = 180;
+            shootCone = 3f;
+            health = 350 * size * size;
+            rotateSpeed = 1.6f;
+
+            limitRange();
+        }};
+
         horde = new ItemTurretV6("horde"){{
             requirements(Category.turret, with(Items.tungsten, 35, Items.silicon, 35));
             shootSound = Sounds.missile;
             ammo(
-                    Items.silicon, new MissileBulletType(4.5f, 30){{
+                    Items.scrap, new MissileBulletType(4.5f, 30){{
                         inaccuracy = 0.25f;
                         shootEffect = Fx.colorSpark;
                         smokeEffect = Fx.shootBigSmoke;
@@ -1309,7 +1339,7 @@ public class ClassicBlocks {
             }
         };
 
-        titanold = new ItemTurretV6("titan-old"){{
+        chrome = new ItemTurretV6("chrome"){{
             //TODO requirements
             requirements(Category.turret, with(Items.carbide, 120, Items.surgeAlloy, 80, Items.silicon, 80, Items.beryllium, 120));
 
@@ -1533,32 +1563,5 @@ public class ClassicBlocks {
             }
 
         };
-
-        surgeConveyor = new StackConveyor("surge-conveyor"){{
-            requirements(Category.distribution, with(Items.surgeAlloy, 3, Items.graphite, 5));
-            health = 90;
-            //TODO different base speed/item capacity?
-            speed = 5f / 60f;
-            itemCapacity = 10;
-
-            outputRouter = false;
-            hasPower = true;
-            consumesPower = true;
-            conductivePower = true;
-            baseEfficiency = 1f;
-            consumePower(1f / 60f);
-        }};
-
-        surgeRouter = new StackRouter("surge-router"){{
-            requirements(Category.distribution, with(Items.graphite, 10, Items.surgeAlloy, 10));
-
-            speed = 6f;
-
-            hasPower = true;
-            consumesPower = true;
-            conductivePower = true;
-            baseEfficiency = 1f;
-            consumePower(3f / 60f);
-        }};
     }
 }
