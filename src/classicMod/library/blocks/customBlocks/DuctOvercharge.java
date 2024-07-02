@@ -94,7 +94,7 @@ public class DuctOvercharge extends Duct {
                 Draw.z(Layer.blockAdditive);
                 Draw.color(glowColor, glowAlpha * power.status);
                 Draw.blend(Blending.additive);
-                Draw.rect(sliced(Core.atlas.find(name + "-glow-" + bits), slice), x, y, rotation * 90);
+                Draw.rect(sliced(Core.atlas.find(name + "-glow-" + bits), slice), x, y, rotation);
                 Draw.blend();
                 Draw.color();
             }
