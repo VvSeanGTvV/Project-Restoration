@@ -1356,6 +1356,7 @@ public class ClassicUnitTypes {
 
         // --- Core Units Region ---
         spark = new UnitType("spark"){{
+            outlineColor = Pal.darkOutline;
             constructor = UnitEntity::create;
             controller = u -> new BuilderAI();
             //isCounted = false;

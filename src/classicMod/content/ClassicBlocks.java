@@ -1550,7 +1550,7 @@ public class ClassicBlocks {
 
             requirements(Category.effect, ItemStack.mult(coreBastion.requirements, 0.5f));
 
-            unitType = spark;
+            unitType = UnitTypes.evoke;
             health = coreBastion.health / 2;
             itemCapacity = coreBastion.itemCapacity / 2; //TODO more or less?
             size = 3;

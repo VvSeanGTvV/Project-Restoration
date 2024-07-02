@@ -82,11 +82,11 @@ public class DuctOvercharge extends Duct {
 
         protected void drawAtWithGlow(float x, float y, int bits, float rotation, SliceMode slice){
 
-            if(sliced(glowRegions[bits], slice).found() && power != null && power.status > 0f){
+            if(glowRegions[bits].found() && power != null && power.status > 0f){
                 Draw.z(Layer.blockAdditive);
                 Draw.color(glowColor, glowAlpha * power.status);
                 Draw.blend(Blending.additive);
-                Draw.rect(sliced(glowRegions[bits], slice), x, y, rotation * 90);
+                Draw.rect(glowRegions[bits], x, y, rotation * 90);
                 Draw.blend();
                 Draw.color();
             }
@@ -103,7 +103,7 @@ public class DuctOvercharge extends Duct {
 
         @Override
         public void updateTile() {
-            float eff = enabled ? (efficiency + baseEfficiency) : 1f;
+            float eff = power.status > 0f ? (power.status + baseEfficiency) : 1f;
             progress += edelta() * eff / speed * 2f;
             super.updateTile();
         }
