@@ -103,7 +103,7 @@ public class DuctOvercharge extends Duct {
         @Override
         public void updateTile() {
             float eff = power.status > 0f ? (power.status + baseEfficiency) : 1f;
-            progress += edelta() * eff / speed * 2f;
+            progress += this.delta() * eff / speed * 2f;
             super.updateTile();
         }
     }
