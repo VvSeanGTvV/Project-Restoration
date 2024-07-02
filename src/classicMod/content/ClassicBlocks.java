@@ -1142,6 +1142,7 @@ public class ClassicBlocks {
             consumesPower = true;
             conductivePower = true;
             baseEfficiency = 1f;
+            consumePower(1f / 60f);
 
             researchCost = with(Items.beryllium, 5, Items.surgeAlloy, 5);
         }};

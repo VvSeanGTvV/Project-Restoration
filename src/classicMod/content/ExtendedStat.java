@@ -14,6 +14,8 @@ public class ExtendedStat {
             burnTime = new Stat("burn-time", StatCat.crafting),
             canBreak = new Stat("can-break", StatCat.function),
             launchSector = new Stat("launch-sector", StatCat.function),
+            itemsMovedBase = new Stat("itemsmoved-base", StatCat.items),
+            itemsMovedBoost = new Stat("itemsmoved-boost", StatCat.items),
             tierLevel = new Stat("unit-level")
     ;
 

@@ -8,10 +8,13 @@ import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
 import arc.math.geom.Geometry;
 import arc.util.Tmp;
+import classicMod.content.ExtendedStat;
 import mindustry.gen.Building;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.world.blocks.distribution.Duct;
+import mindustry.world.meta.Stat;
+import mindustry.world.meta.StatUnit;
 
 import static mindustry.Vars.itemSize;
 import static mindustry.Vars.tilesize;
@@ -26,8 +29,6 @@ public class DuctOvercharge extends Duct {
 
     public DuctOvercharge(String name) {
         super(name);
-
-        hasPower = true;
     }
 
     @Override
@@ -37,6 +38,15 @@ public class DuctOvercharge extends Duct {
         }
         super.init();
     }
+
+    @Override
+    public void setStats(){
+        super.setStats();
+
+        stats.add(ExtendedStat.itemsMovedBase, 60f / speed, StatUnit.itemsSecond);
+        stats.add(ExtendedStat.itemsMovedBoost, 60f / (speed * (1f + baseEfficiency)), StatUnit.itemsSecond);
+    }
+
 
     public class DuctOverchargeBuild extends DuctBuild {
         @Override
@@ -69,14 +79,6 @@ public class DuctOvercharge extends Duct {
         }
 
         protected void drawAtWithGlow(float x, float y, int bits, float rotation, SliceMode slice){
-            Draw.z(Layer.blockUnder);
-            Draw.rect(sliced(botRegions[bits], slice), x, y, rotation);
-
-            Draw.z(Layer.blockUnder + 0.2f);
-            Draw.color(transparentColor);
-            Draw.rect(sliced(botRegions[bits], slice), x, y, rotation);
-            Draw.color();
-            Draw.rect(sliced(topRegions[bits], slice), x, y, rotation);
 
             if(sliced(glowRegions[bits], slice).found() && power != null && power.status > 0f){
                 Draw.z(Layer.blockAdditive);
@@ -85,8 +87,16 @@ public class DuctOvercharge extends Duct {
                 Draw.rect(sliced(glowRegions[bits], slice), x, y, rotation * 90);
                 Draw.blend();
                 Draw.color();
-                Draw.z(Layer.block - 0.1f);
             }
+
+            Draw.z(Layer.blockUnder);
+            Draw.rect(sliced(botRegions[bits], slice), x, y, rotation);
+
+            Draw.z(Layer.blockUnder + 0.2f);
+            Draw.color(transparentColor);
+            Draw.rect(sliced(botRegions[bits], slice), x, y, rotation);
+            Draw.color();
+            Draw.rect(sliced(topRegions[bits], slice), x, y, rotation);
         }
 
         @Override
