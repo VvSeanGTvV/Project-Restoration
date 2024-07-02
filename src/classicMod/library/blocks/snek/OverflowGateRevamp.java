@@ -72,16 +72,6 @@ public class OverflowGateRevamp extends Block {
         public boolean acceptItem(Building source, Item item) {
             //Building target = getTargetTile(lastitem, this, source, false);
 
-            if(item != null){
-                Building target = getTargetTile(item, source, false);
-
-                if(target != null){
-                    getTargetTile(item, source, true);
-                    target.handleItem(this, item);
-                    items.remove(item, 1);
-                }
-            }
-
             return source.team == team && this.items.total() == 0;
         }
 
@@ -91,6 +81,16 @@ public class OverflowGateRevamp extends Block {
             lastItem = item;
             time = 0f;
             lastInput = source;
+
+            if(item != null){
+                Building target = getTargetTile(item, source, false);
+
+                if(target != null){
+                    getTargetTile(item, source, true);
+                    target.handleItem(this, item);
+                    items.remove(item, 1);
+                }
+            }
         }
 
         public @Nullable Building getTargetTile(Item item, Building source, boolean flip){
