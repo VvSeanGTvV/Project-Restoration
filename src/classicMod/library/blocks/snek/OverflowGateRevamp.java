@@ -44,10 +44,10 @@ public class OverflowGateRevamp extends Block {
 
     @Override
     public boolean unlocked() {
-        var teh = (invert) ? Blocks.underflowGate : Blocks.overflowGate;
+        var teh = (invert) ? Blocks.underflowGate.name : Blocks.overflowGate.name;
         return net != null && net.client() ?
                 alwaysUnlocked || unlocked || state.rules.researched.contains(name) :
-                unlocked || alwaysUnlocked || teh.unlocked();
+                unlocked || alwaysUnlocked || state.rules.researched.contains(teh);
     }
 
     @Override
