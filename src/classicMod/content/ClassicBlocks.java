@@ -24,6 +24,8 @@ import mindustry.world.*;
 import mindustry.world.blocks.campaign.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.*;
+import mindustry.world.blocks.distribution.StackConveyor;
+import mindustry.world.blocks.distribution.StackRouter;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.heat.*;
 import mindustry.world.blocks.power.*;
@@ -77,6 +79,7 @@ public class ClassicBlocks {
     //cellSynthesisChamber, //Liquid Converter - Erekir - Prototype [v7-dev]
     slagCentrifuge, cellSynthesisChamber, //Generic Crafters - Erekir - Prototype [v7-dev]
     reinforcedSafe, coreAegis, //Storage - Erekir - Prototype [v7-dev]
+    surgeConveyor, surgeRouter, //Distribution - Stacked - Prototype [v7-dev]
 
     droneCenter, payloadLaunchpad, commandCenter, //TEMPORARY TESTING
 
@@ -1530,5 +1533,32 @@ public class ClassicBlocks {
             }
 
         };
+
+        surgeConveyor = new StackConveyor("surge-conveyor"){{
+            requirements(Category.distribution, with(Items.surgeAlloy, 3, Items.graphite, 5));
+            health = 90;
+            //TODO different base speed/item capacity?
+            speed = 5f / 60f;
+            itemCapacity = 10;
+
+            outputRouter = false;
+            hasPower = true;
+            consumesPower = true;
+            conductivePower = true;
+            baseEfficiency = 1f;
+            consumePower(1f / 60f);
+        }};
+
+        surgeRouter = new StackRouter("surge-router"){{
+            requirements(Category.distribution, with(Items.graphite, 10, Items.surgeAlloy, 10));
+
+            speed = 6f;
+
+            hasPower = true;
+            consumesPower = true;
+            conductivePower = true;
+            baseEfficiency = 1f;
+            consumePower(3f / 60f);
+        }};
     }
 }
