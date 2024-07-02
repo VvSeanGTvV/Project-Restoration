@@ -61,6 +61,7 @@ public class OverflowGateRevamp extends Block {
         Item lastItem;
         Building lastInput;
         float time;
+        boolean alreadyHandled = true;
 
         @Override
         public void draw() {
@@ -71,6 +72,7 @@ public class OverflowGateRevamp extends Block {
         @Override
         public boolean acceptItem(Building source, Item item) {
             //Building target = getTargetTile(lastitem, this, source, false);
+            alreadyHandled = false;
 
             return source.team == team && this.items.total() == 0;
         }
@@ -89,6 +91,7 @@ public class OverflowGateRevamp extends Block {
                     getTargetTile(item, source, true);
                     target.handleItem(this, item);
                     items.remove(item, 1);
+                    alreadyHandled = true;
                 }
             }
         }
@@ -132,6 +135,18 @@ public class OverflowGateRevamp extends Block {
         public void update() {
             if(lastItem == null && items.total() > 0){
                 items.clear();
+            }
+
+            if(items.total() > 0 && lastItem != null && !alreadyHandled) {
+                Building target = getTargetTile(lastItem, source, false);
+
+                if (target != null) {
+                    getTargetTile(lastItem, lastInput, true);
+                    target.handleItem(this, lastItem);
+                    items.remove(lastItem, 1);
+                    lastItem = null;
+                    alreadyHandled = true;
+                }
             }
         }
 
