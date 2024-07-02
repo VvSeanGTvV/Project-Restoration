@@ -19,6 +19,9 @@ import mindustry.world.meta.BlockGroup;
 
 import java.awt.*;
 
+import static mindustry.Vars.net;
+import static mindustry.Vars.state;
+
 /* Build 102 Overflow gate modified code to v7 */
 public class OverflowGateRevamp extends Block {
     public float speed = 1f;
@@ -35,9 +38,16 @@ public class OverflowGateRevamp extends Block {
         canOverdrive = false;
         itemCapacity = 1;
 
-        var teh = (invert) ? Blocks.underflowGate.localizedName : Blocks.overflowGate.localizedName;
-        localizedName = teh;
+        localizedName = (invert) ? Blocks.underflowGate.localizedName : Blocks.overflowGate.localizedName;
         region = Core.atlas.find(name);
+    }
+
+    @Override
+    public boolean unlocked() {
+        var teh = (invert) ? Blocks.underflowGate : Blocks.overflowGate;
+        return net != null && net.client() ?
+                alwaysUnlocked || unlocked || state.rules.researched.contains(name) :
+                unlocked || alwaysUnlocked || teh.unlocked();
     }
 
     @Override
@@ -71,6 +81,16 @@ public class OverflowGateRevamp extends Block {
             lastItem = item;
             time = 0f;
             lastInput = source;
+
+            if(item != null){
+                Building target = getTargetTile(item, source, false);
+
+                if(target != null){
+                    getTargetTile(item, source, true);
+                    target.handleItem(this, item);
+                    items.remove(item, 1);
+                }
+            }
         }
 
         public @Nullable Building getTargetTile(Item item, Building source, boolean flip){
