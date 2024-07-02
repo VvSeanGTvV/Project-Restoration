@@ -1136,7 +1136,7 @@ public class ClassicBlocks {
         surgeDuct = new DuctOvercharge("surge-duct"){{
             requirements(Category.distribution, with(Items.beryllium, 1, Items.surgeAlloy, 1));
             health = 90;
-            speed = 5f;
+            speed = 3.5f;
 
             hasPower = true;
             consumesPower = true;

@@ -29,6 +29,8 @@ public class DuctOvercharge extends Duct {
 
     public DuctOvercharge(String name) {
         super(name);
+
+        noUpdateDisabled = false;
     }
 
     @Override
@@ -43,8 +45,8 @@ public class DuctOvercharge extends Duct {
     public void setStats(){
         super.setStats();
 
-        stats.add(ExtendedStat.itemsMovedBase, 60f / speed, StatUnit.itemsSecond);
-        stats.add(ExtendedStat.itemsMovedBoost, 60f / (speed * (1f + baseEfficiency)), StatUnit.itemsSecond);
+        //stats.add(ExtendedStat.itemsMovedBase, 60f / speed, StatUnit.itemsSecond);
+        stats.add(ExtendedStat.itemsMovedBoost, 60f / (speed / (1f + baseEfficiency)), StatUnit.itemsSecond);
     }
 
 
@@ -102,7 +104,7 @@ public class DuctOvercharge extends Duct {
         @Override
         public void updateTile() {
             float eff = enabled ? (efficiency + baseEfficiency) : 1f;
-            progress += edelta() / speed * 2f * eff;
+            progress += edelta() * eff / speed * 2f;
             super.updateTile();
         }
     }
