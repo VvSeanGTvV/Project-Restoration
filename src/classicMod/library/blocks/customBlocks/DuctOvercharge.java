@@ -26,6 +26,8 @@ public class DuctOvercharge extends Duct {
 
     public DuctOvercharge(String name) {
         super(name);
+
+        hasPower = true;
     }
 
     @Override
