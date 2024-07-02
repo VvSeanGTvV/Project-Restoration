@@ -22,7 +22,7 @@ public class OverridableContent {
         Blocks.craters.playerUnmineable = true;
 
         SectorPresets.onset.alwaysUnlocked = false;
-        Blocks.overflowGate.update =
+       /* Blocks.overflowGate.update =
                 Blocks.underflowGate.update =
                         true;
 
@@ -38,7 +38,7 @@ public class OverridableContent {
         Blocks.overflowGate.buildType = buildingProv;
         Blocks.underflowGate.buildType = buildingProv;*/
 
-        /*Blocks.overflowGate.buildVisibility = Blocks.underflowGate.buildVisibility = BuildVisibility.hidden;
+        Blocks.overflowGate.buildVisibility = Blocks.underflowGate.buildVisibility = BuildVisibility.hidden;
         Blocks.overflowGate = new OverflowGateRevamp("overflow-gate"){{
                 requirements(Category.distribution, with(Items.lead, 2, Items.copper, 4));
                 buildCostMultiplier = 3f;
