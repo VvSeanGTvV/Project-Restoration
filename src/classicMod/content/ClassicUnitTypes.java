@@ -26,6 +26,7 @@ import mindustry.type.weapons.*;
 
 import static arc.struct.SnapshotSeq.*;
 import static classicMod.content.ClassicSounds.*;
+import static classicMod.content.ClassicVars.empty;
 import static mindustry.Vars.*;
 
 public class ClassicUnitTypes {
@@ -52,7 +53,7 @@ public class ClassicUnitTypes {
     vanguard, //Unit - Naval - Prototype [v7-dev]
 
     bulwark,
-    Oldincite, Oldemanate, //Unit - Core Units - Prototype [v7-dev]
+    Oldincite, Oldemanate, spark, //Unit - Core Units - Prototype [v7-dev]
     osc, //Unit - Flying - [v7-dev]
 
     effectDrone, //Unit - Effect - Prototype [v7-dev]
@@ -178,7 +179,7 @@ public class ClassicUnitTypes {
 
             constructor = UnitEntity::create;
 
-            weapons.add(new Weapon("restored-mind-nullTexture"){{
+            weapons.add(new Weapon(empty){{
                 y = 0f;
                 x = 0f;
                 mirror = false;
@@ -203,7 +204,7 @@ public class ClassicUnitTypes {
 
             constructor = UnitEntity::create;
             alwaysUnlocked = true;
-            weapons.add(new Weapon("restored-mind-nullTexture"){{
+            weapons.add(new Weapon(empty){{
                 x = -1 + 1.5f;
                 y = -1;
                 //length = 1.5f;
@@ -263,7 +264,7 @@ public class ClassicUnitTypes {
             trailColor = Color.valueOf("6e6bcf");
             trailLength = 3;
 
-            weapons.add(new Weapon("restored-mind-nullTexture"){{
+            weapons.add(new Weapon(empty){{
                 y = 3f;
                 x = 3f;
                 mirror = true;
@@ -527,7 +528,7 @@ public class ClassicUnitTypes {
             constructor = UnitEntity::create;
             faceTarget = false;
 
-            weapons.add(new Weapon("restored-mind-nullTexture") {{
+            weapons.add(new Weapon(empty) {{
                 x = 0f;
                 y = 2f;
                 top = true;
@@ -570,7 +571,7 @@ public class ClassicUnitTypes {
             flying = true;
             constructor = UnitEntity::create;
 
-            weapons.add(new Weapon("restored-mind-nullTexture") {{
+            weapons.add(new Weapon(empty) {{
                 x = 2f;
                 y = 0f;
                 top = true;
@@ -600,7 +601,7 @@ public class ClassicUnitTypes {
             constructor = UnitEntity::create;
             abilities.add(new LightSpeedAbility(10f, 3.6f, 6f)); //Modify armor abilty for 2nd texture (static)
 
-            weapons.add(new Weapon("restored-mind-nullTexture") {{
+            weapons.add(new Weapon(empty) {{
                 x = 2f;
                 y = 0.2f;
                 top = true;
@@ -634,7 +635,7 @@ public class ClassicUnitTypes {
             constructor = UnitEntity::create;
             controller = u -> new OldFlyingAI();
 
-            weapons.add(new Weapon("restored-mind-nullTexture") {{
+            weapons.add(new Weapon(empty) {{
                 x = 2f;
                 y = 0f;
                 top = true;
@@ -671,7 +672,7 @@ public class ClassicUnitTypes {
             constructor = UnitEntity::create;
             controller = u -> new OldFlyingAI();
 
-            weapons.add(new Weapon("restored-mind-nullTexture") {{
+            weapons.add(new Weapon(empty) {{
                 x = 0f;
                 y = 0f;
                 top = true;
@@ -859,7 +860,7 @@ public class ClassicUnitTypes {
             constructor = UnitEntity::create;
             controller = u -> new RepairAI();
 
-            weapons.add(new Weapon("restored-mind-nullTexture") {{
+            weapons.add(new Weapon(empty) {{
                 x = 0f;
                 y = 0f;
                 top = true;
@@ -908,7 +909,7 @@ public class ClassicUnitTypes {
             mineItems = with(Items.copper, Items.lead, Items.titanium);
             controller = u -> new BuilderAI();
 
-            weapons.add(new Weapon("restored-mind-nullTexture") {{
+            weapons.add(new Weapon(empty) {{
                 x = 0f;
                 y = 0f;
                 top = true;
@@ -1056,7 +1057,7 @@ public class ClassicUnitTypes {
                     hitEffect = Fx.hitFlameSmall;
                     despawnEffect = Fx.none;
                     status = StatusEffects.burning;
-                    sprite = "restored-mind-nullTexture";
+                    sprite = empty;
                 }};
             }});
         }};
@@ -1354,6 +1355,69 @@ public class ClassicUnitTypes {
         // --- Flying Units Region Ends ---
 
         // --- Core Units Region ---
+        spark = new UnitType("spark"){{
+            constructor = UnitEntity::create;
+            controller = u -> new BuilderAI();
+            //isCounted = false;
+
+            lowAltitude = false;
+            flying = true;
+            targetAir = false;
+            mineSpeed = 6.5f;
+            mineTier = 1;
+            buildSpeed = 0.8f;
+            drag = 0.06f;
+            speed = 2.5f;
+            rotateSpeed = 9f;
+            accel = 0.1f;
+            itemCapacity = 40;
+            health = 300f;
+            armor = 1f;
+            hitSize = 9f;
+            //commandLimit = 5;
+            engineSize = 0;
+
+            engines = new Seq<>(
+                    new UnitEngine[]{
+                        new UnitEngine(21 / 4f, 19 / 4f, 2.2f, 45f),
+                        new UnitEngine(-21 / 4f, 19 / 4f, 2.2f, 135f),
+
+                        new UnitEngine(23 / 4f, -22 / 4f, 2.2f, 315f),
+                        new UnitEngine(-23 / 4f, -22 / 4f, 2.2f, 225f)
+                    }
+            );
+
+            weapons.add(new Weapon(empty){{
+                reload = 55f;
+                x = 0f;
+                y = 1f;
+                top = false;
+                mirror = false;
+
+                bullet = new ArtilleryBulletType(3f, 11){{
+                    trailLength = 8;
+                    trailWidth = 2.4f;
+                    collidesTiles = true;
+                    collides = true;
+                    trailEffect = Fx.none;
+                    trailColor = Pal.bulletYellowBack;
+                    homingPower = 0.01f;
+                    splashDamage = 10;
+                    splashDamageRadius = 20f;
+                    weaveMag = 2f;
+                    weaveScale = 4f;
+                    width = 10f;
+                    height = 13f;
+
+                    lifetime = 50f;
+                    hitEffect = Fx.blastExplosion;
+                    shootEffect = Fx.shootBig;
+                    smokeEffect = Fx.shootBigSmoke;
+                    buildingDamageMultiplier = 0.4f;
+                }};
+            }});
+        }};
+
         Oldincite = new UnitType("incite") {{
             constructor = UnitEntity::create;
             controller = u -> new BuilderAI();
