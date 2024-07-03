@@ -2,8 +2,15 @@ package classicMod.library.blocks.customBlocks;
 
 import arc.graphics.g2d.*;
 import arc.math.Interp;
+import arc.math.geom.Vec2;
 import arc.util.Tmp;
+import mindustry.entities.units.WeaponMount;
+import mindustry.gen.Building;
+import mindustry.gen.Unit;
 import mindustry.graphics.Layer;
+import mindustry.type.UnitType;
+import mindustry.world.Block;
+import mindustry.world.blocks.defense.turrets.Turret;
 import mindustry.world.blocks.payloads.PayloadConveyor;
 
 import static mindustry.Vars.tilesize;
@@ -16,7 +23,7 @@ public class PayloadConveyorRevamp extends PayloadConveyor {
     public class PayloadConveyorRevampBuild extends PayloadConveyorBuild {
         @Override
         public void draw() {
-            super.draw();
+            //super.draw();
 
             float dst = 0.8f;
 
@@ -60,7 +67,16 @@ public class PayloadConveyorRevamp extends PayloadConveyor {
             Draw.z(Layer.blockOver);
 
             if (item != null) {
-                Draw.rect(item.content().fullIcon, item.x(), item.y());
+                if(item.content() instanceof UnitType unitType){
+                    Draw.rect(unitType.region, item.x(), item.y(), item.rotation());
+                    Draw.rect(unitType.cellRegion, item.x(), item.y(), item.rotation());
+                    for (var mounts : unitType.weapons){
+                        Vec2 yes = new Vec2(mounts.x - item.x(), mounts.y - item.y()).rotate(item.rotation());
+                        Draw.rect(mounts.region, yes.x, yes.y, item.rotation());
+                    }
+                } else {
+                    Draw.rect(item.content().fullIcon, item.x(), item.y());
+                }
             }
         }
     }
