@@ -78,19 +78,31 @@ public class PayloadConveyorRevamp extends PayloadConveyor {
                     for(int i = 0; i < unitType.weapons.size; i++){
                         Weapon mount = unitType.weapons.get(i);
 
-                        float z = Draw.z();
-                        Draw.z(z + mount.layerOffset);
+                        if(mount.outlineRegion.found()) {
+                            if (!mount.top) {
+                                float z = Draw.z();
+                                Draw.z(z + mount.layerOffset);
 
-                        Vec2 yes = new Vec2(item.x() + mount.x, item.y() + mount.y).rotate(this.drawrot());
-                        Draw.rect(mount.outlineRegion, yes.x, yes.y, item.rotation() + mount.baseRotation);
-                        Draw.z(z);
+                                Vec2 yes = new Vec2(item.x() + mount.x, item.y() + mount.y).rotate(this.drawrot());
+                                Draw.rect(mount.outlineRegion, yes.x, yes.y, item.rotation() + mount.mountType.get(mount).rotation);
+
+                                Draw.z(z);
+                            } else {
+                                Draw.z(Layer.blockOver + 0.1f);
+                                Vec2 yes = new Vec2(item.x() + mount.x, item.y() + mount.y).rotate(this.drawrot());
+                                Draw.rect(mount.outlineRegion, yes.x, yes.y, item.rotation() + mount.mountType.get(mount).rotation);
+                            }
+                        }
                     }
 
                     for(int i = 0; i < unitType.weapons.size; i++){
                         Weapon mount = unitType.weapons.get(i);
 
-                        Vec2 yes = new Vec2(item.x() + mount.x, item.y() + mount.y).rotate(this.drawrot());
-                        Draw.rect(mount.region, yes.x, yes.y, this.drawrot() + mount.baseRotation);
+                        if(mount.region.found()) {
+                            Draw.z(Layer.blockOver + 0.11f);
+                            Vec2 yes = new Vec2(item.x() + mount.x, item.y() + mount.y).rotate(this.drawrot());
+                            Draw.rect(mount.region, yes.x, yes.y, this.drawrot() + mount.mountType.get(mount).rotation);
+                        }
                     }
                 } else {
                     Draw.rect(item.content().fullIcon, item.x(), item.y());
