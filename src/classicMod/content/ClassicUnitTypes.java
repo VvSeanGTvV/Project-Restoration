@@ -1368,7 +1368,7 @@ public class ClassicUnitTypes {
             rotateSpeed = 0.9f;
             treadRects = new Rect[]{new Rect(27, 152, 56, 73), new Rect(24, 51, 29, 17), new Rect(59, 18, 39, 19)};
 
-            //TODO maybe different sprite, weapon impl
+            //TODO maybe different shoot
             weapons.add(new Weapon("restored-mind-mantel-weapon"){{
                 layerOffset = 0.0001f;
                 reload = 120f;
@@ -1389,6 +1389,7 @@ public class ClassicUnitTypes {
                             color = Pal.turretHeat.cpy();
                             blending = Blending.additive;
                             outline = mirror = false;
+                            y = 5f;
                         }}
                 );
 
