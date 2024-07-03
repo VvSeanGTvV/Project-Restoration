@@ -2,6 +2,7 @@ package classicMod.library.blocks.customBlocks;
 
 import arc.graphics.g2d.*;
 import arc.math.Interp;
+import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.util.Log;
 import arc.util.Tmp;
@@ -70,9 +71,11 @@ public class PayloadConveyorRevamp extends PayloadConveyor {
 
             if (item != null) {
                 if(item.content() instanceof UnitType unitType){
-                    Draw.rect(unitType.region, item.x(), item.y(), this.drawrot());
+                    var offsetDegrees = itemRotation;
+                    
+                    Draw.rect(unitType.region, item.x(), item.y(), offsetDegrees);
                     Draw.color(this.team.color);
-                    Draw.rect(unitType.cellRegion, item.x(), item.y(), this.drawrot());
+                    Draw.rect(unitType.cellRegion, item.x(), item.y(), offsetDegrees);
                     Draw.color();
 
                     for(int i = 0; i < unitType.weapons.size; i++){
@@ -83,14 +86,11 @@ public class PayloadConveyorRevamp extends PayloadConveyor {
                                 float z = Draw.z();
                                 Draw.z(z + mount.layerOffset);
 
-                                Vec2 yes = new Vec2(item.x() + mount.x, item.y() + mount.y).rotate(this.drawrot());
-                                Draw.rect(mount.outlineRegion, yes.x, yes.y, item.rotation() + mount.mountType.get(mount).rotation);
+                                Vec2 yes = new Vec2(item.x() + mount.x, item.y() + mount.y).rotate(offsetDegrees);
+                                Draw.rect(mount.outlineRegion, yes.x, yes.y, offsetDegrees + mount.mountType.get(mount).rotation);
 
                                 Draw.z(z);
-                            } else {
-                                Draw.z(Layer.blockOver + 0.1f);
-                                Vec2 yes = new Vec2(item.x() + mount.x, item.y() + mount.y).rotate(this.drawrot());
-                                Draw.rect(mount.outlineRegion, yes.x, yes.y, item.rotation() + mount.mountType.get(mount).rotation);
+
                             }
                         }
                     }
@@ -99,9 +99,30 @@ public class PayloadConveyorRevamp extends PayloadConveyor {
                         Weapon mount = unitType.weapons.get(i);
 
                         if(mount.region.found()) {
+
+                            float z = Draw.z();
+                            Draw.z(z + mount.layerOffset);
+
                             Draw.z(Layer.blockOver + 0.11f);
-                            Vec2 yes = new Vec2(item.x() + mount.x, item.y() + mount.y).rotate(this.drawrot());
-                            Draw.rect(mount.region, yes.x, yes.y, this.drawrot() + mount.mountType.get(mount).rotation);
+                            Vec2 yes = new Vec2(item.x() + mount.x, item.y() + mount.y).rotate(offsetDegrees);
+
+                            if(mount.top){
+                                //Vec2 yes = new Vec2(item.x() + mount.x, item.y() + mount.y).rotate(this.drawrot());
+                                Draw.rect(mount.outlineRegion, yes.x, yes.y, offsetDegrees + mount.mountType.get(mount).rotation);
+                            }
+
+                            Draw.xscl = -Mathf.sign(mount.flipSprite);
+                            Draw.rect(mount.region, yes.x, yes.y, offsetDegrees + mount.mountType.get(mount).rotation);
+
+                            if(mount.cellRegion.found()){
+                                Draw.color(this.team.color);
+                                Draw.rect(mount.cellRegion, yes.x, yes.y, offsetDegrees + mount.mountType.get(mount).rotation);
+                                Draw.color();
+                            }
+
+                            Draw.xscl = 1f;
+
+                            Draw.z(z);
                         }
                     }
                 } else {
