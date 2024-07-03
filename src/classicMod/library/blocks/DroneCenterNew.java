@@ -203,7 +203,7 @@ public class DroneCenterNew extends Block {
 
         @Override
         public void drawConfigure(){
-            Drawf.circles(x, y, droneRange);
+            Drawf.dashCircle(x, y, droneRange, team.color);
             Drawf.square(x, y, tile.block().size * tilesize / 2f + 1f + Mathf.absin(Time.time, 4f, 1f));
 
             if(target != null){

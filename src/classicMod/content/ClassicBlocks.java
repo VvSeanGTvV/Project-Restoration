@@ -1323,7 +1323,7 @@ public class ClassicBlocks {
                     }});
                 }};
                 shootY = -3f;
-                shootSound = Sounds.shootSnap;
+                shootSound = Sounds.shootAltLong;
                 shake = 1f;
                 shootLength = 5f;
                 outlineColor = Pal.darkOutline;
@@ -1425,15 +1425,13 @@ public class ClassicBlocks {
             //acceptCoolant = false;
 
             drawer = new DrawTurret("reinforced-"){{
-                Color heatc = Color.valueOf("f03b0e");
-                Interp in = Interp.pow2In;
 
                 parts.addAll(
                         new RegionPart("-barrel"){{
                             moveY = -5f;
-                            heatColor = heatc;
+                            heatColor = Color.valueOf("f03b0e");
                             mirror = false;
-                            PartProgress.recoil.curve(in);
+                            progress = PartProgress.recoil.curve(Interp.pow2In);
                             mirror = false;
                         }},
                         new RegionPart("-side"){{

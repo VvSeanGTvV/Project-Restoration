@@ -15,7 +15,7 @@ public class ExtendedStat {
             canBreak = new Stat("can-break", StatCat.function),
             launchSector = new Stat("launch-sector", StatCat.function),
             itemsMovedBase = new Stat("itemsmoved-base", StatCat.items),
-            itemsMovedBoost = new Stat("itemsmoved-boost", StatCat.items),
+            itemsMovedBoost = new Stat("itemsmoved-boost", StatCat.optional),
             tierLevel = new Stat("unit-level")
     ;
 
