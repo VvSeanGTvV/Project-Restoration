@@ -1358,6 +1358,7 @@ public class ClassicUnitTypes {
 
         // --- Tank Units Region ---
         mantel = new TankUnitType("mantel"){{
+            constructor = TankUnit::create;
             hitSize = 44f;
             treadPullOffset = 1;
             speed = 0.48f;
