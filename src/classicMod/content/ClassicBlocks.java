@@ -83,7 +83,7 @@ public class ClassicBlocks {
     surgeDuct, //Distribution - Duct - Prototype [v7-dev]
     burstDrill, //Distribution - Duct - Prototype [v7-dev]
 
-    droneCenter, payloadLaunchpad, commandCenter, //TEMPORARY TESTING
+    droneCenter, payloadLaunchpad, commandCenter, payloadConveyortest, //TEMPORARY TESTING
 
     fracture, horde, chrome, tinyBreach, //Turrets - Erekir - Prototype [v7-dev]
 
@@ -1467,6 +1467,12 @@ public class ClassicBlocks {
         }};
 
         //Campaign
+        payloadConveyortest = new PayloadConveyorRevamp("payload-conveyor"){{
+            requirements(Category.units, with(Items.graphite, 10, Items.copper, 10));
+            canOverdrive = false;
+        }};
+
+
         droneCenter = new DroneCenterNew("drone-center"){{
             requirements(Category.units, with(Items.tungsten, 150, Items.phaseFabric, 100));
 
