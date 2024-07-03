@@ -55,6 +55,7 @@ public class ClassicUnitTypes {
     bulwark,
     Oldincite, Oldemanate, spark, //Unit - Core Units - Prototype [v7-dev]
     osc, //Unit - Flying - [v7-dev]
+    mantel, //Unit - Tankk - [v7-dev]
 
     effectDrone, //Unit - Effect - Prototype [v7-dev]
 
@@ -1353,6 +1354,64 @@ public class ClassicUnitTypes {
             }});
         }};
         // --- Flying Units Region Ends ---
+
+
+        // --- Tank Units Region ---
+        mantel = new TankUnitType("mantel"){{
+            hitSize = 44f;
+            treadPullOffset = 1;
+            speed = 0.48f;
+            health = 20000;
+            armor = 25f;
+            crushDamage = 22f;
+            rotateSpeed = 0.9f;
+            treadRects = new Rect[]{new Rect(27, 152, 56, 73), new Rect(24, 51, 29, 17), new Rect(59, 18, 39, 19)};
+
+            //TODO maybe different sprite, weapon impl
+            weapons.add(new Weapon("mantel-weapon"){{
+                layerOffset = 0.0001f;
+                reload = 120f;
+                shootY = 71f / 4f;
+                shake = 5f;
+                recoil = 4f;
+                rotate = true;
+                rotateSpeed = 0.6f;
+                mirror = false;
+                x = 0f;
+                shadow = 32f;
+                y = -5f;
+                heatColor = Color.valueOf("f9350f");
+                cooldownTime = 80f;
+
+                parts.addAll(
+                        new RegionPart("-glow"){{
+                            color = Pal.turretHeat.cpy();
+                            blending = Blending.additive;
+                            outline = mirror = false;
+                        }}
+                );
+
+                bullet = new BasicBulletType(8f, 110){{
+                    sprite = "missile-large";
+                    width = 9.5f;
+                    height = 15f;
+                    lifetime = 30f;
+                    hitSize = 6f;
+                    shootEffect = Fx.shootTitan;
+                    smokeEffect = Fx.shootSmokeTitan;
+                    pierceCap = 2;
+                    pierce = true;
+                    pierceBuilding = true;
+                    hitColor = backColor = trailColor = Color.valueOf("feb380");
+                    frontColor = Color.white;
+                    trailWidth = 3.1f;
+                    trailLength = 8;
+                    hitEffect = despawnEffect = Fx.blastExplosion;
+                }};
+            }});
+
+            //TODO could change color when shooting
+        }};
 
         // --- Core Units Region ---
         spark = new UnitType("spark"){{

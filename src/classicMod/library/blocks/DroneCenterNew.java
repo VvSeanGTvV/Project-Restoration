@@ -38,8 +38,9 @@ import static mindustry.Vars.*;
 
 public class DroneCenterNew extends Block {
 
-    /** Maximum Unit that can spawn **/
-    public int unitsSpawned = 4;
+    //public int unitsMax = 4; TODO make this happen
+
+    /** Unit Type **/
     public UnitType droneType;
     /** Status effect for Effect Drone to give the exact effect to the units **/
     public StatusEffect status = StatusEffects.overclock;
@@ -80,7 +81,7 @@ public class DroneCenterNew extends Block {
         super.setStats();
 
         stats.add(Stat.range, droneRange / tilesize, StatUnit.blocks);
-        //stats.add(ExtendedStat.StatusOutput, status.localizedName);
+        //stats.add(Stat.maxUnits, unitsMax);
         //stats.add(ExtendedStat.StatusDuration, statusDuration / 60f, StatUnit.seconds);
 
         stats.add(ExtendedStat.StatusOutput, table -> {
@@ -241,9 +242,6 @@ public class DroneCenterNew extends Block {
         @Override
         public void write(Writes write){
             super.write(write);
-
-            //write.i(target == null ? -1 : target.id);
-
 
             write.i(unit == null ? -1 : unit.id);
             write.bool(hadUnit);

@@ -29,15 +29,12 @@ import static mindustry.type.ItemStack.with;
 public class LegacyUnitFactory extends Block {
     public UnitType unitType;
     public float produceTime = 60f;
-    public int originCap = 0;
-    public float launchVelocity = 0f; //never used who knows why
+    public float launchVelocity = 0f;
     public TextureRegion topRegion;
     public int maxSpawn = 8; //Default by 4
     public int originMax = maxSpawn;
     public int[] capacities = {};
     public ItemStack[] requirement; //Requirements for the unit
-    protected boolean varRuleSet = false; //If it is already setted and multiplied by the rules unitcap.
-    protected boolean singleSet = false;
 
     public LegacyUnitFactory(String name){
         super(name);

@@ -80,7 +80,8 @@ public class ClassicBlocks {
     //cellSynthesisChamber, //Liquid Converter - Erekir - Prototype [v7-dev]
     slagCentrifuge, cellSynthesisChamber, //Generic Crafters - Erekir - Prototype [v7-dev]
     reinforcedSafe, coreAegis, //Storage - Erekir - Prototype [v7-dev]
-    surgeConveyor, surgeRouter, surgeDuct, //Distribution - Stacked - Prototype [v7-dev]
+    surgeDuct, //Distribution - Duct - Prototype [v7-dev]
+    burstDrill, //Distribution - Duct - Prototype [v7-dev]
 
     droneCenter, payloadLaunchpad, commandCenter, //TEMPORARY TESTING
 
@@ -1506,7 +1507,13 @@ public class ClassicBlocks {
             requirements(Category.units, with(Items.copper, 200, Items.lead, 250, Items.silicon, 250, Items.graphite, 100));
             size = 2;
             health = size * size * 55;
-        }};
+            }
+
+            @Override
+            public TextureRegion[] icons() {
+                return new TextureRegion[]{region, Core.atlas.find(name + "-team-" + "sharded")};
+            }
+        };
 
         /*payloadLaunchpad = new PayloadLaunchPad("payload-launch-pad"){{ //TODO keep it? or scrap it?
             requirements(Category.effect, BuildVisibility.campaignOnly, with(Items.titanium, 200, Items.silicon, 150, Items.lead, 250, Items.plastanium, 75));
@@ -1562,5 +1569,19 @@ public class ClassicBlocks {
             }
 
         };
+
+        burstDrill = new ImpactDrill("burst-drill"){{
+            requirements(Category.production, with(Items.silicon, 60, Items.beryllium, 90, Items.graphite, 50));
+            drillTime = 60f * 10f;
+            size = 4;
+            drawRim = false;
+            hasPower = true;
+            tier = 6;
+            drillEffect = Fx.mineHuge;
+            itemCapacity = 30;
+
+            consumePower(3f);
+            consumeLiquid(Liquids.water, 0.2f);
+        }};
     }
 }

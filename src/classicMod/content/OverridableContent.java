@@ -39,7 +39,7 @@ public class OverridableContent {
         Blocks.underflowGate.buildType = buildingProv;*/
 
         //Blocks.overflowGate.buildVisibility = Blocks.underflowGate.buildVisibility = BuildVisibility.hidden;
-        Blocks.overflowGate = new OverflowGateRevamp("overflow-gate"){{
+        /*Blocks.overflowGate = new OverflowGateRevamp("overflow-gate"){{
                 requirements(Category.distribution, with(Items.lead, 2, Items.copper, 4));
                 buildCostMultiplier = 3f;
         }};
