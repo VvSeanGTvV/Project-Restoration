@@ -75,8 +75,7 @@ public class PayloadConveyorRevamp extends PayloadConveyor {
                     for(int i = 0; i < unitType.weapons.size; i++){
                         Weapon mount = unitType.weapons.get(i);
                         Draw.z(Layer.blockOver + 0.05f);
-                        Vec2 yes = new Vec2(mount.x - item.x(), mount.y - item.y()).rotate(rotdeg());
-                        Log.info(new Vec2(mount.x - item.x(), mount.y - item.y()));
+                        Vec2 yes = new Vec2(item.x() - mount.x, item.y() - mount.y).rotate(rotdeg());
                         Draw.rect(mount.region, yes.x, yes.y, item.rotation());
                     }
                 } else {
