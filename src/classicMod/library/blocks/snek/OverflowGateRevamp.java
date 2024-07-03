@@ -38,7 +38,6 @@ public class OverflowGateRevamp extends Block {
         canOverdrive = false;
         itemCapacity = 1;
 
-        localizedName = (invert) ? Blocks.underflowGate.localizedName : Blocks.overflowGate.localizedName;
         region = Core.atlas.find(name);
     }
 
@@ -52,6 +51,7 @@ public class OverflowGateRevamp extends Block {
 
     @Override
     protected TextureRegion[] icons() {
+        localizedName = (invert) ? Blocks.underflowGate.localizedName : Blocks.overflowGate.localizedName;
         var teh = (invert) ? Core.atlas.find("underflow-gate") : Core.atlas.find("overflow-gate");
         return new TextureRegion[]{teh};
     }
