@@ -3,12 +3,14 @@ package classicMod.library.blocks.customBlocks;
 import arc.graphics.g2d.*;
 import arc.math.Interp;
 import arc.math.geom.Vec2;
+import arc.util.Log;
 import arc.util.Tmp;
 import mindustry.entities.units.WeaponMount;
 import mindustry.gen.Building;
 import mindustry.gen.Unit;
 import mindustry.graphics.Layer;
 import mindustry.type.UnitType;
+import mindustry.type.Weapon;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.turrets.Turret;
 import mindustry.world.blocks.payloads.PayloadConveyor;
@@ -68,11 +70,14 @@ public class PayloadConveyorRevamp extends PayloadConveyor {
 
             if (item != null) {
                 if(item.content() instanceof UnitType unitType){
-                    Draw.rect(unitType.region, item.x(), item.y(), item.rotation());
-                    Draw.rect(unitType.cellRegion, item.x(), item.y(), item.rotation());
-                    for (var mounts : unitType.weapons){
-                        Vec2 yes = new Vec2(mounts.x - item.x(), mounts.y - item.y()).rotate(item.rotation());
-                        Draw.rect(mounts.region, yes.x, yes.y, item.rotation());
+                    Draw.rect(unitType.region, item.x(), item.y(), rotdeg());
+                    Draw.rect(unitType.cellRegion, item.x(), item.y(), rotdeg());
+                    for(int i = 0; i < unitType.weapons.size; i++){
+                        Weapon mount = unitType.weapons.get(i);
+                        Draw.z(Layer.blockOver + 0.05f);
+                        Vec2 yes = new Vec2(mount.x - item.x(), mount.y - item.y()).rotate(rotdeg());
+                        Log.info(new Vec2(mount.x - item.x(), mount.y - item.y()));
+                        Draw.rect(mount.region, yes.x, yes.y, item.rotation());
                     }
                 } else {
                     Draw.rect(item.content().fullIcon, item.x(), item.y());
