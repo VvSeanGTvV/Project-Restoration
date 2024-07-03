@@ -1369,7 +1369,7 @@ public class ClassicUnitTypes {
             treadRects = new Rect[]{new Rect(27, 152, 56, 73), new Rect(24, 51, 29, 17), new Rect(59, 18, 39, 19)};
 
             //TODO maybe different sprite, weapon impl
-            weapons.add(new Weapon("mantel-weapon"){{
+            weapons.add(new Weapon("restored-mind-mantel-weapon"){{
                 layerOffset = 0.0001f;
                 reload = 120f;
                 shootY = 71f / 4f;
