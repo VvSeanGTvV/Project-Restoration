@@ -70,13 +70,17 @@ public class PayloadConveyorRevamp extends PayloadConveyor {
 
             if (item != null) {
                 if(item.content() instanceof UnitType unitType){
-                    Draw.rect(unitType.region, item.x(), item.y(), rotdeg());
-                    Draw.rect(unitType.cellRegion, item.x(), item.y(), rotdeg());
+                    Draw.rect(unitType.region, item.x(), item.y(), this.drawrot());
+                    Draw.color(this.team.color);
+                    Draw.rect(unitType.cellRegion, item.x(), item.y(), this.drawrot());
+                    Draw.color();
                     for(int i = 0; i < unitType.weapons.size; i++){
                         Weapon mount = unitType.weapons.get(i);
                         Draw.z(Layer.blockOver + 0.05f);
-                        Vec2 yes = new Vec2(item.x() - mount.x, item.y() - mount.y).rotate(rotdeg());
-                        Draw.rect(mount.region, yes.x, yes.y, item.rotation());
+                        Vec2 yes = new Vec2(item.x() + mount.x, item.y() + mount.y).rotate(this.drawrot());
+                        Draw.rect(mount.region, yes.x, yes.y, this.drawrot() + mount.baseRotation);
+                        Draw.z(Layer.blockOver - 0.05f);
+                        Draw.rect(mount.outlineRegion, yes.x, yes.y, item.rotation() + mount.baseRotation);
                     }
                 } else {
                     Draw.rect(item.content().fullIcon, item.x(), item.y());
