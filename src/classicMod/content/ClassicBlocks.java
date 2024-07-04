@@ -26,6 +26,7 @@ import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.heat.*;
+import mindustry.world.blocks.payloads.BlockProducer;
 import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.blocks.storage.CoreBlock;
@@ -1113,7 +1114,7 @@ public class ClassicBlocks {
         }};
 
         //Nuclear //TODO make it work??? & SPRITE OVERHAUL needed
-        /*warheadAssembler = new SingleBlockProducer("warhead-assembler") {{
+        warheadAssembler = new SingleBlockProducer("warhead-assembler") {{
             requirements(Category.crafting, with(Items.thorium, 100));
             result = nuclearWarhead;
             size = 3;
@@ -1128,7 +1129,7 @@ public class ClassicBlocks {
         nuclearWarhead = new NuclearWarhead("nuclear-warhead") {{
             requirements(Category.crafting, with(Items.thorium, 40));
             size = 2;
-        }};*/
+        }};
 
         //Distribution
         surgeDuct = new DuctOvercharge("surge-duct"){{
@@ -1532,7 +1533,6 @@ public class ClassicBlocks {
         }};*/
 
         reinforcedSafe = new StorageBlock("reinforced-safe"){
-            TextureRegion team;
             {
                 requirements(Category.effect, with(Items.tungsten, 250, Items.carbide, 125, Items.beryllium, 100));
                 size = 4;
