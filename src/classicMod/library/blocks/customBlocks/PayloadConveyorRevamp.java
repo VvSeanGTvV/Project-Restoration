@@ -7,6 +7,7 @@ import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.util.Log;
 import arc.util.Tmp;
+import mindustry.entities.part.DrawPart;
 import mindustry.entities.units.WeaponMount;
 import mindustry.gen.Building;
 import mindustry.gen.Unit;
@@ -134,6 +135,16 @@ public class PayloadConveyorRevamp extends PayloadConveyor {
                             Draw.z(z);
                         }
                     }
+
+                    if(unitType.parts.size > 0) {
+                        for (int i = 0; i < unitType.parts.size; i++) {
+                            var part = unitType.parts.get(i);
+                            DrawPart.params.set(0f, 0f, 0f, 0f, 0f, 0f, item.x(), item.y(), offsetDegrees);
+
+                            part.draw(DrawPart.params);
+                        }
+                    }
+
                 } else {
                     Draw.rect(item.content().fullIcon, item.x(), item.y());
                 }
