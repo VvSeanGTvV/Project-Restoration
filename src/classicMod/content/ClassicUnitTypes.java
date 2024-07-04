@@ -1366,7 +1366,8 @@ public class ClassicUnitTypes {
             armor = 25f;
             crushDamage = 22f;
             rotateSpeed = 0.9f;
-            treadRects = new Rect[]{new Rect(27, 152, 56, 73), new Rect(24, 51, 29, 17), new Rect(59, 18, 39, 19)};
+            float xo = 231f/2f, yo = 231f/2f;
+            treadRects = new Rect[]{new Rect(27 - xo, 152 - yo, 56, 73), new Rect(24 - xo, 51 - 9 - yo, 29, 17), new Rect(59 - xo, 18 - 9 - yo, 39, 19)};
 
             //TODO maybe different shoot
             weapons.add(new Weapon("restored-mind-mantel-weapon"){{

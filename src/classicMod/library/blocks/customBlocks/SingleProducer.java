@@ -8,11 +8,13 @@ import mindustry.world.blocks.payloads.BuildPayload;
 import mindustry.world.blocks.payloads.Payload;
 
 import static mindustry.Vars.tilesize;
+import static mindustry.type.ItemStack.with;
 
 public class SingleProducer extends BlockProducer {
     public Block produce = null;
     public SingleProducer(String name) {
         super(name);
+        consumeItems(produce.requirements);
     }
 
     public class SingleProducerBuild extends BlockProducerBuild {
