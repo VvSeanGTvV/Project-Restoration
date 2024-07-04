@@ -227,11 +227,11 @@ public class NewAccelerator extends Block{
                         settings.put("launched-planetary", true);
                     }
 
-                    zoomStyle = Interp.pow3In.apply(Scl.scl(0.02f), Scl.scl(maxScaleZoom), 1f - launchpadTimer);
+                    zoomStyle = Interp.pow3In.apply(Scl.scl(0.02f), Scl.scl(maxScaleZoom), Mathf.clamp(1f - launchpadTimer * 2f));
                     launchpadPrepTimer = Mathf.clamp(launchpadPrepTimer + 0.0035f * Time.delta);
 
                     if(launchpadPrepTimer >= 0.25f) launchpadTimer = Mathf.clamp(launchpadTimer + 0.0075f * Time.delta);
-                    if(launchpadTimer >= 0.75f) stageLaunch += 1;
+                    if(launchpadTimer * 2f >= 0.85f) stageLaunch += 1;
                     if(launchpadTimer >= 0.25f) shockwaveTimer = Mathf.clamp(launchpadTimer + 0.01f * Time.delta);
                 }
                 if(stageLaunch >= 2){
