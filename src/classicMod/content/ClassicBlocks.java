@@ -24,9 +24,6 @@ import mindustry.world.*;
 import mindustry.world.blocks.campaign.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.*;
-import mindustry.world.blocks.distribution.Duct;
-import mindustry.world.blocks.distribution.StackConveyor;
-import mindustry.world.blocks.distribution.StackRouter;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.heat.*;
 import mindustry.world.blocks.power.*;
@@ -83,7 +80,7 @@ public class ClassicBlocks {
     surgeDuct, //Distribution - Duct - Prototype [v7-dev]
     burstDrill, //Distribution - Duct - Prototype [v7-dev]
 
-    droneCenter, payloadLaunchpad, commandCenter, payloadConveyortest, //TEMPORARY TESTING
+    droneCenter, payloadLaunchpad, commandCenter, //TEMPORARY TESTING
 
     fracture, horde, chrome, tinyBreach, //Turrets - Erekir - Prototype [v7-dev]
 
@@ -1467,12 +1464,6 @@ public class ClassicBlocks {
         }};
 
         //Campaign
-        payloadConveyortest = new PayloadConveyorRevamp("payload-conveyor"){{
-            requirements(Category.units, with(Items.graphite, 10, Items.copper, 10));
-            canOverdrive = false;
-        }};
-
-
         droneCenter = new DroneCenterNew("drone-center"){{
             requirements(Category.units, with(Items.tungsten, 150, Items.phaseFabric, 100));
 

@@ -120,6 +120,7 @@ public class NewAccelerator extends Block{
 
     public class NewAcceleratorBuild extends Building implements ControlBlock{
         public float heat, statusLerp, blockLerp, heatOpposite, progress;
+        float originMinZoom, originMaxZoom;
         public @Nullable BlockUnitc unit;
 
         //counter
@@ -198,6 +199,10 @@ public class NewAccelerator extends Block{
             unit.ammo(unit.type().ammoCapacity * fraction());
 
             if(progress >= launchTime && items.total() >= itemCapacity){
+                if(originMinZoom == 0 || originMaxZoom == 0){
+                    originMinZoom = renderer.minZoom;
+                    originMaxZoom = renderer.maxZoom;
+                }
                 if(mobile){
                     camera.position.set(this);
                 }                       
@@ -205,8 +210,10 @@ public class NewAccelerator extends Block{
 
                 StartAnimation = true;
                 //unit.spawnedByCore(false);
+                renderer.minZoom = 0.02f;
+                renderer.maxZoom = 4f;
                 renderer.setScale(Scl.scl(zoomStyle));
-                var maxScaleZoom = (Vars.mobile) ? Core.graphics.getAspect() : 4f;
+                var maxScaleZoom = 4f;
                 launchAnimation = Mathf.clamp(launchAnimation + 0.0025f * Time.delta);
                 if(launchAnimation >= 1f && stageLaunch < 1){ stageLaunch += 1; launchAnimation = 0f; }
                 if(stageLaunch == 0){
@@ -224,7 +231,7 @@ public class NewAccelerator extends Block{
                     launchpadPrepTimer = Mathf.clamp(launchpadPrepTimer + 0.0035f * Time.delta);
 
                     if(launchpadPrepTimer >= 0.25f) launchpadTimer = Mathf.clamp(launchpadTimer + 0.0075f * Time.delta);
-                    if(launchpadTimer >= 0.5f) stageLaunch += 1;
+                    if(launchpadTimer >= 0.75f) stageLaunch += 1;
                     if(launchpadTimer >= 0.25f) shockwaveTimer = Mathf.clamp(launchpadTimer + 0.01f * Time.delta);
                 }
                 if(stageLaunch >= 2){
@@ -511,7 +518,6 @@ public class NewAccelerator extends Block{
         }
 
         public void StartNewPlanet(Sector to){
-            renderer.setScale(Scl.scl(zoomStyle));
             if(control.saves.getCurrent() != null && Vars.state.isGame()){
                 try{
                     control.saves.getCurrent().save();
@@ -520,6 +526,10 @@ public class NewAccelerator extends Block{
                     ui.showException("[accent]" + Core.bundle.get("savefail"), e);
                 }
             }
+
+            renderer.minZoom = originMinZoom;
+            renderer.maxZoom = originMaxZoom;
+            originMaxZoom = originMinZoom = 0;
 
             Events.fire(new SectorLaunchEvent(to));
             control.playSector(to);
