@@ -1,5 +1,6 @@
 package classicMod.library.blocks.customBlocks;
 
+import arc.func.Cons;
 import arc.graphics.g2d.*;
 import arc.math.Angles;
 import arc.math.Interp;
@@ -16,6 +17,7 @@ import mindustry.type.UnitType;
 import mindustry.type.Weapon;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.turrets.Turret;
+import mindustry.world.blocks.payloads.Payload;
 import mindustry.world.blocks.payloads.PayloadConveyor;
 
 import static mindustry.Vars.tilesize;
@@ -26,6 +28,15 @@ public class PayloadConveyorRevamp extends PayloadConveyor {
     }
 
     public class PayloadConveyorRevampBuild extends PayloadConveyorBuild {
+
+        Unit unit;
+        @Override
+        public void updatePayload(Unit unitHolder, Building buildingHolder) {
+            unit = unitHolder;
+            Log.info(unitHolder);
+            super.updatePayload(unitHolder, buildingHolder);
+        }
+
         @Override
         public void draw() {
             //super.draw();
