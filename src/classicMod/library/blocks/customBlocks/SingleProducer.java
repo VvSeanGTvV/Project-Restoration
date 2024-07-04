@@ -2,7 +2,9 @@ package classicMod.library.blocks.customBlocks;
 
 import arc.math.Mathf;
 import arc.struct.ObjectMap;
+import classicMod.library.blocks.v6devBlocks.ResearchBlock;
 import mindustry.gen.Building;
+import mindustry.type.Item;
 import mindustry.type.ItemStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.payloads.BlockProducer;
@@ -18,6 +20,7 @@ public class SingleProducer extends BlockProducer {
     public Block produce = null;
     public SingleProducer(String name) {
         super(name);
+        consumeBuilder.add(new ConsumeItemDynamic((SingleProducer.SingleProducerBuild entity) -> entity.recipe() != null ? entity.recipe().requirements : ItemStack.empty));
     }
 
     public class SingleProducerBuild extends BlockProducerBuild {
@@ -25,6 +28,20 @@ public class SingleProducer extends BlockProducer {
         @Override
         public Block recipe() {
             return produce;
+        }
+
+        @Override
+        public boolean acceptItem(Building source, Item item){
+            return items.get(item) < getMaximumAccepted(item);
+        }
+
+        @Override
+        public int getMaximumAccepted(Item item){
+            if(recipe() == null) return 0;
+            for(ItemStack stack : recipe().requirements){
+                if(stack.item == item) return stack.amount * 2;
+            }
+            return 0;
         }
 
         @Override

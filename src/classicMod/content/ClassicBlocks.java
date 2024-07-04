@@ -1117,7 +1117,7 @@ public class ClassicBlocks {
         warheadAssembler = new SingleProducer("warhead-assembler") {{
             requirements(Category.crafting, with(Items.thorium, 100));
             produce = nuclearWarhead;
-            consumeItems(with(Items.thorium, 40));
+
             size = 3;
             buildSpeed = 0.3f;
         }};
