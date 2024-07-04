@@ -1409,8 +1409,8 @@ public class ClassicUnitTypes {
                     new RegionPart("-glow"){{
                         color = Pal.turretHeat.cpy();
                         blending = Blending.additive;
+                        layer = -1f;
                         outline = mirror = false;
-                        y = 5f;
                     }}
             );
         }};

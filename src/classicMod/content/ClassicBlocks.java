@@ -1071,8 +1071,8 @@ public class ClassicBlocks {
 
             drawer = new DrawMulti(
                     new DrawRegion("-bottom"),
-                    new DrawLiquidTile(Liquids.cyanogen),
-                    new DrawLiquidTile(Liquids.neoplasm),
+                    new DrawLiquidTile(Liquids.cyanogen, 5f),
+                    new DrawLiquidTile(Liquids.neoplasm, 5f),
                     Cells,
                     new DrawDefault()
             );
