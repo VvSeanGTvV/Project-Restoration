@@ -139,7 +139,7 @@ public class PayloadConveyorRevamp extends PayloadConveyor {
                     if(unitType.parts.size > 0) {
                         for (int i = 0; i < unitType.parts.size; i++) {
                             var part = unitType.parts.get(i);
-                            DrawPart.params.set(0f, 0f, 0f, 0f, 0f, 0f, item.x(), item.y(), offsetDegrees);
+                            DrawPart.params.set(0f, 0f, 0f, 0f, 0f, 0f, item.x(), item.y(), item.rotation());
 
                             part.draw(DrawPart.params);
                         }
