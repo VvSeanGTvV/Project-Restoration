@@ -71,10 +71,14 @@ public class PayloadConveyorRevamp extends PayloadConveyor {
             Draw.z(Layer.blockOver);
 
             if (item != null) {
-                var offsetDegrees = item.rotation() + 90f;
+                var offsetDegrees = item.rotation() - 90f;
                 if(item.content() instanceof UnitType unitType){
                     float z = Draw.z();
                     Draw.z(z - 0.02f);
+
+                    if(unitType.treadRegion.found()){
+                        Draw.rect(unitType.treadRegion, item.x(), item.y(), offsetDegrees);
+                    }
 
                     for(int i = 0; i < unitType.weapons.size; i++){
                         Weapon mount = unitType.weapons.get(i);
@@ -86,7 +90,9 @@ public class PayloadConveyorRevamp extends PayloadConveyor {
                                 var wx = item.x() + Angles.trnsx(offsetDegrees, mount.x, mount.y);
                                 var wy = item.y() + Angles.trnsy(offsetDegrees, mount.x, mount.y);
 
+                                Draw.xscl = -Mathf.sign(mount.flipSprite);
                                 Draw.rect(mount.outlineRegion, wx, wy, offsetDegrees + mount.mountType.get(mount).rotation);
+                                Draw.xscl = 1f;
 
                                 Draw.z(z);
 
