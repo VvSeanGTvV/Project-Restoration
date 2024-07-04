@@ -71,9 +71,9 @@ public class PayloadConveyorRevamp extends PayloadConveyor {
             Draw.z(Layer.blockOver);
 
             if (item != null) {
+                var offsetDegrees = item.rotation() + 90f;
                 if(item.content() instanceof UnitType unitType){
                     float z = Draw.z();
-                    var offsetDegrees = itemRotation;
                     Draw.z(z - 0.02f);
 
                     for(int i = 0; i < unitType.weapons.size; i++){
