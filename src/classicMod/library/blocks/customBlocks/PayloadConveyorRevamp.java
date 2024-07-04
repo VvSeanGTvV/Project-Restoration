@@ -85,8 +85,7 @@ public class PayloadConveyorRevamp extends PayloadConveyor {
             if (item != null) {
                 var offsetDegrees = item.rotation() - 90f;
                 if(item.content() instanceof UnitType unitType){
-                    unitType.draw(self());
-                    /*float z = Draw.z();
+                    float z = Draw.z();
                     Draw.z(z - 0.02f);
                     Draw.rect(unitType.fullIcon, item.x(), item.y(), offsetDegrees);
 
@@ -168,7 +167,7 @@ public class PayloadConveyorRevamp extends PayloadConveyor {
 
                             part.draw(DrawPart.params);
                         }
-                    }*/
+                    }
 
                 } else {
                     Draw.rect(item.content().fullIcon, item.x(), item.y());
