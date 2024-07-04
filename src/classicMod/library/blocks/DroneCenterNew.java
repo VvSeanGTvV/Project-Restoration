@@ -223,7 +223,7 @@ public class DroneCenterNew extends Block {
 
             //TODO draw more stuff
 
-            if(droneWarmup > 0 && !hadUnit && efficiency >= 1f){
+            if(droneWarmup > 0 && !hadUnit && efficiency >= 1f && this.target != null){
                 Draw.draw(Layer.blockOver + 0.2f, () -> {
                     Drawf.construct(this, droneType.fullIcon, Pal.accent, 0f, droneProgress, droneWarmup, totalDroneProgress, 14f);
                 });

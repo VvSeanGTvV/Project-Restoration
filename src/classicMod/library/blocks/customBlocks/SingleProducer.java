@@ -53,7 +53,7 @@ public class SingleProducer extends BlockProducer {
         @Override
         public void updateTile(){
             if(tehRecipe == null && produce != null) tehRecipe = produce;
-            super.updateTile();
+            //super.updateTile();
             var recipe = tehRecipe;
             boolean produce = recipe != null && efficiency > 0 && payload == null;
 
@@ -73,6 +73,10 @@ public class SingleProducer extends BlockProducer {
             time += heat * delta();
 
             moveOutPayload();
+
+            if(payload != null){
+                payload.update(null, this);
+            }
         }
     }
 }

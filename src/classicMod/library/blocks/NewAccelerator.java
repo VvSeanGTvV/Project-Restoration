@@ -210,8 +210,8 @@ public class NewAccelerator extends Block{
 
                 StartAnimation = true;
                 //unit.spawnedByCore(false);
-                renderer.minZoom = 0.02f;
-                renderer.maxZoom = 6f;
+                renderer.minZoom = Scl.scl(0.02f);
+                renderer.maxZoom = Scl.scl(6f);
                 renderer.setScale(Scl.scl(zoomStyle));
                 var maxScaleZoom = (Vars.mobile) ? Core.graphics.getAspect() : 4f;
                 launchAnimation = Mathf.clamp(launchAnimation + 0.0025f * Time.delta);

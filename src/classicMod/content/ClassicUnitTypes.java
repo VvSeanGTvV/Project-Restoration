@@ -1367,7 +1367,7 @@ public class ClassicUnitTypes {
             crushDamage = 22f;
             rotateSpeed = 0.9f;
             float xo = 231f/2f, yo = 231f/2f;
-            treadRects = new Rect[]{new Rect(27 - xo, 152 - yo, 56, 73), new Rect(24 - xo, 51 - 9 - yo, 29, 17), new Rect(59 - xo, 18 - 9 - yo, 39, 19)};
+            treadRects = new Rect[]{new Rect(27 - xo, 152 - yo, 56, 73), new Rect(24 - xo, 51 - yo, 29, 17), new Rect(59 - xo, 18 - yo, 39, 19)};
 
             //TODO maybe different shoot
             weapons.add(new Weapon("restored-mind-mantel-weapon"){{
@@ -1384,15 +1384,6 @@ public class ClassicUnitTypes {
                 y = -5f;
                 heatColor = Color.valueOf("f9350f");
                 cooldownTime = 80f;
-
-                parts.addAll(
-                        new RegionPart("-glow"){{
-                            color = Pal.turretHeat.cpy();
-                            blending = Blending.additive;
-                            outline = mirror = false;
-                            y = 5f;
-                        }}
-                );
 
                 bullet = new BasicBulletType(8f, 110){{
                     sprite = "missile-large";
@@ -1414,6 +1405,14 @@ public class ClassicUnitTypes {
             }});
 
             //TODO could change color when shooting
+            parts.addAll(
+                    new RegionPart("-glow"){{
+                        color = Pal.turretHeat.cpy();
+                        blending = Blending.additive;
+                        outline = mirror = false;
+                        y = 5f;
+                    }}
+            );
         }};
 
         // --- Core Units Region ---
