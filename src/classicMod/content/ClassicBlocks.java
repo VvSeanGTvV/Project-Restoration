@@ -1114,9 +1114,9 @@ public class ClassicBlocks {
         }};
 
         //Nuclear //TODO make it work??? & SPRITE OVERHAUL needed
-        warheadAssembler = new SingleBlockProducer("warhead-assembler") {{
+        warheadAssembler = new SingleProducer("warhead-assembler") {{
             requirements(Category.crafting, with(Items.thorium, 100));
-            result = nuclearWarhead;
+            produce = nuclearWarhead;
             size = 3;
             buildSpeed = 0.3f;
         }};
