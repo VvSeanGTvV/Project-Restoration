@@ -19,15 +19,16 @@ import static mindustry.type.ItemStack.with;
 public class SingleProducer extends BlockProducer {
     public Block produce = null;
     public SingleProducer(String name) {
+
         super(name);
-        consumeBuilder.add(new ConsumeItemDynamic((SingleProducer.SingleProducerBuild entity) -> entity.recipe() != null ? entity.recipe().requirements : ItemStack.empty));
+        consumeBuilder.add(new ConsumeItemDynamic((SingleProducer.SingleProducerBuild entity) -> entity.tehRecipe != null ? entity.tehRecipe.requirements : ItemStack.empty));
     }
 
     public class SingleProducerBuild extends BlockProducerBuild {
-
+        public Block tehRecipe;
         @Override
         public Block recipe() {
-            return produce;
+            return tehRecipe;
         }
 
         @Override
@@ -37,8 +38,8 @@ public class SingleProducer extends BlockProducer {
 
         @Override
         public int getMaximumAccepted(Item item){
-            if(recipe() == null) return 0;
-            for(ItemStack stack : recipe().requirements){
+            if(tehRecipe == null) return 0;
+            for(ItemStack stack : tehRecipe.requirements){
                 if(stack.item == item) return stack.amount * 2;
             }
             return 0;
@@ -46,13 +47,14 @@ public class SingleProducer extends BlockProducer {
 
         @Override
         public boolean shouldConsume(){
-            return super.shouldConsume() && recipe() != null;
+            return super.shouldConsume() && tehRecipe != null;
         }
 
         @Override
         public void updateTile(){
+            if(tehRecipe == null && produce != null) tehRecipe = produce;
             super.updateTile();
-            var recipe = recipe();
+            var recipe = tehRecipe;
             boolean produce = recipe != null && efficiency > 0 && payload == null;
 
             if(produce){
