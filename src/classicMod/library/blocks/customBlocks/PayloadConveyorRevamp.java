@@ -1,6 +1,7 @@
 package classicMod.library.blocks.customBlocks;
 
 import arc.graphics.g2d.*;
+import arc.math.Angles;
 import arc.math.Interp;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
@@ -71,9 +72,32 @@ public class PayloadConveyorRevamp extends PayloadConveyor {
 
             if (item != null) {
                 if(item.content() instanceof UnitType unitType){
+                    float z = Draw.z();
                     var offsetDegrees = itemRotation;
-                    
+                    Draw.z(z - 0.02f);
+
+                    for(int i = 0; i < unitType.weapons.size; i++){
+                        Weapon mount = unitType.weapons.get(i);
+
+                        if(mount.outlineRegion.found()) {
+                            if (!mount.top) {
+                                Draw.z(z + mount.layerOffset);
+
+                                var wx = item.x() + Angles.trnsx(offsetDegrees, mount.x, mount.y);
+                                var wy = item.y() + Angles.trnsy(offsetDegrees, mount.x, mount.y);
+
+                                Draw.rect(mount.outlineRegion, wx, wy, offsetDegrees + mount.mountType.get(mount).rotation);
+
+                                Draw.z(z);
+
+                            }
+                        }
+                    }
+                    if(unitType.outlineRegion.found()) Draw.rect(unitType.outlineRegion, item.x(), item.y(), offsetDegrees);
+
+                    Draw.z(z);
                     Draw.rect(unitType.region, item.x(), item.y(), offsetDegrees);
+
                     Draw.color(this.team.color);
                     Draw.rect(unitType.cellRegion, item.x(), item.y(), offsetDegrees);
                     Draw.color();
@@ -81,42 +105,21 @@ public class PayloadConveyorRevamp extends PayloadConveyor {
                     for(int i = 0; i < unitType.weapons.size; i++){
                         Weapon mount = unitType.weapons.get(i);
 
-                        if(mount.outlineRegion.found()) {
-                            if (!mount.top) {
-                                float z = Draw.z();
-                                Draw.z(z + mount.layerOffset);
-
-                                Vec2 yes = new Vec2(item.x() + mount.x, item.y() + mount.y).rotate(offsetDegrees);
-                                Draw.rect(mount.outlineRegion, yes.x, yes.y, offsetDegrees + mount.mountType.get(mount).rotation);
-
-                                Draw.z(z);
-
-                            }
-                        }
-                    }
-
-                    for(int i = 0; i < unitType.weapons.size; i++){
-                        Weapon mount = unitType.weapons.get(i);
-
                         if(mount.region.found()) {
 
-                            float z = Draw.z();
+                            var wx = item.x() + Angles.trnsx(offsetDegrees, mount.x, mount.y);
+                            var wy = item.y() + Angles.trnsy(offsetDegrees, mount.x, mount.y);
+
                             Draw.z(z + mount.layerOffset);
 
-                            Draw.z(Layer.blockOver + 0.11f);
-                            Vec2 yes = new Vec2(item.x() + mount.x, item.y() + mount.y).rotate(offsetDegrees);
-
-                            if(mount.top){
-                                //Vec2 yes = new Vec2(item.x() + mount.x, item.y() + mount.y).rotate(this.drawrot());
-                                Draw.rect(mount.outlineRegion, yes.x, yes.y, offsetDegrees + mount.mountType.get(mount).rotation);
-                            }
+                            if(mount.top && mount.outlineRegion.found()) Draw.rect(mount.outlineRegion, wx, wy, offsetDegrees + mount.mountType.get(mount).rotation);
 
                             Draw.xscl = -Mathf.sign(mount.flipSprite);
-                            Draw.rect(mount.region, yes.x, yes.y, offsetDegrees + mount.mountType.get(mount).rotation);
+                            Draw.rect(mount.region, wx, wy, offsetDegrees + mount.mountType.get(mount).rotation);
 
                             if(mount.cellRegion.found()){
                                 Draw.color(this.team.color);
-                                Draw.rect(mount.cellRegion, yes.x, yes.y, offsetDegrees + mount.mountType.get(mount).rotation);
+                                Draw.rect(mount.cellRegion, wx, wy, offsetDegrees + mount.mountType.get(mount).rotation);
                                 Draw.color();
                             }
 
