@@ -74,7 +74,8 @@ public class PayloadConveyorRevamp extends PayloadConveyor {
             if (item != null) {
                 var offsetDegrees = item.rotation() - 90f;
                 if(item.content() instanceof UnitType unitType){
-                    float z = Draw.z();
+                    Draw.rect(item.content().fullIcon, item.x(), item.y(), offsetDegrees);
+                    /*float z = Draw.z();
                     Draw.z(z - 0.02f);
 
                     if(unitType.treadRegion.found()){
@@ -92,7 +93,11 @@ public class PayloadConveyorRevamp extends PayloadConveyor {
                                 var wy = item.y() + Angles.trnsy(offsetDegrees, mount.x, mount.y);
 
                                 Draw.xscl = -Mathf.sign(mount.flipSprite);
+
+                                Draw.color(unitType.outlineColor);
                                 Draw.rect(mount.outlineRegion, wx, wy, offsetDegrees + mount.mountType.get(mount).rotation);
+                                Draw.color();
+
                                 Draw.xscl = 1f;
 
                                 Draw.z(z);
@@ -100,7 +105,11 @@ public class PayloadConveyorRevamp extends PayloadConveyor {
                             }
                         }
                     }
-                    if(unitType.outlineRegion.found()) Draw.rect(unitType.outlineRegion, item.x(), item.y(), offsetDegrees);
+                    if(unitType.outlineRegion.found()) {
+                        Draw.color(unitType.outlineColor);
+                        Draw.rect(unitType.outlineRegion, item.x(), item.y(), offsetDegrees);
+                        Draw.color();
+                    }
 
                     Draw.z(z);
                     Draw.rect(unitType.region, item.x(), item.y(), offsetDegrees);
@@ -119,7 +128,11 @@ public class PayloadConveyorRevamp extends PayloadConveyor {
 
                             Draw.z(z + mount.layerOffset);
 
-                            if(mount.top && mount.outlineRegion.found()) Draw.rect(mount.outlineRegion, wx, wy, offsetDegrees + mount.mountType.get(mount).rotation);
+                            if(mount.top && mount.outlineRegion.found()) {
+                                Draw.color(unitType.outlineColor);
+                                Draw.rect(mount.outlineRegion, wx, wy, offsetDegrees + mount.mountType.get(mount).rotation);
+                                Draw.color();
+                            }
 
                             Draw.xscl = -Mathf.sign(mount.flipSprite);
                             Draw.rect(mount.region, wx, wy, offsetDegrees + mount.mountType.get(mount).rotation);
@@ -143,7 +156,7 @@ public class PayloadConveyorRevamp extends PayloadConveyor {
 
                             part.draw(DrawPart.params);
                         }
-                    }
+                    }*/
 
                 } else {
                     Draw.rect(item.content().fullIcon, item.x(), item.y());
