@@ -18,21 +18,6 @@ public class SingleProducer extends BlockProducer {
     public Block produce = null;
     public SingleProducer(String name) {
         super(name);
-
-        ObjectMap<Block, ItemStack[]> stacks = new ObjectMap<>();
-        consume(new ConsumeItemDynamic((BlockProducerBuild e) -> {
-            Block block = e.recipe();
-
-            if(block != null){
-                ItemStack[] clone = stacks.get(block, () -> ItemStack.copy(block.requirements));
-                for(int i = 0; i < clone.length; i++){
-                    clone[i].amount = Mathf.ceil(block.requirements[i].amount * state.rules.buildCostMultiplier);
-                }
-                return clone;
-            }else{
-                return ItemStack.empty;
-            }
-        }));
     }
 
     public class SingleProducerBuild extends BlockProducerBuild {
