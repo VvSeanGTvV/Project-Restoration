@@ -74,23 +74,24 @@ public class CircleForceDraw extends DrawPart{
         Draw.blend(blending);
         Lines.stroke(2f);
 
-        Draw.alpha(0.85f);
         Draw.color(color);
         Lines.circle(rx, ry, rad);
 
         Draw.color(color);
         Fill.circle(rx, ry, rad * orbMidScl);
 
-        Draw.alpha(0.05f);
-        Draw.blend(Blending.additive);
+        //Draw.alpha(0.05f);
+        Draw.blend(blending);
         Draw.color(color);
-        Lines.stroke(1.25f);
+        Draw.rect("particle", rx, ry, rotation, rad, rad);
+
+        /*Lines.stroke(1.25f);
         Lines.circle(rx, ry, rad);
 
         Draw.color(color);
         Fill.circle(rx, ry, (rad - 0.75f) * orbMidScl);
         Draw.blend();
-        Draw.alpha(1f);
+        Draw.alpha(1f);*/
 
         if(active){
             //TODO draw range when selected?
