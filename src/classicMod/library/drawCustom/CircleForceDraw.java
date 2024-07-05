@@ -2,7 +2,7 @@ package classicMod.library.drawCustom;
 
 import arc.graphics.*;
 import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.*;
 import arc.graphics.g2d.Fill;
 import arc.graphics.g2d.Lines;
 import arc.math.Angles;
