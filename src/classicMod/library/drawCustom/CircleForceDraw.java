@@ -15,6 +15,7 @@ import mindustry.graphics.Pal;
 import static arc.math.Mathf.rand;
 
 public class CircleForceDraw extends DrawPart{
+    public float x = 0, y = 0;
     public float orbRadius = 4.1f, orbMidScl = 0.33f, orbSinScl = 8f, orbSinMag = 1f, layerOffset = 0f;
     public Color color = Pal.suppress;
 
@@ -29,8 +30,8 @@ public class CircleForceDraw extends DrawPart{
     public int id;
     @Override
     public void draw(PartParams params) {
-        float x = params.x;
-        float y = params.y;
+        float xC = params.x + x;
+        float yC = params.y + y;
         float rotation = params.rotation;
 
         float z = Draw.z();
@@ -38,8 +39,8 @@ public class CircleForceDraw extends DrawPart{
         Draw.z(z);
 
         float rad = orbRadius + Mathf.absin(orbSinScl, orbSinMag);
-        Tmp.v1.set(x, y).rotate(rotation);
-        float rx = Tmp.v1.x, ry = Tmp.v1.y;
+        //Tmp.v1.set(xC, y).rotate(rotation);
+        //float rx = Tmp.v1.x, ry = Tmp.v1.y;
 
         float base = (Time.time / particleLife);
         rand.setSeed(id + hashCode());
@@ -49,8 +50,8 @@ public class CircleForceDraw extends DrawPart{
             float angle = rand.random(360f) + (Time.time / rotateScl + rotation) % 360f;
             float len = particleLen * particleInterp.apply(fout);
             Fill.circle(
-                    x + Angles.trnsx(angle, len),
-                    y + Angles.trnsy(angle, len),
+                    xC + Angles.trnsx(angle, len),
+                    yC + Angles.trnsy(angle, len),
                     particleSize * Mathf.slope(fin)
             );
         }
@@ -58,10 +59,10 @@ public class CircleForceDraw extends DrawPart{
         Lines.stroke(2f);
 
         Draw.color(color);
-        Lines.circle(x, y, rad);
+        Lines.circle(xC, yC, rad);
 
         Draw.color(color);
-        Fill.circle(x, y, rad * orbMidScl);
+        Fill.circle(xC, yC, rad * orbMidScl);
 
         if(active){
             //TODO draw range when selected?
