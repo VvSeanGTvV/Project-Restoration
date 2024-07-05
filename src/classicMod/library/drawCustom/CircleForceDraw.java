@@ -81,7 +81,7 @@ public class CircleForceDraw extends DrawPart{
         Lines.circle(rx, ry, rad);
 
         Draw.color(color);
-        Fill.circle(rx, ry, rad + 0.15f * orbMidScl);
+        Fill.circle(rx, ry, (rad + 0.15f) * orbMidScl);
         Draw.blend();
         Draw.alpha(1f);
 
