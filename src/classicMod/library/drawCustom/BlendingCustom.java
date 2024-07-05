@@ -5,5 +5,5 @@ import arc.graphics.Gl;
 
 public class BlendingCustom {
     public static final Blending
-    Bloom = new Blending(Gl.srcAlpha, Gl.one, Gl.oneMinusSrcAlpha, Gl.oneMinusSrcAlpha);
+    Bloom = new Blending(Gl.srcAlpha, Gl.one, Gl.blendSrcAlpha, Gl.oneMinusSrcAlpha);
 }
