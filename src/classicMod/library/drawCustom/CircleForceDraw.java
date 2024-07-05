@@ -47,7 +47,7 @@ public class CircleForceDraw extends DrawPart{
         Tmp.v1.set(x, y).rotate(rotation);
         float rx = xC + Tmp.v1.x, ry = yC + Tmp.v1.y;
 
-        Draw.alpha(0.15f);
+        Draw.alpha(0.35f);
         Draw.blend(Blending.additive);
         //Draw.z(Draw.z() - 0.0001f);
         Fill.circle(rx, ry, rad + Lines.getStroke() * orbMidScl);
