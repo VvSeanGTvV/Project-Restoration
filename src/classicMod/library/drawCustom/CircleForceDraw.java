@@ -39,8 +39,8 @@ public class CircleForceDraw extends DrawPart{
         float rotation = params.rotation;
 
         float z = Draw.z();
-        if(under) Draw.z(z - 0.0001f);
         if(layer > 0) Draw.z(layer);
+        if(under) Draw.z(z - 0.0001f);
         Draw.z(Draw.z() + layerOffset);
 
         float rad = orbRadius + Mathf.absin(orbSinScl, orbSinMag);
@@ -70,7 +70,7 @@ public class CircleForceDraw extends DrawPart{
         Fill.circle(rx, ry, rad * orbMidScl);
 
         Draw.blend(Blending.additive);
-        Fill.circle(rx, ry, rad + Lines.getStroke());
+        Fill.circle(rx, ry, rad + Lines.getStroke() * orbMidScl);
         Draw.blend();
 
         if(active){

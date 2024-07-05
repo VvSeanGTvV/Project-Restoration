@@ -1459,9 +1459,6 @@ public class ClassicUnitTypes {
             float xo = 231f/2f, yo = 231f/2f;
             treadRects = new Rect[]{new Rect(27 - xo, 152 - yo, 56, 73), new Rect(24 - xo, 51 - yo, 29, 17), new Rect(59 - xo, 18 - yo, 39, 19)};
 
-
-
-
             //TODO maybe different shoot
             weapons.add(new Weapon("restored-mind-mantel-weapon"){{
                 layerOffset = 0.0001f;
