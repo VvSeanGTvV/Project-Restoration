@@ -1,5 +1,6 @@
 package classicMod.library.drawCustom;
 
+import arc.graphics.Blending;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
@@ -28,6 +29,7 @@ public class CircleForceDraw extends DrawPart{
     public Interp particleInterp = f -> Interp.circleOut.apply(Interp.slope.apply(f));
     public Color particleColor = Pal.sap.cpy();
     public int id;
+    public Blending blending = Blending.normal;
     @Override
     public void draw(PartParams params) {
         float xC = params.x;
@@ -63,6 +65,10 @@ public class CircleForceDraw extends DrawPart{
 
         Draw.color(color);
         Fill.circle(rx, ry, rad * orbMidScl);
+
+        Draw.blend(Blending.additive);
+        Fill.circle(rx, ry, rad);
+        Draw.blend();
 
         if(active){
             //TODO draw range when selected?

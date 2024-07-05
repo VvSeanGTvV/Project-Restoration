@@ -1425,7 +1425,7 @@ public class ClassicUnitTypes {
                 int fi = i ++;
                 weapons.add(new Weapon("restored-mind-howit-point-weapon"){{
                     reload = 35f + fi * 5;
-                    x = 48f / 4f + fi;
+                    x = 48f / 4f / fi * fi;
                     y = f;
                     shootY = 5.5f;
                     recoil = 2f;
