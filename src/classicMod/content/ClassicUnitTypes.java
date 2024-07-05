@@ -1425,7 +1425,7 @@ public class ClassicUnitTypes {
                 int fi = i ++;
                 weapons.add(new Weapon("restored-mind-howit-point-weapon"){{
                     reload = 35f + fi * 5;
-                    x = 48f / 4f;
+                    x = 48f / 4f + fi;
                     y = f;
                     shootY = 5.5f;
                     recoil = 2f;
@@ -1504,8 +1504,8 @@ public class ClassicUnitTypes {
                             color = Color.valueOf("feb380");
                             particleColor = Color.valueOf("b17d59");
 
-                            x = -10f;
-                            layerOffset = -0.0001f;
+                            x = 10f;
+                            layer = layerOffset - 1f;
 
                             orbRadius = orbRad;
                             particleSize = partRad;
