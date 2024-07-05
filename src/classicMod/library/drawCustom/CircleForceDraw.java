@@ -22,7 +22,7 @@ public class CircleForceDraw extends DrawPart{
     public Color color = Pal.suppress;
     public float layer = Layer.effect;
     public boolean under;
-    public String TextureString == "";
+    public String TextureString = "";
 
     public int particles = 15;
     public float particleSize = 4f;
