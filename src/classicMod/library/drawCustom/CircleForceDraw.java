@@ -71,9 +71,10 @@ public class CircleForceDraw extends DrawPart{
             );
         }
 
-        //Draw.blend(Blending.additive);
+        Draw.blend(blending);
         Lines.stroke(2f);
 
+        Draw.alpha(0.85f);
         Draw.color(color);
         Lines.circle(rx, ry, rad);
 
@@ -83,11 +84,11 @@ public class CircleForceDraw extends DrawPart{
         Draw.alpha(0.05f);
         Draw.blend(Blending.additive);
         Draw.color(color);
-        Lines.stroke(1.5f);
+        Lines.stroke(1.25f);
         Lines.circle(rx, ry, rad);
 
         Draw.color(color);
-        Fill.circle(rx, ry, (rad - 0.5f) * orbMidScl);
+        Fill.circle(rx, ry, (rad - 0.75f) * orbMidScl);
         Draw.blend();
         Draw.alpha(1f);
 
