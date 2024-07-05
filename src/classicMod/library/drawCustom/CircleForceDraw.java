@@ -1,6 +1,6 @@
 package classicMod.library.drawCustom;
 
-import arc.graphics.Blending;
+import arc.graphics.*;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
@@ -10,17 +10,19 @@ import arc.math.Interp;
 import arc.math.Mathf;
 import arc.util.Time;
 import arc.util.Tmp;
+import arc.*;
 import mindustry.entities.part.DrawPart;
 import mindustry.graphics.*;
 
 import static arc.math.Mathf.rand;
 
 public class CircleForceDraw extends DrawPart{
-    public float x = 0, y = 0;
+    public float x = 0, y = 0, xT =0, yT =0;
     public float orbRadius = 4.1f, orbMidScl = 0.33f, orbSinScl = 8f, orbSinMag = 1f, layerOffset = 0f;
     public Color color = Pal.suppress;
     public float layer = Layer.effect;
     public boolean under;
+    public String TextureString == "";
 
     public int particles = 15;
     public float particleSize = 4f;
@@ -34,6 +36,7 @@ public class CircleForceDraw extends DrawPart{
     public Blending blending = Blending.normal;
     @Override
     public void draw(PartParams params) {
+        TextureRegion defTexture = (TextureString != "") ? Core.atlas.find(TextureString) : null;
         float xC = params.x;
         float yC = params.y;
         float rotation = params.rotation;
@@ -76,7 +79,11 @@ public class CircleForceDraw extends DrawPart{
 
         Draw.color(color);
         Fill.circle(rx, ry, rad * orbMidScl);
-
+        if(defTexture != null && defTexture.found()){
+            Tmp.v1.set(xT, yT).rotate(rotation);
+            float rxT = xC + Tmp.v1.x, ryT = yC + Tmp.v1.y;
+            Draw.rect(defTexture, rxT, ryT, rotation);
+        }
         /*Draw.alpha(0.025f);
         Draw.blend(Blending.additive);
         Draw.color(color);
