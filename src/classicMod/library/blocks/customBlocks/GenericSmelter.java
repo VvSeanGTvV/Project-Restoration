@@ -18,9 +18,10 @@ import mindustry.world.meta.StatValues;
 
 public class GenericSmelter extends GenericCrafter {
     /**
-     * Fuel to power up the smelter.
+     * default Fuel to prevent nulls.
      **/
-    public ItemStack fuelItem = new ItemStack(Items.coal, 1);
+    private final ItemStack defaultFuelItem = new ItemStack(Items.coal, 1);
+
     /**
      * is Fuel an optional booster.
      **/
@@ -33,11 +34,13 @@ public class GenericSmelter extends GenericCrafter {
      * Color of the flame when using fuel
      **/
     public Color flameColor = Color.valueOf("ffb879");
-    public @Nullable ItemStack[] fuelItems;
+
     /**
      * The burning effect for every fuel is depleted and consumed another one
      **/
     public Effect burnEffect = ExtendedFx.fuelburn;
+
+    private @Nullable ItemStack[] fuelItems;
 
     public GenericSmelter(String name) {
         super(name);
@@ -50,23 +53,15 @@ public class GenericSmelter extends GenericCrafter {
         addBar("fuel-left", (GenericSmelter.GenericSmelterBuild e) -> new Bar(Core.bundle.format("bar.fuel-left"), Pal.ammo, e::progress));
     }
 
+    public void consumeFuels(ItemStack[] itemStacks){
+        if(itemStacks != null) fuelItems = itemStacks;
+    }
+
     @Override
     public void setStats() {
         stats.timePeriod = craftTime;
 
-        /*if((hasItems && itemCapacity > 0) || outputItems != null){
-            stats.add(Stat.productionTime, craftTime / 60f, StatUnit.seconds);
-        }
-
-        if(outputItems != null){
-            stats.add(Stat.output, StatValues.items(craftTime, outputItems));
-        }
-
-        if(outputLiquids != null){
-            stats.add(Stat.output, StatValues.liquids(1f, outputLiquids));
-        }*/
-
-        if (fuelItem != null) {
+        if (fuelItems != null) {
             stats.add(ExtendedStat.fuel, StatValues.items(burnTime, fuelItems));
         }
 
@@ -75,20 +70,9 @@ public class GenericSmelter extends GenericCrafter {
 
     @Override
     public void init() {
-        if (outputItems == null && outputItem != null) {
-            outputItems = new ItemStack[]{outputItem};
+        if (fuelItems == null && defaultFuelItem != null) {
+            fuelItems = new ItemStack[]{defaultFuelItem};
         }
-        if (fuelItems == null && fuelItem != null) {
-            fuelItems = new ItemStack[]{fuelItem};
-        }
-        if (outputLiquids == null && outputLiquid != null) {
-            outputLiquids = new LiquidStack[]{outputLiquid};
-        }
-        //write back to outputLiquid, as it helps with sensing
-        if (outputLiquid == null && outputLiquids != null && outputLiquids.length > 0) {
-            outputLiquid = outputLiquids[0];
-        }
-        outputsLiquid = outputLiquids != null;
 
         if (outputItems != null) hasItems = true;
         if (outputLiquids != null) hasLiquids = true;
