@@ -83,7 +83,7 @@ public class CircleForceDraw extends DrawPart{
         Draw.color(color);
         Fill.circle(rx, ry, rad + 0.25f * orbMidScl);
         Draw.blend();
-        Draw.alpha();
+        Draw.alpha(1f);
 
         if(active){
             //TODO draw range when selected?
