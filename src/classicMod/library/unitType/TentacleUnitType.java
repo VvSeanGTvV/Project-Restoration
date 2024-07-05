@@ -1,4 +1,4 @@
-package classicMod.library.advanceContent;
+package classicMod.library.unitType;
 
 import arc.Core;
 import arc.graphics.g2d.Draw;

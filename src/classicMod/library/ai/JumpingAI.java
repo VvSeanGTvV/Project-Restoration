@@ -1,18 +1,10 @@
 package classicMod.library.ai;
 
-import arc.graphics.Color;
-import arc.graphics.g2d.Lines;
-import arc.math.Mat;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
-import arc.struct.Seq;
-import arc.util.Log;
-import arc.util.Time;
-import classicMod.content.ExtendedFx;
-import classicMod.library.animdustry.JumpingUnitType;
+import classicMod.library.unitType.JumpingUnitType;
 import mindustry.Vars;
 import mindustry.ai.*;
-import mindustry.ai.types.*;
 import mindustry.content.Fx;
 import mindustry.entities.Effect;
 import mindustry.entities.Units;
@@ -27,7 +19,6 @@ import mindustry.world.blocks.environment.StaticWall;
 
 import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.stroke;
-import static classicMod.library.ui.UIExtended.fdelta;
 import static mindustry.Vars.*;
 
 public class JumpingAI extends AIController {

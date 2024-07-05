@@ -1,17 +1,14 @@
 package classicMod.content;
 
 import arc.graphics.*;
-import arc.graphics.g2d.Draw;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import classicMod.library.ability.*;
 import classicMod.library.ai.*;
-import classicMod.library.animdustry.JumpingUnitType;
-import classicMod.library.ai.factoryai.FactoryFlyingAI;
-import classicMod.library.ai.factoryai.FactoryGroundAI;
-import classicMod.library.advanceContent.TentacleUnitType;
+import classicMod.library.unitType.JumpingUnitType;
+import classicMod.library.unitType.TentacleUnitType;
 import classicMod.library.bullets.HealBulletType;
 import classicMod.library.drawCustom.CircleForceDraw;
 import mindustry.*;

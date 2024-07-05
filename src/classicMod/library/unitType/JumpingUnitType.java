@@ -1,4 +1,4 @@
-package classicMod.library.animdustry;
+package classicMod.library.unitType;
 
 import arc.Core;
 import arc.graphics.Color;

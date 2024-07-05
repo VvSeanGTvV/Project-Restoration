@@ -15,11 +15,9 @@ import mindustry.gen.Tex;
 import mindustry.ui.dialogs.SettingsMenuDialog;
 
 public class UIExtended {
-    public static CutsceneEnding cutsceneEnding;
     public static TechTreeDialog Techtree;
 
     public static void init(){
-        cutsceneEnding = new CutsceneEnding();
         Techtree = new TechTreeDialog();
     }
 
