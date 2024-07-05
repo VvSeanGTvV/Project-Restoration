@@ -1500,6 +1500,7 @@ public class ClassicUnitTypes {
 
                             color = Color.valueOf("feb380");
                             particleColor = Color.valueOf("b17d59");
+                            TextureString = "restored-mind-mantel-weapon";
 
                             x = 8f;
                             under = true;
