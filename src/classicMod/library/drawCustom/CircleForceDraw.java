@@ -20,7 +20,7 @@ public class CircleForceDraw extends DrawPart{
     public float x = 0, y = 0, xT =0, yT =0;
     public float orbRadius = 4.1f, orbMidScl = 0.33f, orbSinScl = 8f, orbSinMag = 1f, layerOffset = 0f;
     public Color color = Pal.suppress;
-    public float layer = Layer.effect;
+    public float layer = Layer.bullet;
     public boolean under;
     public String TextureString = "";
 
@@ -80,7 +80,7 @@ public class CircleForceDraw extends DrawPart{
         Draw.color(color);
         Fill.circle(rx, ry, rad * orbMidScl);
 
-        Draw.z(Draw.z() + 1f);
+        Draw.z(Draw.z() + 5f);
         if(defTexture != null && defTexture.found()){
             Draw.color();
             Tmp.v1.set(xT, yT).rotate(rotation);
