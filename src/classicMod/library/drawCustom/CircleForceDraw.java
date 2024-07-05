@@ -11,7 +11,7 @@ import arc.math.Mathf;
 import arc.util.Time;
 import arc.util.Tmp;
 import mindustry.entities.part.DrawPart;
-import mindustry.graphics.Pal;
+import mindustry.graphics.*;
 
 import static arc.math.Mathf.rand;
 
@@ -19,7 +19,7 @@ public class CircleForceDraw extends DrawPart{
     public float x = 0, y = 0;
     public float orbRadius = 4.1f, orbMidScl = 0.33f, orbSinScl = 8f, orbSinMag = 1f, layerOffset = 0f;
     public Color color = Pal.suppress;
-    public float layer = -1;
+    public float layer = Layer.effect;
     public boolean under;
 
     public int particles = 15;
@@ -77,7 +77,7 @@ public class CircleForceDraw extends DrawPart{
         Draw.color(color);
         Fill.circle(rx, ry, rad * orbMidScl);
 
-        Draw.alpha(0.025f);
+        /*Draw.alpha(0.025f);
         Draw.blend(Blending.additive);
         Draw.color(color);
         Lines.stroke(2.5f);
@@ -86,7 +86,7 @@ public class CircleForceDraw extends DrawPart{
         Draw.color(color);
         Fill.circle(rx, ry, (rad + 0.5f) * orbMidScl);
         Draw.blend();
-        Draw.alpha(1f);
+        Draw.alpha(1f);*/
 
         if(active){
             //TODO draw range when selected?
