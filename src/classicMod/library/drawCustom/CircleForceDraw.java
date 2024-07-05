@@ -48,8 +48,8 @@ public class CircleForceDraw extends DrawPart{
             float angle = rand.random(360f) + (Time.time / rotateScl + rotation) % 360f;
             float len = particleLen * particleInterp.apply(fout);
             Fill.circle(
-                    rx + Angles.trnsx(angle, len),
-                    ry + Angles.trnsy(angle, len),
+                    x + Angles.trnsx(angle, len),
+                    y + Angles.trnsy(angle, len),
                     particleSize * Mathf.slope(fin)
             );
         }
@@ -57,10 +57,10 @@ public class CircleForceDraw extends DrawPart{
         Lines.stroke(2f);
 
         Draw.color(color);
-        Lines.circle(rx, ry, rad);
+        Lines.circle(x, y, rad);
 
         Draw.color(color);
-        Fill.circle(rx, ry, rad * orbMidScl);
+        Fill.circle(x, y, rad * orbMidScl);
 
         if(active){
             //TODO draw range when selected?
