@@ -39,8 +39,8 @@ public class CircleForceDraw extends DrawPart{
         Draw.z(z);
 
         float rad = orbRadius + Mathf.absin(orbSinScl, orbSinMag);
-        Tmp.v1.set(xC + x, yC + y).rotate(rotation);
-        float rx = Tmp.v1.x, ry = Tmp.v1.y;
+        Tmp.v1.set(x, y).rotate(rotation);
+        float rx = xC + Tmp.v1.x, ry = yC + Tmp.v1.y;
 
         float base = (Time.time / particleLife);
         rand.setSeed(id + hashCode());
