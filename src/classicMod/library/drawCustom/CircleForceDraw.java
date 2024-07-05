@@ -77,7 +77,7 @@ public class CircleForceDraw extends DrawPart{
         Draw.alpha(0.5f);
         Draw.blend(Blending.additive);
         Draw.color(color);
-        Lines.stroke(2.25f)
+        Lines.stroke(2.25f);
         Lines.circle(rx, ry, rad);
 
         Draw.color(color);
