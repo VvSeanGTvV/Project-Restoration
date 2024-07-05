@@ -1500,10 +1500,9 @@ public class ClassicUnitTypes {
                         new CircleForceDraw(){{
                             float orbRad = 5f, partRad = 3f;
                             int parts = 10;
-                            
+
                             color = Color.valueOf("feb380");
                             particleColor = Color.valueOf("b17d59");
-                            y = 10f;
 
                             orbRadius = orbRad;
                             particleSize = partRad;
