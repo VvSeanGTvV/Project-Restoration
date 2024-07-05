@@ -1495,13 +1495,14 @@ public class ClassicUnitTypes {
 
                 parts.addAll(
                         new CircleForceDraw(){{
-                            float orbRad = 5f, partRad = 3f;
+                            float orbRad = 7f, partRad = 3f;
                             int parts = 10;
 
                             color = Color.valueOf("feb380");
                             particleColor = Color.valueOf("b17d59");
+                            TextureString = "restored-mind-mantel-weapon";
 
-                            x = 10f;
+                            x = 8f;
                             under = true;
 
                             orbRadius = orbRad;
