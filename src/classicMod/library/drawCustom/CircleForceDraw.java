@@ -56,7 +56,7 @@ public class CircleForceDraw extends DrawPart{
         Draw.blend();
         Draw.alpha(1f);*/
 
-        Draw.blend(blending);
+        //Draw.blend(blending);
         float base = (Time.time / particleLife);
         rand.setSeed(id + hashCode());
         Draw.color(particleColor);
@@ -80,8 +80,8 @@ public class CircleForceDraw extends DrawPart{
         Draw.color(color);
         Fill.circle(rx, ry, rad * orbMidScl);
 
-        /*Draw.alpha(0.025f);
-        Draw.blend(Blending.additive);
+        Draw.alpha(0.05f);
+        Draw.blend(blending);
         Draw.color(color);
         Lines.stroke(2.5f);
         Lines.circle(rx, ry, rad);
@@ -89,7 +89,7 @@ public class CircleForceDraw extends DrawPart{
         Draw.color(color);
         Fill.circle(rx, ry, (rad + 0.5f) * orbMidScl);
         Draw.blend();
-        Draw.alpha(1f);*/
+        Draw.alpha(1f);
 
         if(active){
             //TODO draw range when selected?
