@@ -1358,6 +1358,7 @@ public class ClassicUnitTypes {
 
         // --- Tank Units Region ---
         howit = new TankUnitType("howit"){{
+            constructor = TankUnit::create;
             hitSize = 28f;
             treadPullOffset = 4;
             speed = 0.6f;
