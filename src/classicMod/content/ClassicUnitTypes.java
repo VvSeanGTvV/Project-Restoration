@@ -13,6 +13,7 @@ import classicMod.library.ai.factoryai.FactoryFlyingAI;
 import classicMod.library.ai.factoryai.FactoryGroundAI;
 import classicMod.library.advanceContent.TentacleUnitType;
 import classicMod.library.bullets.HealBulletType;
+import classicMod.library.drawCustom.CircleForceDraw;
 import mindustry.*;
 import mindustry.ai.types.*;
 import mindustry.content.*;
@@ -1381,7 +1382,7 @@ public class ClassicUnitTypes {
                 shadow = 30f;
 
                 //TODO better bullet / weapon
-                bullet = new ArtilleryBulletType(2f, 20, "shell"){{
+                bullet = new ArtilleryBulletType(4f, 20, "shell"){{
                     hitEffect = Fx.massiveExplosion;
                     knockback = 0.8f;
                     lifetime = 100f;
@@ -1399,7 +1400,7 @@ public class ClassicUnitTypes {
                     lightning = 5;
 
                     trailLength = 28;
-                    trailWidth = 4f;
+                    trailWidth = 3f;
                     trailEffect = Fx.none;
                     trailColor = backColor;
 
@@ -1420,9 +1421,9 @@ public class ClassicUnitTypes {
             }});
 
             int i = 0;
-            for(float f : new float[]{34f / 4f, -36f / 4f}){
+            for(float f : new float[]{-34f / 4f, -36f / 4f}){
                 int fi = i ++;
-                weapons.add(new Weapon("vanquish-point-weapon"){{
+                weapons.add(new Weapon("restored-mind-howit-point-weapon"){{
                     reload = 35f + fi * 5;
                     x = 48f / 4f;
                     y = f;
@@ -1431,7 +1432,7 @@ public class ClassicUnitTypes {
                     rotate = true;
                     rotateSpeed = 2f;
 
-                    bullet = new BasicBulletType(4.5f, 14){{
+                    bullet = new BasicBulletType(6f, 12){{
                         width = 6.5f;
                         height = 11f;
                         shootEffect = Fx.sparkShoot;
@@ -1457,6 +1458,9 @@ public class ClassicUnitTypes {
             rotateSpeed = 0.9f;
             float xo = 231f/2f, yo = 231f/2f;
             treadRects = new Rect[]{new Rect(27 - xo, 152 - yo, 56, 73), new Rect(24 - xo, 51 - yo, 29, 17), new Rect(59 - xo, 18 - yo, 39, 19)};
+
+
+
 
             //TODO maybe different shoot
             weapons.add(new Weapon("restored-mind-mantel-weapon"){{
@@ -1491,6 +1495,21 @@ public class ClassicUnitTypes {
                     trailLength = 8;
                     hitEffect = despawnEffect = Fx.blastExplosion;
                 }};
+
+                parts.addAll(
+                        new CircleForceDraw(){{
+                            float orbRad = 5f, partRad = 3f;
+                            int parts = 10;
+                            
+                            color = Color.valueOf("feb380");
+                            particleColor = Color.valueOf("b17d59");
+                            y = 10f;
+
+                            orbRadius = orbRad;
+                            particleSize = partRad;
+                            particles = parts;
+                        }}
+                );
             }});
 
             //TODO could change color when shooting
