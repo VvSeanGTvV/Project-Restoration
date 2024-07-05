@@ -66,6 +66,7 @@ public class CircleForceDraw extends DrawPart{
         Draw.color(color);
         Fill.circle(rx, ry, rad * orbMidScl);
 
+        Draw.z(z + layer - 1f);
         Draw.blend(Blending.additive);
         Fill.circle(rx, ry, rad);
         Draw.blend();
