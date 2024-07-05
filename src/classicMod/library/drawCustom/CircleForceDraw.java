@@ -42,8 +42,8 @@ public class CircleForceDraw extends DrawPart{
         float rotation = params.rotation;
 
         float z = Draw.z();
-        if(layer > 0) Draw.z(layer);
         if(under) Draw.z(z - 0.0001f);
+        if(layer > 0) Draw.z(layer);
         Draw.z(Draw.z() + layerOffset);
 
         float rad = orbRadius + Mathf.absin(orbSinScl, orbSinMag);
@@ -79,12 +79,13 @@ public class CircleForceDraw extends DrawPart{
 
         Draw.color(color);
         Fill.circle(rx, ry, rad * orbMidScl);
-        
+
+        Draw.z(Draw.z() + 1f);
         if(defTexture != null && defTexture.found()){
             Draw.color();
             Tmp.v1.set(xT, yT).rotate(rotation);
             float rxT = xC + Tmp.v1.x, ryT = yC + Tmp.v1.y;
-            Draw.rect(defTexture, rxT, ryT, rotation + 90);
+            Draw.rect(defTexture, rxT, ryT, rotation - 90);
         }
         /*Draw.alpha(0.025f);
         Draw.blend(Blending.additive);
