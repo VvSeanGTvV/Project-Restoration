@@ -83,7 +83,7 @@ public class CircleForceDraw extends DrawPart{
         //Draw.alpha(0.05f);
         Draw.blend(blending);
         Draw.color(color);
-        TextureRegion particle = Core.atlas.find("particle");
+        TextureRegion particle = Core.atlas.find("circle-shadow");
         Draw.rect(particle, rx, ry, rotation);
 
         /*Lines.stroke(1.25f);
