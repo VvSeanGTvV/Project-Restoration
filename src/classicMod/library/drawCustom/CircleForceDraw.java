@@ -79,10 +79,12 @@ public class CircleForceDraw extends DrawPart{
 
         Draw.color(color);
         Fill.circle(rx, ry, rad * orbMidScl);
+        
         if(defTexture != null && defTexture.found()){
+            Draw.color();
             Tmp.v1.set(xT, yT).rotate(rotation);
             float rxT = xC + Tmp.v1.x, ryT = yC + Tmp.v1.y;
-            Draw.rect(defTexture, rxT, ryT, rotation);
+            Draw.rect(defTexture, rxT, ryT, rotation + 90);
         }
         /*Draw.alpha(0.025f);
         Draw.blend(Blending.additive);
