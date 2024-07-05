@@ -15,7 +15,7 @@ import mindustry.graphics.Pal;
 import static arc.math.Mathf.rand;
 
 public class CircleForceDraw extends DrawPart{
-    public float orbRadius = 4.1f, orbMidScl = 0.33f, orbSinScl = 8f, orbSinMag = 1f;
+    public float orbRadius = 4.1f, orbMidScl = 0.33f, orbSinScl = 8f, orbSinMag = 1f, layerOffset = 0f;
     public Color color = Pal.suppress;
 
     public int particles = 15;
@@ -34,6 +34,7 @@ public class CircleForceDraw extends DrawPart{
         float rotation = params.rotation;
 
         float z = Draw.z();
+        Draw.z(Draw.z() + layerOffset);
         Draw.z(z);
 
         float rad = orbRadius + Mathf.absin(orbSinScl, orbSinMag);

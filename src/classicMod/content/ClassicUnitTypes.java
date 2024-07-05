@@ -1504,7 +1504,8 @@ public class ClassicUnitTypes {
                             color = Color.valueOf("feb380");
                             particleColor = Color.valueOf("b17d59");
 
-                            y = -10;
+                            y = -20f;
+                            layerOffset = -0.0001f;
 
                             orbRadius = orbRad;
                             particleSize = partRad;
