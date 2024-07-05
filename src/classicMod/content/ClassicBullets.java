@@ -1,21 +1,19 @@
 package classicMod.content;
 
-import arc.graphics.*;
+import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.*;
-import arc.util.*;
+import arc.util.Tmp;
 import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
-import mindustry.gen.*;
+import mindustry.gen.Bullet;
 import mindustry.graphics.*;
-import mindustry.world.Block;
-import mindustry.world.Tile;
-import mindustry.world.Tiles;
+import mindustry.world.*;
 import mindustry.world.blocks.environment.Floor;
 
-import static classicMod.content.ClassicVars.*;
+import static classicMod.content.ClassicVars.ClassicBulletsMultiplier;
 import static mindustry.graphics.Pal.surge;
 
 public class ClassicBullets {
@@ -132,7 +130,7 @@ public class ClassicBullets {
         //classic bullets
         Color whiteOrange = Color.valueOf("fccca5");
         smol = new BulletType(1.5f*ClassicBulletsMultiplier, 2*ClassicBulletsMultiplier){
-            Color glowy = Color.valueOf("fdc056");
+            final Color glowy = Color.valueOf("fdc056");
             public void draw(Bullet b){
                 Draw.color(glowy);
                 Draw.rect("restored-mind-shot", b.x, b.y, 6f, 6f, b.rotation() - 45);
@@ -315,8 +313,8 @@ public class ClassicBullets {
 
         //v5 Bullets
         fuseShot = new BulletType(0.01f, 75){
-            int rays = 3;
-            float rayLength = 120f;
+            final int rays = 3;
+            final float rayLength = 120f;
 
             {
                 hitEffect = Fx.hitFuse;

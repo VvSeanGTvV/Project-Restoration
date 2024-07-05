@@ -1,16 +1,12 @@
 package classicMod.library.unitType;
 
 import arc.Core;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.TextureRegion;
+import arc.graphics.g2d.*;
 import arc.math.Mathf;
-import arc.math.geom.Vec2;
-import arc.math.geom.Vec3;
+import arc.math.geom.*;
 import arc.util.Time;
-import mindustry.Vars;
 import mindustry.gen.Unit;
-import mindustry.graphics.Layer;
-import mindustry.graphics.Pal;
+import mindustry.graphics.*;
 import mindustry.type.UnitType;
 import mindustry.world.blocks.environment.Floor;
 import mindustry.world.meta.Stat;
@@ -19,16 +15,24 @@ import static mindustry.Vars.world;
 
 public class TentacleUnitType extends UnitType {
 
-    /** Tentacle End Texture **/
+    private final Vec2 vec1 = new Vec2();
+    private final Vec2 vec2 = new Vec2();
+    private final Vec2 tPos = new Vec2();
+    /**
+     * Tentacle End Texture
+     **/
     public TextureRegion TentacleEnd;
-
-    /** Tentacle Middle Texture **/
+    /**
+     * Tentacle Middle Texture
+     **/
     public TextureRegion Tentacle;
-
-    /** Tentacle Length **/
+    /**
+     * Tentacle Length
+     **/
     public int TentacleLength = 21;
-
-    /** Tentacle Offset Position **/
+    /**
+     * Tentacle Offset Position
+     **/
     public Vec3[] TentaclesOffset = new Vec3[]{new Vec3(45, 0, 175), new Vec3(23, -43, 175), new Vec3(-23, -43, 185), new Vec3(-43, 0, 185)};
 
     public TentacleUnitType(String name) {
@@ -50,17 +54,13 @@ public class TentacleUnitType extends UnitType {
     @Override
     public void setStats() {
         super.setStats();
-        if(health >= Float.MAX_VALUE){
+        if (health >= Float.MAX_VALUE) {
             stats.remove(Stat.health);
             stats.add(Stat.health, "NaN");
             stats.remove(Stat.speed);
             stats.add(Stat.speed, "NaN");
         }
     }
-
-    private final Vec2 vec1 = new Vec2();
-    private final Vec2 vec2 = new Vec2();
-    private final Vec2 tPos = new Vec2();
 
     public void drawMultiTentacles(Unit unit, int startingLength, int segmentLength, int segmentCount, float segTimeOffset, float timeOffset, float moveMag, float moveMagOffset, float moveScale) {
         for (Vec3 buildTentacle : TentaclesOffset) {
@@ -90,7 +90,7 @@ public class TentacleUnitType extends UnitType {
         }
     }
 
-    public void drawTentacleShadow(Unit unit, TextureRegion region , float x1, float y1, float rot1) {
+    public void drawTentacleShadow(Unit unit, TextureRegion region, float x1, float y1, float rot1) {
         float e = Mathf.clamp(unit.elevation, shadowElevation, 1f) * shadowElevationScl * (1f - unit.drownTime);
         float x = x1 + shadowTX * e, y = y1 + shadowTY * e;
         Floor floor = world.floorWorld(x, y);

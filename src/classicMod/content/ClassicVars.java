@@ -1,9 +1,5 @@
 package classicMod.content;
 
-import arc.Core;
-import arc.graphics.Color;
-import arc.graphics.Texture;
-import arc.graphics.g2d.TextureRegion;
 import classicMod.library.ai.RallyAI;
 
 public class ClassicVars {

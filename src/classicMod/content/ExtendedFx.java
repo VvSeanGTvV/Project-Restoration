@@ -1,13 +1,13 @@
 package classicMod.content;
 
-import arc.*;
-import arc.graphics.*;
+import arc.Core;
+import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.*;
-import arc.math.geom.*;
-import arc.util.*;
-import mindustry.content.*;
-import mindustry.entities.*;
+import arc.math.geom.Position;
+import arc.util.Time;
+import mindustry.content.Fx;
+import mindustry.entities.Effect;
 import mindustry.graphics.*;
 
 import static arc.graphics.g2d.Draw.color;
@@ -234,7 +234,7 @@ public class ExtendedFx extends Fx {
         Lines.lineAngle(e.x, e.y, e.rotation, e.fout()*8f);
         Lines.stroke(e.fout()*4f);
         Lines.lineAngle(e.x, e.y, e.rotation, e.fout()*12f);
-        Lines.stroke(e.fout()*1f);
+        Lines.stroke(e.fout());
         Lines.lineAngle(e.x, e.y, e.rotation, e.fout()*14f);
         Draw.reset();
     }),
@@ -314,7 +314,7 @@ public class ExtendedFx extends Fx {
 
         Angles.randLenVectors(e.id, 6, 2f + 19f * e.finpow(), (x, y) -> {
             Fill.circle(e.x + x, e.y + y, e.fout() * 3f + 0.5f);
-            Fill.circle(e.x + x / 2f, e.y + y / 2f, e.fout() * 1f);
+            Fill.circle(e.x + x / 2f, e.y + y / 2f, e.fout());
         });
 
         Draw.color(lighterOrange, lightOrange, Color.gray, e.fin());

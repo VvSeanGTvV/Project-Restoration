@@ -1,17 +1,17 @@
 package classicMod.library.ability;
+
 import arc.Core;
-import arc.graphics.Blending;
-import arc.graphics.Color;
+import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
 import arc.scene.ui.layout.Table;
-import arc.util.*;
+import arc.util.Time;
 import mindustry.Vars;
-import mindustry.content.*;
-import mindustry.entities.*;
+import mindustry.content.Fx;
+import mindustry.entities.Lightning;
 import mindustry.entities.abilities.Ability;
-import mindustry.gen.*;
-import mindustry.graphics.*;
+import mindustry.gen.Unit;
+import mindustry.graphics.Pal;
 import mindustry.world.meta.Stat;
 
 public class LightSpeedAbility extends Ability { //Combined of V5 and V7 coding just formatted to be compatible!

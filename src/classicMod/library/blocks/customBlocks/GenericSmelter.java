@@ -1,33 +1,42 @@
 package classicMod.library.blocks.customBlocks;
 
-import arc.*;
-import arc.graphics.*;
+import arc.Core;
+import arc.graphics.Color;
 import arc.graphics.g2d.*;
-import arc.math.*;
+import arc.math.Mathf;
 import arc.util.*;
-import arc.util.io.Reads;
-import arc.util.io.Writes;
+import arc.util.io.*;
 import classicMod.content.*;
-import mindustry.content.*;
-import mindustry.entities.*;
-import mindustry.gen.*;
+import mindustry.content.Items;
+import mindustry.entities.Effect;
+import mindustry.gen.Building;
 import mindustry.graphics.*;
 import mindustry.type.*;
-import mindustry.ui.*;
-import mindustry.world.blocks.production.*;
-import mindustry.world.meta.*;
+import mindustry.ui.Bar;
+import mindustry.world.blocks.production.GenericCrafter;
+import mindustry.world.meta.StatValues;
 
 public class GenericSmelter extends GenericCrafter {
-    /** Fuel to power up the smelter. **/
+    /**
+     * Fuel to power up the smelter.
+     **/
     public ItemStack fuelItem = new ItemStack(Items.coal, 1);
-    /** is Fuel an optional booster. **/
+    /**
+     * is Fuel an optional booster.
+     **/
     public boolean fuelBooster = false;
-    /** How long does the fuel last. **/
+    /**
+     * How long does the fuel last.
+     **/
     public float burnTime = 60f;
-    /** Color of the flame when using fuel **/
+    /**
+     * Color of the flame when using fuel
+     **/
     public Color flameColor = Color.valueOf("ffb879");
     public @Nullable ItemStack[] fuelItems;
-    /** The burning effect for every fuel is depleted and consumed another one **/
+    /**
+     * The burning effect for every fuel is depleted and consumed another one
+     **/
     public Effect burnEffect = ExtendedFx.fuelburn;
 
     public GenericSmelter(String name) {
@@ -42,7 +51,7 @@ public class GenericSmelter extends GenericCrafter {
     }
 
     @Override
-    public void setStats(){
+    public void setStats() {
         stats.timePeriod = craftTime;
 
         /*if((hasItems && itemCapacity > 0) || outputItems != null){
@@ -57,7 +66,7 @@ public class GenericSmelter extends GenericCrafter {
             stats.add(Stat.output, StatValues.liquids(1f, outputLiquids));
         }*/
 
-        if(fuelItem != null){
+        if (fuelItem != null) {
             stats.add(ExtendedStat.fuel, StatValues.items(burnTime, fuelItems));
         }
 
@@ -65,24 +74,24 @@ public class GenericSmelter extends GenericCrafter {
     }
 
     @Override
-    public void init(){
-        if(outputItems == null && outputItem != null){
+    public void init() {
+        if (outputItems == null && outputItem != null) {
             outputItems = new ItemStack[]{outputItem};
         }
-        if(fuelItems == null && fuelItem != null){
+        if (fuelItems == null && fuelItem != null) {
             fuelItems = new ItemStack[]{fuelItem};
         }
-        if(outputLiquids == null && outputLiquid != null){
+        if (outputLiquids == null && outputLiquid != null) {
             outputLiquids = new LiquidStack[]{outputLiquid};
         }
         //write back to outputLiquid, as it helps with sensing
-        if(outputLiquid == null && outputLiquids != null && outputLiquids.length > 0){
+        if (outputLiquid == null && outputLiquids != null && outputLiquids.length > 0) {
             outputLiquid = outputLiquids[0];
         }
         outputsLiquid = outputLiquids != null;
 
-        if(outputItems != null) hasItems = true;
-        if(outputLiquids != null) hasLiquids = true;
+        if (outputItems != null) hasItems = true;
+        if (outputLiquids != null) hasLiquids = true;
 
         super.init();
     }
@@ -93,9 +102,9 @@ public class GenericSmelter extends GenericCrafter {
         public boolean hasFuel;
         protected boolean accepted;
 
-        public float progress(){
-            if(efficiency<=0) return 0;
-            return 1f-fuelProgress;
+        public float progress() {
+            if (efficiency <= 0) return 0;
+            return 1f - fuelProgress;
         }
 
         @Override
@@ -109,67 +118,76 @@ public class GenericSmelter extends GenericCrafter {
 
         /**
          * Consumes fuel/item only and can be useful for GenericSmelter.
-         * @param item Gets the item and consume that specific fuel.
-         * @param amount Gets the required amount, and consume at the specific amount it has. [Deprecated soon]
+         * @param item Gets the item and consume that specific fuel, including with item amount.
          **/
-        public void consumeFuel(ItemStack[] item, int amount) {
+        public void consumeFuel(ItemStack[] item) {
             for (ItemStack itemStack : item) {
                 Item it1 = itemStack.item;
-                this.items.remove(it1, amount);
+                this.items.remove(it1, itemStack.amount);
             }
         }
 
         @Override
-        public void updateTile(){
+        public void updateTile() {
             hasFuel = this.items.has(fuelItems);
-            if(efficiency > 0){
-                if(this.items.has(fuelItems)) {
+            if (efficiency > 0 && hasFuel) {
+                //if (this.items.has(fuelItems)) {
                     activeScl = Mathf.lerpDelta(activeScl, warmupTarget(), warmupSpeed);
                     fuelProgress += getProgressIncrease(burnTime);
                     if (fuelProgress >= 1f) {
-                        consumeFuel(fuelItems, 1); //TODO make it consume multiple items with different numbers and not fixed num.
+                        consumeFuel(fuelItems);
                         fuelProgress %= 1f;
                         burnEffect.at(this.x + Mathf.range(2f), this.y + Mathf.range(2f));
                     }
-                } else {
-                    activeScl = Mathf.lerpDelta(activeScl, 0f, warmupSpeed);
-                    if(fuelProgress != 0 && fuelProgress < 1){
-                        fuelProgress %= 1f;
-                        consumeFuel(fuelItems, 1);
-                    }
-                }
-            } else {
-               activeScl = Mathf.lerpDelta(activeScl, 0f, warmupSpeed);
-               if(fuelProgress != 0 && fuelProgress < 1){
-                   fuelProgress %= 1f;
-                   consumeFuel(fuelItems, 1);
-               }
-            }
+                //}
 
-            if(efficiency > 0 && hasFuel){
 
                 progress += getProgressIncrease(craftTime);
                 warmup = Mathf.approachDelta(warmup, warmupTarget(), warmupSpeed);
 
                 //continuously output based on efficiency
-                if(outputLiquids != null){
+                if (outputLiquids != null) {
                     float inc = getProgressIncrease(1f);
-                    for(var output : outputLiquids){
+                    for (var output : outputLiquids) {
                         handleLiquid(this, output.liquid, Math.min(output.amount * inc, liquidCapacity - liquids.get(output.liquid)));
                     }
                 }
 
-                if(wasVisible && Mathf.chanceDelta(updateEffectChance)){
+                if (wasVisible && Mathf.chanceDelta(updateEffectChance)) {
                     updateEffect.at(x + Mathf.range(size * 4f), y + Mathf.range(size * 4));
                 }
-            }else{
+            } else {
                 warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);
+                activeScl = Mathf.lerpDelta(activeScl, 0f, warmupSpeed);
+                if (fuelProgress != 0 && fuelProgress < 1) {
+                    fuelProgress %= 1f;
+                }
             }
+
+            /*if (efficiency > 0 && hasFuel) {
+
+                progress += getProgressIncrease(craftTime);
+                warmup = Mathf.approachDelta(warmup, warmupTarget(), warmupSpeed);
+
+                //continuously output based on efficiency
+                if (outputLiquids != null) {
+                    float inc = getProgressIncrease(1f);
+                    for (var output : outputLiquids) {
+                        handleLiquid(this, output.liquid, Math.min(output.amount * inc, liquidCapacity - liquids.get(output.liquid)));
+                    }
+                }
+
+                if (wasVisible && Mathf.chanceDelta(updateEffectChance)) {
+                    updateEffect.at(x + Mathf.range(size * 4f), y + Mathf.range(size * 4));
+                }
+            } else {
+                warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);
+            }*/
 
             //TODO may look bad, revert to edelta() if so
             totalProgress += warmup * Time.delta;
 
-            if(progress >= 1f){
+            if (progress >= 1f) {
                 craft();
             }
 
@@ -178,18 +196,18 @@ public class GenericSmelter extends GenericCrafter {
 
 
         @Override
-        public void craft(){
+        public void craft() {
             consume();
 
-            if(outputItems != null){
-                for(var output : outputItems){
-                    for(int i = 0; i < output.amount; i++){
+            if (outputItems != null) {
+                for (var output : outputItems) {
+                    for (int i = 0; i < output.amount; i++) {
                         offload(output.item);
                     }
                 }
             }
 
-            if(wasVisible){
+            if (wasVisible) {
                 craftEffect.at(x, y, flameColor);
             }
             progress %= 1f;
@@ -201,7 +219,7 @@ public class GenericSmelter extends GenericCrafter {
             Draw.z(Layer.block);
             Draw.rect(region, tile.drawx(), tile.drawy());
 
-            if(activeScl > 0) {
+            if (activeScl > 0) {
                 float g = 0.1f;
 
                 Draw.alpha(((1f - g) + Mathf.absin(Time.time, 8f, g)) * activeScl);
@@ -216,25 +234,25 @@ public class GenericSmelter extends GenericCrafter {
         }
 
         @Override
-        public void write(Writes write){
+        public void write(Writes write) {
             super.write(write);
 
             write.f(progress);
             write.f(fuelProgress);
             write.f(warmup);
 
-            if(legacyReadWarmup) write.f(0f);
+            if (legacyReadWarmup) write.f(0f);
         }
 
         @Override
-        public void read(Reads read, byte revision){
+        public void read(Reads read, byte revision) {
             super.read(read, revision);
 
             progress = read.f();
             fuelProgress = read.f();
             warmup = read.f();
 
-            if(legacyReadWarmup) read.f();
+            if (legacyReadWarmup) read.f();
         }
     }
 }

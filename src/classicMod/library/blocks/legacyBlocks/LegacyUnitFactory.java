@@ -1,27 +1,24 @@
 package classicMod.library.blocks.legacyBlocks;
 
-import arc.*;
+import arc.Core;
 import arc.graphics.g2d.*;
-import arc.math.*;
+import arc.math.Mathf;
 import arc.struct.*;
-import arc.util.Nullable;
-import arc.util.Scaling;
+import arc.util.*;
 import arc.util.io.*;
-import mindustry.*;
-import mindustry.content.*;
-import mindustry.entities.*;
-import mindustry.game.EventType.*;
+import mindustry.Vars;
+import mindustry.content.Fx;
+import mindustry.entities.Effect;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.ui.*;
-import mindustry.world.*;
+import mindustry.world.Block;
 import mindustry.world.blocks.UnitTetherBlock;
 import mindustry.world.blocks.units.UnitFactory;
 import mindustry.world.meta.*;
 
-import static mindustry.Vars.*;
-import static mindustry.type.ItemStack.with;
+import static mindustry.Vars.state;
 
 //Created by: VvSeanGtvV#2295 at Discord!
 //Similar to modern unit factory but in an older style mechanics, where it doesn't need payload!
@@ -90,7 +87,7 @@ public class LegacyUnitFactory extends Block {
         if(maxSpawn < 1 || maxSpawn == 0){ maxSpawn = 4; }
         topRegion = Core.atlas.find(name + "-top");
         if(requirement != null){
-            if(!(unitType != null) && (requirement.length > 0)) new UnitFactory.UnitPlan(unitType, 60f * 15, requirement);
+            if(unitType == null && (requirement.length > 0)) new UnitFactory.UnitPlan(unitType, 60f * 15, requirement);
             capacities = new int[Vars.content.items().size];
             for(ItemStack stack : requirement){
                 capacities[stack.item.id] = Math.max(capacities[stack.item.id], stack.amount * 2);

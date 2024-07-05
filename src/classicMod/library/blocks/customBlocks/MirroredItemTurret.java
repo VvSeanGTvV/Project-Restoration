@@ -1,10 +1,10 @@
 package classicMod.library.blocks.customBlocks;
 
 import arc.math.*;
-import arc.util.*;
+import arc.util.Time;
 import mindustry.entities.*;
-import mindustry.entities.bullet.*;
-import mindustry.world.blocks.defense.turrets.*;
+import mindustry.entities.bullet.BulletType;
+import mindustry.world.blocks.defense.turrets.ItemTurret;
 
 public class MirroredItemTurret extends ItemTurret { //This is meant for classic blocks not modern ones!
     public MirroredItemTurret(String name) { //Same style as Item Turret but has two barrels in use
@@ -12,16 +12,16 @@ public class MirroredItemTurret extends ItemTurret { //This is meant for classic
     }
 
     public class MirroredTurretItemBuild extends ItemTurretBuild {
-        
+
 
         float len = 8;
         float space = 3.5f;
 
 
-        protected void bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover){
-            queuedBullets --;
+        protected void bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover) {
+            queuedBullets--;
 
-            if(dead || (!consumeAmmoOnce && !hasAmmo())) return;
+            if (dead || (!consumeAmmoOnce && !hasAmmo())) return;
 
             float
                     xSpread = Mathf.range(xRand),
@@ -39,8 +39,10 @@ public class MirroredItemTurret extends ItemTurret { //This is meant for classic
             //TODO aimX / aimY for multi shot turrets?
 
             for (int i = -1; i < 1; i++) {
-                if(i==0)handleBullet(type.create(this, team, bulletX, bulletY, shootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation); //LEFT
-                if(i==-1)handleBullet(type.create(this, team, bulletCX, bulletCY, CshootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation); //RIGHT
+                if (i == 0)
+                    handleBullet(type.create(this, team, bulletX, bulletY, shootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation); //LEFT
+                if (i == -1)
+                    handleBullet(type.create(this, team, bulletCX, bulletCY, CshootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation); //RIGHT
             }
             //handleBullet(type.create(this, team, bulletCX, bulletCY, -shootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation); //RIGHT
 
@@ -56,22 +58,22 @@ public class MirroredItemTurret extends ItemTurret { //This is meant for classic
                     rotation * Mathf.sign(xOffset)
             );
 
-            if(shake > 0){
+            if (shake > 0) {
                 Effect.shake(shake, shake, this);
             }
 
             curRecoil = 1f;
             heat = 1f;
 
-            if(!consumeAmmoOnce){
+            if (!consumeAmmoOnce) {
                 useAmmo();
                 useAmmo();
             }
         }
 
         @Override
-        public void updateShooting(){
-            if(reloadCounter >= reload && !charging() && shootWarmup >= minWarmup) {
+        public void updateShooting() {
+            if (reloadCounter >= reload && !charging() && shootWarmup >= minWarmup) {
                 //Building entity = tile.build;
                 reloadCounter %= reload;
                 BulletType type = peekAmmo();
@@ -88,15 +90,15 @@ public class MirroredItemTurret extends ItemTurret { //This is meant for classic
                     //Effects.effect(shootEffect, tile.drawx() + tr.x, tile.drawy() + tr.y, entity.rotation);
                 }*/
                 shoot.shoot(totalShots, (xOffset, yOffset, angle, delay, mover) -> {
-                    queuedBullets ++;
-                    if(delay > 0f){
+                    queuedBullets++;
+                    if (delay > 0f) {
                         Time.run(delay, () -> bullet(type, xOffset, yOffset, angle, mover));
-                    }else{
+                    } else {
                         bullet(type, xOffset, yOffset, angle, mover);
                     }
-                    totalShots ++;
+                    totalShots++;
                 });
-                if(consumeAmmoOnce){
+                if (consumeAmmoOnce) {
                     useAmmo();
                     useAmmo();
                 }

@@ -4,13 +4,13 @@ package classicMod.library.ability;
 import arc.Core;
 import arc.math.Mathf;
 import arc.scene.ui.layout.Table;
-import arc.util.*;
+import arc.util.Time;
 import mindustry.Vars;
-import mindustry.content.*;
+import mindustry.content.Fx;
 import mindustry.entities.*;
 import mindustry.entities.abilities.Ability;
-import mindustry.gen.*;
-import mindustry.graphics.*;
+import mindustry.gen.Unit;
+import mindustry.graphics.Pal;
 import mindustry.world.meta.Stat;
 
 public class LightLandingAbility extends Ability {
@@ -30,7 +30,7 @@ public class LightLandingAbility extends Ability {
     public void update(Unit unit){
         super.update(unit); //Make like one time mechanism
         if(!unit.isFlying()){
-            if(onLand == false){
+            if(!onLand){
                 Fx.landShock.at(unit);
                 Effect.shake(1f, 1f, unit);
                 for(int i = 0; i < 8; i++){

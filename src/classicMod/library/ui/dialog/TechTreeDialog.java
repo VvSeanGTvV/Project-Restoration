@@ -1,44 +1,43 @@
 package classicMod.library.ui.dialog;
 
 import arc.*;
-import arc.func.*;
-import arc.graphics.*;
+import arc.func.Cons;
+import arc.graphics.Color;
 import arc.graphics.g2d.*;
-import arc.input.*;
+import arc.input.KeyCode;
 import arc.math.*;
-import arc.math.geom.*;
+import arc.math.geom.Rect;
 import arc.scene.*;
 import arc.scene.actions.*;
 import arc.scene.event.*;
-import arc.scene.style.*;
+import arc.scene.style.TextureRegionDrawable;
 import arc.scene.ui.*;
-import arc.scene.ui.layout.Stack;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
-import classicMod.library.ui.*;
-import mindustry.content.*;
-import mindustry.content.TechTree.*;
-import mindustry.ctype.*;
+import classicMod.library.ui.UIExtended;
+import mindustry.content.TechTree;
+import mindustry.content.TechTree.TechNode;
+import mindustry.ctype.ContentType;
 import mindustry.game.EventType;
-import mindustry.game.Objectives.*;
+import mindustry.game.Objectives.Objective;
 import mindustry.gen.*;
-import mindustry.graphics.*;
+import mindustry.graphics.Pal;
 import mindustry.type.*;
 import mindustry.ui.*;
-import mindustry.ui.dialogs.*;
-import mindustry.ui.layout.*;
-import mindustry.ui.layout.TreeLayout.*;
+import mindustry.ui.dialogs.BaseDialog;
+import mindustry.ui.layout.BranchTreeLayout;
+import mindustry.ui.layout.TreeLayout.TreeNode;
 
-import java.util.*;
+import java.util.Arrays;
 
-import static arc.Core.*;
+import static arc.Core.settings;
 import static mindustry.Vars.*;
-import static mindustry.gen.Tex.*;
+import static mindustry.gen.Tex.buttonOver;
 
 public class TechTreeDialog extends BaseDialog {
     private final float nodeSize = Scl.scl(60f);
-    private ObjectSet<TechTreeNode> nodes = new ObjectSet<>();
+    private final ObjectSet<TechTreeNode> nodes = new ObjectSet<>();
     private TechTreeNode root = new TechTreeNode(TechTree.roots.first(), null);
     private Rect bounds = new Rect();
     public ItemsDisplay itemDisplay;

@@ -2,29 +2,17 @@ package classicMod.library.blocks.legacyBlocks;
 
 import arc.Core;
 import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.TextureRegion;
+import arc.graphics.g2d.*;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
 import arc.util.Log;
-import arc.util.io.Reads;
-import arc.util.io.Writes;
+import arc.util.io.*;
 import classicMod.library.ai.RallyAI;
-import classicMod.library.ai.ReplacementFlyingAI;
-import classicMod.library.ai.ReplacementGroundAI;
-import mindustry.ai.Pathfinder;
 import mindustry.ai.UnitCommand;
-import mindustry.ai.types.CommandAI;
-import mindustry.ai.types.FlyingAI;
-import mindustry.ai.types.GroundAI;
 import mindustry.entities.Units;
-import mindustry.entities.units.AIController;
-import mindustry.gen.Building;
-import mindustry.gen.Icon;
-import mindustry.gen.Teamc;
-import mindustry.gen.Unit;
+import mindustry.gen.*;
 import mindustry.ui.Styles;
 import mindustry.world.Block;
 
@@ -34,7 +22,7 @@ import static classicMod.content.ClassicVars.*;
 import static classicMod.content.ExtendedFx.commandSend;
 
 public class LegacyCommandCenter extends Block {
-    public TextureRegion topRegion = Core.atlas.find(name+"-top");
+    public TextureRegion topRegion = Core.atlas.find(name + "-top");
 
     protected Unit[] ArrayTarget;
 
@@ -47,7 +35,7 @@ public class LegacyCommandCenter extends Block {
     }
 
     @Override
-    public void setStats(){
+    public void setStats() {
         super.setStats();
 
         //stats.add(Stat.range, MaximumRangeCommand / tilesize, StatUnit.blocks);
@@ -63,7 +51,7 @@ public class LegacyCommandCenter extends Block {
 
         @Override
         public void buildConfiguration(Table table) {
-            if(blockID==0f)blockID=Mathf.randomSeed(this.id) * 120;
+            if (blockID == 0f) blockID = Mathf.randomSeed(this.id) * 120;
             Table buttons = new Table();
             buttons.button(Icon.commandAttack, Styles.cleari, () -> {
                 UpdateCommand(RallyAI.UnitState.attack);
@@ -79,10 +67,10 @@ public class LegacyCommandCenter extends Block {
         @Override
         public void draw() {
             super.draw();
-            TextureRegion c = Core.atlas.find(name+"-"+CommandOrigin);
+            TextureRegion c = Core.atlas.find(name + "-" + CommandOrigin);
 
-            if(c != null) {
-                Draw.alpha(255/2f);
+            if (c != null) {
+                Draw.alpha(255 / 2f);
                 Draw.color(Color.valueOf("5e5e5e"));
                 Draw.rect(c, x, y - 0.4f);
 
@@ -94,6 +82,7 @@ public class LegacyCommandCenter extends Block {
 
             Draw.reset();
         }
+
         public void UpdateCommand(RallyAI.UnitState State) {
             commandSend.at(this);
             PublicState = State;
@@ -147,14 +136,18 @@ public class LegacyCommandCenter extends Block {
                     var ai = targetM.command();
                     if (Objects.equals(CommandOrigin, "rally")) {
 
-                        if(targetClosest(targetM) != null){
+                        if (targetClosest(targetM) != null) {
                             var target = targetClosest(targetM);
-                            if(target != null && targetM.hasWeapons()){
+                            if (target != null && targetM.hasWeapons()) {
                                 ai.command = targetM.type.defaultCommand == null ? targetM.type.commands[0] : targetM.type.defaultCommand;
                             }
                         } else {
                             var building = Units.closestBuilding(targetM.team, targetM.x, targetM.y, MaximumRangeCommand, b -> (b instanceof LegacyCommandCenter.LegacyCommandCenterBuild) && b.isValid() && !(b.isNull()));
-                            if(targetM.isFlying()) ai.circle(building, 65f + Mathf.randomSeed(targetM.id) * 100); else { ai.moveTo(building, 65f + Mathf.randomSeed(targetM.id) * 100, 25f, true, Vec2.ZERO, true); ai.faceMovement();}
+                            if (targetM.isFlying()) ai.circle(building, 65f + Mathf.randomSeed(targetM.id) * 100);
+                            else {
+                                ai.moveTo(building, 65f + Mathf.randomSeed(targetM.id) * 100, 25f, true, Vec2.ZERO, true);
+                                ai.faceMovement();
+                            }
                             ai.commandTarget(building);
                             ai.command(UnitCommand.moveCommand);
                         }
@@ -166,21 +159,21 @@ public class LegacyCommandCenter extends Block {
             }
         }
 
-        protected Teamc targetClosest(Unit unit){
+        protected Teamc targetClosest(Unit unit) {
             Teamc target = null;
             Teamc newTarget = Units.closestTarget(unit.team(), unit.x(), unit.y(), Math.max(unit.range(), unit.type().range), u -> (unit.type().targetAir && u.isFlying()) || (unit.type().targetGround && !u.isFlying()));
-            if(newTarget != null){
+            if (newTarget != null) {
                 target = newTarget;
             }
             return target;
         }
 
         @Override
-        public void write(Writes write){
+        public void write(Writes write) {
             super.write(write);
             write.str(CommandOrigin);
             write.f(blockID);
-            write.b((byte)PublicState.ordinal());
+            write.b((byte) PublicState.ordinal());
         }
 
         @Override

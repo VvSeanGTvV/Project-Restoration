@@ -58,7 +58,7 @@ public class ImpactDrill extends Drill{
             Draw.rect(region, x, y);
             drawDefaultCracks();
 
-            //TODO charge
+            //TODO change this draw bud
 
             if(dominantItem != null && drawMineItem){
                 Draw.color(dominantItem.color);

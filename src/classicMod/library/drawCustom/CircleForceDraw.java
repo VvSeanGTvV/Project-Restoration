@@ -1,23 +1,17 @@
 package classicMod.library.drawCustom;
 
+import arc.Core;
 import arc.graphics.*;
-import arc.graphics.Color;
 import arc.graphics.g2d.*;
-import arc.graphics.g2d.Fill;
-import arc.graphics.g2d.Lines;
-import arc.math.Angles;
-import arc.math.Interp;
-import arc.math.Mathf;
-import arc.util.Time;
-import arc.util.Tmp;
-import arc.*;
+import arc.math.*;
+import arc.util.*;
 import mindustry.entities.part.DrawPart;
-import mindustry.graphics.*;
+import mindustry.graphics.Pal;
 
 import static arc.math.Mathf.rand;
 
-public class CircleForceDraw extends DrawPart{
-    public float x = 0, y = 0, xT =0, yT =0;
+public class CircleForceDraw extends DrawPart {
+    public float x = 0, y = 0, xT = 0, yT = 0;
     public float orbRadius = 4.1f, orbMidScl = 0.33f, orbSinScl = 8f, orbSinMag = 1f, layerOffset = 0f;
     public Color color = Pal.suppress;
     public float layer = -1; //-1;
@@ -34,6 +28,10 @@ public class CircleForceDraw extends DrawPart{
     public Color particleColor = Pal.sap.cpy();
     public int id;
     public Blending blending = BlendingCustom.Bloom;
+
+    public CircleForceDraw() {
+    }
+
     @Override
     public void draw(PartParams params) {
         float xC = params.x;
@@ -41,8 +39,8 @@ public class CircleForceDraw extends DrawPart{
         float rotation = params.rotation;
 
         float z = Draw.z();
-        if(under) Draw.z(z - 0.0001f);
-        if(layer > 0) Draw.z(layer);
+        if (under) Draw.z(z - 0.0001f);
+        if (layer > 0) Draw.z(layer);
         Draw.z(Draw.z() + layerOffset);
 
         float rad = orbRadius + Mathf.absin(orbSinScl, orbSinMag);
@@ -60,7 +58,7 @@ public class CircleForceDraw extends DrawPart{
         float base = (Time.time / particleLife);
         rand.setSeed(id + hashCode());
         Draw.color(particleColor);
-        for(int i = 0; i < particles; i++){
+        for (int i = 0; i < particles; i++) {
             float fin = (rand.random(1f) + base) % 1f, fout = 1f - fin;
             float angle = rand.random(360f) + (Time.time / rotateScl + rotation) % 360f;
             float len = particleLen * particleInterp.apply(fout);
@@ -101,7 +99,7 @@ public class CircleForceDraw extends DrawPart{
         Draw.blend();
         Draw.alpha(1f);*/
 
-        if(active){
+        if (active) {
             //TODO draw range when selected?
         }
 
@@ -111,8 +109,5 @@ public class CircleForceDraw extends DrawPart{
     @Override
     public void load(String name) {
 
-    }
-
-    public CircleForceDraw(){
     }
 }

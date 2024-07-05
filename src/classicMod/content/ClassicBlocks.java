@@ -1,36 +1,33 @@
 package classicMod.content;
 
-import arc.*;
-import arc.graphics.*;
-import arc.graphics.g2d.*;
+import arc.Core;
+import arc.graphics.Color;
+import arc.graphics.g2d.TextureRegion;
 import arc.math.*;
-import arc.struct.*;
+import arc.struct.Seq;
 import classicMod.library.blocks.*;
 import classicMod.library.blocks.classicBlocks.*;
 import classicMod.library.blocks.customBlocks.*;
 import classicMod.library.blocks.legacyBlocks.*;
-import classicMod.library.blocks.v6devBlocks.*;
+import classicMod.library.blocks.v6devBlocks.ItemTurretV6;
 import classicMod.library.bullets.*;
-import mindustry.*;
 import mindustry.content.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
-import mindustry.entities.part.*;
+import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.*;
-import mindustry.gen.*;
+import mindustry.gen.Sounds;
 import mindustry.graphics.*;
 import mindustry.type.*;
-import mindustry.world.*;
-import mindustry.world.blocks.campaign.*;
+import mindustry.world.Block;
+import mindustry.world.blocks.campaign.LaunchPad;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.blocks.environment.*;
-import mindustry.world.blocks.heat.*;
-import mindustry.world.blocks.payloads.BlockProducer;
-import mindustry.world.blocks.power.*;
+import mindustry.world.blocks.heat.HeatProducer;
+import mindustry.world.blocks.power.NuclearReactor;
 import mindustry.world.blocks.production.*;
-import mindustry.world.blocks.storage.CoreBlock;
-import mindustry.world.blocks.storage.StorageBlock;
+import mindustry.world.blocks.storage.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
@@ -38,7 +35,7 @@ import static classicMod.content.ClassicBullets.*;
 import static classicMod.content.ClassicSounds.*;
 import static classicMod.content.ClassicUnitTypes.*;
 import static mindustry.content.Blocks.coreBastion;
-import static mindustry.type.ItemStack.*;
+import static mindustry.type.ItemStack.with;
 
 public class ClassicBlocks {
     public static Block
@@ -432,7 +429,7 @@ public class ClassicBlocks {
             coolantPower = 0.007f*size;
             flashThreshold = 0.46f;
 
-            explosionRadius = 19*size;;
+            explosionRadius = 19*size;
             explosionDamage = 135*size*size;
 
             fuelItem = ClassicItems.uranium;

@@ -1,32 +1,33 @@
 package classicMod.library.blocks;
 
-import arc.*;
-import arc.graphics.*;
+import arc.Core;
+import arc.graphics.Color;
 import arc.graphics.g2d.*;
-import arc.math.*;
 import arc.util.Scaling;
 import classicMod.content.ExtendedStat;
-import mindustry.*;
-import mindustry.content.*;
+import mindustry.Vars;
+import mindustry.content.Fx;
 import mindustry.entities.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.ui.Styles;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.BaseShield;
-import mindustry.world.blocks.defense.ShieldWall;
-import mindustry.world.meta.Stat;
 
 import java.util.Objects;
 
-public class ShieldBreaker extends Block{
-    /** Specific block that can destroyed by this block **/
+public class ShieldBreaker extends Block {
+    /**
+     * Specific block that can destroyed by this block
+     **/
     public Block[] toDestroy = {};
 
-    /** Special Effect on: {@link #breakEffect}, {@link #selfKillEffect}**/
+    /**
+     * Special Effect on: {@link #breakEffect}, {@link #selfKillEffect}
+     **/
     public Effect effect = Fx.shockwave, breakEffect = Fx.reactorExplosion, selfKillEffect = Fx.massiveExplosion;
 
-    public ShieldBreaker(String name){
+    public ShieldBreaker(String name) {
         super(name);
 
         solid = update = true;
@@ -40,7 +41,7 @@ public class ShieldBreaker extends Block{
     }
 
     @Override
-    public boolean canBreak(Tile tile){
+    public boolean canBreak(Tile tile) {
         return true; //Vars.state.isEditor()
     }
 
@@ -70,21 +71,20 @@ public class ShieldBreaker extends Block{
         });
     }
 
-    public class ShieldBreakerBuild extends Building{
+    public class ShieldBreakerBuild extends Building {
 
-        public boolean isValidBuild(Building building){
-            boolean isValid = false;
-            for (int i = 0; i < toDestroy.length; i++ ){
-                isValid = (Objects.equals(toDestroy[i].name, building.block.name));
-                if(isValid)break;
+        public boolean isValidBuild(Building building) {
+            for (var target : toDestroy) {
+                if ((Objects.equals(building.block.name, target.name))) return true;
             }
-            return isValid;
+            return false;
         }
+
         @Override
-        public void updateTile(){ //TODO fix this
-            if(efficiency >= 1f){
+        public void updateTile() { //TODO fix this
+            if (efficiency >= 1f) {
                 effect.at(this);
-                Building b = Units.findEnemyTile(team, x, y, Float.MAX_VALUE/2, building -> (building instanceof BaseShield.BaseShieldBuild && isValidBuild(building)));
+                Building b = Units.findEnemyTile(team, x, y, Float.MAX_VALUE / 2, building -> (building instanceof BaseShield.BaseShieldBuild && isValidBuild(building)));
                 if (b != null) {
                     breakEffect.at(b);
                     b.kill();
@@ -102,7 +102,7 @@ public class ShieldBreaker extends Block{
             Draw.rect(region, tile.drawx(), tile.drawy());
             Draw.z(Layer.blockOver);
             float op = itemCapacity;
-            Draw.color(team.color, Color.red, items.total()/op);
+            Draw.color(team.color, Color.red, items.total() / op);
             Draw.rect(teamRegion, tile.drawx(), tile.drawy());
             Draw.reset();
         }

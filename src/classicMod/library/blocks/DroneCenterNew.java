@@ -2,37 +2,22 @@ package classicMod.library.blocks;
 
 import arc.Core;
 import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Lines;
-import arc.graphics.g2d.TextureRegion;
+import arc.graphics.g2d.*;
 import arc.math.Mathf;
-import arc.math.geom.Vec2;
-import arc.struct.IntSeq;
-import arc.struct.Seq;
-import arc.util.Nullable;
-import arc.util.Scaling;
-import arc.util.Strings;
-import arc.util.Time;
-import arc.util.io.Reads;
-import arc.util.io.Writes;
+import arc.util.*;
+import arc.util.io.*;
 import classicMod.content.ExtendedStat;
 import classicMod.library.ai.EffectDroneAI;
 import mindustry.Vars;
-import mindustry.content.Fx;
-import mindustry.content.StatusEffects;
+import mindustry.content.*;
 import mindustry.entities.Units;
 import mindustry.gen.*;
-import mindustry.graphics.Drawf;
-import mindustry.graphics.Layer;
-import mindustry.graphics.Pal;
-import mindustry.type.StatusEffect;
-import mindustry.type.UnitType;
+import mindustry.graphics.*;
+import mindustry.type.*;
 import mindustry.ui.Styles;
 import mindustry.world.Block;
-import mindustry.world.Tile;
 import mindustry.world.blocks.UnitTetherBlock;
-import mindustry.world.meta.Stat;
-import mindustry.world.meta.StatUnit;
+import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
@@ -40,21 +25,31 @@ public class DroneCenterNew extends Block {
 
     //public int unitsMax = 4; TODO make this happen
 
-    /** Unit Type **/
+    /**
+     * Unit Type
+     **/
     public UnitType droneType;
-    /** Status effect for Effect Drone to give the exact effect to the units **/
+    /**
+     * Status effect for Effect Drone to give the exact effect to the units
+     **/
     public StatusEffect status = StatusEffects.overclock;
-    /** Contrustion time per Units **/
+    /**
+     * Contrustion time per Units
+     **/
     public float droneConstructTime = 60f * 3f;
-    /** Duration of the currently selected status effect **/
+    /**
+     * Duration of the currently selected status effect
+     **/
     public float statusDuration = 60f * 2f;
-    /** Effect Drone's maximum range **/
-    public float droneRange = 52f*2f;
+    /**
+     * Effect Drone's maximum range
+     **/
+    public float droneRange = 52f * 2f;
 
     public TextureRegion topRegion;
     public TextureRegion topRegion1;
 
-    public DroneCenterNew(String name){
+    public DroneCenterNew(String name) {
         super(name);
 
         update = solid = true;
@@ -66,10 +61,10 @@ public class DroneCenterNew extends Block {
     }
 
     @Override
-    public void drawPlace(int x, int y, int rotation, boolean valid){
+    public void drawPlace(int x, int y, int rotation, boolean valid) {
         super.drawPlace(x, y, rotation, valid);
 
-        if(!Units.canCreate(Vars.player.team(), droneType)){
+        if (!Units.canCreate(Vars.player.team(), droneType)) {
             drawPlaceText(Core.bundle.get("bar.cargounitcap"), x, y, valid);
         }
 
@@ -77,7 +72,7 @@ public class DroneCenterNew extends Block {
     }
 
     @Override
-    public void setStats(){
+    public void setStats() {
         super.setStats();
 
         stats.add(Stat.range, droneRange / tilesize, StatUnit.blocks);
@@ -91,7 +86,7 @@ public class DroneCenterNew extends Block {
                 t.table(info -> {
                     info.add(status.localizedName);
                     info.row();
-                    if(status.permanent){
+                    if (status.permanent) {
                         info.add("Permanent");
                         return;
                     }
@@ -102,7 +97,7 @@ public class DroneCenterNew extends Block {
     }
 
     @Override
-    public void init(){
+    public void init() {
         super.init();
 
         teamRegion = Core.atlas.find(name + "-team");
@@ -111,7 +106,7 @@ public class DroneCenterNew extends Block {
     }
 
     @Override
-    public TextureRegion[] icons(){
+    public TextureRegion[] icons() {
         return new TextureRegion[]{Core.atlas.find(name), Core.atlas.find(name + "-top")};
     }
 
@@ -119,12 +114,11 @@ public class DroneCenterNew extends Block {
         public int readUnitId = -1;
 
         public boolean hadUnit = false;
-        private boolean placeUnit = false;
-
         //public Seq<Unit> units = new Seq<>();
         public @Nullable Unit target;
         public @Nullable Unit unit;
         public float droneProgress, droneWarmup, totalDroneProgress;
+        private boolean placeUnit = false;
 
         @Override
         public void updateTile() {
@@ -174,10 +168,10 @@ public class DroneCenterNew extends Block {
                         target = targetClosest(); //Units.closest(team, x, y, u -> !u.spawnedByCore && u.type != droneType);
                     }*/
             }
-            if(target == null) {
-                if (unit != null) if(within(unit, 7f)) {
+            if (target == null) {
+                if (unit != null) if (within(unit, 7f)) {
                     placeUnit = true;
-                    if(unit.controller() instanceof EffectDroneAI ai) ai.Nullify(true);
+                    if (unit.controller() instanceof EffectDroneAI ai) ai.Nullify(true);
                 }
             }
 
@@ -185,14 +179,14 @@ public class DroneCenterNew extends Block {
         }
 
         @Override
-        public boolean shouldConsume(){
+        public boolean shouldConsume() {
             return unit == null;
         }
 
-        public void spawned(int id){
+        public void spawned(int id) {
             Fx.spawn.at(x, y);
             droneProgress = 0f;
-            if(Vars.net.client()){
+            if (Vars.net.client()) {
                 readUnitId = id;
             }
         }
@@ -203,17 +197,17 @@ public class DroneCenterNew extends Block {
         }
 
         @Override
-        public void drawConfigure(){
+        public void drawConfigure() {
             Drawf.dashCircle(x, y, droneRange, team.color);
             Drawf.square(x, y, tile.block().size * tilesize / 2f + 1f + Mathf.absin(Time.time, 4f, 1f));
 
-            if(target != null){
+            if (target != null) {
                 Drawf.square(target.x, target.y, target.hitSize * 0.8f, Color.green);
             }
         }
 
         @Override
-        public void draw(){
+        public void draw() {
             teamRegion = Core.atlas.find(name + "-team");
             topRegion = Core.atlas.find(name + "-top");
             topRegion1 = Core.atlas.find(name + "-top1");
@@ -223,13 +217,13 @@ public class DroneCenterNew extends Block {
 
             //TODO draw more stuff
 
-            if(droneWarmup > 0 && !hadUnit && efficiency >= 1f && this.target != null){
+            if (droneWarmup > 0 && !hadUnit && efficiency >= 1f && this.target != null) {
                 Draw.draw(Layer.blockOver + 0.2f, () -> {
                     Drawf.construct(this, droneType.fullIcon, Pal.accent, 0f, droneProgress, droneWarmup, totalDroneProgress, 14f);
                 });
             }
 
-            if(hadUnit && placeUnit && unit == null){
+            if (hadUnit && placeUnit && unit == null) {
                 Draw.rect(droneType.fullIcon, x, y);
             }
 
@@ -240,7 +234,7 @@ public class DroneCenterNew extends Block {
         }
 
         @Override
-        public void write(Writes write){
+        public void write(Writes write) {
             super.write(write);
 
             write.i(unit == null ? -1 : unit.id);
@@ -249,7 +243,7 @@ public class DroneCenterNew extends Block {
         }
 
         @Override
-        public void read(Reads read, byte revision){
+        public void read(Reads read, byte revision) {
             super.read(read, revision);
 
             //readTarget = read.i();

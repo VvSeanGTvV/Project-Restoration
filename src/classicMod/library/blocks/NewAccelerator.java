@@ -1,51 +1,34 @@
 package classicMod.library.blocks;
 
 import arc.*;
-import arc.Graphics.*;
-import arc.Graphics.Cursor.*;
-import arc.graphics.Blending;
+import arc.Graphics.Cursor;
+import arc.Graphics.Cursor.SystemCursor;
 import arc.graphics.Color;
-import arc.graphics.Pixmap;
-import arc.graphics.Pixmaps;
 import arc.graphics.g2d.*;
 import arc.math.*;
-import arc.math.geom.Geometry;
 import arc.scene.ui.layout.*;
 import arc.util.*;
-import arc.util.io.Reads;
-import arc.util.io.Writes;
 import classicMod.content.ExtendedStat;
-import classicMod.library.converter.*;
-import classicMod.library.ui.dialog.epicCreditsDialog;
 import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.entities.Effect;
 import mindustry.entities.units.UnitController;
 import mindustry.game.EventType.*;
-import mindustry.game.Team;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
-import mindustry.ui.*;
-import mindustry.ui.dialogs.PlanetDialog;
-import mindustry.world.*;
+import mindustry.ui.Styles;
+import mindustry.world.Block;
 import mindustry.world.blocks.ControlBlock;
-import mindustry.world.meta.Stat;
 
-import static arc.Core.camera;
-import static arc.Core.settings;
+import static arc.Core.*;
 import static classicMod.ClassicMod.getStatBundle;
 import static classicMod.library.ui.UIExtended.fdelta;
 import static mindustry.Vars.*;
-import static mindustry.input.Binding.zoom;
-import static mindustry.ui.dialogs.PlanetDialog.Mode.planetLaunch;
-import static mindustry.ui.dialogs.PlanetDialog.Mode.select;
 
-public class NewAccelerator extends Block{
+public class NewAccelerator extends Block {
+    protected static final float[] thrusterSizes = {0f, 0f, 0.15f, 0.3f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f};
     public TextureRegion arrowRegion = Core.atlas.find("launch-arrow");
-
-    //TODO dynamic
-    boolean launchingStartup, once, StartAnimation;
     public Block launching = Blocks.coreBastion;
     public Block requirementsBlock = Blocks.coreNucleus;
 
@@ -54,10 +37,11 @@ public class NewAccelerator extends Block{
 
     public float launchTime = 60f * 10f;
 
-    public float thrusterLength = 14f/4f;
-    protected static final float[] thrusterSizes = {0f, 0f, 0.15f, 0.3f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f};
+    public float thrusterLength = 14f / 4f;
+    //TODO dynamic
+    boolean launchingStartup, once, StartAnimation;
 
-    public NewAccelerator(String name){
+    public NewAccelerator(String name) {
         super(name);
         update = true;
         solid = true;
@@ -67,10 +51,10 @@ public class NewAccelerator extends Block{
     }
 
     @Override
-    public void init(){
+    public void init() {
         itemCapacity = 0;
         capacities = new int[content.items().size];
-        for(ItemStack stack : requirementsBlock.requirements){
+        for (ItemStack stack : requirementsBlock.requirements) {
             capacities[stack.item.id] = stack.amount;
             itemCapacity += stack.amount;
         }
@@ -79,7 +63,7 @@ public class NewAccelerator extends Block{
     }
 
     @Override
-    public boolean outputsItems(){
+    public boolean outputsItems() {
         return false;
     }
 
@@ -118,30 +102,31 @@ public class NewAccelerator extends Block{
         //stats.add(Strings.autoFixed(launchTime / 60f, 1) + " " + Core.bundle.get("unit.seconds")).color(Color.lightGray);
     }
 
-    public class NewAcceleratorBuild extends Building implements ControlBlock{
+    public class NewAcceleratorBuild extends Building implements ControlBlock {
         public float heat, statusLerp, blockLerp, heatOpposite, progress;
-        float originMinZoom, originMaxZoom;
         public @Nullable BlockUnitc unit;
-
         //counter
         public float launchAnimation, launchOppositeAnimation, zoomStyle, launchpadTimer, launchpadPrepTimer, shockwaveTimer;
-        int stageLaunch = 0;
-        boolean reset;
         public UnitController origin;
         public Unit originUnit;
+        float originMinZoom, originMaxZoom;
+        int stageLaunch = 0;
+        boolean reset;
 
         @Override
         public boolean shouldAutoTarget() {
             return false;
         }
 
-        public float fraction(){ return progress / launchTime; }
+        public float fraction() {
+            return progress / launchTime;
+        }
 
         @Override
-        public void updateTile(){
+        public void updateTile() {
             super.updateTile();
 
-            if(reset){
+            if (reset) {
                 launchpadTimer = 0;
                 launchAnimation = 0;
                 StartAnimation = false;
@@ -151,13 +136,13 @@ public class NewAccelerator extends Block{
 
             heat = Mathf.lerpDelta(heat, efficiency, 0.05f);
             statusLerp = Mathf.lerpDelta(statusLerp, power.status, 0.05f);
-            if(efficiency > 0){
-                if(isControlled()) {
+            if (efficiency > 0) {
+                if (isControlled()) {
                     progress += edelta();
                 } else {
                     progress = 0;
                 }
-                if(heatOpposite < 1f) heatOpposite += fdelta(50f, 60f) / 50f;
+                if (heatOpposite < 1f) heatOpposite += fdelta(50f, 60f) / 50f;
                 blockLerp = Mathf.clamp(Mathf.lerpDelta(blockLerp, heatOpposite, 0.05f));
             } else {
                 progress = 0;
@@ -166,7 +151,7 @@ public class NewAccelerator extends Block{
                 launchingStartup = false;
                 once = false;
             }
-            if(!StartAnimation) {
+            if (!StartAnimation) {
                 if (launchingStartup || isControlled()) {
                     if (!once || mobile) {
                         if (!once) {
@@ -198,14 +183,14 @@ public class NewAccelerator extends Block{
             }
             unit.ammo(unit.type().ammoCapacity * fraction());
 
-            if(progress >= launchTime && items.total() >= itemCapacity){
-                if(originMinZoom == 0 || originMaxZoom == 0){
+            if (progress >= launchTime && items.total() >= itemCapacity) {
+                if (originMinZoom == 0 || originMaxZoom == 0) {
                     originMinZoom = renderer.minZoom;
                     originMaxZoom = renderer.maxZoom;
                 }
-                if(mobile){
+                if (mobile) {
                     camera.position.set(this);
-                }                       
+                }
 
 
                 StartAnimation = true;
@@ -215,14 +200,17 @@ public class NewAccelerator extends Block{
                 renderer.setScale(Scl.scl(zoomStyle));
                 var maxScaleZoom = (Vars.mobile) ? Core.graphics.getAspect() : 4f;
                 launchAnimation = Mathf.clamp(launchAnimation + 0.0025f * Time.delta);
-                if(launchAnimation >= 1f && stageLaunch < 1){ stageLaunch += 1; launchAnimation = 0f; }
-                if(stageLaunch == 0){
+                if (launchAnimation >= 1f && stageLaunch < 1) {
+                    stageLaunch += 1;
+                    launchAnimation = 0f;
+                }
+                if (stageLaunch == 0) {
                     launchOppositeAnimation = 1f;
                     zoomStyle = Interp.pow3In.apply(Scl.scl(2f), Scl.scl(maxScaleZoom), Mathf.clamp(launchAnimation * 6f));
                 }
-                if(stageLaunch == 1){
+                if (stageLaunch == 1) {
                     launchOppositeAnimation = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta);
-                    if(launchAnimation < 0.01f){
+                    if (launchAnimation < 0.01f) {
                         Effect.shake(3f, 3f, this);
                         settings.put("launched-planetary", true);
                     }
@@ -230,11 +218,12 @@ public class NewAccelerator extends Block{
                     zoomStyle = Interp.pow3In.apply(Scl.scl(0.02f), Scl.scl(maxScaleZoom), Mathf.clamp(1f - launchpadTimer * 2f));
                     launchpadPrepTimer = Mathf.clamp(launchpadPrepTimer + 0.0035f * Time.delta);
 
-                    if(launchpadPrepTimer >= 0.25f) launchpadTimer = Mathf.clamp(launchpadTimer + 0.0075f * Time.delta);
-                    if(launchpadTimer * 2f >= 0.85f) stageLaunch += 1;
-                    if(launchpadTimer >= 0.25f) shockwaveTimer = Mathf.clamp(launchpadTimer + 0.01f * Time.delta);
+                    if (launchpadPrepTimer >= 0.25f)
+                        launchpadTimer = Mathf.clamp(launchpadTimer + 0.0075f * Time.delta);
+                    if (launchpadTimer * 2f >= 0.85f) stageLaunch += 1;
+                    if (launchpadTimer >= 0.25f) shockwaveTimer = Mathf.clamp(launchpadTimer + 0.01f * Time.delta);
                 }
-                if(stageLaunch >= 2){
+                if (stageLaunch >= 2) {
                     StartNewPlanet(Destination);
                 }
             } else if (progress <= 0 && StartAnimation) {
@@ -249,25 +238,25 @@ public class NewAccelerator extends Block{
         }
 
         @Override
-        public void draw(){
+        public void draw() {
             super.draw();
             arrowRegion = Core.atlas.find("launch-arrow");
 
-            for(int l = 0; l < 4; l++){
+            for (int l = 0; l < 4; l++) {
                 float length = 7f + l * 5f;
-                Draw.color(Tmp.c1.set(Pal.darkMetal).lerp(team.color, statusLerp), Pal.darkMetal, Mathf.absin(Time.time + l*50f, 10f, 1f));
+                Draw.color(Tmp.c1.set(Pal.darkMetal).lerp(team.color, statusLerp), Pal.darkMetal, Mathf.absin(Time.time + l * 50f, 10f, 1f));
 
-                for(int i = 0; i < 4; i++){
-                    float rot = i*90f + 45f;
+                for (int i = 0; i < 4; i++) {
+                    float rot = i * 90f + 45f;
                     Draw.rect(arrowRegion, x + Angles.trnsx(rot, length), y + Angles.trnsy(rot, length), rot + 180f);
                 }
             }
 
-            if(StartAnimation) {
+            if (StartAnimation) {
                 DrawAnimation(stageLaunch);
                 return;
             }
-            if(heat < 0.0001f) return;
+            if (heat < 0.0001f) return;
 
             DrawCore();
 
@@ -294,16 +283,16 @@ public class NewAccelerator extends Block{
             Draw.reset();
         }
 
-        public void DrawAnimation(int stageLaunchAnimation){
+        public void DrawAnimation(int stageLaunchAnimation) {
             Draw.reset();
-            
+
             float rad = size * tilesize / 2f * 0.74f;
             float scl = 2f;
 
             float strokeScaling = 1.75f;
             float warpSquareStroke = 1.25f;
 
-            if(stageLaunchAnimation == 0) {
+            if (stageLaunchAnimation == 0) {
                 Draw.rect(launching.uiIcon, x, y);
 
                 Color epic = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation));
@@ -311,7 +300,7 @@ public class NewAccelerator extends Block{
 
                 Color woah = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation * 3f));
                 Drawf.additive(launching.uiIcon, woah, x, y);
-                
+
                 Draw.z(Layer.bullet - 0.0001f);
 
                 Color bruh = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation));
@@ -321,7 +310,7 @@ public class NewAccelerator extends Block{
                 Color glow = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation * 1.5f));
                 Draw.color(glow);
                 Draw.rect(launching.uiIcon, x, y);
-                
+
                 Lines.stroke(1.75f, Pal.accent);
                 Lines.square(x, y, rad * 1.22f, 45f);
                 for (int i = 1; i < 5; i++) {
@@ -347,17 +336,17 @@ public class NewAccelerator extends Block{
                 Draw.color(team.color);
                 Draw.alpha(Mathf.clamp(Opposite * 3f));
 
-                for(int i = 0; i < 4; i++){
-                    float rot = i*90f + 45f + (-Time.time /3f)%360f;
+                for (int i = 0; i < 4; i++) {
+                    float rot = i * 90f + 45f + (-Time.time / 3f) % 360f;
                     float length = 26f * Opposite;
                     Draw.rect(arrowRegion, x + Angles.trnsx(rot, length), y + Angles.trnsy(rot, length), rot + 180f);
                 }
 
-                
+
             }
 
             Draw.reset();
-            if(stageLaunchAnimation == 1){
+            if (stageLaunchAnimation == 1) {
 
                 Draw.reset();
 
@@ -382,7 +371,7 @@ public class NewAccelerator extends Block{
 
                 Draw.reset();
                 DrawCoreLaunch();
-                
+
                 //Drawf.additive(launching.uiIcon, bruh, x, y);
             }
         }
@@ -401,7 +390,7 @@ public class NewAccelerator extends Block{
         }*/
 
         //damn
-        public void DrawCoreLaunch(){
+        public void DrawCoreLaunch() {
 
             float thrustTimer = Interp.pow2In.apply(Mathf.clamp(launchpadPrepTimer));
             //float cx = cx(), cy = y;
@@ -415,17 +404,17 @@ public class NewAccelerator extends Block{
             float thrusterSize = Mathf.sample(thrusterSizes, launchpadPrepTimer);
 
             float size = launching.size;
-            float strength = (1f + (size - 3)/2.5f) * scl * thrusterSize * (0.95f + Mathf.absin(2f, 0.1f));
+            float strength = (1f + (size - 3) / 2.5f) * scl * thrusterSize * (0.95f + Mathf.absin(2f, 0.1f));
             float offset = (size - 3) * 3f * scl;
 
-            for(int i = 0; i < 4; i++){
+            for (int i = 0; i < 4; i++) {
                 Tmp.v1.trns(i * 90 + rotation, 1f);
 
-                Tmp.v1.setLength((size * tilesize/2f + 1f)*scl + strength*2f + offset);
+                Tmp.v1.setLength((size * tilesize / 2f + 1f) * scl + strength * 2f + offset);
                 Draw.color(Pal.accent);
                 Fill.circle(Tmp.v1.x + x, Tmp.v1.y + y, 6f * strength);
 
-                Tmp.v1.setLength((size * tilesize/2f + 1f)*scl + strength*0.5f + offset);
+                Tmp.v1.setLength((size * tilesize / 2f + 1f) * scl + strength * 0.5f + offset);
                 Draw.color(Color.white);
                 Fill.circle(Tmp.v1.x + x, Tmp.v1.y + y, 3.5f * strength);
             }
@@ -443,7 +432,7 @@ public class NewAccelerator extends Block{
             drawShockwave(x, y, scl, 6f, 50f, Mathf.clamp(shockwaveTimer * 4f));
             drawShockwave(x, y, scl, 3f, 50f, Mathf.clamp(shockwaveTimer * 3f));
 
-            if(launchpadPrepTimer >= 0.05f) {
+            if (launchpadPrepTimer >= 0.05f) {
                 tile.getLinkedTiles(t -> {
                     if (Mathf.chance(0.4f * Mathf.clamp(launchpadTimer * 1.5f))) {
                         Fx.coreLandDust.at(t.worldx(), t.worldy(), angleTo(t.worldx(), t.worldy()) + Mathf.range(30f), Tmp.c1.set(t.floor().mapColor).mul(1.5f + Mathf.range(0.15f)));
@@ -456,8 +445,8 @@ public class NewAccelerator extends Block{
             Draw.reset();
         }
 
-        public void drawShockwave(float x, float y, float scl, float radOffset, float thick, float frame){
-            if(!(frame <= 0)) {
+        public void drawShockwave(float x, float y, float scl, float radOffset, float thick, float frame) {
+            if (!(frame <= 0)) {
                 var opposite = 1f - frame;
                 Draw.alpha(opposite);
                 circles(x, y, radOffset * (size * tilesize / 2f + 1f) * scl * frame, thick * opposite, Color.white);
@@ -465,32 +454,32 @@ public class NewAccelerator extends Block{
             }
         }
 
-        public void circles(float x, float y, float rad, float thickness, Color color){
+        public void circles(float x, float y, float rad, float thickness, Color color) {
             Lines.stroke(thickness, color);
             Lines.circle(x, y, rad);
         }
 
-        protected void drawLandingThrusters(float x, float y, float rotation, float frame){
-            float length = thrusterLength * (frame - 1f) - 1f/4f;
+        protected void drawLandingThrusters(float x, float y, float rotation, float frame) {
+            float length = thrusterLength * (frame - 1f) - 1f / 4f;
             float alpha = Draw.getColor().a;
 
             TextureRegion thruster1 = Core.atlas.find(launching.name + "-thruster1");
             TextureRegion thruster2 = Core.atlas.find(launching.name + "-thruster2");
 
             //two passes for consistent lighting
-            for(int j = 0; j < 2; j++){
-                for(int i = 0; i < 4; i++){
+            for (int j = 0; j < 2; j++) {
+                for (int i = 0; i < 4; i++) {
                     var reg = i >= 2 ? thruster2 : thruster1;
                     float rot = (i * 90) + rotation % 90f;
                     Tmp.v1.trns(rot, length * Draw.xscl);
 
                     //second pass applies extra layer of shading
-                    if(j == 1){
+                    if (j == 1) {
                         Tmp.v1.rotate(-90f);
                         Draw.alpha((rotation % 90f) / 90f * alpha);
                         rot -= 90f;
                         Draw.rect(reg, x + Tmp.v1.x, y + Tmp.v1.y, rot);
-                    }else{
+                    } else {
                         Draw.alpha(alpha);
                         Draw.rect(reg, x + Tmp.v1.x, y + Tmp.v1.y, rot);
                     }
@@ -499,29 +488,29 @@ public class NewAccelerator extends Block{
             Draw.alpha(1f);
         }
 
-        public void DrawCore(){
+        public void DrawCore() {
             Draw.reset();
             Draw.alpha(Mathf.clamp(blockLerp * 12f));
             Draw.rect(launching.uiIcon, x, y);
 
             Draw.z(Layer.effect + 0.001f);
             Color epic = new Color(team.color.r, team.color.g, team.color.b, 1f - Mathf.clamp(blockLerp * 3f));
-            if(efficiency > 0) {
+            if (efficiency > 0) {
                 Drawf.additive(launching.uiIcon, epic, x, y);
             }
             Draw.reset();
         }
 
         @Override
-        public Cursor getCursor(){
+        public Cursor getCursor() {
             return !state.isCampaign() || efficiency <= 0f ? SystemCursor.arrow : super.getCursor();
         }
 
-        public void StartNewPlanet(Sector to){
-            if(control.saves.getCurrent() != null && Vars.state.isGame()){
-                try{
+        public void StartNewPlanet(Sector to) {
+            if (control.saves.getCurrent() != null && Vars.state.isGame()) {
+                try {
                     control.saves.getCurrent().save();
-                }catch(Throwable e){
+                } catch (Throwable e) {
                     e.printStackTrace();
                     ui.showException("[accent]" + Core.bundle.get("savefail"), e);
                 }
@@ -537,9 +526,9 @@ public class NewAccelerator extends Block{
         }
 
         @Override
-        public void buildConfiguration(Table table){
-            if(isControlled()) deselect();
-            if(!state.isCampaign() || efficiency <= 0f) return;
+        public void buildConfiguration(Table table) {
+            if (isControlled()) deselect();
+            if (!state.isCampaign() || efficiency <= 0f) return;
             table.button(Icon.upOpen, Styles.cleari, () -> {
                 launchingStartup = true;
                 deselect();
@@ -549,22 +538,22 @@ public class NewAccelerator extends Block{
         }
 
         @Override
-        public int getMaximumAccepted(Item item){
+        public int getMaximumAccepted(Item item) {
             return capacities[item.id];
         }
 
         @Override
-        public boolean acceptItem(Building source, Item item){
+        public boolean acceptItem(Building source, Item item) {
             return items.get(item) < getMaximumAccepted(item);
         }
 
         @Override
-        public Unit unit(){
-            if(unit == null){
+        public Unit unit() {
+            if (unit == null) {
                 unit = (BlockUnitc) UnitTypes.block.create(team);
                 unit.tile(this);
             }
-            return (Unit)unit;
+            return (Unit) unit;
         }
     }
 }

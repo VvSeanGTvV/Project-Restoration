@@ -2,35 +2,27 @@ package classicMod;
 
 import arc.*;
 import arc.files.Fi;
-import arc.func.*;
+import arc.func.Func;
 import arc.scene.ui.Dialog;
-import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
 import arc.util.*;
 import classicMod.content.*;
-import classicMod.library.ai.ReplacementFlyingAI;
-import classicMod.library.ai.ReplacementGroundAI;
-import classicMod.library.ui.*;
-import classicMod.library.ui.dialog.ContentUnlockDebugDialog;
-import classicMod.library.ui.dialog.epicCreditsDialog;
+import classicMod.library.ai.*;
+import classicMod.library.ui.UIExtended;
+import classicMod.library.ui.dialog.*;
 import classicMod.library.ui.menu.*;
-import mindustry.Vars;
 import mindustry.ai.types.CommandAI;
-import mindustry.game.EventType.*;
-import mindustry.gen.*;
-import mindustry.mod.*;
-import mindustry.mod.Mods.*;
+import mindustry.game.EventType.ClientLoadEvent;
+import mindustry.gen.Icon;
+import mindustry.mod.Mod;
+import mindustry.mod.Mods.LoadedMod;
 import mindustry.type.UnitType;
 import mindustry.ui.Styles;
-import mindustry.ui.fragments.*;
+import mindustry.ui.fragments.MenuFragment;
 
 import java.io.*;
-import java.util.Enumeration;
-import java.util.Scanner;
-import java.util.jar.JarFile;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipInputStream;
+import java.util.*;
+import java.util.zip.*;
 
 import static arc.Core.*;
 import static classicMod.library.ui.menu.MenuUI.*;
@@ -155,7 +147,7 @@ public class ClassicMod extends Mod{
                 if (!entry.isDirectory()) {
                     if(entry.getName().equals("mindustry-contributors.txt")) {
                         try (InputStream inputStream = zipFile.getInputStream(entry);
-                             Scanner scanner = new Scanner(inputStream);) {
+                             Scanner scanner = new Scanner(inputStream)) {
 
                             while (scanner.hasNextLine()) {
                                 String line = scanner.nextLine();

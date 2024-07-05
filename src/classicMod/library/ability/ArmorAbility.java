@@ -5,9 +5,9 @@ import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
 import arc.scene.ui.layout.Table;
-import arc.util.*;
+import arc.util.Time;
 import mindustry.entities.abilities.Ability;
-import mindustry.gen.*;
+import mindustry.gen.Unit;
 import mindustry.graphics.*;
 import mindustry.world.meta.Stat;
 
@@ -30,7 +30,7 @@ public class ArmorAbility extends Ability {
         }
 
         public void init(Unit unit){
-            if(unitHealth == 0f){unitHealth = unit.health;};
+            if(unitHealth == 0f){unitHealth = unit.health;}
         }
     
         @Override

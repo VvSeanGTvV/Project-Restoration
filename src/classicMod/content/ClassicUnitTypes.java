@@ -1,31 +1,30 @@
 package classicMod.content;
 
 import arc.graphics.*;
-import arc.math.*;
+import arc.math.Mathf;
 import arc.math.geom.*;
 import arc.struct.*;
-import arc.util.*;
+import arc.util.Time;
 import classicMod.library.ability.*;
 import classicMod.library.ai.*;
-import classicMod.library.unitType.JumpingUnitType;
-import classicMod.library.unitType.TentacleUnitType;
 import classicMod.library.bullets.HealBulletType;
 import classicMod.library.drawCustom.CircleForceDraw;
-import mindustry.*;
+import classicMod.library.unitType.*;
+import mindustry.Vars;
 import mindustry.ai.types.*;
 import mindustry.content.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.part.*;
 import mindustry.gen.*;
-import mindustry.graphics.*;
+import mindustry.graphics.Pal;
 import mindustry.type.*;
 import mindustry.type.unit.*;
-import mindustry.type.weapons.*;
+import mindustry.type.weapons.BuildWeapon;
 
-import static arc.struct.SnapshotSeq.*;
-import static classicMod.content.ClassicSounds.*;
+import static arc.struct.SnapshotSeq.with;
+import static classicMod.content.ClassicSounds.pew;
 import static classicMod.content.ClassicVars.empty;
-import static mindustry.Vars.*;
+import static mindustry.Vars.tilePayload;
 
 public class ClassicUnitTypes {
     //public static Sound pew = Vars.tree.loadSound("v5_sounds_pew"); //just pew lol
@@ -1141,7 +1140,6 @@ public class ClassicUnitTypes {
                     damage = 2;
                     speed = 2.1f;
                     drag = 0.02f;
-                    ;
                 }};
             }});
         }};

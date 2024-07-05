@@ -1,23 +1,23 @@
 package classicMod.library.blocks.v6devBlocks;
 
-import arc.*;
-import arc.graphics.*;
+import arc.Core;
+import arc.graphics.Color;
 import arc.graphics.g2d.*;
-import arc.math.*;
-import arc.scene.style.*;
-import arc.scene.ui.layout.*;
+import arc.math.Mathf;
+import arc.scene.style.TextureRegionDrawable;
+import arc.scene.ui.layout.Table;
 import arc.util.*;
 import arc.util.io.*;
-import classicMod.library.ui.*;
-import mindustry.*;
-import mindustry.content.*;
-import mindustry.content.TechTree.*;
+import classicMod.library.ui.UIExtended;
+import mindustry.Vars;
+import mindustry.content.TechTree;
+import mindustry.content.TechTree.TechNode;
 import mindustry.gen.*;
-import mindustry.graphics.*;
+import mindustry.graphics.Pal;
 import mindustry.type.*;
 import mindustry.ui.*;
-import mindustry.world.*;
-import mindustry.world.consumers.*;
+import mindustry.world.Block;
+import mindustry.world.consumers.ConsumeItemDynamic;
 
 import static mindustry.Vars.*;
 
@@ -73,11 +73,7 @@ public class ResearchBlock extends Block{
 
         @Override
         public void updateTile(){
-            if(iA==0 || researching == null){
-                isReady = true;
-            }else{
-                isReady = false;
-            }
+            isReady = iA == 0 || researching == null;
             if(SelectedNode != UIExtended.Techtree.getSelector() && mobile){
                 configUpdate();
             }
