@@ -1,16 +1,16 @@
 package classicMod.library.blocks.classicBlocks;
 
-import arc.*;
-import arc.graphics.*;
+import arc.Core;
+import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.*;
-import arc.scene.ui.layout.*;
-import mindustry.core.*;
-import mindustry.ctype.*;
+import arc.scene.ui.layout.Scl;
+import mindustry.core.UI;
+import mindustry.ctype.UnlockableContent;
 import mindustry.graphics.*;
-import mindustry.ui.*;
-import mindustry.world.blocks.storage.*;
-import mindustry.world.meta.*;
+import mindustry.ui.Bar;
+import mindustry.world.blocks.storage.CoreBlock;
+import mindustry.world.meta.Stat;
 
 import static mindustry.Vars.*;
 

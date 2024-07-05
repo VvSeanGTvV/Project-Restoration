@@ -1,9 +1,9 @@
 package classicMod.content;
 
-import arc.graphics.*;
-import arc.struct.*;
-import mindustry.content.*;
-import mindustry.type.*;
+import arc.graphics.Color;
+import arc.struct.Seq;
+import mindustry.content.Items;
+import mindustry.type.Item;
 
 public class ClassicItems extends Items {
     public static Item

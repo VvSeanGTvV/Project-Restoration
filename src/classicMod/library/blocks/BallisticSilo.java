@@ -1,6 +1,6 @@
 package classicMod.library.blocks;
 
-import mindustry.gen.*;
+import mindustry.gen.Building;
 import mindustry.world.blocks.payloads.*;
 
 public class BallisticSilo extends PayloadBlock {

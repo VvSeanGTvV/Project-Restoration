@@ -1,22 +1,22 @@
 package classicMod.library.blocks.v6devBlocks;
 
-import arc.*;
-import arc.scene.ui.*;
-import arc.scene.ui.layout.*;
+import arc.Events;
+import arc.scene.ui.Image;
+import arc.scene.ui.layout.Table;
 import arc.struct.*;
 import arc.util.io.*;
-import mindustry.*;
-import mindustry.content.*;
-import mindustry.entities.bullet.*;
-import mindustry.game.EventType.*;
+import mindustry.Vars;
+import mindustry.content.Items;
+import mindustry.entities.bullet.BulletType;
+import mindustry.game.EventType.Trigger;
 import mindustry.gen.*;
-import mindustry.graphics.*;
-import mindustry.type.*;
+import mindustry.graphics.Pal;
+import mindustry.type.Item;
 import mindustry.ui.*;
-import mindustry.world.consumers.*;
+import mindustry.world.consumers.ConsumeItemFilter;
 import mindustry.world.meta.*;
 
-import static mindustry.Vars.*;
+import static mindustry.Vars.content;
 
 public class ItemTurretV6 extends TurretV6{ //For backwards compatibility!
     public ObjectMap<Item, BulletType> ammoTypes = new OrderedMap<>();

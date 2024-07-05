@@ -2,32 +2,19 @@ package classicMod.library.blocks.snek;
 
 
 import arc.Core;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Fill;
-import arc.graphics.g2d.TextureRegion;
+import arc.graphics.g2d.*;
 import arc.math.Mathf;
 import arc.scene.ui.layout.Table;
-import arc.struct.Seq;
-import arc.util.Eachable;
-import arc.util.Interval;
-import arc.util.Log;
-import arc.util.Nullable;
-import arc.util.io.Reads;
-import arc.util.io.Writes;
+import arc.util.*;
+import arc.util.io.*;
 import mindustry.entities.units.BuildPlan;
-import mindustry.gen.Building;
-import mindustry.gen.Unit;
-import mindustry.graphics.Pal;
+import mindustry.gen.*;
 import mindustry.type.Item;
-import mindustry.world.Block;
-import mindustry.world.DirectionalItemBuffer;
-import mindustry.world.Tile;
+import mindustry.world.*;
 import mindustry.world.blocks.ItemSelection;
-import mindustry.world.blocks.distribution.Sorter;
 import mindustry.world.meta.BlockGroup;
 
 import static mindustry.Vars.*;
-import static mindustry.Vars.content;
 
 public class SorterRevamp extends Block {
     public TextureRegion cross = Core.atlas.find(name+"-cross", "cross-full");

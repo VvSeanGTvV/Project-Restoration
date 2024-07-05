@@ -1,11 +1,11 @@
 package classicMod.content;
 
-import arc.struct.*;
+import arc.struct.Seq;
 import mindustry.content.*;
-import mindustry.ctype.*;
-import mindustry.game.*;
-import mindustry.game.Objectives.*;
-import mindustry.type.*;
+import mindustry.ctype.UnlockableContent;
+import mindustry.game.Objectives;
+import mindustry.game.Objectives.Produce;
+import mindustry.type.ItemStack;
 
 import static classicMod.content.ClassicBlocks.*;
 import static mindustry.content.Blocks.*;

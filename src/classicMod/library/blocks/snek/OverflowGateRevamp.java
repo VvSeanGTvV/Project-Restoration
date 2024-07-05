@@ -1,26 +1,17 @@
 package classicMod.library.blocks.snek;
 
 import arc.Core;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.TextureRegion;
+import arc.graphics.g2d.*;
 import arc.math.Mathf;
-import arc.struct.Seq;
-import arc.util.Interval;
-import arc.util.Log;
 import arc.util.Nullable;
 import arc.util.io.Reads;
 import mindustry.content.Blocks;
 import mindustry.gen.Building;
 import mindustry.type.Item;
-import mindustry.world.Block;
-import mindustry.world.DirectionalItemBuffer;
-import mindustry.world.blocks.distribution.OverflowGate;
+import mindustry.world.*;
 import mindustry.world.meta.BlockGroup;
 
-import java.awt.*;
-
-import static mindustry.Vars.net;
-import static mindustry.Vars.state;
+import static mindustry.Vars.*;
 
 /* Build 102 Overflow gate modified code to v7 */
 public class OverflowGateRevamp extends Block {

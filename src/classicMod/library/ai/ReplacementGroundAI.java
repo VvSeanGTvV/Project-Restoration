@@ -1,19 +1,16 @@
 package classicMod.library.ai;
 
-import arc.math.*;
+import arc.math.Mathf;
 import arc.math.geom.Vec2;
-import arc.util.Log;
 import classicMod.library.blocks.legacyBlocks.LegacyCommandCenter;
 import mindustry.Vars;
-import mindustry.ai.*;
+import mindustry.ai.Pathfinder;
 import mindustry.entities.Units;
-import mindustry.entities.units.*;
-import mindustry.gen.*;
-import mindustry.world.*;
+import mindustry.gen.Building;
+import mindustry.world.Tile;
 
-import static classicMod.content.ClassicVars.MaximumRangeCommand;
-import static classicMod.content.ClassicVars.PublicState;
-import static mindustry.Vars.*;
+import static classicMod.content.ClassicVars.*;
+import static mindustry.Vars.tilesize;
 
 public class ReplacementGroundAI extends RallyAI {
 

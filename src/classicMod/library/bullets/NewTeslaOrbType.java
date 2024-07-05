@@ -4,16 +4,10 @@ import arc.graphics.Color;
 import arc.math.geom.Vec2;
 import arc.struct.Seq;
 import classicMod.content.ExtendedFx;
-import mindustry.Vars;
 import mindustry.content.Fx;
-import mindustry.entities.Effect;
-import mindustry.entities.Units;
+import mindustry.entities.*;
 import mindustry.entities.bullet.BulletType;
-import mindustry.gen.Building;
-import mindustry.gen.Bullet;
-import mindustry.gen.Teamc;
-import mindustry.gen.Unit;
-import mindustry.type.UnitType;
+import mindustry.gen.*;
 
 public class NewTeslaOrbType extends BulletType {
 

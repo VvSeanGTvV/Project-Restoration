@@ -2,11 +2,8 @@ package classicMod.content;
 
 import arc.Core;
 import arc.util.Log;
-import classicMod.library.blocks.NewAccelerator;
 import mindustry.ctype.UnlockableContent;
 import mindustry.game.Objectives;
-import mindustry.type.Planet;
-import mindustry.type.Sector;
 import mindustry.type.SectorPreset;
 
 import static arc.Core.settings;

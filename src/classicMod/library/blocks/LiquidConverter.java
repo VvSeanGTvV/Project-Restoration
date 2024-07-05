@@ -1,19 +1,15 @@
 package classicMod.library.blocks;
 
-import arc.*;
+import arc.Core;
 import arc.graphics.g2d.*;
-import arc.math.*;
-import classicMod.library.blocks.legacyBlocks.LegacyUnitFactory;
-import mindustry.Vars;
-import mindustry.content.*;
+import arc.math.Mathf;
+import mindustry.content.Liquids;
 import mindustry.graphics.*;
-import mindustry.graphics.*;
-import mindustry.type.*;
-import mindustry.ui.*;
-import mindustry.ui.Fonts;
-import mindustry.world.blocks.production.*;
-import mindustry.world.consumers.*;
-import mindustry.world.meta.*;
+import mindustry.type.Liquid;
+import mindustry.ui.Bar;
+import mindustry.world.blocks.production.GenericCrafter;
+import mindustry.world.consumers.ConsumeLiquid;
+import mindustry.world.meta.Stat;
 
 @Deprecated
 public class LiquidConverter extends GenericCrafter { //TODO fix this old converter

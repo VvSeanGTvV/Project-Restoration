@@ -1,12 +1,12 @@
 package classicMod.library.ability;
 
-import arc.*;
+import arc.Core;
 import arc.scene.ui.layout.Table;
-import arc.util.*;
-import mindustry.content.*;
-import mindustry.entities.*;
-import mindustry.entities.abilities.*;
-import mindustry.gen.*;
+import arc.util.Time;
+import mindustry.content.Fx;
+import mindustry.entities.Units;
+import mindustry.entities.abilities.Ability;
+import mindustry.gen.Unit;
 import mindustry.world.meta.Stat;
 
 public class SurroundRegenAbility extends Ability {

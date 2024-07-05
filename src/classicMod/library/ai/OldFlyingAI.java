@@ -1,15 +1,11 @@
 package classicMod.library.ai;
 
-import arc.math.Angles;
-import arc.math.Mathf;
-import arc.math.geom.Geometry;
-import arc.math.geom.Vec2;
-import arc.util.Time;
-import arc.util.Tmp;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.util.*;
 import classicMod.library.blocks.legacyBlocks.LegacyCommandCenter;
 import mindustry.Vars;
-import mindustry.entities.Predict;
-import mindustry.entities.Units;
+import mindustry.entities.*;
 import mindustry.entities.bullet.BulletType;
 import mindustry.entities.units.WeaponMount;
 import mindustry.gen.Teamc;
@@ -17,10 +13,8 @@ import mindustry.type.Weapon;
 import mindustry.world.meta.BlockFlag;
 
 import static arc.math.Mathf.dst;
-import static classicMod.content.ClassicVars.MaximumRangeCommand;
-import static classicMod.content.ClassicVars.PublicState;
-import static mindustry.Vars.indexer;
-import static mindustry.Vars.net;
+import static classicMod.content.ClassicVars.*;
+import static mindustry.Vars.*;
 
 public class OldFlyingAI extends RallyAI {
     protected float[] weaponAngles = {0,0}; //it's old lolz

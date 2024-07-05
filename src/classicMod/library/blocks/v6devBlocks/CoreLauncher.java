@@ -1,19 +1,19 @@
 package classicMod.library.blocks.v6devBlocks;
 
-import arc.Graphics.*;
-import arc.Graphics.Cursor.*;
+import arc.Graphics.Cursor;
+import arc.Graphics.Cursor.SystemCursor;
 import arc.graphics.g2d.*;
 import arc.math.*;
-import arc.math.geom.*;
+import arc.math.geom.Vec2;
 import arc.util.*;
-import mindustry.*;
+import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
-import mindustry.type.*;
-import mindustry.world.*;
+import mindustry.type.ItemStack;
+import mindustry.world.Block;
 
-import static mindustry.Vars.*;
+import static mindustry.Vars.state;
 
 public class CoreLauncher extends Block{
     public int range = 1;

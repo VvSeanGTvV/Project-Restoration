@@ -1,6 +1,6 @@
 package classicMod.content;
 
-import mindustry.content.*;
+import mindustry.content.Items;
 
 import static classicMod.content.ClassicBlocks.*;
 import static mindustry.content.TechTree.*;

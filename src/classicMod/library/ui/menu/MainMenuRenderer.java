@@ -1,8 +1,8 @@
 package classicMod.library.ui.menu;
 
-import mindustry.graphics.*;
+import mindustry.graphics.MenuRenderer;
 
-import static mindustry.Vars.*;
+import static mindustry.Vars.mobile;
 
 public class MainMenuRenderer extends MenuRenderer {
     private final int width = !mobile ? 100 : 60, height = !mobile ? 50 : 40;

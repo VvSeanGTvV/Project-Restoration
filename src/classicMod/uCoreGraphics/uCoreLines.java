@@ -1,7 +1,7 @@
 package classicMod.uCoreGraphics;
 
-import arc.graphics.g2d.*;
-import arc.math.geom.*;
+import arc.graphics.g2d.Lines;
+import arc.math.geom.Vec2;
 //re implemenation of uCore Graphics, can onky be used by this at the moment...
 public class uCoreLines extends Lines {
     private static final Vec2 vector = new Vec2();

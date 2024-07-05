@@ -1,12 +1,12 @@
 package classicMod.library.bullets;
 
-import arc.graphics.*;
+import arc.graphics.Color;
 import arc.graphics.g2d.*;
-import mindustry.content.*;
-import mindustry.entities.bullet.*;
+import mindustry.content.Fx;
+import mindustry.entities.bullet.BulletType;
 import mindustry.gen.*;
-import mindustry.graphics.*;
-import mindustry.world.blocks.*;
+import mindustry.graphics.Pal;
+import mindustry.world.blocks.ConstructBlock;
 
 public class HealBulletType extends BulletType {
     protected float healPercent = 3f;

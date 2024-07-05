@@ -1,13 +1,13 @@
 package classicMod.library.ui.menu;
 
-import arc.math.*;
-import arc.math.geom.*;
-import arc.struct.*;
-import mindustry.*;
-import mindustry.content.*;
-import mindustry.ctype.*;
-import mindustry.graphics.g3d.*;
-import mindustry.type.*;
+import arc.math.Mathf;
+import arc.math.geom.Vec3;
+import arc.struct.Seq;
+import mindustry.Vars;
+import mindustry.content.Planets;
+import mindustry.ctype.ContentType;
+import mindustry.graphics.g3d.PlanetParams;
+import mindustry.type.Planet;
 
 import static arc.Core.settings;
 import static mindustry.Vars.content;

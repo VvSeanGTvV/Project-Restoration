@@ -1,12 +1,12 @@
 package classicMod.library.bullets;
 
-import arc.graphics.*;
-import arc.graphics.g2d.*;
-import arc.math.geom.*;
-import classicMod.content.*;
-import mindustry.content.*;
+import arc.graphics.Color;
+import arc.graphics.g2d.Draw;
+import arc.math.geom.Vec2;
+import classicMod.content.ExtendedFx;
+import mindustry.content.Fx;
 import mindustry.entities.*;
-import mindustry.entities.bullet.*;
+import mindustry.entities.bullet.BulletType;
 import mindustry.gen.*;
 
 public class LaserOnTargetType extends BulletType {

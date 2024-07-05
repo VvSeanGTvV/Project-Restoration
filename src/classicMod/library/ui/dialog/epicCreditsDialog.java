@@ -1,44 +1,22 @@
 package classicMod.library.ui.dialog;
 
 import arc.Core;
-import arc.Graphics;
-import arc.func.Cons;
-import arc.graphics.Camera;
-import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.input.KeyCode;
-import arc.math.Mathf;
-import arc.math.geom.Plane;
-import arc.scene.*;
-import arc.scene.style.*;
+import arc.scene.style.TextureRegionDrawable;
 import arc.scene.ui.*;
-import arc.scene.ui.Dialog;
-import arc.scene.ui.Image;
-import arc.scene.ui.ScrollPane;
-import arc.scene.ui.layout.*;
-import arc.util.Align;
-import arc.util.Log;
-import arc.util.Scaling;
-import arc.util.Time;
+import arc.scene.ui.layout.Table;
+import arc.util.*;
 import classicMod.library.ui.UIExtended;
 import mindustry.Vars;
-import mindustry.core.UI;
 import mindustry.gen.*;
-import mindustry.graphics.Pal;
-import mindustry.type.Planet;
 import mindustry.ui.Styles;
-import mindustry.ui.dialogs.BaseDialog;
-import mindustry.world.meta.Stat;
-
-import java.awt.*;
-import java.util.concurrent.TimeUnit;
 
 import static arc.Core.*;
 import static classicMod.ClassicMod.*;
 import static classicMod.content.ExtendedMusic.*;
 import static classicMod.library.ui.UIExtended.fdelta;
 import static mindustry.Vars.control;
-import static mindustry.Vars.state;
 
 public class epicCreditsDialog extends Dialog {
 

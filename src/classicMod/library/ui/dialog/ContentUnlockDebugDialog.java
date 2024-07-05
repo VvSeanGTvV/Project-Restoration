@@ -1,30 +1,21 @@
 package classicMod.library.ui.dialog;
 
-import arc.Core;
 import arc.Events;
 import arc.math.geom.Vec2;
-import arc.scene.ui.Dialog;
 import arc.scene.ui.ScrollPane;
-import arc.scene.ui.layout.Scl;
 import arc.scene.ui.layout.Table;
 import arc.util.Scaling;
 import classicMod.ClassicMod;
-import classicMod.library.blocks.legacyBlocks.MechPad;
 import mindustry.Vars;
-import mindustry.content.Fx;
 import mindustry.game.EventType;
 import mindustry.gen.*;
 import mindustry.graphics.Pal;
-import mindustry.type.Sector;
-import mindustry.type.SectorPreset;
-import mindustry.type.UnitType;
+import mindustry.type.*;
 import mindustry.ui.Styles;
 import mindustry.ui.dialogs.BaseDialog;
-import mindustry.world.Tile;
 import mindustry.world.blocks.environment.*;
 
 import static mindustry.Vars.*;
-import static mindustry.Vars.control;
 
 public class ContentUnlockDebugDialog extends BaseDialog {
 

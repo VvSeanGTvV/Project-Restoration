@@ -1,8 +1,8 @@
 package classicMod.content;
 
-import arc.graphics.*;
+import arc.graphics.Color;
 import mindustry.content.*;
-import mindustry.type.*;
+import mindustry.type.Liquid;
 
 public class ClassicLiquids extends Liquids {
     public static Liquid

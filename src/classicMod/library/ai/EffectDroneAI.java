@@ -1,25 +1,22 @@
 package classicMod.library.ai;
 
-import arc.math.*;
-import arc.math.geom.Vec2;
-import arc.util.*;
-import classicMod.library.blocks.*;
-import classicMod.library.blocks.DroneCenterNew.*;
-import mindustry.entities.*;
-import mindustry.entities.units.*;
-import mindustry.gen.*;
+import classicMod.library.blocks.DroneCenterNew;
+import classicMod.library.blocks.DroneCenterNew.DroneCenterNewBuild;
+import mindustry.entities.units.AIController;
+import mindustry.gen.BuildingTetherc;
 
 public class EffectDroneAI extends AIController {
 
     public boolean nullify = false;
+
     @Override
     public void updateMovement() {
-        if(!(unit instanceof BuildingTetherc tether) || tether.building() == null) return;
-        if(!(tether.building().block instanceof DroneCenterNew block)) return;
-        if(!(tether.building() instanceof DroneCenterNewBuild build)) return;
-        if(nullify) unit.remove();
+        if (!(unit instanceof BuildingTetherc tether) || tether.building() == null) return;
+        if (!(tether.building().block instanceof DroneCenterNew block)) return;
+        if (!(tether.building() instanceof DroneCenterNewBuild build)) return;
+        if (nullify) unit.remove();
 
-        if(unit != null) {
+        if (unit != null) {
             target = build.target;
             if (target != null) {
                 unit.lookAt(target);
@@ -34,7 +31,7 @@ public class EffectDroneAI extends AIController {
         }
     }
 
-    public void Nullify(boolean yes){
+    public void Nullify(boolean yes) {
         nullify = yes;
     }
 }

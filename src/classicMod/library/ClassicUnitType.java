@@ -1,22 +1,21 @@
 package classicMod.library;
 
-import arc.*;
-import arc.graphics.*;
+import arc.Core;
 import arc.graphics.g2d.*;
-import arc.math.*;
-import arc.struct.*;
+import arc.math.Mathf;
+import arc.struct.ObjectSet;
 import classicMod.content.*;
-import mindustry.ai.types.*;
-import mindustry.content.*;
-import mindustry.entities.abilities.*;
-import mindustry.entities.bullet.*;
+import mindustry.ai.types.GroundAI;
+import mindustry.content.StatusEffects;
+import mindustry.entities.abilities.Ability;
+import mindustry.entities.bullet.BulletType;
 import mindustry.gen.*;
 import mindustry.type.*;
-import mindustry.world.blocks.environment.*;
+import mindustry.world.blocks.environment.Floor;
 import mindustry.world.meta.*;
 
-import static classicMod.content.ClassicSounds.*;
-import static mindustry.Vars.*;
+import static classicMod.content.ClassicSounds.shootDefault;
+import static mindustry.Vars.tilesize;
 
 public class ClassicUnitType extends UnitType {
     /**

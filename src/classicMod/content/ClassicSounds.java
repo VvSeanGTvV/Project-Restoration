@@ -1,7 +1,7 @@
 package classicMod.content;
 
-import arc.audio.*;
-import mindustry.*;
+import arc.audio.Sound;
+import mindustry.Vars;
 
 public class ClassicSounds {
 

@@ -1,15 +1,14 @@
 package classicMod.library.bullets;
 
 
-import arc.graphics.*;
-import arc.graphics.g2d.*;
-import arc.math.geom.*;
-import arc.util.*;
-import classicMod.content.*;
+import arc.graphics.Color;
+import arc.graphics.g2d.Draw;
+import arc.math.geom.Vec2;
+import arc.util.Nullable;
+import classicMod.content.ExtendedFx;
 import mindustry.Vars;
-import mindustry.content.*;
 import mindustry.entities.*;
-import mindustry.entities.bullet.*;
+import mindustry.entities.bullet.BulletType;
 import mindustry.gen.*;
 
 @Deprecated

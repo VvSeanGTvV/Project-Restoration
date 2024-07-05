@@ -1,17 +1,15 @@
 package classicMod.content;
 
-import arc.struct.*;
-import classicMod.library.blocks.NewAccelerator;
+import arc.struct.Seq;
 import mindustry.content.*;
-import mindustry.ctype.*;
+import mindustry.ctype.UnlockableContent;
 import mindustry.game.Objectives.*;
-import mindustry.type.*;
+import mindustry.type.ItemStack;
 
 import static classicMod.content.ClassicBlocks.*;
 import static mindustry.content.Blocks.*;
-import static mindustry.content.SectorPresets.onset;
-import static mindustry.content.SectorPresets.planetaryTerminal;
-import static mindustry.content.TechTree.*;
+import static mindustry.content.SectorPresets.*;
+import static mindustry.content.TechTree.TechNode;
 
 public class ExtendedSerpuloTechTree {
     static TechTree.TechNode context = null;

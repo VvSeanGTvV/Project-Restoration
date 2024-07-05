@@ -1,9 +1,9 @@
 package classicMod.content;
 
 import arc.*;
-import arc.audio.*;
-import arc.util.*;
-import mindustry.game.*;
+import arc.audio.Music;
+import arc.util.Nullable;
+import mindustry.game.EventType;
 
 import static mindustry.Vars.tree;
 

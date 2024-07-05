@@ -1,21 +1,15 @@
 package classicMod.library.ai.factoryai;
 
 import arc.math.Mathf;
-import classicMod.library.ai.OldFlyingAI;
-import classicMod.library.ai.RallyAI;
-import classicMod.library.blocks.legacyBlocks.LegacyCommandCenter;
-import classicMod.library.blocks.legacyBlocks.LegacyUnitFactory;
+import classicMod.library.ai.*;
+import classicMod.library.blocks.legacyBlocks.*;
 import mindustry.Vars;
 import mindustry.ai.Pathfinder;
 import mindustry.entities.Units;
-import mindustry.gen.Building;
-import mindustry.gen.BuildingTetherc;
-import mindustry.gen.MechUnit;
-import mindustry.gen.UnitEntity;
+import mindustry.gen.*;
 import mindustry.world.Tile;
 
-import static classicMod.content.ClassicVars.MaximumRangeCommand;
-import static classicMod.content.ClassicVars.PublicState;
+import static classicMod.content.ClassicVars.*;
 import static mindustry.Vars.tilesize;
 
 public class FactoryGroundAI extends RallyAI {

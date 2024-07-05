@@ -4,7 +4,7 @@ import arc.Core;
 import arc.math.Mathf;
 import arc.scene.ui.layout.Table;
 import mindustry.entities.abilities.Ability;
-import mindustry.gen.*;
+import mindustry.gen.Unit;
 import mindustry.world.meta.Stat;
 
 public class RegenerationAbility extends Ability {

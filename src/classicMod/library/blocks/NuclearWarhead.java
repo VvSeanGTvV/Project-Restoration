@@ -1,7 +1,7 @@
 package classicMod.library.blocks;
 
-import mindustry.gen.*;
-import mindustry.world.*;
+import mindustry.gen.Building;
+import mindustry.world.Block;
 
 public class NuclearWarhead extends Block{
     public float radius = 100f;

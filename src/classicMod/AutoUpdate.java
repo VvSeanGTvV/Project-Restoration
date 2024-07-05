@@ -2,12 +2,12 @@ package classicMod;
 
 import arc.files.*;
 import arc.util.*;
-import arc.util.Http.*;
-import arc.util.io.*;
-import arc.util.serialization.*;
-import mindustry.mod.Mods.*;
+import arc.util.Http.HttpResponse;
+import arc.util.io.Streams;
+import arc.util.serialization.Jval;
+import mindustry.mod.Mods.LoadedMod;
 
-import java.net.*;
+import java.net.URLClassLoader;
 
 import static arc.Core.*;
 import static mindustry.Vars.*;

@@ -1,28 +1,21 @@
 package classicMod.library.ai.factoryai;
 
 import arc.math.Mathf;
-import arc.math.geom.Geometry;
-import arc.math.geom.Point2;
+import arc.math.geom.*;
 import classicMod.library.ai.RallyAI;
-import classicMod.library.blocks.legacyBlocks.LegacyCommandCenter;
-import classicMod.library.blocks.legacyBlocks.LegacyUnitFactory;
+import classicMod.library.blocks.legacyBlocks.*;
 import mindustry.Vars;
 import mindustry.ai.Pathfinder;
 import mindustry.core.World;
 import mindustry.entities.Units;
-import mindustry.gen.Building;
-import mindustry.gen.BuildingTetherc;
-import mindustry.gen.Hitboxc;
-import mindustry.gen.Teamc;
+import mindustry.gen.*;
 import mindustry.world.Tile;
 import mindustry.world.blocks.distribution.Conveyor;
 import mindustry.world.blocks.liquid.Conduit;
 import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.meta.BlockGroup;
 
-import static classicMod.content.ClassicVars.MaximumRangeCommand;
-import static classicMod.content.ClassicVars.PublicState;
-import static mindustry.Vars.state;
+import static classicMod.content.ClassicVars.*;
 
 public class FactorySuicideAI extends RallyAI {
     static boolean blockedByBlock;

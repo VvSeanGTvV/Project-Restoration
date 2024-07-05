@@ -1,15 +1,15 @@
 package classicMod.library.ui.menu;
 
 import arc.Core;
-import arc.graphics.*;
-import arc.graphics.g2d.*;
-import arc.graphics.gl.*;
-import arc.math.geom.*;
-import mindustry.graphics.g3d.*;
+import arc.graphics.Color;
+import arc.graphics.g2d.Draw;
+import arc.graphics.gl.FrameBuffer;
+import arc.math.geom.Vec3;
+import mindustry.graphics.g3d.PlanetParams;
 
-import static arc.Core.*;
+import static arc.Core.graphics;
 import static classicMod.library.ui.UIExtended.fdelta;
-import static mindustry.Vars.*;
+import static mindustry.Vars.renderer;
 
 public class SpaceMenuBackground extends MenuBackground {
     public static FrameBuffer menuBuffer;
