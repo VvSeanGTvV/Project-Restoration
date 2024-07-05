@@ -70,7 +70,8 @@ public class CircleForceDraw extends DrawPart{
         Fill.circle(rx, ry, rad * orbMidScl);
 
         Draw.blend(Blending.additive);
-        Fill.circle(rx, ry, rad + Lines.getStroke());
+        Draw.z(Draw.z() - 0.0002f);
+        Fill.circle(rx, ry, rad + Lines.getStroke() * orbMidScl);
         Draw.blend();
 
         if(active){
