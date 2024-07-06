@@ -36,7 +36,7 @@ public class MantisRayType extends UnitType {
         super.draw(unit);
 
         var sine0 = Mathf.sin(this.timer) * 10f;
-        var sine1 = sine0 + 2f;
+        var sine1 = sine0 + 5f;
         Tmp.v1.trns(unit.rotation - 90, TailOffsetBegin.x, TailOffsetBegin.y);
         Draw.rect(TailBegin, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
 
