@@ -1360,7 +1360,7 @@ public class ClassicUnitTypes {
             speed = 0.6f;
             health = 10000;
             armor = 20f;
-            treadRects = new Rect[]{new Rect(22f, 16f, 28f, 130f)};
+            treadRects = new Rect[]{new Rect(22f - 154f/2f, 16f - 154f/2, 28f, 130f)};
 
             weapons.add(new Weapon("restored-mind-howit-weapon"){{
                 shootSound = Sounds.bolt;
@@ -1420,7 +1420,7 @@ public class ClassicUnitTypes {
                 int fi = i ++;
                 weapons.add(new Weapon("restored-mind-howit-point-weapon"){{
                     reload = 35f + fi * 5;
-                    x = 48f / 4f / fi * fi;
+                    x = 48f / 4f + (fi * 3f);
                     y = f;
                     shootY = 5.5f;
                     recoil = 2f;

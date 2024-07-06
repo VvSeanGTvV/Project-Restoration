@@ -85,20 +85,6 @@ public class CircleForceDraw extends DrawPart {
         TextureRegion particle = Core.atlas.find("circle-shadow");
         Draw.rect(particle, rx, ry, rotation);
 
-        /*Draw.alpha(0.15f);
-        Draw.scl(0.05f);
-        Draw.blend(Blending.additive);
-        Draw.color(color);
-        Draw.rect(particle, rx, ry, rotation);
-
-        /*Lines.stroke(1.25f);
-        Lines.circle(rx, ry, rad);
-
-        Draw.color(color);
-        Fill.circle(rx, ry, (rad - 0.75f) * orbMidScl);
-        Draw.blend();
-        Draw.alpha(1f);*/
-
         if (active) {
             //TODO draw range when selected?
         }
