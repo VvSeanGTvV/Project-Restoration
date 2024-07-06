@@ -12,6 +12,7 @@ import classicMod.library.blocks.legacyBlocks.*;
 import classicMod.library.blocks.v6devBlocks.ItemTurretV6;
 import classicMod.library.bullets.*;
 import mindustry.content.*;
+import mindustry.entities.Effect;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
 import mindustry.entities.part.RegionPart;
@@ -631,7 +632,8 @@ public class ClassicBlocks {
             requirements(Category.crafting, with(Items.copper, 100));
             outputItem = new ItemStack(ClassicItems.denseAlloy, 1);
             consumeItems(with(Items.copper, 1, Items.lead, 2));
-            //consumeFuels(with(Items.coal, 2));
+
+            burnEffect = Fx.coalSmeltsmoke;
             craftTime = 45f;
             burnTime = 46f;
         }};

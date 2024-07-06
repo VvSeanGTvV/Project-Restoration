@@ -16,7 +16,7 @@ import mindustry.content.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.part.*;
 import mindustry.gen.*;
-import mindustry.graphics.Pal;
+import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.type.unit.*;
 import mindustry.type.weapons.BuildWeapon;
@@ -1416,7 +1416,7 @@ public class ClassicUnitTypes {
             }});
 
             int i = 0;
-            for(float f : new float[]{-34f / 4f, -36f / 4f}){
+            for(float f : new float[]{-24f / 4f, -36f / 4f}){
                 int fi = i ++;
                 weapons.add(new Weapon("restored-mind-howit-point-weapon"){{
                     reload = 35f + fi * 5;
