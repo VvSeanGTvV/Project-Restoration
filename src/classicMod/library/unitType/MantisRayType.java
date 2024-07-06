@@ -28,7 +28,7 @@ public class MantisRayType extends UnitType {
 
     @Override
     public void draw(Unit unit) {
-        this.timer += Time.delta / 10f;
+        this.timer += Time.delta / 20f;
         TailBegin = Core.atlas.find(name + "-tail-0");
         TailMiddle = Core.atlas.find(name + "-tail-1");
         TailEnd = Core.atlas.find(name + "-tail-2");
@@ -36,14 +36,14 @@ public class MantisRayType extends UnitType {
         super.draw(unit);
 
         var sine0 = Mathf.sin(this.timer) * 10f;
-        var sine1 = Mathf.sin(sine0 + 2f);
+        var sine1 = sine0 + 2f;
         Tmp.v1.trns(unit.rotation - 90, TailOffsetBegin.x, TailOffsetBegin.y);
         Draw.rect(TailBegin, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
 
         Tmp.v1.trns(unit.rotation + sine0 + AngleOffset[0] - 90, offsetX, (TailBegin.height / 8f) + 6.6f + padding);
         Draw.rect(TailMiddle, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + AngleOffset[0] - 90);
 
-        Tmp.v1.trns(unit.rotation + sine1 + AngleOffset[1] - 90, Tmp.v1.x, (TailMiddle.height / 4f) + 0.15f + padding);
+        Tmp.v1.trns(unit.rotation + sine1 + AngleOffset[1] - 90, offsetX, (TailMiddle.height / 4f) + 0.15f + padding);
         Draw.rect(TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine1 + AngleOffset[1] - 90);
 
         //Draw.rect(TailEnd, unit.x + TailOffset[2].x, unit.y + TailOffset[2].y);
