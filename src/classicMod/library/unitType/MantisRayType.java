@@ -14,7 +14,7 @@ public class MantisRayType extends UnitType {
     public TextureRegion TailMiddle;
     public TextureRegion TailEnd;
     public Vec2 TailOffsetBegin = new Vec2(0f, -7f);
-    public float[] AngleOffset = new float[]{10f, 20f};
+    public float[] AngleOffset = new float[]{0f, 20f};
     public float padding = 5f;
     public float offsetX = 0f;
 
