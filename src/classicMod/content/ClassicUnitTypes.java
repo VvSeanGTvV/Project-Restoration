@@ -58,10 +58,18 @@ public class ClassicUnitTypes {
 
     azathoth, //Unit - Custom - Old Content [v5]
 
+    mantis, // TESTING
+
     alphaChan, crawlerChan, boulderChan, monoChan, octChan, oxynoeChan, quadChan, seiChan, zenithChan //Unit - Old Content [Animdustry]
     ;
 
     public static void load() {
+        mantis = new MantisRayType("skat"){{
+            constructor = UnitEntity::create;
+            health = 100f;
+
+            flying = true;
+        }};
 
         alphaChan = new JumpingUnitType("alphachan"){{
             health = 200f;
