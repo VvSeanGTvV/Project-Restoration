@@ -28,10 +28,13 @@ public class MantisRayType extends UnitType {
         TailBegin = Core.atlas.find(name + "-tail-0");
         TailMiddle = Core.atlas.find(name + "-tail-1");
 
-        Draw.rect(TailBegin, unit.x + TailOffsetBegin.x, unit.y + TailOffsetBegin.y);
-        float padY = (TailBegin.height / 2f);
+        super.draw(unit);
+
+        Draw.rect(TailBegin, unit.x + TailOffsetBegin.x, unit.y + TailOffsetBegin.y, unit.rotation);
+        float padY = (TailBegin.height / 4f);
         Tmp.v1.trns(unit.rotation + AngleOffset[0], unit.x + offsetX, unit.y + padY + padding);
-        Draw.rect(TailMiddle, unit.x + Tmp.v1.x, unit.y + Tmp.v1.y);
+        Draw.rect(TailMiddle, unit.x + Tmp.v1.x, unit.y + Tmp.v1.y, unit.rotation);
+
         //Draw.rect(TailEnd, unit.x + TailOffset[2].x, unit.y + TailOffset[2].y);
     }
 }
