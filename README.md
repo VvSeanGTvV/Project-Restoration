@@ -1,6 +1,6 @@
 <p align="center">
   <img width="570" height="90" src="assets/sprites-override/ui/logo.png"> </p>
-<p align="center"> Much more advance scripting, and more classic buildings. 2 Months 2 late lol. </p>
+<p align="center"> Much more advance scripting, and more classic buildings. sup </p>
 <strong><p align="center"> No Planned Update yet </p></strong>
 
 
