@@ -15,7 +15,7 @@ public class MantisRayType extends UnitType {
     public TextureRegion TailEnd;
     public Vec2 TailOffsetBegin = new Vec2(0f, -7.25f);
     public float[] AngleOffset = new float[]{0f, 0f};
-    public float padding = 6.6f;
+    public float padding = 0f;
     public float offsetX = 0f;
 
     public MantisRayType(String name) {
@@ -34,10 +34,10 @@ public class MantisRayType extends UnitType {
         Tmp.v1.trns(unit.rotation - 90, TailOffsetBegin.x, TailOffsetBegin.y);
         Draw.rect(TailBegin, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
 
-        Tmp.v1.trns(unit.rotation + AngleOffset[0] - 90, offsetX, (TailBegin.height / 8f) + padding);
+        Tmp.v1.trns(unit.rotation + AngleOffset[0] - 90, offsetX, (TailBegin.height / 8f) + 6.6f + padding);
         Draw.rect(TailMiddle, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + AngleOffset[0] - 90);
 
-        Tmp.v1.trns(unit.rotation + AngleOffset[1] - 90, offsetX, (TailMiddle.height / 4f) + 0.05f);
+        Tmp.v1.trns(unit.rotation + AngleOffset[1] - 90, offsetX, (TailMiddle.height / 4f) + 0.3f + padding);
         Draw.rect(TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + AngleOffset[1] - 90);
 
         //Draw.rect(TailEnd, unit.x + TailOffset[2].x, unit.y + TailOffset[2].y);
