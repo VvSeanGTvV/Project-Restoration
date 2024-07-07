@@ -45,10 +45,10 @@ public class MantisRayType extends UnitType {
         Tmp.v1.trns(unit.rotation - 90, TailOffsetBegin.x, TailOffsetBegin.y);
         Draw.rect(TailBegin, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
 
-        Tmp.v1.trns(unit.rotation + sine0 + AngleOffset[0] - 90, offsetX, (TailBegin.height / 8f) + 6.6f + padding);
+        Tmp.v1.trns(unit.rotation + sine0 + AngleOffset[0] - 90, offsetX + sine0, (TailBegin.height / 8f) + 6.6f + padding);
         Draw.rect(TailMiddle, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + AngleOffset[0] - 90);
 
-        Tmp.v1.trns(unit.rotation + sine0 + AngleOffset[1] - 90, offsetX, (TailMiddle.height / 4f) + 0.15f + padding);
+        Tmp.v1.trns(unit.rotation + sine0 + AngleOffset[1] - 90, offsetX + sine0, (TailMiddle.height / 4f) + 0.15f + padding);
         Draw.rect(TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + sine0 + AngleOffset[1] - 90);
 
         //Draw.rect(TailEnd, unit.x + TailOffset[2].x, unit.y + TailOffset[2].y);
