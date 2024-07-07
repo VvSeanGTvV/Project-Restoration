@@ -69,8 +69,8 @@ public class epicCreditsDialog extends Dialog {
 
     Table in = new Table(){{
         table(beginning -> {
-            add(logo).size(570f, 90f).row();
-            image(Tex.clear).height(55).padTop(3f).row();
+            //add(logo).size(570f, 90f).row();
+            //image(Tex.clear).height(55).padTop(3f).row();
             row();
             //image(Tex.clear).height(25).padTop(3f).row();
             //image(Core.atlas.find("restored-mind-logoMod")).row();
@@ -206,7 +206,7 @@ public class epicCreditsDialog extends Dialog {
 
     @Override
     public void draw() {
-        float centerX = (graphics.getWidth() / 2f);
+        float centerX = (graphics.getWidth());
         float IE = ((float) graphics.getWidth() / 1000);
         float IA = ((float) graphics.getWidth() / 225);
         staticTable.x = staticTable.getMinWidth();
@@ -216,6 +216,7 @@ public class epicCreditsDialog extends Dialog {
         planets.render(state);
         staticTable.draw();
 
+        //logo.draw();
         credit.x = centerX - credit.getMinWidth();
         credit.y = scrollbar;
 
