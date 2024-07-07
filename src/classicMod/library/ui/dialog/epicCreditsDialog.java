@@ -33,41 +33,37 @@ public class epicCreditsDialog extends Dialog {
     public final PlanetRenderer planets = renderer.planets;
 
     Table in = new Table(){{
-        add(logo).size(570f, 90f).row();
-        image(Tex.clear).height(55).padTop(3f).row();
-        row();
-        //image(Tex.clear).height(25).padTop(3f).row();
-        //image(Core.atlas.find("restored-mind-logoMod")).row();
-        //image(Tex.clear).height(25f).padTop(3f).row();
-
-        add(bundle.get("credits.text")).row();
-        add(getModBundle.get(resMod.meta.name + "-credits.author")).row();
-
-        int i = 0;
-        while (bundle.has("mod." + resMod.meta.name + "-credits." + i)) {
-            add(getModBundle.get(resMod.meta.name + "-credits." + i));
+        table(beginning -> {
+            add(logo).size(570f, 90f).row();
+            image(Tex.clear).height(55).padTop(3f).row();
             row();
-            i++;
-        }
-        image(Tex.clear).height(35).padTop(3f).row();
-        add(bundle.get("contributors")).row();
-        image(Tex.clear).height(35).padTop(3f).row();
+            //image(Tex.clear).height(25).padTop(3f).row();
+            //image(Core.atlas.find("restored-mind-logoMod")).row();
+            //image(Tex.clear).height(25f).padTop(3f).row();
 
-        table(contributor -> {
-            if(!contributors.isEmpty()){
-                int ia = 0;
-                for(String c : contributors){
-                    add(c);
-                    if(++ia % 3 == 0){
-                        row();
-                    }
-                }
-            /*contributors.each(a -> {
-                add(a);
+            add(bundle.get("credits.text")).row();
+            add(getModBundle.get(resMod.meta.name + "-credits.author")).row();
+
+            int i = 0;
+            while (bundle.has("mod." + resMod.meta.name + "-credits." + i)) {
+                add(getModBundle.get(resMod.meta.name + "-credits." + i));
                 row();
-            });*/
+                i++;
             }
+            image(Tex.clear).height(35).padTop(3f).row();
+            add(bundle.get("contributors")).row();
+            image(Tex.clear).height(35).padTop(3f).row();
         }).center();
+
+        if(!contributors.isEmpty()){
+            int ia = 0;
+            for(String c : contributors){
+                add(c);
+                if(++ia % 3 == 0){
+                    row();
+                }
+            }
+        }
 
     }};
     float TableHeight;
