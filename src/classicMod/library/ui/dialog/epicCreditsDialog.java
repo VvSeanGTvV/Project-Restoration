@@ -206,13 +206,19 @@ public class epicCreditsDialog extends Dialog {
 
     @Override
     public void draw() {
+        float centerX = (graphics.getWidth() / 2f);
         float IE = ((float) graphics.getWidth() / 1000);
         float IA = ((float) graphics.getWidth() / 225);
-        staticTable.x = (((float) getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() / 2) * IA * IE);
-        staticTable.y = 20f;
+        staticTable.x = staticTable.getMinWidth();
+        staticTable.y = staticTable.getMinHeight();
 
-        Styles.black.draw(0, 0, UIExtended.getWidth(), UIExtended.getHeight());
+        Styles.black.draw(0, 0, graphics.getWidth(), graphics.getHeight());
         staticTable.draw();
+
+        credit.x = centerX - credit.getMinWidth();
+        credit.y = scrollbar;
+
+        credit.draw();
 
         planets.render(state); // plz work.
 
