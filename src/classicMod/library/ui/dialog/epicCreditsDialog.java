@@ -158,7 +158,7 @@ public class epicCreditsDialog extends Dialog {
             TableHeight = in.getHeight();
             halfTableHeight = TableHeight / 1.75f;
         }
-        if(scrollbar * 1.15f >= (TableHeight * 1.462f)){ FinishedCredits(); return; }
+        //if(scrollbar * 1.15f >= (TableHeight * 1.462f)){ FinishedCredits(); return; }
         //Log.info("IN HEIGHT " +in.getHeight());
         //Log.info("IN prefHEIGHT " +in.getPrefHeight());
         //Log.info("IN minHEIGHT " +in.getMinHeight());
@@ -168,7 +168,7 @@ public class epicCreditsDialog extends Dialog {
         //cont.clearChildren();
 
         setStyle(baller);
-        
+
         Log.info(credit.getMinWidth());
 
         //Log.info("Crolld "+ scrollbar);
