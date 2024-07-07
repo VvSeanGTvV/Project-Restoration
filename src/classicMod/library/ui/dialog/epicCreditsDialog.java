@@ -55,15 +55,18 @@ public class epicCreditsDialog extends Dialog {
             image(Tex.clear).height(35).padTop(3f).row();
         }).center();
 
-        if(!contributors.isEmpty()){
-            int ia = 0;
-            for(String c : contributors){
-                add(c);
-                if(++ia % 3 == 0){
-                    row();
+        table(con -> {
+            if(!contributors.isEmpty()){
+                int ia = 0;
+                for(String c : contributors){
+                    add(c);
+                    //row();
+                    if(++ia % 3 == 0){
+                        row();
+                    }
                 }
             }
-        }
+        }).center();
 
     }};
     float TableHeight;
