@@ -32,6 +32,41 @@ public class epicCreditsDialog extends Dialog {
     }};
     public final PlanetRenderer planets = renderer.planets;
 
+    Table credit = new Table(){{
+        add(logo).size(570f, 90f).row();
+        image(Tex.clear).height(55).padTop(3f).row();
+        row();
+        //image(Tex.clear).height(25).padTop(3f).row();
+        //image(Core.atlas.find("restored-mind-logoMod")).row();
+        //image(Tex.clear).height(25f).padTop(3f).row();
+
+        add(bundle.get("credits.text")).row();
+        add(getModBundle.get(resMod.meta.name + "-credits.author")).row();
+
+        int i = 0;
+        while (bundle.has("mod." + resMod.meta.name + "-credits." + i)) {
+            add(getModBundle.get(resMod.meta.name + "-credits." + i));
+            row();
+            i++;
+        }
+        image(Tex.clear).height(35).padTop(3f).row();
+        add(bundle.get("contributors")).row();
+        image(Tex.clear).height(35).padTop(3f).row();
+    }};
+
+    Table contribute = new Table(){{
+        if(!contributors.isEmpty()){
+            int ia = 1;
+            for(String c : contributors){
+                add(c);
+                //row();
+                if(++ia % 3 == 0){
+                    row();
+                }
+            }
+        }
+    }};
+
     Table in = new Table(){{
         table(beginning -> {
             add(logo).size(570f, 90f).row();
@@ -57,7 +92,7 @@ public class epicCreditsDialog extends Dialog {
 
         table(con -> {
             if(!contributors.isEmpty()){
-                int ia = 0;
+                int ia = 1;
                 for(String c : contributors){
                     add(c);
                     //row();
@@ -107,7 +142,7 @@ public class epicCreditsDialog extends Dialog {
         //addCloseButton();
         //staticTable.setTranslation(-(camera.width+128f), -(camera.height+128f));
         //cont.add(staticTable);
-        cont.add(in).align(Align.bottom);
+        //cont.add(in).align(Align.bottom);
         show();
     }
 
@@ -132,11 +167,9 @@ public class epicCreditsDialog extends Dialog {
         scrollbar += fdelta(650f, bot);
         //cont.clearChildren();
 
-        in.update(() -> {
-            setTranslation(0f, scrollbar - (halfTableHeight + Core.camera.height));
-        });
-
         setStyle(baller);
+        
+        Log.info(credit.getMinWidth());
 
         //Log.info("Crolld "+ scrollbar);
         //Log.info("Crollf "+ scrollbar * 1.15f);
