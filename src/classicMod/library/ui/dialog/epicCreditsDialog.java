@@ -213,6 +213,7 @@ public class epicCreditsDialog extends Dialog {
         staticTable.y = staticTable.getMinHeight();
 
         Styles.black.draw(0, 0, graphics.getWidth(), graphics.getHeight());
+        planets.render(state);
         staticTable.draw();
 
         credit.x = centerX - credit.getMinWidth();
@@ -220,7 +221,7 @@ public class epicCreditsDialog extends Dialog {
 
         credit.draw();
 
-        planets.render(state); // plz work.
+        //planets.render(state); // plz work.
 
         Draw.flush();
         super.draw();
