@@ -9,6 +9,9 @@ import arc.util.*;
 import mindustry.gen.Unit;
 import mindustry.graphics.*;
 import mindustry.type.UnitType;
+import mindustry.world.blocks.environment.Floor;
+
+import static mindustry.Vars.world;
 
 public class MantisRayType extends UnitType {
 
@@ -47,11 +50,27 @@ public class MantisRayType extends UnitType {
 
         Tmp.v1.trns(unit.rotation + sine0 + AngleOffset[0] - 90, offsetX - (sine0 / 5f), (TailBegin.height / 8f) + 6.6f + padding);
         Draw.rect(TailMiddle, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + AngleOffset[0] - 90);
+        drawTailShadow(unit, TailMiddle, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + AngleOffset[0] - 90);
 
         Tmp.v1.trns(unit.rotation + sine0 + AngleOffset[1] - 90, offsetX - (sine0 / 5f) - (Mathf.sin(this.timer) / 2f), (TailMiddle.height / 4f) + 0.15f + padding);
         Draw.rect(TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + sine0 + AngleOffset[1] - 90);
+        drawTailShadow(unit, TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + sine0 + AngleOffset[1] - 90);
 
         //Draw.rect(TailEnd, unit.x + TailOffset[2].x, unit.y + TailOffset[2].y);
+    }
+
+    public void drawTailShadow(Unit unit, TextureRegion region, float x1, float y1, float rot1) {
+        float e = Mathf.clamp(unit.elevation, shadowElevation, 1f) * shadowElevationScl * (1f - unit.drownTime);
+        float x = x1 + shadowTX * e, y = y1 + shadowTY * e;
+        Floor floor = world.floorWorld(x, y);
+
+        float dest = floor.canShadow ? 1f : 0f;
+        //yes, this updates state in draw()... which isn't a problem, because I don't want it to be obvious anyway
+        unit.shadowAlpha = unit.shadowAlpha < 0 ? dest : Mathf.approachDelta(unit.shadowAlpha, dest, 0.11f);
+        Draw.color(Pal.shadow, Pal.shadow.a * unit.shadowAlpha);
+
+        Draw.rect(region, x1 + shadowTX * e, y1 + shadowTY * e, rot1);
+        Draw.color();
     }
 
     /*@Override
