@@ -3,6 +3,7 @@ package classicMod.library.ui.dialog;
 import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.input.KeyCode;
+import arc.math.geom.Vec3;
 import arc.scene.style.TextureRegionDrawable;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.Table;
@@ -26,7 +27,7 @@ public class epicCreditsDialog extends Dialog {
     Image logo = new Image(new TextureRegionDrawable(Core.atlas.find("restored-mind-logoMod")), Scaling.fit);
     PlanetParams state = new PlanetParams() {{
         planet = Planets.serpulo;
-        //camPos = new Vec3(0, 0, 0);
+        camPos = new Vec3(5, 0, 0);
         zoom = 0.6f;
     }};
     public final PlanetRenderer planets = renderer.planets;
@@ -52,19 +53,22 @@ public class epicCreditsDialog extends Dialog {
         add(bundle.get("contributors")).row();
         image(Tex.clear).height(35).padTop(3f).row();
 
-        if(!contributors.isEmpty()){
-            int ia = 0;
-            for(String c : contributors){
-                add(c);
-                if(++ia % 3 == 0){
-                    row();
+        table(contributor -> {
+            if(!contributors.isEmpty()){
+                int ia = 0;
+                for(String c : contributors){
+                    add(c);
+                    if(++ia % 3 == 0){
+                        row();
+                    }
                 }
-            }
             /*contributors.each(a -> {
                 add(a);
                 row();
             });*/
-        }
+            }
+        }).center();
+
     }};
     float TableHeight;
     float halfTableHeight;
