@@ -206,7 +206,7 @@ public class epicCreditsDialog extends Dialog {
 
     @Override
     public void draw() {
-        float centerX = (graphics.getWidth() / 1.5f);
+        float centerX = (graphics.getWidth() / 1.25f);
         float IE = ((float) graphics.getWidth() / 1000);
         float IA = ((float) graphics.getWidth() / 225);
         staticTable.x = staticTable.getMinWidth();
@@ -218,7 +218,7 @@ public class epicCreditsDialog extends Dialog {
 
         //logo.draw();
         credit.x = centerX - credit.getMinWidth();
-        credit.y = scrollbar;
+        credit.y = credit.getMinHeight() - scrollbar;
 
         credit.draw();
 
