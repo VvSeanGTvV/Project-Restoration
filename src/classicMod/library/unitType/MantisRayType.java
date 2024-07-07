@@ -45,14 +45,16 @@ public class MantisRayType extends UnitType {
         super.draw(unit);
 
         var sine0 = Mathf.sin(this.timer) * 10f;
+        float sclr = TailBegin.scl();
         Tmp.v1.trns(unit.rotation - 90, TailOffsetBegin.x, TailOffsetBegin.y);
         Draw.rect(TailBegin, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
 
-        Tmp.v1.trns(unit.rotation + sine0 + AngleOffset[0] - 90, offsetX - (sine0 / 5f), (TailBegin.height / 8f) + 6.6f + padding);
+        Tmp.v1.trns(unit.rotation + sine0 + AngleOffset[0] - 90, offsetX - (sine0 / 5f), ((TailBegin.height / 8f) + 6.6f + padding) * sclr);
         Draw.rect(TailMiddle, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + AngleOffset[0] - 90);
         drawTailShadow(unit, TailMiddle, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + AngleOffset[0] - 90);
 
-        Tmp.v1.trns(unit.rotation + sine0 + AngleOffset[1] - 90, offsetX - (sine0 / 5f) - (Mathf.sin(this.timer) / 2f), (TailMiddle.height / 4f) + 0.15f + padding);
+        sclr = TailMiddle.scl();
+        Tmp.v1.trns(unit.rotation + sine0 + AngleOffset[1] - 90, offsetX - (sine0 / 5f) - (Mathf.sin(this.timer) / 2f), ((TailMiddle.height / 4f) + 0.15f + padding) * sclr);
         Draw.rect(TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + sine0 + AngleOffset[1] - 90);
         drawTailShadow(unit, TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + sine0 + AngleOffset[1] - 90);
 

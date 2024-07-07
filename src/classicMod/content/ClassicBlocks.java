@@ -35,6 +35,7 @@ import mindustry.world.meta.*;
 import static classicMod.content.ClassicBullets.*;
 import static classicMod.content.ClassicSounds.*;
 import static classicMod.content.ClassicUnitTypes.*;
+import static classicMod.content.ClassicVars.empty;
 import static mindustry.content.Blocks.coreBastion;
 import static mindustry.type.ItemStack.with;
 
@@ -106,12 +107,12 @@ public class ClassicBlocks {
             @Override
             public void load() {
                 super.load();
-                bridgeRegion = Core.atlas.find("restored-mind-nullTexture");
+                bridgeRegion = Core.atlas.find(empty);
                 region = Core.atlas.find("restored-mind-conveyor-tunnel");
-                bridgeBotRegion = Core.atlas.find("restored-mind-nullTexture");
-                bridgeLiquidRegion = Core.atlas.find("restored-mind-nullTexture");
-                arrowRegion = Core.atlas.find("restored-mind-nullTexture");
-                dirRegion = Core.atlas.find("restored-mind-nullTexture");
+                bridgeBotRegion = Core.atlas.find(empty);
+                bridgeLiquidRegion = Core.atlas.find(empty);
+                arrowRegion = Core.atlas.find(empty);
+                dirRegion = Core.atlas.find(empty);
             }
 
             @Override

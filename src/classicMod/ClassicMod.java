@@ -58,7 +58,7 @@ public class ClassicMod extends Mod{
             boolean ignoreWarning = settings.getBool("ignore-warning");
             Log.info(pathFile());
 
-            getContributors(resMod.file.absolutePath());
+            getContributors();
 
             if (!ignoreWarning) {
                 Time.runTask(10f, () -> {
@@ -138,29 +138,8 @@ public class ClassicMod extends Mod{
         return resMod.file.path();
     }
 
-    public void getContributors(String filePath) {
-        try (ZipFile zipFile = new ZipFile(filePath)) {
-            Enumeration<? extends ZipEntry> entries = zipFile.entries();
-            while (entries.hasMoreElements()) {
-                ZipEntry entry = entries.nextElement();
-                // Check if entry is a directory
-                if (!entry.isDirectory()) {
-                    if(entry.getName().equals("mindustry-contributors.txt")) {
-                        try (InputStream inputStream = zipFile.getInputStream(entry);
-                             Scanner scanner = new Scanner(inputStream)) {
-
-                            while (scanner.hasNextLine()) {
-                                String line = scanner.nextLine();
-                                contributors.add(line);
-                                //Log.info(line);
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void getContributors() {
+        contributors = Seq.with(Core.files.internal("contributors").readString("UTF-8").split("\n"));
     }
 
     public static Func<String, String> getModBundle = value -> bundle.get("mod." + value);

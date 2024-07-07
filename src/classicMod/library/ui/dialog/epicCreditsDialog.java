@@ -8,19 +8,28 @@ import arc.scene.ui.*;
 import arc.scene.ui.layout.Table;
 import arc.util.*;
 import classicMod.library.ui.UIExtended;
+import classicMod.library.ui.menu.MenuBackground;
 import mindustry.Vars;
+import mindustry.content.Planets;
 import mindustry.gen.*;
+import mindustry.graphics.g3d.*;
 import mindustry.ui.Styles;
 
 import static arc.Core.*;
 import static classicMod.ClassicMod.*;
 import static classicMod.content.ExtendedMusic.*;
 import static classicMod.library.ui.UIExtended.fdelta;
-import static mindustry.Vars.control;
+import static mindustry.Vars.*;
 
 public class epicCreditsDialog extends Dialog {
 
     Image logo = new Image(new TextureRegionDrawable(Core.atlas.find("restored-mind-logoMod")), Scaling.fit);
+    PlanetParams state = new PlanetParams() {{
+        planet = Planets.serpulo;
+        //camPos = new Vec3(0, 0, 0);
+        zoom = 0.6f;
+    }};
+    public final PlanetRenderer planets = renderer.planets;
 
     Table in = new Table(){{
         add(logo).size(570f, 90f).row();
@@ -39,15 +48,22 @@ public class epicCreditsDialog extends Dialog {
             row();
             i++;
         }
-        image(Tex.clear).height(55).padTop(3f).row();
+        image(Tex.clear).height(35).padTop(3f).row();
         add(bundle.get("contributors")).row();
-        image(Tex.clear).height(55).padTop(3f).row();
+        image(Tex.clear).height(35).padTop(3f).row();
 
         if(!contributors.isEmpty()){
-            contributors.each(a -> {
+            int ia = 0;
+            for(String c : contributors){
+                add(c);
+                if(++ia % 3 == 0){
+                    row();
+                }
+            }
+            /*contributors.each(a -> {
                 add(a);
                 row();
-            });
+            });*/
         }
     }};
     float TableHeight;
@@ -161,6 +177,9 @@ public class epicCreditsDialog extends Dialog {
 
         Styles.black.draw(0, 0, UIExtended.getWidth(), UIExtended.getHeight());
         staticTable.draw();
+
+        planets.render(state); // plz work.
+
         Draw.flush();
         super.draw();
     }
