@@ -8,8 +8,6 @@ import arc.scene.style.TextureRegionDrawable;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.Table;
 import arc.util.*;
-import classicMod.library.ui.UIExtended;
-import classicMod.library.ui.menu.MenuBackground;
 import mindustry.Vars;
 import mindustry.content.Planets;
 import mindustry.gen.*;
@@ -24,15 +22,14 @@ import static mindustry.Vars.*;
 
 public class epicCreditsDialog extends Dialog {
 
+    public final PlanetRenderer planets = renderer.planets;
     Image logo = new Image(new TextureRegionDrawable(Core.atlas.find("restored-mind-logoMod")), Scaling.fit);
     PlanetParams state = new PlanetParams() {{
         planet = Planets.serpulo;
         camPos = new Vec3(5, 0, 0);
         zoom = 0.6f;
     }};
-    public final PlanetRenderer planets = renderer.planets;
-
-    Table credit = new Table(){{
+    Table credit = new Table() {{
         add(logo).size(570f, 90f).row();
         image(Tex.clear).height(55).padTop(3f).row();
         row();
@@ -54,20 +51,20 @@ public class epicCreditsDialog extends Dialog {
         image(Tex.clear).height(35).padTop(3f).row();
     }};
 
-    Table contribute = new Table(){{
-        if(!contributors.isEmpty()){
+    Table contribute = new Table() {{
+        if (!contributors.isEmpty()) {
             int ia = 1;
-            for(String c : contributors){
+            for (String c : contributors) {
                 add(c);
                 //row();
-                if(++ia % 3 == 0){
+                if (++ia % 3 == 0) {
                     row();
                 }
             }
         }
     }};
 
-    Table in = new Table(){{
+    Table in = new Table() {{
         table(beginning -> {
             //add(logo).size(570f, 90f).row();
             //image(Tex.clear).height(55).padTop(3f).row();
@@ -91,12 +88,12 @@ public class epicCreditsDialog extends Dialog {
         }).center();
 
         table(con -> {
-            if(!contributors.isEmpty()){
+            if (!contributors.isEmpty()) {
                 int ia = 1;
-                for(String c : contributors){
+                for (String c : contributors) {
                     add(c);
                     //row();
-                    if(++ia % 3 == 0){
+                    if (++ia % 3 == 0) {
                         row();
                     }
                 }
@@ -107,31 +104,18 @@ public class epicCreditsDialog extends Dialog {
     float TableHeight;
     float halfTableHeight;
 
-    Table staticTable = new Table(){{
+    Table staticTable = new Table() {{
         add(getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()));
     }};
 
     float scrollbar;
 
-    DialogStyle baller = new DialogStyle(){{
+    DialogStyle baller = new DialogStyle() {{
         background = Styles.none;
     }};
-
-    public void addCloseListener(){
-        closeOnBack();
-    }
-
-    public void addCloseButton(float width){
-        buttons.defaults().size(width, 64f);
-        buttons.button("@back", Icon.left, this::hide).size(width, 64f);
-
-        addCloseListener();
-    }
-
-    @Override
-    public void addCloseButton(){
-        addCloseButton(210f);
-    }
+    int doubleTapTimer;
+    boolean onHold;
+    boolean firstTap;
 
     //ScrollPane pane = new ScrollPane(in);
 
@@ -146,15 +130,27 @@ public class epicCreditsDialog extends Dialog {
         show();
     }
 
-    int doubleTapTimer;
-    boolean onHold;
-    boolean firstTap;
+    public void addCloseListener() {
+        closeOnBack();
+    }
+
+    public void addCloseButton(float width) {
+        buttons.defaults().size(width, 64f);
+        buttons.button("@back", Icon.left, this::hide).size(width, 64f);
+
+        addCloseListener();
+    }
+
+    @Override
+    public void addCloseButton() {
+        addCloseButton(210f);
+    }
 
     @Override
     public void act(float delta) {
         control.sound.stop();
         super.act(delta);
-        if(TableHeight <= 0){
+        if (TableHeight <= 0) {
             TableHeight = in.getHeight();
             halfTableHeight = TableHeight / 1.75f;
         }
@@ -177,28 +173,36 @@ public class epicCreditsDialog extends Dialog {
         //Log.info(scrollbar * 1.15f >= (TableHeight * 1.462f));
         //Log.info((float) getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() / 2);
 
-        if(Core.input.keyDown(KeyCode.escape)) FinishedCredits();
-        if(Core.app.isMobile()){
+        if (Core.input.keyDown(KeyCode.escape)) FinishedCredits();
+        if (Core.app.isMobile()) {
 
-            if(app.isAndroid()){
-                if(Core.input.keyDown(KeyCode.back)) FinishedCredits();
+            if (app.isAndroid()) {
+                if (Core.input.keyDown(KeyCode.back)) FinishedCredits();
             }
 
-            if(firstTap){
-                if(!Core.input.isTouched()){ onHold = false; }
-                if(!onHold) {
+            if (firstTap) {
+                if (!Core.input.isTouched()) {
+                    onHold = false;
+                }
+                if (!onHold) {
                     doubleTapTimer++;
                     if (Core.input.isTouched()) FinishedCredits();
-                    if (doubleTapTimer > 100){ firstTap = false; doubleTapTimer = 0; }
+                    if (doubleTapTimer > 100) {
+                        firstTap = false;
+                        doubleTapTimer = 0;
+                    }
                 }
             } else {
-                if(Core.input.isTouched()){ firstTap = true; onHold = true; }
+                if (Core.input.isTouched()) {
+                    firstTap = true;
+                    onHold = true;
+                }
             }
             //if(((scrollbar > (TableHeight)) && TableHeight > 0) || Core.input.isTouched()) this.hide();
         }
     }
 
-    public void FinishedCredits(){
+    public void FinishedCredits() {
         control.sound.update();
         stopMusic();
         this.hide();
@@ -206,20 +210,26 @@ public class epicCreditsDialog extends Dialog {
 
     @Override
     public void draw() {
+        //Drawable background = whiteui.tint(0f, 0f, 0f, 0.25f);
         float centerX = (graphics.getWidth() / 1.25f);
         float IE = ((float) graphics.getWidth() / 1000);
         float IA = ((float) graphics.getWidth() / 225);
         staticTable.x = staticTable.getMinWidth();
         staticTable.y = staticTable.getMinHeight();
 
-        Styles.black.draw(0, 0, graphics.getWidth(), graphics.getHeight());
         planets.render(state);
+        Styles.black3.draw(0, 0, graphics.getWidth(), graphics.getHeight());
         staticTable.draw();
 
+        state.camPos.rotate(Vec3.Y, fdelta(250f, 120f));
         //logo.draw();
         credit.x = centerX - credit.getMinWidth();
-        credit.y = credit.getMinHeight() - scrollbar;
+        credit.y = scrollbar - credit.getMinHeight();
 
+        contribute.x = centerX - contribute.getMinWidth();
+        contribute.y = scrollbar - (credit.getMinHeight() + contribute.getMinHeight());
+
+        contribute.draw();
         credit.draw();
 
         //planets.render(state); // plz work.
