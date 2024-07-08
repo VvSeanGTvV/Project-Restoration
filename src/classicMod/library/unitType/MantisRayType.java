@@ -112,7 +112,7 @@ public class MantisRayType extends UnitType {
     }
 
     float NormalizeAngle(float angle, float target) {
-        if((Mathf.ceil(target) == 1 && Mathf.ceil(angle) > 1)) return angle + target;
+        if((Mathf.ceil(target) == 1 && Mathf.ceil(angle) > 1)) return target + angle;
         return angle - target;
     }
 
