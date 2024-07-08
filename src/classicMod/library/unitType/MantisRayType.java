@@ -38,9 +38,9 @@ public class MantisRayType extends UnitType {
     @Override
     public void update(Unit unit) {
         super.update(unit);
-        this.timer += Time.delta / 20f;
-        lastRot = Mathf.lerpDelta(lastRot, unit.rotation, 0.25f);
-        lastRotEnd = Mathf.lerpDelta(lastRotEnd, unit.rotation, 0.1f);
+        timer += Time.delta / 20f;
+        lastRot = Mathf.slerpDelta(this.lastRot, unit.rotation, 0.25f);
+        lastRotEnd = Mathf.slerpDelta(this.lastRotEnd, unit.rotation, 0.1f);
     }
 
     @Override
@@ -98,22 +98,17 @@ public class MantisRayType extends UnitType {
 
         Draw.rect(region, unit.x, unit.y, unit.rotation - 90);
 
-        Log.info("lrot " + lastRot + " | lrote " + lastRotEnd + " | rot " + Mathf.ceil(unit.rotation));
-        Log.info("lrotb " + (Mathf.ceil(unit.rotation) == 1 && Mathf.ceil(lastRot) > 1) + " | lroteb " + (Mathf.ceil(unit.rotation) == 1 && Mathf.ceil(lastRotEnd) > 1));
-        float lRot0 = NormalizeAngle(lastRot, unit.rotation);
+        //Log.info("lrot " + lastRot + " | lrote " + lastRotEnd + " | rot " + Mathf.ceil(unit.rotation));
+        //Log.info("lrotb " + (Mathf.ceil(unit.rotation) == 1 && Mathf.ceil(lastRot) > 1) + " | lroteb " + (Mathf.ceil(unit.rotation) == 1 && Mathf.ceil(lastRotEnd) > 1));
+        float lRot0 = lastRot - unit.rotation;
         float yBody = (TailBody.height / 7.5f) + 0f;
         Tmp.v1.trns(unit.rotation + lRot0 - 90, 0, yBody);
         Draw.rect(TailBody, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 - 90);
 
-        float lRot1 = NormalizeAngle(lastRotEnd, unit.rotation);
+        float lRot1 = lastRotEnd - unit.rotation;
         yBody += (TailBodyEnd.height / 6.15f) + 0f;
         Tmp.v1.trns(unit.rotation + lRot1 - 90, 0, yBody);
         Draw.rect(TailBodyEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot1 - 90);
-    }
-
-    float NormalizeAngle(float angle, float target) {
-        if((Mathf.ceil(target) == 1 && Mathf.ceil(angle) > 0)) return target + angle;
-        return angle - target;
     }
 
     public void drawOutline(Unit unit){
