@@ -89,7 +89,7 @@ public class MantisRayType extends UnitType {
         Tmp.v1.trns(unit.rotation - 90, 0, yBody);
         Draw.rect(TailBody, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
 
-        yBody += (TailBodyEnd.height / 4f) + 0f;
+        yBody += (TailBodyEnd.height / 6f) + 0f;
         Tmp.v1.trns(unit.rotation - 90, 0, yBody);
         Draw.rect(TailBodyEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
     }
@@ -111,7 +111,7 @@ public class MantisRayType extends UnitType {
             Draw.rect(TailBodyOutline, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
             Draw.reset();
         }
-        yBody += (TailBodyEnd.height / 4f) + 0f;
+        yBody += (TailBodyEnd.height / 6f) + 0f;
         Tmp.v1.trns(unit.rotation - 90, 0, yBody);
         if(Core.atlas.isFound(TailBodyEndOutline)){
             applyColor(unit);
@@ -132,7 +132,7 @@ public class MantisRayType extends UnitType {
 
             Drawf.checkBleed(outlined);
 
-            packer.add(MultiPacker.PageType.main, regionName + "-tail-mid-outline", outlined);
+            packer.add(MultiPacker.PageType.main, regionName + "-outline", outlined);
         }
 
         var atlasB = Core.atlas.find(name + "-tail-end").asAtlas();
@@ -142,7 +142,7 @@ public class MantisRayType extends UnitType {
 
             Drawf.checkBleed(outlined);
 
-            packer.add(MultiPacker.PageType.main, regionName + "-tail-end-outline", outlined);
+            packer.add(MultiPacker.PageType.main, regionName + "-outline", outlined);
         }
     }
 
