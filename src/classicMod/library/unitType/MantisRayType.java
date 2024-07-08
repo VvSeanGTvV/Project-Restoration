@@ -59,11 +59,23 @@ public class MantisRayType extends UnitType {
     public void draw(Unit unit) {
         super.draw(unit);
 
-        var sine0 = Mathf.sin(this.timer) * 10f;
-        float sclr = 1f;
+
         Draw.z(Layer.flyingUnit - 1f);
         drawShadow(unit);
         Draw.z(Layer.flyingUnit);
+
+
+        Draw.z(Layer.flyingUnit);
+        drawOutline(unit);
+        drawBody(unit);
+        drawTail(unit);
+
+        //Draw.rect(TailEnd, unit.x + TailOffset[2].x, unit.y + TailOffset[2].y);
+    }
+
+    public void drawTail(Unit unit){
+        var sine0 = Mathf.sin(this.timer) * 10f;
+        float sclr = 1f;
         Tmp.v1.trns(unit.rotation - 90, TailOffsetBegin.x, TailOffsetBegin.y);
         Draw.rect(TailBegin, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
 
@@ -75,12 +87,6 @@ public class MantisRayType extends UnitType {
         Tmp.v1.trns(unit.rotation + sine0 + AngleOffset[1] - 90, offsetX - (sine0 / 5f) - (Mathf.sin(this.timer) / 2f), ((TailMiddle.height / 4f) + 0.15f + padding) * sclr);
         Draw.rect(TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + sine0 + AngleOffset[1] - 90);
         drawTailShadow(unit, TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + sine0 + AngleOffset[1] - 90);
-
-        Draw.z(Layer.flyingUnit);
-        drawOutline(unit);
-        drawBody(unit);
-
-        //Draw.rect(TailEnd, unit.x + TailOffset[2].x, unit.y + TailOffset[2].y);
     }
 
     public void drawBody(Unit unit){
@@ -92,7 +98,7 @@ public class MantisRayType extends UnitType {
         Tmp.v1.trns(unit.rotation - 90, 0, yBody);
         Draw.rect(TailBody, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
 
-        yBody += (TailBodyEnd.height / 6.5f) + 0f;
+        yBody += (TailBodyEnd.height / 6.25f) + 0f;
         Tmp.v1.trns(unit.rotation - 90, 0, yBody);
         Draw.rect(TailBodyEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
     }
@@ -114,7 +120,7 @@ public class MantisRayType extends UnitType {
             Draw.rect(TailBodyOutline, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
             Draw.reset();
         }
-        yBody += (TailBodyEnd.height / 6.5f) + 0f;
+        yBody += (TailBodyEnd.height / 6.25f) + 0f;
         Tmp.v1.trns(unit.rotation - 90, 0, yBody);
         if(Core.atlas.isFound(TailBodyEndOutline)){
             applyColor(unit);
