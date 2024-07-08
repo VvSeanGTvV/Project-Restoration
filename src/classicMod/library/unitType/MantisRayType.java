@@ -96,6 +96,8 @@ public class MantisRayType extends UnitType {
 
         Draw.rect(region, unit.x, unit.y, unit.rotation - 90);
 
+        Log.info("lrot " + lastRot + " | lrote " + lastRotEnd + " | rot " + unit.rotation);
+        Log.info("lrotb " + (unit.rotation == 0 && lastRot > 0) + " | lroteb " + (unit.rotation == 0 && lastRotEnd > 0));
         lastRot = Mathf.lerpDelta(lastRot, unit.rotation, 0.25f);
         float lRot0 = lastRot - unit.rotation;
         if (unit.rotation == 0 && lastRot > 0) lRot0 = lastRotEnd + unit.rotation;
