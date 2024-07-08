@@ -99,7 +99,7 @@ public class MantisRayType extends UnitType {
         Draw.rect(region, unit.x, unit.y, unit.rotation - 90);
 
         Log.info("lrot " + lastRot + " | lrote " + lastRotEnd + " | rot " + Mathf.ceil(unit.rotation));
-        Log.info("lrotb " + (Mathf.ceil(unit.rotation) == 1 && Mathf.ceil(lastRot) > 0) + " | lroteb " + (Mathf.ceil(unit.rotation) == 1 && Mathf.ceil(lastRotEnd) > 0));
+        Log.info("lrotb " + (Mathf.ceil(unit.rotation) == 1 && Mathf.ceil(lastRot) > 1) + " | lroteb " + (Mathf.ceil(unit.rotation) == 1 && Mathf.ceil(lastRotEnd) > 1));
         float lRot0 = NormalizeAngle(lastRot, unit.rotation);
         float yBody = (TailBody.height / 7.5f) + 0f;
         Tmp.v1.trns(unit.rotation + lRot0 - 90, 0, yBody);
@@ -112,7 +112,7 @@ public class MantisRayType extends UnitType {
     }
 
     float NormalizeAngle(float angle, float target) {
-        if((Mathf.ceil(target) == 1 && Mathf.ceil(angle) > 1)) return target + angle;
+        if((Mathf.ceil(target) == 1 && Mathf.ceil(angle) > 0)) return target + angle;
         return angle - target;
     }
 
