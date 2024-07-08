@@ -174,18 +174,13 @@ public class epicCreditsDialog extends Dialog {
         var Wui = (TextureRegionDrawable) Tex.whiteui;
         Drawable background = Wui.tint(0f, 0f, 0f, 0.65f);
 
-        float j = (graphics.getAspect() / 1.5f);
-        float f = j * 100;
-        float i = Mathf.floor(f);
-        float p = (i / 100f);
-
         int width = !mobile ? 100 : 70, height = !mobile ? 50 : 40;
         int size = Math.max(graphics.getWidth(), graphics.getHeight());
-        float centerX0 = (size - (width * 2.25f));
+        float centerX0 = (graphics.getWidth() / graphics.getAspect());
         /*float centerX1 = (graphics.getWidth() / 2f);
         float IE = ((float) graphics.getWidth() / 1000);
         float IA = ((float) graphics.getWidth() / 225);*/
-        staticTable.x = staticTable.getMinWidth() - (getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() * 2f);
+        staticTable.x = staticTable.getMinWidth() - (getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() * 1.25f);
         staticTable.y = staticTable.getMinHeight();
 
         planets.render(state);
