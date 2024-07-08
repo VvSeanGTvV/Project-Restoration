@@ -215,8 +215,13 @@ public class epicCreditsDialog extends Dialog {
     public void draw() {
         var Wui = (TextureRegionDrawable) Tex.whiteui;
         Drawable background = Wui.tint(0f, 0f, 0f, 0.65f);
-        float j = (Mathf.floor((graphics.getAspect() / 1.422f) * 100f)) / 100f;
-        float centerX0 = (graphics.getWidth() / j);
+
+        float j = (graphics.getAspect() / 1.422f);
+        float f = j * 100;
+        float i = Mathf.floor(f);
+        float p = (i / 100f);
+
+        float centerX0 = (graphics.getWidth() / p);
         /*float centerX1 = (graphics.getWidth() / 2f);
         float IE = ((float) graphics.getWidth() / 1000);
         float IA = ((float) graphics.getWidth() / 225);*/
@@ -228,7 +233,6 @@ public class epicCreditsDialog extends Dialog {
         staticTable.draw();
 
         state.camPos.rotate(Vec3.Y, fdelta(250f, 120f));
-        //logo.draw();
         credit.x = centerX0 - credit.getMinWidth();
         credit.y = scrollbar - credit.getMinHeight();
 
@@ -237,8 +241,6 @@ public class epicCreditsDialog extends Dialog {
 
         contribute.draw();
         credit.draw();
-
-        //planets.render(state); // plz work.
 
         Draw.flush();
         super.draw();
