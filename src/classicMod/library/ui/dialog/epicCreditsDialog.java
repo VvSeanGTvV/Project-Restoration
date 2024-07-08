@@ -210,7 +210,7 @@ public class epicCreditsDialog extends Dialog {
     @Override
     public void draw() {
         //Drawable background = whiteui.tint(0f, 0f, 0f, 0.25f);
-        float centerX0 = (graphics.getWidth() / 1.25f);
+        float centerX0 = (graphics.getWidth() / graphics.getAspect());
         float centerX1 = (graphics.getWidth() / 2f);
         float IE = ((float) graphics.getWidth() / 1000);
         float IA = ((float) graphics.getWidth() / 225);
