@@ -1492,7 +1492,12 @@ public class ClassicBlocks {
             consumePower(10f);
             buildCostMultiplier = 0.5f;
             scaledHealth = 80;
-        }};
+        }
+            @Override
+            public TextureRegion[] icons() {
+                return new TextureRegion[]{region, Core.atlas.find(name + "-team-" + "sharded")};
+            }
+        };
 
         launchPadLarge = new LaunchPad("launch-pad-large"){{
             requirements(Category.effect, BuildVisibility.campaignOnly, with(Items.titanium, 200, Items.silicon, 150, Items.lead, 250, Items.plastanium, 75));

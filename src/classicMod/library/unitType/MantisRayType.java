@@ -18,6 +18,10 @@ public class MantisRayType extends UnitType {
     public TextureRegion TailBegin;
     public TextureRegion TailMiddle;
     public TextureRegion TailEnd;
+
+    public TextureRegion TailBody;
+    public TextureRegion TailBodyEnd;
+
     public Vec2 TailOffsetBegin = new Vec2(0f, -7.25f);
     public float[] AngleOffset = new float[]{0f, 0f};
     public float padding = 0f;
@@ -42,10 +46,13 @@ public class MantisRayType extends UnitType {
         TailMiddle = Core.atlas.find(name + "-tail-1");
         TailEnd = Core.atlas.find(name + "-tail-2");
 
+        TailBody = Core.atlas.find(name + "-tail-mid");
+        TailBodyEnd = Core.atlas.find(name + "-tail-end");
+
         super.draw(unit);
 
         var sine0 = Mathf.sin(this.timer) * 10f;
-        float sclr = TailBegin.scl();
+        float sclr = 1f;
         Tmp.v1.trns(unit.rotation - 90, TailOffsetBegin.x, TailOffsetBegin.y);
         Draw.rect(TailBegin, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
 
@@ -57,6 +64,14 @@ public class MantisRayType extends UnitType {
         Tmp.v1.trns(unit.rotation + sine0 + AngleOffset[1] - 90, offsetX - (sine0 / 5f) - (Mathf.sin(this.timer) / 2f), ((TailMiddle.height / 4f) + 0.15f + padding) * sclr);
         Draw.rect(TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + sine0 + AngleOffset[1] - 90);
         drawTailShadow(unit, TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + sine0 + AngleOffset[1] - 90);
+
+        float yBody = TailBody.height + 0f;
+        Tmp.v1.trns(unit.rotation - 90, 0, yBody);
+        Draw.rect(TailBody, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
+
+        yBody += TailBodyEnd.height + 0f;
+        Tmp.v1.trns(unit.rotation - 90, 0, yBody);
+        Draw.rect(TailBodyEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
 
         //Draw.rect(TailEnd, unit.x + TailOffset[2].x, unit.y + TailOffset[2].y);
     }
