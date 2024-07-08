@@ -94,11 +94,11 @@ public class MantisRayType extends UnitType {
 
         Draw.rect(region, unit.x, unit.y, unit.rotation - 90);
 
-        float yBody = (TailBody.height / 7.75f) + 0f;
+        float yBody = (TailBody.height / 7.5f) + 0f;
         Tmp.v1.trns(unit.rotation - 90, 0, yBody);
         Draw.rect(TailBody, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
 
-        yBody += (TailBodyEnd.height / 6.25f) + 0f;
+        yBody += (TailBodyEnd.height / 6f) + 0f;
         Tmp.v1.trns(unit.rotation - 90, 0, yBody);
         Draw.rect(TailBodyEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
     }
@@ -112,7 +112,7 @@ public class MantisRayType extends UnitType {
             Draw.rect(outlineRegion, unit.x, unit.y, unit.rotation - 90);
             Draw.reset();
         }
-        float yBody = (TailBody.height / 7.75f) + 0f;
+        float yBody = (TailBody.height / 7.5f) + 0f;
         Tmp.v1.trns(unit.rotation - 90, 0, yBody);
         if(Core.atlas.isFound(TailBodyOutline)){
             applyColor(unit);
@@ -120,7 +120,7 @@ public class MantisRayType extends UnitType {
             Draw.rect(TailBodyOutline, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
             Draw.reset();
         }
-        yBody += (TailBodyEnd.height / 6.25f) + 0f;
+        yBody += (TailBodyEnd.height / 6f) + 0f;
         Tmp.v1.trns(unit.rotation - 90, 0, yBody);
         if(Core.atlas.isFound(TailBodyEndOutline)){
             applyColor(unit);
