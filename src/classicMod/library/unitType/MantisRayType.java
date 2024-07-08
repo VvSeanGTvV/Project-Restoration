@@ -99,22 +99,21 @@ public class MantisRayType extends UnitType {
         Log.info("lrot " + lastRot + " | lrote " + lastRotEnd + " | rot " + Mathf.ceil(unit.rotation));
         Log.info("lrotb " + (Mathf.ceil(unit.rotation) == 1 && lastRot > 0) + " | lroteb " + (Mathf.ceil(unit.rotation) == 1 && lastRotEnd > 0));
         lastRot = Mathf.lerpDelta(lastRot, unit.rotation, 0.25f);
-        float lRot0 = NormalizeAngle(lastRot - unit.rotation);
+        float lRot0 = NormalizeAngle(lastRot, unit.rotation);
         float yBody = (TailBody.height / 7.5f) + 0f;
         Tmp.v1.trns(unit.rotation + lRot0 - 90, 0, yBody);
         Draw.rect(TailBody, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 - 90);
 
         lastRotEnd = Mathf.lerpDelta(lastRotEnd, unit.rotation, 0.1f);
-        float lRot1 = NormalizeAngle(lastRotEnd - unit.rotation);
+        float lRot1 = NormalizeAngle(lastRotEnd, unit.rotation);
         yBody += (TailBodyEnd.height / 6.15f) + 0f;
         Tmp.v1.trns(unit.rotation + lRot1 - 90, 0, yBody);
         Draw.rect(TailBodyEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot1 - 90);
     }
 
-    float NormalizeAngle(float angle) {
-        angle = angle % 360;
-        if (angle < 0) angle += 360;
-        return angle;
+    float NormalizeAngle(float angle, float target) {
+        if((Mathf.ceil(target) == 1 && Mathf.ceil(angle) > 1)) return angle + target;
+        return angle - target;
     }
 
     public void drawOutline(Unit unit){
