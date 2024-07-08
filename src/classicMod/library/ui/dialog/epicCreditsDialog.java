@@ -180,7 +180,7 @@ public class epicCreditsDialog extends Dialog {
         /*float centerX1 = (graphics.getWidth() / 2f);
         float IE = ((float) graphics.getWidth() / 1000);
         float IA = ((float) graphics.getWidth() / 225);*/
-        staticTable.x = staticTable.getMinWidth() - (getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() * 1.25f);
+        staticTable.x = staticTable.getMinWidth() - (getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() * 1.5f);
         staticTable.y = staticTable.getMinHeight();
 
         planets.render(state);
@@ -188,7 +188,7 @@ public class epicCreditsDialog extends Dialog {
         staticTable.draw();
 
         state.camPos.rotate(Vec3.Y, fdelta(250f, 120f));
-        credit.x = centerX0 - credit.getMinWidth();
+        credit.x = credit.getMinWidth();
         credit.y = scrollbar - credit.getMinHeight();
 
         contribute.x = credit.x;
