@@ -39,8 +39,8 @@ public class MantisRayType extends UnitType {
     public void update(Unit unit) {
         super.update(unit);
         timer += Time.delta / 20f;
-        lastRot = Mathf.slerpDelta(this.lastRot, unit.rotation, 0.25f);
-        lastRotEnd = Mathf.slerpDelta(this.lastRotEnd, unit.rotation, 0.1f);
+        lastRot = Mathf.slerpDelta(this.lastRot, unit.rotation, 0.35f);
+        lastRotEnd = Mathf.slerpDelta(this.lastRotEnd, unit.rotation, 0.2f);
     }
 
     @Override
