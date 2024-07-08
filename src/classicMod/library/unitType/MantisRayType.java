@@ -89,18 +89,24 @@ public class MantisRayType extends UnitType {
         drawTailShadow(unit, TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + sine0 + AngleOffset[1] - 90);
     }
 
+    float lastRot = 0f;
+    float lastRotEnd = 0f;
     public void drawBody(Unit unit){
         applyColor(unit);
 
         Draw.rect(region, unit.x, unit.y, unit.rotation - 90);
 
+        lastRot = Mathf.lerp(lastRot, unit.rotation, 0.1f);
+        float lRot0 = lastRot - unit.rotation;
         float yBody = (TailBody.height / 7.5f) + 0f;
-        Tmp.v1.trns(unit.rotation - 90, 0, yBody);
-        Draw.rect(TailBody, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
+        Tmp.v1.trns(unit.rotation + lRot0 - 90, 0, yBody);
+        Draw.rect(TailBody, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 - 90);
 
+        lastRotEnd = Mathf.lerp(lastRotEnd, unit.rotation, 0.05f);
+        float lRot1 = lastRotEnd - unit.rotation;
         yBody += (TailBodyEnd.height / 6.15f) + 0f;
-        Tmp.v1.trns(unit.rotation - 90, 0, yBody);
-        Draw.rect(TailBodyEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
+        Tmp.v1.trns(unit.rotation + lRot1 - 90, 0, yBody);
+        Draw.rect(TailBodyEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot1 - 90);
     }
 
     public void drawOutline(Unit unit){
@@ -112,20 +118,22 @@ public class MantisRayType extends UnitType {
             Draw.rect(outlineRegion, unit.x, unit.y, unit.rotation - 90);
             Draw.reset();
         }
+        float lRot0 = lastRot - unit.rotation;
         float yBody = (TailBody.height / 7.5f) + 0f;
-        Tmp.v1.trns(unit.rotation - 90, 0, yBody);
+        Tmp.v1.trns(unit.rotation + lRot0 - 90, 0, yBody);
         if(Core.atlas.isFound(TailBodyOutline)){
             applyColor(unit);
             applyOutlineColor(unit);
-            Draw.rect(TailBodyOutline, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
+            Draw.rect(TailBodyOutline, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 - 90);
             Draw.reset();
         }
+        float lRot1 = lastRotEnd - unit.rotation;
         yBody += (TailBodyEnd.height / 6.15f) + 0f;
-        Tmp.v1.trns(unit.rotation - 90, 0, yBody);
+        Tmp.v1.trns(unit.rotation + lRot1 - 90, 0, yBody);
         if(Core.atlas.isFound(TailBodyEndOutline)){
             applyColor(unit);
             applyOutlineColor(unit);
-            Draw.rect(TailBodyEndOutline, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
+            Draw.rect(TailBodyEndOutline, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot1 - 90);
             Draw.reset();
         }
     }
