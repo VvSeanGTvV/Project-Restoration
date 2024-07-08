@@ -61,7 +61,9 @@ public class MantisRayType extends UnitType {
 
         var sine0 = Mathf.sin(this.timer) * 10f;
         float sclr = 1f;
+        Draw.z(Layer.flyingUnit - 1f);
         drawShadow(unit);
+        Draw.z(Layer.flyingUnit);
         Tmp.v1.trns(unit.rotation - 90, TailOffsetBegin.x, TailOffsetBegin.y);
         Draw.rect(TailBegin, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
 
@@ -74,6 +76,7 @@ public class MantisRayType extends UnitType {
         Draw.rect(TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + sine0 + AngleOffset[1] - 90);
         drawTailShadow(unit, TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + sine0 + AngleOffset[1] - 90);
 
+        Draw.z(Layer.flyingUnit);
         drawOutline(unit);
         drawBody(unit);
 
@@ -89,7 +92,7 @@ public class MantisRayType extends UnitType {
         Tmp.v1.trns(unit.rotation - 90, 0, yBody);
         Draw.rect(TailBody, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
 
-        yBody += (TailBodyEnd.height / 6f) + 0f;
+        yBody += (TailBodyEnd.height / 5f) + 0f;
         Tmp.v1.trns(unit.rotation - 90, 0, yBody);
         Draw.rect(TailBodyEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
     }
@@ -111,7 +114,7 @@ public class MantisRayType extends UnitType {
             Draw.rect(TailBodyOutline, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
             Draw.reset();
         }
-        yBody += (TailBodyEnd.height / 6f) + 0f;
+        yBody += (TailBodyEnd.height / 5f) + 0f;
         Tmp.v1.trns(unit.rotation - 90, 0, yBody);
         if(Core.atlas.isFound(TailBodyEndOutline)){
             applyColor(unit);
@@ -159,6 +162,7 @@ public class MantisRayType extends UnitType {
 
         Draw.rect(region, x1 + shadowTX * e, y1 + shadowTY * e, rot1);
         Draw.color();
+        Draw.z(Layer.flyingUnit);
     }
 
     /*@Override
