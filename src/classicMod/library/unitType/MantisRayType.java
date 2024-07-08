@@ -60,16 +60,16 @@ public class MantisRayType extends UnitType {
         Draw.rect(TailMiddle, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + AngleOffset[0] - 90);
         drawTailShadow(unit, TailMiddle, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + AngleOffset[0] - 90);
 
-        sclr = TailMiddle.scl();
+        sclr = 1f;
         Tmp.v1.trns(unit.rotation + sine0 + AngleOffset[1] - 90, offsetX - (sine0 / 5f) - (Mathf.sin(this.timer) / 2f), ((TailMiddle.height / 4f) + 0.15f + padding) * sclr);
         Draw.rect(TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + sine0 + AngleOffset[1] - 90);
         drawTailShadow(unit, TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + sine0 + AngleOffset[1] - 90);
 
-        float yBody = TailBody.height + 0f;
+        float yBody = (TailBody.height / 2f) + 0f;
         Tmp.v1.trns(unit.rotation - 90, 0, yBody);
         Draw.rect(TailBody, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
 
-        yBody += TailBodyEnd.height + 0f;
+        yBody += (TailBodyEnd.height / 2f) + 0f;
         Tmp.v1.trns(unit.rotation - 90, 0, yBody);
         Draw.rect(TailBodyEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
 
