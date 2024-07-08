@@ -120,7 +120,7 @@ public class epicCreditsDialog extends Dialog {
         //Log.info("IN prefHEIGHT " +in.getPrefHeight());
         //Log.info("IN minHEIGHT " +in.getMinHeight());
         //Log.info("IN maxHEIGHT " +in.getMaxHeight());
-        var bot = (Vars.mobile) ? 120f : 60f; //alignment for mobile kinda off bud
+        var bot = (Vars.mobile) ? 60f : 120f; //alignment for mobile kinda off bud
         scrollbar += fdelta(650f, bot);
         //cont.clearChildren();
 
@@ -179,13 +179,13 @@ public class epicCreditsDialog extends Dialog {
         float i = Mathf.floor(f);
         float p = (i / 100f);
 
-        int width = !mobile ? 100 : 60, height = !mobile ? 50 : 40;
+        int width = !mobile ? 100 : 70, height = !mobile ? 50 : 40;
         int size = Math.max(graphics.getWidth(), graphics.getHeight());
         float centerX0 = (size - (width * 2.25f));
         /*float centerX1 = (graphics.getWidth() / 2f);
         float IE = ((float) graphics.getWidth() / 1000);
         float IA = ((float) graphics.getWidth() / 225);*/
-        staticTable.x = staticTable.getMinWidth() - getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length();
+        staticTable.x = staticTable.getMinWidth() - (getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() * 2f);
         staticTable.y = staticTable.getMinHeight();
 
         planets.render(state);
