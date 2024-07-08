@@ -8,7 +8,7 @@ import arc.math.geom.Vec3;
 import arc.scene.style.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.Table;
-import arc.util.Scaling;
+import arc.util.*;
 import classicMod.library.ui.menu.MainMenuRenderer;
 import mindustry.Vars;
 import mindustry.content.Planets;
@@ -125,7 +125,8 @@ public class epicCreditsDialog extends Dialog {
         //cont.clearChildren();
 
         setStyle(baller);
-
+        int size = Math.max(graphics.getWidth(), graphics.getHeight());
+        Log.info(size);
         //Log.info(credit.getMinWidth());
 
         //Log.info("Crolld "+ scrollbar);
@@ -179,7 +180,8 @@ public class epicCreditsDialog extends Dialog {
         float i = Mathf.floor(f);
         float p = (i / 100f);
 
-        float centerX0 = (graphics.getWidth() / p);
+        int height = !mobile ? 50 : 40;
+        float centerX0 = (!mobile ? 100 : 60);
         /*float centerX1 = (graphics.getWidth() / 2f);
         float IE = ((float) graphics.getWidth() / 1000);
         float IA = ((float) graphics.getWidth() / 225);*/
