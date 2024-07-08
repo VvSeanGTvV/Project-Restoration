@@ -3,8 +3,9 @@ package classicMod.library.ui.dialog;
 import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.input.KeyCode;
+import arc.math.Mathf;
 import arc.math.geom.Vec3;
-import arc.scene.style.TextureRegionDrawable;
+import arc.scene.style.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.Table;
 import arc.util.*;
@@ -153,7 +154,7 @@ public class epicCreditsDialog extends Dialog {
             TableHeight = in.getHeight();
             halfTableHeight = TableHeight / 1.75f;
         }
-        if(scrollbar * 1.15f >= (((credit.getMinHeight() / 2.25f) + contribute.getMinHeight()) * 1.15f)){ FinishedCredits(); return; }
+        if(scrollbar * 1.15f >= (((credit.getMinHeight()) + contribute.getMinHeight()) * 1.15f)){ FinishedCredits(); return; }
         //Log.info("IN HEIGHT " +in.getHeight());
         //Log.info("IN prefHEIGHT " +in.getPrefHeight());
         //Log.info("IN minHEIGHT " +in.getMinHeight());
@@ -209,16 +210,18 @@ public class epicCreditsDialog extends Dialog {
 
     @Override
     public void draw() {
-        //Drawable background = whiteui.tint(0f, 0f, 0f, 0.25f);
-        float centerX0 = (graphics.getWidth() / (graphics.getAspect() / 1.42f));
-        float centerX1 = (graphics.getWidth() / 2f);
+        var Wui = (TextureRegionDrawable)Tex.whiteui;
+        Drawable background = Wui.tint(0f, 0f, 0f, 0.65f);
+        float j = (Mathf.floor((graphics.getAspect() / 1.422f) * 100f)) / 100f;
+        float centerX0 = (graphics.getWidth() / j);
+        /*float centerX1 = (graphics.getWidth() / 2f);
         float IE = ((float) graphics.getWidth() / 1000);
-        float IA = ((float) graphics.getWidth() / 225);
-        staticTable.x = staticTable.getMinWidth();
+        float IA = ((float) graphics.getWidth() / 225);*/
+        staticTable.x = staticTable.getMinWidth() - getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length();
         staticTable.y = staticTable.getMinHeight();
 
         planets.render(state);
-        Styles.black5.draw(0, 0, graphics.getWidth(), graphics.getHeight());
+        background.draw(0, 0, graphics.getWidth(), graphics.getHeight());
         staticTable.draw();
 
         state.camPos.rotate(Vec3.Y, fdelta(250f, 120f));
@@ -227,7 +230,7 @@ public class epicCreditsDialog extends Dialog {
         credit.y = scrollbar - credit.getMinHeight();
 
         contribute.x = credit.x;
-        contribute.y = scrollbar - ((credit.getMinHeight() / 2.25f) + contribute.getMinHeight());
+        contribute.y = scrollbar - ((credit.getMinHeight() / 2.5f) + contribute.getMinHeight());
 
         contribute.draw();
         credit.draw();
