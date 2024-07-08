@@ -173,7 +173,7 @@ public class epicCreditsDialog extends Dialog {
         var Wui = (TextureRegionDrawable) Tex.whiteui;
         Drawable background = Wui.tint(0f, 0f, 0f, 0.65f);
 
-        float j = (graphics.getAspect() / 1.42f);
+        float j = (graphics.getAspect() / 1.4f);
         float f = j * 100;
         float i = Mathf.floor(f);
         float p = (i / 100f);
