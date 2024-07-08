@@ -92,7 +92,7 @@ public class MantisRayType extends UnitType {
         Tmp.v1.trns(unit.rotation - 90, 0, yBody);
         Draw.rect(TailBody, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
 
-        yBody += (TailBodyEnd.height / 5f) + 0f;
+        yBody += (TailBodyEnd.height / 6f) + 0f;
         Tmp.v1.trns(unit.rotation - 90, 0, yBody);
         Draw.rect(TailBodyEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
     }
