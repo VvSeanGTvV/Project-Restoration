@@ -9,6 +9,7 @@ import arc.scene.style.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.Table;
 import arc.util.Scaling;
+import classicMod.library.ui.menu.MainMenuRenderer;
 import mindustry.Vars;
 import mindustry.content.Planets;
 import mindustry.gen.*;
