@@ -8,7 +8,7 @@ import arc.math.geom.Vec3;
 import arc.scene.style.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.Table;
-import arc.util.*;
+import arc.util.Scaling;
 import mindustry.Vars;
 import mindustry.content.Planets;
 import mindustry.gen.*;
@@ -154,7 +154,10 @@ public class epicCreditsDialog extends Dialog {
             TableHeight = in.getHeight();
             halfTableHeight = TableHeight / 1.75f;
         }
-        if(scrollbar * 1.15f >= (((credit.getMinHeight()) + contribute.getMinHeight()) * 1.15f)){ FinishedCredits(); return; }
+        if (scrollbar * 1.15f >= (((credit.getMinHeight()) + contribute.getMinHeight()) * 1.15f)) {
+            FinishedCredits();
+            return;
+        }
         //Log.info("IN HEIGHT " +in.getHeight());
         //Log.info("IN prefHEIGHT " +in.getPrefHeight());
         //Log.info("IN minHEIGHT " +in.getMinHeight());
@@ -210,7 +213,7 @@ public class epicCreditsDialog extends Dialog {
 
     @Override
     public void draw() {
-        var Wui = (TextureRegionDrawable)Tex.whiteui;
+        var Wui = (TextureRegionDrawable) Tex.whiteui;
         Drawable background = Wui.tint(0f, 0f, 0f, 0.65f);
         float j = (Mathf.floor((graphics.getAspect() / 1.422f) * 100f)) / 100f;
         float centerX0 = (graphics.getWidth() / j);
