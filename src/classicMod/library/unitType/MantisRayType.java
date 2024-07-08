@@ -65,11 +65,11 @@ public class MantisRayType extends UnitType {
         Draw.rect(TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + sine0 + AngleOffset[1] - 90);
         drawTailShadow(unit, TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + sine0 + AngleOffset[1] - 90);
 
-        float yBody = (TailBody.height / 2f) + 0f;
+        float yBody = (TailBody.height / 4f) + 0f;
         Tmp.v1.trns(unit.rotation - 90, 0, yBody);
         Draw.rect(TailBody, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
 
-        yBody += (TailBodyEnd.height / 2f) + 0f;
+        yBody += (TailBodyEnd.height / 4f) + 0f;
         Tmp.v1.trns(unit.rotation - 90, 0, yBody);
         Draw.rect(TailBodyEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
 
@@ -77,6 +77,7 @@ public class MantisRayType extends UnitType {
     }
 
     public void drawTailShadow(Unit unit, TextureRegion region, float x1, float y1, float rot1) {
+        Draw.z(Layer.flyingUnit - 1f);
         float e = Mathf.clamp(unit.elevation, shadowElevation, 1f) * shadowElevationScl * (1f - unit.drownTime);
         float x = x1 + shadowTX * e, y = y1 + shadowTY * e;
         Floor floor = world.floorWorld(x, y);
