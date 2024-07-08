@@ -181,7 +181,7 @@ public class epicCreditsDialog extends Dialog {
 
         int width = !mobile ? 100 : 60, height = !mobile ? 50 : 40;
         int size = Math.max(graphics.getWidth(), graphics.getHeight());
-        float centerX0 = (size - width);
+        float centerX0 = (size - (width * 2.25f));
         /*float centerX1 = (graphics.getWidth() / 2f);
         float IE = ((float) graphics.getWidth() / 1000);
         float IA = ((float) graphics.getWidth() / 225);*/
