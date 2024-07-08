@@ -165,7 +165,6 @@ public class epicCreditsDialog extends Dialog {
         setStyle(baller);
 
         //Log.info(credit.getMinWidth());
-        Log.info(graphics.getDensity());
 
         //Log.info("Crolld "+ scrollbar);
         //Log.info("Crollf "+ scrollbar * 1.15f);
@@ -211,7 +210,7 @@ public class epicCreditsDialog extends Dialog {
     @Override
     public void draw() {
         //Drawable background = whiteui.tint(0f, 0f, 0f, 0.25f);
-        float centerX0 = (graphics.getWidth() / (1.25f));
+        float centerX0 = (graphics.getWidth() / (graphics.getAspect() / 1.42f));
         float centerX1 = (graphics.getWidth() / 2f);
         float IE = ((float) graphics.getWidth() / 1000);
         float IA = ((float) graphics.getWidth() / 225);
