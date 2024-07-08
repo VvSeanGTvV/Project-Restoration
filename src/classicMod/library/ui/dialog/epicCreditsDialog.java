@@ -84,7 +84,6 @@ public class epicCreditsDialog extends Dialog {
             }
             image(Tex.clear).height(35).padTop(3f).row();
             add(bundle.get("contributors")).row();
-            image(Tex.clear).height(35).padTop(3f).row();
         }).center();
 
         table(con -> {
@@ -154,7 +153,7 @@ public class epicCreditsDialog extends Dialog {
             TableHeight = in.getHeight();
             halfTableHeight = TableHeight / 1.75f;
         }
-        //if(scrollbar * 1.15f >= (TableHeight * 1.462f)){ FinishedCredits(); return; }
+        if(scrollbar * 1.15f >= (((credit.getMinHeight() / 2.25f) + contribute.getMinHeight()) * 1.15f)){ FinishedCredits(); return; }
         //Log.info("IN HEIGHT " +in.getHeight());
         //Log.info("IN prefHEIGHT " +in.getPrefHeight());
         //Log.info("IN minHEIGHT " +in.getMinHeight());
@@ -165,7 +164,7 @@ public class epicCreditsDialog extends Dialog {
 
         setStyle(baller);
 
-        Log.info(credit.getMinWidth());
+        //Log.info(credit.getMinWidth());
 
         //Log.info("Crolld "+ scrollbar);
         //Log.info("Crollf "+ scrollbar * 1.15f);
