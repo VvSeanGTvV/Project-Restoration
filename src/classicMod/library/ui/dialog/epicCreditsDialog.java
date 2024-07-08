@@ -26,7 +26,7 @@ public class epicCreditsDialog extends Dialog {
     Image logo = new Image(new TextureRegionDrawable(Core.atlas.find("restored-mind-logoMod")), Scaling.fit);
     PlanetParams state = new PlanetParams() {{
         planet = Planets.serpulo;
-        camPos = new Vec3(5, 0, 0);
+        camPos = new Vec3(100, 0, 0);
         zoom = 0.6f;
     }};
     Table credit = new Table() {{
@@ -219,7 +219,7 @@ public class epicCreditsDialog extends Dialog {
         staticTable.y = staticTable.getMinHeight();
 
         planets.render(state);
-        Styles.black3.draw(0, 0, graphics.getWidth(), graphics.getHeight());
+        Styles.black5.draw(0, 0, graphics.getWidth(), graphics.getHeight());
         staticTable.draw();
 
         state.camPos.rotate(Vec3.Y, fdelta(250f, 120f));
@@ -228,7 +228,7 @@ public class epicCreditsDialog extends Dialog {
         credit.y = scrollbar - credit.getMinHeight();
 
         contribute.x = credit.x;
-        contribute.y = scrollbar - ((credit.getMinHeight() / 2f) + contribute.getMinHeight());
+        contribute.y = scrollbar - ((credit.getMinHeight() / 2.25f) + contribute.getMinHeight());
 
         contribute.draw();
         credit.draw();
