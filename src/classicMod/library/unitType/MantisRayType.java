@@ -6,7 +6,7 @@ import arc.graphics.g2d.*;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.util.*;
-import mindustry.gen.Unit;
+import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.UnitType;
 import mindustry.world.blocks.environment.Floor;
@@ -21,6 +21,8 @@ public class MantisRayType extends UnitType {
 
     public TextureRegion TailBody;
     public TextureRegion TailBodyEnd;
+
+    public TextureRegion TailBodyOutline, TailBodyEndOutline;
 
     public Vec2 TailOffsetBegin = new Vec2(0f, -7.25f);
     public float[] AngleOffset = new float[]{0f, 0f};
@@ -40,8 +42,8 @@ public class MantisRayType extends UnitType {
     }
 
     @Override
-    public void draw(Unit unit) {
-
+    public void load() {
+        super.load();
         TailBegin = Core.atlas.find(name + "-tail-0");
         TailMiddle = Core.atlas.find(name + "-tail-1");
         TailEnd = Core.atlas.find(name + "-tail-2");
@@ -49,10 +51,17 @@ public class MantisRayType extends UnitType {
         TailBody = Core.atlas.find(name + "-tail-mid");
         TailBodyEnd = Core.atlas.find(name + "-tail-end");
 
+        TailBodyOutline = Core.atlas.find(name + "-tail-mid-outline");
+        TailBodyEndOutline = Core.atlas.find(name + "-tail-end-outline");
+    }
+
+    @Override
+    public void draw(Unit unit) {
         super.draw(unit);
 
         var sine0 = Mathf.sin(this.timer) * 10f;
         float sclr = 1f;
+        drawShadow(unit);
         Tmp.v1.trns(unit.rotation - 90, TailOffsetBegin.x, TailOffsetBegin.y);
         Draw.rect(TailBegin, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
 
@@ -65,15 +74,76 @@ public class MantisRayType extends UnitType {
         Draw.rect(TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + sine0 + AngleOffset[1] - 90);
         drawTailShadow(unit, TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + sine0 + AngleOffset[1] - 90);
 
+        drawOutline(unit);
+        drawBody(unit);
+
+        //Draw.rect(TailEnd, unit.x + TailOffset[2].x, unit.y + TailOffset[2].y);
+    }
+
+    public void drawBody(Unit unit){
+        applyColor(unit);
+
+        Draw.rect(region, unit.x, unit.y, unit.rotation - 90);
+
         float yBody = (TailBody.height / 8f) + 0f;
         Tmp.v1.trns(unit.rotation - 90, 0, yBody);
         Draw.rect(TailBody, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
 
-        yBody += (TailBodyEnd.height / 8f) + 0f;
+        yBody += (TailBodyEnd.height / 4f) + 0f;
         Tmp.v1.trns(unit.rotation - 90, 0, yBody);
         Draw.rect(TailBodyEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
+    }
 
-        //Draw.rect(TailEnd, unit.x + TailOffset[2].x, unit.y + TailOffset[2].y);
+    public void drawOutline(Unit unit){
+        Draw.reset();
+
+        if(Core.atlas.isFound(outlineRegion)){
+            applyColor(unit);
+            applyOutlineColor(unit);
+            Draw.rect(outlineRegion, unit.x, unit.y, unit.rotation - 90);
+            Draw.reset();
+        }
+        float yBody = (TailBody.height / 8f) + 0f;
+        Tmp.v1.trns(unit.rotation - 90, 0, yBody);
+        if(Core.atlas.isFound(TailBodyOutline)){
+            applyColor(unit);
+            applyOutlineColor(unit);
+            Draw.rect(TailBodyOutline, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
+            Draw.reset();
+        }
+        yBody += (TailBodyEnd.height / 4f) + 0f;
+        Tmp.v1.trns(unit.rotation - 90, 0, yBody);
+        if(Core.atlas.isFound(TailBodyEndOutline)){
+            applyColor(unit);
+            applyOutlineColor(unit);
+            Draw.rect(TailBodyEndOutline, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
+            Draw.reset();
+        }
+    }
+
+    @Override
+    public void createIcons(MultiPacker packer) {
+        super.createIcons(packer);
+
+        var atlasA = Core.atlas.find(name + "-tail-mid").asAtlas();
+        if (atlasA != null) {
+            String regionName = atlasA.name;
+            Pixmap outlined = Pixmaps.outline(Core.atlas.getPixmap(atlasA), outlineColor, outlineRadius);
+
+            Drawf.checkBleed(outlined);
+
+            packer.add(MultiPacker.PageType.main, regionName + "-tail-mid-outline", outlined);
+        }
+
+        var atlasB = Core.atlas.find(name + "-tail-end").asAtlas();
+        if (atlasB != null) {
+            String regionName = atlasB.name;
+            Pixmap outlined = Pixmaps.outline(Core.atlas.getPixmap(atlasB), outlineColor, outlineRadius);
+
+            Drawf.checkBleed(outlined);
+
+            packer.add(MultiPacker.PageType.main, regionName + "-tail-end-outline", outlined);
+        }
     }
 
     public void drawTailShadow(Unit unit, TextureRegion region, float x1, float y1, float rot1) {
