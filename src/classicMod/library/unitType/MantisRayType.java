@@ -114,7 +114,7 @@ public class MantisRayType extends UnitType {
             Draw.rect(TailBodyOutline, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
             Draw.reset();
         }
-        yBody += (TailBodyEnd.height / 5f) + 0f;
+        yBody += (TailBodyEnd.height / 6f) + 0f;
         Tmp.v1.trns(unit.rotation - 90, 0, yBody);
         if(Core.atlas.isFound(TailBodyEndOutline)){
             applyColor(unit);
