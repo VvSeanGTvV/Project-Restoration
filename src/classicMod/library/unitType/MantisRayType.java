@@ -85,7 +85,8 @@ public class MantisRayType extends UnitType {
         drawShadowTexture(unit, TailBody, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 - 90);
         float lRot1 = lastRotEnd - unit.rotation;
         yBody += (TailBodyEnd.height / 6.15f) + 0f;
-
+        Tmp.v1.trns(unit.rotation + lRot1 - 90, 0, yBody);
+        
         drawShadowTexture(unit, TailBodyEndOutline, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot1 - 90);
     }
 
