@@ -29,11 +29,11 @@ public class MantisRayType extends UnitType {
     public float padding = 0f;
     public float offsetX = 0f;
 
-    private final MantisValue MV;
+    private final MantisRayEntity MV;
 
     public MantisRayType(String name) {
         super(name);
-        MV = new MantisValue();
+        MV = new MantisRayEntity();
     }
 
     @Override
@@ -193,11 +193,5 @@ public class MantisRayType extends UnitType {
         Draw.rect(region, x1 + shadowTX * e, y1 + shadowTY * e, rot1);
         Draw.color();
         Draw.z(Layer.flyingUnit);
-    }
-
-    public static class MantisValue {
-        float lastRot = 0f;
-        float lastRotEnd = 0f;
-        float timer;
     }
 }
