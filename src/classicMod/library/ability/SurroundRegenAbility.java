@@ -2,12 +2,14 @@ package classicMod.library.ability;
 
 import arc.Core;
 import arc.scene.ui.layout.Table;
-import arc.util.Time;
+import arc.util.*;
 import mindustry.content.Fx;
 import mindustry.entities.Units;
 import mindustry.entities.abilities.Ability;
 import mindustry.gen.Unit;
-import mindustry.world.meta.Stat;
+import mindustry.world.meta.*;
+
+import static mindustry.Vars.tilesize;
 
 public class SurroundRegenAbility extends Ability {
 
@@ -24,8 +26,8 @@ public class SurroundRegenAbility extends Ability {
 
     @Override
     public void addStats(Table t){
-        t.add("[lightgray]" + Stat.range.localized() + ": [white]" + healRange);
-        t.add("[lightgray]" + Stat.healing.localized() + ": [white]" + healAmount);
+        t.add(("[lightgray]" + Stat.range.localized() + ": [white]" + Strings.autoFixed(healRange / tilesize, 2)) + StatUnit.blocks.localized());
+        t.add(("[lightgray]" + Stat.healing.localized() + ": [white]" + Strings.autoFixed(healAmount * 60f, 2)) + StatUnit.perSecond.localized());
     }
 
     @Override

@@ -3,6 +3,7 @@ package classicMod.library.ability;
 import arc.Core;
 import arc.math.Mathf;
 import arc.scene.ui.layout.Table;
+import arc.util.Time;
 import mindustry.entities.abilities.Ability;
 import mindustry.gen.Unit;
 import mindustry.world.meta.Stat;
@@ -17,7 +18,10 @@ public class RegenerationAbility extends Ability {
         }
 
     public RegenerationAbility(float healby){ //Use old V5 coding adn reformat into v7 style coding.
-        this.healby = healby;
+        this.healby = healby; //for legacy usage
+    }
+
+    public RegenerationAbility(){
     }
 
     @Override
@@ -28,8 +32,9 @@ public class RegenerationAbility extends Ability {
     @Override
     public void update(Unit unit) {
         super.update(unit);
+        float healDelta = Time.delta * healby;
         if(unit.health < unit.maxHealth){
-            unit.health(unit.health + healby);
+            unit.health(unit.health + healDelta);
             clampHealth(unit);
         }
     }

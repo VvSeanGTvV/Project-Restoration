@@ -301,7 +301,11 @@ public class ClassicUnitTypes {
             buildSpeed = 1.1f;
             canBoost = true;
             constructor = MechUnit::create;
-            abilities.add(new RegenerationAbility(Time.delta * 0.09f));
+            abilities.add(
+                    new RegenerationAbility(){{
+                        healby = 0.09f;
+                    }}
+            );
 
             weapons.add(new Weapon("restored-mind-blaster-equip") {{
                 outlines = false;
@@ -439,7 +443,9 @@ public class ClassicUnitTypes {
             engineColor = Color.valueOf("feb380");
             canBoost = true;
             constructor = MechUnit::create;
-            abilities.add(new ArmorAbility(30f)); //Modify armor abilty for 2nd texture (static)
+            abilities.add(new ArmorAbility(){{
+                healthMultiplier = 30f;
+            }}); //Modify armor abilty for 2nd texture (static)
 
             weapons.add(new Weapon("restored-mind-swarmer-equip") {{
                 outlines = false;
