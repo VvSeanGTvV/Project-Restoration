@@ -75,6 +75,20 @@ public class MantisRayType extends UnitType {
         //Draw.rect(TailEnd, unit.x + TailOffset[2].x, unit.y + TailOffset[2].y);
     }
 
+    public void drawShadow(Unit unit){
+        drawShadowTexture(unit, region, unit.x, unit.y, unit.rotation - 90);
+
+        float lRot0 = lastRot - unit.rotation;
+        float yBody = (TailBody.height / 7.5f) + 0f;
+        Tmp.v1.trns(unit.rotation + lRot0 - 90, 0, yBody);
+
+        drawShadowTexture(unit, TailBody, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 - 90);
+        float lRot1 = lastRotEnd - unit.rotation;
+        yBody += (TailBodyEnd.height / 6.15f) + 0f;
+
+        drawShadowTexture(unit, TailBodyEndOutline, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot1 - 90);
+    }
+
     public void drawTail(Unit unit){
         var sine0 = Mathf.sin(this.timer) * 10f;
         float sclr = 1f;
@@ -83,12 +97,12 @@ public class MantisRayType extends UnitType {
 
         Tmp.v1.trns(unit.rotation + sine0 + AngleOffset[0] - 90, offsetX - (sine0 / 5f), ((TailBegin.height / 8f) + 6.6f + padding) * sclr);
         Draw.rect(TailMiddle, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + AngleOffset[0] - 90);
-        drawTailShadow(unit, TailMiddle, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + AngleOffset[0] - 90);
+        drawShadowTexture(unit, TailMiddle, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + AngleOffset[0] - 90);
 
         sclr = 1f;
         Tmp.v1.trns(unit.rotation + sine0 + AngleOffset[1] - 90, offsetX - (sine0 / 5f) - (Mathf.sin(this.timer) / 2f), ((TailMiddle.height / 4f) + 0.15f + padding) * sclr);
         Draw.rect(TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + sine0 + AngleOffset[1] - 90);
-        drawTailShadow(unit, TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + sine0 + AngleOffset[1] - 90);
+        drawShadowTexture(unit, TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + sine0 + AngleOffset[1] - 90);
     }
 
     float lastRot = 0f;
@@ -165,7 +179,9 @@ public class MantisRayType extends UnitType {
         }
     }
 
-    public void drawTailShadow(Unit unit, TextureRegion region, float x1, float y1, float rot1) {
+
+
+    public void drawShadowTexture(Unit unit, TextureRegion region, float x1, float y1, float rot1) {
         Draw.z(Layer.flyingUnit - 1f);
         float e = Mathf.clamp(unit.elevation, shadowElevation, 1f) * shadowElevationScl * (1f - unit.drownTime);
         float x = x1 + shadowTX * e, y = y1 + shadowTY * e;
