@@ -1,11 +1,13 @@
 package classicMod.library.unitType;
 
 import arc.Core;
+import arc.func.Prov;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.util.*;
+import mindustry.game.Team;
 import mindustry.gen.Unit;
 import mindustry.graphics.*;
 import mindustry.type.UnitType;
@@ -29,19 +31,30 @@ public class MantisRayType extends UnitType {
     public float padding = 0f;
     public float offsetX = 0f;
 
-    private final MantisRayEntity MV;
+    float timer, lastRot, lastRotEnd;
+    //private final MantisRayEntity entity;
+    public Prov<? extends MantisRayEntity> entity;
+    public MantisRayEntity ent;
 
     public MantisRayType(String name) {
         super(name);
-        MV = new MantisRayEntity();
+        entity = MantisRayEntity::create;
+    }
+
+    @Override
+    public Unit create(Team team) {
+        ent = entity.get();
+        return super.create(team);
     }
 
     @Override
     public void update(Unit unit) {
         super.update(unit);
-        MV.timer += Time.delta / 20f;
-        MV.lastRot = Mathf.slerpDelta(MV.lastRot, unit.rotation, 0.35f);
-        MV.lastRotEnd = Mathf.slerpDelta(MV.lastRotEnd, unit.rotation, 0.2f);
+        this.timer = ent.getTimer();
+        this.lastRot = ent.setlastRot(unit, 0.35f);
+        this.lastRotEnd = ent.setlastRotEnd(unit, 0.2f);
+        //this.lastRot = Mathf.slerpDelta(this.lastRot, unit.rotation, 0.35f);
+        //this.lastRotEnd = Mathf.slerpDelta(this.lastRotEnd, unit.rotation, 0.2f);
     }
 
     @Override
@@ -79,12 +92,12 @@ public class MantisRayType extends UnitType {
     public void drawShadow(Unit unit) {
         drawShadowTexture(unit, region, unit.x, unit.y, unit.rotation - 90);
 
-        float lRot0 = MV.lastRot - unit.rotation;
+        float lRot0 = this.lastRot - unit.rotation;
         float yBody = (TailBody.height / 7.5f) + 0f;
         Tmp.v1.trns(unit.rotation + lRot0 - 90, 0, yBody);
 
         drawShadowTexture(unit, TailBody, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 - 90);
-        float lRot1 = MV.lastRotEnd - unit.rotation;
+        float lRot1 = this.lastRotEnd - unit.rotation;
         yBody += (TailBodyEnd.height / 6.15f) + 0f;
         Tmp.v1.trns(unit.rotation + lRot1 - 90, 0, yBody);
 
@@ -92,7 +105,7 @@ public class MantisRayType extends UnitType {
     }
 
     public void drawTail(Unit unit) {
-        var sine0 = Mathf.sin(MV.timer) * 10f;
+        var sine0 = Mathf.sin(this.timer) * 10f;
         float sclr = 1f;
         Tmp.v1.trns(unit.rotation - 90, TailOffsetBegin.x, TailOffsetBegin.y);
         Draw.rect(TailBegin, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
@@ -102,7 +115,7 @@ public class MantisRayType extends UnitType {
         drawShadowTexture(unit, TailMiddle, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + AngleOffset[0] - 90);
 
         sclr = 1f;
-        Tmp.v1.trns(unit.rotation + sine0 + AngleOffset[1] - 90, offsetX - (sine0 / 5f) - (Mathf.sin(MV.timer) / 2f), ((TailMiddle.height / 4f) + 0.15f + padding) * sclr);
+        Tmp.v1.trns(unit.rotation + sine0 + AngleOffset[1] - 90, offsetX - (sine0 / 5f) - (Mathf.sin(this.timer ) / 2f), ((TailMiddle.height / 4f) + 0.15f + padding) * sclr);
         Draw.rect(TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + sine0 + AngleOffset[1] - 90);
         drawShadowTexture(unit, TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + sine0 + AngleOffset[1] - 90);
     }
@@ -114,12 +127,12 @@ public class MantisRayType extends UnitType {
 
         //Log.info("lrot " + lastRot + " | lrote " + lastRotEnd + " | rot " + Mathf.ceil(unit.rotation));
         //Log.info("lrotb " + (Mathf.ceil(unit.rotation) == 1 && Mathf.ceil(lastRot) > 1) + " | lroteb " + (Mathf.ceil(unit.rotation) == 1 && Mathf.ceil(lastRotEnd) > 1));
-        float lRot0 = MV.lastRot - unit.rotation;
+        float lRot0 = this.lastRot - unit.rotation;
         float yBody = (TailBody.height / 7.5f) + 0f;
         Tmp.v1.trns(unit.rotation + lRot0 - 90, 0, yBody);
         Draw.rect(TailBody, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 - 90);
 
-        float lRot1 = MV.lastRotEnd - unit.rotation;
+        float lRot1 = this.lastRotEnd - unit.rotation;
         yBody += (TailBodyEnd.height / 6.15f) + 0f;
         Tmp.v1.trns(unit.rotation + lRot1 - 90, 0, yBody);
         Draw.rect(TailBodyEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot1 - 90);
@@ -134,7 +147,7 @@ public class MantisRayType extends UnitType {
             Draw.rect(outlineRegion, unit.x, unit.y, unit.rotation - 90);
             Draw.reset();
         }
-        float lRot0 = MV.lastRot - unit.rotation;
+        float lRot0 = this.lastRot - unit.rotation;
         float yBody = (TailBody.height / 7.5f) + 0f;
         Tmp.v1.trns(unit.rotation + lRot0 - 90, 0, yBody);
         if (Core.atlas.isFound(TailBodyOutline)) {
@@ -143,7 +156,7 @@ public class MantisRayType extends UnitType {
             Draw.rect(TailBodyOutline, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 - 90);
             Draw.reset();
         }
-        float lRot1 = MV.lastRotEnd - unit.rotation;
+        float lRot1 = this.lastRotEnd - unit.rotation;
         yBody += (TailBodyEnd.height / 6.15f) + 0f;
         Tmp.v1.trns(unit.rotation + lRot1 - 90, 0, yBody);
         if (Core.atlas.isFound(TailBodyEndOutline)) {
