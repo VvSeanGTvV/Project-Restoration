@@ -51,11 +51,9 @@ public class MantisRayType extends UnitType {
     public void update(Unit unit) {
         super.update(unit);
         var entget = entity.get(unit);
-        if (entget == null) unit.remove(); else {
             this.timer = entget.getTimer();
             this.lastRot = entget.setlastRot(unit, 0.35f);
-            this.lastRotEnd = entget.setlastRotEnd(unit, 0.2f);
-        }
+            this.lastRotEnd = entget.setlastRotEnd(unit, 0.15f);
         //this.lastRot = Mathf.slerpDelta(this.lastRot, unit.rotation, 0.35f);
         //this.lastRotEnd = Mathf.slerpDelta(this.lastRotEnd, unit.rotation, 0.2f);
     }
