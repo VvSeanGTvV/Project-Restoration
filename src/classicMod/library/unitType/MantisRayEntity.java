@@ -4,7 +4,7 @@ import arc.math.Mathf;
 import arc.util.Time;
 import mindustry.gen.*;
 
-public abstract class MantisRayEntity extends UnitEntity {
+public class MantisRayEntity {
     float lastRot = 0f;
     float lastRotEnd = 0f;
     float timer;

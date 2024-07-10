@@ -1,12 +1,13 @@
 package classicMod.library.unitType;
 
 import arc.Core;
-import arc.func.Prov;
+import arc.func.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.util.*;
+import mindustry.entities.units.UnitController;
 import mindustry.game.Team;
 import mindustry.gen.Unit;
 import mindustry.graphics.*;
@@ -33,7 +34,8 @@ public class MantisRayType extends UnitType {
 
     float timer, lastRot, lastRotEnd;
     //private final MantisRayEntity entity;
-    public Prov<? extends MantisRayEntity> entity;
+    public Prov<? extends MantisRayEntity> entityRay = MantisRayEntity::new;
+    public Func<Unit, ? extends MantisRayEntity> entity = u -> entityRay.get();
     public MantisRayEntity ent;
 
     public MantisRayType(String name) {
@@ -42,17 +44,18 @@ public class MantisRayType extends UnitType {
 
     @Override
     public Unit create(Team team) {
-        ent = entity.get();
+        //ent = entity;
         return super.create(team);
     }
 
     @Override
     public void update(Unit unit) {
         super.update(unit);
-        if(ent == null) return;
-        this.timer = ent.getTimer();
-        this.lastRot = ent.setlastRot(unit, 0.35f);
-        this.lastRotEnd = ent.setlastRotEnd(unit, 0.2f);
+        if(this.entity instanceof MantisRayEntity ent) {
+            this.timer = ent.getTimer();
+            this.lastRot = ent.setlastRot(unit, 0.35f);
+            this.lastRotEnd = ent.setlastRotEnd(unit, 0.2f);
+        } else { unit.remove(); }
         //this.lastRot = Mathf.slerpDelta(this.lastRot, unit.rotation, 0.35f);
         //this.lastRotEnd = Mathf.slerpDelta(this.lastRotEnd, unit.rotation, 0.2f);
     }
@@ -74,7 +77,6 @@ public class MantisRayType extends UnitType {
     @Override
     public void draw(Unit unit) {
         super.draw(unit);
-        if(ent == null) return;
 
         Draw.z(Layer.flyingUnit - 1f);
         drawShadow(unit);
@@ -115,7 +117,7 @@ public class MantisRayType extends UnitType {
         drawShadowTexture(unit, TailMiddle, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + AngleOffset[0] - 90);
 
         sclr = 1f;
-        Tmp.v1.trns(unit.rotation + sine0 + AngleOffset[1] - 90, offsetX - (sine0 / 5f) - (Mathf.sin(this.timer ) / 2f), ((TailMiddle.height / 4f) + 0.15f + padding) * sclr);
+        Tmp.v1.trns(unit.rotation + sine0 + AngleOffset[1] - 90, offsetX - (sine0 / 5f) - (Mathf.sin(this.timer) / 2f), ((TailMiddle.height / 4f) + 0.15f + padding) * sclr);
         Draw.rect(TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + sine0 + AngleOffset[1] - 90);
         drawShadowTexture(unit, TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + sine0 + sine0 + AngleOffset[1] - 90);
     }
