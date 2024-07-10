@@ -33,7 +33,7 @@ public class MantisRayType extends UnitType {
     public float padding = 0f;
     public float offsetX = 0f;
 
-    float timer, lastRot, lastRotEnd;
+    public float timer, lastRot, lastRotEnd;
     //private final MantisRayEntity entity;
 
     public MantisRayType(String name) {
@@ -43,14 +43,11 @@ public class MantisRayType extends UnitType {
     @Override
     public void update(Unit unit) {
         super.update(unit);
-        if(unit.controller() instanceof MantisRayAI ai) {
-            ai.timer += Time.delta / 20f;
-            ai.lastRot = Mathf.slerpDelta(ai.lastRot, unit.rotation, 0.35f);
-            ai.lastRotEnd = Mathf.slerpDelta(ai.lastRotEnd, unit.rotation, 0.15f);
-        } else {
+        if(!(unit.controller() instanceof MantisRayAI)) {
             this.timer += Time.delta / 20f;
             this.lastRot = Mathf.slerpDelta(this.lastRot, unit.rotation, 0.35f);
             this.lastRotEnd = Mathf.slerpDelta(this.lastRotEnd, unit.rotation, 0.15f);
+            unit.controller(new MantisRayAI());
         }
         //this.lastRot = Mathf.slerpDelta(this.lastRot, unit.rotation, 0.35f);
         //this.lastRotEnd = Mathf.slerpDelta(this.lastRotEnd, unit.rotation, 0.2f);
