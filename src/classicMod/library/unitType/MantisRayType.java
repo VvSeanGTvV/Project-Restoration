@@ -38,21 +38,19 @@ public class MantisRayType extends UnitType {
 
     public MantisRayType(String name) {
         super(name);
-        controller = u -> new MantisRayAI();
     }
 
     @Override
     public void update(Unit unit) {
         super.update(unit);
         if(unit.controller() instanceof MantisRayAI ai) {
-            this.timer = ai.getTimer();
-            this.lastRot = ai.getLastRot();
-            this.lastRotEnd = ai.getLastRotEnd();
+            ai.timer += Time.delta / 20f;
+            ai.lastRot = Mathf.slerpDelta(ai.lastRot, unit.rotation, 0.35f);
+            ai.lastRotEnd = Mathf.slerpDelta(ai.lastRotEnd, unit.rotation, 0.15f);
         } else {
             this.timer += Time.delta / 20f;
             this.lastRot = Mathf.slerpDelta(this.lastRot, unit.rotation, 0.35f);
             this.lastRotEnd = Mathf.slerpDelta(this.lastRotEnd, unit.rotation, 0.15f);
-            unit.controller(new MantisRayAI());
         }
         //this.lastRot = Mathf.slerpDelta(this.lastRot, unit.rotation, 0.35f);
         //this.lastRotEnd = Mathf.slerpDelta(this.lastRotEnd, unit.rotation, 0.2f);
