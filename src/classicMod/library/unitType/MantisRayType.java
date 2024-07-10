@@ -36,7 +36,6 @@ public class MantisRayType extends UnitType {
     //private final MantisRayEntity entity;
     public Prov<? extends MantisRayEntity> entityRay = MantisRayEntity::new;
     public Func<Unit, ? extends MantisRayEntity> entity = u -> entityRay.get();
-    public MantisRayEntity ent;
 
     public MantisRayType(String name) {
         super(name);
@@ -51,11 +50,12 @@ public class MantisRayType extends UnitType {
     @Override
     public void update(Unit unit) {
         super.update(unit);
-        if(this.entity instanceof MantisRayEntity ent) {
-            this.timer = ent.getTimer();
-            this.lastRot = ent.setlastRot(unit, 0.35f);
-            this.lastRotEnd = ent.setlastRotEnd(unit, 0.2f);
-        } else { unit.remove(); }
+        var entget = entity.get(unit);
+        if (entget == null) unit.remove(); else {
+            this.timer = entget.getTimer();
+            this.lastRot = entget.setlastRot(unit, 0.35f);
+            this.lastRotEnd = entget.setlastRotEnd(unit, 0.2f);
+        }
         //this.lastRot = Mathf.slerpDelta(this.lastRot, unit.rotation, 0.35f);
         //this.lastRotEnd = Mathf.slerpDelta(this.lastRotEnd, unit.rotation, 0.2f);
     }
