@@ -38,7 +38,6 @@ public class MantisRayType extends UnitType {
 
     public MantisRayType(String name) {
         super(name);
-        entity = MantisRayEntity::create;
     }
 
     @Override
@@ -50,6 +49,7 @@ public class MantisRayType extends UnitType {
     @Override
     public void update(Unit unit) {
         super.update(unit);
+        if(ent == null) return;
         this.timer = ent.getTimer();
         this.lastRot = ent.setlastRot(unit, 0.35f);
         this.lastRotEnd = ent.setlastRotEnd(unit, 0.2f);
@@ -74,7 +74,7 @@ public class MantisRayType extends UnitType {
     @Override
     public void draw(Unit unit) {
         super.draw(unit);
-
+        if(ent == null) return;
 
         Draw.z(Layer.flyingUnit - 1f);
         drawShadow(unit);

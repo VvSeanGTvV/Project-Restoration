@@ -4,7 +4,7 @@ import arc.math.Mathf;
 import arc.util.Time;
 import mindustry.gen.*;
 
-public class MantisRayEntity {
+public abstract class MantisRayEntity extends UnitEntity {
     float lastRot = 0f;
     float lastRotEnd = 0f;
     float timer;
@@ -25,6 +25,21 @@ public class MantisRayEntity {
     }
 
     public static MantisRayEntity create() {
-        return new MantisRayEntity();
+        return new MantisRayEntity() {
+            @Override
+            public float getTimer() {
+                return super.getTimer();
+            }
+
+            @Override
+            public float setlastRot(Unit unit, float prog) {
+                return super.setlastRot(unit, prog);
+            }
+
+            @Override
+            public float setlastRotEnd(Unit unit, float prog) {
+                return super.setlastRotEnd(unit, prog);
+            }
+        };
     }
 }
