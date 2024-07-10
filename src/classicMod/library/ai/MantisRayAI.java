@@ -6,9 +6,9 @@ import classicMod.library.unitType.MantisRayType;
 import mindustry.entities.units.AIController;
 
 public class MantisRayAI extends AIController {
+
     @Override
-    public void updateVisuals() {
-        super.updateVisuals();
+    public void updateMovement() {
         if(unit.type instanceof MantisRayType type){
             type.timer += Time.delta / 20f;
             type.lastRot = Mathf.slerpDelta(type.lastRot, unit.rotation, 0.35f);
