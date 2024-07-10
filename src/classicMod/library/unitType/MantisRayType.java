@@ -7,6 +7,7 @@ import arc.graphics.g2d.*;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.util.*;
+import classicMod.library.ai.MantisRayAI;
 import mindustry.entities.units.UnitController;
 import mindustry.game.Team;
 import mindustry.gen.Unit;
@@ -34,26 +35,25 @@ public class MantisRayType extends UnitType {
 
     float timer, lastRot, lastRotEnd;
     //private final MantisRayEntity entity;
-    public Prov<? extends MantisRayEntity> entityRay = MantisRayEntity::new;
-    public Func<Unit, ? extends MantisRayEntity> entity = u -> entityRay.get();
 
     public MantisRayType(String name) {
         super(name);
-    }
-
-    @Override
-    public Unit create(Team team) {
-        //ent = entity;
-        return super.create(team);
+        controller = u -> new MantisRayAI();
     }
 
     @Override
     public void update(Unit unit) {
         super.update(unit);
-        var entget = entity.get(unit);
-            this.timer = entget.getTimer();
-            this.lastRot = entget.setlastRot(unit, 0.35f);
-            this.lastRotEnd = entget.setlastRotEnd(unit, 0.15f);
+        if(unit.controller() instanceof MantisRayAI ai) {
+            this.timer = ai.getTimer();
+            this.lastRot = ai.getLastRot();
+            this.lastRotEnd = ai.getLastRotEnd();
+        } else {
+            this.timer += Time.delta / 20f;
+            this.lastRot = Mathf.slerpDelta(this.lastRot, unit.rotation, 0.35f);
+            this.lastRotEnd = Mathf.slerpDelta(this.lastRotEnd, unit.rotation, 0.15f);
+            unit.controller(new MantisRayAI());
+        }
         //this.lastRot = Mathf.slerpDelta(this.lastRot, unit.rotation, 0.35f);
         //this.lastRotEnd = Mathf.slerpDelta(this.lastRotEnd, unit.rotation, 0.2f);
     }
