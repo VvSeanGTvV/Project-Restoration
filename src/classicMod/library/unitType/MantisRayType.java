@@ -110,7 +110,7 @@ public class MantisRayType extends UnitType {
         Tmp.v1.trns(unit.rotation - 90, TailOffsetBegin.x, TailOffsetBegin.y);
         Draw.rect(TailBegin, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
 
-        float lRot0 = ai.lastRot - unit.rotation;
+        float lRot0 = Mathf.floor((ai.lastRot - unit.rotation) * 100f) / 100f;
         Tmp.v1.trns(unit.rotation + sine0 + lRot0 + AngleOffset[0] - 90, offsetX - ((lRot0 / 10f) + sine0 / 5f), ((TailBegin.height / 8f) + 6.6f + padding) * sclr);
         Draw.rect(TailMiddle, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 + sine0 + AngleOffset[0] - 90);
         drawShadowTexture(unit, TailMiddle, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 + sine0 + AngleOffset[0] - 90);
