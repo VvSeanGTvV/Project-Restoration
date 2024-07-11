@@ -116,10 +116,9 @@ public class MantisRayType extends UnitType {
         drawShadowTexture(unit, TailMiddle, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 + sine0 + AngleOffset[0] - 90);
 
         sclr = 1f;
-        float lRot1 = ai.lastRotEnd - unit.rotation;
-        Tmp.v1.trns(unit.rotation + sine0 + lRot1 + AngleOffset[1] - 90, offsetX - ((lRot1 / 50f) + sine0 / 5f) - (Mathf.sin(ai.timer) / 2f), ((TailMiddle.height / 4f) + 0.15f + padding) * sclr);
-        Draw.rect(TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot1 + sine0 + sine0 + AngleOffset[1] - 90);
-        drawShadowTexture(unit, TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot1 + sine0 + sine0 + AngleOffset[1] - 90);
+        Tmp.v1.trns(unit.rotation + sine0 + lRot0 + AngleOffset[1] - 90, offsetX - ((lRot0 / 20f) + sine0 / 5f) - (Mathf.sin(ai.timer) / 2f), ((TailMiddle.height / 4f) + 0.15f + padding) * sclr);
+        Draw.rect(TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 + sine0 + sine0 + AngleOffset[1] - 90);
+        drawShadowTexture(unit, TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 + sine0 + sine0 + AngleOffset[1] - 90);
     }
 
     public void drawBody(Unit unit, MantisRayAI ai) {
