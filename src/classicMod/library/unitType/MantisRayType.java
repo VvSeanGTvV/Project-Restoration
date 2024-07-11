@@ -44,8 +44,8 @@ public class MantisRayType extends UnitType {
     public void update(Unit unit) {
         if(unit.controller() instanceof MantisRayAI ai) {
             ai.timer += Time.delta / 20f;
-            ai.lastRot = Mathf.slerpDelta(this.lastRot, unit.rotation, 0.35f);
-            ai.lastRotEnd = Mathf.slerpDelta(this.lastRotEnd, unit.rotation, 0.15f);
+            ai.lastRot = Mathf.slerpDelta(ai.lastRot, unit.rotation, 0.35f);
+            ai.lastRotEnd = Mathf.slerpDelta(ai.lastRotEnd, unit.rotation, 0.15f);
         } else {
             this.timer += Time.delta / 20f;
             this.lastRot = Mathf.slerpDelta(this.lastRot, unit.rotation, 0.35f);
