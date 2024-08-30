@@ -174,7 +174,7 @@ public class epicCreditsDialog extends Dialog {
         var Wui = (TextureRegionDrawable) Tex.whiteui;
         Drawable background = Wui.tint(0f, 0f, 0f, 0.65f);
 
-        float width = !mobile ? credit.getMinWidth() : credit.getMinWidth() + ((float) graphics.getWidth() / 2);
+        float width = !mobile ? credit.getMinWidth() + ((float) graphics.getWidth() / 2) : credit.getMinWidth();
         int size = Math.max(graphics.getWidth(), graphics.getHeight());
         float centerX0 = (graphics.getWidth() / 2f);
         /*float centerX1 = (graphics.getWidth() / 2f);
@@ -189,6 +189,7 @@ public class epicCreditsDialog extends Dialog {
 
         state.camPos.rotate(Vec3.Y, fdelta(250f, 120f));
         Log.info(scrollbar - credit.getMinHeight());
+        Log.info((((credit.getMinHeight()) + contribute.getMinHeight())));
         credit.x = width;
         credit.y = scrollbar - credit.getMinHeight();
 
