@@ -112,7 +112,7 @@ public class epicCreditsDialog extends Dialog {
     public void act(float delta) {
         control.sound.stop();
         super.act(delta);
-        if (scrollbar * 1.15f >= ((credit.getMinHeight()) + (contribute.getMinHeight()) + graphics.getHeight()) ) {
+        if (scrollbar * 1.15f >= (((credit.getMinHeight()) + contribute.getMinHeight()) + (graphics.getHeight() * 1.15f))) {
             FinishedCredits();
             return;
         }
@@ -189,7 +189,7 @@ public class epicCreditsDialog extends Dialog {
 
         state.camPos.rotate(Vec3.Y, fdelta(250f, 120f));
         //Log.info(scrollbar - credit.getMinHeight());
-        //Log.info();
+        //Log.info(((credit.getMinHeight()) + (contribute.getMinHeight()) + graphics.getHeight()));
         credit.x = width;
         credit.y = scrollbar - credit.getMinHeight();
 
