@@ -8,7 +8,7 @@ import arc.math.geom.Vec3;
 import arc.scene.style.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.Table;
-import arc.util.Scaling;
+import arc.util.*;
 import classicMod.library.ui.menu.MainMenuRenderer;
 import mindustry.Vars;
 import mindustry.content.Planets;
@@ -174,7 +174,7 @@ public class epicCreditsDialog extends Dialog {
         var Wui = (TextureRegionDrawable) Tex.whiteui;
         Drawable background = Wui.tint(0f, 0f, 0f, 0.65f);
 
-        int width = !mobile ? 100 : 70, height = !mobile ? 50 : 40;
+        float width = !mobile ? credit.getMinWidth() : credit.getMinWidth() + ((float) graphics.getWidth() / 2);
         int size = Math.max(graphics.getWidth(), graphics.getHeight());
         float centerX0 = (graphics.getWidth() / 2f);
         /*float centerX1 = (graphics.getWidth() / 2f);
@@ -188,7 +188,8 @@ public class epicCreditsDialog extends Dialog {
         staticTable.draw();
 
         state.camPos.rotate(Vec3.Y, fdelta(250f, 120f));
-        credit.x = credit.getMinWidth();
+        Log.info(scrollbar - credit.getMinHeight());
+        credit.x = width;
         credit.y = scrollbar - credit.getMinHeight();
 
         contribute.x = credit.x;
