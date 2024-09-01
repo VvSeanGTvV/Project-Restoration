@@ -113,7 +113,7 @@ public class epicCreditsDialog extends Dialog {
     public void act(float delta) {
         control.sound.stop();
         super.act(delta);
-        if (scrollbar * 1.15f >= (((credit.getMinHeight()) + contribute.getMinHeight()) + (graphics.getHeight() * 1.15f))) {
+        if (scrollbar * 1.15f >= (((credit.getMinHeight()) + contribute.getMinHeight()) + (graphics.getHeight() * 1.175f))) {
             FinishedCredits();
             return;
         }
@@ -179,7 +179,7 @@ public class epicCreditsDialog extends Dialog {
         float lastWidth, lastHeight;
         lastWidth = scene.root.getWidth();
         lastHeight = scene.root.getHeight();
-        float centerX = !mobile ? (lastWidth) : (lastWidth * 1.425f);
+        float centerX = !mobile ? (lastWidth) : (lastWidth * 1.35f);
         //Log.info(graphics.getAspect());
 
         float width = (centerX - (contribute.getMinWidth()));//!mobile ? credit.getMinWidth() + ((float) graphics.getWidth() / 2) : ;
