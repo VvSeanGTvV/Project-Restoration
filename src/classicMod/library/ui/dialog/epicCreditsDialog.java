@@ -5,6 +5,7 @@ import arc.graphics.g2d.Draw;
 import arc.input.KeyCode;
 import arc.math.Mathf;
 import arc.math.geom.Vec3;
+import arc.scene.Scene;
 import arc.scene.style.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.Table;
@@ -172,11 +173,12 @@ public class epicCreditsDialog extends Dialog {
     @Override
     public void draw() {
         var Wui = (TextureRegionDrawable) Tex.whiteui;
+        Scene stage = getScene();
         Drawable background = Wui.tint(0f, 0f, 0f, 0.65f);
 
-        float width = (graphics.getWidth() - contribute.getMinWidth());//!mobile ? credit.getMinWidth() + ((float) graphics.getWidth() / 2) : ;
-        int size = Math.max(graphics.getWidth(), graphics.getHeight());
-        float centerX0 = (graphics.getWidth() / 2f);
+        float centerX = !mobile ? (graphics.getWidth()) : (graphics.getWidth() / 2f);
+        float width = (stage.getWidth() - (contribute.getMinWidth()));//!mobile ? credit.getMinWidth() + ((float) graphics.getWidth() / 2) : ;
+
         /*float centerX1 = (graphics.getWidth() / 2f);
         float IE = ((float) graphics.getWidth() / 1000);
         float IA = ((float) graphics.getWidth() / 225);*/
