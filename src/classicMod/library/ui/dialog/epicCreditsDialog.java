@@ -176,12 +176,13 @@ public class epicCreditsDialog extends Dialog {
         Scene stage = getScene();
         Drawable background = Wui.tint(0f, 0f, 0f, 0.65f);
 
-        float centerX = !mobile ? (stage.getWidth()) : (stage.getWidth() * 1.25f);
-        //Log.info(graphics.getAspect());
         float lastWidth = -1f, lastHeight = -1f;
         lastWidth = scene.root.getWidth();
         lastHeight = scene.root.getHeight();
-        float width = (lastWidth - (contribute.getMinWidth()));//!mobile ? credit.getMinWidth() + ((float) graphics.getWidth() / 2) : ;
+        float centerX = !mobile ? (lastWidth) : (lastWidth * 1.15f);
+        //Log.info(graphics.getAspect());
+
+        float width = (centerX - (contribute.getMinWidth()));//!mobile ? credit.getMinWidth() + ((float) graphics.getWidth() / 2) : ;
 
         /*float centerX1 = (graphics.getWidth() / 2f);
         float IE = ((float) graphics.getWidth() / 1000);
