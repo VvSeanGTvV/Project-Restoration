@@ -480,7 +480,7 @@ public class WarpGate extends Block {
         public void read(Reads read, byte revision) {
             super.read(read, revision);
             toggle = read.b();
-            if (toggle != -1) target = findLink(toggle);
+            //if (toggle != -1) target = findLink(toggle);
             //teleporting = read.bool();
         }
     }
