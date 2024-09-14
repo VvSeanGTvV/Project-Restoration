@@ -111,9 +111,9 @@ public class WarpGate extends Block {
     public void setBars() {
         super.setBars();
 
-        addBar("items", (WarpGate.WarpGateBuild entity) -> new Bar(
+        addBar("items-output", (WarpGate.WarpGateBuild entity) -> new Bar(
                 () -> Core.bundle.format("bar.items-output", entity.OutputStackHold.total()),
-                () -> Pal.items,
+                () -> Pal.lighterOrange,
                 () -> (float)entity.OutputStackHold.total() / itemCapacity)
         );
 
@@ -136,6 +136,7 @@ public class WarpGate extends Block {
         protected int toggle = -1, entry;
         protected float duration;
         protected boolean teleporting;
+        protected boolean intransport;
         protected float activeScl;
         protected @Nullable ItemStack[] itemStacks;
         protected @Nullable ItemModule OutputStackHold = new ItemModule();
@@ -479,7 +480,7 @@ public class WarpGate extends Block {
         public void read(Reads read, byte revision) {
             super.read(read, revision);
             toggle = read.b();
-            target = null;
+            if (toggle != -1) target = findLink(toggle);
             //teleporting = read.bool();
         }
     }
