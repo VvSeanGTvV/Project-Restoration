@@ -153,10 +153,6 @@ public class WarpGate extends Block {
             else duration -= Time.delta;
         }
 
-        @Override
-        public int acceptStack(Item item, int amount, Teamc source) {
-            return super.acceptStack(item, amount, source);
-        }
 
         @Override
         public boolean acceptLiquid(Building source, Liquid liquid) {
@@ -166,10 +162,6 @@ public class WarpGate extends Block {
         public float fraction() {
             return (teleportMax - duration) / teleportMax;
         }
-        public float fractionOutput() {
-            return (float)OutputStackHold.total() / itemCapacity;
-        }
-
         protected boolean isConsuming() {
             return warmupTime > 0f;
         }
@@ -416,8 +408,8 @@ public class WarpGate extends Block {
 
         @Override
         public boolean acceptItem(Building source, Item item) {
-            if (toggle == -1) return false;
             target = findLink(toggle);
+            if (toggle == -1) return false;
             if (target == null) return false;
             return source != this && canConsume() && items.total() < itemCapacity;
         }
@@ -487,6 +479,7 @@ public class WarpGate extends Block {
         public void read(Reads read, byte revision) {
             super.read(read, revision);
             toggle = read.b();
+            target = null;
             //teleporting = read.bool();
         }
     }
