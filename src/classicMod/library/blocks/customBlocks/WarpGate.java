@@ -244,12 +244,12 @@ public class WarpGate extends Block {
                     powerMulti = Math.min(this.block.consPower.capacity, powerUse * Time.delta);
                     //consumeLiquid(inputLiquid, teleportLiquidUse);
                     if (toggle != -1) {
-                        if (!teleporting) {
+                        WarpGate.WarpGateBuild other = findLink(toggle);
+                        if (!teleporting && other != null) {
                             teleportEffect.at(this.x, this.y, selection[toggle]);
                             teleporting = true;
                         }
                         Time.run(warmupTime, () -> {
-                            WarpGate.WarpGateBuild other = findLink(toggle);
                             if (this.items.total() <= 0 || other == null || toggle == -1) {
                                 Time.clear(); //remove timer, when interrupted or has nothujg in it.
                                 teleporting = false;
