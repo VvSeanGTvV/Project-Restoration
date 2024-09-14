@@ -112,7 +112,7 @@ public class WarpGate extends Block {
     public void setBars() {
         super.setBars();
         addBar("next-teleport", (WarpGate.WarpGateBuild e) -> new Bar(Core.bundle.format("bar.next-tele"), Pal.ammo, e::fraction));
-        addBar("items", (WarpGate.WarpGateBuild e) -> new Bar(Core.bundle.format("bar.items"), Pal.lightTrail, e::fractionOutput));
+        addBar("items-output", (WarpGate.WarpGateBuild e) -> new Bar(Core.bundle.format("bar.items-output", e.OutputStackHold.total()), Pal.lightTrail, e::fractionOutput));
     }
 
     @Override
