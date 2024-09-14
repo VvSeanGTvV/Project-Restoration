@@ -112,6 +112,7 @@ public class WarpGate extends Block {
     public void setBars() {
         super.setBars();
         addBar("next-teleport", (WarpGate.WarpGateBuild e) -> new Bar(Core.bundle.format("bar.next-tele"), Pal.ammo, e::fraction));
+        addBar("items", (WarpGate.WarpGateBuild e) -> new Bar(Core.bundle.format("bar.items"), Pal.lightTrail, e::fractionOutput));
     }
 
     @Override
@@ -159,6 +160,9 @@ public class WarpGate extends Block {
 
         public float fraction() {
             return (teleportMax - duration) / teleportMax;
+        }
+        public float fractionOutput() {
+            return (float)OutputStackHold.total() / itemCapacity;
         }
 
         protected boolean isConsuming() {
@@ -283,7 +287,7 @@ public class WarpGate extends Block {
             }
             //if(!liquids.hasFlowLiquid(inputLiquid) && this.block.consPower.efficiency(this)>=1) catastrophicFailure();
             if (OutputStackHold.any()) dumpOutputHold();
-            transportable = !(items.total() >= this.block.itemCapacity); //prevent buildings from having too much items in single block.
+            transportable = !(items.total() >= this.block.itemCapacity || OutputStackHold.total() >= this.block.itemCapacity); //prevent buildings from having too much items in single block.
         }
 
         public boolean dumpOutputHold() {
