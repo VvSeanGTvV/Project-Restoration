@@ -34,6 +34,7 @@ public class WarpGate extends Block {
 
     protected static final Color[] selection = new Color[]{Color.royal, Color.orange, Color.scarlet, Color.forest, Color.purple, Color.gold, Color.pink, Color.white};
     protected static final ObjectSet<WarpGate.WarpGateBuild>[][] teleporters;
+    protected static @Nullable ItemModule OutputStackHold = new ItemModule();
 
     static {
         teleporters = new ObjectSet[Team.baseTeams.length][selection.length];
@@ -57,7 +58,6 @@ public class WarpGate extends Block {
     protected Effect teleportOutEffect = ExtendedFx.teleportOut;
     protected TextureRegion blankRegion;
     private float powerMulti;
-    private float TYPE;
 
     public WarpGate(String name) {
         super(name);
@@ -111,8 +111,14 @@ public class WarpGate extends Block {
     @Override
     public void setBars() {
         super.setBars();
+
+        addBar("items-output", entity -> new Bar(
+                () -> Core.bundle.format("bar.items-output", OutputStackHold.total()),
+                () -> Pal.items,
+                () -> (float)OutputStackHold.total() / itemCapacity)
+        );
+
         addBar("next-teleport", (WarpGate.WarpGateBuild e) -> new Bar(Core.bundle.format("bar.next-tele"), Pal.ammo, e::fraction));
-        addBar("items-output", (WarpGate.WarpGateBuild e) -> new Bar(Core.bundle.format("bar.items-output", e.OutputStackHold.total()), Pal.lightTrail, e::fractionOutput));
     }
 
     @Override
@@ -133,7 +139,6 @@ public class WarpGate extends Block {
         protected boolean teleporting;
         protected float activeScl;
         protected @Nullable ItemStack[] itemStacks;
-        protected @Nullable ItemModule OutputStackHold = new ItemModule();
         protected WarpGate.WarpGateBuild target;
         protected Team previousTeam;
         protected boolean firstTime;
@@ -295,7 +300,7 @@ public class WarpGate extends Block {
         }
 
         public boolean dumpOutputHold(Item todump){
-            if (this.block.hasItems && this.OutputStackHold.total() != 0 && this.proximity.size != 0 && (todump == null || this.OutputStackHold.has(todump))) {
+            if (this.block.hasItems && OutputStackHold.total() != 0 && this.proximity.size != 0 && (todump == null || OutputStackHold.has(todump))) {
                 int dump = this.cdump;
                 Seq<Item> allItems = Vars.content.items();
                 int itemSize = allItems.size;
@@ -305,11 +310,11 @@ public class WarpGate extends Block {
                     Building other = (Building)this.proximity.get((i + dump) % this.proximity.size);
                     if (todump == null) {
                         for(int ii = 0; ii < itemSize; ++ii) {
-                            if (this.OutputStackHold.has(ii)) {
+                            if (OutputStackHold.has(ii)) {
                                 Item item = (Item)itemArray[ii];
                                 if (other.acceptItem(this, item) && this.canDump(other, item)) {
                                     other.handleItem(this, item);
-                                    this.OutputStackHold.remove(item, 1);
+                                    OutputStackHold.remove(item, 1);
                                     this.incrementDump(this.proximity.size);
                                     return true;
                                 }
@@ -317,7 +322,7 @@ public class WarpGate extends Block {
                         }
                     } else if (other.acceptItem(this, todump) && this.canDump(other, todump)) {
                         other.handleItem(this, todump);
-                        this.OutputStackHold.remove(todump, 1);
+                        OutputStackHold.remove(todump, 1);
                         this.incrementDump(this.proximity.size);
                         return true;
                     }
@@ -395,7 +400,9 @@ public class WarpGate extends Block {
             int totalItems = items.total();
             for (int i = 0; i < data.length; i++) {
                 int maxAdd = Math.min(data[i], itemCapacity * 2 - totalItems);
-                other.OutputStackHold.add(content.item(i), maxAdd);
+                if (other.block instanceof WarpGate WP) {
+                    WP.OutputStackHold.add(content.item(i), maxAdd);
+                }
                 //other.OutputStackHold.add(ItemStack.with(content.item(i), maxAdd));
                 //other.items.add(content.item(i), maxAdd);
                 data[i] -= maxAdd;
@@ -475,14 +482,14 @@ public class WarpGate extends Block {
         public void write(Writes write) { //TODO fix issues with loading saves
             super.write(write);
             write.b(toggle);
-            write.bool(teleporting);
+            //write.bool(teleporting);
         }
 
         @Override
         public void read(Reads read, byte revision) {
             super.read(read, revision);
             toggle = read.b();
-            teleporting = read.bool();
+            //teleporting = read.bool();
         }
     }
 }
