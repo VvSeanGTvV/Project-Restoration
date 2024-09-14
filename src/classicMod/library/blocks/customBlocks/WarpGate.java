@@ -284,7 +284,7 @@ public class WarpGate extends Block {
             }
             //if(!liquids.hasFlowLiquid(inputLiquid) && this.block.consPower.efficiency(this)>=1) catastrophicFailure();
             if (OutputStackHold.any()) dumpOutputHold();
-            transportable = !(items.total() >= this.block.itemCapacity || OutputStackHold.total() >= this.block.itemCapacity); //prevent buildings from having too much items in single block.
+            transportable = !(OutputStackHold.total() >= this.block.itemCapacity); //prevent buildings from having too much items in single block.
         }
 
         public boolean dumpOutputHold() {
