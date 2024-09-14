@@ -134,10 +134,9 @@ public class WarpGate extends Block {
 
     public class WarpGateBuild extends Building {
         protected int toggle = -1, entry;
-        protected float duration;
+        protected float duration, activeScl, teleProgress;
         protected boolean teleporting;
         protected boolean intransport;
-        protected float activeScl;
         protected @Nullable ItemStack[] itemStacks;
         protected @Nullable ItemModule OutputStackHold = new ItemModule();
         protected WarpGate.WarpGateBuild target;
@@ -249,21 +248,26 @@ public class WarpGate extends Block {
                             teleportEffect.at(this.x, this.y, selection[toggle]);
                             teleporting = true;
                         }
-                        Time.run(warmupTime, () -> {
-                            if (this.items.total() <= 0 || other == null || toggle == -1) {
-                                Time.clear(); //remove timer, when interrupted or has nothujg in it.
-                                teleporting = false;
-                            }
-                            if (other != null) {
-                                if (!other.transportable) {
-                                    Time.clear();
+                        if(teleporting){
+                            teleProgress += getProgressIncrease(warmupTime);
+                            if(teleProgress >= 1f){
+
+                                if (other != null) {
+                                    if (!other.transportable) {
+                                        Time.clear();
+                                        teleporting = false;
+                                    }
+                                    teleportOutEffect.at(this.x, this.y, selection[toggle]);
+                                    handleTransport(other);
+                                    teleportOutEffect.at(other.x, other.y, selection[toggle]);
+                                }
+
+                                if (this.items.total() <= 0 || other == null || toggle == -1) {
+                                    teleProgress %= 1f; //remove timer, when interrupted or has nothujg in it.
                                     teleporting = false;
                                 }
-                                teleportOutEffect.at(this.x, this.y, selection[toggle]);
-                                handleTransport(other);
-                                teleportOutEffect.at(other.x, other.y, selection[toggle]);
                             }
-                        });
+                        }
                     }
                     if (isTeamChanged() && toggle != -1) {
                         teleporters[team.id][toggle].add(this);
