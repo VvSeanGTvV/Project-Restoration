@@ -248,26 +248,21 @@ public class WarpGate extends Block {
                             teleportEffect.at(this.x, this.y, selection[toggle]);
                             teleporting = true;
                         }
-                        if(teleporting){
-                            teleProgress += getProgressIncrease(warmupTime);
-                            if(teleProgress >= 1f){
-
-                                if (other != null) {
-                                    if (!other.transportable) {
-                                        teleProgress %= 1f; //remove timer, when interrupted or has nothujg in it.
-                                        teleporting = false;
-                                    }
-                                    teleportOutEffect.at(this.x, this.y, selection[toggle]);
-                                    handleTransport(other);
-                                    teleportOutEffect.at(other.x, other.y, selection[toggle]);
-                                }
-
-                                if (this.items.total() <= 0 || other == null || toggle == -1) {
-                                    teleProgress %= 1f; //remove timer, when interrupted or has nothujg in it.
+                        Time.run(warmupTime, () -> {
+                            if (this.items.total() <= 0 || other == null || toggle == -1) {
+                                Time.clear(); //remove timer, when interrupted or has nothujg in it.
+                                teleporting = false;
+                            }
+                            if (other != null) {
+                                if (!other.transportable) {
+                                    Time.clear();
                                     teleporting = false;
                                 }
+                                teleportOutEffect.at(this.x, this.y, selection[toggle]);
+                                handleTransport(other);
+                                teleportOutEffect.at(other.x, other.y, selection[toggle]);
                             }
-                        }
+                        });
                     }
                     if (isTeamChanged() && toggle != -1) {
                         teleporters[team.id][toggle].add(this);
@@ -413,9 +408,9 @@ public class WarpGate extends Block {
 
         @Override
         public boolean acceptItem(Building source, Item item) {
-            //target = findLink(toggle);
+            target = findLink(toggle);
             if (toggle == -1) return false;
-            //if (target == null) return false;
+            if (target == null) return false;
             return source != this && canConsume() && items.total() < itemCapacity;
         }
 
