@@ -254,7 +254,7 @@ public class WarpGate extends Block {
 
                                 if (other != null) {
                                     if (!other.transportable) {
-                                        Time.clear();
+                                        teleProgress %= 1f; //remove timer, when interrupted or has nothujg in it.
                                         teleporting = false;
                                     }
                                     teleportOutEffect.at(this.x, this.y, selection[toggle]);
