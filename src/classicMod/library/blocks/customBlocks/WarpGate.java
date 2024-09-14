@@ -282,7 +282,7 @@ public class WarpGate extends Block {
                 duration = teleportMax;
             }
             //if(!liquids.hasFlowLiquid(inputLiquid) && this.block.consPower.efficiency(this)>=1) catastrophicFailure();
-            if (items.any()) dump();
+            if (items.any()) dumpOutputHold();
             transportable = !(items.total() >= this.block.itemCapacity); //prevent buildings from having too much items in single block.
         }
 
