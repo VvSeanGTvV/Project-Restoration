@@ -132,7 +132,7 @@ public class WarpGate extends Block {
         protected boolean teleporting;
         protected float activeScl;
         protected @Nullable ItemStack[] itemStacks;
-        protected @Nullable ItemModule OutputStackHold;
+        protected @Nullable ItemModule OutputStackHold = new ItemModule();
         protected WarpGate.WarpGateBuild target;
         protected Team previousTeam;
         protected boolean firstTime;
