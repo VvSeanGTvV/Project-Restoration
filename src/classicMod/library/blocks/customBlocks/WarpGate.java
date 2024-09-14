@@ -12,6 +12,7 @@ import arc.util.*;
 import arc.util.io.*;
 import classicMod.content.*;
 import classicMod.uCoreGraphics.uCoreLines;
+import mindustry.Vars;
 import mindustry.content.Liquids;
 import mindustry.entities.*;
 import mindustry.entities.units.BuildPlan;
@@ -23,6 +24,7 @@ import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.Block;
 import mindustry.world.meta.StatUnit;
+import mindustry.world.modules.ItemModule;
 
 import static arc.Core.atlas;
 import static mindustry.Vars.*;
@@ -130,6 +132,7 @@ public class WarpGate extends Block {
         protected boolean teleporting;
         protected float activeScl;
         protected @Nullable ItemStack[] itemStacks;
+        protected ItemModule OutputStackHold;
         protected WarpGate.WarpGateBuild target;
         protected Team previousTeam;
         protected boolean firstTime;
@@ -137,12 +140,16 @@ public class WarpGate extends Block {
          * is this specific building avaliable and able to transport
          **/
         protected boolean transportable;
-        protected boolean OnTransport; // Is already on Transport
         protected float lastDuration;
 
         protected void onDuration() {
             if (duration < 0f && !teleporting) duration = teleportMax;
             else duration -= Time.delta;
+        }
+
+        @Override
+        public int acceptStack(Item item, int amount, Teamc source) {
+            return super.acceptStack(item, amount, source);
         }
 
         @Override
@@ -279,6 +286,47 @@ public class WarpGate extends Block {
             transportable = !(items.total() >= this.block.itemCapacity); //prevent buildings from having too much items in single block.
         }
 
+        public boolean dumpOutputHold() {
+            return this.dumpOutputHold((Item) null);
+        }
+
+        public boolean dumpOutputHold(Item todump){
+            if (this.block.hasItems && this.OutputStackHold.total() != 0 && this.proximity.size != 0 && (todump == null || this.OutputStackHold.has(todump))) {
+                int dump = this.cdump;
+                Seq<Item> allItems = Vars.content.items();
+                int itemSize = allItems.size;
+                Object[] itemArray = allItems.items;
+
+                for(int i = 0; i < this.proximity.size; ++i) {
+                    Building other = (Building)this.proximity.get((i + dump) % this.proximity.size);
+                    if (todump == null) {
+                        for(int ii = 0; ii < itemSize; ++ii) {
+                            if (this.OutputStackHold.has(ii)) {
+                                Item item = (Item)itemArray[ii];
+                                if (other.acceptItem(this, item) && this.canDump(other, item)) {
+                                    other.handleItem(this, item);
+                                    this.OutputStackHold.remove(item, 1);
+                                    this.incrementDump(this.proximity.size);
+                                    return true;
+                                }
+                            }
+                        }
+                    } else if (other.acceptItem(this, todump) && this.canDump(other, todump)) {
+                        other.handleItem(this, todump);
+                        this.OutputStackHold.remove(todump, 1);
+                        this.incrementDump(this.proximity.size);
+                        return true;
+                    }
+
+                    this.incrementDump(this.proximity.size);
+                }
+
+                return false;
+            } else {
+                return false;
+            }
+        }
+
         public void catastrophicFailure() {
             this.damage(this.health + 1);
             //TODO fail gloriously lol
@@ -297,7 +345,7 @@ public class WarpGate extends Block {
                 button.update(() -> button.setChecked(toggle == j));
                 if (i % 4 == 3) table.row();
             }
-            table.row();
+            /*table.row();
             ImageButton Transport = table.button(Icon.up, Styles.clearTogglei, 24f, () -> {
             }).size(34f).group(group).get();
             ImageButton Unload = table.button(Icon.down, Styles.clearTogglei, 24f, () -> {
@@ -307,7 +355,7 @@ public class WarpGate extends Block {
             Transport.update(() -> Transport.setChecked(TYPE == 1));
 
             Unload.changed(() -> configure(Unload.isChecked() ? TYPE : -1));
-            Unload.update(() -> Unload.setChecked(TYPE == 2));
+            Unload.update(() -> Unload.setChecked(TYPE == 2));*/
         }
 
         public WarpGate.WarpGateBuild findLink(int value) {
@@ -343,7 +391,9 @@ public class WarpGate extends Block {
             int totalItems = items.total();
             for (int i = 0; i < data.length; i++) {
                 int maxAdd = Math.min(data[i], itemCapacity * 2 - totalItems);
-                other.items.add(content.item(i), maxAdd);
+                other.OutputStackHold.add(content.item(i), maxAdd);
+                //other.OutputStackHold.add(ItemStack.with(content.item(i), maxAdd));
+                //other.items.add(content.item(i), maxAdd);
                 data[i] -= maxAdd;
                 totalItems += maxAdd;
 
