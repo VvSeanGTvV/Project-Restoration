@@ -252,7 +252,7 @@ public class WarpGate extends Block {
                     }
                     if(teleporting){
                        teleProgress += getProgressIncrease(warmupTime);
-                       if(teleProgress <= 0f){
+                       if(teleProgress >= 1f){
                            Log.info(other);
                            teleProgress %= 1f;
                            if (other != null) {
