@@ -521,12 +521,18 @@ public class WarpGate extends Block {
             super.write(write);
             write.b(toggle);
             //write.bool(teleporting);
+            for (int i = 0; i < OutputStackHold.total(); i++){
+                var iA = OutputStackHold.get(i);
+                Log.info(iA);
+            }
         }
 
         @Override
         public void read(Reads read, byte revision) {
             super.read(read, revision);
             toggle = read.b();
+
+            teleporting = false;
             //if (toggle != -1) target = findLink(toggle);
             //teleporting = read.bool();
         }
