@@ -254,11 +254,12 @@ public class WarpGate extends Block {
                        teleProgress += getProgressIncrease(warmupTime);
                        if(teleProgress >= 1f){
                            Log.info(other);
-                           teleProgress %= 1f;
                            if (other != null) {
                                teleportOutEffect.at(this.x, this.y, selection[toggle]);
                                handleTransport(other);
                                teleportOutEffect.at(other.x, other.y, selection[toggle]);
+
+                               teleProgress %= 1f;
                            }
                        }
                     }
