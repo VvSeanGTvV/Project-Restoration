@@ -456,9 +456,9 @@ public class WarpGate extends Block {
 
         @Override
         public boolean acceptItem(Building source, Item item) {
-            target = findLink(toggle);
+            //target = findLink(toggle);
             if (toggle == -1) return false;
-            if (target == null) return false;
+            //if (target == null) return false;
             return source != this && canConsume() && items.total() < itemCapacity;
         }
 
