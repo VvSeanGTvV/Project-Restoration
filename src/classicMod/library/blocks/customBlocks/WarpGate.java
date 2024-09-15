@@ -238,13 +238,18 @@ public class WarpGate extends Block {
                 activeScl = Mathf.lerpDelta(activeScl, 1f, 0.015f);
                 duration = lastDuration;
 
+                if (teleporting) {
+                    lastDuration = 0f;
+                    duration = teleportMax;
+                }
+
                 if (items.total() >= itemCapacity) {
                     onDuration();
                 } else {
                     duration = teleportMax;
                 }
 
-                if (!teleporting && this.items.total() >= itemCapacity && duration <= 1f) {
+                if (this.items.total() >= itemCapacity && duration <= 1f) {
                     WarpGate.WarpGateBuild other = findLink(toggle);
                     if (!teleporting && other != null){
                         teleportEffect.at(this.x, this.y, selection[toggle]);
