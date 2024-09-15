@@ -223,6 +223,46 @@ public class WarpGate extends Block {
         @Override
         public void updateTile() {
             if (efficiency > 0 && toggle != -1) {
+
+                if (firstTime) {
+                    activateEffect.at(this.x, this.y, selection[toggle]);
+                    firstTime = false;
+                }
+
+                activeScl = Mathf.lerpDelta(activeScl, 1f, 0.015f);
+                duration = lastDuration;
+
+                if (items.total() >= itemCapacity && !teleporting) {
+                    onDuration();
+                } else {
+                    duration = teleportMax;
+                }
+
+                if (!teleporting && this.items.total() >= itemCapacity && duration <= 1f) {
+                    WarpGate.WarpGateBuild other = findLink(toggle);
+                    if (!teleporting && other != null){
+                        teleportEffect.at(this.x, this.y, selection[toggle]);
+                        teleporting = true;
+                    }
+                    if(teleporting){
+                       teleProgress += getProgressIncrease(warmupTime);
+                       if(teleProgress >= 1f){
+                           Log.info(other);
+                           teleProgress %= 1f;
+                           if (other != null) {
+                               if (!other.transportable) {
+                                   Time.clear();
+                                   teleporting = false;
+                               }
+                               teleportOutEffect.at(this.x, this.y, selection[toggle]);
+                               handleTransport(other);
+                               teleportOutEffect.at(other.x, other.y, selection[toggle]);
+                           }
+                       }
+                    }
+                }
+            }
+            /*if (efficiency > 0 && toggle != -1) {
                 //if(liquids.get(inputLiquid) <= 0f) catastrophicFailure();
                 activeScl = Mathf.lerpDelta(activeScl, 1f, 0.015f);
                 duration = lastDuration;
@@ -281,7 +321,7 @@ public class WarpGate extends Block {
                 activeScl = Mathf.lerpDelta(activeScl, 0f, 0.01f);
                 firstTime = true;
                 duration = teleportMax;
-            }
+            }*/
             //if(!liquids.hasFlowLiquid(inputLiquid) && this.block.consPower.efficiency(this)>=1) catastrophicFailure();
             if (OutputStackHold.any()) dumpOutputHold();
             transportable = !(OutputStackHold.total() >= this.block.itemCapacity); //prevent buildings from having too much items in single block.
