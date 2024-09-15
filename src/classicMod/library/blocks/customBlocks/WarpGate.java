@@ -111,6 +111,12 @@ public class WarpGate extends Block {
     public void setBars() {
         super.setBars();
 
+        addBar("items", entity -> new Bar(
+                () -> Core.bundle.format("bar.items-input", entity.items.total()),
+                () -> Pal.items,
+                () -> (float)entity.items.total() / itemCapacity)
+        );
+
         addBar("items-output", (WarpGate.WarpGateBuild entity) -> new Bar(
                 () -> Core.bundle.format("bar.items-output", entity.OutputStackHold.total()),
                 () -> Pal.lighterOrange,
@@ -232,7 +238,7 @@ public class WarpGate extends Block {
                 activeScl = Mathf.lerpDelta(activeScl, 1f, 0.015f);
                 duration = lastDuration;
 
-                if (items.total() >= itemCapacity && !teleporting) {
+                if (items.total() >= itemCapacity) {
                     onDuration();
                 } else {
                     duration = teleportMax;
@@ -246,14 +252,10 @@ public class WarpGate extends Block {
                     }
                     if(teleporting){
                        teleProgress += getProgressIncrease(warmupTime);
-                       if(teleProgress >= 1f){
+                       if(teleProgress <= 0f){
                            Log.info(other);
                            teleProgress %= 1f;
                            if (other != null) {
-                               if (!other.transportable) {
-                                   Time.clear();
-                                   teleporting = false;
-                               }
                                teleportOutEffect.at(this.x, this.y, selection[toggle]);
                                handleTransport(other);
                                teleportOutEffect.at(other.x, other.y, selection[toggle]);
