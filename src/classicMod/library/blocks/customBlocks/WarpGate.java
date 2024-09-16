@@ -255,16 +255,14 @@ public class WarpGate extends Block {
                         teleportEffect.at(this.x, this.y, selection[toggle]);
                         teleporting = true;
                     }
-                    if(teleporting){
+                    if(teleporting && other != null){
                        teleProgress += getProgressIncrease(warmupTime);
                        if(teleProgress >= 1f){
-                           if (other != null) {
-                               teleportOutEffect.at(this.x, this.y, selection[toggle]);
-                               handleTransport(other);
-                               teleportOutEffect.at(other.x, other.y, selection[toggle]);
+                           teleportOutEffect.at(this.x, this.y, selection[toggle]);
+                           handleTransport(other);
+                           teleportOutEffect.at(other.x, other.y, selection[toggle]);
 
-                               teleProgress %= 1f;
-                           }
+                           teleProgress %= 1f;
                        }
                     }
                 }
@@ -367,7 +365,6 @@ public class WarpGate extends Block {
         }
 
         public void handleTransport(WarpGate.WarpGateBuild other) {
-            teleporting = true;
             int[] data = new int[content.items().size];
             int totalUsed = 0;
             if (other == null) other = findLink(toggle);
@@ -382,8 +379,6 @@ public class WarpGate extends Block {
             for (int i = 0; i < data.length; i++) {
                 int maxAdd = Math.min(data[i], itemCapacity * 2 - totalItems);
                 other.OutputStackHold.add(content.item(i), maxAdd);
-                //other.OutputStackHold.add(ItemStack.with(content.item(i), maxAdd));
-                //other.items.add(content.item(i), maxAdd);
                 data[i] -= maxAdd;
                 totalItems += maxAdd;
 
@@ -391,8 +386,7 @@ public class WarpGate extends Block {
                     break;
                 }
             }
-            itemStacks = null; //set to null after finishing transport
-            teleporting = false;
+            //itemStacks = null; //set to null after finishing transport
         }
 
         @Override
