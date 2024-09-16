@@ -466,7 +466,6 @@ public class WarpGate extends Block {
                 if (this.OutputStackHold.has(ii)) {
                     Item item = (Item)itemArray[ii];
                     write.b(item.id);
-                    this.OutputStackHold.remove(item, 1);
                 }else{
                     write.b(0);
                 }
