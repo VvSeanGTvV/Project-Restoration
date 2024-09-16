@@ -467,6 +467,8 @@ public class WarpGate extends Block {
                     Item item = (Item)itemArray[ii];
                     write.b(item.id);
                     this.OutputStackHold.remove(item, 1);
+                }else{
+                    write.b(0);
                 }
             }
             //write.bool(teleporting);
@@ -484,7 +486,8 @@ public class WarpGate extends Block {
 
             for(int ii = 0; ii < itemSize; ++ii) {
                 Item item = (Item)itemArray[ii];
-                OutputStackHold.add(item, read.b());
+                int val = read.b();
+                if (val > 0) OutputStackHold.add(item, val);
             }
 
             //if (toggle != -1) target = findLink(toggle);
