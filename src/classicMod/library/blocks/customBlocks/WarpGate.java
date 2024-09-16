@@ -527,6 +527,9 @@ public class WarpGate extends Block {
             super.read(read, revision);
             toggle = read.b();
             teleporting = false;
+
+            if (toggle != -1) teleporters[team.id][toggle].add(this);
+            previousTeam = team;
             //if (toggle != -1) target = findLink(toggle);
             //teleporting = read.bool();
         }
