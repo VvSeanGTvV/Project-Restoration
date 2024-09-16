@@ -452,7 +452,6 @@ public class WarpGate extends Block {
         public void write(Writes write) { //TODO fix issues with loading saves
             super.write(write);
             write.b(toggle);
-            write.bool(teleporting);
 
             Seq<Item> allItems = Vars.content.items();
             int itemSize = allItems.size;
@@ -473,7 +472,7 @@ public class WarpGate extends Block {
         public void read(Reads read, byte revision) {
             super.read(read, revision);
             toggle = read.b();
-            teleporting = read.bool();
+            teleporting = false;
 
             Seq<Item> allItems = Vars.content.items();
             int itemSize = allItems.size;
