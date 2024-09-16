@@ -269,66 +269,6 @@ public class WarpGate extends Block {
                     }
                 }
             }
-            /*if (efficiency > 0 && toggle != -1) {
-                //if(liquids.get(inputLiquid) <= 0f) catastrophicFailure();
-                activeScl = Mathf.lerpDelta(activeScl, 1f, 0.015f);
-                duration = lastDuration;
-                if (teleporting) {
-                    lastDuration = 0f;
-                    duration = teleportMax;
-                }
-                if (items.total() >= itemCapacity) {
-                    onDuration();
-                } else {
-                    duration = teleportMax;
-                }
-                if (firstTime) {
-                    if (toggle != -1) activateEffect.at(this.x, this.y, selection[toggle]);
-                    firstTime = false;
-                }
-                if (!teleporting && this.items.total() >= itemCapacity && duration <= 1f) {
-                    powerMulti = Math.min(this.block.consPower.capacity, powerUse * Time.delta);
-                    //consumeLiquid(inputLiquid, teleportLiquidUse);
-                    if (toggle != -1) {
-                        WarpGate.WarpGateBuild other = findLink(toggle);
-                        if (!teleporting && other != null) {
-                            teleportEffect.at(this.x, this.y, selection[toggle]);
-                            teleporting = true;
-                        }
-                        Time.run(warmupTime, () -> {
-                            if (this.items.total() <= 0 || other == null || toggle == -1) {
-                                Time.clear(); //remove timer, when interrupted or has nothujg in it.
-                                teleporting = false;
-                            }
-                            if (other != null) {
-                                if (!other.transportable) {
-                                    Time.clear();
-                                    teleporting = false;
-                                }
-                                teleportOutEffect.at(this.x, this.y, selection[toggle]);
-                                handleTransport(other);
-                                teleportOutEffect.at(other.x, other.y, selection[toggle]);
-                            }
-                        });
-                    }
-                    if (isTeamChanged() && toggle != -1) {
-                        teleporters[team.id][toggle].add(this);
-                        ExtendedFx.teleport.at(this.x, this.y, selection[toggle]);
-                        Time.run(warmupTime, () -> {
-                            //remove waiting shooters, it's done firing
-                            teleporters[previousTeam.id][toggle].remove(this);
-                            previousTeam = team;
-                        });
-                    }
-                    duration = teleportMax;
-                }
-            } else {
-                if (efficiency > 0f && activeScl > 0) activeScl = 0;
-                if (toggle == -1 && activeScl > 0) activeScl = 0;
-                activeScl = Mathf.lerpDelta(activeScl, 0f, 0.01f);
-                firstTime = true;
-                duration = teleportMax;
-            }*/
             //if(!liquids.hasFlowLiquid(inputLiquid) && this.block.consPower.efficiency(this)>=1) catastrophicFailure();
             if (OutputStackHold.any()) dumpOutputHold();
             transportable = !(OutputStackHold.total() >= this.block.itemCapacity); //prevent buildings from having too much items in single block.
@@ -519,6 +459,7 @@ public class WarpGate extends Block {
         public void write(Writes write) { //TODO fix issues with loading saves
             super.write(write);
             write.b(toggle);
+            write.bool(teleporting);
             //write.bool(teleporting);
         }
 
@@ -526,10 +467,8 @@ public class WarpGate extends Block {
         public void read(Reads read, byte revision) {
             super.read(read, revision);
             toggle = read.b();
-            teleporting = false;
+            teleporting = read.bool();
 
-            if (toggle != -1) teleporters[team.id][toggle].add(this);
-            previousTeam = team;
             //if (toggle != -1) target = findLink(toggle);
             //teleporting = read.bool();
         }
