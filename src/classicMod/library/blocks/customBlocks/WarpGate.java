@@ -395,10 +395,7 @@ public class WarpGate extends Block {
 
         @Override
         public boolean acceptItem(Building source, Item item) {
-            //target = findLink(toggle);
-            if (toggle == -1) return false;
-            //if (target == null) return false;
-            return source != this && canConsume() && items.total() < itemCapacity;
+            return items.total() < itemCapacity && (toggle != -1);
         }
 
         @Override
@@ -460,6 +457,18 @@ public class WarpGate extends Block {
             super.write(write);
             write.b(toggle);
             write.bool(teleporting);
+
+            Seq<Item> allItems = Vars.content.items();
+            int itemSize = allItems.size;
+            Object[] itemArray = allItems.items;
+
+            for(int ii = 0; ii < itemSize; ++ii) {
+                if (this.OutputStackHold.has(ii)) {
+                    Item item = (Item)itemArray[ii];
+                    write.b(item.id);
+                    this.OutputStackHold.remove(item, 1);
+                }
+            }
             //write.bool(teleporting);
         }
 
@@ -468,6 +477,15 @@ public class WarpGate extends Block {
             super.read(read, revision);
             toggle = read.b();
             teleporting = read.bool();
+
+            Seq<Item> allItems = Vars.content.items();
+            int itemSize = allItems.size;
+            Object[] itemArray = allItems.items;
+
+            for(int ii = 0; ii < itemSize; ++ii) {
+                Item item = (Item)itemArray[ii];
+                OutputStackHold.add(item, read.b());
+            }
 
             //if (toggle != -1) target = findLink(toggle);
             //teleporting = read.bool();
