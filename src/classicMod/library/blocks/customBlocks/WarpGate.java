@@ -268,6 +268,8 @@ public class WarpGate extends Block {
                        }
                     }
                 }
+            } else {
+                firstTime = true;
             }
             //if(!liquids.hasFlowLiquid(inputLiquid) && this.block.consPower.efficiency(this)>=1) catastrophicFailure();
             if (OutputStackHold.any()) dumpOutputHold();
