@@ -471,7 +471,8 @@ public class WarpGate extends Block {
         @Override
         public void read(Reads read, byte revision) {
             super.read(read, revision);
-            toggle = read.b();
+            int b0 = read.b();
+            toggle = b0
             teleporting = false;
 
             Seq<Item> allItems = Vars.content.items();
@@ -483,6 +484,9 @@ public class WarpGate extends Block {
                 int val = read.b();
                 if (val > 0) OutputStackHold.add(item, val);
             }
+
+            if (b0 != -1) teleporters[team.id][b0].add(this);
+            previousTeam = team;
 
             //if (toggle != -1) target = findLink(toggle);
             //teleporting = read.bool();
