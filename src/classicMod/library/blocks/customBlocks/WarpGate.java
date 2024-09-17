@@ -453,6 +453,11 @@ public class WarpGate extends Block {
             super.write(write);
             write.b(toggle);
 
+            if (toggle != -1) {
+                if (isTeamChanged()) teleporters[previousTeam.id][toggle].remove(this);
+                else teleporters[team.id][toggle].remove(this);
+            }
+
             Seq<Item> allItems = Vars.content.items();
             int itemSize = allItems.size;
             Object[] itemArray = allItems.items;
@@ -472,7 +477,7 @@ public class WarpGate extends Block {
         public void read(Reads read, byte revision) {
             super.read(read, revision);
             int b0 = read.b();
-            toggle = b0
+            toggle = b0;
             teleporting = false;
 
             Seq<Item> allItems = Vars.content.items();
