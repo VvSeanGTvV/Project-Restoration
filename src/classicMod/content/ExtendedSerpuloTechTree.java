@@ -133,7 +133,7 @@ public class ExtendedSerpuloTechTree {
 
         margeNode(Items.sand, () -> {
             nodeProduce(ClassicItems.stone, () -> {
-
+                nodeProduce(ClassicLiquids.lava);
             });
         });
 

@@ -9,7 +9,7 @@ public class ClassicTechtree {
     //TODO move this to a seperate mod!
 
     public void load(){
-        nodeRoot("Classic", coreSolo, () -> {
+        /*nodeRoot("Classic", coreSolo, () -> {
             node(tunnelBridge, () -> {
                 node(teleporter);
             });
@@ -80,6 +80,6 @@ public class ClassicTechtree {
                     });
                 });
             });
-        });
+        });*/
     }
 }

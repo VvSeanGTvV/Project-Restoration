@@ -486,7 +486,7 @@ public class ClassicBlocks {
         wallDense = new Wall("dense-wall"){{
             requirements(Category.defense, with(ClassicItems.denseAlloy, 12));
             health = 110 * wallHealthMultiplier;
-            size = 2;
+            size = 1;
         }};
 
         wallDenseLarge = new Wall("dense-wall-large"){{
@@ -498,7 +498,7 @@ public class ClassicBlocks {
         wallShieldedTitanium = new ShieldWall("titanium-shieldwall"){{
             requirements(Category.defense, with(ClassicItems.titanium, 6, ClassicItems.lead, 6));
             health = 40 * wallHealthMultiplier * 4;
-            size = 2;
+            size = 1;
         }};
 
         crucible = new GenericSmelter("crucible"){{
