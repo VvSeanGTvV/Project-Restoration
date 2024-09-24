@@ -50,13 +50,14 @@ public class ClassicBlocks {
     stoneDrill, ironDrill, uraniumDrill, titaniumDrill, coalDrill, omniDrill, //SingleDrill - classic
     ironOre, uraniumOre, //Ore - classic
     lavaLiq, //Liquid - classic
-    wallStone, wallIron, wallSteel, wallDirium, wallComposite, wallDiriumLarge, wallSteelLarge, //Wall - classic
+    wallStone, wallIron, wallSteel, wallDirium, wallComposite, wallDiriumLarge, wallSteelLarge, wallShieldedTitanium,//Wall - classic
 
 
     warpGate, //Distribution [v4]
     melter, denseSmelter, arcSmelter,  smolSeparator, //Production [v4]
     fuseMKII, fuseMKI, salvoAlpha, arcAir, cycloneb57, //Turret [v4]
     plasmaDrill, //Drills [v4]
+    wallDense, wallDenseLarge, //Wall [v4]
 
 
     dartPad, omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad [v5]
@@ -438,55 +439,15 @@ public class ClassicBlocks {
             consumeItem(ClassicItems.uranium);
             consumeLiquid(Liquids.water, heating / coolantPower).update(false);
         }};
+    }
 
-        crucible = new GenericSmelter("crucible"){{
-            requirements(Category.crafting, with(Items.titanium, 50, ClassicItems.steel, 50));
-            health = 90;
-            outputItem = new ItemStack(ClassicItems.dirium, 1);
-            consumeItems(with(Items.titanium, 1, ClassicItems.steel, 1));
-            burnTime = 40f;
-            craftTime = 20f;
-            itemCapacity = 20;
-        }};
-
-        melter = new GenericCrafter("melter"){{
-            requirements(Category.crafting, with(ClassicItems.stone, 30, ClassicItems.iron, 30, ClassicItems.steel, 50));
-            health = 85;
-            outputLiquid = new LiquidStack(ClassicLiquids.lava, 10f/60f);
-            consumeItems(with(ClassicItems.stone, 1));
-            consumePower(0.1f);
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawDefault());
-            craftTime = 10f;
-            itemCapacity = 20;
-        }};
-
-        lavaSmelter = new GenericCrafter("lava-smelter"){{
-            requirements(Category.crafting, with(Items.titanium, 15, ClassicItems.steel, 30));
-            consumeLiquid(ClassicLiquids.lava, 35f/60f);
-            consumeItem(ClassicItems.iron, 1);
-            outputItem = new ItemStack(ClassicItems.steel, 1);
-            health = 80;
-            craftTime = 30;
-            craftEffect = ExtendedFx.purifystone;
-        }};
-
-        stoneFormer = new GenericCrafter("stone-former"){{
-            requirements(Category.crafting, with(ClassicItems.stone, 30, ClassicItems.iron, 30, ClassicItems.steel, 55));
-            consumeLiquid(ClassicLiquids.lava, 15f/60f);
-            outputItem = new ItemStack(ClassicItems.stone, 1);
-            health = 80;
-            craftTime = 12;
-            craftEffect = ExtendedFx.purifystone;
-        }};
-
-        steelSmelter = new GenericSmelter("steel-smelter"){{
-            requirements(Category.crafting, with(ClassicItems.stone, 40, ClassicItems.iron, 40));
-            health = 70;
-            outputItem = new ItemStack(ClassicItems.steel, 1);
-            consumeItems(with(ClassicItems.iron, 1));
-            craftTime = 20f;
-            itemCapacity = 20;
-        }};
+    public void loadv4(){
+        warpGate = new WarpGate("warp-gate"){
+            {
+                requirements(Category.distribution, with(ClassicItems.steel, 30, ClassicItems.dirium, 40));
+                size = 3;
+            }
+        };
 
         int wallHealthMultiplier = 4;
         wallStone = new Wall("stone-wall"){{
@@ -521,15 +482,76 @@ public class ClassicBlocks {
             health = 80 * wallHealthMultiplier * 4;
             size = 2;
         }};
-    }
 
-    public void loadv4(){
-        warpGate = new WarpGate("warp-gate"){
-            {
-                requirements(Category.distribution, with(ClassicItems.steel, 30, ClassicItems.dirium, 40));
-                size = 3;
-            }
-        };
+        wallDense = new Wall("dense-wall"){{
+            requirements(Category.defense, with(ClassicItems.denseAlloy, 12));
+            health = 110 * wallHealthMultiplier;
+            size = 2;
+        }};
+
+        wallDenseLarge = new Wall("dense-wall-large"){{
+            requirements(Category.defense, ItemStack.mult(wallDense.requirements, 4));
+            health = 110 * wallHealthMultiplier * 4;
+            size = 2;
+        }};
+
+        wallShieldedTitanium = new ShieldWall("titanium-shieldwall"){{
+            requirements(Category.defense, with(ClassicItems.titanium, 6, ClassicItems.lead, 6));
+            health = 40 * wallHealthMultiplier * 4;
+            size = 2;
+        }};
+
+        crucible = new GenericSmelter("crucible"){{
+            requirements(Category.crafting, with(Items.titanium, 50, ClassicItems.steel, 50));
+            health = 90;
+            outputItem = new ItemStack(ClassicItems.dirium, 1);
+            consumeItems(with(Items.titanium, 1, ClassicItems.steel, 1));
+            burnTime = 40f;
+            craftTime = 20f;
+            itemCapacity = 20;
+        }};
+
+        steelSmelter = new GenericSmelter("steel-smelter"){{
+            requirements(Category.crafting, with(ClassicItems.stone, 40, ClassicItems.iron, 40));
+            health = 70;
+            outputItem = new ItemStack(ClassicItems.steel, 1);
+            consumeItems(with(ClassicItems.iron, 1));
+            craftTime = 20f;
+            itemCapacity = 20;
+        }};
+
+        lavaSmelter = new GenericCrafter("lava-smelter"){{
+            requirements(Category.crafting, with(Items.titanium, 15, ClassicItems.steel, 30));
+            consumeLiquid(ClassicLiquids.lava, 35f/60f);
+            consumeItem(ClassicItems.iron, 1);
+            outputItem = new ItemStack(ClassicItems.steel, 1);
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawDefault());
+            health = 80;
+            craftTime = 30;
+            craftEffect = ExtendedFx.purifystone;
+        }};
+
+        stoneFormer = new GenericCrafter("stone-former"){{
+            requirements(Category.crafting, with(ClassicItems.stone, 30, ClassicItems.iron, 30, ClassicItems.steel, 55));
+            consumeLiquid(ClassicLiquids.lava, 17.5f/60f);
+            outputItem = new ItemStack(ClassicItems.stone, 1);
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawDefault());
+            health = 80;
+            craftTime = 12;
+            craftEffect = ExtendedFx.purifystone;
+        }};
+
+        melter = new GenericCrafter("melter"){{
+            requirements(Category.crafting, with(ClassicItems.stone, 30, ClassicItems.iron, 30, ClassicItems.steel, 50));
+            health = 85;
+            outputLiquid = new LiquidStack(ClassicLiquids.lava, 10f/60f);
+            consumeItems(with(ClassicItems.stone, 1));
+            consumePower(0.1f);
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawDefault());
+            craftTime = 10f;
+            itemCapacity = 20;
+        }};
+
 
         /*salvoAlpha = new ItemTurretV6("alpha-salvo"){{
             requirements(Category.turret, with(Items.tungsten, 210, Items.carbide, 190, Items.thorium, 130));
@@ -1115,7 +1137,7 @@ public class ClassicBlocks {
         }};
 
         //Nuclear //TODO make it work??? & SPRITE OVERHAUL needed
-        warheadAssembler = new SingleProducer("warhead-assembler") {{
+        /*warheadAssembler = new SingleProducer("warhead-assembler") {{
             requirements(Category.crafting, with(Items.thorium, 100));
             produce = nuclearWarhead;
 
@@ -1131,7 +1153,7 @@ public class ClassicBlocks {
         nuclearWarhead = new NuclearWarhead("nuclear-warhead") {{
             requirements(Category.crafting, with(Items.thorium, 40));
             size = 2;
-        }};
+        }};*/
 
         //Distribution
         surgeDuct = new DuctOvercharge("surge-duct"){{

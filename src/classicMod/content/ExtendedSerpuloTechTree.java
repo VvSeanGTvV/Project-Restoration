@@ -9,17 +9,12 @@ import mindustry.type.ItemStack;
 import static classicMod.content.ClassicBlocks.*;
 import static mindustry.content.Blocks.*;
 import static mindustry.content.SectorPresets.*;
-import static mindustry.content.TechTree.TechNode;
+import static mindustry.content.TechTree.*;
 
 public class ExtendedSerpuloTechTree {
     static TechTree.TechNode context = null;
 
     public static void load() {
-        margeNode(copperWallLarge, () -> {
-            node(insulatorWall, () -> {
-               node(insulatorWallLarge);
-            });
-        });
 
         margeNode(combustionGenerator, () -> {
             node(draugFactory, () -> {
@@ -97,12 +92,44 @@ public class ExtendedSerpuloTechTree {
             });
         });
 
+        //wall
+        margeNode(copperWallLarge, () -> {
+            node(wallDense, () -> {
+                node(wallDenseLarge, () -> {
+                    node(insulatorWall, () -> {
+                        node(insulatorWallLarge);
+                    });
+                });
+            });
+        });
+
+        margeNode(titaniumWallLarge, () -> {
+            node(wallShieldedTitanium);
+        });
+
+        margeNode(copperWall, () -> {
+            node(wallStone, () -> {
+                node(wallIron, () -> {
+                    node(wallSteel, () -> {
+                        node(wallSteelLarge);
+                        node(wallDirium, () -> {
+                            node(wallDiriumLarge);
+                            node(wallComposite, () -> {});
+                        });
+                    });
+                });
+            });
+        });
+
         //item
         margeNode(Items.lead, () -> {
             nodeProduce(ClassicItems.denseAlloy, () -> {
 
             });
         });
+
+
+
 
         margeNode(Items.sand, () -> {
             nodeProduce(ClassicItems.stone, () -> {
