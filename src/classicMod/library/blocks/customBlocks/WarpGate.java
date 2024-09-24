@@ -358,7 +358,8 @@ public class WarpGate extends Block {
                 WarpGate.WarpGateBuild other = teles.get(entries.get(i));
                 if (other != this) {
                     entry = i + 1;
-                    if (other.transportable) return other;
+                    Log.info(other);
+                    if (!(other.OutputStackHold.total() >= other.block.itemCapacity)) return other;
                 }
             }
             return null;
