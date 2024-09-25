@@ -184,14 +184,16 @@ public class PayloadMassDriverOld extends PayloadBlock {
             if (reload < 0) reload = 0f;
             var current = currentShooter();
             //cleanup waiting shooters that are not valid
-            if (current != null &&
+            if(current != null &&
                     !(
                             current instanceof PayloadDriverBuild entity &&
+                                    current.isValid() &&
                                     entity.efficiency > 0 && entity.block == block &&
                                     entity.link == pos() && within(current, range)
-                    )) {
+                    )){
                 waitingShooters.removeFirst();
             }
+
             //switch states
             if (state == idle) {
                 //start accepting when idle and there's space
