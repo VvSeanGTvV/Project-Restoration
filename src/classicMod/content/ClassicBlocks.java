@@ -454,8 +454,8 @@ public class ClassicBlocks {
         rtgGenerator = new ConsumeGenerator("compacted-rtg-generator"){{
             requirements(Category.power, with(Items.lead, 50, Items.silicon, 15, Items.phaseFabric, 5, ClassicItems.uranium, 10));
             size = 1;
-            powerProduction = 4.5f;
-            itemDuration = 60 * 14f;
+            powerProduction = 4.15f;
+            itemDuration = 60 * 20f;
             envEnabled = Env.any;
             generateEffect = Fx.generatespark;
 
@@ -512,7 +512,7 @@ public class ClassicBlocks {
         wallShieldedTitanium = new ShieldWallColor("titanium-shieldwall"){{
             requirements(Category.defense, with(ClassicItems.titanium, 6, ClassicItems.lead, 6));
             glowColor = Items.titanium.color.a(0.5f);
-            shieldColor = Items.titanium.color.mul(1.5f);
+            shieldColor = Items.titanium.color.mul(4f);
             health = 40 * wallHealthMultiplier * 4;
             size = 1;
         }};

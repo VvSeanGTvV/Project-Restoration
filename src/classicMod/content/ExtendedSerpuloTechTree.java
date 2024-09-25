@@ -86,6 +86,10 @@ public class ExtendedSerpuloTechTree {
             node(smolSeparator);
         });
 
+        margeNode(Blocks.rtgGenerator, () -> {
+            node(ClassicBlocks.rtgGenerator);
+        });
+
         //wall
         margeNode(copperWallLarge, () -> {
             node(insulatorWall, () -> {
