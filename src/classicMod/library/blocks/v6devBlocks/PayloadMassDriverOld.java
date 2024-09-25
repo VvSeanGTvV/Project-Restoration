@@ -129,7 +129,7 @@ public class PayloadMassDriverOld extends PayloadBlock {
 
         capOutlineRegion = createOutline(packer, Core.atlas.find(name + "-cap"));
         leftOutlineRegion = createOutline(packer, Core.atlas.find(name + "-left"));
-        rightRegion = createOutline(packer, Core.atlas.find(name + "-right"));
+        rightOutlineRegion = createOutline(packer, Core.atlas.find(name + "-right"));
     }
 
     TextureRegion createOutline(MultiPacker packer, TextureRegion textureRegion) {
