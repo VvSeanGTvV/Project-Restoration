@@ -187,7 +187,7 @@ public class PayloadMassDriverOld extends PayloadBlock {
             if (current != null &&
                     !(
                             current instanceof PayloadDriverBuild entity &&
-                                    entity.shouldConsume() && entity.block == block &&
+                                    entity.efficiency > 0 && entity.block == block &&
                                     entity.link == pos() && within(current, range)
                     )) {
                 waitingShooters.removeFirst();
@@ -215,7 +215,7 @@ public class PayloadMassDriverOld extends PayloadBlock {
                 }
             }
             //skip when there's no power
-            if (!shouldConsume()) {
+            if (efficiency <= 0f) {
                 return;
             }
             if (state == accepting) {
@@ -422,6 +422,7 @@ public class PayloadMassDriverOld extends PayloadBlock {
 
         @Override
         public Point2 config() {
+            if(tile == null) return null;
             return Point2.unpack(link).sub(tile.x, tile.y);
         }
 
