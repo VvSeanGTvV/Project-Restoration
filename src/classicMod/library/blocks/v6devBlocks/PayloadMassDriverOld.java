@@ -127,12 +127,12 @@ public class PayloadMassDriverOld extends PayloadBlock {
     public void createIcons(MultiPacker packer) {
         super.createIcons(packer);
 
-        capOutlineRegion = createOutline(packer, Core.atlas.find(name + "-cap"));
-        leftOutlineRegion = createOutline(packer, Core.atlas.find(name + "-left"));
-        rightOutlineRegion = createOutline(packer, Core.atlas.find(name + "-right"));
+        createOutline(packer, Core.atlas.find(name + "-cap"));
+        createOutline(packer, Core.atlas.find(name + "-left"));
+        createOutline(packer, Core.atlas.find(name + "-right"));
     }
 
-    TextureRegion createOutline(MultiPacker packer, TextureRegion textureRegion) {
+    void createOutline(MultiPacker packer, TextureRegion textureRegion) {
         var atlas = textureRegion.asAtlas();
         if (atlas != null) {
             String regionName = atlas.name;
@@ -141,9 +141,7 @@ public class PayloadMassDriverOld extends PayloadBlock {
             Drawf.checkBleed(outlined);
 
             packer.add(MultiPacker.PageType.main, regionName + "-outline", outlined);
-            return Core.atlas.find(regionName + "-outline");
         }
-        return null;
     }
 
 
@@ -326,6 +324,9 @@ public class PayloadMassDriverOld extends PayloadBlock {
 
         @Override
         public void draw() {
+            if (capOutlineRegion == null) capOutlineRegion = Core.atlas.find(name + "-cap-outline");
+            if (leftOutlineRegion == null) leftOutlineRegion = Core.atlas.find(name + "-left-outline");
+            if (rightOutlineRegion == null) rightOutlineRegion = Core.atlas.find(name + "-right-outline");
             float
                     tx = x + Angles.trnsx(turretRotation + 180f, reload * knockback),
                     ty = y + Angles.trnsy(turretRotation + 180f, reload * knockback), r = turretRotation - 90;
@@ -351,7 +352,7 @@ public class PayloadMassDriverOld extends PayloadBlock {
             Tmp.v2.trns(rotation, -Math.max(curSize / 2f - grabHeight - length, 0f), 0f);
             float rx = tx + Tmp.v1.x + Tmp.v2.x, ry = ty + Tmp.v1.y + Tmp.v2.y;
             float lx = tx - Tmp.v1.x + Tmp.v2.x, ly = ty - Tmp.v1.y + Tmp.v2.y;
-            Draw.rect(capOutlineRegion, tx, ty, r);
+            //Draw.rect(capOutlineRegion, tx, ty, r);
             Draw.rect(leftOutlineRegion, lx, ly, r);
             Draw.rect(rightOutlineRegion, rx, ry, r);
             Draw.rect(leftRegion, lx, ly, r);
