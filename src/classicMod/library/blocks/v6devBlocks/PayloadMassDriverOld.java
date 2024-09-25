@@ -399,17 +399,20 @@ public class PayloadMassDriverOld extends PayloadBlock {
 
         @Override
         public boolean onConfigureBuildTapped(Building other) {
-            if (this == other) {
+            if(this == other){
+                if(link == -1) deselect();
                 configure(-1);
                 return false;
             }
-            if (link == other.pos()) {
+
+            if(link == other.pos()){
                 configure(-1);
                 return false;
-            } else if (other.block instanceof PayloadMassDriver && other.dst(tile) <= range && other.team == team) {
+            }else if(other.block instanceof PayloadMassDriver && other.dst(tile) <= range && other.team == team){
                 configure(other.pos());
                 return false;
             }
+
             return true;
         }
 
