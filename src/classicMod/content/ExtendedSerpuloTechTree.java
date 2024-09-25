@@ -69,9 +69,9 @@ public class ExtendedSerpuloTechTree {
         margeNode(arc, () -> node(arcAir));
 
         margeNode(phaseConveyor, () -> {
-            /*node(warpGate,() -> {
+            node(warpGate,() -> {
 
-            });*/
+            });
         });
 
         margeNode(graphitePress, () -> {
@@ -86,20 +86,22 @@ public class ExtendedSerpuloTechTree {
             node(smolSeparator);
         });
 
-        margeNode(launchPad, () -> {
-            node(launchPadLarge, () -> {
-                node(ClassicBlocks.interplanetaryAccelerator, Seq.with(new SectorComplete(planetaryTerminal)), () -> {}); //Endgame bois
-            });
-        });
-
         //wall
         margeNode(copperWallLarge, () -> {
-            node(wallDense, () -> {
-                node(wallDenseLarge, () -> {
-                    node(insulatorWall, () -> {
-                        node(insulatorWallLarge);
-                    });
+            node(insulatorWall, () -> {
+                node(insulatorWallLarge);
+                node(wallDense, () -> {
+                    node(wallDenseLarge);
+
                 });
+            });
+
+        });
+
+        margeNode(titaniumWall, () -> {
+            node(wallDirium, () -> {
+                node(wallDiriumLarge);
+                node(wallComposite, () -> {});
             });
         });
 
@@ -107,7 +109,7 @@ public class ExtendedSerpuloTechTree {
             node(wallShieldedTitanium);
         });
 
-        margeNode(copperWall, () -> {
+        /*margeNode(copperWall, () -> {
             node(wallStone, () -> {
                 node(wallIron, () -> {
                     node(wallSteel, () -> {
@@ -119,7 +121,7 @@ public class ExtendedSerpuloTechTree {
                     });
                 });
             });
-        });
+        });*/
 
         //item
         margeNode(Items.lead, () -> {
@@ -128,21 +130,26 @@ public class ExtendedSerpuloTechTree {
             });
         });
 
-
-
-
         margeNode(Items.sand, () -> {
             nodeProduce(ClassicItems.stone, () -> {
                 nodeProduce(ClassicLiquids.lava);
             });
         });
 
+        // etc.
         margeNode(impulsePump, () -> {
             node(thermalPump);
         });
 
+        // Launchpad
         margeNode(planetaryTerminal, () -> {
             nodePlanetary(onset, ClassicBlocks.interplanetaryAccelerator, () -> {});
+        });
+
+        margeNode(launchPad, () -> {
+            node(launchPadLarge, () -> {
+                node(ClassicBlocks.interplanetaryAccelerator, Seq.with(new SectorComplete(planetaryTerminal)), () -> {}); //Endgame bois
+            });
         });
 
     }

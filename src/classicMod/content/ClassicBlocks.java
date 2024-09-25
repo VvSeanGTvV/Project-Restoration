@@ -9,7 +9,7 @@ import classicMod.library.blocks.*;
 import classicMod.library.blocks.classicBlocks.*;
 import classicMod.library.blocks.customBlocks.*;
 import classicMod.library.blocks.legacyBlocks.*;
-import classicMod.library.blocks.v6devBlocks.ItemTurretV6;
+import classicMod.library.blocks.v6devBlocks.*;
 import classicMod.library.bullets.*;
 import mindustry.content.*;
 import mindustry.entities.Effect;
@@ -26,9 +26,10 @@ import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.heat.HeatProducer;
-import mindustry.world.blocks.power.NuclearReactor;
+import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.blocks.storage.*;
+import mindustry.world.consumers.ConsumeItemRadioactive;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
@@ -52,6 +53,7 @@ public class ClassicBlocks {
     lavaLiq, //Liquid - classic
     wallStone, wallIron, wallSteel, wallDirium, wallComposite, wallDiriumLarge, wallSteelLarge, wallShieldedTitanium,//Wall - classic
 
+    rtgGenerator, //Power [Classic-Hybrid]
 
     warpGate, //Distribution [v4]
     melter, denseSmelter, arcSmelter,  smolSeparator, //Production [v4]
@@ -81,7 +83,7 @@ public class ClassicBlocks {
     surgeDuct, //Distribution - Duct - Prototype [v7-dev]
     burstDrill, //Distribution - Duct - Prototype [v7-dev]
 
-    droneCenter, payloadLaunchpad, commandCenter, //TEMPORARY TESTING
+    droneCenter, payloadLaunchpad, commandCenter, payloadPropulsionTower, //TEMPORARY TESTING
 
     fracture, horde, chrome, tinyBreach, //Turrets - Erekir - Prototype [v7-dev]
 
@@ -449,6 +451,18 @@ public class ClassicBlocks {
             }
         };
 
+        rtgGenerator = new ConsumeGenerator("compacted-rtg-generator"){{
+            requirements(Category.power, with(Items.lead, 50, Items.silicon, 15, Items.phaseFabric, 5, ClassicItems.uranium, 10));
+            size = 1;
+            powerProduction = 4.5f;
+            itemDuration = 60 * 14f;
+            envEnabled = Env.any;
+            generateEffect = Fx.generatespark;
+
+            drawer = new DrawMulti(new DrawDefault(), new DrawWarmupRegion());
+            consume(new ConsumeItemRadioactive(0.5f));
+        }};
+
         int wallHealthMultiplier = 4;
         wallStone = new Wall("stone-wall"){{
             requirements(Category.defense, with(ClassicItems.stone, 12));
@@ -495,8 +509,10 @@ public class ClassicBlocks {
             size = 2;
         }};
 
-        wallShieldedTitanium = new ShieldWall("titanium-shieldwall"){{
+        wallShieldedTitanium = new ShieldWallColor("titanium-shieldwall"){{
             requirements(Category.defense, with(ClassicItems.titanium, 6, ClassicItems.lead, 6));
+            glowColor = Items.titanium.color.a(0.5f);
+            shieldColor = Items.titanium.color;
             health = 40 * wallHealthMultiplier * 4;
             size = 1;
         }};
@@ -759,7 +775,6 @@ public class ClassicBlocks {
             scaledHealth = 145;
             limitRange();
         }};
-
     }
 
     public void load() {
@@ -1560,6 +1575,11 @@ public class ClassicBlocks {
             hasPower = true;
             consumePower(4f);
         }};*/
+
+        payloadPropulsionTower = new PayloadMassDriverOld("payload-propulsion-tower"){{
+            requirements(Category.units, with(Items.lead, 1));
+            size = 5;
+        }};
 
         reinforcedSafe = new StorageBlock("reinforced-safe"){
             {
