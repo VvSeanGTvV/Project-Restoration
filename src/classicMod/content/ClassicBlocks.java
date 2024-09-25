@@ -512,7 +512,7 @@ public class ClassicBlocks {
         wallShieldedTitanium = new ShieldWallColor("titanium-shieldwall"){{
             requirements(Category.defense, with(ClassicItems.titanium, 6, ClassicItems.lead, 6));
             glowColor = Items.titanium.color.a(0.5f);
-            shieldColor = Items.titanium.color;
+            shieldColor = Items.titanium.color.mul(1.5f);
             health = 40 * wallHealthMultiplier * 4;
             size = 1;
         }};
@@ -1579,6 +1579,8 @@ public class ClassicBlocks {
         payloadPropulsionTower = new PayloadMassDriverOld("payload-propulsion-tower"){{
             requirements(Category.units, with(Items.lead, 1));
             size = 5;
+
+            consumePower(3f);
         }};
 
         reinforcedSafe = new StorageBlock("reinforced-safe"){
