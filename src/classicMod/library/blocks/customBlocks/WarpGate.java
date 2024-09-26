@@ -73,11 +73,11 @@ public class WarpGate extends Block {
                 for (int j = 0; j < teleporters[i].length; j++) teleporters[i][j].clear();
             }
         });*/
-        Events.on(WorldLoadEvent.class, e -> {
+        /*Events.on(WorldLoadEvent.class, e -> {
             for (ObjectSet<WarpGateBuild>[] teleporter : teleporters) {
                 for (ObjectSet<WarpGateBuild> warpGateBuilds : teleporter) warpGateBuilds.clear();
             }
-        });
+        });*/
 
         config(Integer.class, (WarpGate.WarpGateBuild build, Integer value) -> {
             if (build.toggle != -1) teleporters[build.team.id][build.toggle].remove(build);
@@ -458,7 +458,6 @@ public class WarpGate extends Block {
         public void write(Writes write) { //TODO fix issues with loading saves
             super.write(write);
             write.b(toggle);
-            write.b(team.id);
 
             Seq<Item> allItems = Vars.content.items();
             int itemSize = allItems.size;
@@ -472,15 +471,15 @@ public class WarpGate extends Block {
                     write.b(0);
                 }
             }
+            teleporters[team.id][toggle].remove(this);
             //write.bool(teleporting);
         }
 
         @Override
         public void read(Reads read, byte revision) {
             super.read(read, revision);
-            int b0 = read.b();
-            toggle = b0;
-            teleporters[read.b()][b0].add(this);
+            toggle = read.b();
+            teleporters[team.id][toggle].add(this);
             teleporting = false;
 
             Seq<Item> allItems = Vars.content.items();
