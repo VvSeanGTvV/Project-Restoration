@@ -67,11 +67,13 @@ public class WarpGate extends Block {
         saveConfig = true;
         unloadable = false;
         hasItems = true;
-        Events.on(WorldLoadEvent.class, e -> {
+
+        /*Events.on(WorldLoadEvent.class, e -> {
             for (int i = 0; i < teleporters.length; i++) {
                 for (int j = 0; j < teleporters[i].length; j++) teleporters[i][j].clear();
             }
-        });
+        });*/
+
         config(Integer.class, (WarpGate.WarpGateBuild build, Integer value) -> {
             if (build.toggle != -1) teleporters[build.team.id][build.toggle].remove(build);
             if (value != -1) teleporters[build.team.id][value].add(build);
@@ -454,11 +456,6 @@ public class WarpGate extends Block {
             super.write(write);
             write.b(toggle);
 
-            if (toggle != -1) {
-                if (isTeamChanged()) teleporters[previousTeam.id][toggle].remove(this);
-                else teleporters[team.id][toggle].remove(this);
-            }
-
             Seq<Item> allItems = Vars.content.items();
             int itemSize = allItems.size;
             Object[] itemArray = allItems.items;
@@ -477,8 +474,7 @@ public class WarpGate extends Block {
         @Override
         public void read(Reads read, byte revision) {
             super.read(read, revision);
-            int b0 = read.b();
-            toggle = b0;
+            toggle = read.b();
             teleporting = false;
 
             Seq<Item> allItems = Vars.content.items();
@@ -490,9 +486,6 @@ public class WarpGate extends Block {
                 int val = read.b();
                 if (val > 0) OutputStackHold.add(item, val);
             }
-
-            if (b0 != -1) teleporters[team.id][b0].add(this);
-            previousTeam = team;
 
             //if (toggle != -1) target = findLink(toggle);
             //teleporting = read.bool();

@@ -446,13 +446,13 @@ public class ClassicBlocks {
     public void loadv4(){
         warpGate = new WarpGate("warp-gate"){
             {
-                requirements(Category.distribution, with(ClassicItems.steel, 30, ClassicItems.dirium, 40));
+                requirements(Category.distribution, with(Items.lead, 30, ClassicItems.dirium, 40));
                 size = 3;
             }
         };
 
         rtgGenerator = new ConsumeGenerator("compacted-rtg-generator"){{
-            requirements(Category.power, with(Items.lead, 50, Items.silicon, 15, Items.phaseFabric, 5, ClassicItems.uranium, 10));
+            requirements(Category.power, with(Items.lead, 50, Items.silicon, 15, Items.phaseFabric, 5, ClassicItems.thorium, 10));
             size = 1;
             powerProduction = 4.15f;
             itemDuration = 60 * 20f;
@@ -1579,6 +1579,7 @@ public class ClassicBlocks {
         payloadPropulsionTower = new PayloadMassDriverOld("payload-propulsion-tower"){{
             requirements(Category.units, with(Items.lead, 1));
             size = 5;
+            range = 400f;
 
             consumePower(3f);
         }};
