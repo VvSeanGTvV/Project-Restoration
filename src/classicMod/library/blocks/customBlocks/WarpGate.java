@@ -73,6 +73,11 @@ public class WarpGate extends Block {
                 for (int j = 0; j < teleporters[i].length; j++) teleporters[i][j].clear();
             }
         });*/
+        Events.on(WorldLoadEvent.class, e -> {
+            for (ObjectSet<WarpGateBuild>[] teleporter : teleporters) {
+                for (ObjectSet<WarpGateBuild> warpGateBuilds : teleporter) warpGateBuilds.clear();
+            }
+        });
 
         config(Integer.class, (WarpGate.WarpGateBuild build, Integer value) -> {
             if (build.toggle != -1) teleporters[build.team.id][build.toggle].remove(build);
@@ -144,8 +149,6 @@ public class WarpGate extends Block {
         protected int toggle = -1, entry;
         protected float duration, activeScl, teleProgress;
         protected boolean teleporting;
-        protected boolean intransport;
-        protected @Nullable ItemStack[] itemStacks;
         protected @Nullable ItemModule OutputStackHold = new ItemModule();
         protected WarpGate.WarpGateBuild target;
         protected Team previousTeam;
@@ -455,6 +458,7 @@ public class WarpGate extends Block {
         public void write(Writes write) { //TODO fix issues with loading saves
             super.write(write);
             write.b(toggle);
+            write.b(team.id);
 
             Seq<Item> allItems = Vars.content.items();
             int itemSize = allItems.size;
@@ -474,7 +478,9 @@ public class WarpGate extends Block {
         @Override
         public void read(Reads read, byte revision) {
             super.read(read, revision);
-            toggle = read.b();
+            int b0 = read.b();
+            toggle = b0;
+            teleporters[read.b()][b0].add(this);
             teleporting = false;
 
             Seq<Item> allItems = Vars.content.items();
@@ -486,6 +492,8 @@ public class WarpGate extends Block {
                 int val = read.b();
                 if (val > 0) OutputStackHold.add(item, val);
             }
+
+
 
             //if (toggle != -1) target = findLink(toggle);
             //teleporting = read.bool();
