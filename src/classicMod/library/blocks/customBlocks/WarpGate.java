@@ -80,9 +80,10 @@ public class WarpGate extends Block {
         });*/
 
         config(Integer.class, (WarpGate.WarpGateBuild build, Integer value) -> {
-            if (build.toggle != -1) teleporters[build.team.id][build.toggle].remove(build);
-            if (value != -1) teleporters[build.team.id][value].add(build);
             build.toggle = value;
+            if (teleporters[build.team.id][build.toggle].contains(build) && build.toggle != -1) teleporters[build.team.id][build.toggle].remove(build);
+            if (value != -1) teleporters[build.team.id][value].add(build);
+
         });
         configClear((WarpGate.WarpGateBuild build) -> {
             if (build.toggle != -1) teleporters[build.team.id][build.toggle].remove(build);
