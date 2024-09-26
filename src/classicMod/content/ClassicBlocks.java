@@ -26,6 +26,7 @@ import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.heat.HeatProducer;
+import mindustry.world.blocks.payloads.PayloadMassDriver;
 import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.blocks.storage.*;
@@ -549,20 +550,21 @@ public class ClassicBlocks {
 
         stoneFormer = new GenericCrafter("stone-former"){{
             requirements(Category.crafting, with(ClassicItems.stone, 30, ClassicItems.iron, 30, ClassicItems.steel, 55));
-            consumeLiquid(ClassicLiquids.lava, 17.5f/60f);
+            consumeLiquid(ClassicLiquids.slag, 17.5f/60f);
             outputItem = new ItemStack(ClassicItems.stone, 1);
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawDefault());
             health = 80;
             craftTime = 12;
+            consumePower(30f/60f);
             craftEffect = ExtendedFx.purifystone;
         }};
 
         melter = new GenericCrafter("melter"){{
             requirements(Category.crafting, with(ClassicItems.stone, 30, ClassicItems.iron, 30, ClassicItems.steel, 50));
             health = 85;
-            outputLiquid = new LiquidStack(ClassicLiquids.lava, 10f/60f);
+            outputLiquid = new LiquidStack(ClassicLiquids.slag, 8f/60f);
             consumeItems(with(ClassicItems.stone, 1));
-            consumePower(0.1f);
+            consumePower(62.5f/60f);
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawDefault());
             craftTime = 10f;
             itemCapacity = 20;
@@ -1576,7 +1578,7 @@ public class ClassicBlocks {
             consumePower(4f);
         }};*/
 
-        payloadPropulsionTower = new PayloadMassDriverOld("payload-propulsion-tower"){{
+        payloadPropulsionTower = new PayloadMassDriver("payload-propulsion-tower"){{
             requirements(Category.units, with(Items.lead, 1));
             size = 5;
             range = 400f;

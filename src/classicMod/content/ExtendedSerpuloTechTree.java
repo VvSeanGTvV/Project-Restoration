@@ -68,14 +68,28 @@ public class ExtendedSerpuloTechTree {
 
         margeNode(arc, () -> node(arcAir));
 
+        // Transportation
         margeNode(phaseConveyor, () -> {
             node(warpGate,() -> {
 
             });
         });
 
+        margeNode(massDriver, () -> {
+            node(payloadPropulsionTower,() -> {
+
+            });
+        });
+
+        margeNode(Blocks.melter, () -> {
+            node(ClassicBlocks.melter, () -> {
+                node(stoneFormer);
+            });
+        });
+
         margeNode(graphitePress, () -> {
             node(denseSmelter, () -> {
+                node(crucible);
                 node(arcSmelter, () -> {
 
                 });
