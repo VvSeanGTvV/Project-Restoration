@@ -259,19 +259,22 @@ public class WarpGate extends Block {
                 if (this.items.total() >= itemCapacity) {
                     WarpGate.WarpGateBuild other = findLink(toggle);
                     if (!teleporting && other != null){
-                        teleportEffect.at(this.x, this.y, selection[toggle]);
                         teleporting = true;
                     }
                     if(teleporting && other != null){
-                       teleProgress += getProgressIncrease(warmupTime);
-                       if(teleProgress >= 1f){
-                           teleportOutEffect.at(this.x, this.y, selection[toggle]);
-                           handleTransport(other);
-                           teleportOutEffect.at(other.x, other.y, selection[toggle]);
+                        teleportEffect.at(this.x, this.y, selection[toggle]);
+                        teleProgress += getProgressIncrease(warmupTime);
+                        if(teleProgress >= 1f){
+                            teleportOutEffect.at(this.x, this.y, selection[toggle]);
+                            handleTransport(other);
+                            teleportOutEffect.at(other.x, other.y, selection[toggle]);
 
-                           teleProgress %= 1f;
-                           teleporting = false;
-                       }
+                            teleProgress %= 1f;
+                            teleporting = false;
+                        }
+                    } else {
+                        teleProgress %= 1f;
+                        teleporting = false;
                     }
                 }
             } else {
@@ -403,11 +406,11 @@ public class WarpGate extends Block {
             return items.total() < itemCapacity && (toggle != -1);
         }
 
-        /*@Override
+        @Override
         public void created() {
             if (toggle != -1) teleporters[team.id][toggle].add(this);
             previousTeam = team;
-        }*/
+        }
 
         @Override
         public Building init(Tile tile, Team team, boolean shouldAdd, int rotation) {
