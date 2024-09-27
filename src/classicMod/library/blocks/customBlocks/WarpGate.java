@@ -47,7 +47,7 @@ public class WarpGate extends Block {
     /**
      * time between Teleports
      **/
-    public float teleportMax = 500f;
+    public float teleportMax = 450f;
     public float powerUse = 0.3f;
     public float teleportLiquidUse = 0.3f;
     public float liquidUse = 0.1f;
@@ -361,7 +361,8 @@ public class WarpGate extends Block {
         public WarpGate.WarpGateBuild findLink(int value) {
             ObjectSet<WarpGate.WarpGateBuild> teles = teleporters[team.id][value];
             Seq<WarpGate.WarpGateBuild> entries = teles.toSeq();
-            entry = 0;
+            if (entry == null) entry = 0;
+            if (entry >= entries.size) entry = 0;
             if (entry == entries.size - 1) {
                 WarpGate.WarpGateBuild other = teles.get(entries.get(entry));
                 if (other == this) entry = 0;
