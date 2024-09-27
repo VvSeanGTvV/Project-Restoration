@@ -47,7 +47,7 @@ public class WarpGate extends Block {
     /**
      * time between Teleports
      **/
-    public float teleportMax = 450f;
+    public float teleportMax = 500f;
     public float powerUse = 0.3f;
     public float teleportLiquidUse = 0.3f;
     public float liquidUse = 0.1f;
@@ -74,11 +74,6 @@ public class WarpGate extends Block {
             }
         });*/
 
-        /*Events.on(WorldLoadEvent.class, e -> {
-            for (ObjectSet<WarpGateBuild>[] teleporter : teleporters) {
-                for (ObjectSet<WarpGateBuild> warpGateBuilds : teleporter) warpGateBuilds.clear();
-            }
-        });*/
 
         config(Integer.class, (WarpGate.WarpGateBuild build, Integer value) -> {
             if (build.toggle != -1) if (teleporters[build.team.id][build.toggle].contains(build)) teleporters[build.team.id][build.toggle].remove(build);
@@ -440,15 +435,6 @@ public class WarpGate extends Block {
         }
 
         @Override
-        public Building init(Tile tile, Team team, boolean shouldAdd, int rotation) {
-
-            if (toggle != -1) teleporters[team.id][toggle].add(this);
-            previousTeam = team;
-
-            return super.init(tile, team, shouldAdd, rotation);
-        }
-
-        @Override
         public void onRemoved() {
             if (toggle != -1) {
                 if (isTeamChanged()) teleporters[previousTeam.id][toggle].remove(this);
@@ -499,7 +485,6 @@ public class WarpGate extends Block {
         @Override
         public void write(Writes write) { //TODO fix issues with loading saves
             super.write(write);
-
             write.b(toggle);
 
             Seq<Item> allItems = Vars.content.items();
@@ -522,7 +507,12 @@ public class WarpGate extends Block {
             super.read(read, revision);
             toggle = read.b();
 
-            if(!teleporters[team.id][toggle].contains(this)) teleporters[team.id][toggle].add(this);
+            if(!teleporters[team.id][toggle].contains(this))
+                teleporters[team.id][toggle].add(this);
+            else {
+                teleporters[previousTeam.id][toggle].remove(this);
+                teleporters[team.id][toggle].add(this);
+            }
             teleporting = false;
 
             Seq<Item> allItems = Vars.content.items();
