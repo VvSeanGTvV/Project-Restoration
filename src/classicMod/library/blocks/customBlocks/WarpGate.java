@@ -381,7 +381,13 @@ public class WarpGate extends Block {
         public void handleTransport(WarpGate.WarpGateBuild other) {
             int[] data = new int[content.items().size];
             int totalUsed = 0;
-            //if (other == null) other = findLink(toggle);
+            if (other == null) {
+                teleProgress %= 1f;
+                teleporting = false;
+                return;
+            }
+            if (other != null) teleporters[other.team.id][other.toggle].remove(other);
+            teleporters[team.id][toggle].remove(this);
             for (int i = 0; i < content.items().size; i++) {
                 int maxTransfer = Math.min(items.get(content.item(i)), tile.block().itemCapacity - totalUsed);
                 data[i] = maxTransfer;
@@ -400,7 +406,9 @@ public class WarpGate extends Block {
                     break;
                 }
             }
-            //itemStacks = null; //set to null after finishing transport
+            if (other != null) teleporters[other.team.id][other.toggle].add(other);
+            teleporters[team.id][toggle].add(this);
+
         }
 
         @Override
