@@ -269,6 +269,7 @@ public class WarpGate extends Block {
                            teleportOutEffect.at(other.x, other.y, selection[toggle]);
 
                            teleProgress %= 1f;
+                           teleporting = false;
                        }
                     }
                 }

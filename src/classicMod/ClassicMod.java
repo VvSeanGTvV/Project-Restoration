@@ -71,7 +71,7 @@ public class ClassicMod extends Mod{
                         t.add("Version: " + ModVersion).align(Align.center).pad(10f).row();
                         t.add("Build: " + BuildVer).align(Align.center).pad(10f).row();
                     });*/
-                    dialog.cont.setTranslation(0, -(camera.height+128f));
+                    dialog.cont.setTranslation(0, -((dialog.getMaxHeight() / 2f)+128));
                     dialog.cont.table(Styles.grayPanel, Align.bottom, t -> {
                         //t.add("@mod.restored-mind.earlyaccess.title").size(120f).pad(10f).row();
                         t.table(character -> {
@@ -193,12 +193,6 @@ public class ClassicMod extends Mod{
             t.checkPref("content-classic", false);
             t.checkPref("content-v4", false);
 
-
-            /*if(false) {
-                t.pref(new Separator("restored-backwards-compatible"));
-                t.checkPref("backward-v5", false); //TODO make some mods backwards compatiblilty with v5
-                t.checkPref("backward-v6", false); //TODO make some mods backwards compatiblilty with v6
-            }*/
             t.pref(new UIExtended.ButtonSetting(Core.bundle.get("credits"), Icon.info, epicCreditsDialog::new, 32));
             t.pref(new UIExtended.ButtonSetting(getModBundle.get(resMod.meta.name + "-debug.unlock"), Icon.download, ContentUnlockDebugDialog::new, 32));
             t.row();
