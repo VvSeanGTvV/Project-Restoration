@@ -178,8 +178,8 @@ public class epicCreditsDialog extends Dialog {
         float centerX = graphics.getWidth() / 2f;
         float width = (centerX - (contribute.getMaxWidth()));//!mobile ? credit.getMinWidth() + ((float) graphics.getWidth() / 2) : ;
 
-        staticTable.x = staticTable.getMaxWidth() - (getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() * 1.25f);
-        staticTable.y = 10f;
+        staticTable.x = staticTable.getMaxWidth();
+        staticTable.y = 12f;
 
         planets.render(state);
         background.draw(0, 0, graphics.getWidth(), graphics.getHeight());
