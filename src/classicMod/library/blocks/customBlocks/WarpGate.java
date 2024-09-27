@@ -254,12 +254,14 @@ public class WarpGate extends Block {
                 if (this.items.total() >= itemCapacity) {
                     teleProgress += getProgressIncrease(warmupTime);
                     if (teleProgress >= 1f) {
+                        teleProgress = 1f;
                         WarpGateBuild other = findLink(toggle);
                         if (!teleporting) {
                             teleportEffect.at(this.x, this.y, selection[toggle]);
                             teleporting = true;
                         }
-                        Time.run(warmupTime, () -> {
+                        duration += getProgressIncrease(500f);
+                        if (duration >= 1f) {
                             if (this.items.total() <= 0 || other == null || toggle == -1) {
                                 Time.clear(); //remove timer, when interrupted or has nothujg in it.
                                 teleporting = false;
@@ -270,9 +272,10 @@ public class WarpGate extends Block {
                                 teleportOutEffect.at(other.x, other.y, selection[toggle]);
 
                                 teleProgress %= 1f;
+                                duration = 0f;
                                 teleporting = false;
                             }
-                        });
+                        }
                     }
                     /*if(teleporting && other != null){
                         
@@ -357,17 +360,6 @@ public class WarpGate extends Block {
                 button.update(() -> button.setChecked(toggle == j));
                 if (i % 4 == 3) table.row();
             }
-            /*table.row();
-            ImageButton Transport = table.button(Icon.up, Styles.clearTogglei, 24f, () -> {
-            }).size(34f).group(group).get();
-            ImageButton Unload = table.button(Icon.down, Styles.clearTogglei, 24f, () -> {
-            }).size(34f).group(group).get();
-
-            Transport.changed(() -> configure(Transport.isChecked() ? TYPE : -1));
-            Transport.update(() -> Transport.setChecked(TYPE == 1));
-
-            Unload.changed(() -> configure(Unload.isChecked() ? TYPE : -1));
-            Unload.update(() -> Unload.setChecked(TYPE == 2));*/
         }
 
         public WarpGate.WarpGateBuild findLink(int value) {
