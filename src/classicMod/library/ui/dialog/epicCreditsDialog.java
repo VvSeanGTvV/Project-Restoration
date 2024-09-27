@@ -113,7 +113,7 @@ public class epicCreditsDialog extends Dialog {
     public void act(float delta) {
         control.sound.stop();
         super.act(delta);
-        if (scrollbar >= (credit.getMaxHeight() + contribute.getMaxHeight() + ((float) graphics.getHeight() / 2))) {
+        if (scrollbar >= (credit.getMaxHeight() + contribute.getMaxHeight() + ((float) graphics.getHeight() / 2)) * 1.5f) {
             FinishedCredits();
             return;
         }
