@@ -173,7 +173,7 @@ public class WarpGate extends Block {
         }
 
         public float fraction() {
-            return teleProgress / teleportMax;
+            return teleProgress;
         }
         protected boolean isConsuming() {
             return warmupTime > 0f;
@@ -357,7 +357,7 @@ public class WarpGate extends Block {
         public WarpGate.WarpGateBuild findLink(int value) {
             ObjectSet<WarpGate.WarpGateBuild> teles = teleporters[team.id][value];
             Seq<WarpGate.WarpGateBuild> entries = teles.toSeq();
-            if (entry >= entries.size) entry = 0;
+            entry = 0;
             if (entry == entries.size - 1) {
                 WarpGate.WarpGateBuild other = teles.get(entries.get(entry));
                 if (other == this) entry = 0;
@@ -376,7 +376,7 @@ public class WarpGate extends Block {
         public void handleTransport(WarpGate.WarpGateBuild other) {
             int[] data = new int[content.items().size];
             int totalUsed = 0;
-            if (other == null) other = findLink(toggle);
+            //if (other == null) other = findLink(toggle);
             for (int i = 0; i < content.items().size; i++) {
                 int maxTransfer = Math.min(items.get(content.item(i)), tile.block().itemCapacity - totalUsed);
                 data[i] = maxTransfer;
