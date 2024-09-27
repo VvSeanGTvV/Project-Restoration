@@ -482,7 +482,7 @@ public class ClassicBlocks {
             health = 190 * wallHealthMultiplier;
         }};
         wallComposite = new Wall("composite-wall"){{
-            requirements(Category.defense, with(ClassicItems.dirium, 12, Items.titanium, 12, ClassicItems.steel, 12));
+            requirements(Category.defense, with(ClassicItems.dirium, 12, Items.titanium, 12, Items.lead, 12));
             health = 270 * wallHealthMultiplier;
         }};
 
@@ -513,16 +513,16 @@ public class ClassicBlocks {
         wallShieldedTitanium = new ShieldWallColor("titanium-shieldwall"){{
             requirements(Category.defense, with(ClassicItems.titanium, 6, ClassicItems.lead, 6));
             glowColor = Items.titanium.color.a(0.5f);
-            shieldColor = Items.titanium.color.mul(4f);
+            shieldColor = Color.blue.mul(2f);
             health = 40 * wallHealthMultiplier * 4;
             size = 1;
         }};
 
         crucible = new GenericSmelter("crucible"){{
-            requirements(Category.crafting, with(Items.titanium, 50, ClassicItems.steel, 50));
+            requirements(Category.crafting, with(Items.titanium, 50, Items.lead, 50));
             health = 90;
             outputItem = new ItemStack(ClassicItems.dirium, 1);
-            consumeItems(with(Items.titanium, 1, ClassicItems.steel, 1));
+            consumeItems(with(Items.titanium, 1, Items.lead, 1));
             burnTime = 40f;
             craftTime = 20f;
             itemCapacity = 20;
@@ -549,7 +549,7 @@ public class ClassicBlocks {
         }};
 
         stoneFormer = new GenericCrafter("stone-former"){{
-            requirements(Category.crafting, with(ClassicItems.stone, 30, ClassicItems.iron, 30, ClassicItems.steel, 55));
+            requirements(Category.crafting, with(ClassicItems.stone, 30, Items.lead, 30, Items.copper, 55));
             consumeLiquid(ClassicLiquids.slag, 17.5f/60f);
             outputItem = new ItemStack(ClassicItems.stone, 1);
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawDefault());
@@ -560,7 +560,7 @@ public class ClassicBlocks {
         }};
 
         melter = new GenericCrafter("melter"){{
-            requirements(Category.crafting, with(ClassicItems.stone, 30, ClassicItems.iron, 30, ClassicItems.steel, 50));
+            requirements(Category.crafting, with(ClassicItems.stone, 30, Items.lead, 30, Items.copper, 50));
             health = 85;
             outputLiquid = new LiquidStack(ClassicLiquids.slag, 8f/60f);
             consumeItems(with(ClassicItems.stone, 1));

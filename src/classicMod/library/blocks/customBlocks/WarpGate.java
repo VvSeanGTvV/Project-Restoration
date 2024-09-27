@@ -22,7 +22,7 @@ import mindustry.gen.*;
 import mindustry.graphics.Pal;
 import mindustry.type.*;
 import mindustry.ui.*;
-import mindustry.world.Block;
+import mindustry.world.*;
 import mindustry.world.meta.StatUnit;
 import mindustry.world.modules.ItemModule;
 
@@ -68,16 +68,17 @@ public class WarpGate extends Block {
         unloadable = false;
         hasItems = true;
 
-        Events.on(WorldLoadEvent.class, e -> {
+        /*Events.on(WorldLoadEvent.class, e -> {
             for (int i = 0; i < teleporters.length; i++) {
                 for (int j = 0; j < teleporters[i].length; j++) teleporters[i][j].clear();
             }
-        });
-        /*Events.on(WorldLoadEvent.class, e -> {
+        });*/
+        
+        Events.on(WorldLoadEvent.class, e -> {
             for (ObjectSet<WarpGateBuild>[] teleporter : teleporters) {
                 for (ObjectSet<WarpGateBuild> warpGateBuilds : teleporter) warpGateBuilds.clear();
             }
-        });*/
+        });
 
         config(Integer.class, (WarpGate.WarpGateBuild build, Integer value) -> {
             build.toggle = value;
@@ -402,10 +403,19 @@ public class WarpGate extends Block {
             return items.total() < itemCapacity && (toggle != -1);
         }
 
-        @Override
+        /*@Override
         public void created() {
             if (toggle != -1) teleporters[team.id][toggle].add(this);
             previousTeam = team;
+        }*/
+
+        @Override
+        public Building init(Tile tile, Team team, boolean shouldAdd, int rotation) {
+
+            if (toggle != -1) teleporters[team.id][toggle].add(this);
+            previousTeam = team;
+
+            return super.init(tile, team, shouldAdd, rotation);
         }
 
         @Override
@@ -480,7 +490,8 @@ public class WarpGate extends Block {
         public void read(Reads read, byte revision) {
             super.read(read, revision);
             toggle = read.b();
-            teleporters[team.id][toggle].add(this);
+
+            //if(!teleporters[team.id][toggle].contains(this)) teleporters[team.id][toggle].add(this);
             teleporting = false;
 
             Seq<Item> allItems = Vars.content.items();
