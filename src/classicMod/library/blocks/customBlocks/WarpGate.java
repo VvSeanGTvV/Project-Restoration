@@ -257,12 +257,29 @@ public class WarpGate extends Block {
                 }
 
                 if (this.items.total() >= itemCapacity) {
-                    WarpGate.WarpGateBuild other = findLink(toggle);
-                    if (!teleporting && other != null){
-                        teleportEffect.at(this.x, this.y, selection[toggle]);
-                        teleporting = true;
+                    teleProgress += getProgressIncrease(warmupTime);
+                    if (teleProgress >= 1f) {
+                        WarpGateBuild other = findLink(toggle);
+                        if (!teleporting) {
+                            teleportEffect.at(this.x, this.y, selection[toggle]);
+                            teleporting = true;
+                        }
+                        Time.run(warmupTime, () -> {
+                            if (this.items.total() <= 0 || other == null || toggle == -1) {
+                                Time.clear(); //remove timer, when interrupted or has nothujg in it.
+                                teleporting = false;
+                            }
+                            if (other != null) {
+                                teleportOutEffect.at(this.x, this.y, selection[toggle]);
+                                handleTransport(other);
+                                teleportOutEffect.at(other.x, other.y, selection[toggle]);
+
+                                teleProgress %= 1f;
+                                teleporting = false;
+                            }
+                        });
                     }
-                    if(teleporting && other != null){
+                    /*if(teleporting && other != null){
                         
                         teleProgress += getProgressIncrease(warmupTime);
                         if(teleProgress >= 1f){
@@ -276,7 +293,7 @@ public class WarpGate extends Block {
                     } else {
                         teleProgress %= 1f;
                         teleporting = false;
-                    }
+                    }*/
                 }
             } else {
                 firstTime = true;
@@ -381,13 +398,12 @@ public class WarpGate extends Block {
         public void handleTransport(WarpGate.WarpGateBuild other) {
             int[] data = new int[content.items().size];
             int totalUsed = 0;
+
             if (other == null) {
                 teleProgress %= 1f;
                 teleporting = false;
                 return;
             }
-            if (other != null) teleporters[other.team.id][other.toggle].remove(other);
-            teleporters[team.id][toggle].remove(this);
             for (int i = 0; i < content.items().size; i++) {
                 int maxTransfer = Math.min(items.get(content.item(i)), tile.block().itemCapacity - totalUsed);
                 data[i] = maxTransfer;
@@ -406,9 +422,6 @@ public class WarpGate extends Block {
                     break;
                 }
             }
-            if (other != null) teleporters[other.team.id][other.toggle].add(other);
-            teleporters[team.id][toggle].add(this);
-
         }
 
         @Override
