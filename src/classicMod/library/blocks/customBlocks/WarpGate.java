@@ -378,6 +378,7 @@ public class WarpGate extends Block {
         public WarpGate.WarpGateBuild findLink(int value) {
             ObjectSet<WarpGate.WarpGateBuild> teles = teleporters[team.id][value];
             Seq<WarpGate.WarpGateBuild> entries = teles.toSeq();
+            Log.info(entry);
             if (entry >= entries.size) entry = 0;
             if (entry == entries.size - 1) {
                 WarpGate.WarpGateBuild other = teles.get(entries.get(entry));
@@ -386,11 +387,12 @@ public class WarpGate extends Block {
             for (int i = entry, len = entries.size; i < len; i++) {
                 WarpGate.WarpGateBuild other = teles.get(entries.get(i));
                 Log.info(other);
-                Log.info(entry);
+                Log.info(i);
                 if (other != this) {
                     entry = i + 1;
                     if (!(other.OutputStackHold.total() >= other.block.itemCapacity)) return other;
                 }
+                if (entry >= entries.size) entry = 0;
             }
             return null;
         }
