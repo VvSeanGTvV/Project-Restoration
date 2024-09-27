@@ -238,18 +238,6 @@ public class WarpGate extends Block {
                 }
 
                 activeScl = Mathf.lerpDelta(activeScl, 1f, 0.015f);
-                duration = lastDuration;
-
-                if (teleporting) {
-                    lastDuration = 0f;
-                    duration = teleportMax;
-                }
-
-                if (items.total() >= itemCapacity) {
-                    onDuration();
-                } else {
-                    duration = teleportMax;
-                }
 
                 if (this.items.total() >= itemCapacity) {
                     teleProgress += getProgressIncrease(warmupTime);
