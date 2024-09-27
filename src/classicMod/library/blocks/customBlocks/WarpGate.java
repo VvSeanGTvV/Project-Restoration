@@ -361,7 +361,7 @@ public class WarpGate extends Block {
         public WarpGate.WarpGateBuild findLink(int value) {
             ObjectSet<WarpGate.WarpGateBuild> teles = teleporters[team.id][value];
             Seq<WarpGate.WarpGateBuild> entries = teles.toSeq();
-            if (entry == null) entry = 0;
+            entry = 0;
             if (entry >= entries.size) entry = 0;
             if (entry == entries.size - 1) {
                 WarpGate.WarpGateBuild other = teles.get(entries.get(entry));
