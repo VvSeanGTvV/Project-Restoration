@@ -179,16 +179,17 @@ public class epicCreditsDialog extends Dialog {
         float lastWidth, lastHeight;
         lastWidth = scene.root.getWidth();
         lastHeight = scene.root.getHeight();
-        float centerX = !mobile ? (lastWidth) : (lastWidth * 1.35f);
+        //float centerX = !mobile ? (lastWidth) : (lastWidth * 1.35f);
+        float centerX = graphics.getWidth() / 2f;
         //Log.info(graphics.getAspect());
 
-        float width = (centerX - (contribute.getMinWidth()));//!mobile ? credit.getMinWidth() + ((float) graphics.getWidth() / 2) : ;
+        float width = (centerX - (contribute.getMaxWidth()));//!mobile ? credit.getMinWidth() + ((float) graphics.getWidth() / 2) : ;
 
         /*float centerX1 = (graphics.getWidth() / 2f);
         float IE = ((float) graphics.getWidth() / 1000);
         float IA = ((float) graphics.getWidth() / 225);*/
-        staticTable.x = staticTable.getMinWidth() - (getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() * 1.5f);
-        staticTable.y = staticTable.getMinHeight();
+        staticTable.x = staticTable.getMaxWidth() - (getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() * 1.25f);
+        staticTable.y = staticTable.getMaxHeight();
 
         planets.render(state);
         background.draw(0, 0, graphics.getWidth(), graphics.getHeight());
