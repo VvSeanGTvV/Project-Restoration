@@ -113,7 +113,7 @@ public class epicCreditsDialog extends Dialog {
     public void act(float delta) {
         control.sound.stop();
         super.act(delta);
-        if (scrollbar * 1.15f >= (((credit.getMinHeight()) + contribute.getMinHeight()) + (graphics.getHeight() * 1.175f))) {
+        if (scrollbar >= (credit.getMaxHeight() + contribute.getMaxHeight() + ((float) graphics.getHeight() / 2))) {
             FinishedCredits();
             return;
         }
@@ -121,7 +121,7 @@ public class epicCreditsDialog extends Dialog {
         //Log.info("IN prefHEIGHT " +in.getPrefHeight());
         //Log.info("IN minHEIGHT " +in.getMinHeight());
         //Log.info("IN maxHEIGHT " +in.getMaxHeight());
-        var bot = (Vars.mobile) ? 60f : 120f; //alignment for mobile kinda off bud
+        var bot = (Vars.mobile) ? 120f : 60f; //alignment for mobile kinda off bud
         scrollbar += fdelta(650f, bot);
         //cont.clearChildren();
 
@@ -173,31 +173,19 @@ public class epicCreditsDialog extends Dialog {
     @Override
     public void draw() {
         var Wui = (TextureRegionDrawable) Tex.whiteui;
-        Scene stage = getScene();
         Drawable background = Wui.tint(0f, 0f, 0f, 0.65f);
 
-        float lastWidth, lastHeight;
-        lastWidth = scene.root.getWidth();
-        lastHeight = scene.root.getHeight();
-        //float centerX = !mobile ? (lastWidth) : (lastWidth * 1.35f);
         float centerX = graphics.getWidth() / 2f;
-        //Log.info(graphics.getAspect());
-
         float width = (centerX - (contribute.getMaxWidth()));//!mobile ? credit.getMinWidth() + ((float) graphics.getWidth() / 2) : ;
 
-        /*float centerX1 = (graphics.getWidth() / 2f);
-        float IE = ((float) graphics.getWidth() / 1000);
-        float IA = ((float) graphics.getWidth() / 225);*/
         staticTable.x = staticTable.getMaxWidth() - (getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() * 1.25f);
-        staticTable.y = staticTable.getMaxHeight();
+        staticTable.y = 10f;
 
         planets.render(state);
         background.draw(0, 0, graphics.getWidth(), graphics.getHeight());
         staticTable.draw();
 
         state.camPos.rotate(Vec3.Y, fdelta(250f, 120f));
-        //Log.info(scrollbar - credit.getMinHeight());
-        //Log.info(((credit.getMinHeight()) + (contribute.getMinHeight()) + graphics.getHeight()));
         credit.x = width;
         credit.y = scrollbar - credit.getMinHeight();
 
