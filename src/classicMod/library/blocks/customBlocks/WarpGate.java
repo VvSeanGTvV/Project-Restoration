@@ -259,10 +259,11 @@ public class WarpGate extends Block {
                 if (this.items.total() >= itemCapacity) {
                     WarpGate.WarpGateBuild other = findLink(toggle);
                     if (!teleporting && other != null){
+                        teleportEffect.at(this.x, this.y, selection[toggle]);
                         teleporting = true;
                     }
                     if(teleporting && other != null){
-                        teleportEffect.at(this.x, this.y, selection[toggle]);
+                        
                         teleProgress += getProgressIncrease(warmupTime);
                         if(teleProgress >= 1f){
                             teleportOutEffect.at(this.x, this.y, selection[toggle]);
