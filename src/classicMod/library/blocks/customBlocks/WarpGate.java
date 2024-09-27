@@ -500,10 +500,6 @@ public class WarpGate extends Block {
         public void write(Writes write) { //TODO fix issues with loading saves
             super.write(write);
 
-            for (ObjectSet<WarpGateBuild>[] teleporter : teleporters) {
-                for (ObjectSet<WarpGateBuild> warpGateBuilds : teleporter) warpGateBuilds.clear();
-            }
-
             write.b(toggle);
 
             Seq<Item> allItems = Vars.content.items();
