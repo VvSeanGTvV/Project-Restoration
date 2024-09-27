@@ -68,11 +68,11 @@ public class WarpGate extends Block {
         unloadable = false;
         hasItems = true;
 
-        /*Events.on(WorldLoadEvent.class, e -> {
+        Events.on(WorldLoadEvent.class, e -> {
             for (int i = 0; i < teleporters.length; i++) {
                 for (int j = 0; j < teleporters[i].length; j++) teleporters[i][j].clear();
             }
-        });*/
+        });
         /*Events.on(WorldLoadEvent.class, e -> {
             for (ObjectSet<WarpGateBuild>[] teleporter : teleporters) {
                 for (ObjectSet<WarpGateBuild> warpGateBuilds : teleporter) warpGateBuilds.clear();
@@ -172,7 +172,7 @@ public class WarpGate extends Block {
         }
 
         public float fraction() {
-            return (teleportMax - duration) / teleportMax;
+            return teleProgress / teleportMax;
         }
         protected boolean isConsuming() {
             return warmupTime > 0f;
@@ -467,13 +467,12 @@ public class WarpGate extends Block {
 
             for(int ii = 0; ii < itemSize; ++ii) {
                 if (this.OutputStackHold.has(ii)) {
-                    Item item = (Item)itemArray[ii];
+                    Item item = (Item) itemArray[ii];
                     write.b(this.OutputStackHold.get(item));
-                }else{
+                } else {
                     write.b(0);
                 }
             }
-            teleporters[team.id][toggle].remove(this);
             //write.bool(teleporting);
         }
 
