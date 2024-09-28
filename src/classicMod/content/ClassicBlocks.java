@@ -453,7 +453,7 @@ public class ClassicBlocks {
             }
         };
 
-        laserConveyor = new BufferedItemBridge("laser-conveyor"){{
+        laserConveyor = new ItemBridge("laser-conveyor"){{
             requirements(Category.distribution, with(Items.phaseFabric, 5, Items.surgeAlloy, 2, Items.graphite, 10));
             range = 18;
             arrowPeriod = 0.9f;
@@ -461,7 +461,6 @@ public class ClassicBlocks {
             hasPower = true;
             pulse = true;
             envEnabled |= Env.space;
-            speed = 2f;
             consumePower(22f/60f);
         }};
 
