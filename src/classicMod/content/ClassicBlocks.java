@@ -60,7 +60,7 @@ public class ClassicBlocks {
     warpGate, laserConveyor, //Distribution [v4]
     melter, denseSmelter, arcSmelter,  smolSeparator, //Production [v4]
     fuseMKII, fuseMKI, salvoAlpha, arcAir, cycloneb57, //Turret [v4]
-    plasmaDrill, //Drills [v4]
+    plasmaDrill, nuclearDrill, //Drills [v4]
     wallDense, wallDenseLarge, //Wall [v4]
 
 
@@ -462,6 +462,21 @@ public class ClassicBlocks {
             pulse = true;
             envEnabled |= Env.space;
             consumePower(22f/60f);
+        }};
+
+        nuclearDrill = new Drill("nuclear-drill"){{
+            requirements(Category.production, with(Items.titanium, 40, Items.surgeAlloy, 40));
+            drillTime = 120;
+            size = 3;
+            consumePower(0.5f);
+            drawRim = true;
+            hasPower = true;
+            tier = 5;
+            updateEffect = Fx.pulverizeRed;
+            updateEffectChance = 0.03f;
+            drillEffect = Fx.mineHuge;
+            rotateSpeed = 6f;
+            warmupSpeed = 0.01f;
         }};
 
         rtgGenerator = new ConsumeGenerator("compacted-rtg-generator"){{
