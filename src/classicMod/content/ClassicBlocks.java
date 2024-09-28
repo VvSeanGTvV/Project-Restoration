@@ -461,7 +461,7 @@ public class ClassicBlocks {
             hasPower = true;
             pulse = true;
             envEnabled |= Env.space;
-            speed = 20f;
+            speed = 2f;
             consumePower(22f/60f);
         }};
 
