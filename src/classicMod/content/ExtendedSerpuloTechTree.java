@@ -71,10 +71,9 @@ public class ExtendedSerpuloTechTree {
         // Transportation
         margeNode(phaseConveyor, () -> {
             node(laserConveyor,() -> {
+                node(warpGate,() -> {
 
-            });
-            node(warpGate,() -> {
-
+                });
             });
         });
 
