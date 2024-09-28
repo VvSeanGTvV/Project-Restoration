@@ -248,7 +248,7 @@ public class WarpGate extends Block {
                             teleportEffect.at(this.x, this.y, selection[toggle]);
                             teleporting = true;
                         }
-                        duration += getProgressIncrease(50f);
+                        duration += getProgressIncrease(60f);
                         if (duration >= 1f) {
                             if (this.items.total() <= 0 || other == null || toggle == -1) {
                                 Time.clear(); //remove timer, when interrupted or has nothujg in it.
