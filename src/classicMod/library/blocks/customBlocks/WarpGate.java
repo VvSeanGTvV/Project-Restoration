@@ -368,7 +368,8 @@ public class WarpGate extends Block {
                 Log.info(i);
                 if (other != this) {
                     entry = i + 1;
-                    if (!(other.OutputStackHold.total() >= other.block.itemCapacity)) return other;
+                    if (!(other.OutputStackHold.total() >= other.block.itemCapacity) && other.isValid()) return other;
+                    if (!other.isValid() && teleporters[team.id][toggle].contains(other)) teleporters[team.id][toggle].remove(other);
                 }
                 if (entry >= entries.size) entry = 0;
             }
@@ -415,12 +416,11 @@ public class WarpGate extends Block {
         }
 
         @Override
-        public void remove() {
+        public void onRemoved() {
             if (toggle != -1) {
                 if (isTeamChanged()) teleporters[previousTeam.id][toggle].remove(this);
                 else teleporters[team.id][toggle].remove(this);
             }
-            super.remove();
         }
 
         @Override

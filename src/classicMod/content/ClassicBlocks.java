@@ -465,11 +465,11 @@ public class ClassicBlocks {
         }};
 
         nuclearDrill = new Drill("nuclear-drill"){{
-            requirements(Category.production, with(Items.titanium, 40, Items.surgeAlloy, 40));
-            drillTime = 120;
+            requirements(Category.production, with(Items.copper, 25, Items.graphite, 35, Items.titanium, 45, Items.thorium, 45));
+            drillTime = 290;
             size = 3;
-            consumePower(0.5f);
-            drawRim = true;
+            consumePower(0.75f);
+            drawRim = false;
             hasPower = true;
             tier = 5;
             updateEffect = Fx.pulverizeRed;
@@ -477,6 +477,9 @@ public class ClassicBlocks {
             drillEffect = Fx.mineHuge;
             rotateSpeed = 6f;
             warmupSpeed = 0.01f;
+
+            liquidBoostIntensity = 1.65f;
+            consumeLiquid(Liquids.water, 0.15f).boost();
         }};
 
         rtgGenerator = new ConsumeGenerator("compacted-rtg-generator"){{
