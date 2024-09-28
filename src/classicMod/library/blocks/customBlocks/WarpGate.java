@@ -415,11 +415,12 @@ public class WarpGate extends Block {
         }
 
         @Override
-        public void onRemoved() {
+        public void remove() {
             if (toggle != -1) {
                 if (isTeamChanged()) teleporters[previousTeam.id][toggle].remove(this);
                 else teleporters[team.id][toggle].remove(this);
             }
+            super.remove();
         }
 
         @Override
