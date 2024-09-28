@@ -251,7 +251,8 @@ public class WarpGate extends Block {
                         duration += getProgressIncrease(60f);
                         if (duration >= 1f) {
                             if (this.items.total() <= 0 || other == null || toggle == -1) {
-                                Time.clear(); //remove timer, when interrupted or has nothujg in it.
+                                teleProgress %= 1f;
+                                duration = 0f;
                                 teleporting = false;
                             }
                             if (other != null) {
@@ -377,11 +378,10 @@ public class WarpGate extends Block {
         public void handleTransport(WarpGate.WarpGateBuild other) {
             int[] data = new int[content.items().size];
             int totalUsed = 0;
-
-            if (other == null) {
+            if (this.items.total() <= 0 || other == null || toggle == -1) {
                 teleProgress %= 1f;
+                duration = 0f;
                 teleporting = false;
-                return;
             }
             for (int i = 0; i < content.items().size; i++) {
                 int maxTransfer = Math.min(items.get(content.item(i)), tile.block().itemCapacity - totalUsed);
