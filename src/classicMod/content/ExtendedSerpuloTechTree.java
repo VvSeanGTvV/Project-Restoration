@@ -68,6 +68,12 @@ public class ExtendedSerpuloTechTree {
 
         margeNode(arc, () -> node(arcAir));
 
+        margeNode(laserDrill, () -> {
+            node(nuclearDrill,() -> {
+
+            });
+        });
+
         // Transportation
         margeNode(phaseConveyor, () -> {
             node(laserConveyor,() -> {
