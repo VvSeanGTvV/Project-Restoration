@@ -24,6 +24,7 @@ import mindustry.world.Block;
 import mindustry.world.blocks.campaign.LaunchPad;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.*;
+import mindustry.world.blocks.distribution.ItemBridge;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.heat.HeatProducer;
 import mindustry.world.blocks.payloads.PayloadMassDriver;
@@ -56,7 +57,7 @@ public class ClassicBlocks {
 
     rtgGenerator, //Power [Classic-Hybrid]
 
-    warpGate, //Distribution [v4]
+    warpGate, laserConveyor, //Distribution [v4]
     melter, denseSmelter, arcSmelter,  smolSeparator, //Production [v4]
     fuseMKII, fuseMKI, salvoAlpha, arcAir, cycloneb57, //Turret [v4]
     plasmaDrill, //Drills [v4]
@@ -451,6 +452,17 @@ public class ClassicBlocks {
                 size = 3;
             }
         };
+
+        laserConveyor = new ItemBridge("laser-conveyor"){{
+            requirements(Category.distribution, with(Items.phaseFabric, 5, Items.silicon, 7, Items.lead, 10, Items.graphite, 10));
+            range = 7;
+            arrowPeriod = 0.9f;
+            arrowTimeScl = 2.75f;
+            hasPower = true;
+            pulse = true;
+            envEnabled |= Env.space;
+            consumePower(14f/60f);
+        }};
 
         rtgGenerator = new ConsumeGenerator("compacted-rtg-generator"){{
             requirements(Category.power, with(Items.lead, 50, Items.silicon, 15, Items.phaseFabric, 5, ClassicItems.thorium, 10));
