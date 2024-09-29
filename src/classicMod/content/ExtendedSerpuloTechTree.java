@@ -77,13 +77,14 @@ public class ExtendedSerpuloTechTree {
         // Transportation
         margeNode(phaseConveyor, () -> {
             node(laserConveyor,() -> {
-                node(warpGate,() -> {
 
-                });
             });
         });
 
         margeNode(massDriver, () -> {
+            node(warpGate,() -> {
+
+            });
             node(payloadPropulsionTower,() -> {
 
             });
@@ -99,7 +100,7 @@ public class ExtendedSerpuloTechTree {
             node(denseSmelter, () -> {
                 node(crucible);
                 node(arcSmelter, () -> {
-
+                    node(alloySmelter);
                 });
             });
         });

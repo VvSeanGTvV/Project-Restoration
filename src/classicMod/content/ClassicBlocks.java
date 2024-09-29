@@ -58,7 +58,7 @@ public class ClassicBlocks {
     rtgGenerator, //Power [Classic-Hybrid]
 
     warpGate, laserConveyor, //Distribution [v4]
-    melter, denseSmelter, arcSmelter,  smolSeparator, //Production [v4]
+    melter, denseSmelter, arcSmelter, alloySmelter,  smolSeparator, //Production [v4]
     fuseMKII, fuseMKI, salvoAlpha, arcAir, cycloneb57, //Turret [v4]
     plasmaDrill, nuclearDrill, //Drills [v4]
     wallDense, wallDenseLarge, //Wall [v4]
@@ -70,9 +70,9 @@ public class ClassicBlocks {
     draugFactory, spiritFactory, phantomFactory, //Support - Unit Factory [v5]
 
     insulatorWall, insulatorWallLarge, //Wall - Insulator - Testing-candidate [v6-dev]
-    launchPadLarge, coreSilo, //Launchpad - Campaign only - v6-dev Block
+    launchPadLarge, coreSilo, //Launchpad - Campaign only - Block [v6-dev]
 
-    dataProcessor, //Research Block - Campaign only - v6-dev Block
+    dataProcessor, //Research Block - Campaign only - Block [v6-dev]
 
     thermalPump, //Pump - Old Content [v6]
 
@@ -454,7 +454,7 @@ public class ClassicBlocks {
         };
 
         laserConveyor = new InstantBridge("laser-conveyor"){{
-            requirements(Category.distribution, with(Items.phaseFabric, 5, Items.surgeAlloy, 4, Items.graphite, 10));
+            requirements(Category.distribution, with(Items.phaseFabric, 5, Items.surgeAlloy, 4, Items.silicon, 10, Items.graphite, 10));
             range = 18;
             arrowPeriod = 0.9f;
             arrowTimeScl = 2.75f;
@@ -466,7 +466,7 @@ public class ClassicBlocks {
 
         nuclearDrill = new Drill("nuclear-drill"){{
             requirements(Category.production, with(Items.copper, 25, Items.graphite, 35, Items.titanium, 45, Items.thorium, 45));
-            drillTime = 285f;
+            drillTime = 270f;
             size = 3;
             consumePower(1f);
             drawRim = true;
@@ -713,12 +713,24 @@ public class ClassicBlocks {
             health = 90*size;
             requirements(Category.crafting, with(Items.copper, 110, ClassicItems.denseAlloy, 70, Items.lead, 50));
             craftEffect = ExtendedFx.smeltsmoke;
-            outputItem = new ItemStack(ClassicItems.denseAlloy, 1);
+            outputItem = new ItemStack(ClassicItems.denseAlloy, 2);
             consumeItems(with(Items.copper, 1, Items.lead, 2, Items.sand, 1));
             consumePower(0.1f);
             drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc999")));
             craftTime = 30f;
             size = 2;
+        }};
+
+        alloySmelter = new GenericCrafter("alloy-smelter"){{
+            health = 75*size;
+            requirements(Category.crafting, with(Items.copper, 175, ClassicItems.denseAlloy, 90, Items.lead, 100));
+            craftEffect = ExtendedFx.smeltsmoke;
+            outputItem = new ItemStack(ClassicItems.denseAlloy, 4);
+            consumeItems(with(Items.copper, 2, Items.lead, 4, Items.sand, 2));
+            consumePower(1f);
+            drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc999")));
+            craftTime = 15f;
+            size = 3;
         }};
 
         smolSeparator= new Separator("small-separator"){{
