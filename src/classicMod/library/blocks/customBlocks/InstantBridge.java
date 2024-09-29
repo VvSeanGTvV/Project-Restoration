@@ -39,7 +39,7 @@ public class InstantBridge extends ItemBridge {
                     inc.add(pos);
                 }
 
-                warmup = efficiency;
+                warmup = 0.5f;
                 updateTransport(other.build);
             }
         }

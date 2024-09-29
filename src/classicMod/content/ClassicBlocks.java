@@ -466,9 +466,9 @@ public class ClassicBlocks {
 
         nuclearDrill = new Drill("nuclear-drill"){{
             requirements(Category.production, with(Items.copper, 25, Items.graphite, 35, Items.titanium, 45, Items.thorium, 45));
-            drillTime = 270f;
+            drillTime = 255f;
             size = 3;
-            consumePower(1f);
+            consumePower(0.95f);
             drawRim = true;
             hasPower = true;
             tier = 5;
@@ -479,7 +479,7 @@ public class ClassicBlocks {
             warmupSpeed = 0.01f;
 
             liquidBoostIntensity = 1.65f;
-            consumeLiquid(Liquids.water, 0.15f).boost();
+            consumeLiquid(Liquids.water, 0.2f).boost();
         }};
 
         rtgGenerator = new ConsumeGenerator("compacted-rtg-generator"){{
