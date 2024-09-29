@@ -113,7 +113,7 @@ public class epicCreditsDialog extends Dialog {
     public void act(float delta) {
         control.sound.stop();
         super.act(delta);
-        if (scrollbar/2f >= (credit.getMaxHeight() + contribute.getMaxHeight() + ((float) graphics.getHeight() / 2)) * 3f) {
+        if ((credit.y + contribute.y) >= (credit.getMaxHeight() + contribute.getMaxHeight() + ((float) graphics.getHeight() / 2)) * 3f) {
             FinishedCredits();
             return;
         }
@@ -178,8 +178,8 @@ public class epicCreditsDialog extends Dialog {
         float centerX = graphics.getWidth() / 2f;
         float width = (centerX - (contribute.getMaxWidth()));//!mobile ? credit.getMinWidth() + ((float) graphics.getWidth() / 2) : ;
 
-        staticTable.x = staticTable.getMaxWidth();
-        staticTable.y = 12f;
+        staticTable.x = getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() * 1.15f;
+        staticTable.y = 14f;
 
         planets.render(state);
         background.draw(0, 0, graphics.getWidth(), graphics.getHeight());

@@ -543,7 +543,7 @@ public class ClassicBlocks {
         wallShieldedTitanium = new ShieldWallColor("titanium-shieldwall"){{
             requirements(Category.defense, with(ClassicItems.titanium, 6, ClassicItems.lead, 6));
             glowColor = Items.titanium.color.a(0.5f);
-            shieldColor = Items.titanium.color.a(0.75f);
+            shieldColor = Items.titanium.color.a(1f);
             health = 40 * wallHealthMultiplier * 4;
             size = 1;
         }};
