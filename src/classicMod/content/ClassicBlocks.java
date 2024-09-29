@@ -453,15 +453,15 @@ public class ClassicBlocks {
             }
         };
 
-        laserConveyor = new ItemBridge("laser-conveyor"){{
-            requirements(Category.distribution, with(Items.phaseFabric, 5, Items.surgeAlloy, 2, Items.graphite, 10));
+        laserConveyor = new InstantBridge("laser-conveyor"){{
+            requirements(Category.distribution, with(Items.phaseFabric, 5, Items.surgeAlloy, 4, Items.graphite, 10));
             range = 18;
             arrowPeriod = 0.9f;
             arrowTimeScl = 2.75f;
             hasPower = true;
             pulse = true;
             envEnabled |= Env.space;
-            consumePower(22f/60f);
+            consumePower(24f/60f);
         }};
 
         nuclearDrill = new Drill("nuclear-drill"){{
