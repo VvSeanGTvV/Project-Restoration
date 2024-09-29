@@ -466,10 +466,10 @@ public class ClassicBlocks {
 
         nuclearDrill = new Drill("nuclear-drill"){{
             requirements(Category.production, with(Items.copper, 25, Items.graphite, 35, Items.titanium, 45, Items.thorium, 45));
-            drillTime = 290;
+            drillTime = 285f;
             size = 3;
-            consumePower(0.75f);
-            drawRim = false;
+            consumePower(1f);
+            drawRim = true;
             hasPower = true;
             tier = 5;
             updateEffect = Fx.pulverizeRed;
