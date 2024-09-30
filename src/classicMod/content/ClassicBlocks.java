@@ -485,9 +485,10 @@ public class ClassicBlocks {
         poweredDrill = new Drill("powered-drill"){{
             requirements(Category.production, with(Items.copper, 22, Items.titanium, 5, ClassicItems.denseAlloy, 5));
             tier = 3;
-            drillTime = 385;
+            drawMineItem = false;
+            drillTime = 350;
             size = 2;
-            consumePower(0.25f);
+            consumePower(0.45f);
 
             consumeLiquid(Liquids.water, 0.06f).boost();
         }};
@@ -776,7 +777,7 @@ public class ClassicBlocks {
             );
             hasPower = false;
             craftTime = 40f;
-            size = 1;
+            size = 2;
 
             consumeItems(with(ClassicItems.stone, 2));
             consumeLiquid(Liquids.water, 0.3f / 60f);

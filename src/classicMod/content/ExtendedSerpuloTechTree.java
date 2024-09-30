@@ -98,7 +98,7 @@ public class ExtendedSerpuloTechTree {
             node(denseSmelter, () -> {
                 node(crucible);
                 node(arcSmelter, () -> {
-                    node(alloySmelter);
+                    //node(alloySmelter);
                 });
             });
         });
