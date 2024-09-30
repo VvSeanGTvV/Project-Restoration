@@ -486,7 +486,7 @@ public class ClassicBlocks {
             requirements(Category.production, with(Items.copper, 22, Items.titanium, 5, ClassicItems.denseAlloy, 5));
             tier = 3;
             drawMineItem = false;
-            drillTime = 350;
+            drillTime = 300;
             size = 2;
             consumePower(0.45f);
 
