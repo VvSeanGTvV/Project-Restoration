@@ -47,7 +47,7 @@ public class ClassicBlocks {
     coreSolo, //lonely Core - classic
     titanCannon, chainTurret, plasmaTurret, teslaTurret, sniperTurret, laserTurret, mortarTurret, flameTurret, gattlingTurret, shotgunTurret, doubleTurret, basicTurret, //Turret - classic
     nuclearReactor, //Power - classic
-    crucible, steelSmelter, lavaSmelter, stoneFormer, purifierCoal, purifierTitanium, //Production - classic
+    crucible, steelSmelter, lavaSmelter, purifierCoal, purifierTitanium, //Production - classic
     teleporter, tunnelBridge, //Distribution - classic //TODO conveyor belt
     pumpBasic, pumpFlux, //Liquids - classic
     stoneDrill, ironDrill, uraniumDrill, titaniumDrill, coalDrill, omniDrill, //SingleDrill - classic
@@ -58,9 +58,9 @@ public class ClassicBlocks {
     rtgGenerator, //Power [Classic-Hybrid]
 
     warpGate, laserConveyor, //Distribution [v4]
-    melter, denseSmelter, arcSmelter, alloySmelter,  smolSeparator, //Production [v4]
+    stoneMelter, stoneFormer, denseSmelter, arcSmelter, alloySmelter,  smolSeparator, centrifuge, //Production [v4]
     fuseMKII, fuseMKI, salvoAlpha, arcAir, cycloneb57, //Turret [v4]
-    plasmaDrill, nuclearDrill, //Drills [v4]
+    plasmaDrill, nuclearDrill, poweredDrill, //Drills [v4]
     wallDense, wallDenseLarge, //Wall [v4]
 
 
@@ -482,6 +482,16 @@ public class ClassicBlocks {
             consumeLiquid(Liquids.water, 0.2f).boost();
         }};
 
+        poweredDrill = new Drill("powered-drill"){{
+            requirements(Category.production, with(Items.copper, 22, Items.titanium, 5, ClassicItems.denseAlloy, 5));
+            tier = 3;
+            drillTime = 385;
+            size = 2;
+            consumePower(0.25f);
+
+            consumeLiquid(Liquids.water, 0.06f).boost();
+        }};
+
         rtgGenerator = new ConsumeGenerator("compacted-rtg-generator"){{
             requirements(Category.power, with(Items.lead, 50, Items.silicon, 15, Items.phaseFabric, 5, ClassicItems.thorium, 10));
             size = 1;
@@ -580,7 +590,7 @@ public class ClassicBlocks {
 
         stoneFormer = new GenericCrafter("stone-former"){{
             requirements(Category.crafting, with(ClassicItems.stone, 30, Items.lead, 30, Items.copper, 55));
-            consumeLiquid(ClassicLiquids.slag, 17.5f/60f);
+            consumeLiquid(ClassicLiquids.slag, 18f/60f);
             outputItem = new ItemStack(ClassicItems.stone, 1);
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawDefault());
             health = 80;
@@ -589,10 +599,10 @@ public class ClassicBlocks {
             craftEffect = ExtendedFx.purifystone;
         }};
 
-        melter = new GenericCrafter("melter"){{
-            requirements(Category.crafting, with(ClassicItems.stone, 30, Items.lead, 30, Items.copper, 50));
+        stoneMelter = new GenericCrafter("stone-melter"){{
+            requirements(Category.crafting, with(ClassicItems.stone, 30, Items.graphite, 35, Items.copper, 50));
             health = 85;
-            outputLiquid = new LiquidStack(ClassicLiquids.slag, 8f/60f);
+            outputLiquid = new LiquidStack(ClassicLiquids.slag, 4f/60f);
             consumeItems(with(ClassicItems.stone, 1));
             consumePower(62.5f/60f);
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawDefault());
@@ -733,8 +743,8 @@ public class ClassicBlocks {
             size = 3;
         }};
 
-        smolSeparator= new Separator("small-separator"){{
-            requirements(Category.crafting, with(Items.copper, 10, Items.titanium, 5));
+        smolSeparator = new Separator("small-separator"){{
+            requirements(Category.crafting, with(Items.copper, 15, ClassicItems.denseAlloy, 15));
             results = with(
                     Items.sand, 10,
                     ClassicItems.stone, 9,
@@ -742,6 +752,27 @@ public class ClassicBlocks {
                     Items.lead, 2,
                     Items.coal, 2,
                     Items.titanium, 1
+            );
+            hasPower = false;
+            craftTime = 40f;
+            size = 1;
+
+            consumeItems(with(ClassicItems.stone, 2));
+            consumeLiquid(Liquids.water, 0.3f / 60f);
+
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawRegion("-spinner", 3, true), new DrawDefault());
+        }};
+
+        centrifuge = new Separator("centrifuge"){{
+            requirements(Category.crafting, with(Items.copper, 50, ClassicItems.denseAlloy, 50, Items.titanium, 25));
+            results = with(
+                    Items.sand, 12,
+                    ClassicItems.stone, 11,
+                    Items.copper, 5,
+                    Items.lead, 3,
+                    Items.coal, 3,
+                    Items.titanium, 2,
+                    Items.thorium, 1
             );
             hasPower = false;
             craftTime = 40f;

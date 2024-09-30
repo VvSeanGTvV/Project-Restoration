@@ -91,9 +91,7 @@ public class ExtendedSerpuloTechTree {
         });
 
         margeNode(Blocks.melter, () -> {
-            node(ClassicBlocks.melter, () -> {
-                node(stoneFormer);
-            });
+
         });
 
         margeNode(graphitePress, () -> {
@@ -106,7 +104,13 @@ public class ExtendedSerpuloTechTree {
         });
 
         margeNode(pneumaticDrill, () -> {
-            node(smolSeparator);
+            node(smolSeparator, () -> {
+                node(stoneMelter, () -> {
+                    node(stoneFormer);
+                });
+                node(centrifuge);
+            });
+            node(poweredDrill);
         });
 
         margeNode(Blocks.rtgGenerator, () -> {
