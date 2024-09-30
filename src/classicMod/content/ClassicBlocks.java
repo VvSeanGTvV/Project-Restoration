@@ -484,7 +484,7 @@ public class ClassicBlocks {
 
         poweredDrill = new Drill("powered-drill"){{
             requirements(Category.production, with(Items.copper, 22, Items.titanium, 5, ClassicItems.denseAlloy, 5));
-            tier = 3;
+            tier = 4;
             drawMineItem = false;
             drillTime = 300;
             size = 2;
@@ -759,7 +759,7 @@ public class ClassicBlocks {
             size = 1;
 
             consumeItems(with(ClassicItems.stone, 2));
-            consumeLiquid(Liquids.water, 0.3f / 60f);
+            consumeLiquid(Liquids.water, 0.3f / 40f);
 
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawRegion("-spinner", 3, true), new DrawDefault());
         }};
@@ -780,7 +780,7 @@ public class ClassicBlocks {
             size = 2;
 
             consumeItems(with(ClassicItems.stone, 2));
-            consumeLiquid(Liquids.water, 0.5f / 60f);
+            consumeLiquid(Liquids.water, 0.5f / 40f);
             consumePower(0.2f);
 
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawRegion("-spinner", 3, true), new DrawDefault());
