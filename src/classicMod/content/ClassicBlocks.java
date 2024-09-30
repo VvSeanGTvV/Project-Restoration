@@ -775,12 +775,13 @@ public class ClassicBlocks {
                     Items.titanium, 2,
                     Items.thorium, 1
             );
-            hasPower = false;
-            craftTime = 40f;
+            hasPower = true;
+            craftTime = 15f;
             size = 2;
 
             consumeItems(with(ClassicItems.stone, 2));
-            consumeLiquid(Liquids.water, 0.3f / 60f);
+            consumeLiquid(Liquids.water, 0.5f / 60f);
+            consumePower(0.2f);
 
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawRegion("-spinner", 3, true), new DrawDefault());
         }};
