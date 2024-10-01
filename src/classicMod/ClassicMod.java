@@ -71,7 +71,7 @@ public class ClassicMod extends Mod{
                         t.add("Version: " + ModVersion).align(Align.center).pad(10f).row();
                         t.add("Build: " + BuildVer).align(Align.center).pad(10f).row();
                     });*/
-                    dialog.cont.setTranslation(0, -((graphics.getHeight() / 2f) - 165f));
+                    dialog.cont.setTranslation(0, -((graphics.getHeight() / 2f) - (166f + graphics.getAspect())));
                     dialog.cont.table(Styles.grayPanel, Align.bottom, t -> {
                         //t.add("@mod.restored-mind.earlyaccess.title").size(120f).pad(10f).row();
                         t.table(character -> {
@@ -89,6 +89,11 @@ public class ClassicMod extends Mod{
                         t.button("@ok", dialog::hide).size(130f, 50f);
                     });*/
                     //dialog.cont.button("@ok", dialog::hide).size(130f, 50f);
+
+                    dialog.update(() -> {
+                        dialog.cont.setTranslation(0, -((graphics.getHeight() / 2f) - 165f));
+                    });
+
                     dialog.show();
                 });
                 //ui.showOkText("@mod.restored-mind.earlyaccess.title", "@mod.restored-mind.earlyaccess.text", () -> {});
@@ -130,10 +135,6 @@ public class ClassicMod extends Mod{
         //MenuBackground bg = (tn == 2 ? Erekir : tn == 3 ? Serpulo : tn == 4 ? random : tn == 5 ? solarSystem : null);
     }
 
-    private void DeleteFile(Fi file){
-        file.delete();
-        ui.showOkText("@file.file-deleted", "@file.file-deleted", () -> {});
-    }
     public String pathFile() {
         return resMod.file.path();
     }

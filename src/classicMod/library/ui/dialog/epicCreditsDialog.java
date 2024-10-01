@@ -1,6 +1,6 @@
 package classicMod.library.ui.dialog;
 
-import arc.Core;
+import arc.*;
 import arc.graphics.g2d.Draw;
 import arc.input.KeyCode;
 import arc.math.Mathf;
@@ -17,6 +17,8 @@ import mindustry.gen.*;
 import mindustry.graphics.g3d.*;
 import mindustry.ui.Styles;
 
+import java.util.Objects;
+
 import static arc.Core.*;
 import static classicMod.ClassicMod.*;
 import static classicMod.content.ExtendedMusic.*;
@@ -32,6 +34,7 @@ public class epicCreditsDialog extends Dialog {
         //camPos = new Vec3(0, 0, 0);
         zoom = 0.6f;
     }};
+
     Table credit = new Table() {{
         add(logo).size(570f, 90f).row();
         image(Tex.clear).height(55).padTop(3f).row();
@@ -68,7 +71,7 @@ public class epicCreditsDialog extends Dialog {
     }};
 
     Table staticTable = new Table() {{
-        add(getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()));
+
     }};
 
     float scrollbar;
@@ -82,6 +85,15 @@ public class epicCreditsDialog extends Dialog {
 
     //ScrollPane pane = new ScrollPane(in);
 
+    KeyBinds.KeyBind MenuKeybind;
+
+    KeyBinds.KeyBind findKeybind(String name){
+        for (var keybind : keybinds.getKeybinds()){
+            if (Objects.equals(keybind.name(), name)) return keybind;
+        }
+        return null;
+    }
+
     public epicCreditsDialog() {
         super();
         scrollbar = 0f;
@@ -91,6 +103,8 @@ public class epicCreditsDialog extends Dialog {
         //cont.add(staticTable);
         //cont.add(in).align(Align.bottom);
         show();
+
+        MenuKeybind = findKeybind("menu");
     }
 
     public void addCloseListener() {
@@ -135,27 +149,27 @@ public class epicCreditsDialog extends Dialog {
         //Log.info(scrollbar * 1.15f >= (TableHeight * 1.462f));
         //Log.info((float) getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() / 2);
 
-        if (Core.input.keyDown(KeyCode.escape)) FinishedCredits();
-        if (Core.app.isMobile()) {
+        if (input.keyDown(keybinds.get(MenuKeybind).key)) FinishedCredits();
+        if (app.isMobile()) {
 
             if (app.isAndroid()) {
-                if (Core.input.keyDown(KeyCode.back)) FinishedCredits();
+                if (input.keyDown(keybinds.get(MenuKeybind).key)) FinishedCredits();
             }
 
             if (firstTap) {
-                if (!Core.input.isTouched()) {
+                if (!input.isTouched()) {
                     onHold = false;
                 }
                 if (!onHold) {
                     doubleTapTimer++;
-                    if (Core.input.isTouched()) FinishedCredits();
+                    if (input.isTouched()) FinishedCredits();
                     if (doubleTapTimer > 100) {
                         firstTap = false;
                         doubleTapTimer = 0;
                     }
                 }
             } else {
-                if (Core.input.isTouched()) {
+                if (input.isTouched()) {
                     firstTap = true;
                     onHold = true;
                 }
@@ -170,6 +184,7 @@ public class epicCreditsDialog extends Dialog {
         this.hide();
     }
 
+    boolean once;
     @Override
     public void draw() {
         var Wui = (TextureRegionDrawable) Tex.whiteui;
@@ -178,7 +193,10 @@ public class epicCreditsDialog extends Dialog {
         float centerX = graphics.getWidth() / 2f;
         float width = (centerX - (contribute.getMaxWidth()));//!mobile ? credit.getMinWidth() + ((float) graphics.getWidth() / 2) : ;
 
-        staticTable.x = getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() * 1.15f;
+        String keybind = getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile());
+        String keybindNotification = (app.isMobile()) ? keybinds.get(MenuKeybind).key.toString().toUpperCase() + keybind : keybind;
+        if (!once) { staticTable.add(keybindNotification); once = true; }
+        staticTable.x = staticTable.getMaxWidth() + keybindNotification.length() * 2f;
         staticTable.y = 14f;
 
         planets.render(state);

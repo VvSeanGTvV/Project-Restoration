@@ -244,6 +244,7 @@ public class WarpGate extends Block {
                     if (teleProgress >= 1f) {
                         teleProgress = 1f;
                         WarpGateBuild other = findLink(toggle);
+                        if (other == this) other = null;
                         if (!teleporting) {
                             teleportEffect.at(this.x, this.y, selection[toggle]);
                             teleporting = true;
@@ -354,9 +355,6 @@ public class WarpGate extends Block {
         public WarpGate.WarpGateBuild findLink(int value) {
             ObjectSet<WarpGate.WarpGateBuild> teles = teleporters[team.id][value];
             Seq<WarpGate.WarpGateBuild> entries = teles.toSeq();
-            Log.info(teles);
-            Log.info(entries);
-            Log.info(entry);
             if (entry >= entries.size) entry = 0;
             if (entry == entries.size - 1) {
                 WarpGate.WarpGateBuild other = teles.get(entries.get(entry));
@@ -364,8 +362,6 @@ public class WarpGate extends Block {
             }
             for (int i = entry, len = entries.size; i < len; i++) {
                 WarpGate.WarpGateBuild other = teles.get(entries.get(i));
-                Log.info(other);
-                Log.info(i);
                 if (other != this) {
                     entry = i + 1;
                     if (!(other.OutputStackHold.total() >= other.block.itemCapacity) && other.isValid()) return other;

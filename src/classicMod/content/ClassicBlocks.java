@@ -59,7 +59,7 @@ public class ClassicBlocks {
 
     warpGate, laserConveyor, //Distribution [v4]
     stoneMelter, stoneFormer, denseSmelter, arcSmelter, alloySmelter,  smolSeparator, centrifuge, //Production [v4]
-    fuseMKII, fuseMKI, salvoAlpha, arcAir, cycloneb57, //Turret [v4]
+    fuseMKII, fuseMKI, salvoAlpha, arcAir, cycloneb57, rippleb41, //Turret [v4]
     plasmaDrill, nuclearDrill, poweredDrill, //Drills [v4]
     wallDense, wallDenseLarge, //Wall [v4]
 
@@ -814,6 +814,105 @@ public class ClassicBlocks {
             shootSound = Sounds.spark;
             consumePower(3.3f);
             coolant = consumeCoolant(0.1f);
+        }};
+
+        rippleb41 = new ItemTurret("ripple-b41"){{
+            requirements(Category.turret, with(ClassicItems.denseAlloy, 300, Items.titanium, 220, Items.thorium, 120));
+            ammo(
+                    ClassicItems.denseAlloy, new ArtilleryBulletType(3f, 0, "shell"){{
+                        hitEffect = Fx.flakExplosion;
+                        knockback = 0.8f;
+                        lifetime = 50f;
+                        width = height = 11f;
+                        collidesTiles = false;
+                        splashDamageRadius = 25f;
+                        splashDamage = 33f;
+                    }},
+                    Items.silicon, new ArtilleryBulletType(3f, 0, "shell"){{
+                        hitEffect = Fx.flakExplosion;
+                        knockback = 0.8f;
+                        lifetime = 45f;
+                        width = height = 11f;
+                        collidesTiles = false;
+                        splashDamageRadius = 25f;
+                        splashDamage = 33f;
+                        homingPower = 2f * 0.08f;
+                        homingRange = 50f;
+                        reloadMultiplier = 0.9f;
+                    }},
+                    Items.pyratite, new ArtilleryBulletType(3f, 0, "shell"){{
+                        hitEffect = Fx.blastExplosion;
+                        knockback = 0.8f;
+                        lifetime = 60f;
+                        width = height = 13f;
+                        collidesTiles = false;
+                        splashDamageRadius = 25f;
+                        splashDamage = 30f;
+                        incendAmount = 4;
+                        incendSpread = 11f;
+                        frontColor = Pal.lightishOrange;
+                        backColor = Pal.lightOrange;
+                        trailEffect = Fx.incendTrail;
+                        reloadMultiplier = 1.2f;
+                    }},
+                    Items.blastCompound, new ArtilleryBulletType(2f, 20, "shell"){{
+                        hitEffect = Fx.blastExplosion;
+                        knockback = 0.8f;
+                        lifetime = 70f;
+                        width = height = 14f;
+                        collidesTiles = false;
+                        splashDamageRadius = 45f;
+                        splashDamage = 50f;
+                        backColor = Pal.missileYellowBack;
+                        frontColor = Pal.missileYellow;
+                        reloadMultiplier = 1.6f;
+
+                        status = StatusEffects.blasted;
+                    }},
+                    Items.plastanium, new ArtilleryBulletType(3.3f, 0, "shell"){{
+                        hitEffect = Fx.plasticExplosion;
+                        knockback = 1f;
+                        lifetime = 55f;
+                        width = height = 13f;
+                        collidesTiles = false;
+                        splashDamageRadius = 35f;
+                        splashDamage = 35f;
+                        fragBullets = 9;
+                        fragBullet = new BasicBulletType(2.5f, 10, "bullet"){{
+                            width = 10f;
+                            height = 12f;
+                            shrinkX = shrinkY = 1f;
+                            lifetime = 15f;
+                            backColor = Pal.plastaniumBack;
+                            frontColor = Pal.plastaniumFront;
+                        }};
+                        backColor = Pal.plastaniumBack;
+                        frontColor = Pal.plastaniumFront;
+                        reloadMultiplier = 1.9f;
+                    }}
+            );
+
+            targetAir = false;
+            size = 3;
+            shoot.shots = 4;
+            inaccuracy = 12f;
+            reload = 60f;
+            ammoEjectBack = 5f;
+            ammoUseEffect = ExtendedFx.shellEjectBig;
+            ammoPerShot = 2;
+            velocityRnd = 0.2f;
+
+
+
+            recoil = 6f;
+            shake = 2f;
+
+            range = 300f;
+            minRange = 50f;
+            coolant = consumeCoolant(0.3f);
+
+            scaledHealth = 130;
+            shootSound = Sounds.artillery;
         }};
 
         cycloneb57 = new ItemTurret("cyclone-b57"){{

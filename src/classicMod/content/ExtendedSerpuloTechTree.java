@@ -61,6 +61,7 @@ public class ExtendedSerpuloTechTree {
         });
 
         margeNode(ripple, () -> {
+            node(rippleb41);
             node(fuseMKI, () -> {
                 node(fuseMKII);
             });
@@ -161,9 +162,9 @@ public class ExtendedSerpuloTechTree {
             });
         });
 
-        margeNode(Items.sand, () -> {
+        margeNode(Liquids.slag, () -> {
             nodeProduce(ClassicItems.stone, () -> {
-                nodeProduce(ClassicLiquids.lava);
+
             });
         });
 
