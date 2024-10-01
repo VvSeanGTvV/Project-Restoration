@@ -94,6 +94,7 @@ public class epicCreditsDialog extends Dialog {
         return null;
     }
 
+    boolean hidden;
     public epicCreditsDialog() {
         super();
         scrollbar = 0f;
@@ -102,6 +103,7 @@ public class epicCreditsDialog extends Dialog {
         //staticTable.setTranslation(-(camera.width+128f), -(camera.height+128f));
         //cont.add(staticTable);
         //cont.add(in).align(Align.bottom);
+        hidden = false;
         show();
 
         MenuKeybind = findKeybind("menu");
@@ -184,9 +186,11 @@ public class epicCreditsDialog extends Dialog {
         this.hide();
     }
 
+    
     @Override
     public void hide() {
         once = false;
+        hidden = true;
         super.hide();
     }
 
@@ -200,8 +204,8 @@ public class epicCreditsDialog extends Dialog {
         float width = (centerX - (contribute.getMaxWidth()));//!mobile ? credit.getMinWidth() + ((float) graphics.getWidth() / 2) : ;
 
         String keybind = getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile());
-        String keybindNotification = (app.isMobile()) ? keybinds.get(MenuKeybind).key.toString().toUpperCase() + keybind : keybind;
-        if (!once) { staticTable.add(keybindNotification); once = true; }
+        String keybindNotification = (!(app.isMobile())) ? keybinds.get(MenuKeybind).key.toString().toUpperCase() + keybind : keybind;
+        if (!once && !hidden) { staticTable.add(keybindNotification); once = true; }
         staticTable.x = staticTable.getMaxWidth() + keybindNotification.length() * 10f;
         staticTable.y = 14f;
 
