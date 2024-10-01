@@ -794,15 +794,20 @@ public class ClassicBlocks {
             smokeEffect = Fx.none;
             reload = 15f;
             health = 240;
-            outlineColor = Color.valueOf("ffd86c");
-            outlineRadius = 4;
+            //outlineColor = Color.valueOf("ffd86c");
+            //outlineRadius = 4;
             consumePower(0.5f * 4f);
             playerControllable = false;
         }};
 
         chainTurret = new MirroredItemTurret("chain-turret"){{
             requirements(Category.turret, with(Items.titanium, 25 * size, ClassicItems.dirium, 40 * size, Items.lead, 50 * size));
-            ammo(Items.thorium, chain);
+            //ammo(Items.thorium, chain);
+            ammo(Items.thorium, new BasicBulletType(2f, 8){{
+                width = 7f;
+                height = 9f;
+                ammoMultiplier = 2f;
+            }});
             size = 2;
             shootSound = bigshot;
             shootEffect = ExtendedFx.chainshot;
@@ -812,8 +817,8 @@ public class ClassicBlocks {
             inaccuracy = 8f;
             range = 208f;
             reload = 5f;
-            outlineColor = Color.valueOf("ffd86c");
-            outlineRadius = 5;
+            //outlineColor = Color.valueOf("ffd86c");
+            //outlineRadius = 5;
         }};
 
         rippleb41 = new ItemTurret("ripple-b41"){{

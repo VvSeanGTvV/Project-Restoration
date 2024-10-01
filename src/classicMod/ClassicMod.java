@@ -71,7 +71,7 @@ public class ClassicMod extends Mod{
                         t.add("Version: " + ModVersion).align(Align.center).pad(10f).row();
                         t.add("Build: " + BuildVer).align(Align.center).pad(10f).row();
                     });*/
-                    dialog.cont.setTranslation(0, -((graphics.getHeight() / 2f) - (166f + graphics.getAspect())));
+                    dialog.cont.setTranslation(0, -((graphics.getHeight() / 2f) - (166f + (graphics.getAspect() * 2f))));
                     dialog.cont.table(Styles.grayPanel, Align.bottom, t -> {
                         //t.add("@mod.restored-mind.earlyaccess.title").size(120f).pad(10f).row();
                         t.table(character -> {
@@ -91,7 +91,7 @@ public class ClassicMod extends Mod{
                     //dialog.cont.button("@ok", dialog::hide).size(130f, 50f);
 
                     dialog.update(() -> {
-                        dialog.cont.setTranslation(0, -((graphics.getHeight() / 2f) - 165f));
+                        dialog.cont.setTranslation(0, -((graphics.getHeight() / 2f) - (166f + (graphics.getAspect() * 2f))));
                     });
 
                     dialog.show();
