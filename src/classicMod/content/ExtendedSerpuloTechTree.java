@@ -67,7 +67,12 @@ public class ExtendedSerpuloTechTree {
             });
         });
 
-        margeNode(arc, () -> node(arcAir));
+        margeNode(cyclone, () -> {
+            node(cycloneb57);
+            node(chainTurret);
+        });
+
+        margeNode(arc, () -> node(arcAir, () -> node(teslaTurret)));
 
         margeNode(laserDrill, () -> {
             node(nuclearDrill,() -> {

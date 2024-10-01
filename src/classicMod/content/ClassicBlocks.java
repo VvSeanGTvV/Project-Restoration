@@ -45,7 +45,7 @@ import static mindustry.type.ItemStack.with;
 public class ClassicBlocks {
     public static Block
     coreSolo, //lonely Core - classic
-    titanCannon, chainTurret, plasmaTurret, teslaTurret, sniperTurret, laserTurret, mortarTurret, flameTurret, gattlingTurret, shotgunTurret, doubleTurret, basicTurret, //Turret - classic
+    titanCannon, plasmaTurret, sniperTurret, laserTurret, mortarTurret, flameTurret, gattlingTurret, shotgunTurret, doubleTurret, basicTurret, //Turret - classic
     nuclearReactor, //Power - classic
     crucible, steelSmelter, lavaSmelter, purifierCoal, purifierTitanium, //Production - classic
     teleporter, tunnelBridge, //Distribution - classic //TODO conveyor belt
@@ -59,7 +59,7 @@ public class ClassicBlocks {
 
     warpGate, laserConveyor, //Distribution [v4]
     stoneMelter, stoneFormer, denseSmelter, arcSmelter, alloySmelter,  smolSeparator, centrifuge, //Production [v4]
-    fuseMKII, fuseMKI, salvoAlpha, arcAir, cycloneb57, rippleb41, //Turret [v4]
+    fuseMKII, fuseMKI, salvoAlpha, teslaTurret, arcAir, chainTurret, cycloneb57, rippleb41, //Turret [v4]
     plasmaDrill, nuclearDrill, poweredDrill, //Drills [v4]
     wallDense, wallDenseLarge, //Wall [v4]
 
@@ -265,22 +265,6 @@ public class ClassicBlocks {
             outlineColor = Color.valueOf("ffd86c");
         }};
 
-        chainTurret = new MirroredItemTurret("chain-turret"){{
-            requirements(Category.turret, with(Items.titanium, 25 * size, ClassicItems.dirium, 40 * size, ClassicItems.steel, 50 * size));
-            ammo(ClassicItems.uranium, chain);
-            size = 2;
-            shootSound = bigshot;
-            shootEffect = ExtendedFx.chainshot;
-            smokeEffect = Fx.none;
-            health = 430;
-            shootCone = 9f;
-            inaccuracy = 8f;
-            range = 208f;
-            reload = 5f;
-            outlineColor = Color.valueOf("ffd86c");
-            outlineRadius = 5;
-        }};
-
         plasmaTurret = new ItemTurret("plasma-turret"){{
             requirements(Category.turret, with(Items.titanium, 20, ClassicItems.dirium, 15, ClassicItems.steel, 10));
             shootSound = flame2;
@@ -295,21 +279,6 @@ public class ClassicBlocks {
             health = 280;
             outlineColor = Color.valueOf("ffd86c");
             outlineRadius = 4;
-        }};
-
-        teslaTurret = new PowerTurret("tesla-turret"){{
-            requirements(Category.turret, with(Items.titanium, 25, ClassicItems.dirium, 15, ClassicItems.steel, 20));
-            range = 85.5f;
-            shootType = new NewTeslaOrbType(56f,13, 5);
-            shootSound = tesla;
-            shootEffect = Fx.none;
-            smokeEffect = Fx.none;
-            reload = 15f;
-            health = 240;
-            outlineColor = Color.valueOf("ffd86c");
-            outlineRadius = 4;
-            consumePower(0.5f * 4f);
-            playerControllable = false;
         }};
 
         mortarTurret = new ItemTurret("mortar-turret"){{
@@ -814,6 +783,37 @@ public class ClassicBlocks {
             shootSound = Sounds.spark;
             consumePower(3.3f);
             coolant = consumeCoolant(0.1f);
+        }};
+
+        teslaTurret = new PowerTurret("tesla-turret"){{
+            requirements(Category.turret, with(Items.titanium, 25, ClassicItems.dirium, 15, Items.lead, 50));
+            range = 85.5f;
+            shootType = new NewTeslaOrbType(56f,13, 5);
+            shootSound = tesla;
+            shootEffect = Fx.none;
+            smokeEffect = Fx.none;
+            reload = 15f;
+            health = 240;
+            outlineColor = Color.valueOf("ffd86c");
+            outlineRadius = 4;
+            consumePower(0.5f * 4f);
+            playerControllable = false;
+        }};
+
+        chainTurret = new MirroredItemTurret("chain-turret"){{
+            requirements(Category.turret, with(Items.titanium, 25 * size, ClassicItems.dirium, 40 * size, Items.lead, 50 * size));
+            ammo(Items.thorium, chain);
+            size = 2;
+            shootSound = bigshot;
+            shootEffect = ExtendedFx.chainshot;
+            smokeEffect = Fx.none;
+            health = 430;
+            shootCone = 9f;
+            inaccuracy = 8f;
+            range = 208f;
+            reload = 5f;
+            outlineColor = Color.valueOf("ffd86c");
+            outlineRadius = 5;
         }};
 
         rippleb41 = new ItemTurret("ripple-b41"){{
