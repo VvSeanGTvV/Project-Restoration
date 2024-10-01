@@ -810,7 +810,7 @@ public class ClassicBlocks {
                     ammoMultiplier = 2f;
                 }},
 
-                Items.surge, new BasicBulletType(6f, 13){{
+                Items.surgeAlloy, new FlakBulletType(6f, 13){{
                     width = 7f;
                     height = 9f;
                     ammoMultiplier = 5f;
