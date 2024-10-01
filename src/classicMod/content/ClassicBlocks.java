@@ -803,7 +803,7 @@ public class ClassicBlocks {
         chainTurret = new MirroredItemTurret("chain-turret"){{
             requirements(Category.turret, with(Items.titanium, 25 * size, ClassicItems.dirium, 40 * size, Items.lead, 50 * size));
             //ammo(Items.thorium, chain);
-            ammo(Items.thorium, new BasicBulletType(2f, 8){{
+            ammo(Items.thorium, new BasicBulletType(3.25f, 8){{
                 width = 7f;
                 height = 9f;
                 ammoMultiplier = 2f;
