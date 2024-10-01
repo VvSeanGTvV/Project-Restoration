@@ -205,8 +205,14 @@ public class epicCreditsDialog extends Dialog {
 
         String keybind = getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile());
         String keybindNotification = (!(app.isMobile())) ? keybinds.get(MenuKeybind).key.toString().toUpperCase() + keybind : keybind;
-        if (!once && !hidden) { staticTable.add(keybindNotification); once = true; }
-        staticTable.x = staticTable.getMaxWidth() + keybindNotification.length() * 10f;
+        if (app.isMobile()) {
+            if (!once && !hidden && firstTap) { staticTable.add(keybindNotification); once = true; }
+            if (!firstTap && once) once = false;
+        } else {
+            if (!once && !hidden) { staticTable.add(keybindNotification); once = true; }
+        }
+        
+        staticTable.x = staticTable.getMaxWidth() + keybindNotification.length() * 12f;
         staticTable.y = 14f;
 
         planets.render(state);
