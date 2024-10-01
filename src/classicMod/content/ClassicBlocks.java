@@ -823,7 +823,7 @@ public class ClassicBlocks {
                     explodeRange = 20f;
 
                     reloadMultiplier = 0.85f;
-                }},
+                }}
             );
             size = 2;
             shootSound = bigshot;
