@@ -184,6 +184,12 @@ public class epicCreditsDialog extends Dialog {
         this.hide();
     }
 
+    @Override
+    public void hide() {
+        once = false;
+        super.hide();
+    }
+
     boolean once;
     @Override
     public void draw() {
@@ -196,7 +202,7 @@ public class epicCreditsDialog extends Dialog {
         String keybind = getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile());
         String keybindNotification = (app.isMobile()) ? keybinds.get(MenuKeybind).key.toString().toUpperCase() + keybind : keybind;
         if (!once) { staticTable.add(keybindNotification); once = true; }
-        staticTable.x = staticTable.getMaxWidth() + keybindNotification.length() * 2f;
+        staticTable.x = staticTable.getMaxWidth() + keybindNotification.length() * 10f;
         staticTable.y = 14f;
 
         planets.render(state);
