@@ -801,13 +801,30 @@ public class ClassicBlocks {
         }};
 
         chainTurret = new MirroredItemTurret("chain-turret"){{
-            requirements(Category.turret, with(Items.titanium, 25 * size, ClassicItems.dirium, 40 * size, Items.lead, 50 * size));
+            requirements(Category.turret, with(Items.titanium, 50, ClassicItems.dirium, 80, Items.lead, 100));
             //ammo(Items.thorium, chain);
-            ammo(Items.thorium, new BasicBulletType(3.25f, 8){{
-                width = 7f;
-                height = 9f;
-                ammoMultiplier = 2f;
-            }});
+            ammo(
+                Items.thorium, new BasicBulletType(6f, 8){{
+                    width = 7f;
+                    height = 9f;
+                    ammoMultiplier = 2f;
+                }},
+
+                Items.surge, new BasicBulletType(6f, 13){{
+                    width = 7f;
+                    height = 9f;
+                    ammoMultiplier = 5f;
+                    splashDamage = 50f * 1.5f;
+                    splashDamageRadius = 38f;
+                    lightning = 2;
+                    lightningLength = 7;
+                    shootEffect = Fx.shootBig;
+                    collidesGround = true;
+                    explodeRange = 20f;
+
+                    reloadMultiplier = 0.85f;
+                }},
+            );
             size = 2;
             shootSound = bigshot;
             shootEffect = ExtendedFx.chainshot;
