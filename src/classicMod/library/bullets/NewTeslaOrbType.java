@@ -39,7 +39,7 @@ public class NewTeslaOrbType extends BulletType {
     Vec2 interpolate(Vec2 start, Vec2 end, Bullet b) {
         Log.info(start);
         Log.info(end);
-        Vec2 between = ((start.sub(end).div(new Vec2(2f,2f))).add(start));
+        Vec2 between = ((end.sub(start).div(new Vec2(2f,2f))).add(start));
         Log.info(between);
         return new Vec2(between.x + Mathf.range(2.5f), between.y + Mathf.range(2.5f));
     }
