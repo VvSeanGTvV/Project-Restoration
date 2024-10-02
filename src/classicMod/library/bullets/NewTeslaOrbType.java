@@ -41,7 +41,7 @@ public class NewTeslaOrbType extends BulletType {
         Log.info(end);
         Vec2 between = ((end.sub(start).div(new Vec2(2f,2f))).add(start));
         Log.info(between);
-        return new Vec2(between.x + Mathf.range(2.5f), between.y + Mathf.range(2.5f));
+        return new Vec2(between.x + Mathf.range(5f), between.y + Mathf.range(5f));
     }
 
     @Override
