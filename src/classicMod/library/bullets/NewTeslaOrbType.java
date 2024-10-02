@@ -6,6 +6,7 @@ import arc.math.geom.Vec2;
 import arc.struct.Seq;
 import arc.util.Log;
 import classicMod.content.ExtendedFx;
+import mindustry.Vars;
 import mindustry.content.Fx;
 import mindustry.entities.*;
 import mindustry.entities.bullet.BulletType;
@@ -52,7 +53,7 @@ public class NewTeslaOrbType extends BulletType {
         if(TargetList.size > 0){
             Vec2 lastVec = new Vec2(b.x, b.y);
             for (var blasted : TargetList){
-                Vec2 blastPos = new Vec2(blasted.tileOn().worldx(), blasted.tileOn().worldy());
+                Vec2 blastPos = new Vec2(blasted.x() * Vars.tilesize, blasted.y() * Vars.tilesize);
                 Seq<Vec2> lData = new Seq<>(new Vec2[]{
                         new Vec2(lastVec.x, lastVec.y),
                         interpolate(lastVec, blastPos, 1f / 3f).trns(b.rotation() + Mathf.range(lightningCone/2) + lightningAngle, Mathf.random(1f, 5f)),
