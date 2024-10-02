@@ -11,6 +11,7 @@ import mindustry.content.Fx;
 import mindustry.entities.*;
 import mindustry.entities.bullet.BulletType;
 import mindustry.gen.*;
+import mindustry.graphics.Pal;
 
 public class NewTeslaOrbType extends BulletType {
 
@@ -34,14 +35,12 @@ public class NewTeslaOrbType extends BulletType {
         drawSize = 200f;
         this.hitCap = maxHits;
         this.lifetime = Float.MAX_VALUE;
-
-        lightningColor = Pal.lancerLaser;
     }
 
-    Vec2 interpolate(Vec2 start, Vec2 end, Bullet b) {
+    Vec2 interpolate(Vec2 start, Vec2 end, float div) {
         Log.info(start);
         Log.info(end);
-        Vec2 between = ((end.sub(start).div(new Vec2(2f,2f))).add(start));
+        Vec2 between = ((end.sub(start).div(new Vec2(div,div))).add(start));
         Log.info(between);
         return new Vec2(between.x + Mathf.range(5f), between.y + Mathf.range(5f));
     }
@@ -56,8 +55,8 @@ public class NewTeslaOrbType extends BulletType {
                 Vec2 blastPos = new Vec2(blasted.x(), blasted.y());
                 Seq<Vec2> lData = new Seq<>(new Vec2[]{
                         new Vec2(lastVec.x, lastVec.y),
-                        interpolate(lastVec, blastPos, b),
-                        interpolate(lastVec, blastPos, b), //2f + Mathf.range(0.25f)
+                        interpolate(lastVec, blastPos, 3f / 1.25f),
+                        interpolate(lastVec, blastPos, 3f / 1.75f),
                         new Vec2(blasted.x(), blasted.y())
                 });
                 Fx.lightning.at(lastVec.x, lastVec.y, b.rotation(), lightningColor, lData);
