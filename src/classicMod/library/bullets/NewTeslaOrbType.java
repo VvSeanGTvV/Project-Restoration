@@ -34,6 +34,8 @@ public class NewTeslaOrbType extends BulletType {
         drawSize = 200f;
         this.hitCap = maxHits;
         this.lifetime = Float.MAX_VALUE;
+
+        lightningColor = Pal.lancerLaser;
     }
 
     Vec2 interpolate(Vec2 start, Vec2 end, Bullet b) {
@@ -59,7 +61,7 @@ public class NewTeslaOrbType extends BulletType {
                         new Vec2(blasted.x(), blasted.y())
                 });
                 Fx.lightning.at(lastVec.x, lastVec.y, b.rotation(), lightningColor, lData);
-                hitEffect.at(blastPos.x, blastPos.y);
+                hitEffect.at(blastPos.x, blastPos.y, lightningColor);
                 //beamEffect.at(lastVec.x, lastVec.y, b.rotation(), Color.white, new Vec2().set(new Vec2(blasted.x(), blasted.y())));
                 lastVec = new Vec2(blasted.x(), blasted.y());
 
@@ -67,7 +69,7 @@ public class NewTeslaOrbType extends BulletType {
                 if(blasted instanceof Building building) building.damage(b.damage);
             }
             //beamEffect.at(lastVec.x, lastVec.y, b.rotation(), Color.white);
-            hitEffect.at(lastVec.x, lastVec.y);
+            hitEffect.at(lastVec.x, lastVec.y, lightningColor);
             b.time = b.lifetime + 1f;
             TargetList.clear();
         } else {
