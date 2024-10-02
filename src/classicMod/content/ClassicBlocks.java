@@ -804,13 +804,13 @@ public class ClassicBlocks {
             requirements(Category.turret, with(Items.titanium, 50, ClassicItems.dirium, 80, Items.lead, 100));
             //ammo(Items.thorium, chain);
             ammo(
-                Items.thorium, new BasicBulletType(6f, 8){{
+                Items.thorium, new BasicBulletType(8f, 8){{
                     width = 7f;
                     height = 9f;
                     ammoMultiplier = 2f;
                 }},
 
-                Items.surgeAlloy, new FlakBulletType(6f, 13){{
+                Items.surgeAlloy, new FlakBulletType(8f, 13){{
                     width = 7f;
                     height = 9f;
                     ammoMultiplier = 5f;

@@ -1,6 +1,7 @@
 package classicMod.library.bullets;
 
 import arc.graphics.Color;
+import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.struct.Seq;
 import classicMod.content.ExtendedFx;
@@ -33,6 +34,43 @@ public class NewTeslaOrbType extends BulletType {
         this.lifetime = Float.MAX_VALUE;
     }
 
+    boolean hasReachedTarget(Vec2 position, Vec2 targetPosition) {
+        float distanceX = Math.abs(position.x - targetPosition.x);
+        float distanceY = Math.abs(position.y - targetPosition.y);
+        return distanceX < 1 && distanceY < 1;  // Consider the target reached if within 1 unit
+    }
+
+    private Vec2 calculateDirectionFromRotation(float rotationDegrees) {
+        // Convert degrees to radians for trigonometric functions
+        double radians = Math.toRadians(rotationDegrees);
+        return new Vec2((float)Math.cos(radians), (float)Math.sin(radians));
+    }
+
+    Seq<Vec2> createLightning(Bullet b, Vec2 targetPosition){
+        int stepCount = 0;
+        Seq<Vec2> temporaryData = new Seq<>();
+        Vec2 bPos = new Vec2(b.x, b.y);
+
+        float startRot = b.rotation();
+        while (!hasReachedTarget(bPos, targetPosition)) {
+            stepCount++;
+            b.rotation(Mathf.rand.nextFloat() * 360);
+            Vec2 rotPos = calculateDirectionFromRotation(b.rotation());
+
+            b.x += rotPos.x;
+            b.y += rotPos.y;
+            bPos = new Vec2(b.x, b.y);
+
+            if (stepCount % 10 == 0){
+                temporaryData.add(bPos);
+            }
+        }
+
+        b.rotation(startRot);
+        b.set(targetPosition);
+        return temporaryData;
+    }
+
     @Override
     public void update(Bullet b) {
         b.vel.setZero();
@@ -40,7 +78,9 @@ public class NewTeslaOrbType extends BulletType {
         if(TargetList.size > 0){
             Vec2 lastVec = new Vec2(b.x, b.y);
             for (var blasted : TargetList){
-                beamEffect.at(lastVec.x, lastVec.y, b.rotation(), Color.white, new Vec2().set(new Vec2(blasted.x(), blasted.y())));
+                var lData = createLightning(b, new Vec2(blasted.x(), blasted.y());
+                Fx.lightning.at(lastVec.x, lastVec.y, b.rotation(), lightningColor, lData);
+                //beamEffect.at(lastVec.x, lastVec.y, b.rotation(), Color.white, new Vec2().set(new Vec2(blasted.x(), blasted.y())));
                 lastVec = new Vec2(blasted.x(), blasted.y());
 
                 if(blasted instanceof Unit unit) unit.damage(b.damage);
