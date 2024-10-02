@@ -34,41 +34,10 @@ public class NewTeslaOrbType extends BulletType {
         this.lifetime = Float.MAX_VALUE;
     }
 
-    boolean hasReachedTarget(Vec2 position, Vec2 targetPosition) {
-        float distanceX = Math.abs(position.x - targetPosition.x);
-        float distanceY = Math.abs(position.y - targetPosition.y);
-        return distanceX < 1 && distanceY < 1;  // Consider the target reached if within 1 unit
-    }
-
-    private Vec2 calculateDirectionFromRotation(float rotationDegrees) {
-        // Convert degrees to radians for trigonometric functions
-        double radians = Math.toRadians(rotationDegrees);
-        return new Vec2((float)Math.cos(radians), (float)Math.sin(radians));
-    }
-
-    Seq<Vec2> createLightning(Bullet b, Vec2 targetPosition){
-        int stepCount = 0;
-        Seq<Vec2> temporaryData = new Seq<>();
-        Vec2 bPos = new Vec2(b.x, b.y);
-
-        float startRot = b.rotation();
-        while (!hasReachedTarget(bPos, targetPosition)) {
-            stepCount++;
-            b.rotation(Mathf.rand.nextFloat() * 360);
-            Vec2 rotPos = calculateDirectionFromRotation(b.rotation());
-
-            b.x += rotPos.x;
-            b.y += rotPos.y;
-            bPos = new Vec2(b.x, b.y);
-
-            if (stepCount % 10 == 0){
-                temporaryData.add(bPos);
-            }
-        }
-
-        b.rotation(startRot);
-        b.set(targetPosition);
-        return temporaryData;
+    Vec2 interpolate(Vec2 start, Vec2 end, float t) {
+        float x = (1 - t) * start.x + t * end.x;
+        float y = (1 - t) * start.y + t * end.y;
+        return new Vec2(x, y);
     }
 
     @Override
@@ -78,7 +47,13 @@ public class NewTeslaOrbType extends BulletType {
         if(TargetList.size > 0){
             Vec2 lastVec = new Vec2(b.x, b.y);
             for (var blasted : TargetList){
-                var lData = createLightning(b, new Vec2(blasted.x(), blasted.y()));
+                Vec2 blastPos = new Vec2(blasted.x(), blasted.y());
+                Seq<Vec2> lData = new Seq<>(new Vec2[]{
+                        new Vec2(lastVec.x, lastVec.y),
+                        interpolate(lastVec, blastPos, 1f / 3f).trns(b.rotation() + Mathf.range(lightningCone/2) + lightningAngle, Mathf.random(1f, 5f)),
+                        interpolate(lastVec, blastPos, 2f / 3f).trns(b.rotation() + Mathf.range(lightningCone/2) + lightningAngle, Mathf.random(1f, 5f)),
+                        new Vec2(blasted.x(), blasted.y())
+                });
                 Fx.lightning.at(lastVec.x, lastVec.y, b.rotation(), lightningColor, lData);
                 //beamEffect.at(lastVec.x, lastVec.y, b.rotation(), Color.white, new Vec2().set(new Vec2(blasted.x(), blasted.y())));
                 lastVec = new Vec2(blasted.x(), blasted.y());
