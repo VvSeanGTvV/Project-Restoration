@@ -78,7 +78,7 @@ public class NewTeslaOrbType extends BulletType {
         if(TargetList.size > 0){
             Vec2 lastVec = new Vec2(b.x, b.y);
             for (var blasted : TargetList){
-                var lData = createLightning(b, new Vec2(blasted.x(), blasted.y());
+                var lData = createLightning(b, new Vec2(blasted.x(), blasted.y()));
                 Fx.lightning.at(lastVec.x, lastVec.y, b.rotation(), lightningColor, lData);
                 //beamEffect.at(lastVec.x, lastVec.y, b.rotation(), Color.white, new Vec2().set(new Vec2(blasted.x(), blasted.y())));
                 lastVec = new Vec2(blasted.x(), blasted.y());
