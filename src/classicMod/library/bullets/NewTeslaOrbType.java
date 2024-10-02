@@ -39,9 +39,7 @@ public class NewTeslaOrbType extends BulletType {
     Vec2 interpolate(Vec2 start, Vec2 end, float t) {
         Log.info(start);
         Log.info(end);
-        Vec2 between = ((start.sub(end)/2).add(start));
-        float x = (start.getX() + end.getX()) * t;
-        float y = (start.getY() + end.getY()) * t;
+        Vec2 between = ((start.sub(end).div(new Vec2(2f,2f))).add(start));
         Log.info(between);
         Log.info(t);
         return between;
@@ -57,8 +55,8 @@ public class NewTeslaOrbType extends BulletType {
                 Vec2 blastPos = new Vec2(blasted.x(), blasted.y());
                 Seq<Vec2> lData = new Seq<>(new Vec2[]{
                         new Vec2(lastVec.x, lastVec.y),
-                        interpolate(lastVec, blastPos, 2f + Mathf.range(0.25f)),
-                        interpolate(lastVec, blastPos, 2f + Mathf.range(0.25f)),
+                        interpolate(lastVec, blastPos, 2f + Mathf.range(0.25f)).trns(b.rotation() + Mathf.range(lightningCone/2) + lightningAngle, Mathf.range(2.5f)),
+                        interpolate(lastVec, blastPos, 2f + Mathf.range(0.25f)).trns(b.rotation() + Mathf.range(lightningCone/2) + lightningAngle, Mathf.range(2.5f)),
                         new Vec2(blasted.x(), blasted.y())
                 });
                 Fx.lightning.at(lastVec.x, lastVec.y, b.rotation(), lightningColor, lData);
