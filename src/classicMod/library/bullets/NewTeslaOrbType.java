@@ -59,7 +59,7 @@ public class NewTeslaOrbType extends BulletType {
                         new Vec2(blasted.x(), blasted.y())
                 });
                 Fx.lightning.at(lastVec.x, lastVec.y, b.rotation(), lightningColor, lData);
-                hitEffect.at(blasted.x(), blasted.y());
+                hitEffect.at(blastPos.x, blastPos.y);
                 //beamEffect.at(lastVec.x, lastVec.y, b.rotation(), Color.white, new Vec2().set(new Vec2(blasted.x(), blasted.y())));
                 lastVec = new Vec2(blasted.x(), blasted.y());
 
@@ -67,7 +67,7 @@ public class NewTeslaOrbType extends BulletType {
                 if(blasted instanceof Building building) building.damage(b.damage);
             }
             //beamEffect.at(lastVec.x, lastVec.y, b.rotation(), Color.white);
-            hitEffect.at(blasted.x(), blasted.y());
+            hitEffect.at(lastVec.x, lastVec.y);
             b.time = b.lifetime + 1f;
             TargetList.clear();
         } else {
