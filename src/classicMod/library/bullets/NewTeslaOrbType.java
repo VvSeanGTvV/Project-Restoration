@@ -4,6 +4,7 @@ import arc.graphics.Color;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.struct.Seq;
+import arc.util.Log;
 import classicMod.content.ExtendedFx;
 import mindustry.content.Fx;
 import mindustry.entities.*;
@@ -35,8 +36,12 @@ public class NewTeslaOrbType extends BulletType {
     }
 
     Vec2 interpolate(Vec2 start, Vec2 end, float t) {
+        Log.info(start);
+        Log.info(end);
         float x = (1 - t) * start.x + t * end.x;
         float y = (1 - t) * start.y + t * end.y;
+        Log.info(new Vec2(x, y));
+        Log.info(t);
         return new Vec2(x, y);
     }
 
