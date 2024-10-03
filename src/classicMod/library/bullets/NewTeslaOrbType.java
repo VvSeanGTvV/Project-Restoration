@@ -97,7 +97,7 @@ public class NewTeslaOrbType extends BulletType {
             }
             Teamc valid = Units.closestTarget(b.team, x, y, currentRange * b.fout(),
                     e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !tlist.contains(e),
-                    t -> t.isValid() && !tlist.contains(t));
+                    t -> !t.dead && !tlist.contains(t));
             if(valid != null){
                 if (b.within(valid, currentRange * b.fout())) tlist.add(valid);
             } else {
