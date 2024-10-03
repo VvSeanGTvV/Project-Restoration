@@ -99,7 +99,7 @@ public class NewTeslaOrbType extends BulletType {
                     e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !tlist.contains(e),
                     t -> t.isValid() && !tlist.contains(t));
             if(valid != null){
-                if(valid instanceof Unit || valid instanceof Building) tlist.add(valid);
+                if (b.within(valid, currentRange * b.fout())) tlist.add(valid);
             } else {
                 break;
             }
