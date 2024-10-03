@@ -17,7 +17,7 @@ public class NewTeslaOrbType extends BulletType {
 
     float max;
     int hitCap;
-    Seq<Teamc> TargetList;
+    Seq<Healthc> TargetList;
     public Effect beamEffect = ExtendedFx.teslaBeam;
 
     /**
@@ -82,12 +82,14 @@ public class NewTeslaOrbType extends BulletType {
      * @param b bullet
      * @return List of targets (Enemy side)
      **/
-    public Seq<Teamc> AutoTargetList(int Amount, Bullet b){
-        var tlist = new Seq<Teamc>();
+    public Seq<Healthc> AutoTargetList(int Amount, Bullet b){
+        var tlist = new Seq<Healthc>();
         for (int i = 0; i < Amount; i++) {
             var x = b.x;
             var y = b.y;
             var currentRange = range;
+
+            var target = Damage.linecast(b, x, y, b.rotation(), currentRange * b.fout());
 
             if(tlist.size > 0){
                 var current = tlist.get(tlist.size - 1);
@@ -95,13 +97,19 @@ public class NewTeslaOrbType extends BulletType {
                 y = current.y();
                 currentRange = max;
             }
-            Teamc target = Units.closestTarget(b.team, x, y, currentRange * b.fout(),
-                    e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !tlist.contains(e),
-                    t -> !t.dead && !tlist.contains(t));
+
             Log.info(target);
             if(target != null){
                 if (b.within(target, currentRange * b.fout())) tlist.add(target);
             }
+
+            /*Teamc target = Units.closestTarget(b.team, x, y, currentRange * b.fout(),
+                    e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !tlist.contains(e),
+                    t -> !t.dead && !tlist.contains(t));
+            Log.info(targetC);
+            if(targetC != null){
+                if (b.within(target, currentRange * b.fout())) tlist.add(target);
+            }*/
         }
         return tlist;
     }
