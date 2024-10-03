@@ -5,6 +5,7 @@ import arc.math.geom.Vec2;
 import arc.struct.Seq;
 import arc.util.Log;
 import classicMod.content.ExtendedFx;
+import mindustry.Vars;
 import mindustry.ai.BlockIndexer;
 import mindustry.content.Fx;
 import mindustry.core.World;
@@ -115,20 +116,21 @@ public class NewTeslaOrbType extends BulletType {
                 currentRange = max;
             }
 
-            Teamc target = Units.closestTarget(b.team, x, y, currentRange * b.fout(),
+            Teamc target = Units.closestTarget(b.team, x, y, (currentRange / 2f) * b.fout(),
                     e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !tlist.contains(e),
                     t -> false);
 
-            Building build = indexer.findEnemyTile(b.team, x, y, currentRange * b.fout(),
+            Building build = indexer.findEnemyTile(b.team, x, y, (currentRange / 2f) * b.fout(),
                     t -> t.isValid() && !tlist.contains(t));
 
             Log.info(target);
             Log.info(build);
 
             if(target != null){
-                if (b.within(target, currentRange * b.fout())) tlist.add(target);
-            } else if (build != null) {
-                if (b.within(build, currentRange * b.fout())) tlist.add(build);
+                if (b.within(target, (currentRange / tilesize) * b.fout())) tlist.add(target);
+            }
+            if (build != null) {
+                if (b.within(build, (currentRange / tilesize) * b.fout())) tlist.add(build);
             }
 
 
