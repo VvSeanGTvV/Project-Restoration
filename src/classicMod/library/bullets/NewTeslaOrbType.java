@@ -84,12 +84,17 @@ public class NewTeslaOrbType extends BulletType {
      **/
     public Seq<Healthc> AutoTargetList(int Amount, Bullet b){
         var tlist = new Seq<Healthc>();
-        while (tlist.size < Amount - 1) {
+        for (int i = 0; i < Amount - 1; i++) {
             var x = b.x;
             var y = b.y;
             var currentRange = range;
+            Vec2 offset = new Vec2().trns(b.rotation(), currentRange / Vars.tilesize);
 
-            var target = Damage.linecast(b, x, y, b.rotation(), currentRange / Vars.tilesize);
+            //Damage.collideLaser(b, currentRange / Vars.tilesize, false, false, pierceCap);
+            Damage.collideLine(b, b.team, b.type.hitEffect, x, y, b.rotation(), currentRange / Vars.tilesize, false, false, pierceCap);
+            b.set(b.x + offset.x, b.y + offset.y);
+            Log.info(b.collided.items);
+            //var target = Damage.linecast(b, x, y, b.rotation(), currentRange / Vars.tilesize);
 
             if(tlist.size > 0){
                 var current = tlist.get(tlist.size - 1);
@@ -98,14 +103,14 @@ public class NewTeslaOrbType extends BulletType {
                 currentRange = max;
             }
 
-            Log.info(target);
+
+
+            /*Log.info(target);
             if(target != null){
                 if (b.within(target, currentRange * b.fout())) tlist.add(target);
-            } else {
-                break;
             }
 
-            /*Teamc target = Units.closestTarget(b.team, x, y, currentRange * b.fout(),
+            Teamc target = Units.closestTarget(b.team, x, y, currentRange * b.fout(),
                     e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !tlist.contains(e),
                     t -> !t.dead && !tlist.contains(t));
             Log.info(targetC);
