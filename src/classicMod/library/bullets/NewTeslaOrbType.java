@@ -1,23 +1,26 @@
 package classicMod.library.bullets;
 
-import arc.graphics.Color;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.struct.Seq;
 import arc.util.Log;
 import classicMod.content.ExtendedFx;
-import mindustry.Vars;
 import mindustry.content.Fx;
+import mindustry.core.World;
 import mindustry.entities.*;
 import mindustry.entities.bullet.BulletType;
 import mindustry.gen.*;
-import mindustry.graphics.Pal;
+import mindustry.world.Tile;
+
+import java.util.concurrent.atomic.AtomicReference;
+
+import static mindustry.Vars.world;
 
 public class NewTeslaOrbType extends BulletType {
 
     float max;
     int hitCap;
-    Seq<Healthc> TargetList;
+    Seq<Teamc> TargetList;
     public Effect beamEffect = ExtendedFx.teslaBeam;
 
     /**
@@ -82,18 +85,25 @@ public class NewTeslaOrbType extends BulletType {
      * @param b bullet
      * @return List of targets (Enemy side)
      **/
-    public Seq<Healthc> AutoTargetList(int Amount, Bullet b){
-        var tlist = new Seq<Healthc>();
+    public Seq<Teamc> AutoTargetList(int Amount, Bullet b){
+        var tlist = new Seq<Teamc>();
         for (int i = 0; i < Amount - 1; i++) {
             var x = b.x;
             var y = b.y;
             var currentRange = range;
             Vec2 offset = new Vec2().trns(b.rotation(), currentRange);
+            AtomicReference<Building> building = new AtomicReference<>();
 
-            Damage.collideLaser(b, currentRange / Vars.tilesize, false, false, pierceCap);
-            //Damage.collideLine(b, b.team, b.type.hitEffect, x, y, b.rotation(), 20f, false, false, pierceCap);
-            float resultLen = b.fdata;
-            Log.info(resultLen);
+            World.raycastEach(World.toTile(b.getX()), World.toTile(b.getY()), World.toTile(b.getX() + offset.getX()), World.toTile(b.getY() + offset.getY()), (wx, wy) -> {
+
+                Tile tile = world.tile(wx, wy);
+                if (tile != null && (tile.build != null)) building.set(tile.build);
+                if (tile != null && (tile.build != null && tile.build.isInsulated()) && tile.team() != b.team) {
+                    return true;
+                }
+                return false;
+            });
+            b.rotation(b.rotation() - offset.angleRad());
             b.set(b.x + offset.x, b.y + offset.y);
             //var target = Damage.linecast(b, x, y, b.rotation(), currentRange / Vars.tilesize);
 
@@ -104,6 +114,15 @@ public class NewTeslaOrbType extends BulletType {
                 currentRange = max;
             }
 
+            Teamc target = Units.closestTarget(b.team, x, y, currentRange * b.fout(),
+                    e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !tlist.contains(e),
+                    t -> false);
+
+            if(target != null){
+                if (b.within(target, currentRange * b.fout())) tlist.add(target);
+            } else if (building.get() != null) {
+                if (b.within(building.get(), currentRange * b.fout())) tlist.add(building.get());
+            }
 
 
             /*Log.info(target);
