@@ -37,12 +37,12 @@ public class NewTeslaOrbType extends BulletType {
         this.lifetime = Float.MAX_VALUE;
     }
 
-    Vec2 interpolate(Vec2 start, Vec2 end, float div) {
+    Vec2 interpolate(Vec2 start, Vec2 end, float div, float range) {
         Log.info(start);
         Log.info(end);
         Vec2 between = ((end.sub(start).div(new Vec2(div,div))).add(start));
         Log.info(between);
-        return new Vec2(between.x + Mathf.range(5f), between.y + Mathf.range(5f));
+        return new Vec2(between.x + Mathf.range(range), between.y + Mathf.range(range));
     }
 
     @Override
@@ -55,14 +55,14 @@ public class NewTeslaOrbType extends BulletType {
                 Vec2 blastPos = new Vec2(blasted.x(), blasted.y());
                 Seq<Vec2> lData = new Seq<>(new Vec2[]{
                         new Vec2(lastVec.x, lastVec.y),
-                        interpolate(lastVec, blastPos, 1.25f),
-                        interpolate(lastVec, blastPos, 2.25f),
+                        interpolate(lastVec, blastPos, 1.25f, lightningLength + Mathf.random(lightningLengthRand)),
+                        interpolate(lastVec, blastPos, 2.25f, lightningLength + Mathf.random(lightningLengthRand)),
                         new Vec2(blasted.x(), blasted.y())
                 });
                 Fx.lightning.at(lastVec.x, lastVec.y, b.rotation(), lightningColor, lData);
-                hitEffect.at(blastPos.x, blastPos.y, lightningColor);
                 //beamEffect.at(lastVec.x, lastVec.y, b.rotation(), Color.white, new Vec2().set(new Vec2(blasted.x(), blasted.y())));
                 lastVec = new Vec2(blasted.x(), blasted.y());
+                hitEffect.at(blasted.x(), blasted.y(), lightningColor);
 
                 if(blasted instanceof Unit unit) unit.damage(b.damage);
                 if(blasted instanceof Building building) building.damage(b.damage);
