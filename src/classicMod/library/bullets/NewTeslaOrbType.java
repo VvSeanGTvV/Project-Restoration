@@ -84,7 +84,7 @@ public class NewTeslaOrbType extends BulletType {
      **/
     public Seq<Teamc> AutoTargetList(int Amount, Bullet b){
         var tlist = new Seq<Teamc>();
-        while (tlist.size < Amount - 1){
+        for (int i = 0; i < Amount; i++) {
             var x = b.x;
             var y = b.y;
             var currentRange = range;
@@ -101,8 +101,6 @@ public class NewTeslaOrbType extends BulletType {
             Log.info(target);
             if(target != null){
                 if (b.within(target, currentRange * b.fout())) tlist.add(target);
-            } else {
-                //break;
             }
         }
         return tlist;
