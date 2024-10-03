@@ -5,6 +5,7 @@ import arc.math.geom.Vec2;
 import arc.struct.Seq;
 import arc.util.Log;
 import classicMod.content.ExtendedFx;
+import mindustry.ai.BlockIndexer;
 import mindustry.content.Fx;
 import mindustry.core.World;
 import mindustry.entities.*;
@@ -14,7 +15,7 @@ import mindustry.world.Tile;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import static mindustry.Vars.world;
+import static mindustry.Vars.*;
 
 public class NewTeslaOrbType extends BulletType {
 
@@ -92,7 +93,7 @@ public class NewTeslaOrbType extends BulletType {
             var y = b.y;
             var currentRange = range;
             Vec2 offset = new Vec2().trns(b.rotation(), currentRange);
-            AtomicReference<Building> building = new AtomicReference<>();
+            /*AtomicReference<Building> building = new AtomicReference<>();
 
             World.raycastEach(World.toTile(b.getX()), World.toTile(b.getY()), World.toTile(b.getX() + offset.getX()), World.toTile(b.getY() + offset.getY()), (wx, wy) -> {
 
@@ -104,7 +105,7 @@ public class NewTeslaOrbType extends BulletType {
                 return false;
             });
             b.rotation(offset.sub(new Vec2(b.x, b.y)).angleRad());
-            b.set(b.x + offset.x, b.y + offset.y);
+            b.set(b.x + offset.x, b.y + offset.y);*/
             //var target = Damage.linecast(b, x, y, b.rotation(), currentRange / Vars.tilesize);
 
             if(tlist.size > 0){
@@ -118,10 +119,13 @@ public class NewTeslaOrbType extends BulletType {
                     e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !tlist.contains(e),
                     t -> false);
 
+            Building build = indexer.findEnemyTile(b.team, x, y, currentRange * b.fout(),
+                    t -> t.isValid() && !tlist.contains(t));
+
             if(target != null){
                 if (b.within(target, currentRange * b.fout())) tlist.add(target);
-            } else if (building.get() != null) {
-                if (b.within(building.get(), currentRange * b.fout())) tlist.add(building.get());
+            } else if (build != null) {
+                if (b.within(build, currentRange * b.fout())) tlist.add(build);
             }
 
 
