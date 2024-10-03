@@ -93,6 +93,7 @@ public class NewTeslaOrbType extends BulletType {
             //Damage.collideLaser(b, currentRange / Vars.tilesize, false, false, pierceCap);
             Damage.collideLine(b, b.team, b.type.hitEffect, x, y, b.rotation(), 20f, false, false, pierceCap);
             float resultLen = b.fdata;
+            Log.info(resultLen);
             b.set(b.x + offset.x, b.y + offset.y);
             //var target = Damage.linecast(b, x, y, b.rotation(), currentRange / Vars.tilesize);
 
