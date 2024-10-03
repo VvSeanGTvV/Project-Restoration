@@ -102,7 +102,7 @@ public class NewTeslaOrbType extends BulletType {
             if(target != null){
                 if (b.within(target, currentRange * b.fout())) tlist.add(target);
             } else {
-                break;
+                //break;
             }
         }
         return tlist;
