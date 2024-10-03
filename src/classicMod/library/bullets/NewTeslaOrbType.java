@@ -95,13 +95,21 @@ public class NewTeslaOrbType extends BulletType {
                 y = current.y();
                 currentRange = max;
             }
-            Teamc valid = Units.closestTarget(b.team, x, y, currentRange * b.fout(),
-                    e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !tlist.contains(e),
-                    t -> !t.dead && !tlist.contains(t));
-            if(valid != null){
-                if (b.within(valid, currentRange * b.fout())) tlist.add(valid);
+            Teamc build = Units.findEnemyTile(b.team, x, y, currentRange * b.fout(),
+                    t -> !t.dead && !tlist.contains(t) && t.team != b.team);
+
+            Teamc unit = Units.closestEnemy(b.team, x, y, currentRange * b.fout(),
+                    e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !tlist.contains(e));
+            Log.info(build);
+            Log.info(unit);
+            if(unit != null){
+                if (b.within(unit, currentRange * b.fout())) tlist.add(unit);
             } else {
-                break;
+                if (build != null) {
+                    if (b.within(build, currentRange * b.fout())) tlist.add(build);
+                } else {
+                    break;
+                }
             }
         }
         return tlist;
