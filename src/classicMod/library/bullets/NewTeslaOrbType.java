@@ -122,6 +122,9 @@ public class NewTeslaOrbType extends BulletType {
             Building build = indexer.findEnemyTile(b.team, x, y, currentRange * b.fout(),
                     t -> t.isValid() && !tlist.contains(t));
 
+            Log.info(target);
+            Log.info(build);
+
             if(target != null){
                 if (b.within(target, currentRange * b.fout())) tlist.add(target);
             } else if (build != null) {
