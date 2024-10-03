@@ -89,7 +89,7 @@ public class NewTeslaOrbType extends BulletType {
             var y = b.y;
             var currentRange = range;
 
-            var target = Damage.linecast(b, x, y, b.rotation(), lightningLength + Mathf.random(lightningLengthRand));
+            var target = Damage.linecast(b, x, y, b.rotation(), currentRange / Vars.tilesize);
 
             if(tlist.size > 0){
                 var current = tlist.get(tlist.size - 1);
