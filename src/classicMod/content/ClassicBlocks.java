@@ -774,7 +774,7 @@ public class ClassicBlocks {
             rotateSpeed = 7f;
             targetAir = true;
             targetGround = false;
-            range = 70f;
+            range = 80f;
             shootEffect = Fx.lightningShoot;
             heatColor = Color.red;
             recoil = 1f;
@@ -794,7 +794,7 @@ public class ClassicBlocks {
             shootSound = tesla;
             shootEffect = Fx.none;
             smokeEffect = Fx.none;
-            reload = 15f;
+            reload = 20f;
             health = 240;
             //outlineColor = Color.valueOf("ffd86c");
             //outlineRadius = 4;
