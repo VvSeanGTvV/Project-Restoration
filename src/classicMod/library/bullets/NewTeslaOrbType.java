@@ -55,8 +55,8 @@ public class NewTeslaOrbType extends BulletType {
                 Vec2 blastPos = new Vec2(blasted.x(), blasted.y());
                 Seq<Vec2> lData = new Seq<>(new Vec2[]{
                         new Vec2(lastVec.x, lastVec.y),
-                        interpolate(lastVec, blastPos, 3f / 1.25f),
-                        interpolate(lastVec, blastPos, 3f / 1.75f),
+                        interpolate(lastVec, blastPos, 1.25f),
+                        interpolate(lastVec, blastPos, 2.25f),
                         new Vec2(blasted.x(), blasted.y())
                 });
                 Fx.lightning.at(lastVec.x, lastVec.y, b.rotation(), lightningColor, lData);
