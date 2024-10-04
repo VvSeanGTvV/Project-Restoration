@@ -54,6 +54,10 @@ public class NewTeslaOrbType extends BulletType {
         if(TargetList.size > 0){
             Vec2 lastVec = new Vec2(b.x, b.y);
             for (var blasted : TargetList){
+                Log.info(b.within(blasted, range / tilesize));
+                if (!(b.within(blasted, range / tilesize))) {
+                    continue;
+                }
                 Vec2 blastPos = new Vec2(blasted.x(), blasted.y());
                 Seq<Vec2> lData = new Seq<>(new Vec2[]{
                         new Vec2(lastVec.x, lastVec.y),
@@ -144,15 +148,6 @@ public class NewTeslaOrbType extends BulletType {
             if(targetC != null){
                 if (b.within(target, currentRange * b.fout())) tlist.add(target);
             }*/
-        }
-
-        for (var target : tlist){
-            Log.info(target);
-            Log.info(target.dst2(b));
-            if (!(b.within(target, range))) {
-                tlist.remove(target);
-            }
-            Log.info(b.within(target, range));
         }
 
         tlist.sort(t -> t.dst2(b));
