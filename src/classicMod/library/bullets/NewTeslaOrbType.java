@@ -4,6 +4,7 @@ import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.struct.Seq;
 import arc.util.Log;
+import arc.util.pooling.Pool;
 import classicMod.content.ExtendedFx;
 import mindustry.Vars;
 import mindustry.ai.BlockIndexer;
@@ -108,7 +109,7 @@ public class NewTeslaOrbType extends BulletType {
             });
             b.rotation(offset.sub(new Vec2(b.x, b.y)).angleRad());
             b.set(b.x + offset.x, b.y + offset.y);*/
-            //var target = Damage.linecast(b, x, y, b.rotation(), currentRange / Vars.tilesize);
+            var target = Damage.linecast(b, x, y, b.rotation(), currentRange / Vars.tilesize);
 
             if(tlist.size > 0){
                 var current = tlist.get(tlist.size - 1);
@@ -122,18 +123,18 @@ public class NewTeslaOrbType extends BulletType {
                     t -> false);
 
             Building build = indexer.findEnemyTile(b.team, x, y, (currentRange / tilesize) * b.fout(),
-                    t -> t.isValid() && !tlist.contains(t));
+                    t -> t.isValid() && !tlist.contains(t.buildOn()));
 
             Log.info(target);
             Log.info(build);
 
-            if (build != null) {
-                tlist.add(build);
-            } 
-            if(target != null){
-                tlist.add(target);
+            if (build != null && target != null) {
+                if (build.dst2(b) < target.dst2(b)) tlist.add(target);
+                if (build.dst2(b) > target.dst2(b)) tlist.add(build);
+            } else {
+                if (build != null) tlist.add(build);
+                if (target != null) tlist.add(target);
             }
-            
 
 
             /*Log.info(target);
