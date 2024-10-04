@@ -115,23 +115,22 @@ public class NewTeslaOrbType extends BulletType {
                 y = current.y();
                 currentRange = max;
             }
-
-            float finalCurrentRange = currentRange;
+            
             Teamc target = Units.closestTarget(b.team, x, y, (currentRange / tilesize),
-                    e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !tlist.contains(e) && e.within(b, (finalCurrentRange / tilesize) * b.fout()),
+                    e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !tlist.contains(e),
                     t -> false);
 
             Building build = indexer.findEnemyTile(b.team, x, y, (currentRange / tilesize) * b.fout(),
-                    t -> t.isValid() && !tlist.contains(t) && t.within(b, (finalCurrentRange / tilesize) * b.fout()));
+                    t -> t.isValid() && !tlist.contains(t);
 
             Log.info(target);
             Log.info(build);
 
             if (build != null) {
-                if (b.within(build, (currentRange / tilesize) * b.fout())) tlist.add(build);
+                tlist.add(build);
             } 
             if(target != null){
-                if (b.within(target, (currentRange / tilesize) * b.fout())) tlist.add(target);
+                tlist.add(target);
             }
             
 
@@ -149,6 +148,13 @@ public class NewTeslaOrbType extends BulletType {
                 if (b.within(target, currentRange * b.fout())) tlist.add(target);
             }*/
         }
+
+        for (var target : tlist){
+            if (target.dst2(b) > range) {
+                tlist.remove(target);
+            }
+        }
+
         tlist.sort(t -> t.dst2(b));
         return tlist;
     }
