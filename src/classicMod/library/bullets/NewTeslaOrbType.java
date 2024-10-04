@@ -43,10 +43,7 @@ public class NewTeslaOrbType extends BulletType {
     }
 
     Vec2 interpolate(Vec2 start, Vec2 end, float div, float range) {
-        Log.info(start);
-        Log.info(end);
         Vec2 between = ((end.sub(start).div(new Vec2(div,div))).add(start));
-        Log.info(between);
         return new Vec2(between.x + Mathf.range(range), between.y + Mathf.range(range));
     }
 
@@ -150,6 +147,8 @@ public class NewTeslaOrbType extends BulletType {
         }
 
         for (var target : tlist){
+            Log.info(target);
+            Log.info(target.dst2(b));
             if (target.dst2(b) > range) {
                 tlist.remove(target);
             }
