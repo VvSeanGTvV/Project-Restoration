@@ -131,8 +131,8 @@ public class NewTeslaOrbType extends BulletType {
 
             if (build != null && target != null) {
                 Log.info(b.dst2(target) / tilesize);
-                if ((b.dst2(target) / tilesize) < range) tlist.add(target); else
-                if (build.dst2(b) < target.dst2(b)) tlist.add(build);
+                if ((b.dst2(target) / tilesize) < range * range) tlist.add(target); else
+                if (build.dst2(b) / tilesize < range * range) tlist.add(build);
             } else {
                 if (build != null) tlist.add(build);
                 if (target != null) tlist.add(target);
