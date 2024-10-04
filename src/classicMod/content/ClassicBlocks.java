@@ -789,7 +789,7 @@ public class ClassicBlocks {
             requirements(Category.turret, with(Items.titanium, 25, ClassicItems.dirium, 15, Items.lead, 50));
             range = 90f;
             shootCone = 45f;
-            shootType = new NewTeslaOrbType(56f,13, 5){{
+            shootType = new NewTeslaOrbType(90f,13, 5){{
                 lightningColor = Pal.lancerLaser;
             }};
             shootSound = Sounds.spark; //tesla
