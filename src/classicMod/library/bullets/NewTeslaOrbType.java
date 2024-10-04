@@ -109,7 +109,7 @@ public class NewTeslaOrbType extends BulletType {
             });
             b.rotation(offset.sub(new Vec2(b.x, b.y)).angleRad());
             b.set(b.x + offset.x, b.y + offset.y);*/
-            var target = Damage.linecast(b, x, y, b.rotation(), currentRange / Vars.tilesize);
+            //var target = Damage.linecast(b, x, y, b.rotation(), currentRange / Vars.tilesize);
 
             if(tlist.size > 0){
                 var current = tlist.get(tlist.size - 1);
