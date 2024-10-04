@@ -149,9 +149,10 @@ public class NewTeslaOrbType extends BulletType {
         for (var target : tlist){
             Log.info(target);
             Log.info(target.dst2(b));
-            if (target.dst2(b) > range) {
+            if (!(b.within(target, range))) {
                 tlist.remove(target);
             }
+            Log.info(b.within(target, range));
         }
 
         tlist.sort(t -> t.dst2(b));
