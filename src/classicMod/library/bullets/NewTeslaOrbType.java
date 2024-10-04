@@ -21,7 +21,7 @@ import static mindustry.Vars.*;
 
 public class NewTeslaOrbType extends BulletType {
 
-    float max, rangeB;
+    float rangeB;
     int hitCap;
     Seq<Teamc> TargetList;
     public Effect beamEffect = ExtendedFx.teslaBeam;
@@ -35,7 +35,6 @@ public class NewTeslaOrbType extends BulletType {
     public NewTeslaOrbType(float maxRange, int damage, int maxHits){
         this.damage = damage;
         this.rangeB = maxRange;
-        this.max = maxRange;
         hitEffect = Fx.hitLancer; //ExtendedFx.laserhit;
         despawnEffect = Fx.none;
         drawSize = 200f;

@@ -74,12 +74,6 @@ public class ExtendedSerpuloTechTree {
 
         margeNode(arc, () -> node(arcAir, () -> node(teslaTurret)));
 
-        margeNode(laserDrill, () -> {
-            node(nuclearDrill,() -> {
-
-            });
-        });
-
         // Transportation
         margeNode(phaseConveyor, () -> {
             node(laserConveyor,() -> {
@@ -91,9 +85,9 @@ public class ExtendedSerpuloTechTree {
             node(warpGate,() -> {
 
             });
-            node(payloadPropulsionTower,() -> {
+            /*node(payloadPropulsionTower,() -> {
 
-            });
+            });*/
         });
 
         margeNode(Blocks.melter, () -> {
@@ -101,10 +95,10 @@ public class ExtendedSerpuloTechTree {
         });
 
         margeNode(graphitePress, () -> {
-            node(denseSmelter, () -> {
+            node(denseSmelter, Seq.with(new Produce(Items.coal)), () -> {
                 node(crucible);
                 node(arcSmelter, () -> {
-                    //node(alloySmelter);
+
                 });
             });
         });
@@ -116,7 +110,12 @@ public class ExtendedSerpuloTechTree {
                 });
                 node(centrifuge);
             });
-            node(poweredDrill);
+
+            node(poweredDrill, () -> {
+                node(nuclearDrill, Seq.with(new SectorComplete(nuclearComplex)), () -> {
+
+                });
+            });
         });
 
         margeNode(Blocks.rtgGenerator, () -> {
@@ -167,7 +166,7 @@ public class ExtendedSerpuloTechTree {
             });
         });
 
-        margeNode(Liquids.slag, () -> {
+        margeNode(Items.copper, () -> {
             nodeProduce(ClassicItems.stone, () -> {
 
             });

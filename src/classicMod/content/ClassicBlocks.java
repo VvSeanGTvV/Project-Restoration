@@ -787,18 +787,25 @@ public class ClassicBlocks {
 
         teslaTurret = new PowerTurret("tesla-turret"){{
             requirements(Category.turret, with(Items.titanium, 25, ClassicItems.dirium, 15, Items.lead, 50));
-            range = 85.5f;
+            range = 90f;
+            shootCone = 45f;
             shootType = new NewTeslaOrbType(56f,13, 5){{
                 lightningColor = Pal.lancerLaser;
             }};
-            shootSound = tesla;
-            shootEffect = Fx.none;
+            shootSound = Sounds.spark; //tesla
+            //shootEffect = Fx.none;
             smokeEffect = Fx.none;
+
+            shootEffect = Fx.lightningShoot;
+            heatColor = Color.red;
+
             reload = 20f;
             health = 240;
+            recoil = 1f;
             //outlineColor = Color.valueOf("ffd86c");
             //outlineRadius = 4;
             consumePower(0.5f * 4f);
+            coolant = consumeCoolant(0.1f);
             playerControllable = false;
         }};
 
@@ -836,6 +843,8 @@ public class ClassicBlocks {
             inaccuracy = 8f;
             range = 208f;
             reload = 5f;
+
+            coolant = consumeCoolant(0.1f);
             //outlineColor = Color.valueOf("ffd86c");
             //outlineRadius = 5;
         }};

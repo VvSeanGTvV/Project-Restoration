@@ -133,23 +133,11 @@ public class epicCreditsDialog extends Dialog {
             FinishedCredits();
             return;
         }
-        //Log.info("IN HEIGHT " +in.getHeight());
-        //Log.info("IN prefHEIGHT " +in.getPrefHeight());
-        //Log.info("IN minHEIGHT " +in.getMinHeight());
-        //Log.info("IN maxHEIGHT " +in.getMaxHeight());
+
         var bot = (Vars.mobile) ? 120f : 60f; //alignment for mobile kinda off bud
         scrollbar += fdelta(650f, bot);
-        //cont.clearChildren();
 
         setStyle(baller);
-
-        //Log.info(credit.getMinWidth());
-
-        //Log.info("Crolld "+ scrollbar);
-        //Log.info("Crollf "+ scrollbar * 1.15f);
-        //Log.info("Crollh "+ TableHeight * 1.462f);
-        //Log.info(scrollbar * 1.15f >= (TableHeight * 1.462f));
-        //Log.info((float) getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile()).length() / 2);
 
         if (input.keyDown(keybinds.get(MenuKeybind).key)) FinishedCredits();
         if (app.isMobile()) {
@@ -176,7 +164,6 @@ public class epicCreditsDialog extends Dialog {
                     onHold = true;
                 }
             }
-            //if(((scrollbar > (TableHeight)) && TableHeight > 0) || Core.input.isTouched()) this.hide();
         }
     }
 
@@ -213,7 +200,7 @@ public class epicCreditsDialog extends Dialog {
             if (!once && !hidden) { staticTable.add(keybindNotification); once = true; }
         }*/
         
-        staticTable.x = staticTable.getMaxWidth() + keybindNotification.length() * (10f + graphics.getAspect());
+        staticTable.x = staticTable.getMaxWidth() + keybindNotification.length() * ((graphics.getAspect() * 3f));
         staticTable.y = 14f;
 
         planets.render(state);
