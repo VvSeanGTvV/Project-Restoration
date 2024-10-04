@@ -149,6 +149,7 @@ public class NewTeslaOrbType extends BulletType {
                 if (b.within(target, currentRange * b.fout())) tlist.add(target);
             }*/
         }
+        tlist.sort(t -> t.dst2(b));
         return tlist;
     }
 }
