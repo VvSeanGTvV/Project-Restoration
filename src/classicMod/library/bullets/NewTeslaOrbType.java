@@ -94,65 +94,30 @@ public class NewTeslaOrbType extends BulletType {
         for (int i = 0; i < Amount - 1; i++) {
             var x = b.x;
             var y = b.y;
-            var currentRange = range;
-            Vec2 offset = new Vec2().trns(b.rotation(), currentRange);
-            /*AtomicReference<Building> building = new AtomicReference<>();
-
-            World.raycastEach(World.toTile(b.getX()), World.toTile(b.getY()), World.toTile(b.getX() + offset.getX()), World.toTile(b.getY() + offset.getY()), (wx, wy) -> {
-
-                Tile tile = world.tile(wx, wy);
-                if (tile != null && (tile.build != null)) building.set(tile.build);
-                if (tile != null && (tile.build != null && tile.build.isInsulated()) && tile.team() != b.team) {
-                    return true;
-                }
-                return false;
-            });
-            b.rotation(offset.sub(new Vec2(b.x, b.y)).angleRad());
-            b.set(b.x + offset.x, b.y + offset.y);*/
-            //var target = Damage.linecast(b, x, y, b.rotation(), currentRange / Vars.tilesize);
+            var currentRange = rangeB;
 
             if(tlist.size > 0){
                 var current = tlist.get(tlist.size - 1);
                 x = current.x();
                 y = current.y();
-                currentRange = max;
+                currentRange = rangeB;
             }
 
-            Teamc target = Units.closestTarget(b.team, x, y, (currentRange / tilesize),
+            Teamc target = Units.closestTarget(b.team, x, y, currentRange,
                     e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !tlist.contains(e),
                     t -> false);
 
-            Building build = indexer.findEnemyTile(b.team, x, y, (currentRange / tilesize) * b.fout(),
+            Building build = indexer.findEnemyTile(b.team, x, y, currentRange,
                     t -> t.isValid() && !tlist.contains(t.buildOn()));
 
-            Log.info(target);
-            Log.info(build);
-
-
             if (build != null && target != null) {
-                Log.info(b.dst2(target) / tilesize);
-                Log.info(rangeB * rangeB);
-                Log.info(((b.dst2(target) / tilesize) < rangeB * rangeB));
-                if ((b.dst2(target) / tilesize) < rangeB * rangeB) tlist.add(target); else
+                if ((b.dst2(target) / tilesize) < rangeB * rangeB) tlist.add(target);
                 if (build.dst2(b) / tilesize < rangeB * rangeB) tlist.add(build);
             } else {
                 if (build != null) tlist.add(build);
                 if (target != null) tlist.add(target);
             }
-
-
-            /*Log.info(target);
-            if(target != null){
-                if (b.within(target, currentRange * b.fout())) tlist.add(target);
-            }
-
-            Teamc target = Units.closestTarget(b.team, x, y, currentRange * b.fout(),
-                    e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !tlist.contains(e),
-                    t -> !t.dead && !tlist.contains(t));
-            Log.info(targetC);
-            if(targetC != null){
-                if (b.within(target, currentRange * b.fout())) tlist.add(target);
-            }*/
+            if (build != null) if (build.buildOn().isInsulated()) break;
         }
 
         tlist.sort(t -> t.dst2(b));
