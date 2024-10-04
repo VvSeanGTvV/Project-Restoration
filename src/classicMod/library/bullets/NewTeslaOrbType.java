@@ -13,7 +13,7 @@ import mindustry.core.World;
 import mindustry.entities.*;
 import mindustry.entities.bullet.BulletType;
 import mindustry.gen.*;
-import mindustry.world.Tile;
+import mindustry.world.*;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -24,7 +24,6 @@ public class NewTeslaOrbType extends BulletType {
     float rangeB;
     int hitCap;
     Seq<Teamc> TargetList;
-    public Effect beamEffect = ExtendedFx.teslaBeam;
 
     /**
      * Creates a Tesla orb that jumps other enemy's unit/block.
@@ -54,7 +53,6 @@ public class NewTeslaOrbType extends BulletType {
         if(TargetList.size > 0){
             Vec2 lastVec = new Vec2(b.x, b.y);
             for (var blasted : TargetList){
-                Log.info(b.within(blasted, range / tilesize));
                 if (!(b.within(blasted, range / tilesize))) {
                     continue;
                 }
@@ -82,6 +80,11 @@ public class NewTeslaOrbType extends BulletType {
         }
     }
 
+
+    float isBuild (Teamc teamc, Seq<Teamc> buildingSeq) {
+        return (buildingSeq.contains(teamc)) ? 1f : 0f;
+    }
+
     /**
      * Creates a list closest to the bullet.
      * @param Amount The maximum amount that it can auto target
@@ -89,37 +92,44 @@ public class NewTeslaOrbType extends BulletType {
      * @return List of targets (Enemy side)
      **/
     public Seq<Teamc> AutoTargetList(int Amount, Bullet b){
-        var tlist = new Seq<Teamc>();
+        var teamcSeq = new Seq<Teamc>();
+        var buildingSeq = new Seq<Teamc>();
         for (int i = 0; i < Amount - 1; i++) {
             var x = b.x;
             var y = b.y;
             var currentRange = rangeB;
 
-            if(tlist.size > 0){
-                var current = tlist.get(tlist.size - 1);
+            if(teamcSeq.size > 0){
+                var current = teamcSeq.get(teamcSeq.size - 1);
                 x = current.x();
                 y = current.y();
-                currentRange = rangeB;
+                currentRange = rangeB * b.fout();
             }
 
-            Teamc target = Units.closestTarget(b.team, x, y, currentRange,
-                    e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !tlist.contains(e),
+            Teamc target = Units.closestTarget(b.team, x, y, currentRange * b.fout(),
+                    e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !teamcSeq.contains(e),
                     t -> false);
 
-            Building build = indexer.findEnemyTile(b.team, x, y, currentRange,
-                    t -> t.isValid() && !tlist.contains(t.buildOn()));
+            Building build = indexer.findEnemyTile(b.team, x, y, currentRange * b.fout(),
+                    t -> t.isValid() && !teamcSeq.contains(t.buildOn()));
 
             if (build != null && target != null) {
-                if ((b.dst2(target) / tilesize) < rangeB * rangeB) tlist.add(target);
-                if (build.dst2(b) / tilesize < rangeB * rangeB) tlist.add(build);
+                if ((b.dst2(target) / tilesize) < rangeB * rangeB) teamcSeq.add(target);
+                if (build.dst2(b) / tilesize < rangeB * rangeB) {
+                    teamcSeq.add(build);
+                    buildingSeq.add(build);
+                }
             } else {
-                if (build != null) tlist.add(build);
-                if (target != null) tlist.add(target);
+                if (build != null) {
+                    teamcSeq.add(build);
+                    buildingSeq.add(build);
+                }
+                if (target != null) teamcSeq.add(target);
             }
             if (build != null) if (build.buildOn().isInsulated()) break;
         }
 
-        tlist.sort(t -> t.dst2(b));
-        return tlist;
+        teamcSeq.sort(t -> isBuild(t, buildingSeq));
+        return teamcSeq;
     }
 }
