@@ -115,13 +115,13 @@ public class NewTeslaOrbType extends BulletType {
                 y = current.y();
                 currentRange = max;
             }
-            
+
             Teamc target = Units.closestTarget(b.team, x, y, (currentRange / tilesize),
                     e -> e.isValid() && e.checkTarget(collidesAir, collidesGround) && !tlist.contains(e),
                     t -> false);
 
             Building build = indexer.findEnemyTile(b.team, x, y, (currentRange / tilesize) * b.fout(),
-                    t -> t.isValid() && !tlist.contains(t);
+                    t -> t.isValid() && !tlist.contains(t));
 
             Log.info(target);
             Log.info(build);

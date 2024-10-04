@@ -91,7 +91,7 @@ public class ClassicMod extends Mod{
                     //dialog.cont.button("@ok", dialog::hide).size(130f, 50f);
 
                     dialog.update(() -> {
-                        dialog.cont.setTranslation(0, -((graphics.getHeight() / 2f) - (166f + (graphics.getAspect() * 2f))));
+                        dialog.cont.setTranslation(0, -((graphics.getHeight() / 2f) - (166f + (graphics.getAspect() * 10f))));
                     });
 
                     dialog.show();
