@@ -9,12 +9,14 @@ import arc.scene.Scene;
 import arc.scene.style.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.Table;
+import arc.struct.Seq;
 import arc.util.*;
-import classicMod.library.ui.menu.MainMenuRenderer;
+import classicMod.library.ui.menu.*;
 import mindustry.Vars;
 import mindustry.content.Planets;
 import mindustry.gen.*;
 import mindustry.graphics.g3d.*;
+import mindustry.type.Planet;
 import mindustry.ui.Styles;
 
 import java.util.Objects;
@@ -185,9 +187,11 @@ public class epicCreditsDialog extends Dialog {
     }
 
     boolean once;
-    float alpha = 0f;
+    float alpha = 1f;
+    int i;
     @Override
     public void draw() {
+        i++;
         var Wui = (TextureRegionDrawable) Tex.whiteui;
         alpha = Mathf.lerpDelta(alpha, 0.65f, 0.1f);
         Drawable background = Wui.tint(0f, 0f, 0f, alpha);
@@ -200,7 +204,7 @@ public class epicCreditsDialog extends Dialog {
         //if (!once && !hidden) { staticTable.add(keybindNotification); once = true; }
 
         if (app.isMobile()) {
-            if (!once && !hidden && firstTap) { tabStr = staticTable.add(keybindNotification); once = true; }
+            if (!once && !hidden && firstTap) { staticTable.add(keybindNotification); once = true; }
             if (!firstTap && once) { once = false; staticTable.clearChildren(); }
         } else {
             if (!once && !hidden) { staticTable.add(keybindNotification); once = true; }
@@ -215,7 +219,12 @@ public class epicCreditsDialog extends Dialog {
         staticTable.draw();
 
         state.camPos.rotate(Vec3.Y, fdelta(250f, 120f));
-        state.camPos.rotate(Vec3.Z, fdelta(750f, 120f));
+        if (i >= 1000){
+            alpha = 1f;
+            Seq<Planet> visible = Vars.content.planets().copy().filter(p -> p.visible);
+            state.planet = visible.get(Mathf.floor((float) (Math.random() * visible.size)));
+            i = 0;
+        }
         credit.x = width;
         credit.y = scrollbar - credit.getMinHeight();
 
