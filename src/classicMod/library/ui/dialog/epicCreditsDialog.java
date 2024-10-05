@@ -100,7 +100,7 @@ public class epicCreditsDialog extends Dialog {
     public epicCreditsDialog() {
         super();
         scrollbar = 0f;
-        playMusic(bleepsgalore);
+        playMusic(aprilmenu);
         hidden = false;
         show();
 
@@ -219,12 +219,15 @@ public class epicCreditsDialog extends Dialog {
         staticTable.draw();
 
         state.camPos.rotate(Vec3.Y, fdelta(250f, 120f));
-        if (i >= 1000){
-            alpha = 1f;
-            Seq<Planet> visible = Vars.content.planets().copy().filter(p -> p.visible);
-            visible.remove(state.planet);
-            state.planet = visible.get(Mathf.floor((float) (Math.random() * visible.size)));
-            i = 0;
+        if (i >= 500) {
+            alpha = ((float) i / 1000);
+            if (i >= 1000) {
+                alpha = 1f;
+                Seq<Planet> visible = Vars.content.planets().copy().filter(p -> p.visible);
+                visible.remove(state.planet);
+                state.planet = visible.get(Mathf.floor((float) (Math.random() * visible.size)));
+                i = 0;
+            }
         }
         credit.x = width;
         credit.y = scrollbar - credit.getMinHeight();

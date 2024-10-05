@@ -77,7 +77,7 @@ public class ExtendedErekirTechTree {
 
         margeNodeSpecific(Liquids.slag, tungsten, () -> {
             nodeProduce(scrap);
-            nodeProduce(Liquids.gallium, () -> {});
+            nodeProduce(Liquids.gallium);
         });
 
         margeNodeSpecific(thorium, tungsten, () -> {
