@@ -83,7 +83,7 @@ public class ExtendedErekirTechTree {
             nodeProduce(scrap);
         });
 
-        margeNode(oxide, () -> {
+        margeNodeSpecific(thorium, tungsten, () -> {
             nodeProduce(fissileMatter);
         });
 
