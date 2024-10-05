@@ -85,7 +85,7 @@ public class NewTeslaOrbType extends BulletType {
             taserTarget(b);
         } else {
             Vec2 bulletPosition = new Vec2(b.x, b.y);
-            Vec2 orientated = new Vec2().trns(b.rotation(), rangeB);
+            Vec2 orientated = new Vec2().trns(b.rotation(), rangeB + (hitCap * 5));
             Vec2 movePosition = new Vec2(b.x + orientated.x, b.y + orientated.y);
 
             Seq<Vec2> lData = new Seq<>(new Vec2[]{
@@ -95,6 +95,7 @@ public class NewTeslaOrbType extends BulletType {
                     new Vec2(movePosition.x, movePosition.y)
             });
             Fx.lightning.at(bulletPosition.x, bulletPosition.y, b.rotation(), lightningColor, lData);
+            b.set(movePosition);
             TargetList = AutoTargetList(this.hitCap, b);
             if(TargetList.size <= 0) {
                 b.time = b.lifetime + 1f;
