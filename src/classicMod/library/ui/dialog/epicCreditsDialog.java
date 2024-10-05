@@ -200,7 +200,7 @@ public class epicCreditsDialog extends Dialog {
         float width = (centerX - (contribute.getMaxWidth()));//!mobile ? credit.getMinWidth() + ((float) graphics.getWidth() / 2) : ;
 
         String keybind = getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile());
-        String keybindNotification = (!(app.isMobile())) ? keybinds.get(MenuKeybind).key.toString().toUpperCase() + keybind : keybind;
+        String keybindNotification = (!(app.isMobile())) ? keybinds.get(MenuKeybind).key.toString().toUpperCase() + " " + keybind : keybind;
         //if (!once && !hidden) { staticTable.add(keybindNotification); once = true; }
 
         if (app.isMobile()) {
@@ -211,7 +211,7 @@ public class epicCreditsDialog extends Dialog {
         }
         if (hidden) staticTable.clearChildren();
         
-        staticTable.x = staticTable.getMaxWidth() + keybindNotification.length() * ((graphics.getAspect() * 6f));
+        staticTable.x = staticTable.getMaxWidth() + keybindNotification.length() * ((graphics.getAspect() * graphics.getAspect() * 4f));
         staticTable.y = 14f;
 
         planets.render(state);
@@ -219,7 +219,7 @@ public class epicCreditsDialog extends Dialog {
         staticTable.draw();
 
         state.camPos.rotate(Vec3.Y, fdelta(250f, 120f));
-        if (i >= 500) {
+        if (i >= 650) {
             alpha = ((float) i / 1000);
             if (i >= 1000) {
                 alpha = 1f;
