@@ -200,12 +200,12 @@ public class epicCreditsDialog extends Dialog {
         //if (!once && !hidden) { staticTable.add(keybindNotification); once = true; }
 
         if (app.isMobile()) {
-            if (!once && !hidden && firstTap) { staticTable.add(keybindNotification); once = true; }
-            if (!firstTap && once) { once = false; staticTable.remove(); }
+            if (!once && !hidden && firstTap) { tabStr = staticTable.add(keybindNotification); once = true; }
+            if (!firstTap && once) { once = false; staticTable.clearChildren(); }
         } else {
             if (!once && !hidden) { staticTable.add(keybindNotification); once = true; }
         }
-        if (hidden) once = false; staticTable.remove();
+        if (hidden) once = false; staticTable.clearChildren();
         
         staticTable.x = staticTable.getMaxWidth() + keybindNotification.length() * ((graphics.getAspect() * 6f));
         staticTable.y = 14f;
@@ -215,7 +215,7 @@ public class epicCreditsDialog extends Dialog {
         staticTable.draw();
 
         state.camPos.rotate(Vec3.Y, fdelta(250f, 120f));
-        state.camPos.rotate(Vec3.Z, fdelta(500f, 120f));
+        state.camPos.rotate(Vec3.Z, fdelta(750f, 120f));
         credit.x = width;
         credit.y = scrollbar - credit.getMinHeight();
 
