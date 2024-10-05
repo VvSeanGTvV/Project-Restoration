@@ -27,7 +27,7 @@ public class ExtendedStat {
             tierLevel = new Stat("unit-level")
     ;
 
-    public static StatValue drillablesStack(float drillTime, float outputAmount, ObjectFloatMap<Item> multipliers, Boolf<Block> filter){
+    public static StatValue drillablesStack(float drillTime, int outputAmount, ObjectFloatMap<Item> multipliers, Boolf<Block> filter){
         return table -> {
             table.row();
             table.table(c -> {
@@ -43,7 +43,7 @@ public class ExtendedStat {
                             info.add(block.itemDrop.emoji()).left();
                         }).grow();
                         if(multipliers != null){
-                            b.add(Strings.autoFixed((outputAmount / (60 / drillTime)) / 2f, 2) + StatUnit.perSecond.localized())
+                            b.add(Strings.autoFixed(drillTime, 2) + StatUnit.perSecond.localized())
                                     .right().pad(10f).padRight(15f).color(Color.lightGray);
                         }
                     }).growX().pad(5);

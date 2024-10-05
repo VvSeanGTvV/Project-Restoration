@@ -1186,6 +1186,7 @@ public class ClassicBlocks {
             liquidCapacity = 50f;
             hasPower = true;
             size = 3;
+            squareSprite = false;
         }};
 
         //Wall
@@ -1303,6 +1304,7 @@ public class ClassicBlocks {
             rotate = false;
             solid = true;
             outputsLiquid = true;
+            squareSprite = false;
 
             liquidCapacity = 30f;
 
@@ -1343,6 +1345,7 @@ public class ClassicBlocks {
             hasLiquids = true;
             hasItems = true;
             hasPower = true;
+            squareSprite = false;
 
             var drawers = Seq.with(new DrawRegion("-bottom"), new DrawLiquidRegion(Liquids.slag){{ alpha = 0.7f; }});
 
