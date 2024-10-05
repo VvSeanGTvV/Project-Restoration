@@ -100,8 +100,8 @@ public class ExtendedErekirTechTree {
 
     static UnlockableContent findParentedContent(UnlockableContent parent){
         for (var t : TechTree.all){
-            if (t.parent.content != null) {
-                return t.parent.content;
+            if (t.content != null) {
+                if (t.content == parent) return t.content;
             }
         }
         return null;
