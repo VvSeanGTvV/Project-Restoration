@@ -193,7 +193,7 @@ public class epicCreditsDialog extends Dialog {
     public void draw() {
         i++;
         var Wui = (TextureRegionDrawable) Tex.whiteui;
-        alpha = Mathf.lerpDelta(alpha, 0.65f, 0.1f);
+        alpha = Mathf.lerpDelta(alpha, 0.65f, 0.075f);
         Drawable background = Wui.tint(0f, 0f, 0f, alpha);
 
         float centerX = graphics.getWidth() / 2f;
@@ -209,7 +209,7 @@ public class epicCreditsDialog extends Dialog {
         } else {
             if (!once && !hidden) { staticTable.add(keybindNotification); once = true; }
         }
-        if (hidden) once = false; staticTable.clearChildren();
+        if (hidden) staticTable.clearChildren();
         
         staticTable.x = staticTable.getMaxWidth() + keybindNotification.length() * ((graphics.getAspect() * 6f));
         staticTable.y = 14f;
@@ -222,6 +222,7 @@ public class epicCreditsDialog extends Dialog {
         if (i >= 1000){
             alpha = 1f;
             Seq<Planet> visible = Vars.content.planets().copy().filter(p -> p.visible);
+            visible.remove(state.planet);
             state.planet = visible.get(Mathf.floor((float) (Math.random() * visible.size)));
             i = 0;
         }
