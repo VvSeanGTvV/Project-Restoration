@@ -23,7 +23,7 @@ import java.util.Objects;
 
 import static arc.Core.*;
 import static classicMod.ClassicMod.*;
-import static classicMod.content.ExtendedMusic.*;
+import static classicMod.content.ModdedMusic.*;
 import static classicMod.library.ui.UIExtended.fdelta;
 import static mindustry.Vars.*;
 

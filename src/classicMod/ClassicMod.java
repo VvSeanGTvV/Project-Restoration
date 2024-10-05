@@ -267,7 +267,7 @@ public class ClassicMod extends Mod{
         new ExtendedSerpuloTechTree().load();}
         new ExtendedErekirTechTree().load();
         if(Classic){new ClassicTechtree().load();}
-        ExtendedMusic.load();
+        ModdedMusic.load();
 
         for(UnitType a : content.units()){
             if(a.controller instanceof CommandAI){
