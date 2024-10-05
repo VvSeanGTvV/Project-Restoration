@@ -75,12 +75,9 @@ public class ExtendedErekirTechTree {
             node(droneCenter, Seq.with(new Produce(phaseFabric)), () -> {});
         });
 
-        margeNode(carbide, () -> {
-            nodeProduce(Liquids.gallium, () -> {});
-        });
-
         margeNodeSpecific(Liquids.slag, tungsten, () -> {
             nodeProduce(scrap);
+            nodeProduce(Liquids.gallium, () -> {});
         });
 
         margeNodeSpecific(thorium, tungsten, () -> {

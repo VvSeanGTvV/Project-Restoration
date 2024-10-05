@@ -125,7 +125,7 @@ public class epicCreditsDialog extends Dialog {
     public void act(float delta) {
         control.sound.stop();
         super.act(delta);
-        if (((credit.y + contribute.y)/(2f + (graphics.getAspect() * 2f))) >= (credit.getMaxHeight() + contribute.getMaxHeight() + ((float) graphics.getHeight() / 2)) * 3f) {
+        if (((credit.y + contribute.y)/(2f + (graphics.getAspect() * 1.5f))) >= (credit.getMaxHeight() + contribute.getMaxHeight() + ((float) graphics.getHeight() / 2)) * 3f) {
             FinishedCredits();
             return;
         }
@@ -177,11 +177,19 @@ public class epicCreditsDialog extends Dialog {
         super.hide();
     }
 
+    @Override
+    public Dialog show() {
+        once = false;
+        hidden = false;
+        return super.show();
+    }
+
     boolean once;
+    float alpha = 0f;
     @Override
     public void draw() {
         var Wui = (TextureRegionDrawable) Tex.whiteui;
-        var alpha = Mathf.lerpDelta(0f, 0.65f, 0.05f);
+        alpha = Mathf.lerpDelta(alpha, 0.65f, 0.1f);
         Drawable background = Wui.tint(0f, 0f, 0f, alpha);
 
         float centerX = graphics.getWidth() / 2f;
@@ -189,15 +197,17 @@ public class epicCreditsDialog extends Dialog {
 
         String keybind = getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile());
         String keybindNotification = (!(app.isMobile())) ? keybinds.get(MenuKeybind).key.toString().toUpperCase() + keybind : keybind;
-        if (!once && !hidden) { staticTable.add(keybindNotification); once = true; }
-        /*if (app.isMobile()) {
+        //if (!once && !hidden) { staticTable.add(keybindNotification); once = true; }
+
+        if (app.isMobile()) {
             if (!once && !hidden && firstTap) { staticTable.add(keybindNotification); once = true; }
-            if (!firstTap && once) once = false;
+            if (!firstTap && once) { once = false; staticTable.remove(); }
         } else {
             if (!once && !hidden) { staticTable.add(keybindNotification); once = true; }
-        }*/
+        }
+        if (hidden) once = false; staticTable.remove();
         
-        staticTable.x = staticTable.getMaxWidth() + keybindNotification.length() * ((graphics.getAspect() * 3f));
+        staticTable.x = staticTable.getMaxWidth() + keybindNotification.length() * ((graphics.getAspect() * 6f));
         staticTable.y = 14f;
 
         planets.render(state);
@@ -205,6 +215,7 @@ public class epicCreditsDialog extends Dialog {
         staticTable.draw();
 
         state.camPos.rotate(Vec3.Y, fdelta(250f, 120f));
+        state.camPos.rotate(Vec3.Z, fdelta(500f, 120f));
         credit.x = width;
         credit.y = scrollbar - credit.getMinHeight();
 
