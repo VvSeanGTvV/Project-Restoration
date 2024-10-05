@@ -98,8 +98,18 @@ public class ExtendedErekirTechTree {
         children.run();
     }
 
+    static UnlockableContent findParentedContent(UnlockableContent parent){
+        for (var t : TechTree.all){
+            if (t.parent.content != null) {
+                return t.parent.content;
+            }
+        }
+        return null;
+    }
+
     private static void margeNodeSpecific(UnlockableContent parent, UnlockableContent previous, Runnable children){ //modification
-        context = TechTree.all.find(t -> t.parent.content == previous && t.content == parent);
+        var parented = findParentedContent(previous);
+        context = TechTree.all.find(t -> (parented == parent) && t.content == previous);
         children.run();
     }
 
