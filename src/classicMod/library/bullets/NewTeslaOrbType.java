@@ -45,10 +45,7 @@ public class NewTeslaOrbType extends BulletType {
         return new Vec2(between.x + Mathf.range(range), between.y + Mathf.range(range));
     }
 
-    @Override
-    public void update(Bullet b) {
-        b.vel.setZero();
-        TargetList = AutoTargetList(this.hitCap, b);
+    void taserTarget(Bullet b){
         if(TargetList.size > 0){
             Vec2 lastVec = new Vec2(b.x, b.y);
             for (var blasted : TargetList){
@@ -77,9 +74,18 @@ public class NewTeslaOrbType extends BulletType {
             hitEffect.at(lastVec.x, lastVec.y, lightningColor);
             b.time = b.lifetime + 1f;
             TargetList.clear();
+        }
+    }
+
+    @Override
+    public void update(Bullet b) {
+        b.vel.setZero();
+        TargetList = AutoTargetList(this.hitCap, b);
+        if(TargetList.size > 0){
+            taserTarget(b);
         } else {
             Vec2 bulletPosition = new Vec2(b.x, b.y);
-            Vec2 orientated = new Vec2().trns(b.rotation(), hitCap * 5);
+            Vec2 orientated = new Vec2().trns(b.rotation(), rangeB);
             Vec2 movePosition = new Vec2(b.x + orientated.x, b.y + orientated.y);
 
             Seq<Vec2> lData = new Seq<>(new Vec2[]{
@@ -89,8 +95,10 @@ public class NewTeslaOrbType extends BulletType {
                     new Vec2(movePosition.x, movePosition.y)
             });
             Fx.lightning.at(bulletPosition.x, bulletPosition.y, b.rotation(), lightningColor, lData);
-
-            b.time = b.lifetime + 1f;
+            TargetList = AutoTargetList(this.hitCap, b);
+            if(TargetList.size <= 0) {
+                b.time = b.lifetime + 1f;
+            }
         }
     }
 

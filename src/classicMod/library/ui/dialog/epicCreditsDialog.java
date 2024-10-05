@@ -193,7 +193,7 @@ public class epicCreditsDialog extends Dialog {
     public void draw() {
         i++;
         var Wui = (TextureRegionDrawable) Tex.whiteui;
-        alpha = Mathf.lerpDelta(alpha, 0.65f, 0.075f);
+        alpha = Mathf.lerpDelta(alpha, 0.65f, 0.05f);
         Drawable background = Wui.tint(0f, 0f, 0f, alpha);
 
         float centerX = graphics.getWidth() / 2f;
