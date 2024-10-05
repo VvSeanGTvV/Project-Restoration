@@ -23,7 +23,6 @@ public class ImpactDrill extends Drill{
     @Override
     public void setStats() {
         super.setStats();
-        stats.remove(Stat.drillSpeed);
         stats.add(Stat.drillSpeed, outputAmount / (60 / drillTime), StatUnit.itemsSecond);
     }
 
@@ -43,11 +42,10 @@ public class ImpactDrill extends Drill{
 
                 warmup = Mathf.lerpDelta(warmup, warmupTime, efficiency);
                 float wlD = (warmup / warmupTime);
-                float speed = efficiency() * wlD;
+                float speed = efficiency() * (wlD);
+                timeDrilled += speed;
 
                 if (warmup >= warmupTime) {
-                    timeDrilled += speed;
-
                     lastDrillSpeed = dominantItems / drillTime * speed;
                     progress += delta() * dominantItems * speed;
                 }
@@ -80,7 +78,7 @@ public class ImpactDrill extends Drill{
                 Draw.color();
             }
 
-            Drawf.spinSprite(rotatorRegion, x, y, timeDrilled * (rotateSpeed));
+            Drawf.spinSprite(rotatorRegion, x, y, timeDrilled * (rotateSpeed + speedOffset));
             Draw.rect(topRegion, x, y);
         }
     }

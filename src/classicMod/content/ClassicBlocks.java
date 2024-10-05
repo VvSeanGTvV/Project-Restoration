@@ -524,6 +524,9 @@ public class ClassicBlocks {
             requirements(Category.defense, with(ClassicItems.titanium, 6, ClassicItems.lead, 6));
             glowColor = Items.titanium.color.a(0.5f);
             shieldColor = Items.titanium.color.a(1f);
+            shieldHealth = 400f;
+
+            consumePower(1f / 60f);
             health = 40 * wallHealthMultiplier * 4;
             size = 1;
         }};

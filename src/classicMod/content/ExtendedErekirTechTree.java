@@ -1,6 +1,7 @@
 package classicMod.content;
 
 import arc.struct.Seq;
+import arc.util.Log;
 import mindustry.content.*;
 import mindustry.ctype.UnlockableContent;
 import mindustry.game.Objectives;
@@ -78,13 +79,12 @@ public class ExtendedErekirTechTree {
             nodeProduce(Liquids.gallium, () -> {});
         });
 
-        margeNodeSpecific(Liquids.slag, Planets.erekir, () -> {
+        margeNodeSpecific(Liquids.slag, tungsten, () -> {
             nodeProduce(scrap);
         });
 
         margeNode(oxide, () -> {
             nodeProduce(fissileMatter);
-            nodeProduce(scrap);
         });
 
         margeNode(reinforcedVault, () -> {
@@ -98,8 +98,8 @@ public class ExtendedErekirTechTree {
         children.run();
     }
 
-    private static void margeNodeSpecific(UnlockableContent parent, Planet planet, Runnable children){ //modification
-        context = TechTree.all.find(t -> t.planet == planet && t.content == parent);
+    private static void margeNodeSpecific(UnlockableContent parent, UnlockableContent previous, Runnable children){ //modification
+        context = TechTree.all.find(t -> t.parent.content == previous && t.content == parent);
         children.run();
     }
 
