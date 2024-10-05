@@ -13,7 +13,7 @@ public class ExtendedMusic {
     private static @Nullable Music current;
     private static Music lastMusicPlayed;
     public static Music
-            credits, bleepsgalore, aprilmenu, rickrool;
+            credits, bleepsgalore, aprilmenu, rickrool, seq, day4;
 
 
     public static void playMusic(Music music){
@@ -37,6 +37,8 @@ public class ExtendedMusic {
             current = null;
             //music loader
             try {
+                seq = new Music(tree.get("music/seq.mp3"));
+                day4 = new Music(tree.get("music/day4.mp3"));
                 credits = new Music(tree.get("music/credits.mp3"));
                 bleepsgalore = new Music(tree.get("music/bleepsgalore.mp3"));
                 aprilmenu = new Music(tree.get("music/aprilmenu.mp3"));

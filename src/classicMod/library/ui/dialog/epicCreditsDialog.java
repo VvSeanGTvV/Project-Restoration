@@ -100,7 +100,7 @@ public class epicCreditsDialog extends Dialog {
     public epicCreditsDialog() {
         super();
         scrollbar = 0f;
-        playMusic(aprilmenu);
+        playMusic(seq);
         hidden = false;
         show();
 
