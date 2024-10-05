@@ -79,7 +79,7 @@ public class NewTeslaOrbType extends BulletType {
             TargetList.clear();
         } else {
             Vec2 bulletPosition = new Vec2(b.x, b.y);
-            Vec2 orientated = new Vec2().trns(b.rotation(), hitCap);
+            Vec2 orientated = new Vec2().trns(b.rotation(), hitCap * 5);
             Vec2 movePosition = new Vec2(b.x + orientated.x, b.y + orientated.y);
 
             Seq<Vec2> lData = new Seq<>(new Vec2[]{
