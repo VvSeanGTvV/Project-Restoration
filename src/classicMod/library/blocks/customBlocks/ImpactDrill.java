@@ -3,8 +3,11 @@ package classicMod.library.blocks.customBlocks;
 import arc.graphics.g2d.Draw;
 import arc.math.Mathf;
 import mindustry.graphics.Drawf;
+import mindustry.world.blocks.environment.Floor;
 import mindustry.world.blocks.production.Drill;
 import mindustry.world.meta.*;
+
+import static mindustry.Vars.*;
 
 public class ImpactDrill extends Drill{
     public int outputAmount = 5;
@@ -23,6 +26,12 @@ public class ImpactDrill extends Drill{
     @Override
     public void setStats() {
         super.setStats();
+        stats.remove(Stat.drillSpeed);
+        stats.remove(Stat.drillTier);
+
+        stats.add(Stat.drillTier, StatValues.drillables(outputAmount / (60 / drillTime), hardnessDrillMultiplier, 1f, drillMultipliers, b -> b instanceof Floor f && !f.wallOre && f.itemDrop != null &&
+                f.itemDrop.hardness <= tier && f.itemDrop != blockedItem && (indexer.isBlockPresent(f) || state.isMenu())));
+
         stats.add(Stat.drillSpeed, outputAmount / (60 / drillTime), StatUnit.itemsSecond);
     }
 

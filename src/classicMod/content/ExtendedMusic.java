@@ -13,7 +13,7 @@ public class ExtendedMusic {
     private static @Nullable Music current;
     private static Music lastMusicPlayed;
     public static Music
-            credits;
+            credits, bleepsgalore, aprilmenu, rickrool;
 
 
     public static void playMusic(Music music){
@@ -37,7 +37,10 @@ public class ExtendedMusic {
             current = null;
             //music loader
             try {
-                credits = new Music(tree.get("music/bleepsgalore.mp3"));
+                credits = new Music(tree.get("music/credits.mp3"));
+                bleepsgalore = new Music(tree.get("music/bleepsgalore.mp3"));
+                aprilmenu = new Music(tree.get("music/aprilmenu.mp3"));
+                rickrool = new Music(tree.get("music/mistake.mp3"));
             } catch (Exception ex) {
                 // Music has exception throw, why it was created
                 throw new RuntimeException(ex);

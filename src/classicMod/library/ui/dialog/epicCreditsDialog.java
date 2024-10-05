@@ -98,11 +98,7 @@ public class epicCreditsDialog extends Dialog {
     public epicCreditsDialog() {
         super();
         scrollbar = 0f;
-        playMusic(credits);
-        //addCloseButton();
-        //staticTable.setTranslation(-(camera.width+128f), -(camera.height+128f));
-        //cont.add(staticTable);
-        //cont.add(in).align(Align.bottom);
+        playMusic(bleepsgalore);
         hidden = false;
         show();
 
@@ -185,7 +181,8 @@ public class epicCreditsDialog extends Dialog {
     @Override
     public void draw() {
         var Wui = (TextureRegionDrawable) Tex.whiteui;
-        Drawable background = Wui.tint(0f, 0f, 0f, 0.65f);
+        var alpha = Mathf.lerpDelta(0f, 0.65f, 0.05f);
+        Drawable background = Wui.tint(0f, 0f, 0f, alpha);
 
         float centerX = graphics.getWidth() / 2f;
         float width = (centerX - (contribute.getMaxWidth()));//!mobile ? credit.getMinWidth() + ((float) graphics.getWidth() / 2) : ;
