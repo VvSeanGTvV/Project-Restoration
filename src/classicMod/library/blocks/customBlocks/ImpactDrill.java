@@ -7,6 +7,7 @@ import mindustry.world.blocks.environment.Floor;
 import mindustry.world.blocks.production.Drill;
 import mindustry.world.meta.*;
 
+import static classicMod.content.ExtendedStat.drillablesStack;
 import static mindustry.Vars.*;
 
 public class ImpactDrill extends Drill{
@@ -29,7 +30,7 @@ public class ImpactDrill extends Drill{
         stats.remove(Stat.drillSpeed);
         stats.remove(Stat.drillTier);
 
-        stats.add(Stat.drillTier, StatValues.drillables(outputAmount / (60 / drillTime), hardnessDrillMultiplier, size * size, drillMultipliers, b -> b instanceof Floor f && !f.wallOre && f.itemDrop != null &&
+        stats.add(Stat.drillTier, drillablesStack(outputAmount / (60 / drillTime), hardnessDrillMultiplier, drillMultipliers, b -> b instanceof Floor f && !f.wallOre && f.itemDrop != null &&
                 f.itemDrop.hardness <= tier && f.itemDrop != blockedItem && (indexer.isBlockPresent(f) || state.isMenu())));
 
         stats.add(Stat.drillSpeed, (outputAmount / (60 / drillTime)) / 2f, StatUnit.itemsSecond);
