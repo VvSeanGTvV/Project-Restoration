@@ -8,11 +8,12 @@ import arc.util.pooling.Pool;
 import classicMod.content.ExtendedFx;
 import mindustry.Vars;
 import mindustry.ai.BlockIndexer;
-import mindustry.content.Fx;
+import mindustry.content.*;
 import mindustry.core.World;
 import mindustry.entities.*;
 import mindustry.entities.bullet.BulletType;
 import mindustry.gen.*;
+import mindustry.type.StatusEffect;
 import mindustry.world.*;
 
 import java.util.concurrent.atomic.AtomicReference;
@@ -22,22 +23,20 @@ import static mindustry.Vars.*;
 public class NewTeslaOrbType extends BulletType {
 
     float rangeB;
-    int hitCap;
+    public int hitCap;
     Seq<Teamc> TargetList;
 
     /**
      * Creates a Tesla orb that jumps other enemy's unit/block.
      * @param maxRange The maximum range that the arc can jump to other team's unit/block. (tilesize)
      * @param damage Damage per tick
-     * @param maxHits Maximum hits before despawning immediately.
      **/
-    public NewTeslaOrbType(float maxRange, int damage, int maxHits){
+    public NewTeslaOrbType(float maxRange, int damage){
         this.damage = damage;
         this.rangeB = maxRange;
         hitEffect = Fx.hitLancer; //ExtendedFx.laserhit;
         despawnEffect = Fx.none;
         drawSize = 200f;
-        this.hitCap = maxHits;
         this.lifetime = Float.MAX_VALUE;
     }
 
@@ -64,18 +63,33 @@ public class NewTeslaOrbType extends BulletType {
                         new Vec2(blasted.x(), blasted.y())
                 });
                 Fx.lightning.at(lastVec.x, lastVec.y, b.rotation(), lightningColor, lData);
-                //beamEffect.at(lastVec.x, lastVec.y, b.rotation(), Color.white, new Vec2().set(new Vec2(blasted.x(), blasted.y())));
                 lastVec = new Vec2(blasted.x(), blasted.y());
                 hitEffect.at(blasted.x(), blasted.y(), lightningColor);
 
-                if(blasted instanceof Unit unit) unit.damage(b.damage);
-                if(blasted instanceof Building building) building.damage(b.damage);
+                if(blasted instanceof Unit unit) {
+                    unit.damage(b.damage);
+                    unit.apply(status, statusDuration);
+                }
+
+                if(blasted instanceof Building building) building.damage(b.damage * buildingDamageMultiplier);
             }
             //beamEffect.at(lastVec.x, lastVec.y, b.rotation(), Color.white);
             hitEffect.at(lastVec.x, lastVec.y, lightningColor);
             b.time = b.lifetime + 1f;
             TargetList.clear();
         } else {
+            Vec2 bulletPosition = new Vec2(b.x, b.y);
+            Vec2 orientated = new Vec2().trns(b.rotation(), hitCap);
+            Vec2 movePosition = bulletPosition.add(orientated);
+
+            Seq<Vec2> lData = new Seq<>(new Vec2[]{
+                    new Vec2(bulletPosition.x, bulletPosition.y),
+                    interpolate(bulletPosition, movePosition, 1.25f, lightningLength + Mathf.random(lightningLengthRand)),
+                    interpolate(bulletPosition, movePosition, 2.25f, lightningLength + Mathf.random(lightningLengthRand)),
+                    new Vec2(movePosition.x, movePosition.y)
+            });
+            Fx.lightning.at(bulletPosition.x, bulletPosition.y, b.rotation(), lightningColor, lData);
+
             b.time = b.lifetime + 1f;
         }
     }

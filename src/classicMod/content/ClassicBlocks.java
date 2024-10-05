@@ -694,7 +694,7 @@ public class ClassicBlocks {
             requirements(Category.crafting, with(Items.copper, 110, ClassicItems.denseAlloy, 70, Items.lead, 50));
             craftEffect = ExtendedFx.smeltsmoke;
             outputItem = new ItemStack(ClassicItems.denseAlloy, 2);
-            consumeItems(with(Items.copper, 1, Items.lead, 2, Items.sand, 1));
+            consumeItems(with(Items.copper, 2, Items.lead, 4));
             consumePower(0.1f);
             drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc999")));
             craftTime = 30f;
@@ -787,26 +787,28 @@ public class ClassicBlocks {
 
         teslaTurret = new PowerTurret("tesla-turret"){{
             requirements(Category.turret, with(Items.titanium, 25, ClassicItems.dirium, 15, Items.lead, 50));
-            range = 90f;
+            range = 92.5f;
             shootCone = 45f;
-            shootType = new NewTeslaOrbType(90f,13, 5){{
+            shootType = new NewTeslaOrbType(range,26){{
                 lightningColor = Pal.lancerLaser;
+
+                hitCap = 5;
+                buildingDamageMultiplier = 0.25f;
+                status = StatusEffects.shocked;
+                statusDuration = 60 * 8f;
             }};
             shootSound = Sounds.spark; //tesla
-            //shootEffect = Fx.none;
             smokeEffect = Fx.none;
 
             shootEffect = Fx.lightningShoot;
             heatColor = Color.red;
 
-            reload = 20f;
+            reload = 40f;
             health = 240;
             recoil = 1f;
-            //outlineColor = Color.valueOf("ffd86c");
-            //outlineRadius = 4;
             consumePower(0.5f * 4f);
             coolant = consumeCoolant(0.1f);
-            playerControllable = false;
+            playerControllable = true;
         }};
 
         chainTurret = new MirroredItemTurret("chain-turret"){{

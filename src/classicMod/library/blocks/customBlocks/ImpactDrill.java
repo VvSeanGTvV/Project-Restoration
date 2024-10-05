@@ -4,9 +4,11 @@ import arc.graphics.g2d.Draw;
 import arc.math.Mathf;
 import mindustry.graphics.Drawf;
 import mindustry.world.blocks.production.Drill;
+import mindustry.world.meta.*;
 
 public class ImpactDrill extends Drill{
     public int outputAmount = 5;
+    public float warmupTime = 60f;
 
     public ImpactDrill(String name){
         super(name);
@@ -18,26 +20,37 @@ public class ImpactDrill extends Drill{
         drillEffectRnd = 0f;
     }
 
+    @Override
+    public void setStats() {
+        super.setStats();
+        stats.remove(Stat.drillSpeed);
+        stats.add(Stat.drillSpeed, outputAmount / (60 / drillTime), StatUnit.itemsSecond);
+    }
+
     public class ImpactDrilllBuild extends Drill.DrillBuild {
 
+        float warmup = 0;
         @Override
         public void updateTile(){
             if(dominantItem == null){
                 return;
             }
-
             if(timer(timerDump, dumpTime)){
                 dump(items.has(dominantItem) ? dominantItem : null);
             }
 
             if(items.total() <= itemCapacity - outputAmount && dominantItems > 0 && efficiency > 0){
 
-                float speed = efficiency();
+                warmup = Mathf.lerpDelta(warmup, warmupTime, efficiency);
+                float wlD = (warmup / warmupTime);
+                float speed = efficiency() * wlD;
 
-                timeDrilled += speed;
+                if (warmup >= warmupTime) {
+                    timeDrilled += speed;
 
-                lastDrillSpeed = dominantItems / drillTime * speed;
-                progress += delta() * dominantItems * speed;
+                    lastDrillSpeed = dominantItems / drillTime * speed;
+                    progress += delta() * dominantItems * speed;
+                }
             }else{
                 lastDrillSpeed = 0f;
                 return;
@@ -55,6 +68,7 @@ public class ImpactDrill extends Drill{
 
         @Override
         public void draw(){
+            var speedOffset = (warmup / (warmupTime / 2f));
             Draw.rect(region, x, y);
             drawDefaultCracks();
 
@@ -66,7 +80,7 @@ public class ImpactDrill extends Drill{
                 Draw.color();
             }
 
-            Drawf.spinSprite(rotatorRegion, x, y, timeDrilled * rotateSpeed);
+            Drawf.spinSprite(rotatorRegion, x, y, timeDrilled * (rotateSpeed));
             Draw.rect(topRegion, x, y);
         }
     }

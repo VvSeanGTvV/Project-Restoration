@@ -4,8 +4,8 @@ import arc.struct.Seq;
 import mindustry.content.*;
 import mindustry.ctype.UnlockableContent;
 import mindustry.game.Objectives;
-import mindustry.game.Objectives.Produce;
-import mindustry.type.ItemStack;
+import mindustry.game.Objectives.*;
+import mindustry.type.*;
 
 import static classicMod.content.ClassicBlocks.*;
 import static mindustry.content.Blocks.*;
@@ -19,7 +19,7 @@ public class ExtendedErekirTechTree {
     public static void load() {
         /*margeNode(breach, () -> {
             node(ClassicBlocks.shieldBreaker, Seq.with(new OnSector(intersect)), () -> {
-                node(ClassicBlocks.barrierProjector,Seq.with(new Objectives.Research(surgeCrucible), new Produce(scrap)), () -> {
+                node(ClassicBlocks.barrierProjector,Seq.with(new Research(surgeCrucible), new Produce(scrap)), () -> {
 
                 });
             });
@@ -29,8 +29,13 @@ public class ExtendedErekirTechTree {
         });*/
 
         margeNode(diffuse, () -> {
-            node(fracture, Seq.with(new Objectives.OnSector(aegis)), () -> {
-                node(horde,Seq.with(new Objectives.Research(ClassicBlocks.slagCentrifuge), new Produce(scrap)), () -> {});
+            node(fracture, Seq.with(new OnSector(aegis)), () -> {
+                node(horde,Seq.with(
+                        new Research(ClassicBlocks.slagCentrifuge),
+                        new Produce(scrap)
+                ), () -> {
+
+                });
             });
         });
 
@@ -39,7 +44,12 @@ public class ExtendedErekirTechTree {
         });
 
         margeNode(afflict, () -> {
-            node(chrome,Seq.with(new Objectives.Research(ClassicBlocks.heatReactor), new Produce(fissileMatter)), () -> {});
+            node(chrome, Seq.with(
+                    new Research(ClassicBlocks.heatReactor),
+                    new Produce(fissileMatter)
+            ), () -> {
+
+            });
         });
 
         margeNode(armoredDuct, () -> {
@@ -47,7 +57,7 @@ public class ExtendedErekirTechTree {
         });
 
         margeNode(electricHeater, () -> {
-            node(ClassicBlocks.heatReactor, Seq.with(new Objectives.OnSector(stronghold), new Produce(thorium) ,new Objectives.Research(atmosphericConcentrator), new Produce(nitrogen)), () -> {
+            node(ClassicBlocks.heatReactor, Seq.with(new OnSector(stronghold), new Produce(thorium) ,new Research(atmosphericConcentrator), new Produce(nitrogen)), () -> {
 
             });
         });
@@ -57,15 +67,19 @@ public class ExtendedErekirTechTree {
         });
 
         margeNode(slagIncinerator, () -> {
-            node(ClassicBlocks.slagCentrifuge,Seq.with(new Objectives.OnSector(crevice), new Produce(Items.sand), new Produce(Liquids.slag)), () -> {});
+            node(ClassicBlocks.slagCentrifuge,Seq.with(new OnSector(crevice), new Produce(Items.sand), new Produce(Liquids.slag)), () -> {});
         });
 
         margeNode(basicAssemblerModule, () -> {
-            node(droneCenter,Seq.with(new Produce(phaseFabric)), () -> {});
+            node(droneCenter, Seq.with(new Produce(phaseFabric)), () -> {});
         });
 
         margeNode(carbide, () -> {
             nodeProduce(Liquids.gallium, () -> {});
+        });
+
+        margeNodeSpecific(Liquids.slag, Planets.erekir, () -> {
+            nodeProduce(scrap);
         });
 
         margeNode(oxide, () -> {
@@ -84,7 +98,12 @@ public class ExtendedErekirTechTree {
         children.run();
     }
 
-    private static void node(UnlockableContent content, ItemStack[] requirements, Seq<Objectives.Objective> objectives, Runnable children){
+    private static void margeNodeSpecific(UnlockableContent parent, Planet planet, Runnable children){ //modification
+        context = TechTree.all.find(t -> t.planet == planet && t.content == parent);
+        children.run();
+    }
+
+    private static void node(UnlockableContent content, ItemStack[] requirements, Seq<Objective> objectives, Runnable children){
         TechTree.TechNode node = new TechTree.TechNode(context, content, requirements);
         if(objectives != null) node.objectives = objectives;
 
@@ -98,7 +117,7 @@ public class ExtendedErekirTechTree {
         node(content, requirements, null, children);
     }
 
-    private static void node(UnlockableContent content, Seq<Objectives.Objective> objectives, Runnable children){
+    private static void node(UnlockableContent content, Seq<Objective> objectives, Runnable children){
         node(content, content.researchRequirements(), objectives, children);
     }
 
@@ -110,8 +129,8 @@ public class ExtendedErekirTechTree {
         node(block, () -> {});
     }
 
-    private static void nodeProduce(UnlockableContent content, Seq<Objectives.Objective> objectives, Runnable children){
-        node(content, content.researchRequirements(), objectives.add(new Objectives.Produce(content)), children);
+    private static void nodeProduce(UnlockableContent content, Seq<Objective> objectives, Runnable children){
+        node(content, content.researchRequirements(), objectives.add(new Produce(content)), children);
     }
 
     private static void nodeProduce(UnlockableContent content, Runnable children){

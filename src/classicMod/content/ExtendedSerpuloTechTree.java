@@ -9,6 +9,7 @@ import mindustry.type.ItemStack;
 import static classicMod.content.ClassicBlocks.*;
 import static mindustry.content.Blocks.*;
 import static mindustry.content.SectorPresets.*;
+import static mindustry.content.SectorPresets.craters;
 import static mindustry.content.TechTree.*;
 
 public class ExtendedSerpuloTechTree {
@@ -72,7 +73,11 @@ public class ExtendedSerpuloTechTree {
             node(chainTurret);
         });
 
-        margeNode(arc, () -> node(arcAir, () -> node(teslaTurret)));
+        margeNode(arc,
+                () -> node(arcAir,
+                        () -> node(teslaTurret)
+                )
+        );
 
         // Transportation
         margeNode(phaseConveyor, () -> {
@@ -95,20 +100,23 @@ public class ExtendedSerpuloTechTree {
         });
 
         margeNode(graphitePress, () -> {
-            node(denseSmelter, Seq.with(new Produce(Items.coal)), () -> {
+            node(denseSmelter, Seq.with(new Research(Items.coal)), () -> {
                 node(crucible);
-                node(arcSmelter, () -> {
+                node(arcSmelter, Seq.with(new Research(combustionGenerator)), () -> {
 
                 });
             });
         });
 
         margeNode(pneumaticDrill, () -> {
-            node(smolSeparator, () -> {
+            node(smolSeparator, Seq.with(
+                    new Research(Items.coal),
+                    new Research(ClassicItems.stone)
+            ), () -> {
                 node(stoneMelter, () -> {
                     node(stoneFormer);
                 });
-                node(centrifuge);
+                node(centrifuge, Seq.with(new SectorComplete(craters)));
             });
 
             node(poweredDrill, () -> {
@@ -184,7 +192,7 @@ public class ExtendedSerpuloTechTree {
 
         margeNode(launchPad, () -> {
             node(launchPadLarge, () -> {
-                node(ClassicBlocks.interplanetaryAccelerator, Seq.with(new SectorComplete(planetaryTerminal)), () -> {}); //Endgame bois
+                node(ClassicBlocks.interplanetaryAccelerator, Seq.with(new SectorComplete(planetaryTerminal))); //Endgame bois
             });
         });
 
@@ -215,6 +223,10 @@ public class ExtendedSerpuloTechTree {
 
     private static void node(UnlockableContent content, Runnable children){
         node(content, content.researchRequirements(), children);
+    }
+
+    private static void node(UnlockableContent content, Seq<Objective> objectives){
+        node(content, content.researchRequirements(), objectives, () -> {});
     }
 
     private static void node(UnlockableContent block){
