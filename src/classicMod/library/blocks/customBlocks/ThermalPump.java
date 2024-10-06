@@ -5,6 +5,7 @@ import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
 import arc.util.*;
+import mindustry.content.Liquids;
 import mindustry.game.Team;
 import mindustry.logic.LAccess;
 import mindustry.type.Liquid;
@@ -22,6 +23,9 @@ public class ThermalPump extends LiquidBlock {
     /** Interval in-between item consumptions, if applicable. */
     public float consumeTime = 60f * 5f;
     public float warmupSpeed = 0.019f;
+    /** Division of the Pump Amount. */
+    public float divisionMultiplierPump = 5f;
+    public float defaultTemperature = Liquids.water.temperature;
     public DrawBlock drawer = new DrawMulti(new DrawDefault(), new DrawPumpLiquid());
 
     public ThermalPump(String name) {
@@ -34,6 +38,7 @@ public class ThermalPump extends LiquidBlock {
     @Override
     public void setStats(){
         super.setStats();
+
         stats.add(Stat.output, 60f * pumpAmount * size * size, StatUnit.liquidSecond);
     }
 
@@ -65,7 +70,7 @@ public class ThermalPump extends LiquidBlock {
         }
 
         if(liquidDrop != null){
-            float tempBoost = ((liquidDrop.temperature - 0.5f) / 10f);
+            float tempBoost = ((liquidDrop.temperature - defaultTemperature) / divisionMultiplierPump);
             float efficiency = (((pumpAmount + tempBoost)) / (pumpAmount));
             float tileEfficiency = amount / totalAmount;
             float width = drawPlaceText(Core.bundle.formatFloat("bar.pumpspeed", amount * (pumpAmount + tempBoost) * 60f, 0), x, y, valid);
@@ -167,7 +172,7 @@ public class ThermalPump extends LiquidBlock {
         @Override
         public void updateTile(){
             if(efficiency > 0 && liquidDrop != null){
-                float tempBoost = ((liquidDrop.temperature - 0.5f) / 10f);
+                float tempBoost = ((liquidDrop.temperature - defaultTemperature) / divisionMultiplierPump);
                 float maxPump = Math.min(liquidCapacity - liquids.get(liquidDrop), amount * (pumpAmount + tempBoost) * edelta());
                 liquids.add(liquidDrop, maxPump);
 
