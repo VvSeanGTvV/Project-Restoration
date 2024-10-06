@@ -49,9 +49,11 @@ public class ThermalPump extends LiquidBlock {
         if(tile == null) return;
 
         float amount = 0f;
+        float totalAmount = 0f;
         Liquid liquidDrop = null;
 
         for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){
+            totalAmount += 1f;
             if(canPump(other)){
                 if(liquidDrop != null && other.floor().liquidDrop != liquidDrop){
                     liquidDrop = null;
@@ -64,9 +66,10 @@ public class ThermalPump extends LiquidBlock {
 
         if(liquidDrop != null){
             float tempBoost = ((liquidDrop.temperature - 0.5f) / 10f);
-            float efficiency = (((pumpAmount + tempBoost)) / (amount * pumpAmount));
+            float efficiency = (((pumpAmount + tempBoost)) / (pumpAmount));
+            float tileEfficiency = amount / totalAmount;
             float width = drawPlaceText(Core.bundle.formatFloat("bar.pumpspeed", amount * (pumpAmount + tempBoost) * 60f, 0), x, y, valid);
-            drawPlaceText(Core.bundle.formatFloat("bar.efficiency", (efficiency) * 100, 1), x, (y + 1), valid);
+            drawPlaceText(Core.bundle.formatFloat("bar.efficiency", (tileEfficiency * efficiency) * 100, 1), x, (y + 1), valid);
             float dx = x * tilesize + offset - width/2f - 4f, dy = y * tilesize + offset + size * tilesize / 2f + 5, s = iconSmall / 4f;
             float ratio = (float)liquidDrop.fullIcon.width / liquidDrop.fullIcon.height;
             Draw.mixcol(Color.darkGray, 1f);
