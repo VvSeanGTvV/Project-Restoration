@@ -64,7 +64,7 @@ public class ThermalPump extends LiquidBlock {
 
         if(liquidDrop != null){
             float tempBoost = ((liquidDrop.temperature - 0.5f) / 10f);
-            float efficiency = ((amount * (pumpAmount + tempBoost)) / (pumpAmount));
+            float efficiency = (((pumpAmount + tempBoost)) / (amount * pumpAmount));
             float width = drawPlaceText(Core.bundle.formatFloat("bar.pumpspeed", amount * (pumpAmount + tempBoost) * 60f, 0), x, y, valid);
             drawPlaceText(Core.bundle.formatFloat("bar.efficiency", (efficiency) * 100, 1), x, (y + 1), valid);
             float dx = x * tilesize + offset - width/2f - 4f, dy = y * tilesize + offset + size * tilesize / 2f + 5, s = iconSmall / 4f;
