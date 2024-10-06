@@ -1181,8 +1181,9 @@ public class ClassicBlocks {
         //Pump
         thermalPump = new ThermalPump("thermal-pump"){{
             requirements(Category.liquid, with(Items.copper, 90, Items.metaglass, 90, Items.silicon, 45, Items.titanium, 50, Items.thorium, 45));
-            pumpAmount = 0.25f;
-            consumePower(1.45f);
+            pumpAmount = 0.20f;
+            divisionMultiplierPump = 2f;
+            consumePower(1.4f);
             liquidCapacity = 50f;
             hasPower = true;
             size = 3;
