@@ -61,12 +61,16 @@ public class ThermalPump extends LiquidBlock {
                 amount += other.floor().liquidMultiplier;
             }
         }
+        var dad = 0;
+
+        dad = (int) tile.getLinkedTilesAs(this, tempTiles)
+                .sumf(other -> !floating && (other.floor().liquidDrop != null) ? 0 : 1f);
 
         if(liquidDrop != null){
             float tempBoost = ((liquidDrop.temperature - 0.5f) / 10f);
             float efficiency = ((amount * (pumpAmount + tempBoost)) / (amount * pumpAmount));
-            drawPlaceText(Core.bundle.formatFloat("bar.efficiency", efficiency * 100, 1), x, (y + 10), valid);
             float width = drawPlaceText(Core.bundle.formatFloat("bar.pumpspeed", amount * (pumpAmount + tempBoost) * 60f, 0), x, y, valid);
+            drawPlaceText(Core.bundle.formatFloat("bar.efficiency", (dad * efficiency) * 100, 1), x, (y + 2), valid);
             float dx = x * tilesize + offset - width/2f - 4f, dy = y * tilesize + offset + size * tilesize / 2f + 5, s = iconSmall / 4f;
             float ratio = (float)liquidDrop.fullIcon.width / liquidDrop.fullIcon.height;
             Draw.mixcol(Color.darkGray, 1f);

@@ -541,7 +541,7 @@ public class ClassicBlocks {
             itemCapacity = 20;
         }};
 
-        steelSmelter = new GenericSmelter("steel-smelter"){{
+        /*steelSmelter = new GenericSmelter("steel-smelter"){{
             requirements(Category.crafting, with(ClassicItems.stone, 40, ClassicItems.iron, 40));
             health = 70;
             outputItem = new ItemStack(ClassicItems.steel, 1);
@@ -559,7 +559,7 @@ public class ClassicBlocks {
             health = 80;
             craftTime = 30;
             craftEffect = ExtendedFx.purifystone;
-        }};
+        }};*/
 
         stoneFormer = new GenericCrafter("stone-former"){{
             requirements(Category.crafting, with(ClassicItems.stone, 30, Items.lead, 30, Items.copper, 55));
