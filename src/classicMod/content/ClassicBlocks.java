@@ -1179,7 +1179,7 @@ public class ClassicBlocks {
         }};
 
         //Pump
-        thermalPump = new Pump("thermal-pump"){{
+        thermalPump = new ThermalPump("thermal-pump"){{
             requirements(Category.liquid, with(Items.copper, 85, Items.metaglass, 90, Items.silicon, 35, Items.titanium, 50, Items.thorium, 45));
             pumpAmount = 0.25f;
             consumePower(1.45f);
@@ -1449,6 +1449,7 @@ public class ClassicBlocks {
             shootCone = 3f;
             health = 350 * size * size;
             rotateSpeed = 1.6f;
+            squareSprite = false;
 
             limitRange();
         }};
@@ -1492,6 +1493,7 @@ public class ClassicBlocks {
             shootY = 4f;
             xRand = 11f;
             recoil = 2f;
+            squareSprite = false;
 
             drawer = new DrawTurret("reinforced-"){{
                 parts.addAll(new RegionPart("-blade"){{
@@ -1592,6 +1594,7 @@ public class ClassicBlocks {
                 inaccuracy = 0f;
                 health = 300 * size * size;
                 rotateSpeed = 3f;
+                squareSprite = false;
             }
         };
 
@@ -1671,6 +1674,7 @@ public class ClassicBlocks {
             shootSound = Sounds.mediumCannon;
 
             targetAir = false;
+            squareSprite = false;
             shake = 4f;
             recoil = 1f;
             reload = 60f * 2f;
@@ -1746,6 +1750,7 @@ public class ClassicBlocks {
             consumePower(10f);
             buildCostMultiplier = 0.5f;
             scaledHealth = 80;
+            squareSprite = false;
         }
             @Override
             public TextureRegion[] icons() {
