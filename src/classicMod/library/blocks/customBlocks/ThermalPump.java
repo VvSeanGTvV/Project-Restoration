@@ -63,7 +63,7 @@ public class ThermalPump extends LiquidBlock {
         }
 
         if(liquidDrop != null){
-            float tempBoost = (liquidDrop.temperature / 100f);
+            float tempBoost = (liquidDrop.temperature / 50f);
             float width = drawPlaceText(Core.bundle.formatFloat("bar.pumpspeed", amount * (pumpAmount + tempBoost) * 60f, 0), x, y, valid);
             float dx = x * tilesize + offset - width/2f - 4f, dy = y * tilesize + offset + size * tilesize / 2f + 5, s = iconSmall / 4f;
             float ratio = (float)liquidDrop.fullIcon.width / liquidDrop.fullIcon.height;
@@ -162,7 +162,7 @@ public class ThermalPump extends LiquidBlock {
         @Override
         public void updateTile(){
             if(efficiency > 0 && liquidDrop != null){
-                float tempBoost = (liquidDrop.temperature / 100f);
+                float tempBoost = (liquidDrop.temperature / 50f);
                 float maxPump = Math.min(liquidCapacity - liquids.get(liquidDrop), amount * (pumpAmount + tempBoost) * edelta());
                 liquids.add(liquidDrop, maxPump);
 
