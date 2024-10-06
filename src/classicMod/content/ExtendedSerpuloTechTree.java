@@ -181,7 +181,7 @@ public class ExtendedSerpuloTechTree {
         });
 
         // etc.
-        margeNode(impulsePump, () -> {
+        margeNode(rotaryPump, () -> {
             node(thermalPump);
         });
 
