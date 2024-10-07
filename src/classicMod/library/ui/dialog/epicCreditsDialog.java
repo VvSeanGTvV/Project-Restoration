@@ -1,7 +1,7 @@
 package classicMod.library.ui.dialog;
 
 import arc.*;
-import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.*;
 import arc.input.KeyCode;
 import arc.math.Mathf;
 import arc.math.geom.Vec3;
@@ -16,6 +16,7 @@ import mindustry.Vars;
 import mindustry.content.Planets;
 import mindustry.gen.*;
 import mindustry.graphics.g3d.*;
+import mindustry.mod.Mod;
 import mindustry.type.Planet;
 import mindustry.ui.Styles;
 
@@ -31,6 +32,8 @@ public class epicCreditsDialog extends Dialog {
 
     public final PlanetRenderer planets = renderer.planets;
     Image logo = new Image(new TextureRegionDrawable(Core.atlas.find("restored-mind-logoMod")), Scaling.fit);
+    TextureRegion iconRegion = new TextureRegion(resMod.iconTexture);
+    Image icon = new Image(new TextureRegionDrawable(iconRegion), Scaling.fit);
     PlanetParams state = new PlanetParams() {{
         planet = Planets.serpulo;
         //camPos = new Vec3(0, 0, 0);
@@ -38,8 +41,12 @@ public class epicCreditsDialog extends Dialog {
     }};
 
     Table credit = new Table() {{
+        add(icon).size(90f, 90f).row();
         add(logo).size(570f, 90f).row();
-        image(Tex.clear).height(55).padTop(3f).row();
+        image(Tex.clear).height(27.5f).padTop(3f).row();
+        add(ModVersion).row();
+        add(BuildVer).row();
+        image(Tex.clear).height(27.5f).padTop(3f).row();
         row();
         //image(Tex.clear).height(25).padTop(3f).row();
         //image(Core.atlas.find("restored-mind-logoMod")).row();
@@ -127,7 +134,7 @@ public class epicCreditsDialog extends Dialog {
     public void act(float delta) {
         control.sound.stop();
         super.act(delta);
-        if (((credit.y + contribute.y)/(2f + (graphics.getAspect() * 1.5f))) >= (credit.getMaxHeight() + contribute.getMaxHeight() + ((float) graphics.getHeight() / 2)) * 3f) {
+        if (((credit.y + contribute.y)/(2f + (graphics.getAspect() * 1.25f))) >= (credit.getMaxHeight() + contribute.getMaxHeight() + ((float) graphics.getHeight() / 2)) * 3f) {
             FinishedCredits();
             return;
         }

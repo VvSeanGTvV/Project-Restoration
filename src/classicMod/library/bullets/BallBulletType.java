@@ -30,7 +30,6 @@ public class BallBulletType extends BulletType {
     public Interp particleInterp = f -> Interp.circleOut.apply(Interp.slope.apply(f));
     public Color particleColor = Pal.sap.cpy();
     public int id;
-    public Blending blending = BlendingCustom.Bloom;
     public BallBulletType(float speed, int damage){
         this.damage = damage;
         this.speed = speed;

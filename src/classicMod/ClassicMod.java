@@ -31,9 +31,9 @@ import static mindustry.Vars.*;
 
 public class ClassicMod extends Mod{
     /** Mod's current Version **/
-    public static String ModVersion = "3.5 PRE-ALPHA v146";
+    public static String ModVersion = "3.6 ALPHA v146";
     /** Mod's current Build **/
-    public static final String BuildVer = "13";
+    public static final String BuildVer = "14";
     public static LoadedMod resMod = mods.locateMod("restored-mind");
     /** Mindustry's Contributors **/
     public static Seq<String> contributors = new Seq<>();

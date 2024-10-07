@@ -1491,6 +1491,11 @@ public class ClassicUnitTypes {
                     //height = 15f;
                     float orbRad = 7f, partRad = 3f;
                     int parts = 10;
+
+                    orbRadius = orbRad;
+                    particleSize = partRad;
+                    particles = parts;
+
                     lifetime = 30f;
                     hitSize = 6f;
                     shootEffect = Fx.shootTitan;
