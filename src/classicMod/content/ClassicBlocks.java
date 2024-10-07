@@ -1372,9 +1372,8 @@ public class ClassicBlocks {
         warpGate = new WarpGate("warp-gate"){{
             requirements(Category.distribution, with(Items.titanium, 125, ClassicItems.dirium, 40, Items.silicon, 80, Items.thorium, 50));
             size = 3;
-            health = Blocks.massDriver.health + 230;
             squareSprite = false;
-            powerUse = 1.85f;
+            powerUse = 1.825f;
         }};
 
         // Drills
