@@ -73,7 +73,7 @@ public class BallBulletType extends BulletType {
             );
         }
 
-        Draw.blend(blending);
+        //Draw.blend(blending);
         Lines.stroke(2f);
 
         Draw.color(color);
@@ -84,7 +84,7 @@ public class BallBulletType extends BulletType {
 
         Draw.alpha(0.025f);
         Draw.scl(0.25f);
-        Draw.blend(blending);
+        //Draw.blend(blending);
         Draw.color(color);
         TextureRegion particle = Core.atlas.find("circle-shadow");
         Draw.rect(particle, rx, ry, rotation);
