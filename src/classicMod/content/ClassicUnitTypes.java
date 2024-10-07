@@ -7,7 +7,7 @@ import arc.struct.*;
 import arc.util.Time;
 import classicMod.library.ability.*;
 import classicMod.library.ai.*;
-import classicMod.library.bullets.HealBulletType;
+import classicMod.library.bullets.*;
 import classicMod.library.drawCustom.CircleForceDraw;
 import classicMod.library.unitType.*;
 import mindustry.Vars;
@@ -1485,10 +1485,12 @@ public class ClassicUnitTypes {
                 heatColor = Color.valueOf("f9350f");
                 cooldownTime = 80f;
 
-                bullet = new BasicBulletType(8f, 110){{
-                    sprite = "missile-large";
-                    width = 9.5f;
-                    height = 15f;
+                bullet = new BallBulletType(8f, 110){{
+                    //sprite = "missile-large";
+                    //width = 9.5f;
+                    //height = 15f;
+                    float orbRad = 7f, partRad = 3f;
+                    int parts = 10;
                     lifetime = 30f;
                     hitSize = 6f;
                     shootEffect = Fx.shootTitan;
@@ -1496,8 +1498,9 @@ public class ClassicUnitTypes {
                     pierceCap = 2;
                     pierce = true;
                     pierceBuilding = true;
-                    hitColor = backColor = trailColor = Color.valueOf("feb380");
-                    frontColor = Color.white;
+                    //hitColor = backColor = trailColor = Color.valueOf("feb380");
+                    hitColor = trailColor = Color.valueOf("feb380");
+                    //frontColor = Color.white;
                     trailWidth = 3.1f;
                     trailLength = 8;
                     hitEffect = despawnEffect = Fx.blastExplosion;
