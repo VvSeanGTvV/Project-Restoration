@@ -218,7 +218,7 @@ public class epicCreditsDialog extends Dialog {
         }
         if (hidden) staticTable.clearChildren();
         
-        staticTable.x = staticTable.getMaxWidth() + keybindNotification.length() * ((graphics.getAspect() * graphics.getAspect() * 4f));
+        staticTable.x = centerX - keybindNotification.length();
         staticTable.y = 14f;
 
         planets.render(state);
