@@ -180,7 +180,7 @@ public class ExtendedSerpuloTechTree {
             });
         });
 
-        // etc.
+        // Pumps
         margeNode(rotaryPump, () -> {
             node(thermalPump);
         });

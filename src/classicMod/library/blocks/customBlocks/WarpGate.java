@@ -45,7 +45,7 @@ public class WarpGate extends Block {
 
     public float warmupTime = 60f;
     /**
-     * time between Teleports
+     * Time between each teleport Transportation
      **/
     public float teleportMax = 500f;
     public float powerUse = 0.3f;
@@ -56,7 +56,6 @@ public class WarpGate extends Block {
     protected Effect teleportEffect = ExtendedFx.teleport;
     protected Effect teleportOutEffect = ExtendedFx.teleportOut;
     protected TextureRegion blankRegion;
-    private float powerMulti;
 
     public WarpGate(String name) {
         super(name);
@@ -67,13 +66,6 @@ public class WarpGate extends Block {
         saveConfig = true;
         unloadable = false;
         hasItems = true;
-
-        /*Events.on(WorldLoadEvent.class, e -> {
-            for (int i = 0; i < teleporters.length; i++) {
-                for (int j = 0; j < teleporters[i].length; j++) teleporters[i][j].clear();
-            }
-        });*/
-
 
         config(Integer.class, (WarpGate.WarpGateBuild build, Integer value) -> {
             if (build.toggle != -1) if (teleporters[build.team.id][build.toggle].contains(build)) teleporters[build.team.id][build.toggle].remove(build);
@@ -95,7 +87,7 @@ public class WarpGate extends Block {
     @Override
     public void init() {
         if (inputLiquid == null) inputLiquid = Liquids.cryofluid;
-        consumePowerCond(powerUse + powerMulti, WarpGate.WarpGateBuild::isConsuming);
+        consumePowerCond(powerUse, WarpGate.WarpGateBuild::isConsuming);
         super.init();
     }
 

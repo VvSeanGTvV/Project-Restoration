@@ -30,10 +30,10 @@ public class ImpactDrill extends Drill{
         stats.remove(Stat.drillSpeed);
         stats.remove(Stat.drillTier);
 
-        stats.add(Stat.drillTier, drillablesStack((outputAmount / (60 / drillTime)) / 2f, outputAmount, drillMultipliers, b -> b instanceof Floor f && !f.wallOre && f.itemDrop != null &&
+        stats.add(Stat.drillTier, drillablesStack(((outputAmount / (60 / drillTime)) / 2f) / 2f, outputAmount, drillMultipliers, b -> b instanceof Floor f && !f.wallOre && f.itemDrop != null &&
                 f.itemDrop.hardness <= tier && f.itemDrop != blockedItem && (indexer.isBlockPresent(f) || state.isMenu())));
 
-        stats.add(Stat.drillSpeed, (outputAmount / (60 / drillTime)) / 2f, StatUnit.itemsSecond);
+        stats.add(Stat.drillSpeed, ((outputAmount / (60 / drillTime)) / 2f) / 2f, StatUnit.itemsSecond);
     }
 
     public class ImpactDrilllBuild extends Drill.DrillBuild {

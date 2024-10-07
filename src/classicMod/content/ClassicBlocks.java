@@ -415,52 +415,6 @@ public class ClassicBlocks {
     }
 
     public void loadv4(){
-        warpGate = new WarpGate("warp-gate"){
-            {
-                requirements(Category.distribution, with(Items.lead, 30, ClassicItems.dirium, 40));
-                size = 3;
-            }
-        };
-
-        laserConveyor = new InstantBridge("laser-conveyor"){{
-            requirements(Category.distribution, with(Items.phaseFabric, 5, Items.surgeAlloy, 4, Items.silicon, 10, Items.graphite, 10));
-            range = 18;
-            arrowPeriod = 0.9f;
-            arrowTimeScl = 2.75f;
-            hasPower = true;
-            pulse = true;
-            envEnabled |= Env.space;
-            consumePower(24f/60f);
-        }};
-
-        nuclearDrill = new Drill("nuclear-drill"){{
-            requirements(Category.production, with(Items.copper, 25, Items.graphite, 35, Items.titanium, 45, Items.thorium, 45));
-            drillTime = 255f;
-            size = 3;
-            consumePower(0.95f);
-            drawRim = true;
-            hasPower = true;
-            tier = 5;
-            updateEffect = Fx.pulverizeRed;
-            updateEffectChance = 0.03f;
-            drillEffect = Fx.mineHuge;
-            rotateSpeed = 6f;
-            warmupSpeed = 0.01f;
-
-            liquidBoostIntensity = 1.65f;
-            consumeLiquid(Liquids.water, 0.2f).boost();
-        }};
-
-        poweredDrill = new Drill("powered-drill"){{
-            requirements(Category.production, with(Items.copper, 22, Items.titanium, 5, ClassicItems.denseAlloy, 5));
-            tier = 4;
-            drawMineItem = false;
-            drillTime = 300;
-            size = 2;
-            consumePower(0.45f);
-
-            consumeLiquid(Liquids.water, 0.06f).boost();
-        }};
 
         rtgGenerator = new ConsumeGenerator("compacted-rtg-generator"){{
             requirements(Category.power, with(Items.lead, 50, Items.silicon, 15, Items.phaseFabric, 5, ClassicItems.thorium, 10));
@@ -1182,7 +1136,7 @@ public class ClassicBlocks {
         thermalPump = new ThermalPump("thermal-pump"){{
             requirements(Category.liquid, with(Items.copper, 90, Items.metaglass, 90, Items.silicon, 45, Items.titanium, 50, Items.thorium, 45));
             pumpAmount = 0.20f;
-            divisionMultiplierPump = 3.5f;
+            divisionMultiplierPump = 3f;
             consumePower(1.4f);
             liquidCapacity = 50f;
             hasPower = true;
@@ -1401,6 +1355,56 @@ public class ClassicBlocks {
             consumePower(1f / 60f);
 
             researchCost = with(Items.beryllium, 5, Items.surgeAlloy, 5);
+        }};
+
+        laserConveyor = new InstantBridge("laser-conveyor"){{
+            requirements(Category.distribution, with(Items.phaseFabric, 5, Items.surgeAlloy, 4, Items.silicon, 10, Items.graphite, 10));
+            range = 18;
+            arrowPeriod = 0.9f;
+            arrowTimeScl = 2.75f;
+            hasPower = true;
+            pulse = true;
+            envEnabled |= Env.space;
+            consumePower(24f/60f);
+        }};
+
+        //Transportation
+        warpGate = new WarpGate("warp-gate"){{
+            requirements(Category.distribution, with(Items.titanium, 125, ClassicItems.dirium, 40, Items.silicon, 80, Items.thorium, 50));
+            size = 3;
+            health = Blocks.massDriver.health + 230;
+            squareSprite = false;
+            powerUse = 1.85f;
+        }};
+
+        // Drills
+        nuclearDrill = new Drill("nuclear-drill"){{
+            requirements(Category.production, with(Items.copper, 25, Items.graphite, 35, Items.titanium, 45, Items.thorium, 45));
+            drillTime = 255f;
+            size = 3;
+            consumePower(0.95f);
+            drawRim = true;
+            hasPower = true;
+            tier = 5;
+            updateEffect = Fx.pulverizeRed;
+            updateEffectChance = 0.03f;
+            drillEffect = Fx.mineHuge;
+            rotateSpeed = 6f;
+            warmupSpeed = 0.01f;
+
+            liquidBoostIntensity = 1.65f;
+            consumeLiquid(Liquids.water, 0.2f).boost();
+        }};
+
+        poweredDrill = new Drill("powered-drill"){{
+            requirements(Category.production, with(Items.copper, 22, Items.titanium, 5, ClassicItems.denseAlloy, 5));
+            tier = 4;
+            drawMineItem = false;
+            drillTime = 300;
+            size = 2;
+            consumePower(0.45f);
+
+            consumeLiquid(Liquids.water, 0.06f).boost();
         }};
 
         //Turrets
