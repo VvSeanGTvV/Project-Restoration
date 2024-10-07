@@ -38,6 +38,7 @@ public class BallBulletType extends BulletType {
 
     @Override
     public void draw(Bullet b) {
+        Draw.reset();
         float xC = b.x;
         float yC = b.y;
         float rotation = b.rotation();
@@ -92,7 +93,5 @@ public class BallBulletType extends BulletType {
         if (active) {
             //TODO draw range when selected?
         }
-
-        Draw.reset();
     }
 }
