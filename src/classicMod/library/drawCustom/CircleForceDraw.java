@@ -16,7 +16,6 @@ public class CircleForceDraw extends DrawPart {
     public Color color = Pal.suppress;
     public float layer = -1; //-1;
     public boolean under;
-    public String TextureString = "";
 
     public int particles = 15;
     public float particleSize = 4f;
@@ -58,6 +57,7 @@ public class CircleForceDraw extends DrawPart {
         float base = (Time.time / particleLife);
         rand.setSeed(id + hashCode());
         Draw.color(particleColor);
+        Draw.blend(blending);
         for (int i = 0; i < particles; i++) {
             float fin = (rand.random(1f) + base) % 1f, fout = 1f - fin;
             float angle = rand.random(360f) + (Time.time / rotateScl + rotation) % 360f;

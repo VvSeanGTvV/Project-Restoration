@@ -44,8 +44,8 @@ public class epicCreditsDialog extends Dialog {
         add(icon).size(90f, 90f).row();
         add(logo).size(570f, 90f).row();
         image(Tex.clear).height(27.5f).padTop(3f).row();
-        add(ModVersion).row();
-        add(BuildVer).row();
+        add("v" + ModVersion).row();
+        add("b" + BuildVer).row();
         image(Tex.clear).height(27.5f).padTop(3f).row();
         row();
         //image(Tex.clear).height(25).padTop(3f).row();
@@ -134,7 +134,7 @@ public class epicCreditsDialog extends Dialog {
     public void act(float delta) {
         control.sound.stop();
         super.act(delta);
-        if (((credit.y + contribute.y)/(2f + (graphics.getAspect() * 1.25f))) >= (credit.getMaxHeight() + contribute.getMaxHeight() + ((float) graphics.getHeight() / 2)) * 3f) {
+        if (((credit.y + contribute.y)/(2f + (graphics.getAspect() * 1.15f))) >= (credit.getMaxHeight() + contribute.getMaxHeight() + ((float) graphics.getHeight() / 2)) * 3f) {
             FinishedCredits();
             return;
         }

@@ -712,102 +712,6 @@ public class ClassicBlocks {
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawRegion("-spinner", 3, true), new DrawDefault());
         }};
 
-        arcAir = new PowerTurret("arc-air"){{
-            requirements(Category.turret, with(Items.copper, 50, Items.lead, 50));
-            shootType = arcOld; /*new LightningBulletType(){{
-                damage = 20;
-                lightningLength = 25;
-                collidesAir = false;
-                ammoMultiplier = 1f;
-
-                //for visual stats only.
-                buildingDamageMultiplier = 0.25f;
-
-                lightningType = arcOld;
-            }};*/
-            shake = 1f;
-            reload = 30f;
-            shootCone = 30f;
-            rotateSpeed = 7f;
-            targetAir = true;
-            targetGround = false;
-            range = 80f;
-            shootEffect = Fx.lightningShoot;
-            heatColor = Color.red;
-            recoil = 1f;
-            size = 1;
-            health = 260;
-            shootSound = Sounds.spark;
-            consumePower(3.3f);
-            coolant = consumeCoolant(0.1f);
-        }};
-
-        teslaTurret = new PowerTurret("tesla-turret"){{
-            requirements(Category.turret, with(Items.titanium, 25, ClassicItems.dirium, 15, Items.lead, 50));
-            range = 92.5f;
-            shootCone = 45f;
-            shootType = new NewTeslaOrbType(range,26){{
-                lightningColor = Pal.lancerLaser;
-
-                hitCap = 5;
-                buildingDamageMultiplier = 0.25f;
-                status = StatusEffects.shocked;
-                statusDuration = 60 * 8f;
-            }};
-            shootSound = Sounds.spark; //tesla
-            smokeEffect = Fx.none;
-
-            shootEffect = Fx.lightningShoot;
-            heatColor = Color.red;
-
-            reload = 40f;
-            health = 240;
-            recoil = 1f;
-            consumePower(0.5f * 4f);
-            coolant = consumeCoolant(0.1f);
-            playerControllable = true;
-        }};
-
-        chainTurret = new MirroredItemTurret("chain-turret"){{
-            requirements(Category.turret, with(Items.titanium, 50, ClassicItems.dirium, 80, Items.lead, 100));
-            //ammo(Items.thorium, chain);
-            ammo(
-                Items.thorium, new BasicBulletType(8f, 8){{
-                    width = 7f;
-                    height = 9f;
-                    ammoMultiplier = 2f;
-                }},
-
-                Items.surgeAlloy, new FlakBulletType(8f, 13){{
-                    width = 7f;
-                    height = 9f;
-                    ammoMultiplier = 5f;
-                    splashDamage = 50f * 1.5f;
-                    splashDamageRadius = 38f;
-                    lightning = 2;
-                    lightningLength = 7;
-                    shootEffect = Fx.shootBig;
-                    collidesGround = true;
-                    explodeRange = 20f;
-
-                    reloadMultiplier = 0.85f;
-                }}
-            );
-            size = 2;
-            shootSound = bigshot;
-            shootEffect = ExtendedFx.chainshot;
-            smokeEffect = Fx.none;
-            health = 430;
-            shootCone = 9f;
-            inaccuracy = 8f;
-            range = 208f;
-            reload = 5f;
-
-            coolant = consumeCoolant(0.1f);
-            //outlineColor = Color.valueOf("ffd86c");
-            //outlineRadius = 5;
-        }};
-
         rippleb41 = new ItemTurret("ripple-b41"){{
             requirements(Category.turret, with(ClassicItems.denseAlloy, 300, Items.titanium, 220, Items.thorium, 120));
             ammo(
@@ -1407,6 +1311,92 @@ public class ClassicBlocks {
         }};
 
         //Turrets
+        arcAir = new PowerTurret("arc-air"){{
+            requirements(Category.turret, with(Items.copper, 50, Items.lead, 50));
+            shootType = arcOld;
+            shake = 1f;
+            reload = 30f;
+            shootCone = 30f;
+            rotateSpeed = 7f;
+            targetAir = true;
+            targetGround = false;
+            range = 80f;
+            shootEffect = Fx.lightningShoot;
+            heatColor = Color.red;
+            recoil = 1f;
+            size = 1;
+            health = 260;
+            shootSound = Sounds.spark;
+            consumePower(3.3f);
+            coolant = consumeCoolant(0.1f);
+        }};
+
+        teslaTurret = new PowerTurret("tesla-turret"){{
+            requirements(Category.turret, with(Items.titanium, 25, ClassicItems.dirium, 15, Items.lead, 50));
+            range = 92.5f;
+            shootCone = 45f;
+            shootType = new NewTeslaOrbType(range,26){{
+                lightningColor = Pal.lancerLaser;
+
+                hitCap = 5;
+                buildingDamageMultiplier = 0.25f;
+                status = StatusEffects.shocked;
+                statusDuration = 60 * 8f;
+            }};
+            shootSound = Sounds.spark; //tesla
+            smokeEffect = Fx.none;
+
+            shootEffect = Fx.lightningShoot;
+            heatColor = Color.red;
+
+            reload = 40f;
+            health = 240;
+            recoil = 1f;
+            consumePower(0.5f * 4f);
+            coolant = consumeCoolant(0.1f);
+            playerControllable = true;
+        }};
+
+        chainTurret = new MirroredItemTurret("chain-turret"){{
+            requirements(Category.turret, with(Items.titanium, 50, ClassicItems.dirium, 80, Items.lead, 100));
+            //ammo(Items.thorium, chain);
+            ammo(
+                    Items.thorium, new BasicBulletType(8f, 8){{
+                        width = 7f;
+                        height = 9f;
+                        ammoMultiplier = 2f;
+                    }},
+
+                    Items.surgeAlloy, new FlakBulletType(8f, 13){{
+                        width = 7f;
+                        height = 9f;
+                        ammoMultiplier = 5f;
+                        splashDamage = 50f * 1.5f;
+                        splashDamageRadius = 38f;
+                        lightning = 2;
+                        lightningLength = 7;
+                        shootEffect = Fx.shootBig;
+                        collidesGround = true;
+                        explodeRange = 20f;
+
+                        reloadMultiplier = 0.85f;
+                    }}
+            );
+            size = 2;
+            shootSound = bigshot;
+            shootEffect = ExtendedFx.chainshot;
+            smokeEffect = Fx.none;
+            health = 430;
+            shootCone = 9f;
+            inaccuracy = 8f;
+            range = 208f;
+            reload = 5f;
+
+            coolant = consumeCoolant(0.1f);
+            //outlineColor = Color.valueOf("ffd86c");
+            //outlineRadius = 5;
+        }};
+
         tinyBreach = new ItemTurretV6("tiny-breach"){{
             requirements(Category.turret, with(Items.beryllium, 35, Items.silicon, 20));
             ammo(
@@ -1845,6 +1835,7 @@ public class ClassicBlocks {
 
         };
 
+        //Drill
         burstDrill = new ImpactDrill("burst-drill"){{
             requirements(Category.production, with(Items.silicon, 60, Items.beryllium, 90, Items.graphite, 50));
             drillTime = 60f * 10f;

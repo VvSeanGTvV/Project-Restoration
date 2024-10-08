@@ -1417,15 +1417,20 @@ public class ClassicUnitTypes {
                     shrinkX = 0.1f;
                     shrinkY = 0.5f;
 
-                    fragBullets = 9;
+                    fragBullets = 6;
                     fragVelocityMin = 0.7f;
                     fragLifeMin = 0.1f;
-                    fragBullet = new BasicBulletType(5f, 15){{
+                    fragBullet = new FlakBulletType(5f, 15){{
                         width = 7f;
                         height = 9f;
                         lifetime = 20f;
                         backColor = Color.valueOf("feb380");
                         frontColor = Color.white;
+
+                        splashDamage = 20f * 1.5f;
+                        splashDamageRadius = 18f;
+                        lightning = 2;
+                        lightningLength = 7;
                     }};
                 }};
             }});
@@ -1474,7 +1479,7 @@ public class ClassicUnitTypes {
                 shootSound = Sounds.largeCannon;
                 layerOffset = 0.0001f;
                 reload = 120f;
-                shootY = 71f / 4f;
+                shootY = (71f / 4f) - 2f;
                 shake = 5f;
                 recoil = 4f;
                 rotate = true;
@@ -1489,21 +1494,20 @@ public class ClassicUnitTypes {
                 parts.addAll(
                         new RegionPart("-side"){{
                             //layerOffset = 1f;
+                            outlineLayerOffset = 0f;
                             progress = PartProgress.heat;
                             mirror = true;
+                            //top = true;
                             under = true;
                             //moveX = 0.75f;
                             moveY = -3.25f;
                             moveRot = -6f;
                             x = 10.5f;
-                            y = 9f;
+                            y = 8.85f;
                         }}
                 );
 
                 bullet = new BallBulletType(8f, 110){{
-                    //sprite = "missile-large";
-                    //width = 9.5f;
-                    //height = 15f;
                     float orbRad = 7f, partRad = 3f;
                     int parts = 10;
 
@@ -1543,7 +1547,6 @@ public class ClassicUnitTypes {
 
                             color = Color.valueOf("feb380");
                             particleColor = Color.valueOf("b17d59");
-                            TextureString = "restored-mind-mantel-weapon";
 
                             x = 8f;
                             under = true;
