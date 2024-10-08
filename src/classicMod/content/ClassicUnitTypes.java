@@ -1504,11 +1504,21 @@ public class ClassicUnitTypes {
                     pierce = true;
                     pierceBuilding = true;
                     //hitColor = backColor = trailColor = Color.valueOf("feb380");
-                    hitColor = trailColor = Color.valueOf("feb380");
+                    BallColor = hitColor = trailColor = Color.valueOf("feb380");
                     //frontColor = Color.white;
                     trailWidth = 3.1f;
                     trailLength = 8;
                     hitEffect = despawnEffect = Fx.blastExplosion;
+
+                    fragBullets = 9;
+                    fragBullet = new BasicBulletType(2.5f, 10, "bullet"){{
+                        width = 10f;
+                        height = 12f;
+                        shrinkX = shrinkY = 1f;
+                        lifetime = 15f;
+                        backColor = BallColor;
+                        frontColor = BallColor;
+                    }};
                 }};
 
                 parts.addAll(
