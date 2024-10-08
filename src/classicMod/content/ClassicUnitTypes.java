@@ -1487,7 +1487,7 @@ public class ClassicUnitTypes {
                 cooldownTime = 80f;
 
                 parts.addAll(
-                        new RegionPart("-glow"){{
+                        new RegionPart("-side-heat"){{
                             color = Color.red;
                             blending = Blending.additive;
                             progress = PartProgress.heat;
@@ -1497,7 +1497,7 @@ public class ClassicUnitTypes {
                             moveY = 0.75f;
                             moveRot = 82f;
                         }},
-                        new RegionPart("-sides"){{
+                        new RegionPart("-side"){{
                             progress = PartProgress.heat;
                             mirror = true;
                             under = false;
