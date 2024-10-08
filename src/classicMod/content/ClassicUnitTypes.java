@@ -1471,6 +1471,7 @@ public class ClassicUnitTypes {
 
             //TODO maybe different shoot
             weapons.add(new Weapon("restored-mind-mantel-weapon"){{
+                shootSound = Sounds.largeCannon;
                 layerOffset = 0.0001f;
                 reload = 120f;
                 shootY = 71f / 4f;
@@ -1484,6 +1485,28 @@ public class ClassicUnitTypes {
                 y = -5f;
                 heatColor = Color.valueOf("f9350f");
                 cooldownTime = 80f;
+
+                parts.addAll(
+                        new RegionPart("-glow"){{
+                            color = Color.red;
+                            blending = Blending.additive;
+                            progress = PartProgress.heat;
+                            outline = false;
+                            mirror = true;
+
+                            moveY = 0.75f;
+                            moveRot = 82f;
+                        }},
+                        new RegionPart("-sides"){{
+                            progress = PartProgress.heat;
+                            mirror = true;
+                            under = false;
+                            //moveX = 0.75f;
+                            moveY = 0.75f;
+                            moveRot = 82f;
+                            x = 0;
+                            y = 0;
+                        }});
 
                 bullet = new BallBulletType(8f, 110){{
                     //sprite = "missile-large";
