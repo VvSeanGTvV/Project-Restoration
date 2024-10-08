@@ -1488,17 +1488,16 @@ public class ClassicUnitTypes {
 
                 parts.addAll(
                         new RegionPart("-side"){{
-                            layerOffset = 1f;
+                            //layerOffset = 1f;
                             progress = PartProgress.heat;
                             mirror = true;
                             under = true;
                             //moveX = 0.75f;
                             moveY = -3.25f;
                             moveRot = -6f;
-                            x = 9f;
+                            x = 10.5f;
                             y = 9f;
                         }}
-
                 );
 
                 bullet = new BallBulletType(8f, 110){{
