@@ -1516,8 +1516,8 @@ public class ClassicUnitTypes {
                         height = 12f;
                         shrinkX = shrinkY = 1f;
                         lifetime = 15f;
-                        backColor = BallColor;
-                        frontColor = BallColor;
+                        backColor = ballColor;
+                        frontColor = ballColor;
                     }};
                 }};
 
