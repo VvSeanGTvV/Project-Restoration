@@ -1491,12 +1491,12 @@ public class ClassicUnitTypes {
                             layerOffset = 1f;
                             progress = PartProgress.heat;
                             mirror = true;
-                            under = false;
+                            under = true;
                             //moveX = 0.75f;
                             moveY = -3.25f;
-                            moveRot = 6f;
-                            x = 5f;
-                            y = 15f;
+                            moveRot = -6f;
+                            x = 10f;
+                            y = 10f;
                         }}
 
                 );
