@@ -1487,23 +1487,14 @@ public class ClassicUnitTypes {
                 cooldownTime = 80f;
 
                 parts.addAll(
-                        new RegionPart("-side-heat"){{
-                            color = Color.red;
-                            blending = Blending.additive;
-                            progress = PartProgress.heat;
-                            outline = false;
-                            mirror = true;
-
-                            moveY = 0.75f;
-                            moveRot = 82f;
-                        }},
                         new RegionPart("-side"){{
                             progress = PartProgress.heat;
                             mirror = true;
-                            under = false;
+                            under = true;
+                            outline = true;
                             //moveX = 0.75f;
-                            moveY = 0.75f;
-                            moveRot = 82f;
+                            moveY = 2.25f;
+                            moveRot = 15f;
                             x = 0;
                             y = 0;
                         }});
