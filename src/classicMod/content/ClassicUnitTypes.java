@@ -1494,8 +1494,8 @@ public class ClassicUnitTypes {
                             //moveX = 0.75f;
                             moveY = -3.25f;
                             moveRot = 6f;
-                            x = 0;
-                            y = 0;
+                            x = 15f;
+                            y = 15f;
                         }}
                 );
 
