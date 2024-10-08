@@ -48,8 +48,8 @@ public class BallBulletType extends BulletType {
         Draw.z(Draw.z() + layerOffset);
 
         float rad = orbRadius + Mathf.absin(orbSinScl, orbSinMag);
-        Tmp.v1.set(b.x, b.y).rotate(rotation);
-        float rx = xC + Tmp.v1.x, ry = yC + Tmp.v1.y;
+        //Tmp.v1.set(b.x, b.y).rotate(rotation);
+        float rx = xC, ry = yC;
 
         /*Draw.alpha(0.35f);
         Draw.blend(Blending.additive);
