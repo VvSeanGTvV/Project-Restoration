@@ -1491,13 +1491,13 @@ public class ClassicUnitTypes {
                             progress = PartProgress.heat;
                             mirror = true;
                             under = true;
-                            outline = true;
                             //moveX = 0.75f;
-                            moveY = 2.25f;
-                            moveRot = 15f;
+                            moveY = 12.25f;
+                            moveRot = 6f;
                             x = 0;
                             y = 0;
-                        }});
+                        }}
+                );
 
                 bullet = new BallBulletType(8f, 110){{
                     //sprite = "missile-large";
