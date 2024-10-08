@@ -1488,7 +1488,7 @@ public class ClassicUnitTypes {
 
                 parts.addAll(
                         new RegionPart("-side"){{
-                            //layerOffset = Layer.groundUnit + 0.5f;
+                            layerOffset = 1f;
                             progress = PartProgress.heat;
                             mirror = true;
                             under = false;
