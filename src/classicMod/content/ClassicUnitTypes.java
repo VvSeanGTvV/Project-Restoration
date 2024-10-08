@@ -1488,19 +1488,15 @@ public class ClassicUnitTypes {
 
                 parts.addAll(
                         new RegionPart("-side"){{
+                            layerOffset = Layer.groundUnit + 1;
                             progress = PartProgress.heat;
                             mirror = true;
                             under = false;
                             //moveX = 0.75f;
                             moveY = -3.25f;
                             moveRot = 6f;
-                            x = 15f;
+                            x = 5f;
                             y = 15f;
-                        }},
-                        new RegionPart("-core"){{
-                            //progress = PartProgress.heat;
-                            mirror = true;
-                            under = false;
                         }}
 
                 );
