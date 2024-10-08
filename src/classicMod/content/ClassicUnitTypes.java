@@ -1492,7 +1492,7 @@ public class ClassicUnitTypes {
                             mirror = true;
                             under = true;
                             //moveX = 0.75f;
-                            moveY = 12.25f;
+                            moveY = -3.25f;
                             moveRot = 6f;
                             x = 0;
                             y = 0;
