@@ -11,10 +11,10 @@ import mindustry.graphics.Pal;
 import static arc.math.Mathf.rand;
 
 public class CircleForceDraw extends DrawPart {
-    public float x = 0, y = 0, xT = 0, yT = 0;
+    public float x = 0, y = 0;
     public float orbRadius = 4.1f, orbMidScl = 0.33f, orbSinScl = 8f, orbSinMag = 1f, layerOffset = 0f;
     public Color color = Pal.suppress;
-    public float layer = -1; //-1;
+    public float layer = -1;
     public boolean under;
 
     public int particles = 15;

@@ -1420,17 +1420,12 @@ public class ClassicUnitTypes {
                     fragBullets = 6;
                     fragVelocityMin = 0.7f;
                     fragLifeMin = 0.1f;
-                    fragBullet = new FlakBulletType(5f, 15){{
+                    fragBullet = new BasicBulletType(5f, 15){{
                         width = 7f;
                         height = 9f;
                         lifetime = 20f;
                         backColor = Color.valueOf("feb380");
                         frontColor = Color.white;
-
-                        splashDamage = 20f * 1.5f;
-                        splashDamageRadius = 18f;
-                        lightning = 2;
-                        lightningLength = 7;
                     }};
                 }};
             }});
@@ -1493,13 +1488,10 @@ public class ClassicUnitTypes {
 
                 parts.addAll(
                         new RegionPart("-side"){{
-                            //layerOffset = 1f;
                             outlineLayerOffset = 0f;
                             progress = PartProgress.heat;
                             mirror = true;
-                            //top = true;
                             under = true;
-                            //moveX = 0.75f;
                             moveY = -3.25f;
                             moveRot = -6f;
                             x = 10.5f;
@@ -1530,13 +1522,18 @@ public class ClassicUnitTypes {
                     hitEffect = despawnEffect = Fx.blastExplosion;
 
                     fragBullets = 16;
-                    fragBullet = new BasicBulletType(2.5f, 10, "bullet"){{
+                    fragBullet = new FlakBulletType(5f, 15){{
                         width = 10f;
                         height = 12f;
                         shrinkX = shrinkY = 1f;
                         lifetime = 15f;
                         backColor = ballColor;
                         frontColor = ballColor;
+
+                        splashDamage = 20f * 1.5f;
+                        splashDamageRadius = 18f;
+                        lightning = 2;
+                        lightningLength = 7;
                     }};
                 }};
 

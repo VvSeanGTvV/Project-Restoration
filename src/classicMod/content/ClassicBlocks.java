@@ -1800,6 +1800,7 @@ public class ClassicBlocks {
             consumePower(3f);
         }};
 
+        // Storage
         reinforcedSafe = new StorageBlock("reinforced-safe"){
             {
                 requirements(Category.effect, with(Items.tungsten, 250, Items.carbide, 125, Items.beryllium, 100));

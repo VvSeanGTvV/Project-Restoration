@@ -14,12 +14,10 @@ import mindustry.graphics.Pal;
 import static arc.math.Mathf.rand;
 
 public class BallBulletType extends BulletType {
-
     public float orbRadius = 4.1f, orbMidScl = 0.33f, orbSinScl = 8f, orbSinMag = 1f, layerOffset = 0f;
     public Color ballColor = Pal.suppress;
-    public float layer = -1; //-1;
+    public float layer = -1;
     public boolean under;
-    public String TextureString = "";
 
     public int particles = 15;
     public float particleSize = 4f;
@@ -73,25 +71,20 @@ public class BallBulletType extends BulletType {
             );
         }
 
-        //Draw.blend(blending);
         Lines.stroke(2f);
 
         Draw.color(ballColor);
-        Lines.circle(rx, ry, rad);
+        Lines.circle(rx, ry, rad + (2f * b.fout()));
 
         Draw.color(ballColor);
-        Fill.circle(rx, ry, rad * orbMidScl);
+        Fill.circle(rx, ry, rad + (2f * b.fout()) * orbMidScl);
 
         Draw.alpha(0.025f);
         Draw.scl(0.25f);
-        //Draw.blend(blending);
         Draw.color(ballColor);
         TextureRegion particle = Core.atlas.find("circle-shadow");
         Draw.rect(particle, rx, ry, rotation);
 
-        if (active) {
-            //TODO draw range when selected?
-        }
         super.draw(b);
     }
 }
