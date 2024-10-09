@@ -24,7 +24,6 @@ public class BallBulletType extends BulletType {
     public float particleLen = 7f;
     public float rotateScl = 3f;
     public float particleLife = 110f;
-    public boolean active = true;
     public Interp particleInterp = f -> Interp.circleOut.apply(Interp.slope.apply(f));
     public Color particleColor = Pal.sap.cpy();
     public int id;
@@ -71,13 +70,13 @@ public class BallBulletType extends BulletType {
             );
         }
 
-        Lines.stroke(2f);
+        Lines.stroke(2f + (0.75f * b.fout()));
 
         Draw.color(ballColor);
-        Lines.circle(rx, ry, rad + (2f * b.fout()));
+        Lines.circle(rx, ry, rad);
 
         Draw.color(ballColor);
-        Fill.circle(rx, ry, rad + (2f * b.fout()) * orbMidScl);
+        Fill.circle(rx, ry, rad * orbMidScl);
 
         Draw.alpha(0.025f);
         Draw.scl(0.25f);

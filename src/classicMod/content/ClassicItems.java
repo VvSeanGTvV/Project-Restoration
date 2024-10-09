@@ -17,12 +17,12 @@ public class ClassicItems extends Items {
             uranium, dirium, steel, iron
     ;
 
-    public static final Seq<Item> classicOnlyItems = new Seq<>();
+    public static final Seq<Item> classicItems = new Seq<>(), classicOnlyItems = new Seq<>();
 
     public static void load(){
 
         denseAlloy = new Item("dense-alloy", Color.valueOf("b2c6d2")){{
-            cost = 1.2f;
+            cost = 1f;
         }};
 
         float leadCost = lead.cost;
@@ -49,19 +49,16 @@ public class ClassicItems extends Items {
         }};
 
         dirium = new Item("dirium", Color.valueOf("a7f3ca")){{
-            hardness = titanium.hardness + steel.hardness;
-            cost = 1 + steel.cost * 1.25f;
+            hardness = titanium.hardness + lead.hardness;
+            cost = lead.cost * 1.25f;
         }};
 
         fissileMatter.hidden = false; //ok
 
-        classicOnlyItems.addAll(uranium, dirium, steel, iron, titanium);
+        classicItems.addAll(stone, uranium, dirium, steel, iron, titanium);
+        erekirItems.add(fissileMatter, scrap);
 
-        erekirItems.addAll( //Override the erekir stuff
-                graphite, thorium, silicon, phaseFabric, surgeAlloy, sand,
-                beryllium, tungsten, oxide, carbide, fissileMatter, scrap, dormantCyst
-        );
-
-        //erekirOnlyItems.addAll(erekirItems).removeAll(serpuloItems);
+        erekirOnlyItems.add(fissileMatter, scrap);
+        classicOnlyItems.add(classicItems).removeAll(i -> !(classicItems.contains(i)));
     }
 }

@@ -1,5 +1,6 @@
 package classicMod.content;
 
+import arc.Core;
 import arc.graphics.*;
 import arc.math.Mathf;
 import arc.math.geom.*;
@@ -1498,6 +1499,8 @@ public class ClassicUnitTypes {
                             y = 8.85f;
                         }}
                 );
+
+                fullIcon = Core.atlas.find("restored-mind-mantel-weapon-icon");
 
                 bullet = new BallBulletType(8f, 110){{
                     float orbRad = 7f, partRad = 3f;

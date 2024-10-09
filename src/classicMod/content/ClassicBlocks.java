@@ -1691,10 +1691,8 @@ public class ClassicBlocks {
                             moveY = -1f;
                             moveRot = -40f;
                             moveX = 2f;
-                            //useReload = false;
                             under = true;
                             heatColor = Pal.berylShot.cpy().mul(1.1f);
-                            //useProgressHeat = true;
                             PartProgress.heat.blend(PartProgress.warmup, 1f);
                             PartProgress.recoil.curve(Interp.pow2Out);
                             mirror = true;
