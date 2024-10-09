@@ -223,7 +223,6 @@ public class WarpGate extends Block {
         @Override
         public void updateTile() {
             if (efficiency > 0 && toggle != -1) {
-
                 if (firstTime) {
                     activateEffect.at(this.x, this.y, selection[toggle]);
                     firstTime = false;
@@ -232,16 +231,16 @@ public class WarpGate extends Block {
                 activeScl = Mathf.lerpDelta(activeScl, 1f, 0.015f);
 
                 if (this.items.total() >= itemCapacity) {
-                    teleProgress += getProgressIncrease(warmupTime);
+                    WarpGateBuild other = findLink(toggle);
+                    if (other == this) other = null;
+                    if (other != null) teleProgress += getProgressIncrease(warmupTime);
                     if (teleProgress >= 1f) {
                         teleProgress = 1f;
-                        WarpGateBuild other = findLink(toggle);
-                        if (other == this) other = null;
-                        if (!teleporting) {
+                        if (!teleporting && other != null) {
                             teleportEffect.at(this.x, this.y, selection[toggle]);
                             teleporting = true;
                         }
-                        duration += getProgressIncrease(60f);
+                        if (other != null) duration += getProgressIncrease(60f);
                         if (duration >= 1f) {
                             if (this.items.total() <= 0 || other == null || toggle == -1) {
                                 teleProgress %= 1f;
@@ -259,24 +258,12 @@ public class WarpGate extends Block {
                             }
                         }
                     }
-                    /*if(teleporting && other != null){
-                        
-                        teleProgress += getProgressIncrease(warmupTime);
-                        if(teleProgress >= 1f){
-                            teleportOutEffect.at(this.x, this.y, selection[toggle]);
-                            handleTransport(other);
-                            teleportOutEffect.at(other.x, other.y, selection[toggle]);
-
-                            teleProgress %= 1f;
-                            teleporting = false;
-                        }
-                    } else {
-                        teleProgress %= 1f;
-                        teleporting = false;
-                    }*/
                 }
             } else {
+                activeScl = Mathf.lerpDelta(activeScl, 0f, 0.015f);
                 firstTime = true;
+                teleProgress %= 1f;
+                duration = 0f;
             }
             //if(!liquids.hasFlowLiquid(inputLiquid) && this.block.consPower.efficiency(this)>=1) catastrophicFailure();
             if (OutputStackHold.any()) dumpOutputHold();

@@ -2,7 +2,8 @@ package classicMod.content;
 
 import arc.Core;
 import arc.graphics.*;
-import arc.math.Mathf;
+import arc.graphics.g2d.*;
+import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.Time;
@@ -16,6 +17,7 @@ import mindustry.ai.types.*;
 import mindustry.content.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.part.*;
+import mindustry.entities.units.WeaponMount;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
@@ -187,11 +189,12 @@ public class ClassicUnitTypes {
 
             constructor = UnitEntity::create;
 
-            weapons.add(new Weapon(empty){{
+            weapons.add(new Weapon(){{
                 y = 0f;
                 x = 0f;
                 mirror = false;
                 reload = 12f;
+                showStatSprite = false;
 
                 ejectEffect = ExtendedFx.none;
 
@@ -212,12 +215,13 @@ public class ClassicUnitTypes {
 
             constructor = UnitEntity::create;
             alwaysUnlocked = true;
-            weapons.add(new Weapon(empty){{
+            weapons.add(new Weapon(){{
                 x = -1 + 1.5f;
                 y = -1;
                 //length = 1.5f;
                 reload = 30f;
                 //roundrobin = true;
+                showStatSprite = false;
                 inaccuracy = 6f;
                 velocityRnd = 0.1f;
                 ejectEffect = Fx.none;
@@ -272,10 +276,11 @@ public class ClassicUnitTypes {
             trailColor = Color.valueOf("6e6bcf");
             trailLength = 3;
 
-            weapons.add(new Weapon(empty){{
+            weapons.add(new Weapon(){{
                 y = 3f;
                 x = 3f;
                 mirror = true;
+                showStatSprite = false;
                 layerOffset = -0.0001f;
                 reload = 12f;
 
@@ -542,10 +547,12 @@ public class ClassicUnitTypes {
             constructor = UnitEntity::create;
             faceTarget = false;
 
-            weapons.add(new Weapon(empty) {{
+
+            weapons.add(new Weapon() {{
                 x = 0f;
                 y = 2f;
                 top = true;
+                showStatSprite = false;
 
                 reload = 15f;
                 shoot.shotDelay = 1f;
@@ -555,8 +562,10 @@ public class ClassicUnitTypes {
                 ejectEffect = Fx.none;
                 velocityRnd = 1f;
                 inaccuracy = 20f;
-                ignoreRotation = true;
                 mirror = true;
+
+                ignoreRotation = true;
+                shootCone = 180f;
 
 
                 bullet = new BombBulletType(16f, 25f) {{ //adjust the format of v5 for v7
@@ -585,7 +594,7 @@ public class ClassicUnitTypes {
             flying = true;
             constructor = UnitEntity::create;
 
-            weapons.add(new Weapon(empty) {{
+            weapons.add(new Weapon() {{
                 x = 2f;
                 y = 0f;
                 top = true;
@@ -596,6 +605,7 @@ public class ClassicUnitTypes {
                 ejectEffect = ExtendedFx.shellEjectSmall;
                 shootSound = Sounds.shootSnap;
                 mirror = true;
+                showStatSprite = false;
 
 
                 bullet = ClassicBullets.standardGlaive;
@@ -615,10 +625,11 @@ public class ClassicUnitTypes {
             constructor = UnitEntity::create;
             abilities.add(new LightSpeedAbility(10f, 3.6f, 6f)); //Modify armor abilty for 2nd texture (static)
 
-            weapons.add(new Weapon(empty) {{
+            weapons.add(new Weapon() {{
                 x = 2f;
                 y = 0.2f;
                 top = true;
+                showStatSprite = false;
 
                 reload = 35f;
                 shoot.shots = 4;
@@ -649,10 +660,11 @@ public class ClassicUnitTypes {
             constructor = UnitEntity::create;
             controller = u -> new OldFlyingAI();
 
-            weapons.add(new Weapon(empty) {{
+            weapons.add(new Weapon() {{
                 x = 2f;
                 y = 0f;
                 top = true;
+                showStatSprite = false;
 
                 reload = 14f;
                 alternate = true;
@@ -685,11 +697,13 @@ public class ClassicUnitTypes {
             targetAir = false;
             constructor = UnitEntity::create;
             controller = u -> new OldFlyingAI();
+            faceTarget = false;
 
-            weapons.add(new Weapon(empty) {{
+            weapons.add(new Weapon() {{
                 x = 0f;
                 y = 0f;
                 top = true;
+                showStatSprite = false;
 
                 reload = 6f;
 
@@ -697,9 +711,11 @@ public class ClassicUnitTypes {
                 ejectEffect = Fx.none;
                 velocityRnd = 1f;
                 inaccuracy = 40f;
-                ignoreRotation = true;
                 shootSound = Sounds.none;
                 mirror = true;
+
+                ignoreRotation = true;
+                shootCone = 180f;
 
 
                 bullet = new BombBulletType(10f, 20f) {{ //adjust the format of v5 for v7
@@ -874,10 +890,11 @@ public class ClassicUnitTypes {
             constructor = UnitEntity::create;
             controller = u -> new RepairAI();
 
-            weapons.add(new Weapon(empty) {{
+            weapons.add(new Weapon() {{
                 x = 0f;
                 y = 0f;
                 top = true;
+                showStatSprite = false;
 
                 reload = 20f;
                 alternate = true;
@@ -923,10 +940,11 @@ public class ClassicUnitTypes {
             mineItems = with(Items.copper, Items.lead, Items.titanium);
             controller = u -> new BuilderAI();
 
-            weapons.add(new Weapon(empty) {{
+            weapons.add(new Weapon() {{
                 x = 0f;
                 y = 0f;
                 top = true;
+                showStatSprite = false;
 
                 reload = 10f;
                 alternate = true;
@@ -1601,12 +1619,13 @@ public class ClassicUnitTypes {
                     }
             );
 
-            weapons.add(new Weapon(empty){{
+            weapons.add(new Weapon(){{
                 reload = 55f;
                 x = 0f;
                 y = 1f;
                 top = false;
                 mirror = false;
+                showStatSprite = false;
 
                 bullet = new ArtilleryBulletType(3f, 11){{
                     trailLength = 8;
