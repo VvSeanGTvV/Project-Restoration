@@ -1500,8 +1500,6 @@ public class ClassicUnitTypes {
                         }}
                 );
 
-                fullIcon = Core.atlas.find("restored-mind-mantel-weapon-icon");
-
                 bullet = new BallBulletType(8f, 110){{
                     float orbRad = 7f, partRad = 3f;
                     int parts = 10;
