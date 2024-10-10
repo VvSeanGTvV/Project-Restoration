@@ -41,7 +41,7 @@ public class epicCreditsDialog extends Dialog {
     }};
 
     Table credit = new Table() {{
-        add(icon).size(90f, 90f).row();
+        add(icon).size(120f, 90f);
         add(logo).size(570f, 90f).row();
         image(Tex.clear).height(27.5f).padTop(3f).row();
         add("v" + ModVersion).row();
@@ -134,7 +134,7 @@ public class epicCreditsDialog extends Dialog {
     public void act(float delta) {
         control.sound.stop();
         super.act(delta);
-        if (((credit.y + contribute.y)/(2f + (graphics.getAspect() * 1.15f))) >= (credit.getMaxHeight() + contribute.getMaxHeight() + ((float) graphics.getHeight() / 2)) * 3f) {
+        if (((credit.y + contribute.y)/(2f + (graphics.getAspect() * 1.05f))) >= (credit.getMaxHeight() + contribute.getMaxHeight() + ((float) graphics.getHeight() / 2)) * 3f) {
             FinishedCredits();
             return;
         }
@@ -237,10 +237,10 @@ public class epicCreditsDialog extends Dialog {
             }
         }
         credit.x = width;
-        credit.y = scrollbar - credit.getMinHeight();
+        credit.y = scrollbar - credit.getMaxHeight();
 
         contribute.x = credit.x;
-        contribute.y = scrollbar - ((credit.getMinHeight() / 2.5f) + contribute.getMinHeight());
+        contribute.y = scrollbar - ((credit.getMaxWidth()) + contribute.getMaxWidth());
 
         contribute.draw();
         credit.draw();

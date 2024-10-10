@@ -97,19 +97,19 @@ public class JumpingUnitType extends UnitType {
             if ((sine > 0f && !ai.stopMoving) && !onlySlide) {
                 var Ysine = Mathf.sin(Mathf.sin(ai.timingY) * 3);
                 if (!ai.hit) {
-                    Draw.rect(body, unit.x, unit.y + 2 + Ysine * 3, (((float) body.width / 2) + sine * 5) * Draw.xscl, ((float) body.height / 2) - sine * 10);
+                    Draw.rect(body, unit.x, unit.y + 2 + Ysine * 3, (((float) body.width / 2) + sine * 5) * Mathf.sign(flip), ((float) body.height / 2) - sine * 10);
                 }
                 if (ai.hit) {
-                    drawOuchOutline(unit, Draw.xscl);
-                    Draw.rect(ouch, unit.x, unit.y + 2 + Ysine * 3, (((float) ouch.width / 2) + sine * 5) * Draw.xscl, ((float) ouch.height / 2) - sine * 10);
+                    drawOuchOutline(unit, Mathf.sign(flip));
+                    Draw.rect(ouch, unit.x, unit.y + 2 + Ysine * 3, (((float) ouch.width / 2) + sine * 5) * Mathf.sign(flip), ((float) ouch.height / 2) - sine * 10);
                 }
             } else {
                 if (!ai.hit) {
-                    Draw.rect(body, unit.x, unit.y + 2, (((float) body.width / 2) * Draw.xscl), (float) body.height / 2);
+                    Draw.rect(body, unit.x, unit.y + 2, (((float) body.width / 2) * Mathf.sign(flip)), (float) body.height / 2);
                 }
                 if (ai.hit) {
-                    drawOuchOutline(unit, Draw.xscl);
-                    Draw.rect(ouch, unit.x, unit.y + 2, (((float) ouch.width / 2) * Draw.xscl), ((float) ouch.height / 2));
+                    drawOuchOutline(unit, Mathf.sign(flip));
+                    Draw.rect(ouch, unit.x, unit.y + 2, (((float) ouch.width / 2) * Mathf.sign(flip)), ((float) ouch.height / 2));
                 }
             }
 

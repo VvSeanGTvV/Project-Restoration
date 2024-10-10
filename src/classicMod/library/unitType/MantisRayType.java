@@ -42,16 +42,9 @@ public class MantisRayType extends UnitType {
 
     @Override
     public void update(Unit unit) {
-        if(unit.controller() instanceof MantisRayAI ai) {
-            ai.timer += Time.delta / 20f;
-            ai.lastRot = Mathf.slerpDelta(ai.lastRot, unit.rotation, 0.35f);
-            ai.lastRotEnd = Mathf.slerpDelta(ai.lastRotEnd, unit.rotation, 0.15f);
-        } else {
-            this.timer += Time.delta / 20f;
-            this.lastRot = Mathf.slerpDelta(this.lastRot, unit.rotation, 0.35f);
-            this.lastRotEnd = Mathf.slerpDelta(this.lastRotEnd, unit.rotation, 0.15f);
-            unit.controller(new MantisRayAI());
-        }
+        this.timer += Time.delta / 20f;
+        this.lastRot = Mathf.slerpDelta(this.lastRot, unit.rotation, 0.35f);
+        this.lastRotEnd = Mathf.slerpDelta(this.lastRotEnd, unit.rotation, 0.15f);
         //this.lastRot = Mathf.slerpDelta(this.lastRot, unit.rotation, 0.35f);
         //this.lastRotEnd = Mathf.slerpDelta(this.lastRotEnd, unit.rotation, 0.2f);
     }
@@ -74,7 +67,7 @@ public class MantisRayType extends UnitType {
     public void draw(Unit unit) {
         super.draw(unit);
 
-        if(unit.controller() instanceof MantisRayAI ai) {
+        /*if(unit.controller() instanceof MantisRayAI ai) {
             Draw.z(Layer.flyingUnit - 1f);
             drawShadow(unit, ai);
             Draw.z(Layer.flyingUnit);
@@ -84,62 +77,72 @@ public class MantisRayType extends UnitType {
             drawOutline(unit, ai);
             drawBody(unit, ai);
             drawTail(unit, ai);
-        }
+        }*/
+
+        Draw.z(Layer.flyingUnit - 1f);
+        drawShadow(unit);
+        Draw.z(Layer.flyingUnit);
+
+
+        Draw.z(Layer.flyingUnit);
+        drawOutline(unit);
+        drawBody(unit);
+        drawTail(unit);
 
         //Draw.rect(TailEnd, unit.x + TailOffset[2].x, unit.y + TailOffset[2].y);
     }
 
-    public void drawShadow(Unit unit, MantisRayAI ai) {
+    public void drawShadow(Unit unit) {
         drawShadowTexture(unit, region, unit.x, unit.y, unit.rotation - 90);
 
-        float lRot0 = ai.lastRot - unit.rotation;
+        float lRot0 = this.lastRot - unit.rotation;
         float yBody = (TailBody.height / 7.5f) + 0f;
         Tmp.v1.trns(unit.rotation + lRot0 - 90, 0, yBody);
 
         drawShadowTexture(unit, TailBody, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 - 90);
-        float lRot1 = ai.lastRotEnd - unit.rotation;
+        float lRot1 = this.lastRotEnd - unit.rotation;
         yBody += (TailBodyEnd.height / 6.15f) + 0f;
         Tmp.v1.trns(unit.rotation + lRot1 - 90, 0, yBody);
 
         drawShadowTexture(unit, TailBodyEndOutline, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot1 - 90);
     }
 
-    public void drawTail(Unit unit, MantisRayAI ai) {
-        var sine0 = Mathf.sin(ai.timer) * 10f;
+    public void drawTail(Unit unit) {
+        var sine0 = Mathf.sin(this.timer) * 10f;
         float sclr = 1f;
         Tmp.v1.trns(unit.rotation - 90, TailOffsetBegin.x, TailOffsetBegin.y);
         Draw.rect(TailBegin, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation - 90);
 
-        float lRot0 = Mathf.floor((ai.lastRot - unit.rotation));
+        float lRot0 = Mathf.floor((this.lastRot - unit.rotation));
         Tmp.v1.trns(unit.rotation + sine0 + lRot0 + AngleOffset[0] - 90, offsetX - ((lRot0 / 10f) + sine0 / 5f), ((TailBegin.height / 8f) + 6.6f + padding) * sclr);
         Draw.rect(TailMiddle, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 + sine0 + AngleOffset[0] - 90);
         drawShadowTexture(unit, TailMiddle, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 + sine0 + AngleOffset[0] - 90);
 
         sclr = 1f;
-        Tmp.v1.trns(unit.rotation + sine0 + lRot0 + AngleOffset[1] - 90, offsetX - ((lRot0 / 20f) + sine0 / 5f) - (Mathf.sin(ai.timer) / 2f), ((TailMiddle.height / 4f) + 0.15f + padding) * sclr);
+        Tmp.v1.trns(unit.rotation + sine0 + lRot0 + AngleOffset[1] - 90, offsetX - ((lRot0 / 20f) + sine0 / 5f) - (Mathf.sin(this.timer) / 2f), ((TailMiddle.height / 4f) + 0.15f + padding) * sclr);
         Draw.rect(TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 + sine0 + sine0 + AngleOffset[1] - 90);
         drawShadowTexture(unit, TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 + sine0 + sine0 + AngleOffset[1] - 90);
     }
 
-    public void drawBody(Unit unit, MantisRayAI ai) {
+    public void drawBody(Unit unit) {
         applyColor(unit);
 
         Draw.rect(region, unit.x, unit.y, unit.rotation - 90);
 
         //Log.info("lrot " + lastRot + " | lrote " + lastRotEnd + " | rot " + Mathf.ceil(unit.rotation));
         //Log.info("lrotb " + (Mathf.ceil(unit.rotation) == 1 && Mathf.ceil(lastRot) > 1) + " | lroteb " + (Mathf.ceil(unit.rotation) == 1 && Mathf.ceil(lastRotEnd) > 1));
-        float lRot0 = ai.lastRot - unit.rotation;
+        float lRot0 = this.lastRot - unit.rotation;
         float yBody = (TailBody.height / 7.5f) + 0f;
         Tmp.v1.trns(unit.rotation + lRot0 - 90, 0, yBody);
         Draw.rect(TailBody, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 - 90);
 
-        float lRot1 = ai.lastRotEnd - unit.rotation;
+        float lRot1 = this.lastRotEnd - unit.rotation;
         yBody += (TailBodyEnd.height / 6.15f) + 0f;
         Tmp.v1.trns(unit.rotation + lRot1 - 90, 0, yBody);
         Draw.rect(TailBodyEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot1 - 90);
     }
 
-    public void drawOutline(Unit unit, MantisRayAI ai) {
+    public void drawOutline(Unit unit) {
         Draw.reset();
 
         if (Core.atlas.isFound(outlineRegion)) {
@@ -148,7 +151,7 @@ public class MantisRayType extends UnitType {
             Draw.rect(outlineRegion, unit.x, unit.y, unit.rotation - 90);
             Draw.reset();
         }
-        float lRot0 = ai.lastRot - unit.rotation;
+        float lRot0 = this.lastRot - unit.rotation;
         float yBody = (TailBody.height / 7.5f) + 0f;
         Tmp.v1.trns(unit.rotation + lRot0 - 90, 0, yBody);
         if (Core.atlas.isFound(TailBodyOutline)) {
@@ -157,7 +160,7 @@ public class MantisRayType extends UnitType {
             Draw.rect(TailBodyOutline, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 - 90);
             Draw.reset();
         }
-        float lRot1 = ai.lastRotEnd - unit.rotation;
+        float lRot1 = this.lastRotEnd - unit.rotation;
         yBody += (TailBodyEnd.height / 6.15f) + 0f;
         Tmp.v1.trns(unit.rotation + lRot1 - 90, 0, yBody);
         if (Core.atlas.isFound(TailBodyEndOutline)) {
