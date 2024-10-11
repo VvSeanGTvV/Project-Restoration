@@ -43,7 +43,8 @@ public class WarpGate extends Block {
         }
     }
 
-    public float warmupTime = 60f;
+    //Time effect ends
+    private final float warmupTime = 60f;
     /**
      * Time between each teleport Transportation
      **/

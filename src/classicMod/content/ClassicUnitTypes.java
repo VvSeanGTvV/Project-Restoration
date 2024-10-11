@@ -1275,13 +1275,17 @@ public class ClassicUnitTypes {
 
             legCount = 6;
             legMoveSpace = 1f;
-            legPairOffset = 3;
-            legLength = 34f;
+            legPairOffset = 3f;
+            legLength = 10f;
             //rotateShooting = false;
-            legExtension = -15;
-            legBaseOffset = 10f;
-            //landShake = 0f;
-            legSpeed = 0.1f;
+            legExtension = -10;
+            legBaseOffset = 5f;
+            stepShake = 1f;
+            legLengthScl = 1f;
+            rippleScale = 2f;
+            legSpeed = 0.2f / 2f;
+            legSplashDamage = 32;
+            legSplashRange = 30;
 
             weapons.add(
                     new Weapon("restored-mind-missiles-mount") {{
@@ -1298,7 +1302,6 @@ public class ClassicUnitTypes {
             outlines = false;
             constructor = MechUnit::create;
             mineTier = 1;
-            hitSize = 9f;
             boostMultiplier = 2f;
             itemCapacity = 20;
             health = 230f;
@@ -1309,7 +1312,8 @@ public class ClassicUnitTypes {
             weapons.add(new Weapon("restored-mind-beam-weapon") {{
                 shake = 2f;
                 shootY = 4f;
-                x = 6.5f;
+                shootX = -4.75f;
+                x = 0.75f;
                 reload = 50f;
                 recoil = 4f;
                 shootSound = Sounds.laser;

@@ -85,7 +85,6 @@ public class ThermalPump extends LiquidBlock {
 
     }
 
-
     @Override
     public void load(){
         super.load();
