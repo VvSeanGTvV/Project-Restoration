@@ -1275,7 +1275,7 @@ public class ClassicUnitTypes {
 
             legCount = 6;
             legMoveSpace = 1f;
-            legPairOffset = 3f;
+            //legPairOffset = 3f;
             legLength = 10f;
             //rotateShooting = false;
             legExtension = -10;
