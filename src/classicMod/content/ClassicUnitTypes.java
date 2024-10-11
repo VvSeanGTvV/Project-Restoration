@@ -1543,6 +1543,7 @@ public class ClassicUnitTypes {
                     trailWidth = 3.1f;
                     trailLength = 8;
                     hitEffect = despawnEffect = Fx.blastExplosion;
+                    hitSound = Sounds.explosion;
 
                     fragBullets = 16;
                     fragBullet = new FlakBulletType(5f, 15){{
