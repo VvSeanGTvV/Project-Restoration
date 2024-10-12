@@ -7,6 +7,7 @@ import arc.graphics.g2d.*;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.util.*;
+import classicMod.library.drawCustom.BlendingCustom;
 import mindustry.entities.units.WeaponMount;
 import mindustry.gen.Unit;
 import mindustry.graphics.*;
@@ -19,11 +20,13 @@ import static mindustry.Vars.world;
 public class MantisRayType extends UnitType {
 
 
+    public TextureRegion eye, eyeGlow;
+
     public MantisRayType(String name) {
         super(name);
 
         weapons.add(new MantisTail(){{
-            //TODO something I guess?
+            layerOffset = -0.0001f;
         }});
     }
 
@@ -33,20 +36,25 @@ public class MantisRayType extends UnitType {
     }
 
     @Override
+    public void load() {
+        super.load();
+        eye = Core.atlas.find(name + "-eye");
+        eyeGlow = Core.atlas.find(name + "-eye-glow");
+    }
+
+    @Override
     public void draw(Unit unit) {
-        super.draw(unit);
+        //super.draw(unit);
 
-        Draw.z(Layer.flyingUnit - 2f);
+        Draw.z(Layer.flyingUnit - 1f);
         drawShadow(unit);
-        Draw.z(Layer.flyingUnit);
 
-        Draw.z(Layer.flyingUnit - 2f);
-        drawOutline(unit);
         Draw.z(Layer.flyingUnit);
+        if(drawBody) drawOutline(unit);
+        drawWeaponOutlines(unit);
         drawBody(unit);
-        //drawTail(unit);
-
-        //Draw.rect(TailEnd, unit.x + TailOffset[2].x, unit.y + TailOffset[2].y);
+        drawWeapons(unit);
+        Draw.rect(eye, unit.x, unit.y, unit.rotation - 90);
     }
 
 

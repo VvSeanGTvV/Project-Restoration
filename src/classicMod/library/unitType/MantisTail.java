@@ -17,6 +17,7 @@ import mindustry.type.weapons.RepairBeamWeapon;
 import mindustry.world.blocks.environment.Floor;
 import mindustry.world.blocks.units.RepairTurret;
 
+import static classicMod.content.ClassicVars.empty;
 import static mindustry.Vars.world;
 
 public class MantisTail extends Weapon {
@@ -35,10 +36,10 @@ public class MantisTail extends Weapon {
     public float offsetX = 0f;
 
     public MantisTail(){
-        super("skat");
     }
 
     {
+        //does nothing other visual effects
         //must be >0 to prevent various bugs
         reload = 1f;
         predictTarget = false;
@@ -50,6 +51,7 @@ public class MantisTail extends Weapon {
         recoil = 0f;
         noAttack = true;
         useAttackRange = false;
+        top = false;
     }
 
     @Override
@@ -104,7 +106,7 @@ public class MantisTail extends Weapon {
         var sine0 = Mathf.sin(tail.timer) * 10f;
         float sclr = 1f;
         float unitRot = ((unit.rotation >= 180f) ? unit.rotation - 360f : unit.rotation);
-        float rotation = tail.lastRot; //((unit.rotation >= 180f) ? unit.rotation - 360f : unit.rotation);
+        float rotation = tail.lastRot;
         float rotationOffset = -90f;
         Tmp.v1.trns(unitRot + rotationOffset, TailOffsetBegin.x, TailOffsetBegin.y);
         Draw.rect(TailBegin, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unitRot + rotationOffset);
@@ -114,7 +116,6 @@ public class MantisTail extends Weapon {
         Draw.rect(TailMiddle, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, rotation + lRot0 + sine0 + AngleOffset[0] + rotationOffset);
         drawShadowTexture(unit, TailMiddle, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, rotation + lRot0 + sine0 + AngleOffset[0] + rotationOffset);
 
-        sclr = 1f;
         Tmp.v1.trns(rotation + sine0 + lRot0 + AngleOffset[1] + rotationOffset,offsetX - ((lRot0 / 20f) + sine0 / 5f), ((TailMiddle.height / 4f) + 0.15f + padding) * sclr);
         Draw.rect(TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, rotation + lRot0 + sine0 + sine0 + AngleOffset[1] + rotationOffset);
         drawShadowTexture(unit, TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, rotation + lRot0 + sine0 + sine0 + AngleOffset[1] + rotationOffset);
@@ -154,9 +155,8 @@ public class MantisTail extends Weapon {
 
     @Override
     public void draw(Unit unit, WeaponMount mount){
-        super.draw(unit, mount);
+        //super.draw(unit, mount);
         MantisMountTail tail = (MantisMountTail)mount;
-
         float z = Draw.z();
         Draw.z(z + layerOffset);
 
@@ -166,23 +166,24 @@ public class MantisTail extends Weapon {
 
         unit.type.applyColor(unit);
 
-        Draw.z(Layer.flyingUnit - 2f);
-        if(shadow <= 0){
-            drawShadow(unit, tail);
-        }
-        Draw.z(Layer.flyingUnit + 1f);
         drawBodyTail(unit, tail);
         drawTail(unit, tail);
-        Draw.z(Layer.flyingUnit - 1f);
-        drawOutline(unit, tail);
+        //drawOutline(unit, tail);
 
         Draw.z(z);
+    }
+
+    @Override
+    public void drawOutline(Unit unit, WeaponMount mount) {
+        MantisMountTail tail = (MantisMountTail)mount;
+        drawOutline(unit, tail);
     }
 
     @Override
     public void load() {
         super.load();
         String name = "restored-mind-skat";
+        region = Core.atlas.find(empty);
         TailBegin = Core.atlas.find(name + "-tail-0");
         TailMiddle = Core.atlas.find(name + "-tail-1");
         TailEnd = Core.atlas.find(name + "-tail-2");
