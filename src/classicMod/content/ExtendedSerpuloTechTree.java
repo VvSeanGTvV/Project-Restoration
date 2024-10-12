@@ -69,7 +69,7 @@ public class ExtendedSerpuloTechTree {
         });
 
         margeNode(cyclone, () -> {
-            node(cycloneb57);
+            //node(cycloneb57);
             node(chainTurret);
         });
 
@@ -109,14 +109,15 @@ public class ExtendedSerpuloTechTree {
         });
 
         margeNode(pneumaticDrill, () -> {
-            node(smolSeparator, Seq.with(
+            node(stoneSeparator, Seq.with(
+                    new OnSector(ruinousShores),
                     new Research(Items.coal),
                     new Research(ClassicItems.stone)
             ), () -> {
                 node(stoneMelter, () -> {
                     node(stoneFormer);
                 });
-                node(centrifuge, Seq.with(new SectorComplete(craters)));
+                node(centrifuge, Seq.with(new SectorComplete(ruinousShores)));
             });
 
             node(poweredDrill, () -> {
@@ -174,7 +175,7 @@ public class ExtendedSerpuloTechTree {
             });
         });
 
-        margeNode(Items.copper, () -> {
+        margeNode(Items.sand, () -> {
             nodeProduce(ClassicItems.stone, () -> {
 
             });

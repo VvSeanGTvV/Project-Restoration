@@ -58,7 +58,7 @@ public class ClassicBlocks {
     rtgGenerator, //Power [Classic-Hybrid]
 
     warpGate, laserConveyor, //Distribution [v4]
-    stoneMelter, stoneFormer, denseSmelter, arcSmelter, alloySmelter,  smolSeparator, centrifuge, //Production [v4]
+    stoneMelter, stoneFormer, denseSmelter, arcSmelter, alloySmelter,  stoneSeparator, centrifuge, //Production [v4]
     fuseMKII, fuseMKI, salvoAlpha, teslaTurret, arcAir, chainTurret, cycloneb57, rippleb41, //Turret [v4]
     plasmaDrill, nuclearDrill, poweredDrill, //Drills [v4]
     wallDense, wallDenseLarge, //Wall [v4]
@@ -485,16 +485,6 @@ public class ClassicBlocks {
             size = 1;
         }};
 
-        crucible = new GenericSmelter("crucible"){{
-            requirements(Category.crafting, with(Items.titanium, 50, Items.lead, 50));
-            health = 90;
-            outputItem = new ItemStack(ClassicItems.dirium, 1);
-            consumeItems(with(Items.titanium, 1, Items.lead, 1));
-            burnTime = 40f;
-            craftTime = 20f;
-            itemCapacity = 20;
-        }};
-
         /*steelSmelter = new GenericSmelter("steel-smelter"){{
             requirements(Category.crafting, with(ClassicItems.stone, 40, ClassicItems.iron, 40));
             health = 70;
@@ -642,35 +632,37 @@ public class ClassicBlocks {
             consumeItems(with(Items.copper, 1, Items.lead, 2));
 
             burnEffect = Fx.coalSmeltsmoke;
+            updateEffect = Fx.smeltsmoke;
             craftTime = 45f;
             burnTime = 46f;
         }};
 
         arcSmelter = new GenericCrafter("arc-smelter"){{
-            health = 90*size;
             requirements(Category.crafting, with(Items.copper, 110, ClassicItems.denseAlloy, 70, Items.lead, 50));
-            craftEffect = ExtendedFx.smeltsmoke;
+            craftEffect = Fx.smeltsmoke;
             outputItem = new ItemStack(ClassicItems.denseAlloy, 2);
             consumeItems(with(Items.copper, 2, Items.lead, 4));
-            consumePower(0.1f);
+            consumePower(0.125f);
             drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc999")));
-            craftTime = 30f;
+            craftTime = 55f;
             size = 2;
+            health = 90 * size;
         }};
 
-        alloySmelter = new GenericCrafter("alloy-smelter"){{
-            health = 75*size;
-            requirements(Category.crafting, with(Items.copper, 175, ClassicItems.denseAlloy, 90, Items.lead, 100));
-            craftEffect = ExtendedFx.smeltsmoke;
-            outputItem = new ItemStack(ClassicItems.denseAlloy, 4);
-            consumeItems(with(Items.copper, 2, Items.lead, 4, Items.sand, 2));
-            consumePower(1f);
-            drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc999")));
-            craftTime = 15f;
-            size = 3;
+        crucible = new GenericSmelter("crucible"){{
+            requirements(Category.crafting, with(Items.titanium, 50, Items.lead, 50));
+            health = 90;
+            outputItem = new ItemStack(ClassicItems.dirium, 1);
+            consumeItems(with(Items.titanium, 1, Items.lead, 1));
+
+            burnEffect = Fx.coalSmeltsmoke;
+            updateEffect = Fx.smeltsmoke;
+            burnTime = 40f;
+            craftTime = 20f;
+            itemCapacity = 20;
         }};
 
-        smolSeparator = new Separator("small-separator"){{
+        stoneSeparator = new Separator("stone-separator"){{
             requirements(Category.crafting, with(Items.copper, 15, ClassicItems.denseAlloy, 15));
             results = with(
                     Items.sand, 10,
