@@ -103,21 +103,20 @@ public class MantisTail extends Weapon {
     public void drawTail(Unit unit, MantisMountTail tail) {
         var sine0 = Mathf.sin(tail.timer) * 10f;
         float sclr = 1f;
-        float rotation = ((unit.rotation >= 180f) ? unit.rotation - 360f : unit.rotation);
+        float unitRot = ((unit.rotation >= 180f) ? unit.rotation - 360f : unit.rotation);
+        float rotation = tail.lastRot; //((unit.rotation >= 180f) ? unit.rotation - 360f : unit.rotation);
         float rotationOffset = -90f;
-        Tmp.v1.trns(rotation + rotationOffset, TailOffsetBegin.x, TailOffsetBegin.y);
-        Draw.rect(TailBegin, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, rotation + rotationOffset);
+        Tmp.v1.trns(unitRot + rotationOffset, TailOffsetBegin.x, TailOffsetBegin.y);
+        Draw.rect(TailBegin, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unitRot + rotationOffset);
 
-        float lRot0 = tail.lastRot - unit.rotation;
+        float lRot0 = 0f;
         Tmp.v1.trns(rotation + sine0 + lRot0 + AngleOffset[0] + rotationOffset, offsetX - ((lRot0 / 10f) + sine0 / 5f), ((TailBegin.height / 8f) + 6.6f + padding) * sclr);
         Draw.rect(TailMiddle, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, rotation + lRot0 + sine0 + AngleOffset[0] + rotationOffset);
-        //Log.info(Tmp.v1);
         drawShadowTexture(unit, TailMiddle, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, rotation + lRot0 + sine0 + AngleOffset[0] + rotationOffset);
 
         sclr = 1f;
         Tmp.v1.trns(rotation + sine0 + lRot0 + AngleOffset[1] + rotationOffset,offsetX - ((lRot0 / 20f) + sine0 / 5f), ((TailMiddle.height / 4f) + 0.15f + padding) * sclr);
         Draw.rect(TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, rotation + lRot0 + sine0 + sine0 + AngleOffset[1] + rotationOffset);
-        //Log.info(Tmp.v1);
         drawShadowTexture(unit, TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, rotation + lRot0 + sine0 + sine0 + AngleOffset[1] + rotationOffset);
     }
 
