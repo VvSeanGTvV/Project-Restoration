@@ -7,14 +7,14 @@ import arc.math.Mathf;
 import arc.util.*;
 import arc.util.io.*;
 import classicMod.content.*;
-import mindustry.content.Items;
+import mindustry.content.*;
 import mindustry.entities.Effect;
 import mindustry.gen.Building;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.ui.Bar;
 import mindustry.world.blocks.production.GenericCrafter;
-import mindustry.world.meta.StatValues;
+import mindustry.world.meta.*;
 
 public class GenericSmelter extends GenericCrafter {
     /**
@@ -22,10 +22,6 @@ public class GenericSmelter extends GenericCrafter {
      **/
     private final ItemStack defaultFuelItem = new ItemStack(Items.coal, 1);
 
-    /**
-     * is Fuel an optional booster.
-     **/
-    public boolean fuelBooster = false;
     /**
      * How long does the fuel last.
      **/
@@ -44,7 +40,7 @@ public class GenericSmelter extends GenericCrafter {
 
     public GenericSmelter(String name) {
         super(name);
-        craftEffect = ExtendedFx.smelt;
+        if (craftEffect == Fx.none) craftEffect = ExtendedFx.smelt;
     }
 
     @Override
@@ -60,12 +56,15 @@ public class GenericSmelter extends GenericCrafter {
     @Override
     public void setStats() {
         stats.timePeriod = craftTime;
-
         if (fuelItems != null) {
             stats.add(ExtendedStat.fuel, StatValues.items(burnTime, fuelItems));
         }
-
         super.setStats();
+        stats.remove(Stat.productionTime);
+
+        if((hasItems && itemCapacity > 0) || outputItems != null){
+            stats.add(Stat.productionTime, craftTime / 60f, StatUnit.seconds);
+        }
     }
 
     @Override

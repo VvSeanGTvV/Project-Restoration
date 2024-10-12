@@ -69,7 +69,7 @@ public class ClassicUnitTypes {
     public static void load() {
         mantis = new MantisRayType("skat"){{
             constructor = UnitEntity::create;
-            controller = u -> new MantisRayAI();
+            //controller = u -> new MantisRayAI();
             health = 100f;
 
             flying = true;

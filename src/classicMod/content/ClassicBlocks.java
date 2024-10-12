@@ -630,9 +630,11 @@ public class ClassicBlocks {
             requirements(Category.crafting, with(Items.copper, 100));
             outputItem = new ItemStack(ClassicItems.denseAlloy, 1);
             consumeItems(with(Items.copper, 1, Items.lead, 2));
+            consumeFuels(with(Items.coal, 1));
 
             burnEffect = Fx.coalSmeltsmoke;
-            updateEffect = Fx.smeltsmoke;
+            updateEffect = ExtendedFx.smeltsmoke;
+            craftEffect = ExtendedFx.smeltsmoke;
             craftTime = 45f;
             burnTime = 46f;
         }};
@@ -654,9 +656,11 @@ public class ClassicBlocks {
             health = 90;
             outputItem = new ItemStack(ClassicItems.dirium, 1);
             consumeItems(with(Items.titanium, 1, Items.lead, 1));
+            consumeFuels(with(Items.pyratite, 1));
 
             burnEffect = Fx.coalSmeltsmoke;
-            updateEffect = Fx.smeltsmoke;
+            updateEffect = ExtendedFx.smeltsmoke;
+            craftEffect = ExtendedFx.smeltsmoke;
             burnTime = 40f;
             craftTime = 20f;
             itemCapacity = 20;
