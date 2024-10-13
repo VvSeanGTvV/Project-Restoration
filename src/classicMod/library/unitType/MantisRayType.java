@@ -50,8 +50,9 @@ public class MantisRayType extends UnitType {
         drawShadow(unit);
 
         Draw.z(Layer.flyingUnit);
-        if(drawBody) drawOutline(unit);
+        drawOutline(unit);
         drawWeaponOutlines(unit);
+        
         drawBody(unit);
         drawWeapons(unit);
         Draw.rect(eye, unit.x, unit.y, unit.rotation - 90);
