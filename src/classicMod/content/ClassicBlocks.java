@@ -95,323 +95,7 @@ public class ClassicBlocks {
 
 
     public void loadClassic(){
-        coreSolo = new CoreBlockClassic("core-solo"){{
-            health = 120;
-            unitType = alpha;
-            isFirstTier = true;
-            infinityCapacity = true;
-            alwaysUnlocked = true;
-        }};
 
-        tunnelBridge = new ModifiedDuctBridge("conveyor-tunnel"){{
-            requirements(Category.distribution, with(ClassicItems.iron, 2));
-            health = 70;
-            range = 3;
-        }
-
-            @Override
-            public void load() {
-                super.load();
-                bridgeRegion = Core.atlas.find(empty);
-                region = Core.atlas.find("restored-mind-conveyor-tunnel");
-                bridgeBotRegion = Core.atlas.find(empty);
-                bridgeLiquidRegion = Core.atlas.find(empty);
-                arrowRegion = Core.atlas.find(empty);
-                dirRegion = Core.atlas.find(empty);
-            }
-
-            @Override
-            public TextureRegion[] icons() {
-                return new TextureRegion[]{region};
-            }
-        };
-
-        purifierCoal = new Purifier("coal-extractor"){{
-            requirements(Category.production, with(ClassicItems.iron, 10, ClassicItems.steel, 10));
-            health = 65;
-            craftTime = 50f;
-            consumeLiquid(Liquids.water, 18.99f/60);
-            consumeItems(with(ClassicItems.stone, 5));
-            outputItem = new ItemStack(Items.coal, 1);
-        }};
-
-        purifierTitanium = new Purifier("titanium-extractor"){{
-            requirements(Category.production, with(ClassicItems.iron, 30, ClassicItems.steel, 30));
-            health = 80;
-            craftTime = 60f;
-            consumeLiquid(Liquids.water, 40f/60);
-            consumeItems(with(ClassicItems.iron, 7));
-            outputItem = new ItemStack(Items.titanium, 1);
-        }};
-
-        lavaLiq = new Floor("molten-lava"){{
-            speedMultiplier = 0.15f;
-            liquidDrop = ClassicLiquids.lava;
-            liquidMultiplier = 0.8f;
-            isLiquid = true;
-            status = StatusEffects.melting;
-            statusDuration = 260f;
-            drownTime = 170f;
-            cacheLayer = CacheLayer.slag;
-            variants = 0;
-
-            attributes.set(Attribute.heat, 0.95f);
-        }};
-
-        teleporter = new Teleporter("teleporter"){{
-            requirements(Category.distribution, with(ClassicItems.steel, 30, ClassicItems.dirium, 40));
-        }};
-
-        ironOre = new OreBlock("iron-ore"){{
-            variants = 3;
-            itemDrop = ClassicItems.iron;
-
-        }};
-
-        uraniumOre = new OreBlock("uranium-ore"){{
-            variants = 3;
-            itemDrop = ClassicItems.uranium;
-        }};
-
-        pumpBasic = new Pump("basic-pump"){{
-            requirements(Category.production, with(ClassicItems.steel, 10));
-            health = 60;
-            pumpAmount = 0.2f;
-        }};
-        pumpFlux = new Pump("flux-pump"){{
-            requirements(Category.production, with(ClassicItems.steel, 10, ClassicItems.dirium, 10));
-            health = 100;
-            pumpAmount = 0.5f;
-        }};
-
-        stoneDrill = new SingleDrill("stone-drill"){{
-            requirements(Category.production, with(ClassicItems.stone, 12));
-            drillTime = 4*60;
-            health = 40;
-            requiredItem = ClassicItems.stone;
-        }};
-
-        ironDrill = new SingleDrill("iron-drill"){{
-            requirements(Category.production, with(ClassicItems.stone, 25));
-            drillTime = 5*60;
-            health = 40;
-            requiredItem = ClassicItems.iron;
-            drawIconItem = true;
-        }};
-
-        uraniumDrill = new SingleDrill("uranium-drill"){{
-            requirements(Category.production, with(ClassicItems.iron, 40, ClassicItems.steel, 40));
-            drillTime = 7*60;
-            health = 40;
-            requiredItem = ClassicItems.uranium;
-            drawIconItem = true;
-        }};
-
-        titaniumDrill = new SingleDrill("titanium-drill"){{
-            requirements(Category.production, with(ClassicItems.iron, 50, ClassicItems.steel, 50));
-            drillTime = 7*60;
-            health = 40;
-            requiredItem = Items.titanium;
-            drawIconItem = true;
-        }};
-
-        coalDrill = new SingleDrill("coal-drill"){{
-            requirements(Category.production, with(ClassicItems.stone, 25, ClassicItems.iron, 40));
-            drillTime = 6*60;
-            health = 40;
-            requiredItem = Items.coal;
-            drawIconItem = true;
-        }};
-
-        omniDrill = new Drill("omni-drill"){
-            {
-                requirements(Category.production, with(Items.titanium, 40, ClassicItems.dirium, 40));
-                health = 40;
-                drillTime = 4*60;
-                drillEffect = ExtendedFx.spark;
-                //acceptedItems = new Item[]{Items.titanium, Items.coal, ClassicItems.iron, ClassicItems.uranium, ClassicItems.stone};
-                tier = ClassicItems.uranium.hardness;
-                drawRim = false;
-                drawMineItem = true;
-                drawSpinSprite = true;
-            }
-
-            @Override
-            public void load() {
-                super.load();
-                itemRegion = Core.atlas.find("restored-mind-drill-middle");
-                region = Core.atlas.find("restored-mind-drill-bottom");
-                rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
-                topRegion = Core.atlas.find("restored-mind-omni-rim");
-            }
-        };
-
-
-
-        titanCannon = new ItemTurret("titan-cannon"){{
-            requirements(Category.turret, with(Items.titanium, 50 * size, ClassicItems.dirium, 55 * size, ClassicItems.steel, 70 * size));
-            ammo(ClassicItems.uranium, titanshell);
-            size = 3;
-            recoil = 3;
-            shake = recoil;
-            shootSound = blast;
-            shootEffect = ExtendedFx.titanshot;
-            smokeEffect = Fx.none;
-            health = 800;
-            rotateSpeed = 0.07f*45;
-            shootCone = 9f;
-            range = 300f;
-            reload = 23f;
-            outlineColor = Color.valueOf("ffd86c");
-        }};
-
-        plasmaTurret = new ItemTurret("plasma-turret"){{
-            requirements(Category.turret, with(Items.titanium, 20, ClassicItems.dirium, 15, ClassicItems.steel, 10));
-            shootSound = flame2;
-            shootEffect = Fx.none;
-            smokeEffect = Fx.none;
-            size = 1;
-            recoil = 0;
-            inaccuracy = 7f;
-            range = 69f;
-            reload = 3f;
-            ammo(Items.coal, plasmaflame);
-            health = 280;
-            outlineColor = Color.valueOf("ffd86c");
-            outlineRadius = 4;
-        }};
-
-        mortarTurret = new ItemTurret("mortar-turret"){{
-            requirements(Category.turret, with(Items.titanium, 25, ClassicItems.steel, 15));
-            range = 180f;
-            rotateSpeed = 0.2f*45;
-            ammo(Items.coal, flakClassic);
-            shootSound = bigshot;
-            shootEffect = ExtendedFx.mortarshot;
-            smokeEffect = Fx.none;
-            reload = 55f;
-            shoot.shots = 3;
-            health = 170;
-            outlineColor = Color.valueOf("6d5bec");
-        }};
-
-        laserTurret = new PowerTurret("laser-turret"){{
-            requirements(Category.turret, with(Items.titanium, 12, ClassicItems.steel, 12));
-            range = 74.5f;
-            shootType = new LaserOnTargetType(range, 10, Color.sky, 60f * 1.5f);
-            shootSound = lazerShot;
-            shootEffect = Fx.none;
-            smokeEffect = Fx.none;
-            reload = 8f;
-            health = 150;
-            consumePower(0.2f * 4f);
-            outlineColor = Color.valueOf("6d5bec");
-            playerControllable = false;
-        }};
-
-        flameTurret = new ItemTurret("flame-turret"){{
-            requirements(Category.turret, with(ClassicItems.iron, 12, ClassicItems.steel, 8));
-            range = 65f;
-            ammo(Items.coal, flameClassic);
-            shootSound = shootDefault;
-            shootEffect = Fx.none;
-            smokeEffect = Fx.none;
-            reload = 1f;
-            health = 135;
-            outlineColor = Color.valueOf("8b4aa9");
-        }};
-
-        sniperTurret = new ItemTurret("sniper-turret"){{
-            requirements(Category.turret, with(ClassicItems.iron, 15, ClassicItems.steel, 15));
-            range = 175f;
-            ammo(ClassicItems.steel, sniper);
-            shootSound = railshot;
-            shootEffect = ExtendedFx.railshot;
-            smokeEffect = Fx.none;
-            reload = 50f;
-            health = 115;
-            outlineColor = Color.valueOf("8b4aa9");
-        }};
-
-        shotgunTurret = new ItemTurret("shotgun-turret"){{
-            shoot = new ShootSpread(5, 15f);
-            inaccuracy = 15f;
-            requirements(Category.turret, with(ClassicItems.iron, 12, ClassicItems.stone, 10));
-            range = 105f;
-            ammo(ClassicItems.iron, iron);
-            shootSound = shootDefault;
-            shootEffect = Fx.none;
-            smokeEffect = Fx.none;
-            reload = 30f;
-            health = 100;
-            outlineColor = Color.valueOf("c4593b");
-        }};
-
-        gattlingTurret = new ItemTurret("machine-turret"){{
-            requirements(Category.turret, with(ClassicItems.iron, 8, ClassicItems.stone, 10));
-            range = 97.5f;
-            ammo(ClassicItems.iron, iron);
-            shootSound = shootDefault;
-            shootEffect = Fx.none;
-            smokeEffect = Fx.none;
-            reload = 7f;
-            health = 90;
-            outlineColor = Color.valueOf("c4593b");
-        }};
-
-        doubleTurret = new ItemTurret("double-turret"){{
-            requirements(Category.turret, with(ClassicItems.stone, 7));
-            shootSound = shootDefault;
-            shootEffect = Fx.none;
-            smokeEffect = Fx.none;
-            range = 95.5f;
-            reload = 9.15f;
-            health = 75;
-            outlineColor = Color.valueOf("1869a7");
-            outlineRadius = 4;
-            shoot = new ShootAlternate(1.5f);
-            ammo(ClassicItems.stone, stone);
-        }};
-
-        basicTurret = new ItemTurret("basic-turret"){{
-            requirements(Category.turret, with(ClassicItems.stone, 4));
-            shootSound = shootDefault;
-            shootEffect = Fx.none;
-            smokeEffect = Fx.none;
-            range = 103f;
-            reload = 15f;
-            health = 60;
-            outlineColor = Color.valueOf("1869a7");
-            outlineRadius = 4;
-            ammo(ClassicItems.stone, stone);
-        }};
-
-        nuclearReactor = new NuclearReactor("nuclear-reactor"){{
-            requirements(Category.power, with(Items.titanium, 40 * size, ClassicItems.dirium, 40 * size, ClassicItems.steel, 50 * size));
-            ambientSound = Sounds.hum;
-            ambientSoundVolume = 0.24f;
-            explodeEffect = ExtendedFx.nuclearShockwave;
-            size = 3;
-            health = 600 * size;
-            itemDuration = 130f;
-            powerProduction = 0.45f*60;
-            //power = 80f;
-            liquidCapacity = 50;
-
-            coolColor = new Color(1, 1, 1, 0f);
-            hotColor = Color.valueOf("ff9575a3");
-
-            heating = 0.007f;
-            coolantPower = 0.007f*size;
-            flashThreshold = 0.46f;
-
-            explosionRadius = 19*size;
-            explosionDamage = 135*size*size;
-
-            fuelItem = ClassicItems.uranium;
-            consumeItem(ClassicItems.uranium);
-            consumeLiquid(Liquids.water, heating / coolantPower).update(false);
-        }};
     }
 
     public void loadv4(){
@@ -429,61 +113,6 @@ public class ClassicBlocks {
         }};
 
         int wallHealthMultiplier = 4;
-        wallStone = new Wall("stone-wall"){{
-            requirements(Category.defense, with(ClassicItems.stone, 12));
-            health = 40 * wallHealthMultiplier;
-        }};
-        wallIron = new Wall("iron-wall"){{
-            requirements(Category.defense, with(ClassicItems.iron, 12));
-            health = 80 * wallHealthMultiplier;
-        }};
-        wallSteel = new Wall("steel-wall"){{
-            requirements(Category.defense, with(ClassicItems.steel, 12));
-            health = 110 * wallHealthMultiplier;
-        }};
-        wallDirium = new Wall("dirium-wall"){{
-            requirements(Category.defense, with(ClassicItems.dirium, 12));
-            health = 190 * wallHealthMultiplier;
-        }};
-        wallComposite = new Wall("composite-wall"){{
-            requirements(Category.defense, with(ClassicItems.dirium, 12, Items.titanium, 12, Items.lead, 12));
-            health = 270 * wallHealthMultiplier;
-        }};
-
-        wallDiriumLarge = new Wall("dirium-wall-large"){{
-            requirements(Category.defense, ItemStack.mult(wallDirium.requirements, 4));
-            health = 110 * wallHealthMultiplier * 4;
-            size = 2;
-        }};
-
-        wallSteelLarge = new Wall("steel-wall-large"){{
-            requirements(Category.defense, ItemStack.mult(wallSteel.requirements, 4));
-            health = 80 * wallHealthMultiplier * 4;
-            size = 2;
-        }};
-
-        wallDense = new Wall("dense-wall"){{
-            requirements(Category.defense, with(ClassicItems.denseAlloy, 12));
-            health = 110 * wallHealthMultiplier;
-            size = 1;
-        }};
-
-        wallDenseLarge = new Wall("dense-wall-large"){{
-            requirements(Category.defense, ItemStack.mult(wallDense.requirements, 4));
-            health = 110 * wallHealthMultiplier * 4;
-            size = 2;
-        }};
-
-        wallShieldedTitanium = new ShieldWallColor("titanium-shieldwall"){{
-            requirements(Category.defense, with(ClassicItems.titanium, 6, ClassicItems.lead, 6));
-            glowColor = Items.titanium.color.a(0.5f);
-            shieldColor = Items.titanium.color.a(1f);
-            shieldHealth = 400f;
-
-            consumePower(1f / 60f);
-            health = 40 * wallHealthMultiplier * 4;
-            size = 1;
-        }};
 
         /*steelSmelter = new GenericSmelter("steel-smelter"){{
             requirements(Category.crafting, with(ClassicItems.stone, 40, ClassicItems.iron, 40));
@@ -504,28 +133,6 @@ public class ClassicBlocks {
             craftTime = 30;
             craftEffect = ExtendedFx.purifystone;
         }};*/
-
-        stoneFormer = new GenericCrafter("stone-former"){{
-            requirements(Category.crafting, with(ClassicItems.stone, 30, Items.lead, 30, Items.copper, 55));
-            consumeLiquid(ClassicLiquids.slag, 18f/60f);
-            outputItem = new ItemStack(ClassicItems.stone, 1);
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawDefault());
-            health = 80;
-            craftTime = 12;
-            consumePower(30f/60f);
-            craftEffect = ExtendedFx.purifystone;
-        }};
-
-        stoneMelter = new GenericCrafter("stone-melter"){{
-            requirements(Category.crafting, with(ClassicItems.stone, 30, Items.graphite, 35, Items.copper, 50));
-            health = 85;
-            outputLiquid = new LiquidStack(ClassicLiquids.slag, 4f/60f);
-            consumeItems(with(ClassicItems.stone, 1));
-            consumePower(62.5f/60f);
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawDefault());
-            craftTime = 10f;
-            itemCapacity = 20;
-        }};
 
 
         /*salvoAlpha = new ItemTurretV6("alpha-salvo"){{
@@ -589,260 +196,6 @@ public class ClassicBlocks {
             shoot.shots = 3;
             ammoUseEffect = ExtendedFx.shellEjectBig;
         }};*/
-
-        fuseMKII = new ItemTurretV6("fuse-surge"){{
-            requirements(Category.turret, ItemStack.with(Items.copper, 450, Items.graphite, 450, Items.surgeAlloy, 220));
-
-            float brange = range + 10f; //TODO ammo
-            ammo(
-                    Items.surgeAlloy, fuseShot
-            );
-            shoot = new ShootSpread(3, 20.0F);
-            shootSound = Sounds.shotgun;
-
-            coolant = consumeCoolant(0.35f);
-            reload = 40f;
-            shake = 4f;
-            range = 110f;
-            recoil = 5f;
-            restitution = 0.1f;
-            size = 3;
-
-            health = 165 * size * size;
-        }};
-
-        fuseMKI = new ItemTurretV6("fuse-b40"){{
-            requirements(Category.turret, with(ClassicItems.copper, 210, ClassicItems.denseAlloy, 190, Items.surgeAlloy, 130));
-            ammo(
-                    ClassicItems.denseAlloy, fuseShot
-            );
-            shootSound = Sounds.shotgun;
-            reload = 50f;
-            shake = 4f;
-            range = 80f;
-            recoil = 5f;
-            restitution = 0.1f;
-            size = 3;
-        }};
-
-        denseSmelter = new GenericSmelter("dense-smelter"){{
-            health = 70;
-            requirements(Category.crafting, with(Items.copper, 100));
-            outputItem = new ItemStack(ClassicItems.denseAlloy, 1);
-            consumeItems(with(Items.copper, 1, Items.lead, 2));
-            consumeFuels(with(Items.coal, 1));
-
-            burnEffect = Fx.coalSmeltsmoke;
-            updateEffect = ExtendedFx.smeltsmoke;
-            craftEffect = ExtendedFx.smeltsmoke;
-            craftTime = 45f;
-            burnTime = 46f;
-        }};
-
-        arcSmelter = new GenericCrafter("arc-smelter"){{
-            requirements(Category.crafting, with(Items.copper, 110, ClassicItems.denseAlloy, 70, Items.lead, 50));
-            craftEffect = Fx.smeltsmoke;
-            outputItem = new ItemStack(ClassicItems.denseAlloy, 2);
-            consumeItems(with(Items.copper, 2, Items.lead, 4));
-            consumePower(0.125f);
-            drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc999")));
-            craftTime = 55f;
-            size = 2;
-            health = 90 * size;
-        }};
-
-        crucible = new GenericSmelter("crucible"){{
-            requirements(Category.crafting, with(Items.titanium, 50, Items.lead, 50));
-            health = 90;
-            outputItem = new ItemStack(ClassicItems.dirium, 1);
-            consumeItems(with(Items.titanium, 1, Items.lead, 1));
-            consumeFuels(with(Items.pyratite, 1));
-
-            burnEffect = Fx.coalSmeltsmoke;
-            updateEffect = ExtendedFx.smeltsmoke;
-            craftEffect = ExtendedFx.smeltsmoke;
-            burnTime = 40f;
-            craftTime = 20f;
-            itemCapacity = 20;
-        }};
-
-        stoneSeparator = new Separator("stone-separator"){{
-            requirements(Category.crafting, with(Items.copper, 15, ClassicItems.denseAlloy, 15));
-            results = with(
-                    Items.sand, 10,
-                    ClassicItems.stone, 9,
-                    Items.copper, 4,
-                    Items.lead, 2,
-                    Items.coal, 2,
-                    Items.titanium, 1
-            );
-            hasPower = false;
-            craftTime = 40f;
-            size = 1;
-
-            consumeItems(with(ClassicItems.stone, 2));
-            consumeLiquid(Liquids.water, 0.3f / 40f);
-
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawRegion("-spinner", 3, true), new DrawDefault());
-        }};
-
-        centrifuge = new Separator("centrifuge"){{
-            requirements(Category.crafting, with(Items.copper, 50, ClassicItems.denseAlloy, 50, Items.titanium, 25));
-            results = with(
-                    Items.sand, 12,
-                    ClassicItems.stone, 11,
-                    Items.copper, 5,
-                    Items.lead, 3,
-                    Items.coal, 3,
-                    Items.titanium, 2,
-                    Items.thorium, 1
-            );
-            hasPower = true;
-            craftTime = 15f;
-            size = 2;
-
-            consumeItems(with(ClassicItems.stone, 2));
-            consumeLiquid(Liquids.water, 0.5f / 40f);
-            consumePower(0.2f);
-
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawRegion("-spinner", 3, true), new DrawDefault());
-        }};
-
-        rippleb41 = new ItemTurret("ripple-b41"){{
-            requirements(Category.turret, with(ClassicItems.denseAlloy, 300, Items.titanium, 220, Items.thorium, 120));
-            ammo(
-                    ClassicItems.denseAlloy, new ArtilleryBulletType(3f, 0, "shell"){{
-                        hitEffect = Fx.flakExplosion;
-                        knockback = 0.8f;
-                        lifetime = 50f;
-                        width = height = 11f;
-                        collidesTiles = false;
-                        splashDamageRadius = 25f;
-                        splashDamage = 33f;
-                    }},
-                    Items.silicon, new ArtilleryBulletType(3f, 0, "shell"){{
-                        hitEffect = Fx.flakExplosion;
-                        knockback = 0.8f;
-                        lifetime = 45f;
-                        width = height = 11f;
-                        collidesTiles = false;
-                        splashDamageRadius = 25f;
-                        splashDamage = 33f;
-                        homingPower = 2f * 0.08f;
-                        homingRange = 50f;
-                        reloadMultiplier = 0.9f;
-                    }},
-                    Items.pyratite, new ArtilleryBulletType(3f, 0, "shell"){{
-                        hitEffect = Fx.blastExplosion;
-                        knockback = 0.8f;
-                        lifetime = 60f;
-                        width = height = 13f;
-                        collidesTiles = false;
-                        splashDamageRadius = 25f;
-                        splashDamage = 30f;
-                        incendAmount = 4;
-                        incendSpread = 11f;
-                        frontColor = Pal.lightishOrange;
-                        backColor = Pal.lightOrange;
-                        trailEffect = Fx.incendTrail;
-                        reloadMultiplier = 1.2f;
-                    }},
-                    Items.blastCompound, new ArtilleryBulletType(2f, 20, "shell"){{
-                        hitEffect = Fx.blastExplosion;
-                        knockback = 0.8f;
-                        lifetime = 70f;
-                        width = height = 14f;
-                        collidesTiles = false;
-                        splashDamageRadius = 45f;
-                        splashDamage = 50f;
-                        backColor = Pal.missileYellowBack;
-                        frontColor = Pal.missileYellow;
-                        reloadMultiplier = 1.6f;
-
-                        status = StatusEffects.blasted;
-                    }},
-                    Items.plastanium, new ArtilleryBulletType(3.3f, 0, "shell"){{
-                        hitEffect = Fx.plasticExplosion;
-                        knockback = 1f;
-                        lifetime = 55f;
-                        width = height = 13f;
-                        collidesTiles = false;
-                        splashDamageRadius = 35f;
-                        splashDamage = 35f;
-                        fragBullets = 9;
-                        fragBullet = new BasicBulletType(2.5f, 10, "bullet"){{
-                            width = 10f;
-                            height = 12f;
-                            shrinkX = shrinkY = 1f;
-                            lifetime = 15f;
-                            backColor = Pal.plastaniumBack;
-                            frontColor = Pal.plastaniumFront;
-                        }};
-                        backColor = Pal.plastaniumBack;
-                        frontColor = Pal.plastaniumFront;
-                        reloadMultiplier = 1.9f;
-                    }}
-            );
-
-            targetAir = false;
-            size = 3;
-            shoot.shots = 4;
-            inaccuracy = 12f;
-            reload = 60f;
-            ammoEjectBack = 5f;
-            ammoUseEffect = ExtendedFx.shellEjectBig;
-            ammoPerShot = 2;
-            velocityRnd = 0.2f;
-
-
-
-            recoil = 6f;
-            shake = 2f;
-
-            range = 300f;
-            minRange = 50f;
-            coolant = consumeCoolant(0.3f);
-
-            scaledHealth = 130;
-            shootSound = Sounds.artillery;
-        }};
-
-        cycloneb57 = new ItemTurret("cyclone-b57"){{
-            requirements(Category.turret, with(Items.copper, 200, Items.titanium, 125, Items.plastanium, 80));
-            ammo(
-                    Items.lead, new BasicBulletType(3f, 5){{
-                        width = 7f;
-                        height = 9f;
-                    }},
-                    Items.surgeAlloy, new FlakBulletType(4.5f, 13){{
-                        ammoMultiplier = 5f;
-                        splashDamage = 50f * 1.5f;
-                        splashDamageRadius = 38f;
-                        lightning = 2;
-                        lightningLength = 7;
-                        shootEffect = Fx.shootBig;
-                        collidesGround = true;
-                        explodeRange = 20f;
-                    }}
-            );
-            shootY = 10f;
-
-            recoils = 3;
-
-            reload = 8.25f;
-            range = 210f;
-            size = 3;
-            recoil = 1.6f;
-            recoilTime = 10;
-            rotateSpeed = 10f;
-            inaccuracy = 11f;
-            shootCone = 30f;
-            shootSound = Sounds.shootSnap;
-            coolant = consumeCoolant(0.3f);
-
-            scaledHealth = 145;
-            limitRange();
-        }};
     }
 
     public void load() {
@@ -1059,6 +412,45 @@ public class ClassicBlocks {
             size = 2;
         }};
 
+        wallDense = new Wall("dense-wall"){{
+            requirements(Category.defense, with(ClassicItems.denseAlloy, 12));
+            health = 110 * wallHealthMultiplier;
+            size = 1;
+        }};
+
+        wallDenseLarge = new Wall("dense-wall-large"){{
+            requirements(Category.defense, ItemStack.mult(wallDense.requirements, 4));
+            health = 110 * wallHealthMultiplier * 4;
+            size = 2;
+        }};
+
+        wallShieldedTitanium = new ShieldWallColor("titanium-shieldwall"){{
+            requirements(Category.defense, with(ClassicItems.titanium, 6, ClassicItems.lead, 6));
+            glowColor = Items.titanium.color.a(0.5f);
+            shieldColor = Items.titanium.color.a(1f);
+            shieldHealth = 400f;
+
+            consumePower(1f / 60f);
+            health = 40 * wallHealthMultiplier * 4;
+            size = 1;
+        }};
+
+        wallDirium = new Wall("dirium-wall"){{
+            requirements(Category.defense, with(ClassicItems.dirium, 12));
+            health = 190 * wallHealthMultiplier;
+        }};
+
+        wallComposite = new Wall("composite-wall"){{
+            requirements(Category.defense, with(ClassicItems.dirium, 12, Items.titanium, 12, Items.lead, 12));
+            health = 270 * wallHealthMultiplier;
+        }};
+
+        wallDiriumLarge = new Wall("dirium-wall-large"){{
+            requirements(Category.defense, ItemStack.mult(wallDirium.requirements, 4));
+            health = 110 * wallHealthMultiplier * 4;
+            size = 2;
+        }};
+
         //Projectors
         barrierProjector = new DirectionalForceProjector("barrier-projector"){{
             requirements(Category.effect, with(Items.tungsten, 100, Items.silicon, 125));
@@ -1134,6 +526,111 @@ public class ClassicBlocks {
         };
 
         //Crafting
+        stoneFormer = new GenericCrafter("stone-former"){{
+            requirements(Category.crafting, with(ClassicItems.stone, 30, Items.lead, 30, Items.copper, 55));
+            consumeLiquid(ClassicLiquids.slag, 18f/60f);
+            outputItem = new ItemStack(ClassicItems.stone, 1);
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawDefault());
+            health = 80;
+            craftTime = 12;
+            consumePower(30f/60f);
+            craftEffect = ExtendedFx.purifystone;
+        }};
+
+        stoneMelter = new GenericCrafter("stone-melter"){{
+            requirements(Category.crafting, with(ClassicItems.stone, 30, Items.graphite, 35, Items.copper, 50));
+            health = 85;
+            outputLiquid = new LiquidStack(ClassicLiquids.slag, 4f/60f);
+            consumeItems(with(ClassicItems.stone, 1));
+            consumePower(62.5f/60f);
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawDefault());
+            craftTime = 10f;
+            itemCapacity = 20;
+        }};
+
+        denseSmelter = new GenericSmelter("dense-smelter"){{
+            health = 70;
+            requirements(Category.crafting, with(Items.copper, 100));
+            outputItem = new ItemStack(ClassicItems.denseAlloy, 1);
+            consumeItems(with(Items.copper, 1, Items.lead, 2));
+            consumeFuels(with(Items.coal, 1));
+
+            burnEffect = Fx.coalSmeltsmoke;
+            updateEffect = ExtendedFx.smeltsmoke;
+            craftEffect = ExtendedFx.smeltsmoke;
+            craftTime = 45f;
+            burnTime = 46f;
+        }};
+
+        arcSmelter = new GenericCrafter("arc-smelter"){{
+            requirements(Category.crafting, with(Items.copper, 110, ClassicItems.denseAlloy, 70, Items.lead, 50));
+            craftEffect = Fx.smeltsmoke;
+            outputItem = new ItemStack(ClassicItems.denseAlloy, 2);
+            consumeItems(with(Items.copper, 2, Items.lead, 4));
+            consumePower(0.125f);
+            drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc999")));
+            craftTime = 55f;
+            size = 2;
+            health = 90 * size;
+        }};
+
+        crucible = new GenericSmelter("crucible"){{
+            requirements(Category.crafting, with(Items.titanium, 50, Items.lead, 50));
+            health = 90;
+            outputItem = new ItemStack(ClassicItems.dirium, 1);
+            consumeItems(with(Items.titanium, 1, Items.lead, 1));
+            consumeFuels(with(Items.pyratite, 1));
+
+            burnEffect = Fx.coalSmeltsmoke;
+            updateEffect = ExtendedFx.smeltsmoke;
+            craftEffect = ExtendedFx.smeltsmoke;
+            burnTime = 40f;
+            craftTime = 20f;
+            itemCapacity = 20;
+        }};
+
+        stoneSeparator = new Separator("stone-separator"){{
+            requirements(Category.crafting, with(Items.copper, 15, ClassicItems.denseAlloy, 15));
+            results = with(
+                    Items.sand, 10,
+                    ClassicItems.stone, 9,
+                    Items.copper, 4,
+                    Items.lead, 2,
+                    Items.coal, 2,
+                    Items.titanium, 1
+            );
+            hasPower = false;
+            craftTime = 40f;
+            size = 1;
+
+            consumeItems(with(ClassicItems.stone, 2));
+            consumeLiquid(Liquids.water, 0.3f / 40f);
+
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawRegion("-spinner", 3, true), new DrawDefault());
+        }};
+
+        centrifuge = new Separator("centrifuge"){{
+            requirements(Category.crafting, with(Items.copper, 50, ClassicItems.denseAlloy, 50, Items.titanium, 25));
+            results = with(
+                    Items.sand, 12,
+                    ClassicItems.stone, 11,
+                    Items.copper, 5,
+                    Items.lead, 3,
+                    Items.coal, 3,
+                    Items.titanium, 2,
+                    Items.thorium, 1
+            );
+            hasPower = true;
+            craftTime = 15f;
+            size = 2;
+
+            consumeItems(with(ClassicItems.stone, 2));
+            consumeLiquid(Liquids.water, 0.5f / 40f);
+            consumePower(0.2f);
+
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawRegion("-spinner", 3, true), new DrawDefault());
+        }};
+
         heatReactor = new HeatProducer("heat-reactor"){{
             requirements(Category.crafting, with(Items.oxide, 70, Items.graphite, 20, Items.carbide, 10, Items.thorium, 80));
             size = 3;
@@ -1307,6 +804,187 @@ public class ClassicBlocks {
         }};
 
         //Turrets
+
+        rippleb41 = new ItemTurret("ripple-b41"){{
+            requirements(Category.turret, with(ClassicItems.denseAlloy, 300, Items.titanium, 220, Items.thorium, 120));
+            ammo(
+                    ClassicItems.denseAlloy, new ArtilleryBulletType(3f, 0, "shell"){{
+                        hitEffect = Fx.flakExplosion;
+                        knockback = 0.8f;
+                        lifetime = 50f;
+                        width = height = 11f;
+                        collidesTiles = false;
+                        splashDamageRadius = 25f;
+                        splashDamage = 33f;
+                    }},
+
+                    Items.silicon, new ArtilleryBulletType(3f, 0, "shell"){{
+                        hitEffect = Fx.flakExplosion;
+                        knockback = 0.8f;
+                        lifetime = 45f;
+                        width = height = 11f;
+                        collidesTiles = false;
+                        splashDamageRadius = 25f;
+                        splashDamage = 33f;
+                        homingPower = 2f * 0.08f;
+                        homingRange = 50f;
+                        reloadMultiplier = 0.9f;
+                    }},
+                    Items.pyratite, new ArtilleryBulletType(3f, 0, "shell"){{
+                        hitEffect = Fx.blastExplosion;
+                        knockback = 0.8f;
+                        lifetime = 60f;
+                        width = height = 13f;
+                        collidesTiles = false;
+                        splashDamageRadius = 25f;
+                        splashDamage = 30f;
+                        incendAmount = 4;
+                        incendSpread = 11f;
+                        frontColor = Pal.lightishOrange;
+                        backColor = Pal.lightOrange;
+                        trailEffect = Fx.incendTrail;
+                        reloadMultiplier = 1.2f;
+                    }},
+                    Items.blastCompound, new ArtilleryBulletType(2f, 20, "shell"){{
+                        hitEffect = Fx.blastExplosion;
+                        knockback = 0.8f;
+                        lifetime = 70f;
+                        width = height = 14f;
+                        collidesTiles = false;
+                        splashDamageRadius = 45f;
+                        splashDamage = 50f;
+                        backColor = Pal.missileYellowBack;
+                        frontColor = Pal.missileYellow;
+                        reloadMultiplier = 1.6f;
+
+                        status = StatusEffects.blasted;
+                    }},
+                    Items.plastanium, new ArtilleryBulletType(3.3f, 0, "shell"){{
+                        hitEffect = Fx.plasticExplosion;
+                        knockback = 1f;
+                        lifetime = 55f;
+                        width = height = 13f;
+                        collidesTiles = false;
+                        splashDamageRadius = 35f;
+                        splashDamage = 35f;
+                        fragBullets = 9;
+                        fragBullet = new BasicBulletType(2.5f, 10, "bullet"){{
+                            width = 10f;
+                            height = 12f;
+                            shrinkX = shrinkY = 1f;
+                            lifetime = 15f;
+                            backColor = Pal.plastaniumBack;
+                            frontColor = Pal.plastaniumFront;
+                        }};
+                        backColor = Pal.plastaniumBack;
+                        frontColor = Pal.plastaniumFront;
+                        reloadMultiplier = 1.9f;
+                    }}
+            );
+
+            targetAir = false;
+            size = 3;
+            shoot.shots = 4;
+            inaccuracy = 12f;
+            reload = 60f;
+            ammoEjectBack = 5f;
+            ammoUseEffect = ExtendedFx.shellEjectBig;
+            ammoPerShot = 2;
+            velocityRnd = 0.2f;
+
+
+
+            recoil = 6f;
+            shake = 2f;
+
+            range = 300f;
+            minRange = 50f;
+            coolant = consumeCoolant(0.3f);
+
+            scaledHealth = 130;
+            shootSound = Sounds.artillery;
+        }};
+
+        cycloneb57 = new ItemTurret("cyclone-b57"){{
+            requirements(Category.turret, with(Items.copper, 200, Items.titanium, 125, Items.plastanium, 80));
+            ammo(
+                    Items.lead, new BasicBulletType(3f, 5){{
+                        width = 7f;
+                        height = 9f;
+                    }},
+
+                    ClassicItems.denseAlloy, new BasicBulletType(5f, 5){{
+                        ammoMultiplier = 0.8f;
+                        width = 7f;
+                        height = 9f;
+                        reloadMultiplier = 1.5f;
+                    }},
+
+                    Items.surgeAlloy, new FlakBulletType(4.5f, 13){{
+                        ammoMultiplier = 5f;
+                        splashDamage = 50f * 1.5f;
+                        splashDamageRadius = 38f;
+                        lightning = 2;
+                        lightningLength = 7;
+                        shootEffect = Fx.shootBig;
+                        collidesGround = true;
+                        explodeRange = 20f;
+                    }}
+            );
+            shootY = 10f;
+
+            recoils = 3;
+
+            reload = 8.25f;
+            range = 210f;
+            size = 3;
+            recoil = 1.6f;
+            recoilTime = 10;
+            rotateSpeed = 10f;
+            inaccuracy = 11f;
+            shootCone = 30f;
+            shootSound = Sounds.shootSnap;
+            coolant = consumeCoolant(0.3f);
+
+            scaledHealth = 145;
+            limitRange();
+        }};
+
+        fuseMKII = new ItemTurretV6("fuse-surge"){{
+            requirements(Category.turret, ItemStack.with(Items.copper, 450, Items.graphite, 450, Items.surgeAlloy, 220));
+
+            float brange = range + 10f; //TODO ammo
+            ammo(
+                    Items.surgeAlloy, fuseShot
+            );
+            shoot = new ShootSpread(3, 20.0F);
+            shootSound = Sounds.shotgun;
+
+            coolant = consumeCoolant(0.35f);
+            reload = 40f;
+            shake = 4f;
+            range = 110f;
+            recoil = 5f;
+            restitution = 0.1f;
+            size = 3;
+
+            health = 165 * size * size;
+        }};
+
+        fuseMKI = new ItemTurretV6("fuse-b40"){{
+            requirements(Category.turret, with(ClassicItems.copper, 210, ClassicItems.denseAlloy, 190, Items.surgeAlloy, 130));
+            ammo(
+                    ClassicItems.denseAlloy, fuseShot
+            );
+            shootSound = Sounds.shotgun;
+            reload = 50f;
+            shake = 4f;
+            range = 80f;
+            recoil = 5f;
+            restitution = 0.1f;
+            size = 3;
+        }};
+
         arcAir = new PowerTurret("arc-air"){{
             requirements(Category.turret, with(Items.copper, 50, Items.lead, 50));
             shootType = arcOld;

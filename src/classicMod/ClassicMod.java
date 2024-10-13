@@ -35,6 +35,7 @@ public class ClassicMod extends Mod{
     /** Mod's current Build **/
     public static final String BuildVer = "14";
     public static LoadedMod resMod = mods.locateMod("restored-mind");
+    public static String Internalname = resMod.name;
     /** Mindustry's Contributors **/
     public static Seq<String> contributors = new Seq<>();
     public ClassicMod(){
