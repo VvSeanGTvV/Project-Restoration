@@ -157,7 +157,7 @@ public class MantisTail extends Weapon {
     public void draw(Unit unit, WeaponMount mount){
         //super.draw(unit, mount);
         MantisMountTail tail = (MantisMountTail)mount;
-        float z = Draw.z();
+        float z = Layer.flyingUnit;
         Draw.z(z + layerOffset);
 
         if(shadow > 0){
@@ -175,6 +175,9 @@ public class MantisTail extends Weapon {
 
     @Override
     public void drawOutline(Unit unit, WeaponMount mount) {
+        float z = Layer.flyingUnit;
+        Draw.z(z + layerOffset);
+        
         MantisMountTail tail = (MantisMountTail)mount;
         drawOutline(unit, tail);
     }
