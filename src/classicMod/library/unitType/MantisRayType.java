@@ -26,7 +26,7 @@ public class MantisRayType extends UnitType {
         super(name);
 
         weapons.add(new MantisTail(){{
-            layerOffset = -0.0001f;
+            //layerOffset = -0.0001f;
         }});
     }
 
