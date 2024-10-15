@@ -21,6 +21,7 @@ import static classicMod.content.ClassicVars.empty;
 import static mindustry.Vars.world;
 
 public class MantisTail extends Weapon {
+    public float tailRotationSpeed;
     public TextureRegion TailBegin, TailMiddle, TailEnd;
     public TextureRegion TailBody, TailBodyEnd;
     public TextureRegion TailBodyOutline, TailBodyEndOutline;
@@ -41,17 +42,16 @@ public class MantisTail extends Weapon {
     {
         //does nothing other visual effects
         //must be >0 to prevent various bugs
+        showStatSprite = display = false;
         reload = 1f;
-        predictTarget = false;
-        autoTarget = false;
+        predictTarget = autoTarget =false;
         controllable = false;
-        rotate = false;
-        useAmmo = false;
-        mountType = MantisMountTail::new;
+        rotate = useAmmo = false;
         recoil = 0f;
         noAttack = true;
         useAttackRange = false;
         top = false;
+        mountType = MantisMountTail::new;
     }
 
     @Override
@@ -60,8 +60,8 @@ public class MantisTail extends Weapon {
         MantisMountTail tail = (MantisMountTail)mount;
 
         tail.timer += Time.delta / 20f;
-        tail.rot = Mathf.slerpDelta(tail.rot, unit.rotation, 0.35f);
-        tail.rotEnd = Mathf.slerpDelta(tail.rotEnd, unit.rotation, 0.15f);
+        tail.rot = Mathf.slerpDelta(tail.rot, unit.rotation, 0.35f + tailRotationSpeed);
+        tail.rotEnd = Mathf.slerpDelta(tail.rotEnd, unit.rotation, 0.15f + tailRotationSpeed);
 
         tail.lastRot = (unit.rotation >= 180f) ? tail.rot - 360f : tail.rot;
         tail.lastRotEnd = (unit.rotation >= 180f) ? tail.rotEnd - 360f : tail.rotEnd;
@@ -159,10 +159,7 @@ public class MantisTail extends Weapon {
         MantisMountTail tail = (MantisMountTail)mount;
         float z = Draw.z();
         Draw.z(z + layerOffset);
-
-        if(shadow > 0){
-            drawShadow(unit, tail);
-        }
+        drawShadow(unit, tail);
 
         unit.type.applyColor(unit);
 

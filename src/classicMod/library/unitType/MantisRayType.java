@@ -19,14 +19,13 @@ import static mindustry.Vars.world;
 
 public class MantisRayType extends UnitType {
 
-
-    public TextureRegion eye, eyeGlow;
+    public TextureRegion eye;
 
     public MantisRayType(String name) {
         super(name);
 
         weapons.add(new MantisTail(){{
-            //layerOffset = -0.0001f;
+            tailRotationSpeed = -0.05f;
         }});
     }
 
@@ -39,7 +38,6 @@ public class MantisRayType extends UnitType {
     public void load() {
         super.load();
         eye = Core.atlas.find(name + "-eye");
-        eyeGlow = Core.atlas.find(name + "-eye-glow");
     }
 
     @Override

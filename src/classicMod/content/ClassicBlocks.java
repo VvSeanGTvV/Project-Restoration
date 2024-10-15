@@ -100,102 +100,6 @@ public class ClassicBlocks {
 
     public void loadv4(){
 
-        rtgGenerator = new ConsumeGenerator("compacted-rtg-generator"){{
-            requirements(Category.power, with(Items.lead, 50, Items.silicon, 15, Items.phaseFabric, 5, ClassicItems.thorium, 10));
-            size = 1;
-            powerProduction = 4.15f;
-            itemDuration = 60 * 20f;
-            envEnabled = Env.any;
-            generateEffect = Fx.generatespark;
-
-            drawer = new DrawMulti(new DrawDefault(), new DrawWarmupRegion());
-            consume(new ConsumeItemRadioactive(0.5f));
-        }};
-
-        int wallHealthMultiplier = 4;
-
-        /*steelSmelter = new GenericSmelter("steel-smelter"){{
-            requirements(Category.crafting, with(ClassicItems.stone, 40, ClassicItems.iron, 40));
-            health = 70;
-            outputItem = new ItemStack(ClassicItems.steel, 1);
-            consumeItems(with(ClassicItems.iron, 1));
-            craftTime = 20f;
-            itemCapacity = 20;
-        }};
-
-        lavaSmelter = new GenericCrafter("lava-smelter"){{
-            requirements(Category.crafting, with(Items.titanium, 15, ClassicItems.steel, 30));
-            consumeLiquid(ClassicLiquids.lava, 35f/60f);
-            consumeItem(ClassicItems.iron, 1);
-            outputItem = new ItemStack(ClassicItems.steel, 1);
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawDefault());
-            health = 80;
-            craftTime = 30;
-            craftEffect = ExtendedFx.purifystone;
-        }};*/
-
-
-        /*salvoAlpha = new ItemTurretV6("alpha-salvo"){{
-            requirements(Category.turret, with(Items.tungsten, 210, Items.carbide, 190, Items.thorium, 130));
-            ammo(
-                    Items.copper,  new BasicBulletType(2.5f, 11){{
-                        width = 7f;
-                        height = 9f;
-                        lifetime = 60f;
-                        ammoMultiplier = 2;
-                    }},
-                    Items.graphite, new BasicBulletType(3.5f, 20){{
-                        width = 9f;
-                        height = 12f;
-                        reloadMultiplier = 0.6f;
-                        ammoMultiplier = 4;
-                        lifetime = 60f;
-                    }},
-                    Items.pyratite, new BasicBulletType(3.2f, 18){{
-                        width = 10f;
-                        height = 12f;
-                        frontColor = Pal.lightishOrange;
-                        backColor = Pal.lightOrange;
-                        status = StatusEffects.burning;
-                        hitEffect = new MultiEffect(Fx.hitBulletSmall, Fx.fireHit);
-
-                        ammoMultiplier = 5;
-
-                        splashDamage = 12f;
-                        splashDamageRadius = 22f;
-
-                        makeFire = true;
-                        lifetime = 60f;
-                    }},
-                    Items.silicon, new BasicBulletType(3f, 15, "bullet"){{
-                        width = 7f;
-                        height = 9f;
-                        homingPower = 0.1f;
-                        reloadMultiplier = 1.5f;
-                        ammoMultiplier = 5;
-                        lifetime = 60f;
-                    }},
-                    Items.thorium, new BasicBulletType(4f, 29, "bullet"){{
-                        width = 10f;
-                        height = 13f;
-                        shootEffect = Fx.shootBig;
-                        smokeEffect = Fx.shootBigSmoke;
-                        ammoMultiplier = 4;
-                        lifetime = 60f;
-                    }}
-            );
-            size = 2;
-            range = 110f;
-            reload = 40f;
-            restitution = 0.03f;
-            ammoEjectBack = 3f;
-            recoil = 3f;
-            shake = 2f;
-            shootX = -2f;
-            shoot.shotDelay = 4;
-            shoot.shots = 3;
-            ammoUseEffect = ExtendedFx.shellEjectBig;
-        }};*/
     }
 
     public void load() {
@@ -383,6 +287,16 @@ public class ClassicBlocks {
             consumePower(1.2f);
             requirement = with(Items.silicon, 20, Items.graphite, 10);
             unitType = ClassicUnitTypes.fortress;
+        }};
+
+        droneCenter = new DroneCenterNew("drone-center"){{
+            requirements(Category.units, with(Items.tungsten, 150, Items.phaseFabric, 100));
+
+            size = 3;
+            statusDuration = 60f * 10f;
+            consumePower(3f);
+
+            droneType = effectDrone;
         }};
 
         //Pump
@@ -1390,16 +1304,20 @@ public class ClassicBlocks {
             health = 380 * size * size;
         }};
 
-        //Campaign
-        droneCenter = new DroneCenterNew("drone-center"){{
-            requirements(Category.units, with(Items.tungsten, 150, Items.phaseFabric, 100));
+        // Power
+        rtgGenerator = new ConsumeGenerator("compacted-rtg-generator"){{
+            requirements(Category.power, with(Items.lead, 50, Items.silicon, 15, Items.phaseFabric, 5, ClassicItems.thorium, 10));
+            size = 1;
+            powerProduction = 4.15f;
+            itemDuration = 60 * 20f;
+            envEnabled = Env.any;
+            generateEffect = Fx.generatespark;
 
-            size = 3;
-            statusDuration = 60f * 10f;
-            consumePower(3f);
-
-            droneType = effectDrone;
+            drawer = new DrawMulti(new DrawDefault(), new DrawWarmupRegion());
+            consume(new ConsumeItemRadioactive(0.5f));
         }};
+
+        // Campaign
 
         /*dataProcessor = new ResearchBlock("data-processor") {{ //Exclusive only to PC TODO compatible Mobile
             alwaysUnlocked = true;

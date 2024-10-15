@@ -4,7 +4,7 @@ import arc.Core;
 import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.*;
-import arc.math.geom.Position;
+import arc.math.geom.*;
 import arc.util.Time;
 import mindustry.content.Fx;
 import mindustry.entities.Effect;
@@ -17,6 +17,25 @@ import static mindustry.graphics.Pal.*;
 public class ExtendedFx extends Fx {
     public static final Effect
 
+    shootMantel = new Effect(10, e -> {
+        color(Pal.lightOrange, e.color, e.fin());
+        float w = 2.3f + 10 * e.fout();
+        Drawf.tri(e.x, e.y, w, 70f * e.fout(), e.rotation);
+        Drawf.tri(e.x, e.y, w, 12f * e.fout(), e.rotation + 180f);
+    }),
+    shootSmokeMantel = new Effect(70f, e -> {
+            rand.setSeed(e.id);
+            float w = 20;
+            for(int i = 0; i < w; i++){
+                v.trns(e.rotation + rand.range(30f), rand.random(e.finpow() * 40f));
+                Vec2 v0 = new Vec2(0, i - (w/2f)).rotate(e.rotation + rand.range(30f));
+                e.scaled(e.lifetime * rand.random(0.3f, 1f), b -> {
+                    color(e.color, Pal.lightishGray, b.fin());
+                    Fill.circle(e.x + v.x + v0.x, e.y + v.y + v0.y, b.fout() * 3.4f + 0.3f);
+                });
+            }
+    }),
+
     hitYellowLaser = new Effect(8, e -> {
         color(Color.white, lightTrail, e.fin());
         stroke(0.5f + e.fout());
@@ -24,6 +43,7 @@ public class ExtendedFx extends Fx {
 
         Drawf.light(e.x, e.y, 23f, lightTrail, e.fout() * 0.7f);
     }),
+
     dynamicSmallBomb = new Effect(40f, 100f, e -> {
         color(e.color);
         stroke(e.fout());

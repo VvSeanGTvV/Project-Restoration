@@ -25,8 +25,10 @@ import mindustry.type.unit.*;
 import mindustry.type.weapons.BuildWeapon;
 
 import static arc.struct.SnapshotSeq.with;
+import static classicMod.ClassicMod.internalMod;
 import static classicMod.content.ClassicSounds.pew;
 import static classicMod.content.ClassicVars.empty;
+import static classicMod.content.ExtendedFx.*;
 import static mindustry.Vars.tilePayload;
 
 public class ClassicUnitTypes {
@@ -313,7 +315,7 @@ public class ClassicUnitTypes {
                     }}
             );
 
-            weapons.add(new Weapon("restored-mind-blaster-equip") {{
+            weapons.add(new Weapon(internalMod + "blaster-equip") {{
                 outlines = false;
                 shootSound = pew;
                 x = 0f;
@@ -352,7 +354,7 @@ public class ClassicUnitTypes {
             constructor = MechUnit::create;
             abilities.add(new LightLandingAbility(17f)); //Since it doesn't exist in vanilla, so i created it for one.
 
-            weapons.add(new Weapon("restored-mind-shockgun-equip") {{
+            weapons.add(new Weapon(internalMod + "shockgun-equip") {{
                 outlines = false;
                 x = 1.2f;
                 y = -1f;
@@ -402,7 +404,7 @@ public class ClassicUnitTypes {
             constructor = MechUnit::create;
             abilities.add(new SurroundRegenAbility(10f, 160f, 60f)); //Just reformat of the v5
 
-            weapons.add(new Weapon("restored-mind-heal-blaster-equip") {{
+            weapons.add(new Weapon(internalMod + "heal-blaster-equip") {{
                 outlines = false;
                 x = -1f;
                 y = 0f;
@@ -424,7 +426,7 @@ public class ClassicUnitTypes {
                     despawnEffect = Fx.hitLaser;
                     collidesTeam = true;
                     healEffect = Fx.healBlockFull;
-                    sprite = "restored-mind-laser";
+                    sprite = internalMod + "laser";
                     width = 7f;
                     height = 5f;
                     rotationOffset = 90f; //Sprite rotate cause it is way off lolz.
@@ -453,7 +455,7 @@ public class ClassicUnitTypes {
                 healthMultiplier = 30f;
             }}); //Modify armor abilty for 2nd texture (static)
 
-            weapons.add(new Weapon("restored-mind-swarmer-equip") {{
+            weapons.add(new Weapon(internalMod + "swarmer-equip") {{
                 outlines = false;
                 x = -1f;
                 y = 0f;
@@ -507,7 +509,7 @@ public class ClassicUnitTypes {
             buildSpeed = 1.1f;
             constructor = UnitEntity::create;
 
-            weapons.add(new Weapon("restored-mind-blaster-equip") {{
+            weapons.add(new Weapon(internalMod + "blaster-equip") {{
                 x = 0.8f;
                 y = -1f;
                 top = true;
@@ -741,7 +743,7 @@ public class ClassicUnitTypes {
             constructor = UnitEntity::create;
             controller = u -> new OldFlyingAI();
 
-            weapons.add(new Weapon("restored-mind-revenant-missiles-equip") {{
+            weapons.add(new Weapon(internalMod + "revenant-missiles-equip") {{
                 x = 9f;
                 y = 0f;
                 top = true;
@@ -779,7 +781,7 @@ public class ClassicUnitTypes {
             constructor = UnitEntity::create;
             controller = u -> new OldFlyingAI();
 
-            weapons.add(new Weapon("restored-mind-lich-missiles-equip") {{
+            weapons.add(new Weapon(internalMod + "lich-missiles-equip") {{
                 x = 21f;
                 y = 0f;
                 top = true;
@@ -833,7 +835,7 @@ public class ClassicUnitTypes {
             constructor = UnitEntity::create;
             controller = u -> new OldFlyingAI();
 
-            weapons.add(new Weapon("restored-mind-reaper-gun-equip") {{
+            weapons.add(new Weapon(internalMod + "reaper-gun-equip") {{
                 x = 31f;
                 y = 0f;
                 top = true;
@@ -913,7 +915,7 @@ public class ClassicUnitTypes {
                     despawnEffect = Fx.hitLaser;
                     collidesTeam = true;
                     healEffect = Fx.healBlockFull;
-                    sprite = "restored-mind-laser";
+                    sprite = internalMod + "laser";
                     width = 7f;
                     height = 5f;
                     rotationOffset = 90f; //Sprite rotate cause it is way off lolz.
@@ -963,7 +965,7 @@ public class ClassicUnitTypes {
                     despawnEffect = Fx.hitLaser;
                     collidesTeam = true;
                     healEffect = Fx.healBlockFull;
-                    sprite = "restored-mind-laser";
+                    sprite = internalMod + "laser";
                     width = 7f;
                     height = 5f;
                     rotationOffset = 90f;
@@ -990,7 +992,7 @@ public class ClassicUnitTypes {
             constructor = MechUnit::create;
             controller = u -> new SuicideAI();
 
-            weapons.add(new Weapon("restored-mind-nullTexture-equip") {{
+            weapons.add(new Weapon(internalMod + "nullTexture-equip") {{
                 reload = 6f;
                 ejectEffect = Fx.none;
                 shootSound = Sounds.explosion;
@@ -1023,7 +1025,7 @@ public class ClassicUnitTypes {
             constructor = MechUnit::create;
             controller = u -> new ReplacementGroundAI();
 
-            weapons.add(new Weapon("restored-mind-chain-blaster-equip") {{
+            weapons.add(new Weapon(internalMod + "chain-blaster-equip") {{
                 shootSound = pew;
                 outlines = false;
                 x = -4.5f;
@@ -1063,7 +1065,7 @@ public class ClassicUnitTypes {
             constructor = MechUnit::create;
             controller = u -> new ReplacementGroundAI();
 
-            weapons.add(new Weapon("restored-mind-flamethrower-equip") {{
+            weapons.add(new Weapon(internalMod + "flamethrower-equip") {{
                 shootSound = Sounds.flame;
                 outlines = false;
                 x = -4f;
@@ -1109,7 +1111,7 @@ public class ClassicUnitTypes {
             constructor = MechUnit::create;
             controller = u -> new ReplacementGroundAI();
 
-            weapons.add(new Weapon("restored-mind-artillery-equip") {{
+            weapons.add(new Weapon(internalMod + "artillery-equip") {{
                 shootSound = Sounds.artillery;
                 outlines = false;
                 x = -10f;
@@ -1155,7 +1157,7 @@ public class ClassicUnitTypes {
             constructor = MechUnit::create;
             controller = u -> new ReplacementGroundAI();
 
-            weapons.add(new Weapon("restored-mind-eruption-equip") {{
+            weapons.add(new Weapon(internalMod + "eruption-equip") {{
                 shootSound = Sounds.flame;
                 outlines = false;
                 x = -7f;
@@ -1191,7 +1193,7 @@ public class ClassicUnitTypes {
             constructor = MechUnit::create;
             controller = u -> new ReplacementGroundAI();
 
-            weapons.add(new Weapon("restored-mind-chaos-equip") {{
+            weapons.add(new Weapon(internalMod + "chaos-equip") {{
                 shootSound = Sounds.shootBig;
                 outlines = false;
                 x = -17f;
@@ -1233,7 +1235,7 @@ public class ClassicUnitTypes {
             constructor = MechUnit::create;
             controller = u -> new ReplacementGroundAI();
 
-            weapons.add(new Weapon("restored-mind-eradication-equip") {{
+            weapons.add(new Weapon(internalMod + "eradication-equip") {{
                 shootSound = Sounds.shootBig;
                 outlines = false;
                 x = -21.5f;
@@ -1287,7 +1289,7 @@ public class ClassicUnitTypes {
             legSplashRange = 30;
 
             weapons.add(
-                    new Weapon("restored-mind-missiles-mount") {{
+                    new Weapon(internalMod + "missiles-mount") {{
                         reload = 20f;
                         x = 4f;
                         rotate = true;
@@ -1308,7 +1310,7 @@ public class ClassicUnitTypes {
             canBoost = true;
             speed = 0.4f;
             hitSize = 10f;
-            weapons.add(new Weapon("restored-mind-beam-weapon") {{
+            weapons.add(new Weapon(internalMod + "beam-weapon") {{
                 shake = 2f;
                 shootY = 4f;
                 shootX = -4.75f;
@@ -1363,7 +1365,7 @@ public class ClassicUnitTypes {
                 }});
             }
 
-            weapons.add(new Weapon("restored-mind-osc-weapon"){{
+            weapons.add(new Weapon(internalMod + "osc-weapon"){{
                 y = 3f;
                 x = 3f;
                 mirror = true;
@@ -1399,7 +1401,7 @@ public class ClassicUnitTypes {
             armor = 20f;
             treadRects = new Rect[]{new Rect(22f - 154f/2f, 16f - 154f/2, 28f, 130f)};
 
-            weapons.add(new Weapon("restored-mind-howit-weapon"){{
+            weapons.add(new Weapon(internalMod + "howit-weapon"){{
                 shootSound = Sounds.bolt;
                 layerOffset = 0.0001f;
                 reload = 120f;
@@ -1455,7 +1457,7 @@ public class ClassicUnitTypes {
             int i = 0;
             for(float f : new float[]{-24f / 4f, -36f / 4f}){
                 int fi = i ++;
-                weapons.add(new Weapon("restored-mind-howit-point-weapon"){{
+                weapons.add(new Weapon(internalMod + "howit-point-weapon"){{
                     reload = 35f + fi * 5;
                     x = 48f / 4f + (fi * 2f);
                     y = f;
@@ -1492,7 +1494,7 @@ public class ClassicUnitTypes {
             treadRects = new Rect[]{new Rect(27 - xo, 152 - yo, 56, 73), new Rect(24 - xo, 51 - yo, 29, 17), new Rect(59 - xo, 18 - yo, 39, 19)};
 
             //TODO maybe different shoot
-            weapons.add(new Weapon("restored-mind-mantel-weapon"){{
+            weapons.add(new Weapon(internalMod + "-mantel-weapon"){{
                 shootSound = Sounds.largeCannon;
                 layerOffset = 0.0001f;
                 reload = 120f;
@@ -1514,8 +1516,9 @@ public class ClassicUnitTypes {
                             progress = PartProgress.heat;
                             mirror = true;
                             under = true;
-                            moveY = -3.25f;
-                            moveRot = -6f;
+                            moveY = -4.25f;
+                            moveX = 2.25f;
+                            moveRot = -10f;
                             x = 10.5f;
                             y = 8.85f;
                         }}
@@ -1531,8 +1534,8 @@ public class ClassicUnitTypes {
 
                     lifetime = 30f;
                     hitSize = 6f;
-                    shootEffect = Fx.shootTitan;
-                    smokeEffect = Fx.shootSmokeTitan;
+                    shootEffect = shootMantel;
+                    smokeEffect = shootSmokeMantel;
                     pierceCap = 2;
                     pierce = true;
                     pierceBuilding = true;
@@ -1544,7 +1547,7 @@ public class ClassicUnitTypes {
                     hitEffect = despawnEffect = Fx.blastExplosion;
                     hitSound = Sounds.explosion;
 
-                    fragBullets = 16;
+                    fragBullets = 8;
                     fragBullet = new FlakBulletType(5f, 15){{
                         width = 10f;
                         height = 12f;
@@ -1578,7 +1581,6 @@ public class ClassicUnitTypes {
                 );
             }});
 
-            //TODO could change color when shooting
             parts.addAll(
                     new RegionPart("-glow"){{
                         color = Pal.turretHeat.cpy();
@@ -1686,7 +1688,7 @@ public class ClassicUnitTypes {
                     new UnitEngine(35 / 4f, -38 / 4f, 3f, 315f)
             );
 
-            weapons.add(new Weapon("restored-mind-incite-weapon") {{
+            weapons.add(new Weapon(internalMod + "incite-weapon") {{
                 reload = 30f;
                 x = 4f;
                 y = 6.25f;
@@ -1758,7 +1760,7 @@ public class ClassicUnitTypes {
                 for (var pos : positions) {
                     int fi = i;
                     //TODO change to BuildWeapon properly, remove standard build beam and rotation
-                    weapons.add(new BuildWeapon("restored-mind-incite-weapon") {{
+                    weapons.add(new BuildWeapon(internalMod + "incite-weapon") {{
                         outlines = true;
                         rotate = true;
                         reload = fi == 0 ? 25f : 35f;
@@ -1794,7 +1796,7 @@ public class ClassicUnitTypes {
                 health = 130;
                 immunities = ObjectSet.with(StatusEffects.wet);
                 constructor = UnitWaterMove::create;
-                weapons.add(new Weapon("restored-mind-mount-weapon") {{
+                weapons.add(new Weapon(internalMod + "mount-weapon") {{
                     reload = 10f;
                     x = 1.25f;
                     rotate = true;
