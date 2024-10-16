@@ -1532,7 +1532,7 @@ public class ClassicUnitTypes {
                     particleSize = partRad;
                     particles = parts;
 
-                    lifetime = 30f;
+                    lifetime = 50f;
                     hitSize = 6f;
                     shootEffect = shootMantel;
                     smokeEffect = shootSmokeMantel;

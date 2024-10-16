@@ -240,7 +240,7 @@ public class epicCreditsDialog extends Dialog {
         credit.y = scrollbar - credit.getMaxHeight();
 
         contribute.x = credit.x;
-        contribute.y = scrollbar - ((credit.getMaxWidth()) + contribute.getMaxWidth());
+        contribute.y = scrollbar - ((credit.getMaxWidth() * 2f) + contribute.getMaxWidth());
 
         contribute.draw();
         credit.draw();
