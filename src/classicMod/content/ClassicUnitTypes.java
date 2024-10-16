@@ -1494,7 +1494,7 @@ public class ClassicUnitTypes {
             treadRects = new Rect[]{new Rect(27 - xo, 152 - yo, 56, 73), new Rect(24 - xo, 51 - yo, 29, 17), new Rect(59 - xo, 18 - yo, 39, 19)};
 
             //TODO maybe different shoot
-            weapons.add(new Weapon(internalMod + "--mantel-weapon"){{
+            weapons.add(new Weapon(internalMod + "-mantel-weapon"){{
                 shootSound = Sounds.largeCannon;
                 layerOffset = 0.0001f;
                 reload = 120f;
