@@ -195,7 +195,7 @@ public class epicCreditsDialog extends Dialog {
     }
 
     boolean once, setVec;
-    float alpha = 1f;
+    float alpha = 1f, defaultZoomCam;
     int i;
 
     public void drawEsc(float centerX){
@@ -213,6 +213,15 @@ public class epicCreditsDialog extends Dialog {
 
         staticTable.x = centerX - keybindNotification.length();
         staticTable.y = 14f;
+
+        staticTable.draw();
+    }
+
+    public void changeStage(int change){
+        stage = change;
+        setVec = false;
+        state.camPos.setZero();
+        state.zoom = 0f;
     }
 
     @Override //TODO revamp the cutscene
@@ -221,25 +230,30 @@ public class epicCreditsDialog extends Dialog {
         var Wui = (TextureRegionDrawable) Tex.whiteui;
         alpha = Mathf.lerpDelta(alpha, 0f, 0.025f);
         Drawable background = Wui.tint(0f, 0f, 0f, alpha);
-        Drawable Planetbackground = Wui.tint(0f, 0f, 0f, 0.65f);
+        Drawable backgroundG = Wui.tint(0f, 0f, 0f, 0.65f);
 
         float centerX = graphics.getWidth() / 2f;
         float centerY = graphics.getHeight() / 2f;
 
         // Before Draw Text
         planets.render(state);
-        Planetbackground.draw(0, 0, graphics.getWidth(), graphics.getHeight());
+        backgroundG.draw(0, 0, graphics.getWidth(), graphics.getHeight());
 
         if (stage == 0){
+            if (i >= 1000) {
+                alpha = ((float) i / 1500);
+                if (i >= 1500) {
+                    changeStage(1);
+                }
+            }
             state.planet = Planets.sun;
-            staticTable.draw();
 
             credit.x = centerX;
             credit.y = centerY;
             credit.draw();
 
             if (!setVec) {
-                state.camPos.rotate(Vec3.X, 45f); //= new Vec3(0, 0, -10); //Y = L-R
+                state.camPos.rotate(Vec3.X, 45f);
                 state.zoom = 5f;
                 setVec = true;
             }
@@ -256,6 +270,19 @@ public class epicCreditsDialog extends Dialog {
                     i = 0;
                 }
             }*/
+        } else if (stage == 1) {
+            state.planet = Planets.serpulo;
+
+            contribute.x = centerX;
+            contribute.y = centerY;
+            contribute.draw();
+
+            if (!setVec) {
+                state.camPos.rotate(Vec3.X, 25f);
+                state.zoom = fdelta(1f, 120f);
+                setVec = true;
+            }
+            state.camPos.rotate(Vec3.Z, fdelta(250f, 120f));
         }
         background.draw(0, 0, graphics.getWidth(), graphics.getHeight());
 
