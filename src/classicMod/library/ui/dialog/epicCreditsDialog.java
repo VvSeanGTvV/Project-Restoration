@@ -228,7 +228,7 @@ public class epicCreditsDialog extends Dialog {
     public void draw() {
         i++;
         var Wui = (TextureRegionDrawable) Tex.whiteui;
-        alpha = Mathf.lerpDelta(alpha, 0f, 0.025f);
+        alpha = Mathf.lerpDelta(alpha, 0f, 0.05f);
         Drawable background = Wui.tint(0f, 0f, 0f, alpha);
         Drawable backgroundG = Wui.tint(0f, 0f, 0f, 0.65f);
 
@@ -271,18 +271,18 @@ public class epicCreditsDialog extends Dialog {
                 }
             }*/
         } else if (stage == 1) {
-            state.planet = Planets.serpulo;
+            state.planet = Planets.erekir;
 
             contribute.x = centerX;
             contribute.y = centerY;
             contribute.draw();
-            state.zoom += 0.1f;
+            state.zoom += Mathf.lerpDelta(alpha, 1f, 0.025f);;
 
             if (!setVec) {
                 state.camPos.rotate(Vec3.X, 25f);
                 setVec = true;
             }
-            state.camPos.rotate(Vec3.Z, fdelta(250f, 120f));
+            //state.camPos.rotate(Vec3.Z, fdelta(250f, 120f));
         }
         background.draw(0, 0, graphics.getWidth(), graphics.getHeight());
 
