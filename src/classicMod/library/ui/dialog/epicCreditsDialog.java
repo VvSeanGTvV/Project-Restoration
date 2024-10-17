@@ -276,10 +276,10 @@ public class epicCreditsDialog extends Dialog {
             contribute.x = centerX;
             contribute.y = centerY;
             contribute.draw();
+            state.zoom += 0.1f;
 
             if (!setVec) {
                 state.camPos.rotate(Vec3.X, 25f);
-                state.zoom = fdelta(1f, 120f);
                 setVec = true;
             }
             state.camPos.rotate(Vec3.Z, fdelta(250f, 120f));
