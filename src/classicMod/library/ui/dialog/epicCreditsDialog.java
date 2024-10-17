@@ -220,8 +220,8 @@ public class epicCreditsDialog extends Dialog {
     public void changeStage(int change){
         stage = change;
         setVec = false;
+        state.zoom = 1f;
         state.camPos.setZero();
-        state.zoom = 0f;
     }
 
     @Override //TODO revamp the cutscene
@@ -241,8 +241,8 @@ public class epicCreditsDialog extends Dialog {
 
         if (stage == 0){
             if (i >= 1000) {
-                alpha = ((float) i / 1500);
-                if (i >= 1500) {
+                alpha = ((float) (i - 1000) / 250);
+                if (i >= 1250) {
                     changeStage(1);
                 }
             }
