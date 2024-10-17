@@ -41,7 +41,7 @@ public class epicCreditsDialog extends Dialog {
     }};
 
     Table credit = new Table() {{
-        add(icon).size(120f, 90f);
+        //add(icon).size(120f, 90f);
         add(logo).size(570f, 90f).row();
         image(Tex.clear).height(27.5f).padTop(3f).row();
         add("v" + ModVersion).row();
@@ -61,12 +61,12 @@ public class epicCreditsDialog extends Dialog {
             row();
             i++;
         }
-        image(Tex.clear).height(35).padTop(3f).row();
-        add(bundle.get("contributors")).row();
-        image(Tex.clear).height(35).padTop(3f).row();
     }};
 
     Table contribute = new Table() {{
+        image(Tex.clear).height(35).padTop(3f).row();
+        add(bundle.get("contributors")).row();
+        image(Tex.clear).height(35).padTop(3f).row();
         if (!contributors.isEmpty()) {
             int ia = 1;
             for (String c : contributors) {
@@ -130,6 +130,7 @@ public class epicCreditsDialog extends Dialog {
         addCloseButton(210f);
     }
 
+    int stage = 0;
     @Override
     public void act(float delta) {
         control.sound.stop();
@@ -193,19 +194,11 @@ public class epicCreditsDialog extends Dialog {
         return super.show();
     }
 
-    boolean once;
+    boolean once, setVec;
     float alpha = 1f;
     int i;
-    @Override
-    public void draw() {
-        i++;
-        var Wui = (TextureRegionDrawable) Tex.whiteui;
-        alpha = Mathf.lerpDelta(alpha, 0.65f, 0.05f);
-        Drawable background = Wui.tint(0f, 0f, 0f, alpha);
 
-        float centerX = graphics.getWidth() / 2f;
-        float width = (centerX - (contribute.getMaxWidth()));//!mobile ? credit.getMinWidth() + ((float) graphics.getWidth() / 2) : ;
-
+    public void drawEsc(float centerX){
         String keybind = getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile());
         String keybindNotification = (!(app.isMobile())) ? keybinds.get(MenuKeybind).key.toString().toUpperCase() + " " + keybind : keybind;
         //if (!once && !hidden) { staticTable.add(keybindNotification); once = true; }
@@ -217,9 +210,59 @@ public class epicCreditsDialog extends Dialog {
             if (!once && !hidden) { staticTable.add(keybindNotification); once = true; }
         }
         if (hidden) staticTable.clearChildren();
-        
+
         staticTable.x = centerX - keybindNotification.length();
         staticTable.y = 14f;
+    }
+
+    @Override //TODO revamp the cutscene
+    public void draw() {
+        i++;
+        var Wui = (TextureRegionDrawable) Tex.whiteui;
+        alpha = Mathf.lerpDelta(alpha, 0f, 0.025f);
+        Drawable background = Wui.tint(0f, 0f, 0f, alpha);
+        Drawable Planetbackground = Wui.tint(0f, 0f, 0f, 0.65f);
+
+        float centerX = graphics.getWidth() / 2f;
+        float centerY = graphics.getHeight() / 2f;
+
+        // Before Draw Text
+        planets.render(state);
+        Planetbackground.draw(0, 0, graphics.getWidth(), graphics.getHeight());
+
+        if (stage == 0){
+            state.planet = Planets.sun;
+            staticTable.draw();
+
+            credit.x = centerX;
+            credit.y = centerY;
+            credit.draw();
+
+            if (!setVec) {
+                state.camPos.rotate(Vec3.X, 45f); //= new Vec3(0, 0, -10); //Y = L-R
+                state.zoom = 5f;
+                setVec = true;
+            }
+            state.camPos.rotate(Vec3.Y, fdelta(250f, 120f));
+
+            //state.camPos.rotate(Vec3.Y, fdelta(250f, 120f));
+            /*if (i >= 650) {
+                alpha = ((float) i / 1000);
+                if (i >= 1000) {
+                    alpha = 1f;
+                    Seq<Planet> visible = Vars.content.planets().copy().filter(p -> p.visible);
+                    visible.remove(state.planet);
+                    state.planet = visible.get(Mathf.floor((float) (Math.random() * visible.size)));
+                    i = 0;
+                }
+            }*/
+        }
+        background.draw(0, 0, graphics.getWidth(), graphics.getHeight());
+
+        drawEsc(centerX);
+        /*float width = (centerX - (contribute.getMaxWidth()));//!mobile ? credit.getMinWidth() + ((float) graphics.getWidth() / 2) : ;
+
+
 
         planets.render(state);
         background.draw(0, 0, graphics.getWidth(), graphics.getHeight());
@@ -237,13 +280,13 @@ public class epicCreditsDialog extends Dialog {
             }
         }
         credit.x = width;
-        credit.y = scrollbar - credit.getMaxHeight();
+        credit.y = scrollbar - (credit.getMinHeight() / 2f);
 
         contribute.x = credit.x;
-        contribute.y = scrollbar - ((credit.getMaxWidth() * 2f) + contribute.getMaxWidth());
+        contribute.y = (credit.y + (contribute.getMinHeight() / 2f)) + (credit.getMinHeight() / 2f);
 
         contribute.draw();
-        credit.draw();
+        credit.draw();*/
 
         Draw.flush();
         super.draw();
