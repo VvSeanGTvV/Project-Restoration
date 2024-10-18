@@ -195,7 +195,7 @@ public class epicCreditsDialog extends Dialog {
     }
 
     boolean once, setVec;
-    float alpha = 1f, defaultZoomCam;
+    float alpha = 1f;
     int i;
 
     public void drawEsc(float centerX){
@@ -218,11 +218,14 @@ public class epicCreditsDialog extends Dialog {
     }
 
     public void changeStage(int change){
-        stage = change;
         setVec = false;
         state.zoom = 1f;
-        state.camPos.setZero();
+        state.camPos.set(0,0, state.camPos.z);
+
+        stage = change;
+        //state.camPos.setZero();
     }
+
 
     @Override //TODO revamp the cutscene
     public void draw() {
@@ -244,6 +247,7 @@ public class epicCreditsDialog extends Dialog {
                 alpha = ((float) (i - 1000) / 250);
                 if (i >= 1250) {
                     changeStage(1);
+                    i = 0;
                 }
             }
             state.planet = Planets.sun;
@@ -253,36 +257,26 @@ public class epicCreditsDialog extends Dialog {
             credit.draw();
 
             if (!setVec) {
-                state.camPos.rotate(Vec3.X, 45f);
+                state.camPos.rotate(Vec3.X, 25f);
                 state.zoom = 5f;
                 setVec = true;
             }
-            state.camPos.rotate(Vec3.Y, fdelta(250f, 120f));
-
-            //state.camPos.rotate(Vec3.Y, fdelta(250f, 120f));
-            /*if (i >= 650) {
-                alpha = ((float) i / 1000);
-                if (i >= 1000) {
-                    alpha = 1f;
-                    Seq<Planet> visible = Vars.content.planets().copy().filter(p -> p.visible);
-                    visible.remove(state.planet);
-                    state.planet = visible.get(Mathf.floor((float) (Math.random() * visible.size)));
-                    i = 0;
-                }
-            }*/
-        } else if (stage == 1) {
+            state.camPos.rotate(Vec3.Y, fdelta(50f, 120f));
+        }
+        if (stage == 1) {
             state.planet = Planets.erekir;
 
             contribute.x = centerX;
-            contribute.y = centerY;
+            contribute.y = centerY - contribute.getMinHeight();
             contribute.draw();
-            state.zoom += Mathf.lerpDelta(alpha, 1f, 0.025f);;
 
             if (!setVec) {
-                state.camPos.rotate(Vec3.X, 25f);
+                state.camPos.rotate(Vec3.X, 275f);
                 setVec = true;
             }
             //state.camPos.rotate(Vec3.Z, fdelta(250f, 120f));
+            state.camPos.rotate(Vec3.Y, -fdelta(50f, 120f));
+            state.zoom += fdelta(5f, 120f);
         }
         background.draw(0, 0, graphics.getWidth(), graphics.getHeight());
 
