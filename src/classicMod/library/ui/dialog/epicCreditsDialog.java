@@ -219,13 +219,16 @@ public class epicCreditsDialog extends Dialog {
 
     public void changeStage(int change){
         setVec = false;
-        state.zoom = 1f;
+        state.zoom = 0.5f;
         state.camPos.set(0,0, state.camPos.z);
 
         stage = change;
         //state.camPos.setZero();
     }
 
+    public float degreesToDirection(float degrees){
+        return degrees / 90f;
+    }
 
     @Override //TODO revamp the cutscene
     public void draw() {
@@ -271,7 +274,7 @@ public class epicCreditsDialog extends Dialog {
             contribute.draw();
 
             if (!setVec) {
-                state.camPos.rotate(Vec3.X, 275f);
+                state.camPos.rotate(Vec3.X, 2.8f);
                 setVec = true;
             }
             //state.camPos.rotate(Vec3.Z, fdelta(250f, 120f));
