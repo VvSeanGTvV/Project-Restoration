@@ -141,7 +141,7 @@ public class epicCreditsDialog extends Dialog {
         }
 
         var bot = (Vars.mobile) ? 120f : 60f; //alignment for mobile kinda off bud
-        scrollbar += fdelta(650f, bot);
+        //scrollbar += fdelta(650f, bot);
 
         setStyle(baller);
 
@@ -195,7 +195,7 @@ public class epicCreditsDialog extends Dialog {
     }
 
     boolean once, setVec;
-    float alpha = 1f;
+    float alpha = 1f, contributeY = 0f;
     int i;
 
     public void drawEsc(float centerX){
@@ -219,7 +219,7 @@ public class epicCreditsDialog extends Dialog {
 
     public void changeStage(int change){
         setVec = false;
-        state.zoom = 0.5f;
+        state.zoom = 0.6f;
         state.camPos.set(0,0, state.camPos.z);
 
         stage = change;
@@ -267,14 +267,15 @@ public class epicCreditsDialog extends Dialog {
             state.camPos.rotate(Vec3.Y, fdelta(50f, 120f));
         }
         if (stage == 1) {
+            contributeY++;
             state.planet = Planets.erekir;
 
             contribute.x = centerX;
-            contribute.y = centerY - contribute.getMinHeight();
+            contribute.y = centerY + (contributeY - contribute.getMinHeight());
             contribute.draw();
 
             if (!setVec) {
-                state.camPos.rotate(Vec3.X, 2.8f);
+                //state.camPos.rotate(Vec3.X, 2.8f);
                 setVec = true;
             }
             //state.camPos.rotate(Vec3.Z, fdelta(250f, 120f));
