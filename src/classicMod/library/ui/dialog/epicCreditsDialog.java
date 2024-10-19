@@ -4,7 +4,7 @@ import arc.*;
 import arc.graphics.g2d.*;
 import arc.input.KeyCode;
 import arc.math.Mathf;
-import arc.math.geom.Vec3;
+import arc.math.geom.*;
 import arc.scene.Scene;
 import arc.scene.style.*;
 import arc.scene.ui.*;
@@ -217,10 +217,15 @@ public class epicCreditsDialog extends Dialog {
         staticTable.draw();
     }
 
-    public void changeStage(int change){
+    public void resetStage(){
         setVec = false;
-        state.zoom = 0.6f;
-        state.camPos.set(0,0, state.camPos.z);
+        state.zoom = 0f;
+        state.camPos.set(0f,0f, 4f);
+        Log.info(state.camPos);
+    }
+
+    public void changeStage(int change){
+        resetStage();
 
         stage = change;
         //state.camPos.setZero();
@@ -249,6 +254,7 @@ public class epicCreditsDialog extends Dialog {
             if (i >= 1000) {
                 alpha = ((float) (i - 1000) / 250);
                 if (i >= 1250) {
+                    Log.info(state.camPos);
                     changeStage(1);
                     i = 0;
                 }
@@ -267,6 +273,7 @@ public class epicCreditsDialog extends Dialog {
             state.camPos.rotate(Vec3.Y, fdelta(50f, 120f));
         }
         if (stage == 1) {
+            Log.info(state.camPos);
             contributeY++;
             state.planet = Planets.erekir;
 
@@ -275,7 +282,7 @@ public class epicCreditsDialog extends Dialog {
             contribute.draw();
 
             if (!setVec) {
-                //state.camPos.rotate(Vec3.X, 2.8f);
+                state.camPos.set(-280f, 0,0);
                 setVec = true;
             }
             //state.camPos.rotate(Vec3.Z, fdelta(250f, 120f));
