@@ -64,14 +64,15 @@ public class epicCreditsDialog extends Dialog {
     }};
 
     Table contribute = new Table() {{
+        float width = 85f;
         image(Tex.clear).height(35).padTop(3f).row();
-        image(Tex.clear).width(bundle.get("contributors").length() +115f / 2f);
+        image(Tex.clear).width(bundle.get("contributors").length() + width / 2f);
         add(bundle.get("contributors")).row();
         image(Tex.clear).height(35).padTop(3f).row();
         if (!contributors.isEmpty()) {
             for(int i=1; i < contributors.size; i += 2){
                 if (i < contributors.size) add(contributors.get(i));
-                image(Tex.clear).width(115f);
+                image(Tex.clear).width(width);
                 if (i+1 < contributors.size) add(contributors.get(i+1));
                 row();
             }
