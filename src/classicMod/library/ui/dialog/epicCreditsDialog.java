@@ -37,7 +37,7 @@ public class epicCreditsDialog extends Dialog {
     PlanetParams state = new PlanetParams() {{
         planet = Planets.serpulo;
         //camPos = new Vec3(0, 0, 0);
-        zoom = 0.6f;
+        zoom = 0.5f;
     }};
 
     Table credit = new Table() {{
@@ -65,16 +65,15 @@ public class epicCreditsDialog extends Dialog {
 
     Table contribute = new Table() {{
         image(Tex.clear).height(35).padTop(3f).row();
+        image(Tex.clear).width(bundle.get("contributors").length() +115f / 2f);
         add(bundle.get("contributors")).row();
         image(Tex.clear).height(35).padTop(3f).row();
         if (!contributors.isEmpty()) {
-            int ia = 1;
-            for (String c : contributors) {
-                add(c);
-                //row();
-                if (++ia % 3 == 0) {
-                    row();
-                }
+            for(int i=1; i < contributors.size; i += 2){
+                if (i < contributors.size) add(contributors.get(i));
+                image(Tex.clear).width(115f);
+                if (i+1 < contributors.size) add(contributors.get(i+1));
+                row();
             }
         }
     }};
@@ -219,9 +218,8 @@ public class epicCreditsDialog extends Dialog {
 
     public void resetStage(){
         setVec = false;
-        state.zoom = 0f;
+        state.zoom = 0.5f;
         state.camPos.set(0f,0f, 4f);
-        Log.info(state.camPos);
     }
 
     public void changeStage(int change){
@@ -229,10 +227,6 @@ public class epicCreditsDialog extends Dialog {
 
         stage = change;
         //state.camPos.setZero();
-    }
-
-    public float degreesToDirection(float degrees){
-        return degrees / 90f;
     }
 
     @Override //TODO revamp the cutscene
@@ -251,14 +245,6 @@ public class epicCreditsDialog extends Dialog {
         backgroundG.draw(0, 0, graphics.getWidth(), graphics.getHeight());
 
         if (stage == 0){
-            if (i >= 1000) {
-                alpha = ((float) (i - 1000) / 250);
-                if (i >= 1250) {
-                    Log.info(state.camPos);
-                    changeStage(1);
-                    i = 0;
-                }
-            }
             state.planet = Planets.sun;
 
             credit.x = centerX;
@@ -271,10 +257,17 @@ public class epicCreditsDialog extends Dialog {
                 setVec = true;
             }
             state.camPos.rotate(Vec3.Y, fdelta(50f, 120f));
+
+            if (i >= 1000) {
+                alpha = ((float) (i - 1000) / 250);
+                if (i >= 1250) {
+                    changeStage(1);
+                    i = 0;
+                }
+            }
         }
         if (stage == 1) {
-            Log.info(state.camPos);
-            contributeY++;
+            contributeY += fdelta(1000f, 120f);
             state.planet = Planets.erekir;
 
             contribute.x = centerX;
@@ -282,11 +275,11 @@ public class epicCreditsDialog extends Dialog {
             contribute.draw();
 
             if (!setVec) {
-                state.camPos.set(-280f, 0,0);
+                state.camPos.rotate(Vec3.X, -5f);
                 setVec = true;
             }
-            //state.camPos.rotate(Vec3.Z, fdelta(250f, 120f));
-            state.camPos.rotate(Vec3.Y, -fdelta(50f, 120f));
+            state.camPos.rotate(Vec3.Z, fdelta(25f, 120f));
+            state.camPos.rotate(Vec3.Y, -fdelta(35f, 120f));
             state.zoom += fdelta(5f, 120f);
         }
         background.draw(0, 0, graphics.getWidth(), graphics.getHeight());
