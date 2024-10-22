@@ -31,19 +31,15 @@ import static mindustry.Vars.*;
 
 public class ClassicMod extends Mod{
     /** Mod's current Version **/
-    public static String ModVersion = "3.6.1 ALPHA v146";
+    public static String ModVersion = "3.6.2 BETA (v4)";
     /** Mod's current Build **/
-    public static final String BuildVer = "14";
+    public static final String BuildVer = "15";
     /** Mod's internal name **/
     public static String internalMod = "restored-mind";
     public static LoadedMod resMod = mods.locateMod(internalMod);
     /** Mindustry's Contributors taken from internal **/
     public static Seq<String> contributors = new Seq<>();
     public ClassicMod(){
-        //Log.info("Loaded Classic constructor.");
-        //listen for game load eventa
-
-
         Events.on(ClientLoadEvent.class, e -> {
             loadSettings();
             Core.app.post(UIExtended::init);
@@ -65,14 +61,6 @@ public class ClassicMod extends Mod{
             if (!ignoreWarning) {
                 Time.runTask(10f, () -> {
                     Dialog dialog = new Dialog();
-                    //BaseDialog dialog = new BaseDialog("@mod.restored-mind.earlyaccess.title");
-
-                    /*dialog.align(Align.top);
-                    dialog.table(Styles.none,t -> {
-                        t.image(Core.atlas.find("restored-mind-logoMod")).pad(10f).align(Align.center).size(140f).scaling(Scaling.fit).row();
-                        t.add("Version: " + ModVersion).align(Align.center).pad(10f).row();
-                        t.add("Build: " + BuildVer).align(Align.center).pad(10f).row();
-                    });*/
                     dialog.cont.setTranslation(0, -((graphics.getHeight() / 2f) - (166f + (graphics.getAspect() * 2f))));
                     dialog.cont.table(Styles.grayPanel, Align.bottom, t -> {
                         //t.add("@mod.restored-mind.earlyaccess.title").size(120f).pad(10f).row();
@@ -83,14 +71,6 @@ public class ClassicMod extends Mod{
                         t.add("@mod.restored-mind.earlyaccess.text").pad(20f).row();
                         t.button("@ok", dialog::hide).marginRight(10f).size(130f, 50f);
                     }).bottom();
-
-                    //dialog.cont.add("behold").row();
-                    //dialog.cont.image(Core.atlas.find("restored-mind-lucineSmug")).pad(20f).left();
-                    //dialog.cont.add("@mod.restored-mind.earlyaccess.text").row();
-                    /*dialog.cont.table(t -> {
-                        t.button("@ok", dialog::hide).size(130f, 50f);
-                    });*/
-                    //dialog.cont.button("@ok", dialog::hide).size(130f, 50f);
 
                     dialog.update(() -> {
                         dialog.cont.setTranslation(0, -((graphics.getHeight() / 2f) - (166f + (graphics.getAspect() * 10f))));
@@ -120,21 +100,7 @@ public class ClassicMod extends Mod{
                     Log.err("Disabled, not to have conflicts here!");
                 });
             }
-
-
-            //show dialog upon startup
-            //Time.runTask(10f, () -> {
-            //    BaseDialog dialog = new BaseDialog("Welcome to V5 Java Edition!");
-            //dialog.cont.add("behold").row();
-            //mod sprites are prefixed with the mod name (this mod is called 'example-java-mod' in its config)
-            //    dialog.cont.image(Core.atlas.find("projectv5-mod-logoMod")).pad(20f).row();
-            //    dialog.cont.add("Welcome to Beta of V5 Java Edition! Currently this is not fully finished or fully ported over!").row();
-            //    dialog.cont.button("Continue", dialog::hide).size(130f, 50f);
-            //    dialog.show();
-            //});
         });
-
-        //MenuBackground bg = (tn == 2 ? Erekir : tn == 3 ? Serpulo : tn == 4 ? random : tn == 5 ? solarSystem : null);
     }
 
     public String pathFile() {

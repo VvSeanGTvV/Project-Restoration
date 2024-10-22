@@ -187,7 +187,7 @@ public class epicCreditsDialog extends Dialog {
         return super.show();
     }
 
-    boolean once, setVec;
+    boolean once, setVec, dontFadeOut = false;
     float alpha = 1f, contributeY = 0f;
     int i;
 
@@ -215,20 +215,21 @@ public class epicCreditsDialog extends Dialog {
         setVec = false;
         state.zoom = 0.5f;
         state.camPos.set(0f,0f, 4f);
+        alpha = 1f;
     }
 
     public void changeStage(int change){
         resetStage();
 
         stage = change;
-        //state.camPos.setZero();
     }
 
     @Override //TODO revamp the cutscene
     public void draw() {
-        i++;
+        int FPSCAP = settings.getInt("fpscap");
+        i += Mathf.round(fdelta(1000f, FPSCAP));
         var Wui = (TextureRegionDrawable) Tex.whiteui;
-        alpha = Mathf.lerpDelta(alpha, 0f, 0.05f);
+        alpha = (!dontFadeOut) ? Mathf.lerpDelta(alpha, 0f, 0.05f) : 1f;
         Drawable background = Wui.tint(0f, 0f, 0f, alpha);
         Drawable backgroundG = Wui.tint(0f, 0f, 0f, 0.65f);
 
@@ -254,7 +255,7 @@ public class epicCreditsDialog extends Dialog {
                 state.zoom = 5f;
                 setVec = true;
             }
-            state.camPos.rotate(Vec3.Y, fdelta(50f, 120f));
+            state.camPos.rotate(Vec3.Y, fdelta(50f, FPSCAP));
 
             if (i >= maxLimit) {
                 alpha = ((float) (i - maxLimit) / fadeTime);
@@ -265,10 +266,10 @@ public class epicCreditsDialog extends Dialog {
             }
         }
         if (stage == 1) {
-            int maxLimit = 2300;
+            int maxLimit = 2900;
             int fadeTime = 250;
 
-            contributeY += fdelta(750f, 120f);
+            contributeY += fdelta(550f, FPSCAP);
             state.planet = Planets.erekir;
 
             contribute.x = centerX;
@@ -279,8 +280,8 @@ public class epicCreditsDialog extends Dialog {
                 state.camPos.rotate(Vec3.X, -5f);
                 setVec = true;
             }
-            state.camPos.rotate(Vec3.Z, fdelta(35f, 120f));
-            state.camPos.rotate(Vec3.Y, -fdelta(45f, 120f));
+            state.camPos.rotate(Vec3.Z, fdelta(35f, FPSCAP));
+            state.camPos.rotate(Vec3.Y, -fdelta(45f, FPSCAP));
             state.zoom += fdelta(3f, 120f);
 
             if (i >= maxLimit) {
@@ -301,10 +302,10 @@ public class epicCreditsDialog extends Dialog {
             }
         }
         if (stage == 2) {
-            int maxLimit = 2300;
+            int maxLimit = 2700;
             int fadeTime = 250;
 
-            contributeY += fdelta(950f, 120f);
+            contributeY += fdelta(650f, FPSCAP);
             state.planet = Planets.serpulo;
 
             contribute.x = centerX;
@@ -316,19 +317,21 @@ public class epicCreditsDialog extends Dialog {
                 state.camPos.rotate(Vec3.X, -5f);
                 setVec = true;
             }
-            state.camPos.rotate(Vec3.Z, -fdelta(35f, 120f));
-            state.camPos.rotate(Vec3.X, fdelta(55f, 120f));
-            state.zoom -= fdelta(1f, 120f);
+            state.camPos.rotate(Vec3.Z, -fdelta(35f, FPSCAP));
+            state.camPos.rotate(Vec3.X, fdelta(40f, FPSCAP));
+            state.zoom -= fdelta(1f, FPSCAP);
 
             if (i >= maxLimit) {
                 alpha = ((float) (i - maxLimit) / fadeTime);
                 if (i >= maxLimit + fadeTime) {
+                    dontFadeOut = true;
                     changeStage(3);
                     FinishedCredits();
                     i = 0;
                 }
             }
         }
+
 
         background.draw(0, 0, graphics.getWidth(), graphics.getHeight());
 
