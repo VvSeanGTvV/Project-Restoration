@@ -70,7 +70,7 @@ public class epicCreditsDialog extends Dialog {
         add(bundle.get("contributors")).row();
         image(Tex.clear).height(35).padTop(3f).row();
         if (!contributors.isEmpty()) {
-            for(int i=1; i < contributors.size; i += 2){
+            for(int i=1; i < contributors.size / 2; i += 2){
                 if (i < contributors.size) add(contributors.get(i));
                 image(Tex.clear).width(width);
                 if (i+1 < contributors.size) add(contributors.get(i+1));
@@ -135,13 +135,6 @@ public class epicCreditsDialog extends Dialog {
     public void act(float delta) {
         control.sound.stop();
         super.act(delta);
-        if (((credit.y + contribute.y)/(2f + (graphics.getAspect() * 1.05f))) >= (credit.getMaxHeight() + contribute.getMaxHeight() + ((float) graphics.getHeight() / 2)) * 3f) {
-            FinishedCredits();
-            return;
-        }
-
-        var bot = (Vars.mobile) ? 120f : 60f; //alignment for mobile kinda off bud
-        //scrollbar += fdelta(650f, bot);
 
         setStyle(baller);
 
@@ -218,6 +211,7 @@ public class epicCreditsDialog extends Dialog {
     }
 
     public void resetStage(){
+        contributeY = 0f;
         setVec = false;
         state.zoom = 0.5f;
         state.camPos.set(0f,0f, 4f);
@@ -246,6 +240,9 @@ public class epicCreditsDialog extends Dialog {
         backgroundG.draw(0, 0, graphics.getWidth(), graphics.getHeight());
 
         if (stage == 0){
+            int maxLimit = 1000;
+            int fadeTime = 250;
+
             state.planet = Planets.sun;
 
             credit.x = centerX;
@@ -259,30 +256,80 @@ public class epicCreditsDialog extends Dialog {
             }
             state.camPos.rotate(Vec3.Y, fdelta(50f, 120f));
 
-            if (i >= 1000) {
-                alpha = ((float) (i - 1000) / 250);
-                if (i >= 1250) {
+            if (i >= maxLimit) {
+                alpha = ((float) (i - maxLimit) / fadeTime);
+                if (i >= maxLimit + fadeTime) {
                     changeStage(1);
                     i = 0;
                 }
             }
         }
         if (stage == 1) {
-            contributeY += fdelta(1000f, 120f);
+            int maxLimit = 2300;
+            int fadeTime = 250;
+
+            contributeY += fdelta(750f, 120f);
             state.planet = Planets.erekir;
 
             contribute.x = centerX;
-            contribute.y = centerY + (contributeY - contribute.getMinHeight());
+            contribute.y = centerY + (contributeY - (contribute.getMinHeight() - 50f));
             contribute.draw();
 
             if (!setVec) {
                 state.camPos.rotate(Vec3.X, -5f);
                 setVec = true;
             }
-            state.camPos.rotate(Vec3.Z, fdelta(25f, 120f));
-            state.camPos.rotate(Vec3.Y, -fdelta(35f, 120f));
-            state.zoom += fdelta(5f, 120f);
+            state.camPos.rotate(Vec3.Z, fdelta(35f, 120f));
+            state.camPos.rotate(Vec3.Y, -fdelta(45f, 120f));
+            state.zoom += fdelta(3f, 120f);
+
+            if (i >= maxLimit) {
+                alpha = ((float) (i - maxLimit) / fadeTime);
+                if (i >= maxLimit + fadeTime) {
+                    changeStage(2);
+                    contribute.clearChildren();
+                    if (!contributors.isEmpty()) {
+                        for(int i = contributors.size / 2; i < contributors.size; i += 2){
+                            if (i < contributors.size) contribute.add(contributors.get(i));
+                            contribute.image(Tex.clear).width(85f);
+                            if (i+1 < contributors.size) contribute.add(contributors.get(i+1));
+                            contribute.row();
+                        }
+                    }
+                    i = 0;
+                }
+            }
         }
+        if (stage == 2) {
+            int maxLimit = 2300;
+            int fadeTime = 250;
+
+            contributeY += fdelta(950f, 120f);
+            state.planet = Planets.serpulo;
+
+            contribute.x = centerX;
+            contribute.y = (centerY + (contribute.getMinHeight() + 50f)) - contributeY;
+            contribute.draw();
+
+            if (!setVec) {
+                state.zoom = 4f;
+                state.camPos.rotate(Vec3.X, -5f);
+                setVec = true;
+            }
+            state.camPos.rotate(Vec3.Z, -fdelta(35f, 120f));
+            state.camPos.rotate(Vec3.X, fdelta(55f, 120f));
+            state.zoom -= fdelta(1f, 120f);
+
+            if (i >= maxLimit) {
+                alpha = ((float) (i - maxLimit) / fadeTime);
+                if (i >= maxLimit + fadeTime) {
+                    changeStage(3);
+                    FinishedCredits();
+                    i = 0;
+                }
+            }
+        }
+
         background.draw(0, 0, graphics.getWidth(), graphics.getHeight());
 
         drawEsc(centerX);
