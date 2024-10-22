@@ -45,7 +45,7 @@ public class epicCreditsDialog extends Dialog {
         add(logo).size(570f, 90f).row();
         image(Tex.clear).height(27.5f).padTop(3f).row();
         add("v" + ModVersion).row();
-        add("b" + BuildVer).row();
+        add("build " + BuildVer).row();
         image(Tex.clear).height(27.5f).padTop(3f).row();
         row();
         //image(Tex.clear).height(25).padTop(3f).row();
@@ -226,7 +226,7 @@ public class epicCreditsDialog extends Dialog {
 
     @Override //TODO revamp the cutscene
     public void draw() {
-        int FPSCAP = settings.getInt("fpscap");
+        int FPSCAP = (!app.isMobile()) ? settings.getInt("fpscap") : Mathf.round(settings.getInt("fpscap") / 2f);
         i += Mathf.round(fdelta(1000f, FPSCAP));
         var Wui = (TextureRegionDrawable) Tex.whiteui;
         alpha = (!dontFadeOut) ? Mathf.lerpDelta(alpha, 0f, 0.05f) : 1f;
