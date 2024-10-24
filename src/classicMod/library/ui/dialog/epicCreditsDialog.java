@@ -226,7 +226,7 @@ public class epicCreditsDialog extends Dialog {
 
     @Override //TODO revamp the cutscene
     public void draw() {
-        int FPSCAP = (!app.isMobile()) ? settings.getInt("fpscap") : Mathf.round(settings.getInt("fpscap") / 2f);
+        int FPSCAP = (!app.isMobile()) ? settings.getInt("fpscap") : Mathf.round((float) settings.getInt("fpscap") / 2f);
         i += Mathf.round(fdelta(1000f, FPSCAP));
         var Wui = (TextureRegionDrawable) Tex.whiteui;
         alpha = (!dontFadeOut) ? Mathf.lerpDelta(alpha, 0f, 0.05f) : 1f;
@@ -309,7 +309,7 @@ public class epicCreditsDialog extends Dialog {
             state.planet = Planets.serpulo;
 
             contribute.x = centerX;
-            contribute.y = (centerY + (contribute.getMinHeight() + (50f * graphics.getAspect()))) - contributeY;
+            contribute.y = (centerY + (contribute.getMinHeight() + (50f / graphics.getAspect()))) - contributeY;
             contribute.draw();
 
             if (!setVec) {
