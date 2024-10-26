@@ -46,7 +46,7 @@ public class UIExtended {
     public static float fdelta(float nanoseconds, float targetFPS) {
         float target = 1000 / nanoseconds;
         float fps = FPNS(targetFPS);
-        float fpstarget = target * fps;
+        float fpstarget = target / fps;
         return targetFPS / fpstarget;
     }
 
