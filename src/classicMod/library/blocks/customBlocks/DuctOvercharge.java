@@ -90,7 +90,7 @@ public class DuctOvercharge extends Duct {
 
             Draw.z(Layer.block - 0.1f);
             if (sliced(Core.atlas.find(name + "-glow-" + bits), slice).found() && power != null && power.status > 0f) {
-                Draw.z(Layer.block - 0.1f);
+                Draw.z(Layer.blending);
                 Draw.color(glowColor, glowAlpha * power.status);
                 Draw.blend(Blending.additive);
                 Draw.rect(sliced(Core.atlas.find(name + "-glow-" + bits), slice), x, y, rotation);
