@@ -368,9 +368,6 @@ public class WarpGate extends Block {
 
             Building tempOther = world.buildWorld(otherX0, otherY0);
             if (tempOther instanceof WarpGateBuild otherWarpBuild) {
-                if (otherX != 0 && otherY != 0){
-                    otherX = otherY = 0;
-                }
 
                 if ((items.total() <= 0 || toggle == -1) && otherWarpBuild != this) {
                     teleProgress %= 1f;
@@ -381,6 +378,9 @@ public class WarpGate extends Block {
 
                 otherWarp = otherWarpBuild;
                 otherWarpBuild.onTransfer = onTransfer = true;
+                if (otherX != 0 && otherY != 0){
+                    otherX = otherY = 0;
+                }
 
                 for (int i = 0; i < content.items().size; i++) {
                     int maxTransfer = Math.min(items.get(content.item(i)), tile.block().itemCapacity - totalUsed);
