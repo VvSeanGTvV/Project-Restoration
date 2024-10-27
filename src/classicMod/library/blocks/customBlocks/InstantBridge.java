@@ -24,7 +24,7 @@ public class InstantBridge extends ItemBridge {
             //smooth out animation, so it doesn't stop/start immediately
             timeSpeed = Mathf.approachDelta(timeSpeed, wasMoved ? 1f : 0f, 1f / 60f);
 
-            time += timeSpeed * delta();
+            time += (timeSpeed * edelta());
 
             checkIncoming();
 
@@ -44,8 +44,7 @@ public class InstantBridge extends ItemBridge {
             }
         }
 
-        @Override
-        public void updateTransport(Building other) {
+        public void updateItems(Building other){
             Item item = items.take();
             if (item != null && other.acceptItem(this, item)) {
                 other.handleItem(other, item);
@@ -53,6 +52,19 @@ public class InstantBridge extends ItemBridge {
             } else if (item != null) {
                 items.add(item, 1);
                 items.undoFlow(item);
+            }
+        }
+
+        @Override
+        public void updateTransport(Building other) {
+            if (efficiency < 1f) {
+                transportCounter += edelta();
+                while (transportCounter >= transportTime) {
+                    updateItems(other);
+                    transportCounter -= transportTime;
+                }
+            } else {
+                updateItems(other);
             }
         }
     }

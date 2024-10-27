@@ -75,7 +75,7 @@ public class ExtendedSerpuloTechTree {
 
         margeNode(arc,
                 () -> node(arcAir,
-                        () -> node(teslaTurret)
+                        () -> node(teslaTurret, Seq.with(new SectorComplete(nuclearComplex)))
                 )
         );
 

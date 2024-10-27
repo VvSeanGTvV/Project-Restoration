@@ -768,7 +768,9 @@ public class ClassicBullets {
 
             @Override
             public void init(Bullet b){
-                Lightning.create(b.team, Color.valueOf("a9d8ff"), damage, b.x, b.y, b.deltaAngle(), 25);
+                super.init(b);
+
+                Lightning.create(b, Color.valueOf("a9d8ff"), damage, b.x, b.y, b.rotation(), 25);
             }
         };
 

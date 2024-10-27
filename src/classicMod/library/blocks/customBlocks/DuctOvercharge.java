@@ -9,8 +9,8 @@ import arc.util.Tmp;
 import classicMod.content.ExtendedStat;
 import mindustry.gen.Building;
 import mindustry.graphics.*;
-import mindustry.world.Tile;
-import mindustry.world.blocks.distribution.Duct;
+import mindustry.world.*;
+import mindustry.world.blocks.distribution.*;
 import mindustry.world.meta.StatUnit;
 
 import static mindustry.Vars.*;
@@ -54,7 +54,7 @@ public class DuctOvercharge extends Duct {
 
             //draw extra ducts facing this one for tiling purposes
             for (int i = 0; i < 4; i++) {
-                if ((blending & (1 << i)) != 0) {
+                if((blending & (1 << i)) != 0) {
                     int dir = r - i;
                     float rot = i == 0 ? rotation : (dir) * 90;
                     var near = nearby(dir);
@@ -73,6 +73,7 @@ public class DuctOvercharge extends Duct {
             }
 
             Draw.scl(xscl, yscl);
+            //drawAt(x, y, blendbits, rotation, SliceMode.none);
 
             drawAtWithGlow(x, y, blendbits, rotation, SliceMode.none);
             Draw.reset();
@@ -88,8 +89,7 @@ public class DuctOvercharge extends Duct {
             Draw.color();
             Draw.rect(sliced(topRegions[bits], slice), x, y, rotation);
 
-            Draw.z(Layer.block - 0.1f);
-            if (sliced(Core.atlas.find(name + "-glow-" + bits), slice).found() && power != null && power.status > 0f) {
+            if (sliced(Core.atlas.find(name + "-glow-" + bits), slice).found() && power != null && power.status > 0f && slice.equals(SliceMode.none)) {
                 Draw.z(Layer.blockAdditive);
                 Draw.color(glowColor, glowAlpha * power.status);
                 Draw.blend(Blending.additive);

@@ -5,7 +5,7 @@ import arc.scene.style.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.Cell;
 import arc.scene.utils.Elem;
-import arc.util.Scaling;
+import arc.util.*;
 import classicMod.library.ui.dialog.TechTreeDialog;
 import mindustry.gen.Tex;
 import mindustry.ui.dialogs.SettingsMenuDialog;
@@ -32,8 +32,11 @@ public class UIExtended {
     }
 
     public static float FPNS(float smoothFrame) {
-        float FPSttarget = smoothFrame;
-        return  Core.graphics.getDeltaTime() / FPSttarget;
+        float FPS = smoothFrame / Core.graphics.getDeltaTime();
+        Log.info(FPS);
+        Log.info(FPS / smoothFrame);
+        Log.info("== END FPNS ==");
+        return FPS / smoothFrame;
     }
 
     /**
@@ -46,8 +49,8 @@ public class UIExtended {
     public static float fdelta(float nanoseconds, float targetFPS) {
         float target = 1000 / nanoseconds;
         float fps = FPNS(targetFPS);
-        float fpstarget = target / fps;
-        return targetFPS / fpstarget;
+        float secFPS = target * fps;
+        return targetFPS / secFPS;
     }
 
     public static class Separator extends SettingsMenuDialog.SettingsTable.Setting { //This is from prog-mats-java!
