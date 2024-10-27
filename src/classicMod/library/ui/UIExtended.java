@@ -33,9 +33,6 @@ public class UIExtended {
 
     public static float FPNS(float smoothFrame) {
         float FPS = smoothFrame / Core.graphics.getDeltaTime();
-        Log.info(FPS);
-        Log.info(FPS / smoothFrame);
-        Log.info("== END FPNS ==");
         return FPS / smoothFrame;
     }
 

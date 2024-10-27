@@ -4,7 +4,7 @@ import arc.*;
 import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
-import arc.math.geom.Vec2;
+import arc.math.geom.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.Table;
 import arc.struct.*;
@@ -137,22 +137,17 @@ public class WarpGate extends Block {
 
     public class WarpGateBuild extends Building {
         protected int toggle = -1, entry;
-        protected float duration, activeScl, teleProgress;
-        protected boolean teleporting;
+        protected float duration, activeScl, teleProgress, otherX, otherY;
+        protected boolean teleporting, onTransfer;
+        protected WarpGateBuild otherWarp;
         protected @Nullable ItemModule OutputStackHold = new ItemModule();
         protected WarpGate.WarpGateBuild target;
         protected Team previousTeam;
-        protected boolean firstTime;
+        protected boolean firstTime = true;
         /**
          * is this specific building avaliable and able to transport
          **/
         protected boolean transportable;
-        protected float lastDuration;
-
-        protected void onDuration() {
-            if (duration < 0f && !teleporting) duration = teleportMax;
-            else duration -= Time.delta;
-        }
 
 
         @Override
@@ -231,10 +226,15 @@ public class WarpGate extends Block {
 
                 activeScl = Mathf.lerpDelta(activeScl, 1f, 0.015f);
 
+                Building otherBuild = world.buildWorld(otherX, otherY);
+                WarpGateBuild otherWarpGateBuild = (otherBuild instanceof WarpGateBuild Build) ? Build : null;
+                WarpGateBuild other = (otherWarpGateBuild != null && otherWarpGateBuild.onTransfer && this.onTransfer) ? otherWarpGateBuild : findLink(toggle);
                 if (this.items.total() >= itemCapacity) {
-                    WarpGateBuild other = findLink(toggle);
                     if (other == this) other = null;
-                    if (other != null) teleProgress += getProgressIncrease(warmupTime);
+                    if (other != null) teleProgress += getProgressIncrease(warmupTime); else {
+                        teleProgress %= 1f;
+                        duration = 0f;
+                    }
                     if (teleProgress >= 1f) {
                         teleProgress = 1f;
                         if (!teleporting && other != null) {
@@ -243,20 +243,25 @@ public class WarpGate extends Block {
                         }
                         if (other != null) duration += getProgressIncrease(60f);
                         if (duration >= 1f) {
-                            if (this.items.total() <= 0 || other == null || toggle == -1) {
-                                teleProgress %= 1f;
-                                duration = 0f;
-                                teleporting = false;
-                            }
-                            if (other != null) {
-                                teleportOutEffect.at(this.x, this.y, selection[toggle]);
-                                handleTransport(other);
-                                teleportOutEffect.at(other.x, other.y, selection[toggle]);
 
+                            Log.info(other);
+                            Log.info(new Vec2(other.x, other.y));
+                            Log.info("== END OTHER WARPGATE ==");
+
+                            if (this.items.total() <= 0 || toggle == -1) {
                                 teleProgress %= 1f;
                                 duration = 0f;
                                 teleporting = false;
                             }
+                            teleportOutEffect.at(this.x, this.y, selection[toggle]);
+                            //onTransferData.set(items.copy());
+                            //items.clear();
+                            handleTransport(other);
+                            teleportOutEffect.at(other.x, other.y, selection[toggle]);
+
+                            teleProgress %= 1f;
+                            duration = 0f;
+                            teleporting = false;
                         }
                     }
                 }
@@ -344,8 +349,11 @@ public class WarpGate extends Block {
                 WarpGate.WarpGateBuild other = teles.get(entries.get(i));
                 if (other != this) {
                     entry = i + 1;
+                    if (!other.isValid() && teleporters[team.id][toggle].contains(other)) {
+                        teleporters[team.id][toggle].remove(other);
+                        return null;
+                    }
                     if (!(other.OutputStackHold.total() >= other.block.itemCapacity) && other.isValid()) return other;
-                    if (!other.isValid() && teleporters[team.id][toggle].contains(other)) teleporters[team.id][toggle].remove(other);
                 }
                 if (entry >= entries.size) entry = 0;
             }
@@ -355,28 +363,49 @@ public class WarpGate extends Block {
         public void handleTransport(WarpGate.WarpGateBuild other) {
             int[] data = new int[content.items().size];
             int totalUsed = 0;
-            if (this.items.total() <= 0 || other == null || toggle == -1) {
+            float otherX0 = (otherX != 0) ? otherX : other.x();
+            float otherY0 = (otherY != 0) ? otherY : other.y();
+
+            Building tempOther = world.buildWorld(otherX0, otherY0);
+            if (tempOther instanceof WarpGateBuild otherWarpBuild) {
+                if (otherX != 0 && otherY != 0){
+                    otherX = otherY = 0;
+                }
+
+                if ((items.total() <= 0 || toggle == -1) && otherWarpBuild != this) {
+                    teleProgress %= 1f;
+                    duration = 0f;
+                    teleporting = onTransfer = false;
+                    return;
+                }
+
+                otherWarp = otherWarpBuild;
+                otherWarpBuild.onTransfer = onTransfer = true;
+
+                for (int i = 0; i < content.items().size; i++) {
+                    int maxTransfer = Math.min(items.get(content.item(i)), tile.block().itemCapacity - totalUsed);
+                    data[i] = maxTransfer;
+                    totalUsed += maxTransfer;
+                    items.remove(content.item(i), maxTransfer);
+                }
+
+                int totalItems = items.total();
+                for (int i = 0; i < data.length; i++) {
+                    int maxAdd = Math.min(data[i], itemCapacity * 2 - totalItems);
+                    otherWarpBuild.OutputStackHold.add(content.item(i), maxAdd);
+                    data[i] -= maxAdd;
+                    totalItems += maxAdd;
+
+                    if (totalItems >= itemCapacity * 2) {
+                        break;
+                    }
+                }
+                otherWarpBuild.onTransfer = onTransfer = false;
+
+            } else {
                 teleProgress %= 1f;
                 duration = 0f;
-                teleporting = false;
-            }
-            for (int i = 0; i < content.items().size; i++) {
-                int maxTransfer = Math.min(items.get(content.item(i)), tile.block().itemCapacity - totalUsed);
-                data[i] = maxTransfer;
-                totalUsed += maxTransfer;
-                items.remove(content.item(i), maxTransfer);
-            }
-
-            int totalItems = items.total();
-            for (int i = 0; i < data.length; i++) {
-                int maxAdd = Math.min(data[i], itemCapacity * 2 - totalItems);
-                other.OutputStackHold.add(content.item(i), maxAdd);
-                data[i] -= maxAdd;
-                totalItems += maxAdd;
-
-                if (totalItems >= itemCapacity * 2) {
-                    break;
-                }
+                teleporting = onTransfer = false;
             }
         }
 
@@ -443,6 +472,13 @@ public class WarpGate extends Block {
         public void write(Writes write) { //TODO fix issues with loading saves
             super.write(write);
             write.b(toggle);
+            write.bool(firstTime);
+            write.bool(onTransfer);
+            float otherX = (otherWarp != null) ? otherWarp.x : 0f;
+            float otherY = (otherWarp != null) ? otherWarp.y : 0f;
+
+            write.f(otherX);
+            write.f(otherY);
 
             Seq<Item> allItems = Vars.content.items();
             int itemSize = allItems.size;
@@ -462,7 +498,15 @@ public class WarpGate extends Block {
         @Override
         public void read(Reads read, byte revision) {
             super.read(read, revision);
+            teleProgress %= 1f;
+            duration = 0f;
+            otherWarp = null;
+
             toggle = read.b();
+            firstTime = read.bool();
+            onTransfer = read.bool();
+            otherX = read.f();
+            otherY = read.f();
 
             if(!teleporters[team.id][toggle].contains(this))
                 teleporters[team.id][toggle].add(this);
@@ -481,6 +525,7 @@ public class WarpGate extends Block {
                 int val = read.b();
                 if (val > 0) OutputStackHold.add(item, val);
             }
+
 
 
 
