@@ -61,7 +61,9 @@ public class ClassicUnitTypes {
 
     effectDrone, //Unit - Effect - Prototype [v7-dev]
 
-    azathoth, //Unit - Custom - Old Content [v5]
+    azathoth, //Unit - Advancedcontent - Old Content [v5]
+
+    electra, chromeWraith, //Unit - Example-mod - Old content [v5]
 
     mantis, // TESTING
 
@@ -69,6 +71,7 @@ public class ClassicUnitTypes {
     ;
 
     public static void load() {
+
         mantis = new MantisRayType("skat"){{
             constructor = UnitEntity::create;
             health = 1000f;
@@ -435,6 +438,49 @@ public class ClassicUnitTypes {
                 }};
             }});
         }};
+
+        electra = new UnitType("electra-mech") {{
+            speed = 0.6f;
+            boostMultiplier = 1.5f;
+            buildSpeed = 2f;
+            engineColor = Color.valueOf("666495");
+            health = 300;
+
+            outlines = false;
+            flying = false;
+
+            canBoost = true;
+            constructor = MechUnit::create;
+
+            weapons.add(new Weapon(internalMod + "-chrome-blaster") {{
+                alternate = false;
+                x = 4;
+                reload = 4;
+                bullet = new LightningBulletType(){{
+                    lightningLength = 15;
+                }};
+            }});
+
+        }};
+
+        /*
+        name: Electra
+description: An unnaturally elongated mech. Spews messy lightning all over your enemies.
+speed: 0.6
+boostSpeed: 1.5
+buildPower: 2
+engineColor: "666495"
+flying: false
+health: 300
+weaponOffsetX: 4
+weapon: {
+  name: chrome-blaster
+  length: 1.5
+  reload: 4
+  alternate: false
+  bullet: lightning
+}
+         */
 
         omega = new UnitType("omega-mech") {{
             outlines = false;

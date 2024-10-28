@@ -7,6 +7,9 @@ import mindustry.type.Item;
 
 public class ClassicItems extends Items {
     public static Item
+            // Example-mod
+            electrum, goldPowder, silver,
+
             //v4 items
             denseAlloy,
 
@@ -20,6 +23,19 @@ public class ClassicItems extends Items {
     public static final Seq<Item> classicItems = new Seq<>(), classicOnlyItems = new Seq<>();
 
     public static void load(){
+
+        electrum = new Item("electrum", Color.valueOf("dcd16b")){{
+            cost = 2.5f;
+        }};
+
+        goldPowder = new Item("gold-powder", Color.valueOf("ffffff")){
+        };
+
+        silver = new Item("silver", Color.valueOf("dcd16b")){{
+            hardness = 2;
+            cost = 2f;
+        }};
+
 
         denseAlloy = new Item("dense-alloy", Color.valueOf("b2c6d2")){{
             cost = 1f;

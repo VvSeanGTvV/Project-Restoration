@@ -64,6 +64,7 @@ public class ClassicBlocks {
     wallDense, wallDenseLarge, //Wall [v4]
 
 
+    electraPad, // Mech Pad [v5 - Example-mod]
     dartPad, omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad [v5]
     wraithFactory, ghoulFactory, revenantFactory, //Air - Unit Factory [v5]
     crawlerFactory, daggerFactory, titanFactory, fortressFactory, //Ground - Unit Factory [v5]
@@ -103,6 +104,16 @@ public class ClassicBlocks {
     }
 
     public void load() {
+
+        electraPad = new MechPad("electra-mech-pad") {{
+            requirements(Category.effect, with(Items.lead, 225, Items.graphite, 275, Items.silicon, 325, Items.thorium, 300, Items.surgeAlloy, 120));
+            size = 2;
+            hasPower = true;
+            unitType = electra;
+
+            //mechReqs = with(mindustry.content.Items.copper, 0);
+            consumePower(0.7f);
+        }};
 
         //Mechpad
         omegaPad = new MechPad("omega-pad") {{
