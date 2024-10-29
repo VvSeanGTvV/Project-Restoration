@@ -45,7 +45,6 @@ public class ExtendedSerpuloTechTree {
 
             node(dartPad, () -> {
                 node(deltaPad, () -> {
-
                     node(javelinPad, () -> {
                         node(tridentPad, () -> {
                             node(glaivePad);
@@ -53,6 +52,7 @@ public class ExtendedSerpuloTechTree {
                     });
 
                     node(tauPad, () -> {
+                        node(electraPad);
                         node(omegaPad, () -> {
 
                         });
@@ -66,6 +66,10 @@ public class ExtendedSerpuloTechTree {
             node(fuseMKI, () -> {
                 node(fuseMKII);
             });
+        });
+
+        margeNode(scatter, () -> {
+            node(scatterSilo);
         });
 
         margeNode(cyclone, () -> {

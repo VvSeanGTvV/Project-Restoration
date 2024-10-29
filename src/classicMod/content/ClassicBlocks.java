@@ -65,6 +65,8 @@ public class ClassicBlocks {
 
 
     electraPad, // Mech Pad [v5 - Example-mod]
+    scatterSilo, // Special [v5 - Example-mod]
+
     dartPad, omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad [v5]
     wraithFactory, ghoulFactory, revenantFactory, //Air - Unit Factory [v5]
     crawlerFactory, daggerFactory, titanFactory, fortressFactory, //Ground - Unit Factory [v5]
@@ -105,8 +107,9 @@ public class ClassicBlocks {
 
     public void load() {
 
+        //Mechpad
         electraPad = new MechPad("electra-mech-pad") {{
-            requirements(Category.effect, with(Items.lead, 225, Items.graphite, 275, Items.silicon, 325, Items.thorium, 300, Items.surgeAlloy, 120));
+            requirements(Category.effect, with(ClassicItems.silver, 70, ClassicItems.electrum, 40, Items.silicon, 40, Items.graphite, 50));
             size = 2;
             hasPower = true;
             unitType = electra;
@@ -115,7 +118,6 @@ public class ClassicBlocks {
             consumePower(0.7f);
         }};
 
-        //Mechpad
         omegaPad = new MechPad("omega-pad") {{
             requirements(Category.effect, with(Items.lead, 225, Items.graphite, 275, Items.silicon, 325, Items.thorium, 300, Items.surgeAlloy, 120));
             size = 3;
@@ -729,6 +731,17 @@ public class ClassicBlocks {
         }};
 
         //Turrets
+        scatterSilo = new ScatterSilo("scatter-silo"){{
+            requirements(Category.turret, with(ClassicItems.electrum, 30, Items.graphite, 75));
+            size = 2;
+
+            update = true;
+            solid = true;
+            hasItems = true;
+            configurable = true;
+
+            consumeItems(with(Items.scrap, 10));
+        }};
 
         rippleb41 = new ItemTurret("ripple-b41"){{
             requirements(Category.turret, with(ClassicItems.denseAlloy, 300, Items.titanium, 220, Items.thorium, 120));
