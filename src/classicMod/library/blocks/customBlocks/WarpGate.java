@@ -243,11 +243,6 @@ public class WarpGate extends Block {
                         }
                         if (other != null) duration += getProgressIncrease(60f);
                         if (duration >= 1f) {
-
-                            Log.info(other);
-                            Log.info(new Vec2(other.x, other.y));
-                            Log.info("== END OTHER WARPGATE ==");
-
                             if (this.items.total() <= 0 || toggle == -1) {
                                 teleProgress %= 1f;
                                 duration = 0f;
@@ -257,7 +252,6 @@ public class WarpGate extends Block {
                             //onTransferData.set(items.copy());
                             //items.clear();
                             handleTransport(other);
-                            teleportOutEffect.at(other.x, other.y, selection[toggle]);
 
                             teleProgress %= 1f;
                             duration = 0f;
@@ -376,6 +370,7 @@ public class WarpGate extends Block {
                     return;
                 }
 
+                teleportOutEffect.at(otherWarpBuild.x, otherWarpBuild.y, selection[toggle]);
                 otherWarp = otherWarpBuild;
                 otherWarpBuild.onTransfer = onTransfer = true;
                 if (otherX != 0 && otherY != 0){
