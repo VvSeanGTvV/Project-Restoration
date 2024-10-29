@@ -40,7 +40,7 @@ public class ScatterSilo extends Block {
         super.setStats();
 
         stats.remove(Stat.itemCapacity);
-        //stats.add(Stat.ammo, StatValues.ammo(ammoTypes));
+        stats.add(Stat.ammo, ExtendedStat.ammo(ammoTypes));
     }
 
     @Override

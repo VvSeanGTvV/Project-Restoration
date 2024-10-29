@@ -2,9 +2,12 @@ package classicMod.content;
 
 import arc.func.Boolf;
 import arc.graphics.Color;
-import arc.struct.ObjectFloatMap;
+import arc.graphics.g2d.TextureRegion;
+import arc.struct.*;
 import arc.util.*;
-import mindustry.type.Item;
+import mindustry.ctype.UnlockableContent;
+import mindustry.entities.bullet.BulletType;
+import mindustry.type.*;
 import mindustry.ui.Styles;
 import mindustry.world.Block;
 import mindustry.world.meta.*;
@@ -58,6 +61,39 @@ public class ExtendedStat {
             String fixed = fixValue(value);
             table.add(fixed);
             table.add((unit.space ? " " : "") + unit.localized());
+        };
+    }
+
+    public static <T extends ItemStack> StatValue ammo(ObjectMap<T, BulletType> map){
+        return ammo(map, 0, false);
+    }
+
+    private static TextureRegion icon(UnlockableContent t){
+        return t.uiIcon;
+    }
+
+
+    public static <T extends ItemStack> StatValue ammo(ObjectMap<T, BulletType> map, int indent, boolean showUnit) {
+        return table -> {
+
+            table.row();
+
+            var orderedKeys = map.keys().toSeq();
+            orderedKeys.sort();
+
+            for(T t : orderedKeys){
+                BulletType type = map.get(t);
+
+                table.table(Styles.grayPanel, bt -> {
+                    bt.left().top().defaults().padRight(3).left();
+                    bt.table(title -> {
+                        String amount = String.valueOf(t.amount);
+                        title.image(icon(t.item)).size(3 * 8).padRight(4).right().scaling(Scaling.fit).top();
+                        title.add(t.item.localizedName).padRight(10).left().top();
+                        title.add(amount);
+                    });
+                });
+            }
         };
     }
 
