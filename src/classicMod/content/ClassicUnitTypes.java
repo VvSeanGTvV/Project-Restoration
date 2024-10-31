@@ -715,6 +715,31 @@ public class ClassicUnitTypes {
             }});
         }};
 
+        chromeWraith = new UnitType("chrome-wraith") {{
+            outlines = false;
+            speed = 1.5f;
+            accel = 0.03f * 3f;
+            drag = 0.01f;
+            flying = true;
+            health = 90;
+            engineOffset = 5.5f;
+            range = 160f;
+            circleTarget = true;
+            constructor = UnitEntity::create;
+            controller = u -> new OldFlyingAI();
+
+            weapons.add(new Weapon(internalMod + "-chrome-blaster") {{
+                alternate = true;
+                reload = 10;
+                ejectEffect = Fx.none;
+                shootSound = Sounds.spark;
+                bullet = new LightningBulletType(){{
+                    damage = 8f;
+                    lightningLength = 15;
+                }};
+            }});
+        }};
+
         ghoul = new UnitType("ghoul") {{
             outlines = false;
             speed = 2.4f;

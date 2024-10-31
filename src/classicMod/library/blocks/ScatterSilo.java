@@ -46,30 +46,7 @@ public class ScatterSilo extends Block {
     @Override
     public void init(){
 
-        for (var ammo : ammoTypes){
-            consume(new ConsumeItemFilter(i -> (i == ammo.key.item)){
-                @Override
-                public void build(Building build, Table table){
-                    MultiReqImage image = new MultiReqImage();
-                    content.items().each(i -> filter.get(i) && i.unlockedNow(),
-                            item -> image.add(new ReqImage(new Image(item.uiIcon),
-                                    () -> build instanceof ItemTurret.ItemTurretBuild it && !it.ammo.isEmpty() && ((ItemTurret.ItemEntry)it.ammo.peek()).item == item)));
-
-                    table.add(image).size(8 * 4);
-                }
-
-                @Override
-                public float efficiency(Building build){
-                    //valid when there's any ammo in the turret
-                    return build instanceof ItemTurret.ItemTurretBuild it && !it.ammo.isEmpty() ? 1f : 0f;
-                }
-
-                @Override
-                public void display(Stats stats){
-                    //don't display
-                }
-            });
-        }
+        
 
         super.init();
     }

@@ -64,7 +64,7 @@ public class ClassicBlocks {
     wallDense, wallDenseLarge, //Wall [v4]
 
 
-    electraPad, // Mech Pad [v5 - Example-mod]
+    electraPad, chromeWraithFactory, // Mech Pad [v5 - Example-mod]
     scatterSilo, // Special [v5 - Example-mod]
 
     dartPad, omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad [v5]
@@ -201,6 +201,17 @@ public class ClassicBlocks {
             consumePower(0.5f);
             requirement = with(Items.silicon, 10, Items.titanium, 5);
             unitType = ClassicUnitTypes.wraith;
+        }};
+
+        chromeWraithFactory = new LegacyUnitFactory("chrome-wraith-factory") {{
+            requirements(Category.units, ItemStack.with(ClassicItems.silver, 70, ClassicItems.electrum, 40, Items.silicon, 40, Items.titanium, 20));
+            size = 2;
+            produceTime = 350;
+            maxSpawn = 4;
+
+            consumePower(0.5f);
+            requirement = with(Items.silicon, 10, ClassicItems.silver, 5);
+            unitType = chromeWraith;
         }};
 
         ghoulFactory = new LegacyUnitFactory("ghoul-factory") {{
@@ -739,6 +750,10 @@ public class ClassicBlocks {
             solid = true;
             hasItems = true;
             configurable = true;
+            ammo(
+                    with(Items.scrap, 10), ClassicBullets.flakExplosive,
+                    with(Items.lead, 15), ClassicBullets.flakLead
+            );
 
             consumeItems(with(Items.scrap, 10));
         }};

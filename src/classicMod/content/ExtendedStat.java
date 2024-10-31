@@ -64,7 +64,7 @@ public class ExtendedStat {
         };
     }
 
-    public static <T extends ItemStack> StatValue ammo(ObjectMap<T, BulletType> map){
+    public static StatValue ammo(ObjectMap<ItemStack, BulletType> map){
         return ammo(map, 0, false);
     }
 
@@ -73,7 +73,7 @@ public class ExtendedStat {
     }
 
 
-    public static <T extends ItemStack> StatValue ammo(ObjectMap<T, BulletType> map, int indent, boolean showUnit) {
+    public static StatValue ammo(ObjectMap<ItemStack, BulletType> map, int indent, boolean showUnit) {
         return table -> {
 
             table.row();
@@ -81,7 +81,7 @@ public class ExtendedStat {
             var orderedKeys = map.keys().toSeq();
             orderedKeys.sort();
 
-            for(T t : orderedKeys){
+            for(var t : orderedKeys){
                 BulletType type = map.get(t);
 
                 table.table(Styles.grayPanel, bt -> {
