@@ -50,7 +50,7 @@ public class ScatterSilo extends Block {
             ammoItems.add(ammo.key.item); //Adds every item using ammo.
         }
 
-        consume(new ConsumeItemFilter(i -> ammoItems.contains(i){
+        consume(new ConsumeItemFilter(i -> ammoItems.contains(i)){
                 @Override
                 public void build(Building build, Table table){
                     MultiReqImage image = new MultiReqImage();
