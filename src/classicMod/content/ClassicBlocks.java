@@ -754,8 +754,6 @@ public class ClassicBlocks {
                     new ItemStack(Items.scrap, 10), ClassicBullets.flakExplosive,
                     new ItemStack(Items.lead, 15), ClassicBullets.flakLead
             );
-
-            consumeItems(with(Items.scrap, 10));
         }};
 
         rippleb41 = new ItemTurret("ripple-b41"){{
