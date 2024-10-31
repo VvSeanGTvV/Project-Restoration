@@ -87,10 +87,9 @@ public class ExtendedStat {
                 table.table(Styles.grayPanel, bt -> {
                     bt.left().top().defaults().padRight(3).left();
                     bt.table(title -> {
-                        String amount = String.valueOf(t.amount);
                         title.image(icon(t.item)).size(3 * 8).padRight(4).right().scaling(Scaling.fit).top();
                         title.add(t.item.localizedName).padRight(10).left().top();
-                        title.add(amount);
+                        title.add(String.valueOf(t.amount));
                     });
                 });
             }

@@ -751,8 +751,8 @@ public class ClassicBlocks {
             hasItems = true;
             configurable = true;
             ammo(
-                    with(Items.scrap, 10), ClassicBullets.flakExplosive,
-                    with(Items.lead, 15), ClassicBullets.flakLead
+                    new ItemStack(Items.scrap, 10), ClassicBullets.flakExplosive,
+                    new ItemStack(Items.lead, 15), ClassicBullets.flakLead
             );
 
             consumeItems(with(Items.scrap, 10));
