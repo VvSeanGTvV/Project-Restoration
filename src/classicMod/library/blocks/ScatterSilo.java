@@ -45,9 +45,12 @@ public class ScatterSilo extends Block {
 
     @Override
     public void init(){
-
+        Seq<Item> ammoItems = new Seq<>();
         for (var ammo : ammoTypes){
-            consume(new ConsumeItemFilter(i -> (i == ammo.key.item)){
+            ammoItems.add(ammo.key.item); //Adds every item using ammo.
+        }
+
+        consume(new ConsumeItemFilter(i -> ammoItems.contains(i){
                 @Override
                 public void build(Building build, Table table){
                     MultiReqImage image = new MultiReqImage();
@@ -66,7 +69,6 @@ public class ScatterSilo extends Block {
                     //don't display
                 }
             });
-        }
 
         super.init();
     }
