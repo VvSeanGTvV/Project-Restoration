@@ -23,7 +23,6 @@ import static mindustry.Vars.content;
 public class ScatterSilo extends Block {
 
     public Effect siloLaunch = ExtendedFx.siloLaunchEffect;
-    public BulletType bulletType = ClassicBullets.flakExplosive;
 
     public ObjectMap<ItemStack, BulletType> ammoTypes = new OrderedMap<>();
 
@@ -62,7 +61,7 @@ public class ScatterSilo extends Block {
                 @Override
                 public float efficiency(Building build){
                     //valid when there's any ammo in the turret
-                    return build instanceof ItemTurret.ItemTurretBuild it && !it.ammo.isEmpty() ? 1f : 0f;
+                    return build instanceof ScatterSiloBuild it && !it.ammoStacks.isEmpty() ? 1f : 0f;
                 }
                 @Override
                 public void display(Stats stats){
@@ -75,44 +74,72 @@ public class ScatterSilo extends Block {
 
     public class ScatterSiloBuild extends Building {
 
+        public Seq<Item> ammoStacks = new Seq<>();
+        public BulletType bulletType = null;
+
         @Override
         public void buildConfiguration(Table table) {
             table.button(Icon.upOpen, Styles.clearTogglei, () -> {
                 configure(0);
-            }).size(50).disabled(this.isValid() && efficiency < 1f);
+            }).size(50).disabled(efficiency < 1f);
         }
 
         @Override
+        public void handleItem(Building source, Item item) {
+            BulletType type = null;
+            for (var ammo : ammoTypes){
+                if (ammo.key.item == item){
+                    type = ammo.value;
+                    break;
+                }
+            }
+            if(type == null) return;
+            bulletType = type;
+
+            //find ammo entry by type
+            for(int i = 0; i < ammoStacks.size; i++){
+                Item entry = ammoStacks.get(i);
+
+                //if found, put it to the right
+                if(entry == item){
+                    ammoStacks.swap(i, ammoStacks.size - 1);
+                    return;
+                }
+            }
+
+            ammoStacks.add(item);
+        }
+
+        @Override
+        public boolean acceptItem(Building source, Item item){
+            boolean contains = false;
+            int maxAmmo = 0;
+            for (var ammo : ammoTypes){
+                if (ammo.key.item == item){
+                    contains = true;
+                    maxAmmo = ammo.key.amount * 3;
+                    break;
+                }
+            }
+            return contains && items.get(item) < maxAmmo;
+        }
+
+        /*@Override
         public boolean acceptItem(Building source, Item item){
             boolean yes = false;
             for (var ammo : ammoTypes){
                 if (ammo.key.item == item) {
                     yes = true;
+                    ammoStacks.add(ammo.key);
                     break;
                 }
             }
             return yes;
-        }
-
-        /*
-        configured(tile, value){
-        //make sure this silo has the items it needs to fire
-        if(tile.entity.cons.valid()){
-            //make this effect occur at the tile location
-            Effects.effect(siloLaunchEffect, tile)
-
-            //create 10 bullets at this tile's location with random rotation and velocity/lifetime
-            for(var i = 0; i < 15; i++){
-                Calls.createBullet(Bullets.flakExplosive, tile.getTeam(), tile.drawx(), tile.drawy(), Mathf.random(360), Mathf.random(0.5, 1.0), Mathf.random(0.2, 1.0))
-            }
-            //triggering consumption makes it use up the items it requires
-            tile.entity.cons.trigger()
-        }
-         */
+        }*/
 
         @Override
         public void configured(Unit builder, Object value) {
-            if (efficiency >= 1f){
+            if (efficiency >= 1f && bulletType != null){
                 siloLaunch.at(this);
                 //BulletType type = ammoTypes.get(item);
 
