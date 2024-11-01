@@ -91,7 +91,7 @@ public class ScatterSilo extends Block {
 
         public Seq<Item> ammoStacks = new Seq<>();
         public BulletType bulletType = null;
-        int ammoTotal;
+        float ammoTotal;
 
         @Override
         public void buildConfiguration(Table table) {
@@ -130,7 +130,7 @@ public class ScatterSilo extends Block {
         @Override
         public boolean acceptItem(Building source, Item item){
             boolean contains = false;
-            int ammoMultiplier = 0;
+            float ammoMultiplier = 0;
             for (var ammo : ammoTypes){
                 if (ammo.key.item == item){
                     contains = true;
