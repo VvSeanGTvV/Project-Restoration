@@ -52,7 +52,7 @@ public class ScatterSilo extends Block {
                 new Bar(
                         "stat.ammo",
                         Pal.ammo,
-                        () -> (float)entity.totalAmmo / maxAmmo
+                        () -> (float)ammoTotal / maxAmmo
                 )
         );
     }
@@ -91,7 +91,7 @@ public class ScatterSilo extends Block {
 
         public Seq<Item> ammoStacks = new Seq<>();
         public BulletType bulletType = null;
-        float ammoTotal;
+        public float ammoTotal;
 
         @Override
         public void buildConfiguration(Table table) {
