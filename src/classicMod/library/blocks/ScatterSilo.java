@@ -11,6 +11,7 @@ import mindustry.content.Bullets;
 import mindustry.entities.Effect;
 import mindustry.entities.bullet.BulletType;
 import mindustry.gen.*;
+import mindustry.graphics.Pal;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.Block;
@@ -25,6 +26,7 @@ public class ScatterSilo extends Block {
     public Effect siloLaunch = ExtendedFx.siloLaunchEffect;
 
     public ObjectMap<ItemStack, BulletType> ammoTypes = new OrderedMap<>();
+    public int maxAmmo = 30;
 
     public ScatterSilo(String name) {
         super(name);
@@ -40,6 +42,19 @@ public class ScatterSilo extends Block {
 
         stats.remove(Stat.itemCapacity);
         stats.add(Stat.ammo, ExtendedStat.ammo(ammoTypes));
+    }
+
+    @Override
+    public void setBars(){
+        super.setBars();
+
+        addBar("ammo", (ItemTurret.ItemTurretBuild entity) ->
+                new Bar(
+                        "stat.ammo",
+                        Pal.ammo,
+                        () -> (float)entity.totalAmmo / maxAmmo
+                )
+        );
     }
 
     @Override
@@ -76,6 +91,7 @@ public class ScatterSilo extends Block {
 
         public Seq<Item> ammoStacks = new Seq<>();
         public BulletType bulletType = null;
+        int ammoTotal;
 
         @Override
         public void buildConfiguration(Table table) {
@@ -95,6 +111,7 @@ public class ScatterSilo extends Block {
             }
             if(type == null) return;
             bulletType = type;
+            ammoTotal += type.ammoMultiplier;
 
             //find ammo entry by type
             for(int i = 0; i < ammoStacks.size; i++){
@@ -113,15 +130,15 @@ public class ScatterSilo extends Block {
         @Override
         public boolean acceptItem(Building source, Item item){
             boolean contains = false;
-            int maxAmmo = 0;
+            int ammoMultiplier = 0;
             for (var ammo : ammoTypes){
                 if (ammo.key.item == item){
                     contains = true;
-                    maxAmmo = ammo.key.amount * 3;
+                    ammoMultiplier = ammo.value.ammoMultiplier;
                     break;
                 }
             }
-            return contains && items.get(item) < maxAmmo;
+            return contains && ammoTotal + ammoMultiplier <= maxAmmo;
         }
 
         /*@Override
