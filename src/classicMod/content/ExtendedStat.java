@@ -110,9 +110,34 @@ public class ExtendedStat {
         return stack;
     }
 
+    /** Displays an item with a specified amount. */
+    private static Stack stack(TextureRegion region, int amount, @Nullable UnlockableContent content){
+        return stack(region, amount, content, true);
+    }
+
+    public static Stack stack(ItemStack stack){
+        return stack(stack.item.uiIcon, stack.amount, stack.item);
+    }
+
+    public static Stack stack(UnlockableContent item, int amount){
+        return stack(item.uiIcon, amount, item);
+    }
+
+    public static Stack stack(UnlockableContent item, int amount, boolean tooltip){
+        return stack(item.uiIcon, amount, item, tooltip);
+    }
+
+    public static Stack stack(Item item){
+        return stack(item.uiIcon, 0, item);
+    }
+
+    public static Stack stack(PayloadStack stack){
+        return stack(stack.item.uiIcon, stack.amount, stack.item);
+    }
+
     public static Table displayItem(Item item, int amount, boolean showName){
         Table t = new Table();
-        t.add(stack(item.uiIcon, amount, !showName));
+        t.add(stack(item, amount, !showName));
         if(showName) t.add(item.localizedName).padLeft(4 + amount > 99 ? 4 : 0);
         return t;
     }
