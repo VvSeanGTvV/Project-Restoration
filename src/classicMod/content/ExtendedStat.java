@@ -112,7 +112,7 @@ public class ExtendedStat {
 
     public static Table displayItem(Item item, int amount, boolean showName){
         Table t = new Table();
-        t.add(stack(item, amount, !showName));
+        t.add(stack(item.uiIcon, amount, !showName));
         if(showName) t.add(item.localizedName).padLeft(4 + amount > 99 ? 4 : 0);
         return t;
     }
