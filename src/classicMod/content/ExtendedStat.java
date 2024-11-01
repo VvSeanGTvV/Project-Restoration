@@ -15,6 +15,7 @@ import mindustry.ui.Styles;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.turrets.Turret;
 import mindustry.world.meta.*;
+import mindustry.core.*;
 
 import static mindustry.Vars.*;
 import static mindustry.world.meta.StatValues.fixValue;
