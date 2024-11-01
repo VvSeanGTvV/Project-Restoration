@@ -52,7 +52,7 @@ public class ScatterSilo extends Block {
                 new Bar(
                         "stat.ammo",
                         Pal.ammo,
-                        () -> (float)ammoTotal / maxAmmo
+                        () -> (float)entity.ammoTotal / maxAmmo
                 )
         );
     }
