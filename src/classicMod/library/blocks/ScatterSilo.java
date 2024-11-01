@@ -91,7 +91,7 @@ public class ScatterSilo extends Block {
 
         public Seq<Item> ammoStacks = new Seq<>();
         public BulletType bulletType = null;
-        public float ammoTotal;
+        public float ammoTotal, ammoConsume;
 
         @Override
         public void buildConfiguration(Table table) {
@@ -106,6 +106,7 @@ public class ScatterSilo extends Block {
             for (var ammo : ammoTypes){
                 if (ammo.key.item == item){
                     type = ammo.value;
+                    ammoConsume = ammo.key.amount;
                     break;
                 }
             }
@@ -163,7 +164,7 @@ public class ScatterSilo extends Block {
                 for (int i = 0; i < 15; i++){
                     bulletType.create(this, team, x, y, Mathf.random(360), Mathf.random(0.5f, 1f), Mathf.random(0.2f, 1f));
                 }
-
+                ammoTotal -= ammoConsume;
                 consume();
             }
         }
