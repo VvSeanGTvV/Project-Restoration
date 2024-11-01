@@ -70,7 +70,7 @@ public class ScatterSilo extends Block {
                     MultiReqImage image = new MultiReqImage();
                     content.items().each(i -> filter.get(i) && i.unlockedNow(),
                             item -> image.add(new ReqImage(new Image(item.uiIcon),
-                                    () -> build instanceof ItemTurret.ItemTurretBuild it && !it.ammo.isEmpty() && ((ItemTurret.ItemEntry)it.ammo.peek()).item == item)));
+                                    () -> build instanceof ScatterSiloBuild it && !it.ammoStacks.isEmpty() && (it.ammoStacks.peek()) == item)));
                     table.add(image).size(8 * 4);
                 }
                 @Override
