@@ -17,7 +17,8 @@ import mindustry.world.blocks.defense.turrets.Turret;
 import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
-import static mindustry.world.meta.StatValues.*;
+import static mindustry.world.meta.StatValues.fixValue;
+import static mindustry.world.meta.StatValues.displayItem;
 
 public class ExtendedStat {
     public static final Stat
