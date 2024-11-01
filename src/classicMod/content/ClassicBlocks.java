@@ -752,7 +752,8 @@ public class ClassicBlocks {
             configurable = true;
             ammo(
                     new ItemStack(Items.scrap, 10), ClassicBullets.flakExplosive,
-                    new ItemStack(Items.lead, 15), ClassicBullets.flakLead
+                    new ItemStack(Items.lead, 15), ClassicBullets.flakLead,
+                    new ItemStack(Items.surgeAlloy, 5), flakSurge
             );
         }};
 

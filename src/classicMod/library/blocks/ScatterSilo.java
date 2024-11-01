@@ -143,18 +143,10 @@ public class ScatterSilo extends Block {
             return contains && ammoTotal + ammoMultiplier <= maxAmmo;
         }
 
-        /*@Override
-        public boolean acceptItem(Building source, Item item){
-            boolean yes = false;
-            for (var ammo : ammoTypes){
-                if (ammo.key.item == item) {
-                    yes = true;
-                    ammoStacks.add(ammo.key);
-                    break;
-                }
-            }
-            return yes;
-        }*/
+        @Override
+        public int removeStack(Item item, int amount){
+            return 0;
+        }
 
         @Override
         public void configured(Unit builder, Object value) {

@@ -1,8 +1,11 @@
 package classicMod.content;
 
+import arc.Core;
 import arc.func.Boolf;
 import arc.graphics.Color;
 import arc.graphics.g2d.TextureRegion;
+import arc.math.Mathf;
+import arc.scene.ui.layout.Table;
 import arc.struct.*;
 import arc.util.*;
 import mindustry.ctype.UnlockableContent;
@@ -10,9 +13,10 @@ import mindustry.entities.bullet.BulletType;
 import mindustry.type.*;
 import mindustry.ui.Styles;
 import mindustry.world.Block;
+import mindustry.world.blocks.defense.turrets.Turret;
 import mindustry.world.meta.*;
 
-import static mindustry.Vars.content;
+import static mindustry.Vars.*;
 import static mindustry.world.meta.StatValues.fixValue;
 
 public class ExtendedStat {
@@ -72,6 +76,16 @@ public class ExtendedStat {
         return t.uiIcon;
     }
 
+    //for AmmoListValue
+    private static void sep(Table table, String text){
+        table.row();
+        table.add(text);
+    }
+
+    //for AmmoListValue
+    private static String ammoStat(float val){
+        return (val > 0 ? "[stat]+" : "[negstat]") + Strings.autoFixed(val, 1);
+    }
 
     public static StatValue ammo(ObjectMap<ItemStack, BulletType> map, int indent, boolean showUnit) {
         return table -> {
@@ -82,6 +96,8 @@ public class ExtendedStat {
             orderedKeys.sort();
 
             for(var t : orderedKeys){
+                boolean compact = indent > 0;
+
                 BulletType type = map.get(t);
 
                 table.table(Styles.grayPanel, bt -> {
@@ -91,6 +107,33 @@ public class ExtendedStat {
                         title.add(t.item.localizedName).padRight(10).left().top();
                         title.add(String.valueOf(t.amount));
                     });
+
+                    bt.row();
+
+                    if(type.damage > 0 && (type.collides || type.splashDamage <= 0)){
+                        if(type.continuousDamage() > 0){
+                            bt.add(Core.bundle.format("bullet.damage", type.continuousDamage()) + StatUnit.perSecond.localized());
+                        }else{
+                            bt.add(Core.bundle.format("bullet.damage", type.damage));
+                        }
+                    }
+
+                    if(type.buildingDamageMultiplier != 1){
+                        int val = (int)(type.buildingDamageMultiplier * 100 - 100);
+                        sep(bt, Core.bundle.format("bullet.buildingdamage", ammoStat(val)));
+                    }
+
+                    if(type.rangeChange != 0 && !compact){
+                        sep(bt, Core.bundle.format("bullet.range", ammoStat(type.rangeChange / tilesize)));
+                    }
+
+                    if(type.splashDamage > 0){
+                        sep(bt, Core.bundle.format("bullet.splashdamage", (int)type.splashDamage, Strings.fixed(type.splashDamageRadius / tilesize, 1)));
+                    }
+
+                    if(!compact && !Mathf.equal(type.ammoMultiplier, 1f) && type.displayAmmoMultiplier){
+                        sep(bt, Core.bundle.format("bullet.multiplier", (int)type.ammoMultiplier));
+                    }
                 });
             }
         };
