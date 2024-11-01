@@ -103,9 +103,10 @@ public class ExtendedStat {
                 table.table(Styles.grayPanel, bt -> {
                     bt.left().top().defaults().padRight(3).left();
                     bt.table(title -> {
-                        title.image(icon(t.item)).size(3 * 8).padRight(4).right().scaling(Scaling.fit).top();
-                        title.add(t.item.localizedName).padRight(10).left().top();
-                        title.add(String.valueOf(t.amount));
+                        title.add(displayItem(t.item, t.amount, true)).padRight(5);
+                        //title.image(icon(t.item)).size(3 * 8).padRight(4).right().scaling(Scaling.fit).top();
+                        //title.add(t.item.localizedName).padRight(10).left().top();
+                        //title.add(String.valueOf(t.amount));
                     });
 
                     bt.row();
@@ -135,6 +136,7 @@ public class ExtendedStat {
                         sep(bt, Core.bundle.format("bullet.multiplier", (int)type.ammoMultiplier));
                     }
                 });
+                table.row();
             }
         };
     }
