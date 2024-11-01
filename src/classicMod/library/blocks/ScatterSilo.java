@@ -48,7 +48,7 @@ public class ScatterSilo extends Block {
     public void setBars(){
         super.setBars();
 
-        addBar("ammo", (ItemTurret.ItemTurretBuild entity) ->
+        addBar("ammo", (ScatterSiloBuild entity) ->
                 new Bar(
                         "stat.ammo",
                         Pal.ammo,
