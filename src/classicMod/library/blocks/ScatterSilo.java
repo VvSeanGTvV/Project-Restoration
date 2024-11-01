@@ -30,6 +30,7 @@ public class ScatterSilo extends Block {
 
     public ScatterSilo(String name) {
         super(name);
+        hasItems = false;
     }
 
     public void ammo(Object... objects){
@@ -47,7 +48,7 @@ public class ScatterSilo extends Block {
     @Override
     public void setBars(){
         super.setBars();
-
+        
         addBar("ammo", (ScatterSiloBuild entity) ->
                 new Bar(
                         "stat.ammo",
@@ -97,7 +98,7 @@ public class ScatterSilo extends Block {
         public void buildConfiguration(Table table) {
             table.button(Icon.upOpen, Styles.clearTogglei, () -> {
                 configure(0);
-            }).size(50).disabled(efficiency < 1f);
+            }).size(50).disabled(efficiency < 1f || ammoTotal <= 0f);
         }
 
         @Override
@@ -157,15 +158,15 @@ public class ScatterSilo extends Block {
 
         @Override
         public void configured(Unit builder, Object value) {
-            if (efficiency >= 1f && bulletType != null){
+            if (efficiency >= 1f && bulletType != null && ammoTotal > 0f){
                 siloLaunch.at(this);
                 //BulletType type = ammoTypes.get(item);
 
-                for (int i = 0; i < 15; i++){
+                for (int i = 0; i < ammoConsume; i++){
                     bulletType.create(this, team, x, y, Mathf.random(360), Mathf.random(0.5f, 1f), Mathf.random(0.2f, 1f));
                 }
                 ammoTotal -= ammoConsume;
-                consume();
+                //consume();
             }
         }
 
