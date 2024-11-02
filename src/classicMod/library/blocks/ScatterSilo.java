@@ -167,10 +167,10 @@ public class ScatterSilo extends Block {
         @Override
         public void draw() {
 
-            Draw.z(Layer.effect - 1);
+            Draw.z(Layer.effect);
             float z = Draw.z();
             Drawf.shadow(Core.atlas.find( name + "-top"), x - elevation, y - elevation, drawrot());
-            Draw.z(z + 2);
+            Draw.z(z + 1);
             Draw.rect(Core.atlas.find( name + "-top"), x, y);
             Draw.z(Layer.block);
             super.draw();
