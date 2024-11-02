@@ -11,7 +11,7 @@ import arc.util.*;
 import mindustry.ctype.UnlockableContent;
 import mindustry.entities.bullet.BulletType;
 import mindustry.type.*;
-import mindustry.ui.Styles;
+import mindustry.ui.*;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.turrets.Turret;
 import mindustry.world.meta.*;
@@ -19,7 +19,6 @@ import mindustry.core.*;
 
 import static mindustry.Vars.*;
 import static mindustry.world.meta.StatValues.*;
-import static mindustry.world.meta.StatValues.displayItem;
 
 public class ExtendedStat {
     public static final Stat
@@ -105,7 +104,7 @@ public class ExtendedStat {
                 table.table(Styles.grayPanel, bt -> {
                     bt.left().top().defaults().padRight(3).left();
                     bt.table(title -> {
-                        title.add(displayItem(t.item, t.amount, true)).padRight(5);
+                        title.add(new ItemDisplay(t.item, t.amount, true)).padRight(5);
                         //title.image(icon(t.item)).size(3 * 8).padRight(4).right().scaling(Scaling.fit).top();
                         //title.add(t.item.localizedName).padRight(10).left().top();
                         //title.add(String.valueOf(t.amount));
@@ -137,7 +136,8 @@ public class ExtendedStat {
                     if(!compact && !Mathf.equal(type.ammoMultiplier, 1f) && type.displayAmmoMultiplier){
                         sep(bt, Core.bundle.format("bullet.multiplier", (int)type.ammoMultiplier));
                     }
-                });
+                }).padLeft(indent * 5).padTop(5).padBottom(compact ? 0 : 5).growX().margin(compact ? 0 : 10);
+
                 table.row();
             }
         };
