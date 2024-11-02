@@ -3,7 +3,7 @@ package classicMod.library.blocks;
 import arc.Core;
 import arc.audio.Sound;
 import arc.graphics.g2d.Draw;
-import arc.math.Mathf;
+import arc.math.*;
 import arc.scene.ui.Image;
 import arc.scene.ui.layout.Table;
 import arc.struct.*;
@@ -29,6 +29,8 @@ public class ScatterSilo extends Block {
     public Effect siloLaunch = ExtendedFx.siloLaunchEffect;
     public Sound shootSound = Sounds.shoot;
     public Effect shootEffect;
+
+    public float range = 60f;
 
     public ObjectMap<ItemStack, BulletType> ammoTypes = new OrderedMap<>();
     public int maxAmmo = 30;
@@ -104,6 +106,7 @@ public class ScatterSilo extends Block {
         @Override
         public void buildConfiguration(Table table) {
             table.button(Icon.upOpen, Styles.clearTogglei, () -> {
+
                 configure(0);
             }).size(50).disabled(efficiency < 1f || ammoTotal <= 0f);
         }
@@ -167,29 +170,33 @@ public class ScatterSilo extends Block {
         @Override
         public void draw() {
 
-            Draw.z(Layer.effect + 1);
+            /*Draw.z(Layer.effect + 1);
             float z = Draw.z();
             Drawf.shadow(Core.atlas.find( name + "-top"), x - elevation, y - elevation, drawrot());
             Draw.z(z + 1);
             Draw.rect(Core.atlas.find( name + "-top"), x, y);
-            Draw.z(Layer.block);
+            Draw.z(Layer.block);*/
             super.draw();
         }
 
         @Override
         public void configured(Unit builder, Object value) {
+
             if (efficiency >= 1f && bulletType != null && ammoTotal > 0f){
                 siloLaunch.at(this);
 
                 for (int i = 0; i < ammoConsume; i++){
                     float rot = Mathf.random(360);
-                    (shootEffect == null ? bulletType.shootEffect : shootEffect).at(x, y, rot, bulletType.hitColor);
+                    float xOffset = 5f;
+                    float yOffset = 0f;
+                    (shootEffect == null ? bulletType.shootEffect : shootEffect).at(x + Angles.trnsx(rot, xOffset, yOffset), y + Angles.trnsy(rot, xOffset, yOffset), rot, bulletType.hitColor);
                     bulletType.create(this, team, x, y, rot, Mathf.random(0.5f, 1f), Mathf.random(0.2f, 1f));
                     shootSound.at(this);
                 }
                 ammoTotal -= ammoConsume;
                 //consume();
             }
+
         }
 
         @Override
