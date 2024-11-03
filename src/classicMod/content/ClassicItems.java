@@ -28,9 +28,6 @@ public class ClassicItems extends Items {
             cost = 2.5f;
         }};
 
-        goldPowder = new Item("gold-powder", Color.valueOf("ffffff")){
-        };
-
         silver = new Item("silver", Color.valueOf("dcd16b")){{
             hardness = 2;
             cost = 2f;

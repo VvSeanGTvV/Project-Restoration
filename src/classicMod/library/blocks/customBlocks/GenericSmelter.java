@@ -4,9 +4,11 @@ import arc.Core;
 import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
+import arc.struct.Seq;
 import arc.util.*;
 import arc.util.io.*;
 import classicMod.content.*;
+import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.entities.Effect;
 import mindustry.gen.Building;
@@ -14,6 +16,7 @@ import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.ui.Bar;
 import mindustry.world.blocks.production.GenericCrafter;
+import mindustry.world.consumers.*;
 import mindustry.world.meta.*;
 
 public class GenericSmelter extends GenericCrafter {
@@ -82,7 +85,6 @@ public class GenericSmelter extends GenericCrafter {
     public class GenericSmelterBuild extends GenericCrafterBuild {
         public float fuelProgress;
         public float activeScl;
-        public boolean hasFuel;
         protected boolean accepted;
 
         public float progress() {
@@ -110,10 +112,13 @@ public class GenericSmelter extends GenericCrafter {
             }
         }
 
+        public boolean hasFuel(ItemStack[] fuelItemStack){
+            return this.items.has(fuelItemStack);
+        }
+
         @Override
         public void updateTile() {
-            hasFuel = this.items.has(fuelItems);
-            if (efficiency > 0 && hasFuel) {
+            if (efficiency > 0 && hasFuel(fuelItems)) {
                 //if (this.items.has(fuelItems)) {
                     activeScl = Mathf.lerpDelta(activeScl, warmupTarget(), warmupSpeed);
                     fuelProgress += getProgressIncrease(burnTime);
@@ -146,26 +151,6 @@ public class GenericSmelter extends GenericCrafter {
                     fuelProgress %= 1f;
                 }
             }
-
-            /*if (efficiency > 0 && hasFuel) {
-
-                progress += getProgressIncrease(craftTime);
-                warmup = Mathf.approachDelta(warmup, warmupTarget(), warmupSpeed);
-
-                //continuously output based on efficiency
-                if (outputLiquids != null) {
-                    float inc = getProgressIncrease(1f);
-                    for (var output : outputLiquids) {
-                        handleLiquid(this, output.liquid, Math.min(output.amount * inc, liquidCapacity - liquids.get(output.liquid)));
-                    }
-                }
-
-                if (wasVisible && Mathf.chanceDelta(updateEffectChance)) {
-                    updateEffect.at(x + Mathf.range(size * 4f), y + Mathf.range(size * 4));
-                }
-            } else {
-                warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);
-            }*/
 
             //TODO may look bad, revert to edelta() if so
             totalProgress += warmup * Time.delta;

@@ -31,7 +31,7 @@ import mindustry.world.blocks.payloads.PayloadMassDriver;
 import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.blocks.storage.*;
-import mindustry.world.consumers.ConsumeItemRadioactive;
+import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
@@ -65,6 +65,7 @@ public class ClassicBlocks {
 
 
     electraPad, chromeWraithFactory, // Mech Pad [v5 - Example-mod]
+    electrumForge, // Production [v5 - Example-mod]
     scatterSilo, // Special [v5 - Example-mod]
 
     dartPad, omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad [v5]

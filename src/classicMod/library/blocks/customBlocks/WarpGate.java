@@ -262,7 +262,7 @@ public class WarpGate extends Block {
             } else {
                 activeScl = Mathf.lerpDelta(activeScl, 0f, 0.015f);
                 firstTime = true;
-                teleProgress %= 1f;
+                teleProgress = 0f;
                 duration = 0f;
             }
             //if(!liquids.hasFlowLiquid(inputLiquid) && this.block.consPower.efficiency(this)>=1) catastrophicFailure();
