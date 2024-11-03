@@ -11,7 +11,7 @@ import arc.util.io.*;
 import classicMod.content.*;
 import mindustry.Vars;
 import mindustry.content.Bullets;
-import mindustry.entities.Effect;
+import mindustry.entities.*;
 import mindustry.entities.bullet.BulletType;
 import mindustry.gen.*;
 import mindustry.graphics.*;
@@ -22,7 +22,7 @@ import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.consumers.ConsumeItemFilter;
 import mindustry.world.meta.*;
 
-import static mindustry.Vars.content;
+import static mindustry.Vars.*;
 
 public class ScatterSilo extends Block {
 
@@ -49,6 +49,8 @@ public class ScatterSilo extends Block {
         super.setStats();
 
         stats.remove(Stat.itemCapacity);
+
+        stats.add(Stat.range, range / tilesize, StatUnit.blocks);
         stats.add(Stat.ammo, ExtendedStat.ammo(ammoTypes));
     }
 
@@ -64,6 +66,13 @@ public class ScatterSilo extends Block {
                         () -> (float)entity.ammoTotal / maxAmmo
                 )
         );
+    }
+
+    @Override
+    public void drawPlace(int x, int y, int rotation, boolean valid) {
+        super.drawPlace(x, y, rotation, valid);
+
+        Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, player.team().color);
     }
 
     @Override
@@ -100,7 +109,7 @@ public class ScatterSilo extends Block {
 
         public Seq<Item> ammoStacks = new Seq<>();
         public BulletType bulletType = null;
-        float elevation = -1f;
+        boolean shoot = false;
         public float ammoTotal, ammoConsume;
 
         @Override
@@ -117,6 +126,24 @@ public class ScatterSilo extends Block {
                 if (ammoTotal < 0f) ammoTotal = 0f;
                 ammoStacks.clear();
             }
+
+            if (efficiency >= 1f && bulletType != null && ammoTotal > 0f && shoot){
+                siloLaunch.at(this);
+
+                for (int i = 0; i < ammoConsume; i++){
+                    float rot = Mathf.random(360);
+                    float xOffset = 5f;
+                    float yOffset = 0f;
+                    (shootEffect == null ? bulletType.shootEffect : shootEffect).at(x + Angles.trnsx(rot, xOffset, yOffset), y + Angles.trnsy(rot, xOffset, yOffset), rot, bulletType.hitColor);
+                    bulletType.create(this, team, x, y, rot, Mathf.random(0.5f, 1f), Mathf.random(0.2f, 1f));
+                    shootSound.at(this);
+                }
+                ammoTotal -= ammoConsume;
+                shoot = false;
+            }
+
+            shoot = (Units.closest(team, x, y, range, u -> !u.spawnedByCore && u.type.killable && u.type.hittable && u.isEnemy()) != null);
+
             super.updateTile();
         }
 
@@ -180,23 +207,13 @@ public class ScatterSilo extends Block {
         }
 
         @Override
+        public void drawConfigure() {
+            Drawf.dashCircle(x, y, range, team.color);
+        }
+
+        @Override
         public void configured(Unit builder, Object value) {
-
-            if (efficiency >= 1f && bulletType != null && ammoTotal > 0f){
-                siloLaunch.at(this);
-
-                for (int i = 0; i < ammoConsume; i++){
-                    float rot = Mathf.random(360);
-                    float xOffset = 5f;
-                    float yOffset = 0f;
-                    (shootEffect == null ? bulletType.shootEffect : shootEffect).at(x + Angles.trnsx(rot, xOffset, yOffset), y + Angles.trnsy(rot, xOffset, yOffset), rot, bulletType.hitColor);
-                    bulletType.create(this, team, x, y, rot, Mathf.random(0.5f, 1f), Mathf.random(0.2f, 1f));
-                    shootSound.at(this);
-                }
-                ammoTotal -= ammoConsume;
-                //consume();
-            }
-
+            shoot = true;
         }
 
         @Override

@@ -70,7 +70,7 @@ public class ExtendedStat {
     }
 
     public static StatValue ammo(ObjectMap<ItemStack, BulletType> map){
-        return ammo(map, 0, false);
+        return ammo(map, 0);
     }
 
     //for AmmoListValue
@@ -84,7 +84,7 @@ public class ExtendedStat {
         return (val > 0 ? "[stat]+" : "[negstat]") + Strings.autoFixed(val, 1);
     }
 
-    public static StatValue ammo(ObjectMap<ItemStack, BulletType> map, int indent, boolean showUnit) {
+    public static StatValue ammo(ObjectMap<ItemStack, BulletType> map, int indent) {
         return table -> {
 
             table.row();
