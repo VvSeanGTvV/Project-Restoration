@@ -744,7 +744,7 @@ public class ClassicBlocks {
             drillEffect = Fx.mineHuge;
             rotateSpeed = 6f;
             warmupSpeed = 0.01f;
-
+            
             liquidBoostIntensity = 1.65f;
             consumeLiquid(Liquids.slag, 0.2f).boost();
         }};
@@ -765,22 +765,23 @@ public class ClassicBlocks {
             requirements(Category.turret, with(ClassicItems.electrum, 30, Items.graphite, 75));
             size = 2;
             range = 80f;
+            scaledHealth = 90;
 
             update = true;
             solid = true;
             hasItems = true;
             configurable = true;
-            warmupSpeed = 0.034f * 2;
+            warmupSpeed = 0.034f * 2.25f;
             ammo(
-                    new ItemStack(Items.scrap, 16), new BasicBulletType(4f, 6){{
+                    new ItemStack(Items.scrap, 16), new BasicBulletType(4f, 8){{
                         width = 7f;
                         height = 9f;
                     }},
-                    new ItemStack(Items.lead, 10), new BasicBulletType(4f, 8){{
+                    new ItemStack(Items.lead, 10), new BasicBulletType(4f, 12){{
                         width = 7f;
                         height = 9f;
                     }},
-                    new ItemStack(ClassicItems.electrum, 5), new FlakBulletType(4f, 13){{
+                    new ItemStack(ClassicItems.electrum, 5), new FlakBulletType(4f, 20){{
                         ammoMultiplier = 5f;
                         splashDamage = 50f * 1.5f;
                         splashDamageRadius = 38f;
@@ -1012,7 +1013,7 @@ public class ClassicBlocks {
             heatColor = Color.red;
 
             reload = 40f;
-            health = 240;
+            health = 320;
             recoil = 1f;
             consumePower(0.5f * 4f);
             coolant = consumeCoolant(0.1f);
