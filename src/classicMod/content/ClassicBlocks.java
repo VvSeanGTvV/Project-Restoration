@@ -764,8 +764,8 @@ public class ClassicBlocks {
         scatterSilo = new ScatterSilo("scatter-silo"){{
             requirements(Category.turret, with(ClassicItems.electrum, 30, Items.graphite, 75));
             size = 2;
-            range = 100f;
-            scaledHealth = 110;
+            range = 120f;
+            scaledHealth = 140;
 
             update = true;
             solid = true;
@@ -776,12 +776,12 @@ public class ClassicBlocks {
                     new ItemStack(Items.scrap, 20), new BasicBulletType(8f, 8){{
                         width = 7f;
                         height = 9f;
-                        ammoMultiplier = 1f;
+                        ammoMultiplier = 5f;
                     }},
                     new ItemStack(Items.lead, 10), new BasicBulletType(8f, 12){{
                         width = 7f;
                         height = 9f;
-                        ammoMultiplier = 1f;
+                        ammoMultiplier = 4f;
                     }},
                     new ItemStack(ClassicItems.electrum, 2), new FlakBulletType(8f, 20){{
                         ammoMultiplier = 5f;
