@@ -18,6 +18,7 @@ public class ExtendedSerpuloTechTree {
     public static void load() {
 
         margeNode(combustionGenerator, () -> {
+            node(shineGenerator);
             node(draugFactory, () -> {
                 node(spiritFactory, () -> {
                     node(phantomFactory);

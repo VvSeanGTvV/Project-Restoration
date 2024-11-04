@@ -58,6 +58,7 @@ public class ClassicBlocks {
 
     electraPad, chromeWraithFactory, // Mech Pad [v5 - Example-mod]
     electrumDrill, //Drills [v5 - Example-mod]
+    shineGenerator,
     electrumForge, // Production [v5 - Example-mod]
     scatterSilo, // Special [v5 - Example-mod]
 
@@ -1378,6 +1379,21 @@ public class ClassicBlocks {
         }};
 
         // Power
+        shineGenerator = new ConsumeGenerator("shine-generator"){{
+            requirements(Category.power, with(Items.metaglass, 80, Items.silicon, 60, ClassicItems.electrum, 50));
+            size = 2;
+            powerProduction = 1f;
+            itemDuration = 80f;
+
+            ambientSound = Sounds.smelter;
+            ambientSoundVolume = 0.03f;
+            generateEffect = Fx.generatespark;
+
+            consume(new ConsumeItemCharged());
+
+            drawer = new DrawMulti(new DrawDefault(), new DrawWarmupRegion());
+        }};
+
         rtgGenerator = new ConsumeGenerator("compacted-rtg-generator"){{
             requirements(Category.power, with(Items.lead, 50, Items.silicon, 15, Items.phaseFabric, 5, ClassicItems.thorium, 10));
             size = 1;
