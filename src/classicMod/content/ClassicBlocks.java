@@ -492,11 +492,11 @@ public class ClassicBlocks {
             liquidCapacity = 50f;
 
             outputItem = new ItemStack(ClassicItems.electrum, 1);
-            consumeLiquids(LiquidStack.with(Liquids.slag, 1f / 60f));
+            consumeLiquids(LiquidStack.with(Liquids.slag, 4f / 60f));
             consumeItems(with(Items.titanium, 2, Items.sand, 2));
             consumePower(0.7f);
             drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc999")));
-            craftTime = 60f;
+            craftTime = 60f * 10;
             size = 2;
             health = 90 * size;
         }};
@@ -764,8 +764,8 @@ public class ClassicBlocks {
         scatterSilo = new ScatterSilo("scatter-silo"){{
             requirements(Category.turret, with(ClassicItems.electrum, 30, Items.graphite, 75));
             size = 2;
-            range = 80f;
-            scaledHealth = 90;
+            range = 100f;
+            scaledHealth = 110;
 
             update = true;
             solid = true;
@@ -773,15 +773,17 @@ public class ClassicBlocks {
             configurable = true;
             warmupSpeed = 0.034f * 2.25f;
             ammo(
-                    new ItemStack(Items.scrap, 16), new BasicBulletType(4f, 8){{
+                    new ItemStack(Items.scrap, 20), new BasicBulletType(8f, 8){{
                         width = 7f;
                         height = 9f;
+                        ammoMultiplier = 1f;
                     }},
-                    new ItemStack(Items.lead, 10), new BasicBulletType(4f, 12){{
+                    new ItemStack(Items.lead, 10), new BasicBulletType(8f, 12){{
                         width = 7f;
                         height = 9f;
+                        ammoMultiplier = 1f;
                     }},
-                    new ItemStack(ClassicItems.electrum, 5), new FlakBulletType(4f, 20){{
+                    new ItemStack(ClassicItems.electrum, 2), new FlakBulletType(8f, 20){{
                         ammoMultiplier = 5f;
                         splashDamage = 50f * 1.5f;
                         splashDamageRadius = 38f;
