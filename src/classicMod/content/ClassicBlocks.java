@@ -44,16 +44,8 @@ import static mindustry.type.ItemStack.with;
 
 public class ClassicBlocks {
     public static Block
-    coreSolo, //lonely Core - classic
-    titanCannon, plasmaTurret, sniperTurret, laserTurret, mortarTurret, flameTurret, gattlingTurret, shotgunTurret, doubleTurret, basicTurret, //Turret - classic
-    nuclearReactor, //Power - classic
-    crucible, steelSmelter, lavaSmelter, purifierCoal, purifierTitanium, //Production - classic
-    teleporter, tunnelBridge, //Distribution - classic //TODO conveyor belt
-    pumpBasic, pumpFlux, //Liquids - classic
-    stoneDrill, ironDrill, uraniumDrill, titaniumDrill, coalDrill, omniDrill, //SingleDrill - classic
-    ironOre, uraniumOre, //Ore - classic
-    lavaLiq, //Liquid - classic
-    wallStone, wallIron, wallSteel, wallDirium, wallComposite, wallDiriumLarge, wallSteelLarge, wallShieldedTitanium,//Wall - classic
+    crucible, //Production - classic
+    wallDirium, wallComposite, wallDiriumLarge, wallShieldedTitanium,//Wall - classic
 
     rtgGenerator, //Power [Classic-Hybrid]
 
@@ -65,6 +57,7 @@ public class ClassicBlocks {
 
 
     electraPad, chromeWraithFactory, // Mech Pad [v5 - Example-mod]
+    electrumDrill, //Drills [v5 - Example-mod]
     electrumForge, // Production [v5 - Example-mod]
     scatterSilo, // Special [v5 - Example-mod]
 
@@ -83,7 +76,7 @@ public class ClassicBlocks {
     warheadAssembler, ballisticSilo, nuclearWarhead, //Nuclear - Prototype [v7-dev] TODO make it work
     shieldProjector, shieldBreaker, largeShieldProjector, barrierProjector, //Projectors - Erekir - Prototype [v7-dev]
     heatReactor, //Heat Producers - Erekir - Prototype [v7-dev]
-    //cellSynthesisChamber, //Liquid Converter - Erekir - Prototype [v7-dev]
+
     slagCentrifuge, cellSynthesisChamber, //Generic Crafters - Erekir - Prototype [v7-dev]
     reinforcedSafe, coreAegis, //Storage - Erekir - Prototype [v7-dev]
     surgeDuct, //Distribution - Duct - Prototype [v7-dev]
@@ -97,20 +90,11 @@ public class ClassicBlocks {
     ;
 
 
-
-    public void loadClassic(){
-
-    }
-
-    public void loadv4(){
-
-    }
-
     public void load() {
 
         //Mechpad
         electraPad = new MechPad("electra-mech-pad") {{
-            requirements(Category.effect, with(ClassicItems.silver, 70, ClassicItems.electrum, 40, Items.silicon, 40, Items.graphite, 50));
+            requirements(Category.effect, with(ClassicItems.denseAlloy, 70, ClassicItems.electrum, 40, Items.silicon, 40, Items.graphite, 50));
             size = 2;
             hasPower = true;
             unitType = electra;
@@ -205,13 +189,13 @@ public class ClassicBlocks {
         }};
 
         chromeWraithFactory = new LegacyUnitFactory("chrome-wraith-factory") {{
-            requirements(Category.units, ItemStack.with(ClassicItems.silver, 70, ClassicItems.electrum, 40, Items.silicon, 40, Items.titanium, 20));
+            requirements(Category.units, ItemStack.with(ClassicItems.denseAlloy, 70, ClassicItems.electrum, 40, Items.silicon, 40, Items.titanium, 20));
             size = 2;
             produceTime = 350;
             maxSpawn = 4;
 
             consumePower(0.5f);
-            requirement = with(Items.silicon, 10, ClassicItems.silver, 5);
+            requirement = with(Items.silicon, 10, ClassicItems.denseAlloy, 5);
             unitType = chromeWraith;
         }};
 
@@ -467,7 +451,7 @@ public class ClassicBlocks {
         //Crafting
         stoneFormer = new GenericCrafter("stone-former"){{
             requirements(Category.crafting, with(ClassicItems.stone, 30, Items.lead, 30, Items.copper, 55));
-            consumeLiquid(ClassicLiquids.slag, 18f/60f);
+            consumeLiquid(Liquids.slag, 18f/60f);
             outputItem = new ItemStack(ClassicItems.stone, 1);
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawDefault());
             health = 80;
@@ -479,7 +463,7 @@ public class ClassicBlocks {
         stoneMelter = new GenericCrafter("stone-melter"){{
             requirements(Category.crafting, with(ClassicItems.stone, 30, Items.graphite, 35, Items.copper, 50));
             health = 85;
-            outputLiquid = new LiquidStack(ClassicLiquids.slag, 4f/60f);
+            outputLiquid = new LiquidStack(Liquids.slag, 4f/60f);
             consumeItems(with(ClassicItems.stone, 1));
             consumePower(62.5f/60f);
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawDefault());
@@ -501,6 +485,21 @@ public class ClassicBlocks {
             burnTime = 46f;
         }};
 
+        electrumForge = new GenericCrafter("electrum-forge"){{
+            requirements(Category.crafting, with(Items.thorium, 80, Items.silicon, 60, ClassicItems.denseAlloy, 50, Items.lead, 50));
+            craftEffect = Fx.smeltsmoke;
+            liquidCapacity = 50f;
+
+            outputItem = new ItemStack(ClassicItems.electrum, 1);
+            consumeLiquids(LiquidStack.with(Liquids.slag, 1f / 60f));
+            consumeItems(with(Items.titanium, 2, Items.sand, 2));
+            consumePower(0.7f);
+            drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc999")));
+            craftTime = 60f;
+            size = 2;
+            health = 90 * size;
+        }};
+
         arcSmelter = new GenericCrafter("arc-smelter"){{
             requirements(Category.crafting, with(Items.copper, 110, ClassicItems.denseAlloy, 70, Items.lead, 50));
             craftEffect = Fx.smeltsmoke;
@@ -518,7 +517,7 @@ public class ClassicBlocks {
             health = 90;
             outputItem = new ItemStack(ClassicItems.dirium, 1);
             consumeItems(with(Items.titanium, 1, Items.lead, 1));
-            consumeFuels(with(Items.pyratite, 1));
+            consumeFuels(with(Items.coal, 1));
 
             burnEffect = Fx.coalSmeltsmoke;
             updateEffect = ExtendedFx.smeltsmoke;
@@ -694,7 +693,7 @@ public class ClassicBlocks {
         }};
 
         laserConveyor = new InstantBridge("laser-conveyor"){{
-            requirements(Category.distribution, with(Items.phaseFabric, 5, Items.surgeAlloy, 4, Items.silicon, 10, Items.graphite, 10));
+            requirements(Category.distribution, with(Items.phaseFabric, 5, ClassicItems.electrum, 4, Items.silicon, 10, Items.graphite, 10));
             range = 18;
             arrowPeriod = 0.9f;
             arrowTimeScl = 2.75f;
@@ -713,7 +712,7 @@ public class ClassicBlocks {
         }};
 
         // Drills
-        nuclearDrill = new Drill("nuclear-drill"){{
+        /*nuclearDrill = new Drill("nuclear-drill"){{
             requirements(Category.production, with(Items.copper, 25, Items.graphite, 35, Items.titanium, 45, Items.thorium, 45));
             drillTime = 255f;
             size = 3;
@@ -729,6 +728,24 @@ public class ClassicBlocks {
 
             liquidBoostIntensity = 1.65f;
             consumeLiquid(Liquids.water, 0.2f).boost();
+        }};*/
+
+        electrumDrill = new Drill("electrum-drill"){{
+            requirements(Category.production, with(ClassicItems.electrum, 80, Items.silicon, 40, Items.graphite, 20));
+            drillTime = 250;
+            size = 3;
+            consumePower(3f);
+            drawRim = true;
+            hasPower = true;
+            tier = 5;
+            updateEffect = Fx.pulverizeRed;
+            updateEffectChance = 0.03f;
+            drillEffect = Fx.mineHuge;
+            rotateSpeed = 6f;
+            warmupSpeed = 0.01f;
+
+            liquidBoostIntensity = 1.65f;
+            consumeLiquid(Liquids.slag, 0.2f).boost();
         }};
 
         poweredDrill = new Drill("powered-drill"){{
@@ -746,15 +763,32 @@ public class ClassicBlocks {
         scatterSilo = new ScatterSilo("scatter-silo"){{
             requirements(Category.turret, with(ClassicItems.electrum, 30, Items.graphite, 75));
             size = 2;
+            range = 80f;
 
             update = true;
             solid = true;
             hasItems = true;
             configurable = true;
+            warmupSpeed = 0.034f * 2;
             ammo(
-                    new ItemStack(Items.scrap, 10), flakPlastic,
-                    new ItemStack(Items.lead, 15), ClassicBullets.flakLead,
-                    new ItemStack(Items.surgeAlloy, 5), flakSurge
+                    new ItemStack(Items.scrap, 16), new BasicBulletType(4f, 6){{
+                        width = 7f;
+                        height = 9f;
+                    }},
+                    new ItemStack(Items.lead, 10), new BasicBulletType(4f, 8){{
+                        width = 7f;
+                        height = 9f;
+                    }},
+                    new ItemStack(ClassicItems.electrum, 5), new FlakBulletType(4f, 13){{
+                        ammoMultiplier = 5f;
+                        splashDamage = 50f * 1.5f;
+                        splashDamageRadius = 38f;
+                        lightning = 2;
+                        lightningLength = 7;
+                        shootEffect = Fx.shootBig;
+                        collidesGround = true;
+                        explodeRange = 20f;
+                    }}
             );
         }};
 
@@ -959,7 +993,7 @@ public class ClassicBlocks {
         }};
 
         teslaTurret = new PowerTurret("tesla-turret"){{
-            requirements(Category.turret, with(Items.titanium, 25, ClassicItems.dirium, 15, Items.lead, 50));
+            requirements(Category.turret, with(Items.lead, 50, Items.titanium, 35, Items.thorium, 15, ClassicItems.dirium, 15));
             range = 92.5f;
             shootCone = 45f;
             shootType = new NewTeslaOrbType(range,26){{

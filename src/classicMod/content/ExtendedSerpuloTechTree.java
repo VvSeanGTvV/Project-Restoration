@@ -34,6 +34,7 @@ public class ExtendedSerpuloTechTree {
                     });
 
                     node(wraithFactory, () -> {
+                        node(chromeWraithFactory);
                         node(ghoulFactory, () -> {
                             node(revenantFactory, () -> {
 
@@ -107,7 +108,11 @@ public class ExtendedSerpuloTechTree {
             node(denseSmelter, Seq.with(new Research(Items.coal)), () -> {
                 node(crucible);
                 node(arcSmelter, Seq.with(new Research(combustionGenerator)), () -> {
-
+                    node(electrumForge, Seq.with(
+                            new Research(Items.titanium),
+                            new Research(Items.sand)
+                            )
+                    );
                 });
             });
         });
@@ -125,7 +130,7 @@ public class ExtendedSerpuloTechTree {
             });
 
             node(poweredDrill, () -> {
-                node(nuclearDrill, Seq.with(new SectorComplete(nuclearComplex)), () -> {
+                node(electrumDrill, Seq.with(new SectorComplete(nuclearComplex)), () -> {
 
                 });
             });
@@ -158,20 +163,6 @@ public class ExtendedSerpuloTechTree {
             node(wallShieldedTitanium);
         });
 
-        /*margeNode(copperWall, () -> {
-            node(wallStone, () -> {
-                node(wallIron, () -> {
-                    node(wallSteel, () -> {
-                        node(wallSteelLarge);
-                        node(wallDirium, () -> {
-                            node(wallDiriumLarge);
-                            node(wallComposite, () -> {});
-                        });
-                    });
-                });
-            });
-        });*/
-
         //item
         margeNode(Items.lead, () -> {
             nodeProduce(ClassicItems.denseAlloy, () -> {
@@ -181,6 +172,12 @@ public class ExtendedSerpuloTechTree {
 
         margeNode(Items.sand, () -> {
             nodeProduce(ClassicItems.stone, () -> {
+
+            });
+        });
+
+        margeNode(Items.titanium, () -> {
+            nodeProduce(ClassicItems.electrum, () -> {
 
             });
         });

@@ -20,22 +20,19 @@ import mindustry.world.consumers.*;
 import mindustry.world.meta.*;
 
 public class GenericSmelter extends GenericCrafter {
-    /**
-     * default Fuel to prevent nulls.
-     **/
     private final ItemStack defaultFuelItem = new ItemStack(Items.coal, 1);
 
     /**
-     * How long does the fuel last.
+     * How long does a fuel last per item.
      **/
     public float burnTime = 60f;
     /**
-     * Color of the flame when using fuel
+     * Flame Color upon a fuel burn.
      **/
     public Color flameColor = Color.valueOf("ffb879");
 
     /**
-     * The burning effect for every fuel is depleted and consumed another one
+     * Burning Effect upon on fuel depletion or consumed.
      **/
     public Effect burnEffect = ExtendedFx.fuelburn;
 
@@ -59,10 +56,10 @@ public class GenericSmelter extends GenericCrafter {
     @Override
     public void setStats() {
         stats.timePeriod = craftTime;
+        super.setStats();
         if (fuelItems != null) {
             stats.add(ExtendedStat.fuel, StatValues.items(burnTime, fuelItems));
         }
-        super.setStats();
         stats.remove(Stat.productionTime);
 
         if((hasItems && itemCapacity > 0) || outputItems != null){

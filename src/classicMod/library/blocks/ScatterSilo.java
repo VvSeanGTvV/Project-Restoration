@@ -33,7 +33,13 @@ public class ScatterSilo extends Block {
     public float range = 60f;
 
     public ObjectMap<ItemStack, BulletType> ammoTypes = new OrderedMap<>();
+    /** Maximum ammo units stored. */
     public int maxAmmo = 30;
+
+    public float warmupSpeed = 0.019f;
+
+    /** Range for pitch of shoot sound. */
+    public float soundPitchMin = 0.9f, soundPitchMax = 1.1f;
 
     public ScatterSilo(String name) {
         super(name);
@@ -109,15 +115,15 @@ public class ScatterSilo extends Block {
 
         public Seq<Item> ammoStacks = new Seq<>();
         public BulletType bulletType = null;
-        boolean shoot = false;
-        public float ammoTotal, ammoConsume;
+        boolean shoot = false, manualActivation = false;
+        public float ammoTotal, ammoConsume, warmup, bulletTimer;
 
         @Override
         public void buildConfiguration(Table table) {
             table.button(Icon.upOpen, Styles.clearTogglei, () -> {
-
+                manualActivation = true;
                 configure(0);
-            }).size(50).disabled(efficiency < 1f || ammoTotal <= 0f);
+            }).size(50).disabled(efficiency < 1f || ammoTotal <= 0f || manualActivation);
         }
 
         @Override
@@ -127,7 +133,8 @@ public class ScatterSilo extends Block {
                 ammoStacks.clear();
             }
 
-            if (efficiency >= 1f && bulletType != null && ammoTotal > 0f && shoot){
+            if (shoot && efficiency >= 1f && bulletType != null && ammoTotal > 0f) warmup = Mathf.approachDelta(warmup, 1f, warmupSpeed); else warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);
+            if (warmup >= 1f || manualActivation){
                 siloLaunch.at(this);
 
                 for (int i = 0; i < ammoConsume; i++){
@@ -136,14 +143,14 @@ public class ScatterSilo extends Block {
                     float yOffset = 0f;
                     (shootEffect == null ? bulletType.shootEffect : shootEffect).at(x + Angles.trnsx(rot, xOffset, yOffset), y + Angles.trnsy(rot, xOffset, yOffset), rot, bulletType.hitColor);
                     bulletType.create(this, team, x, y, rot, Mathf.random(0.5f, 1f), Mathf.random(0.2f, 1f));
-                    shootSound.at(this);
+                    shootSound.at(this, Mathf.random(soundPitchMin, soundPitchMax));
                 }
                 ammoTotal -= ammoConsume;
-                shoot = false;
+                shoot = manualActivation = false;
+                warmup %= 1f;
             }
 
-            shoot = (Units.closest(team, x, y, range, u -> !u.spawnedByCore && u.type.killable && u.type.hittable && u.isEnemy()) != null);
-
+            shoot = (Units.closestEnemy(team, x, y, range, u -> !u.spawnedByCore && u.type.killable && u.type.hittable) != null);
             super.updateTile();
         }
 

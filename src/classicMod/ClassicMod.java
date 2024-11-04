@@ -31,7 +31,7 @@ import static mindustry.Vars.*;
 
 public class ClassicMod extends Mod{
     /** Mod's current Version **/
-    public static String ModVersion = "3.6.2 BETA (v4)";
+    public static String ModVersion = "3.6.4 BETA (v4)";
     /** Mod's current Build **/
     public static final String BuildVer = "15";
     /** Mod's internal name **/
@@ -96,7 +96,13 @@ public class ClassicMod extends Mod{
 
             LoadedMod lastModVer = mods.locateMod("classicv5");
             if (lastModVer != null) {
-                ui.showCustomConfirm("@mod.restored-mind.conflictwarning.title", "@mod.restored-mind.conflictwarning.text", "Yes", "No", lastModVer.file::delete, () -> {
+                ui.showCustomConfirm("@mod.restored-mind.conflictwarning.title", "@mod.restored-mind.conflictwarning.text", "Yes", "No", () -> {
+                    lastModVer.file.delete();
+                    ui.showInfoOnHidden("@mods.reloadexit", () -> {
+                        Log.info("Exiting to reload mods.");
+                        Core.app.exit();
+                    });
+                }, () -> {
                     Log.err("Disabled, not to have conflicts here!");
                 });
             }
@@ -150,17 +156,17 @@ public class ClassicMod extends Mod{
             t.checkPref("ignore-warning", false);
             t.checkPref("ignore-update", false);
 
-            //t.pref(new Separator("restored-update"));
-            //t.checkPref("ignore-update", false);
             if(false) {
                 t.pref(new UIExtended.Separator("restored-updates"));
                 t.checkPref("beta-update", false);
             }
 
             t.row();
-            t.pref(new UIExtended.Separator("restored-content-addon"));
-            t.checkPref("content-classic", false);
-            t.checkPref("content-v4", false);
+            if(false) { //useless
+                t.pref(new UIExtended.Separator("restored-content-addon"));
+                t.checkPref("content-classic", false);
+                t.checkPref("content-v4", false);
+            }
 
             t.pref(new UIExtended.ButtonSetting(Core.bundle.get("credits"), Icon.info, epicCreditsDialog::new, 32));
             t.pref(new UIExtended.ButtonSetting(getModBundle.get(resMod.meta.name + "-debug.unlock"), Icon.download, ContentUnlockDebugDialog::new, 32));
@@ -169,7 +175,8 @@ public class ClassicMod extends Mod{
             t.add("Mod Version: "+ModVersion).row();
             t.add("Build Version: "+BuildVer).row();
             t.add("Latest Release: "+!AutoUpdate.overBuild).row();
-            t.checkPref("launched-planetary", false);
+            settings.defaults("launched-planetary", false);
+            //t.checkPref("launched-planetary", false);
             //t.add("Mobile VSync: "+settings.getBool("vsync")).row();
             //t.add("Latest Pre-Release: "+AutoUpdate.overBuild).row();
             //t.add("Github Build Version: "+AutoUpdate.getLatestBuild()).row();
@@ -221,20 +228,14 @@ public class ClassicMod extends Mod{
 
     @Override
     public void loadContent(){
-        boolean Classic = settings.getBool("content-classic");
-        boolean Contentv4 = settings.getBool("content-v4");
         Log.info("Loading contents...");
         new ClassicItems().load();
-        new ClassicLiquids().load();
         new OverridableContent().loadOverride();
         new ClassicBullets().load();
         new ClassicUnitTypes().load();
         new ClassicBlocks().load();
-        if(Classic){new ClassicBlocks().loadClassic();}
-        if(Contentv4){new ClassicBlocks().loadv4();
-        new ExtendedSerpuloTechTree().load();}
+        new ExtendedSerpuloTechTree().load();
         new ExtendedErekirTechTree().load();
-        if(Classic){new ClassicTechtree().load();}
         ModdedMusic.load();
 
         for(UnitType a : content.units()){
