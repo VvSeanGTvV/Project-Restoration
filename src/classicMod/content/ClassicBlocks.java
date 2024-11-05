@@ -765,7 +765,7 @@ public class ClassicBlocks {
             requirements(Category.turret, with(ClassicItems.electrum, 30, Items.graphite, 75));
             size = 2;
             range = 120f;
-            scaledHealth = 140;
+            scaledHealth = 180;
 
             update = true;
             solid = true;

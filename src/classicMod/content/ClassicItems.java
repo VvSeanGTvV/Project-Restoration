@@ -25,7 +25,9 @@ public class ClassicItems extends Items {
     public static void load(){
 
         electrum = new Item("electrum", Color.valueOf("dcd16b")){{
+            hardness = 3;
             cost = 2.5f;
+            charge = 1.15f;
         }};
 
         silver = new Item("silver", Color.valueOf("dcd16b")){{
