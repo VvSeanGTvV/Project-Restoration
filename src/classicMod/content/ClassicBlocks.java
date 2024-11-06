@@ -64,6 +64,8 @@ public class ClassicBlocks {
     electrumVault, // Vaults [v5 - Example-mod]
     goldSand, // Enviroment [v5 - Example-mod]
 
+    batteryMedium, // Unit/MechPad [v5 - Advanced Content]
+
     dartPad, omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad [v5]
     wraithFactory, ghoulFactory, revenantFactory, //Air - Unit Factory [v5]
     crawlerFactory, daggerFactory, titanFactory, fortressFactory, //Ground - Unit Factory [v5]
@@ -95,6 +97,7 @@ public class ClassicBlocks {
 
     public void load() {
 
+        //Enviroment
         goldSand = new Floor("gold-sand"){{
             variants = 3;
             itemDrop = ClassicItems.goldPowder;
@@ -315,6 +318,13 @@ public class ClassicBlocks {
             consumePower(3f);
 
             droneType = effectDrone;
+        }};
+
+        batteryMedium = new Battery("battery-medium"){{
+            requirements(Category.power, with(Items.lead, 25, Items.graphite, 20, Items.silicon, 20));
+            size = 2;
+            consumePowerBuffered(27000f);
+            baseExplosiveness = 3f;
         }};
 
         //Pump

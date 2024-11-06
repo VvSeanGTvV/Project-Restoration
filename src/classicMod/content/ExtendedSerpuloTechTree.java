@@ -184,6 +184,10 @@ public class ExtendedSerpuloTechTree {
             });
         });
 
+        margeNode(battery, () -> {
+            node(batteryMedium);
+        });
+
         // Pumps
         margeNode(rotaryPump, () -> {
             node(thermalPump);
