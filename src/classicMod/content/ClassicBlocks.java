@@ -56,11 +56,13 @@ public class ClassicBlocks {
     wallDense, wallDenseLarge, //Wall [v4]
 
 
-    electraPad, chromeWraithFactory, // Mech Pad [v5 - Example-mod]
+    electraPad, chromeWraithFactory, // Unit/MechPad [v5 - Example-mod]
     electrumDrill, //Drills [v5 - Example-mod]
-    shineGenerator,
+    shineGenerator, // Power [v5 - Example-mod]
     electrumForge, // Production [v5 - Example-mod]
     scatterSilo, // Special [v5 - Example-mod]
+    electrumVault, // Vaults [v5 - Example-mod]
+    goldSand, // Enviroment [v5 - Example-mod]
 
     dartPad, omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad [v5]
     wraithFactory, ghoulFactory, revenantFactory, //Air - Unit Factory [v5]
@@ -92,6 +94,12 @@ public class ClassicBlocks {
 
 
     public void load() {
+
+        goldSand = new Floor("gold-sand"){{
+            variants = 3;
+            itemDrop = ClassicItems.goldPowder;
+            playerUnmineable = true;
+        }};
 
         //Mechpad
         electraPad = new MechPad("electra-mech-pad") {{
@@ -493,7 +501,7 @@ public class ClassicBlocks {
 
             outputItem = new ItemStack(ClassicItems.electrum, 1);
             consumeLiquids(LiquidStack.with(Liquids.slag, 4f / 60f));
-            consumeItems(with(Items.titanium, 2, Items.sand, 2));
+            consumeItems(with(Items.titanium, 2, ClassicItems.goldPowder, 2));
             consumePower(0.7f);
             drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc999")));
             craftTime = 60f * 10;
@@ -1385,7 +1393,7 @@ public class ClassicBlocks {
         shineGenerator = new ConsumeGenerator("shine-generator"){{
             requirements(Category.power, with(Items.metaglass, 80, Items.silicon, 60, ClassicItems.electrum, 50));
             size = 2;
-            powerProduction = 1f;
+            powerProduction = 3f;
             itemDuration = 80f;
 
             ambientSound = Sounds.smelter;
@@ -1483,6 +1491,15 @@ public class ClassicBlocks {
         }};
 
         // Storage
+        electrumVault  = new StorageBlock("electrum-vault"){
+            {
+                requirements(Category.effect, with(Items.titanium, 60, Items.thorium, 40, ClassicItems.electrum, 20));
+                size = 3;
+                itemCapacity = 2500;
+                health = 2000;
+            }
+        };
+
         reinforcedSafe = new StorageBlock("reinforced-safe"){
             {
                 requirements(Category.effect, with(Items.tungsten, 250, Items.carbide, 125, Items.beryllium, 100));

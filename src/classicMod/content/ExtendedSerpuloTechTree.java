@@ -172,6 +172,7 @@ public class ExtendedSerpuloTechTree {
         });
 
         margeNode(Items.sand, () -> {
+            node(ClassicItems.goldPowder);
             nodeProduce(ClassicItems.stone, () -> {
 
             });
@@ -186,6 +187,10 @@ public class ExtendedSerpuloTechTree {
         // Pumps
         margeNode(rotaryPump, () -> {
             node(thermalPump);
+        });
+
+        margeNode(vault, () -> {
+            node(electrumVault);
         });
 
         // Launchpad

@@ -30,6 +30,11 @@ public class ClassicItems extends Items {
             charge = 1.15f;
         }};
 
+        goldPowder = new Item("gold-powder", Color.valueOf("f3e979")){{
+            cost = sand.cost;
+            hardness = sand.hardness;
+        }};
+
         silver = new Item("silver", Color.valueOf("dcd16b")){{
             hardness = 2;
             cost = 2f;
@@ -60,12 +65,12 @@ public class ClassicItems extends Items {
 
         steel = new Item("steel", Color.valueOf("c5eae6")){{
             hardness = 2;
-            cost = iron.cost * 1.25f;
+            cost = iron.cost * 1.15f;
         }};
 
         dirium = new Item("dirium", Color.valueOf("a7f3ca")){{
             hardness = titanium.hardness + lead.hardness;
-            cost = lead.cost * 1.25f;
+            cost = lead.cost * 1.15f;
         }};
 
         fissileMatter.hidden = false; //ok
