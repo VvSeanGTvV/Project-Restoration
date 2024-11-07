@@ -17,6 +17,11 @@ public class ExtendedSerpuloTechTree {
 
     public static void load() {
 
+        // Power
+        margeNode(Blocks.rtgGenerator, () -> {
+            node(ClassicBlocks.rtgGenerator);
+        });
+
         margeNode(combustionGenerator, () -> {
             node(shineGenerator);
             node(draugFactory, () -> {
@@ -63,6 +68,7 @@ public class ExtendedSerpuloTechTree {
             });
         });
 
+        // Turrets
         margeNode(ripple, () -> {
             node(rippleb41);
             node(fuseMKI, () -> {
@@ -101,8 +107,9 @@ public class ExtendedSerpuloTechTree {
             });*/
         });
 
-        margeNode(Blocks.melter, () -> {
-
+        // Crafters
+        margeNode(plastaniumCompressor, () -> {
+            node(advanceCompressor);
         });
 
         margeNode(graphitePress, () -> {
@@ -111,13 +118,14 @@ public class ExtendedSerpuloTechTree {
                 node(arcSmelter, Seq.with(new Research(combustionGenerator)), () -> {
                     node(electrumForge, Seq.with(
                             new Research(Items.titanium),
-                            new Research(Items.sand)
+                            new Research(ClassicItems.goldPowder)
                             )
                     );
                 });
             });
         });
 
+        // Drills
         margeNode(pneumaticDrill, () -> {
             node(stoneSeparator, Seq.with(
                     new OnSector(ruinousShores),
@@ -135,10 +143,6 @@ public class ExtendedSerpuloTechTree {
 
                 });
             });
-        });
-
-        margeNode(Blocks.rtgGenerator, () -> {
-            node(ClassicBlocks.rtgGenerator);
         });
 
         //wall
@@ -172,18 +176,20 @@ public class ExtendedSerpuloTechTree {
         });
 
         margeNode(Items.sand, () -> {
-            node(ClassicItems.goldPowder);
+            nodeProduce(ClassicItems.goldPowder);
             nodeProduce(ClassicItems.stone, () -> {
 
             });
         });
 
         margeNode(Items.titanium, () -> {
+            nodeProduce(ClassicItems.silver);
             nodeProduce(ClassicItems.electrum, () -> {
 
             });
         });
 
+        // battery
         margeNode(battery, () -> {
             node(batteryMedium);
         });

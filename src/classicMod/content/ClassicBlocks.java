@@ -62,9 +62,10 @@ public class ClassicBlocks {
     electrumForge, // Production [v5 - Example-mod]
     scatterSilo, // Special [v5 - Example-mod]
     electrumVault, // Vaults [v5 - Example-mod]
-    goldSand, // Enviroment [v5 - Example-mod]
+    goldSand, silverOre, silverPlate, // Enviroment [v5 - Example-mod]
 
-    batteryMedium, // Unit/MechPad [v5 - Advanced Content]
+    batteryMedium, // battery [v5 - Advanced Content]
+    advanceCompressor, // battery [v5 - Advanced Content]
 
     dartPad, omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad [v5]
     wraithFactory, ghoulFactory, revenantFactory, //Air - Unit Factory [v5]
@@ -98,6 +99,9 @@ public class ClassicBlocks {
     public void load() {
 
         //Enviroment
+        silverOre = new OreBlock(ClassicItems.silver);
+        silverPlate = new Floor("silver-plating", 0);
+
         goldSand = new Floor("gold-sand"){{
             variants = 3;
             itemDrop = ClassicItems.goldPowder;
@@ -106,7 +110,7 @@ public class ClassicBlocks {
 
         //Mechpad
         electraPad = new MechPad("electra-mech-pad") {{
-            requirements(Category.effect, with(ClassicItems.denseAlloy, 70, ClassicItems.electrum, 40, Items.silicon, 40, Items.graphite, 50));
+            requirements(Category.effect, with(ClassicItems.silver, 70, ClassicItems.electrum, 40, Items.silicon, 40, Items.graphite, 50));
             size = 2;
             hasPower = true;
             unitType = electra;
@@ -201,13 +205,13 @@ public class ClassicBlocks {
         }};
 
         chromeWraithFactory = new LegacyUnitFactory("chrome-wraith-factory") {{
-            requirements(Category.units, ItemStack.with(ClassicItems.denseAlloy, 70, ClassicItems.electrum, 40, Items.silicon, 40, Items.titanium, 20));
+            requirements(Category.units, ItemStack.with(ClassicItems.silver, 70, ClassicItems.electrum, 40, Items.silicon, 40, Items.titanium, 20));
             size = 2;
             produceTime = 350;
             maxSpawn = 4;
 
             consumePower(0.5f);
-            requirement = with(Items.silicon, 10, ClassicItems.denseAlloy, 5);
+            requirement = with(Items.silicon, 10, ClassicItems.silver, 5);
             unitType = chromeWraith;
         }};
 
@@ -488,6 +492,24 @@ public class ClassicBlocks {
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawDefault());
             craftTime = 10f;
             itemCapacity = 20;
+        }};
+
+        advanceCompressor = new GenericCrafter("advance-compressor"){{
+            requirements(Category.crafting, with(Items.silicon, 160, Items.lead, 240, Items.graphite, 120, Items.titanium, 150, Items.plastanium, 40));
+            hasItems = true;
+            liquidCapacity = 100f;
+            craftTime = 45f;
+            outputItem = new ItemStack(Items.plastanium, 2);
+            size = 3;
+            health = 700;
+            hasPower = hasLiquids = true;
+            craftEffect = Fx.formsmoke;
+            updateEffect = Fx.plasticburn;
+            drawer = new DrawMulti(new DrawDefault(), new DrawFade());
+
+            consumeLiquid(Liquids.oil, 0.52f);
+            consumePower(6.5f);
+            consumeItem(Items.titanium, 2);
         }};
 
         denseSmelter = new GenericSmelter("dense-smelter"){{

@@ -31,11 +31,12 @@ public class ClassicItems extends Items {
         }};
 
         goldPowder = new Item("gold-powder", Color.valueOf("f3e979")){{
-            cost = sand.cost;
-            hardness = sand.hardness;
+            lowPriority = true;
+            buildable = false;
+            //needed to show up as requirement
         }};
 
-        silver = new Item("silver", Color.valueOf("dcd16b")){{
+        silver = new Item("silver", Color.valueOf("a4a2bd")){{
             hardness = 2;
             cost = 2f;
         }};
