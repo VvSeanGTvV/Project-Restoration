@@ -49,7 +49,7 @@ public class ClassicBlocks {
 
     rtgGenerator, //Power [Classic-Hybrid]
 
-    warpGate, laserConveyor, //Distribution [v4]
+    warpGate, laserConveyor, // Transportation [v4]
     stoneMelter, stoneFormer, denseSmelter, arcSmelter, alloySmelter,  stoneSeparator, centrifuge, //Production [v4]
     fuseMKII, fuseMKI, salvoAlpha, teslaTurret, arcAir, chainTurret, cycloneb57, rippleb41, //Turret [v4]
     plasmaDrill, nuclearDrill, poweredDrill, //Drills [v4]
@@ -62,6 +62,7 @@ public class ClassicBlocks {
     electrumForge, // Production [v5 - Example-mod]
     scatterSilo, // Special [v5 - Example-mod]
     electrumVault, // Vaults [v5 - Example-mod]
+    electrumConveyor, // Transportation [v5 - Example-mod]
     goldSand, silverOre, silverPlate, // Enviroment [v5 - Example-mod]
 
     batteryMedium, // battery [v5 - Advanced Content]
@@ -745,6 +746,11 @@ public class ClassicBlocks {
         }};
 
         //Transportation
+        electrumConveyor = new Conveyor("electrum-conveyor"){{
+            requirements(Category.distribution, with(Items.titanium, 3, ClassicItems.electrum, 3, Items.lead, 3, Items.graphite, 3));
+            speed = 0.12f;
+        }};
+
         warpGate = new WarpGate("warp-gate"){{
             requirements(Category.distribution, with(Items.titanium, 125, ClassicItems.dirium, 40, Items.silicon, 80, Items.thorium, 50));
             size = 3;

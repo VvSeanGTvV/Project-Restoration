@@ -106,6 +106,9 @@ public class ExtendedSerpuloTechTree {
 
             });*/
         });
+        margeNode(titaniumConveyor, () -> {
+            node(electrumConveyor);
+        });
 
         // Crafters
         margeNode(plastaniumCompressor, () -> {
