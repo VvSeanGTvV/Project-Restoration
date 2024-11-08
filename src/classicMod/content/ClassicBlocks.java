@@ -67,6 +67,7 @@ public class ClassicBlocks {
 
     batteryMedium, //Battery [v5 - Advanced Content]
     advanceCompressor, //Production [v5 - Advanced Content]
+    areaExtractor, //Drills [v5 - Advanced Content]
     halberdPad, //Mech Pad [v5 - Advanced Content]
 
     dartPad, omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad [v5]
@@ -193,16 +194,6 @@ public class ClassicBlocks {
 
             consumePower(1.2f);
         }};
-        /*
-        "requirements": [
-		{ "item": "lead", "amount": 250 },
-		{ "item": "graphite", "amount": 350 },
-		{ "item": "silicon", "amount": 350 },
-		{ "item": "titanium", "amount": 320 },
-		{ "item": "plastanium", "amount": 300 },
-		{ "item": "surge-alloy", "amount": 120 },
-	]
-         */
 
         halberdPad = new MechPad("halberd-ship-pad") {{
             requirements(Category.effect, with(Items.lead, 250, Items.silicon, 350, Items.graphite, 350, Items.titanium, 320, Items.plastanium, 300, Items.surgeAlloy, 120));
@@ -801,7 +792,7 @@ public class ClassicBlocks {
             requirements(Category.production, with(ClassicItems.electrum, 80, Items.silicon, 40, Items.graphite, 20));
             drillTime = 250;
             size = 3;
-            consumePower(3f);
+            consumePower(2.5f);
             drawRim = true;
             hasPower = true;
             tier = 5;
@@ -813,6 +804,20 @@ public class ClassicBlocks {
             
             liquidBoostIntensity = 1.65f;
             consumeLiquid(Liquids.slag, 0.2f).boost();
+        }};
+
+        areaExtractor = new Drill("area-extractor"){{
+            requirements(Category.production, with(Items.copper, 250, Items.graphite, 180, ClassicItems.denseAlloy, 100, Items.silicon, 90, Items.titanium, 200, Items.thorium, 70, Items.surgeAlloy, 25));
+            tier = 5;
+            drillTime = 200;
+            drawMineItem = false;
+            size = 8;
+            warmupSpeed = 0.005f;
+            updateEffectChance = 0.03f;
+            consumePower(4.15f);
+
+            liquidBoostIntensity = 1.6f;
+            consumeLiquid(Liquids.water, 0.12f).boost();
         }};
 
         poweredDrill = new Drill("powered-drill"){{

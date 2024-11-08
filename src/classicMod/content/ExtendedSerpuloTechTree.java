@@ -150,6 +150,10 @@ public class ExtendedSerpuloTechTree {
             });
         });
 
+        margeNode(blastDrill, () -> {
+            node(areaExtractor);
+        });
+
         //wall
         margeNode(copperWallLarge, () -> {
             node(insulatorWall, () -> {
