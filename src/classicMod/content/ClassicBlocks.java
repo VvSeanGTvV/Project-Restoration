@@ -58,15 +58,16 @@ public class ClassicBlocks {
 
     electraPad, chromeWraithFactory, // Unit/MechPad [v5 - Example-mod]
     electrumDrill, //Drills [v5 - Example-mod]
-    shineGenerator, // Power [v5 - Example-mod]
-    electrumForge, // Production [v5 - Example-mod]
-    scatterSilo, // Special [v5 - Example-mod]
-    electrumVault, // Vaults [v5 - Example-mod]
-    electrumConveyor, // Transportation [v5 - Example-mod]
-    goldSand, silverOre, silverPlate, // Enviroment [v5 - Example-mod]
+    shineGenerator, //Power [v5 - Example-mod]
+    electrumForge, //Production [v5 - Example-mod]
+    scatterSilo, //Special [v5 - Example-mod]
+    electrumVault, //Vaults [v5 - Example-mod]
+    electrumConveyor, //Transportation [v5 - Example-mod]
+    goldSand, silverOre, silverPlate, //Enviroment [v5 - Example-mod]
 
-    batteryMedium, // battery [v5 - Advanced Content]
-    advanceCompressor, // battery [v5 - Advanced Content]
+    batteryMedium, //Battery [v5 - Advanced Content]
+    advanceCompressor, //Production [v5 - Advanced Content]
+    halberdPad, //Mech Pad [v5 - Advanced Content]
 
     dartPad, omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad [v5]
     wraithFactory, ghoulFactory, revenantFactory, //Air - Unit Factory [v5]
@@ -191,6 +192,25 @@ public class ClassicBlocks {
             unitType = ClassicUnitTypes.glaive;
 
             consumePower(1.2f);
+        }};
+        /*
+        "requirements": [
+		{ "item": "lead", "amount": 250 },
+		{ "item": "graphite", "amount": 350 },
+		{ "item": "silicon", "amount": 350 },
+		{ "item": "titanium", "amount": 320 },
+		{ "item": "plastanium", "amount": 300 },
+		{ "item": "surge-alloy", "amount": 120 },
+	]
+         */
+
+        halberdPad = new MechPad("halberd-ship-pad") {{
+            requirements(Category.effect, with(Items.lead, 250, Items.silicon, 350, Items.graphite, 350, Items.titanium, 320, Items.plastanium, 300, Items.surgeAlloy, 120));
+            size = 3;
+            hasPower = true;
+            unitType = halberd;
+
+            consumePower(1.3f);
         }};
 
         //UnitFactory

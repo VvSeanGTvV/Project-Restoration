@@ -54,7 +54,9 @@ public class ExtendedSerpuloTechTree {
                 node(deltaPad, () -> {
                     node(javelinPad, () -> {
                         node(tridentPad, () -> {
-                            node(glaivePad);
+                            node(glaivePad, () -> {
+                                node(halberdPad);
+                            });
                         });
                     });
 

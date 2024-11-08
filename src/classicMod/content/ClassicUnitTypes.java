@@ -261,39 +261,6 @@ public class ClassicUnitTypes {
             tier = 3;
         }};*/
 
-        // TODO need more researching with this dude
-        halberd = new UnitType("halberd-ship"){{
-            outlines = false;
-            hitSize = 8f;
-            mineTier = 2;
-            accel = 0.4f * 3f;
-            speed = 3f;
-            drag = 0.1f;
-            health = 200f;
-            flying = true;
-            itemCapacity = 10;
-            engineColor = Color.valueOf("8582e7");
-            buildSpeed = 1f;
-            constructor = UnitEntity::create;
-
-            armor = 30f;
-            trailColor = Color.valueOf("6e6bcf");
-            trailLength = 3;
-
-            weapons.add(new Weapon(){{
-                y = 3f;
-                x = 3f;
-                mirror = true;
-                showStatSprite = false;
-                layerOffset = -0.0001f;
-                reload = 12f;
-
-                ejectEffect = ExtendedFx.shellEjectSmall;
-
-                bullet = ClassicBullets.standardHalberd;
-            }});
-        }};
-
         // --- v5 Zone ---
         // --- Mech Region ---
         // --- Ground Units Region ---
@@ -560,6 +527,35 @@ public class ClassicUnitTypes {
                     smokeEffect = Fx.shootSmallSmoke;
                     ammoMultiplier = 2;
                 }};
+            }});
+        }};
+
+        halberd = new UnitType("halberd-ship"){{
+            outlines = false;
+            hitSize = 8f;
+            accel = 0.64f * 3f;
+            speed = 3f;
+            drag = 0.07f;
+            health = 180f;
+            flying = true;
+            itemCapacity = 75;
+            engineOffset = 6.75f;
+            engineColor = Color.valueOf("feb380");
+            buildSpeed = 1.7f;
+            mineTier = 5;
+            mineSpeed = 4f;
+            constructor = UnitEntity::create;
+
+            weapons.add(new Weapon(internalMod + "-halberd-equip"){{
+                x = 5.75f;
+                y = 1f;
+                mirror = true;
+                reload = 12f;
+
+                shootSound = Sounds.shootSnap;
+                ejectEffect = ExtendedFx.shellEjectSmall;
+
+                bullet = ClassicBullets.standardGlaive;
             }});
         }};
 
