@@ -2,7 +2,7 @@ package classicMod.content;
 
 import arc.Core;
 import arc.graphics.Color;
-import arc.graphics.g2d.TextureRegion;
+import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.struct.Seq;
 import classicMod.library.blocks.*;
@@ -17,7 +17,7 @@ import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.*;
-import mindustry.gen.Sounds;
+import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.Block;
@@ -66,7 +66,7 @@ public class ClassicBlocks {
     goldSand, silverOre, silverPlate, //Enviroment [v5 - Example-mod]
 
     batteryMedium, //Battery [v5 - Advanced Content]
-    advanceCompressor, //Production [v5 - Advanced Content]
+    advanceCompressor, fusion, //Production [v5 - Advanced Content]
     areaExtractor, //Drills [v5 - Advanced Content]
     halberdPad, //Mech Pad [v5 - Advanced Content]
 
@@ -523,6 +523,36 @@ public class ClassicBlocks {
             consumePower(6.5f);
             consumeItem(Items.titanium, 2);
         }};
+
+        /*
+        		{ "item": "silicon", "amount": 340 },
+		{ "item": "titanium", "amount": 300 },
+		{ "item": "thorium", "amount": 200 },
+		{ "item": "surge-alloy", "amount": 75 },
+		{ "item": "phase-fabric", "amount": 50 }
+*/
+
+        fusion = new GenericFusion("fusion"){
+            {
+                requirements(Category.crafting, with(Items.silicon, 340, Items.titanium, 300, Items.thorium, 200, Items.surgeAlloy, 75, Items.phaseFabric, 50));
+                hasItems = true;
+                liquidCapacity = 100f;
+                craftTime = 135f;
+                outputItem = new ItemStack(Items.thorium, 1);
+                size = 3;
+                health = 700;
+                hasPower = hasLiquids = true;
+                craftEffect = Fx.formsmoke;
+                updateEffect = Fx.plasticburn;
+
+                flameColor = Color.valueOf("ffffff");
+
+                drawer = new DrawMulti(new DrawDefault(), new DrawFade());
+
+                consumePower(4.1f);
+                consumeItems(with(Items.titanium, 5, Items.silicon, 1));
+            }
+        };
 
         denseSmelter = new GenericSmelter("dense-smelter"){{
             health = 70;
