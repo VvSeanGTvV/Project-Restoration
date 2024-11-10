@@ -25,6 +25,7 @@ public class ExtendedSerpuloTechTree {
         margeNode(combustionGenerator, () -> {
             node(shineGenerator);
             node(draugFactory, () -> {
+                node(aptrgangrFactory);
                 node(spiritFactory, () -> {
                     node(phantomFactory);
                 });

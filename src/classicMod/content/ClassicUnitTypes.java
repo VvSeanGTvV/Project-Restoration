@@ -39,7 +39,7 @@ public class ClassicUnitTypes {
     enemyStandardT1, enemyStandardT2, enemyStandardT3, //TODO should add?
     
     //Mech Region
-    halberd, //Mech - Air [v4]
+    halberd, //Mech - Air [Advance Content - v5]
     omega, delta, alpha, tau, //Mech - Ground [v5]
     javelin, trident, glaive, dart, //Mech - Air [v5]
 
@@ -61,7 +61,8 @@ public class ClassicUnitTypes {
 
     effectDrone, //Unit - Effect - Prototype [v7-dev]
 
-    azathoth, //Unit - Advancedcontent - Old Content [v5]
+    azathoth, //Unit - AdvanceContent - Old Content [v5]
+    aptrgangr, //Unit - AdvanceContent - Old Content [v5]
 
     electra, chromeWraith, //Unit - Example-mod - Old content [v5]
 
@@ -912,6 +913,52 @@ public class ClassicUnitTypes {
         }};
 
         // --- Flying Units Region (Support) ---
+        /*
+        "type": "MinerDrone",
+	"name": "Aptrgangr",
+	"description": "A powerful miner drone",
+	"flying": true,
+	"maxVelocity": 1.1,
+	"minePower": 7,
+	"speed": 0.17,
+	"drag": 0.15,
+	"mass": 1.1,
+	"rotatespeed": 0.12,
+	"hitsize": 9,
+	"health": 170,
+	"range": 55,
+	"engineSize": 2.1,
+	"engineOffset": 8,
+	"itemCapacity": 60,
+	"toMine": [
+		"copper",
+		"lead",
+		"titanium",
+		"thorium"
+	],
+	"weapon": {
+		"name": "you have incurred my wrath. prepare to die.",
+		"bullet": "lancerLaser"
+	}
+         */
+        aptrgangr = new UnitType("aptrgangr") {{
+            outlines = false;
+            speed = 1.1f;
+            accel = 0.17f * 3f;
+            drag = 0.01f;
+            health = 170;
+            flying = true;
+            hitSize = 9f;
+            engineSize = 2.1f;
+            engineOffset = 8f;
+            mineTier = 7;
+            itemCapacity = 60;
+            rotateSpeed = 0.12f * 3f;
+            constructor = UnitEntity::create;
+            controller = u -> new MinerAI();
+            mineItems = with(Items.copper, Items.lead, Items.titanium, Items.thorium);
+        }};
+
         draug = new UnitType("draug") {{
             outlines = false;
             speed = 1.2f;

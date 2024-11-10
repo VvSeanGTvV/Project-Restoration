@@ -55,7 +55,6 @@ public class ClassicBlocks {
     plasmaDrill, nuclearDrill, poweredDrill, //Drills [v4]
     wallDense, wallDenseLarge, //Wall [v4]
 
-
     electraPad, chromeWraithFactory, // Unit/MechPad [v5 - Example-mod]
     electrumDrill, //Drills [v5 - Example-mod]
     shineGenerator, //Power [v5 - Example-mod]
@@ -65,6 +64,7 @@ public class ClassicBlocks {
     electrumConveyor, //Transportation [v5 - Example-mod]
     goldSand, silverOre, silverPlate, //Enviroment [v5 - Example-mod]
 
+    aptrgangrFactory, // Unit [v5 - Example-mod]
     batteryMedium, //Battery [v5 - Advanced Content]
     advanceCompressor, fusion, //Production [v5 - Advanced Content]
     areaExtractor, //Drills [v5 - Advanced Content]
@@ -259,6 +259,17 @@ public class ClassicBlocks {
             consumePower(1.2f);
             //requirement = with(Items.silicon, 40, Items.titanium, 30);
             unitType = ClassicUnitTypes.draug;
+        }};
+
+        aptrgangrFactory = new LegacyUnitFactory("aptrgangr-factory") {{
+            requirements(Category.units, ItemStack.with(Items.graphite, 200, Items.lead, 160, Items.titanium, 120, Items.thorium, 80));
+            size = 3;
+            produceTime = 3500;
+            maxSpawn = 1;
+
+            consumePower(1.2f);
+            requirement = with(Items.thorium, 5);
+            unitType = aptrgangr;
         }};
 
         spiritFactory = new LegacyUnitFactory("spirit-factory") {{

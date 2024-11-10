@@ -133,6 +133,7 @@ public class LegacyUnitFactory extends Block {
         @Override
         public void updateTile(){
 
+            if (unitType != null && unitType.useUnitCap) unitType.useUnitCap = false;
             if(!unitIDs.isEmpty()){
                 units.clear();
                 unitIDs.each(i -> {
