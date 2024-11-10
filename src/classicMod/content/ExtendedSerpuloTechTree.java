@@ -132,7 +132,10 @@ public class ExtendedSerpuloTechTree {
         });
 
         margeNode(phaseWeaver, () -> {
-            node(fusion);
+            node(fusion, Seq.with(
+                    new Research(Items.phaseFabric),
+                    new OnSector(nuclearComplex)
+            ));
         });
 
         // Drills
