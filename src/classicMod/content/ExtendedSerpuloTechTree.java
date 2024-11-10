@@ -159,7 +159,7 @@ public class ExtendedSerpuloTechTree {
             node(areaExtractor);
         });
 
-        //wall
+        // Walls
         margeNode(copperWallLarge, () -> {
             node(insulatorWall, () -> {
                 node(insulatorWallLarge);
@@ -182,7 +182,7 @@ public class ExtendedSerpuloTechTree {
             node(wallShieldedTitanium);
         });
 
-        //Items
+        // Items
         margeNode(Items.lead, () -> {
             nodeProduce(ClassicItems.denseAlloy, () -> {
 
@@ -203,7 +203,7 @@ public class ExtendedSerpuloTechTree {
             });
         });
 
-        //Batterys
+        //Battery
         margeNode(battery, () -> {
             node(batteryMedium);
         });
@@ -213,6 +213,7 @@ public class ExtendedSerpuloTechTree {
             node(thermalPump);
         });
 
+        // Storage
         margeNode(vault, () -> {
             node(massRepository, () -> {
                 node(electrumVault);
