@@ -7,6 +7,7 @@ import arc.math.*;
 import arc.scene.ui.Image;
 import arc.scene.ui.layout.Table;
 import arc.struct.*;
+import arc.util.Log;
 import arc.util.io.*;
 import classicMod.content.*;
 import mindustry.Vars;
@@ -94,7 +95,7 @@ public class ScatterSilo extends Block {
                     MultiReqImage image = new MultiReqImage();
                     content.items().each(i -> filter.get(i) && i.unlockedNow(),
                             item -> image.add(new ReqImage(new Image(item.uiIcon),
-                                    () -> build instanceof ScatterSiloBuild it && !it.ammoStacks.isEmpty() && (it.ammoStacks.peek()) == item)));
+                                    () -> build instanceof ScatterSiloBuild it && !it.ammoStacks.isEmpty() && (it.ammoStacks.peek().item) == item)));
                     table.add(image).size(8 * 4);
                 }
                 @Override
@@ -113,10 +114,10 @@ public class ScatterSilo extends Block {
 
     public class ScatterSiloBuild extends Building {
 
-        public Seq<Item> ammoStacks = new Seq<>();
+        public Seq<ItemEntry> ammoStacks = new Seq<>();
         public BulletType bulletType = null;
         boolean shoot = false, manualActivation = false;
-        public float ammoTotal, ammoConsume, warmup, bulletTimer;
+        public float ammoTotal, ammoConsume, warmup;
 
         @Override
         public void buildConfiguration(Table table) {
@@ -137,6 +138,10 @@ public class ScatterSilo extends Block {
             if (warmup >= 1f || manualActivation){
                 siloLaunch.at(this);
 
+                ItemEntry entry = ammoStacks.peek();
+                entry.ammoMultiplier -= ammoConsume;
+                if(entry.ammoMultiplier <= 0) ammoStacks.pop();
+
                 for (int i = 0; i < ammoConsume; i++){
                     float rot = Mathf.random(360);
                     float xOffset = 5f;
@@ -146,6 +151,7 @@ public class ScatterSilo extends Block {
                     shootSound.at(this, Mathf.random(soundPitchMin, soundPitchMax));
                 }
                 ammoTotal -= ammoConsume;
+                ammoTotal = Math.max(ammoTotal, 0);
                 shoot = manualActivation = false;
                 warmup %= 1f;
             }
@@ -170,16 +176,18 @@ public class ScatterSilo extends Block {
 
             //find ammo entry by type
             for(int i = 0; i < ammoStacks.size; i++){
-                Item entry = ammoStacks.get(i);
+                ItemEntry entry = ammoStacks.get(i);
 
                 //if found, put it to the right
-                if(entry == item){
+                //if found, put it to the right
+                if(entry.item == item){
+                    entry.ammoMultiplier += type.ammoMultiplier;
                     ammoStacks.swap(i, ammoStacks.size - 1);
                     return;
                 }
             }
 
-            ammoStacks.add(item);
+            ammoStacks.add(new ItemEntry(item, (int)type.ammoMultiplier));
         }
 
         @Override
@@ -197,19 +205,36 @@ public class ScatterSilo extends Block {
         }
 
         @Override
+        public int acceptStack(Item item, int amount, Teamc source){
+            float ammoMultiplier = 0;
+            BulletType type = null;
+            for (var ammo : ammoTypes){
+                if (ammo.key.item == item){
+                    type = ammo.value;
+                    ammoMultiplier = ammo.value.ammoMultiplier;
+                    break;
+                }
+            }
+
+            if(type == null) return 0;
+
+            return Math.min((int)((maxAmmo - ammoTotal) / ammoMultiplier), amount);
+        }
+
+        @Override
+        public void handleStack(Item item, int amount, Teamc source){
+            for(int i = 0; i < amount; i++){
+                handleItem(null, item);
+            }
+        }
+
+        @Override
         public int removeStack(Item item, int amount){
             return 0;
         }
 
         @Override
         public void draw() {
-
-            /*Draw.z(Layer.effect + 1);
-            float z = Draw.z();
-            Drawf.shadow(Core.atlas.find( name + "-top"), x - elevation, y - elevation, drawrot());
-            Draw.z(z + 1);
-            Draw.rect(Core.atlas.find( name + "-top"), x, y);
-            Draw.z(Layer.block);*/
             super.draw();
         }
 
@@ -223,14 +248,64 @@ public class ScatterSilo extends Block {
             shoot = true;
         }
 
+        Boolean containsItem (Item item){
+            Seq<Item> ammoItems = new Seq<>();
+            for (var ammo : ammoTypes){
+                ammoItems.add(ammo.key.item); //Adds every item using ammo.
+            }
+
+            for(int i = 0; i < ammoItems.size; i++){
+                Item entry = ammoItems.get(i);
+
+                if(entry == item){
+                    return true;
+                }
+            }
+            return false;
+        }
+
         @Override
         public void read(Reads read, byte revision){
             super.read(read, revision);
+            ammoTotal = 0;
+            ammoStacks.clear();
+
+            int amount = read.ub();
+            bulletType = Vars.content.bullet(read.s());
+            ammoConsume = read.f();
+            for(int i = 0; i < amount; i++){
+                Item item = Vars.content.item(read.s());
+                short a = read.s();
+
+                //only add ammo if this is a valid ammo type
+                if(item != null && containsItem(item)){
+                    ammoTotal += a;
+                    ammoStacks.add(new ItemEntry(item, a));
+                }
+            }
         }
 
         @Override
         public void write(Writes write){
             super.write(write);
+
+            write.b(ammoStacks.size);
+            write.s(bulletType.id);
+            write.f(ammoConsume);
+            for (var ammo : ammoStacks){
+                write.s(ammo.item.id);
+                write.s(ammo.ammoMultiplier);
+            }
+        }
+
+        public class ItemEntry {
+            public Item item;
+            public int ammoMultiplier;
+
+            ItemEntry(Item item, int ammoMultiplier){
+                this.item = item;
+                this.ammoMultiplier = ammoMultiplier;
+            }
         }
     }
 }

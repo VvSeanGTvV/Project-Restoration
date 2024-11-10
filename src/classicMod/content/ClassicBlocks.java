@@ -69,6 +69,7 @@ public class ClassicBlocks {
     advanceCompressor, fusion, //Production [v5 - Advanced Content]
     areaExtractor, //Drills [v5 - Advanced Content]
     halberdPad, //Mech Pad [v5 - Advanced Content]
+    massRepository, //Storage [v5 - Advanced Content]
 
     dartPad, omegaPad, deltaPad, alphaPad, tauPad, javelinPad, tridentPad, glaivePad, //Mech Pad [v5]
     wraithFactory, ghoulFactory, revenantFactory, //Air - Unit Factory [v5]
@@ -88,8 +89,8 @@ public class ClassicBlocks {
 
     slagCentrifuge, cellSynthesisChamber, //Generic Crafters - Erekir - Prototype [v7-dev]
     reinforcedSafe, coreAegis, //Storage - Erekir - Prototype [v7-dev]
-    surgeDuct, //Distribution - Duct - Prototype [v7-dev]
-    burstDrill, //Distribution - Duct - Prototype [v7-dev]
+    surgeDuct, //Distribution - Erekir - Prototype [v7-dev]
+    burstDrill, //Drill - Erekir - Prototype [v7-dev]
 
     droneCenter, payloadLaunchpad, commandCenter, payloadPropulsionTower, //TEMPORARY TESTING
 
@@ -538,6 +539,7 @@ public class ClassicBlocks {
                 hasItems = true;
                 liquidCapacity = 100f;
                 craftTime = 135f;
+                burnTime = 170f;
                 outputItem = new ItemStack(Items.thorium, 1);
                 size = 3;
                 health = 700;
@@ -547,8 +549,14 @@ public class ClassicBlocks {
 
                 flameColor = Color.valueOf("ffffff");
 
-                drawer = new DrawMulti(new DrawDefault(), new DrawFade());
+                drawer = new DrawMulti(
+                        new DrawDefault(),
+                        new DrawFade(){{
+                            alpha = 1f;
+                        }}
+                );
 
+                consumeFuels(with(Items.blastCompound, 1));
                 consumePower(4.1f);
                 consumeItems(with(Items.titanium, 5, Items.silicon, 1));
             }
@@ -800,23 +808,6 @@ public class ClassicBlocks {
         }};
 
         // Drills
-        /*nuclearDrill = new Drill("nuclear-drill"){{
-            requirements(Category.production, with(Items.copper, 25, Items.graphite, 35, Items.titanium, 45, Items.thorium, 45));
-            drillTime = 255f;
-            size = 3;
-            consumePower(0.95f);
-            drawRim = true;
-            hasPower = true;
-            tier = 5;
-            updateEffect = Fx.pulverizeRed;
-            updateEffectChance = 0.03f;
-            drillEffect = Fx.mineHuge;
-            rotateSpeed = 6f;
-            warmupSpeed = 0.01f;
-
-            liquidBoostIntensity = 1.65f;
-            consumeLiquid(Liquids.water, 0.2f).boost();
-        }};*/
 
         electrumDrill = new Drill("electrum-drill"){{
             requirements(Category.production, with(ClassicItems.electrum, 80, Items.silicon, 40, Items.graphite, 20));
@@ -859,6 +850,20 @@ public class ClassicBlocks {
             consumePower(0.45f);
 
             consumeLiquid(Liquids.water, 0.06f).boost();
+        }};
+
+        burstDrill = new ImpactDrill("burst-drill"){{
+            requirements(Category.production, with(Items.silicon, 60, Items.beryllium, 90, Items.graphite, 50));
+            drillTime = 60f * 10f;
+            size = 4;
+            drawRim = false;
+            hasPower = true;
+            tier = 6;
+            drillEffect = Fx.mineHuge;
+            itemCapacity = 30;
+
+            consumePower(3f);
+            consumeLiquid(Liquids.water, 0.2f);
         }};
 
         //Turrets
@@ -1584,17 +1589,30 @@ public class ClassicBlocks {
         }};
 
         // Storage
-        electrumVault  = new StorageBlock("electrum-vault"){
+        massRepository = new StorageBlock("mass-repository"){
             {
+                requirements(Category.effect, with(Items.titanium, 340, Items.thorium, 160));
+                size = 4;
+                itemCapacity = 2200;
+                health = 750;
+            }
+            
+            @Override
+            public TextureRegion[] icons() {
+                return new TextureRegion[]{region, Core.atlas.find(name + "-team-" + "sharded")};
+            }
+        };
+
+        electrumVault = new StorageBlock("electrum-vault"){{
                 requirements(Category.effect, with(Items.titanium, 60, Items.thorium, 40, ClassicItems.electrum, 20));
                 size = 3;
                 itemCapacity = 2500;
                 health = 2000;
-            }
-        };
+        }};
 
         reinforcedSafe = new StorageBlock("reinforced-safe"){
             {
+                squareSprite = false;
                 requirements(Category.effect, with(Items.tungsten, 250, Items.carbide, 125, Items.beryllium, 100));
                 size = 4;
                 itemCapacity = 1200;
@@ -1613,6 +1631,7 @@ public class ClassicBlocks {
 
             requirements(Category.effect, ItemStack.mult(coreBastion.requirements, 0.5f));
 
+            squareSprite = false;
             unitType = UnitTypes.evoke;
             health = coreBastion.health / 2;
             itemCapacity = coreBastion.itemCapacity / 2; //TODO more or less?
@@ -1627,20 +1646,5 @@ public class ClassicBlocks {
             }
 
         };
-
-        //Drill
-        burstDrill = new ImpactDrill("burst-drill"){{
-            requirements(Category.production, with(Items.silicon, 60, Items.beryllium, 90, Items.graphite, 50));
-            drillTime = 60f * 10f;
-            size = 4;
-            drawRim = false;
-            hasPower = true;
-            tier = 6;
-            drillEffect = Fx.mineHuge;
-            itemCapacity = 30;
-
-            consumePower(3f);
-            consumeLiquid(Liquids.water, 0.2f);
-        }};
     }
 }

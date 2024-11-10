@@ -9,21 +9,27 @@ import mindustry.graphics.Drawf;
 
 public class GenericFusion extends GenericSmelter {
 
-    TextureRegion topB;
+    TextureRegion rotor;
     public GenericFusion(String name) {
         super(name);
     }
 
     public void load() {
-        topB = Core.atlas.find(name + "-topB");
+        rotor = Core.atlas.find(name + "-rotor");
         super.load();
+    }
+
+    @Override
+    public TextureRegion[] icons() {
+        return new TextureRegion[]{region, Core.atlas.find(name + "-rotor-icon")};
     }
 
     public class GenericFusionBuild extends GenericSmelterBuild {
         @Override
         public void draw() {
             drawer.draw(this);
-            Drawf.spinSprite(topB, x, y, totalProgress * 1.2f);
+            Drawf.spinSprite(rotor, x, y, totalProgress * 1.2f);
+            Drawf.spinSprite(rotor, x, y, (totalProgress * 1.2f) - 225f);
         }
     }
 

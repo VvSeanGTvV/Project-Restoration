@@ -108,11 +108,12 @@ public class ExtendedSerpuloTechTree {
 
             });*/
         });
-        margeNode(titaniumConveyor, () -> {
+
+        margeNode(armoredConveyor, () -> {
             node(electrumConveyor);
         });
 
-        // Crafters
+        // Productions
         margeNode(plastaniumCompressor, () -> {
             node(advanceCompressor);
         });
@@ -128,6 +129,10 @@ public class ExtendedSerpuloTechTree {
                     );
                 });
             });
+        });
+
+        margeNode(phaseWeaver, () -> {
+            node(fusion);
         });
 
         // Drills
@@ -177,7 +182,7 @@ public class ExtendedSerpuloTechTree {
             node(wallShieldedTitanium);
         });
 
-        //item
+        //Items
         margeNode(Items.lead, () -> {
             nodeProduce(ClassicItems.denseAlloy, () -> {
 
@@ -198,18 +203,20 @@ public class ExtendedSerpuloTechTree {
             });
         });
 
-        // battery
+        //Batterys
         margeNode(battery, () -> {
             node(batteryMedium);
         });
 
-        // Pumps
+        //Pumps
         margeNode(rotaryPump, () -> {
             node(thermalPump);
         });
 
         margeNode(vault, () -> {
-            node(electrumVault);
+            node(massRepository, () -> {
+                node(electrumVault);
+            });
         });
 
         // Launchpad
