@@ -1596,7 +1596,7 @@ public class ClassicBlocks {
                 itemCapacity = 2200;
                 health = 750;
             }
-            
+
             @Override
             public TextureRegion[] icons() {
                 return new TextureRegion[]{region, Core.atlas.find(name + "-team-" + "sharded")};
