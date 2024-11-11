@@ -11,6 +11,7 @@ import classicMod.library.ai.*;
 import classicMod.library.ui.UIExtended;
 import classicMod.library.ui.dialog.*;
 import classicMod.library.ui.menu.*;
+import mindustry.Vars;
 import mindustry.ai.types.CommandAI;
 import mindustry.game.EventType.ClientLoadEvent;
 import mindustry.gen.Icon;
@@ -31,9 +32,9 @@ import static mindustry.Vars.*;
 
 public class ClassicMod extends Mod{
     /** Mod's current Version **/
-    public static String ModVersion = "3.6.4 BETA (v4)";
+    public static String ModVersion = "4.0 Beta";
     /** Mod's current Build **/
-    public static final String BuildVer = "15";
+    public static final String BuildVer = "12";
     /** Mod's internal name **/
     public static String internalMod = "restored-mind";
     public static LoadedMod resMod = mods.locateMod(internalMod);
@@ -73,7 +74,7 @@ public class ClassicMod extends Mod{
                     }).bottom();
 
                     dialog.update(() -> {
-                        dialog.cont.setTranslation(0, -((graphics.getHeight() / 2f) - (166f + (graphics.getAspect() * 10f))));
+                        dialog.cont.setTranslation(0, -((graphics.getHeight() / 2f) - (166f + (graphics.getAspect() * 15f))));
                     });
 
                     dialog.show();
