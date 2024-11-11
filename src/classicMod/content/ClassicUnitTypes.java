@@ -913,34 +913,6 @@ public class ClassicUnitTypes {
         }};
 
         // --- Flying Units Region (Support) ---
-        /*
-        "type": "MinerDrone",
-	"name": "Aptrgangr",
-	"description": "A powerful miner drone",
-	"flying": true,
-	"maxVelocity": 1.1,
-	"minePower": 7,
-	"speed": 0.17,
-	"drag": 0.15,
-	"mass": 1.1,
-	"rotatespeed": 0.12,
-	"hitsize": 9,
-	"health": 170,
-	"range": 55,
-	"engineSize": 2.1,
-	"engineOffset": 8,
-	"itemCapacity": 60,
-	"toMine": [
-		"copper",
-		"lead",
-		"titanium",
-		"thorium"
-	],
-	"weapon": {
-		"name": "you have incurred my wrath. prepare to die.",
-		"bullet": "lancerLaser"
-	}
-         */
         aptrgangr = new UnitType("aptrgangr") {{
             outlines = false;
             speed = 1.1f;
