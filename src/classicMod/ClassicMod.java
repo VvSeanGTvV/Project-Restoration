@@ -62,7 +62,6 @@ public class ClassicMod extends Mod{
             if (!ignoreWarning) {
                 Time.runTask(10f, () -> {
                     Dialog dialog = new Dialog();
-                    dialog.cont.setTranslation(0, -((graphics.getHeight() / 2f) - (166f + (graphics.getAspect() * 2f))));
                     dialog.cont.table(Styles.grayPanel, Align.bottom, t -> {
                         //t.add("@mod.restored-mind.earlyaccess.title").size(120f).pad(10f).row();
                         t.table(character -> {
@@ -74,7 +73,7 @@ public class ClassicMod extends Mod{
                     }).bottom();
 
                     dialog.update(() -> {
-                        dialog.cont.setTranslation(0, -((graphics.getHeight() / 2f) - (166f + (graphics.getAspect() * 15f))));
+                        dialog.cont.setTranslation(0, -((graphics.getHeight() / graphics.getAspect()) - (166f + (graphics.getAspect() * 20f))));
                     });
 
                     dialog.show();
