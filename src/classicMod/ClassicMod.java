@@ -73,7 +73,7 @@ public class ClassicMod extends Mod{
                     }).bottom();
 
                     dialog.update(() -> {
-                        dialog.cont.setTranslation(0, -((graphics.getHeight() / graphics.getAspect()) - (166f + (graphics.getAspect() * 20f))));
+                        dialog.cont.setTranslation(0, -((graphics.getHeight() / graphics.getAspect()) - (166f + (graphics.getAspect() * (graphics.getAspect() * 10)))));
                     });
 
                     dialog.show();
