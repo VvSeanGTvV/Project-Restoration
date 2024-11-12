@@ -135,7 +135,7 @@ public class LegacyCommandCenter extends Block {
             });
 
             for (var targetM : targetsModern) {
-                if (targetM.isCommandable() && targetM.team == team) {
+                if (targetM.isCommandable()) {
                     var ai = targetM.command();
                     if (Objects.equals(CommandOrigin, "rally")) {
 

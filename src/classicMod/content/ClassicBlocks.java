@@ -254,7 +254,6 @@ public class ClassicBlocks {
             requirements(Category.units, ItemStack.with(Items.copper, 30, Items.lead, 70));
             size = 2;
             produceTime = 2500;
-            //maxSpawn = 1;
 
             consumePower(1.2f);
             //requirement = with(Items.silicon, 40, Items.titanium, 30);
