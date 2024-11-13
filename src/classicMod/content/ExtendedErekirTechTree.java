@@ -88,7 +88,7 @@ public class ExtendedErekirTechTree {
         });
 
         margeNode(UnitTypes.vanquish, () -> {
-            node(ClassicUnitTypes.howit, () -> node(ClassicUnitTypes.mantel));
+            //node(ClassicUnitTypes.howit, () -> node(ClassicUnitTypes.mantel));
         });
     }
 

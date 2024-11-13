@@ -2,7 +2,7 @@ package classicMod.content;
 
 import arc.graphics.Color;
 import arc.struct.Seq;
-import mindustry.content.Items;
+import mindustry.content.*;
 import mindustry.type.Item;
 
 public class ClassicItems extends Items {
@@ -21,6 +21,7 @@ public class ClassicItems extends Items {
     ;
 
     public static final Seq<Item> classicItems = new Seq<>(), classicOnlyItems = new Seq<>();
+    public static final Seq<Item> erekirNewItems = new Seq<>(), erekirNewOnlyItems = new Seq<>();
 
     public static void load(){
 
@@ -76,10 +77,18 @@ public class ClassicItems extends Items {
 
         fissileMatter.hidden = false; //ok
 
-        classicItems.addAll(stone, uranium, dirium, steel, iron, titanium);
-        erekirItems.add(fissileMatter, scrap);
+        for (var item : erekirItems){
+            erekirNewItems.add(item);
+            erekirNewOnlyItems.add(item);
+        }
+        Planets.erekir.hiddenItems.clear();
+        for (var item : serpuloItems){
+            if (!erekirNewOnlyItems.contains(item)){
+                Planets.erekir.hiddenItems.add(item);
+            }
+        }
 
-        erekirOnlyItems.add(fissileMatter, scrap);
+        classicItems.addAll(stone, uranium, dirium, steel, iron, titanium);
         classicOnlyItems.add(classicItems).removeAll(i -> !(classicItems.contains(i)));
     }
 }
