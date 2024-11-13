@@ -82,11 +82,12 @@ public class ClassicItems extends Items {
             erekirNewOnlyItems.add(item);
         }
         Planets.erekir.hiddenItems.clear();
-        for (var item : serpuloItems){
+        Planets.erekir.hiddenItems.addAll(serpuloItems).removeAll(erekirNewOnlyItems);
+        /*for (var item : serpuloItems){
             if (!erekirNewOnlyItems.contains(item)){
                 Planets.erekir.hiddenItems.add(item);
             }
-        }
+        }*/
 
         classicItems.addAll(stone, uranium, dirium, steel, iron, titanium);
         classicOnlyItems.add(classicItems).removeAll(i -> !(classicItems.contains(i)));
