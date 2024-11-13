@@ -41,12 +41,11 @@ public class LegacyCommandCenter extends Block {
         //stats.add(Stat.range, MaximumRangeCommand / tilesize, StatUnit.blocks);
     }
 
-
     public class LegacyCommandCenterBuild extends Building {
-        public String CommandSelect = "attack";
+        public String CommandSelect = null;
         public Seq<Unit> targets = new Seq<>();
         public Seq<Unit> targetsModern = new Seq<>();
-        public Seq<Building> CommandCenterArea = new Seq<>();
+        public Seq<LegacyCommandCenterBuild> CommandCenterArea = new Seq<>();
         public float blockID;
 
         @Override
@@ -54,20 +53,37 @@ public class LegacyCommandCenter extends Block {
             if (blockID == 0f) blockID = Mathf.randomSeed(this.id) * 120;
             Table buttons = new Table();
             buttons.button(Icon.commandAttack, Styles.cleari, () -> {
+                CommandSelect = "attack";
                 UpdateCommand(RallyAI.UnitState.attack);
-                CommandOrigin = "attack";
             });
             buttons.button(Icon.commandRally, Styles.cleari, () -> {
+                CommandSelect = "rally";
                 UpdateCommand(RallyAI.UnitState.rally);
-                CommandOrigin = "rally";
             });
             table.add(buttons);
         }
 
         @Override
+        public void created() {
+            Seq<Building> buildingSeq = new Seq<>();
+            LegacyCommandCenterBuild closestBuild = null;
+            Units.nearbyBuildings(x, y, MaximumRangeCommand, b -> {
+                if (b instanceof LegacyCommandCenterBuild) {
+                    buildingSeq.add(b);
+                }
+            });
+            Building building = null;
+            if (buildingSeq.size >= 1) building = buildingSeq.get(0);
+            if (building != null && building instanceof LegacyCommandCenterBuild f) closestBuild = f;
+            if (closestBuild != null) CommandSelect = closestBuild.CommandSelect; else CommandSelect = "attack";
+
+            super.created();
+        }
+
+        @Override
         public void draw() {
             super.draw();
-            TextureRegion c = Core.atlas.find(name + "-" + CommandOrigin);
+            TextureRegion c = Core.atlas.find(name + "-" + CommandSelect);
 
             if (c != null) {
                 Draw.alpha(255 / 2f);
@@ -85,19 +101,19 @@ public class LegacyCommandCenter extends Block {
 
         public void UpdateCommand(RallyAI.UnitState State) {
             commandSend.at(this);
-            PublicState = State;
+            //PublicState = State;
 
             CommandCenterArea.clear();
             Units.nearbyBuildings(x, y, MaximumRangeCommand, b -> {
-                if (b instanceof LegacyCommandCenterBuild) {
-                    CommandCenterArea.add(b);
+                if (b instanceof LegacyCommandCenterBuild f && b.team == this.team) {
+                    CommandCenterArea.add(f);
                 }
             });
 
             targets.clear();
             targetsModern.clear();
             Units.nearby(team, x, y, MaximumRangeCommand, u -> {
-                if (u.team == team)
+                if (u.team == this.team)
                     if (u.controller() instanceof RallyAI) {
                         targets.add(u);
                     } else {
@@ -107,15 +123,12 @@ public class LegacyCommandCenter extends Block {
             });
 
             for (var build : CommandCenterArea) {
-                if (build instanceof LegacyCommandCenterBuild b) {
-                    Log.info(b);
-                    Log.info(CommandOrigin);
-                }
+                build.CommandSelect = this.CommandSelect;
             }
 
             for (var target : targets) {
                 if (target.controller() instanceof RallyAI ai) {
-                    ai.state = State;
+                    ai.updateState(State);
                     ai.lastCommandCenterID = blockID;
                 }
             }
@@ -128,7 +141,6 @@ public class LegacyCommandCenter extends Block {
             //-- shesh about to go laggy with this one.
             targetsModern.clear();
             Units.nearby(team, x, y, MaximumRangeCommand, u -> {
-                if (u.team == team)
                     if (!(u.controller() instanceof RallyAI)) {
                         targetsModern.add(u);
                     }
@@ -137,8 +149,7 @@ public class LegacyCommandCenter extends Block {
             for (var targetM : targetsModern) {
                 if (targetM.isCommandable()) {
                     var ai = targetM.command();
-                    if (Objects.equals(CommandOrigin, "rally")) {
-
+                    if (Objects.equals(CommandSelect, "rally")) {
                         if (targetClosest(targetM) != null) {
                             var target = targetClosest(targetM);
                             if (target != null && targetM.hasWeapons()) {
@@ -155,7 +166,7 @@ public class LegacyCommandCenter extends Block {
                             ai.command(UnitCommand.moveCommand);
                         }
                     }
-                    if (Objects.equals(CommandOrigin, "attack")) {
+                    if (Objects.equals(CommandSelect, "attack")) {
                         ai.command = targetM.type.defaultCommand == null ? targetM.type.commands[0] : targetM.type.defaultCommand;
                     }
                 }
@@ -174,17 +185,17 @@ public class LegacyCommandCenter extends Block {
         @Override
         public void write(Writes write) {
             super.write(write);
-            write.str(CommandOrigin);
+            write.str(CommandSelect);
             write.f(blockID);
-            write.b((byte) PublicState.ordinal());
+            //write.b((byte) PublicState.ordinal());
         }
 
         @Override
         public void read(Reads read, byte revision) {
             super.read(read, revision);
-            CommandOrigin = read.str();
+            CommandSelect = read.str();
             blockID = read.f();
-            PublicState = RallyAI.UnitState.all[read.b()];
+            //PublicState = RallyAI.UnitState.all[read.b()];
         }
     }
 }

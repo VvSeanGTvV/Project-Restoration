@@ -28,7 +28,7 @@ public class FactorySuicideAI extends RallyAI {
             if (!(tether.building() instanceof LegacyUnitFactory.LegacyUnitFactoryBuild build)) return;
         }
 
-        if(PublicState == UnitState.attack) {
+        if(state == UnitState.attack) {
             if (Units.invalidateTarget(target, unit.team, unit.x, unit.y, Float.MAX_VALUE)) {
                 target = null;
             }
@@ -106,7 +106,7 @@ public class FactorySuicideAI extends RallyAI {
 
             faceTarget();
         }
-        if(PublicState == UnitState.rally){
+        if(state == UnitState.rally){
             if(retarget()){
                 NearbyCenter();
 
@@ -130,7 +130,7 @@ public class FactorySuicideAI extends RallyAI {
                 state = UnitState.attack;
             }
         }
-        if(target == null && state != PublicState && Vars.state.rules.defaultTeam == unit.team) state = PublicState;
+        if(target == null && state != defaultState) state = defaultState;
     }
 
     @Override

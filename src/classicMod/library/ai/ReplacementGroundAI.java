@@ -16,7 +16,7 @@ public class ReplacementGroundAI extends RallyAI {
 
     @Override
     public void updateMovement(){
-        if(PublicState == UnitState.attack) {
+        if(state == UnitState.attack) {
             Building core = unit.closestEnemyCore();
 
             if (core != null && unit.within(core, unit.range() / 1.3f + core.block.size * tilesize / 2f)) {
@@ -51,7 +51,7 @@ public class ReplacementGroundAI extends RallyAI {
 
             faceTarget();
         }
-        if(PublicState == UnitState.rally){
+        if(state == UnitState.rally){
             if(retarget()){
                 NearbyCenter();
 
@@ -75,6 +75,6 @@ public class ReplacementGroundAI extends RallyAI {
                 state = UnitState.attack;
             }
         }
-        if(target == null && state != PublicState && Vars.state.rules.defaultTeam == unit.team) state = PublicState;
+        if(target == null && state != defaultState) state = defaultState;
     }
 }

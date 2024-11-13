@@ -12,7 +12,7 @@ import java.util.Objects;
 import static classicMod.content.ClassicVars.MaximumRangeCommand;
 
 public class RallyAI extends AIController {
-    public UnitState state; //Default Value so it doesn't crap itself.
+    public UnitState state, defaultState; //Default Value so it doesn't crap itself.
     public Seq<Building> LegacyCommandCenterArea = new Seq<>();
     public float lastCommandCenterID;
     private int lastNum;
@@ -22,6 +22,11 @@ public class RallyAI extends AIController {
     public void init() {
         super.init();
         if(state == null) state = UnitState.attack;
+    }
+
+    public void updateState(UnitState unitState){
+        defaultState = unitState;
+        state = unitState;
     }
 
     public void NearbyCenter(){

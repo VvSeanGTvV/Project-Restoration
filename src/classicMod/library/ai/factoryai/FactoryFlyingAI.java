@@ -114,7 +114,7 @@ public class FactoryFlyingAI extends RallyAI {
                 circle(65f + Mathf.randomSeed(unit.id) * 100);
             }*/
         }
-        if(target == null && state != PublicState && Vars.state.rules.defaultTeam == unit.team) state = PublicState;
+        if(target == null && state != defaultState && Vars.state.rules.defaultTeam == unit.team) state = defaultState;
     }
 
     public Weapon getWeapon() { //hehe updated getweapon() to modernize list

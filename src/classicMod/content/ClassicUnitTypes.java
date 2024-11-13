@@ -686,7 +686,7 @@ public class ClassicUnitTypes {
             range = 140f;
             circleTarget = true;
             constructor = UnitEntity::create;
-            controller = u -> new OldFlyingAI();
+            controller = u -> new ReplacementFlyingAI();
 
             weapons.add(new Weapon() {{
                 x = 2f;
@@ -723,7 +723,7 @@ public class ClassicUnitTypes {
             range = 160f;
             circleTarget = true;
             constructor = UnitEntity::create;
-            controller = u -> new OldFlyingAI();
+            controller = u -> new ReplacementFlyingAI();
 
             weapons.add(new Weapon(internalMod + "-chrome-blaster") {{
                 alternate = true;
@@ -749,7 +749,7 @@ public class ClassicUnitTypes {
             circleTarget = true;
             targetAir = false;
             constructor = UnitEntity::create;
-            controller = u -> new OldFlyingAI();
+            controller = u -> new ReplacementFlyingAI();
             faceTarget = false;
 
             weapons.add(new Weapon() {{
@@ -793,7 +793,7 @@ public class ClassicUnitTypes {
             engineOffset = 12f;
             engineSize = 3f;
             constructor = UnitEntity::create;
-            controller = u -> new OldFlyingAI();
+            controller = u -> new ReplacementFlyingAI();
 
             weapons.add(new Weapon(internalMod + "-revenant-missiles-equip") {{
                 x = 9f;
@@ -831,7 +831,7 @@ public class ClassicUnitTypes {
             engineSize = 5.3f;
             rotateSpeed = 0.06f * 22f;
             constructor = UnitEntity::create;
-            controller = u -> new OldFlyingAI();
+            controller = u -> new ReplacementFlyingAI();
 
             weapons.add(new Weapon(internalMod + "-lich-missiles-equip") {{
                 x = 21f;
@@ -885,7 +885,7 @@ public class ClassicUnitTypes {
             engineSize = 7.3f;
             rotateSpeed = 0.04f * 22f;
             constructor = UnitEntity::create;
-            controller = u -> new OldFlyingAI();
+            controller = u -> new ReplacementFlyingAI();
 
             weapons.add(new Weapon(internalMod + "-reaper-gun-equip") {{
                 x = 31f;

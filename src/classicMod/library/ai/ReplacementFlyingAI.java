@@ -50,7 +50,7 @@ public class ReplacementFlyingAI extends RallyAI {
                 unit.lookAt(target);
             }
         }
-        if (target == null && state != PublicState) state = PublicState;
+        //if (target == null && state != PublicState) state = PublicState;
     }
 
     @Override
