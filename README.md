@@ -47,3 +47,4 @@ v4.0 Beta Update
 <p align="left"><font color="#59c2c9"><strong>Mythril#0197 - Idea for v7-Development </strong></font></p>
 <p align="left"><font color="red"><strong>EyeOfDarkness#0350 - Advance Content mod!</strong></font></p>
 <p align="left"><font color="#87cefa"><strong>WilloIzCitron#8360 - Banner & ButtonSetting & Music Player</strong></font></p>
+<p align="left"><font color="#f08080"><strong>xzxADIxzx#7729 - for Automatic Update in Scheme Size Mod</strong></font></p>
