@@ -7,8 +7,7 @@
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/VvSeanGTvV/Project-Restoration/commitTest.yml?label=Build%20Status%3A%20&style=for-the-badge)
 ## --- Additional Notes ---
 
-I'm currently about to leap to another new mod. Wanted to start a cleaner version.
-
+_still in beta. (who knows when it'll end)_
 
 ## --- Mod Includes ---
 
