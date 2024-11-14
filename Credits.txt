@@ -7,5 +7,5 @@ xzxADIxzx#7729 - for Automatic Update in Scheme Size Mod
 BasedUser#2215 - for some of the Resprited Sprites.
 Mythril#0197 - for the Idea of v7 development block.
 EyeOfDarkness#0350 - Advanced Content Mod (permission accepted)
-Anuken - Example Mod
+Anuke#4986 - Example Mod
 
