@@ -228,16 +228,18 @@ public class ClassicMod extends Mod{
 
     @Override
     public void loadContent(){
-        Log.info("Loading contents...");
+        // Load contents
         new ClassicItems().load();
         new OverridableContent().loadOverride();
         new ClassicBullets().load();
         new ClassicUnitTypes().load();
         new ClassicBlocks().load();
+        new RestorationSectorPresents().load();
+
+        // Tech Tree and Finalize
         new ExtendedSerpuloTechTree().load();
         new ExtendedErekirTechTree().load();
         ModdedMusic.load();
-        new RestorationSectorPresents().load();
 
         for(UnitType a : content.units()){
             if(a.controller instanceof CommandAI){
