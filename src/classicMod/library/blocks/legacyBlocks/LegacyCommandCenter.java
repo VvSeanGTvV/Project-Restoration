@@ -183,6 +183,11 @@ public class LegacyCommandCenter extends Block {
         }
 
         @Override
+        public byte version() {
+            return 1;
+        }
+
+        @Override
         public void write(Writes write) {
             super.write(write);
             write.str(CommandSelect);
@@ -193,8 +198,15 @@ public class LegacyCommandCenter extends Block {
         @Override
         public void read(Reads read, byte revision) {
             super.read(read, revision);
-            CommandSelect = read.str();
-            blockID = read.f();
+            if (revision == 1) { // for Build 12
+                CommandSelect = read.str();
+                blockID = read.f();
+            }
+            if (revision == 0) { // for Build 9 - Build 11
+                CommandSelect = read.str();
+                blockID = read.f();
+                UpdateCommand(RallyAI.UnitState.all[read.b()]);
+            }
             //PublicState = RallyAI.UnitState.all[read.b()];
         }
     }

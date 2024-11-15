@@ -464,6 +464,11 @@ public class WarpGate extends Block {
         }
 
         @Override
+        public byte version(){
+            return 1;
+        }
+
+        @Override
         public void write(Writes write) { //TODO fix issues with loading saves
             super.write(write);
             write.b(toggle);
@@ -493,39 +498,42 @@ public class WarpGate extends Block {
         @Override
         public void read(Reads read, byte revision) {
             super.read(read, revision);
-            teleProgress %= 1f;
-            duration = 0f;
-            otherWarp = null;
-
-            toggle = read.b();
-            firstTime = read.bool();
-            onTransfer = read.bool();
-            otherX = read.f();
-            otherY = read.f();
-
-            if(!teleporters[team.id][toggle].contains(this))
-                teleporters[team.id][toggle].add(this);
-            else {
-                teleporters[previousTeam.id][toggle].remove(this);
-                teleporters[team.id][toggle].add(this);
-            }
-            teleporting = false;
-
-            Seq<Item> allItems = Vars.content.items();
-            int itemSize = allItems.size;
-            Object[] itemArray = allItems.items;
-
-            for(int ii = 0; ii < itemSize; ++ii) {
-                Item item = (Item)itemArray[ii];
-                int val = read.b();
-                if (val > 0) OutputStackHold.add(item, val);
+            if (revision == 0) { //for Build 9 - Build 11
+                toggle = read.b();
+                teleporting = read.bool();
             }
 
+            if (revision == 1) { //for Build 12
+                teleProgress %= 1f;
+                duration = 0f;
+                otherWarp = null;
 
+                toggle = read.b();
+                firstTime = read.bool();
+                onTransfer = read.bool();
+                otherX = read.f();
+                otherY = read.f();
 
+                if (toggle > 0) {
+                    if (!teleporters[team.id][toggle].contains(this))
+                        teleporters[team.id][toggle].add(this);
+                    else {
+                        teleporters[previousTeam.id][toggle].remove(this);
+                        teleporters[team.id][toggle].add(this);
+                    }
+                }
+                teleporting = false;
 
-            //if (toggle != -1) target = findLink(toggle);
-            //teleporting = read.bool();
+                Seq<Item> allItems = Vars.content.items();
+                int itemSize = allItems.size;
+                Object[] itemArray = allItems.items;
+
+                for (int ii = 0; ii < itemSize; ++ii) {
+                    Item item = (Item) itemArray[ii];
+                    int val = read.b();
+                    if (val > 0) OutputStackHold.add(item, val);
+                }
+            }
         }
     }
 }

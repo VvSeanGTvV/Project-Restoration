@@ -1,7 +1,7 @@
 <p align="center">
   <img width="570" height="90" src="assets/sprites-override/ui/logo.png"> </p>
 <p align="center"> Much more advance scripting, and more classic buildings. sup </p>
-<p align="center"><strong> !Upcoming Update! : v4.0 Update </p></strong>
+<p align="center"><strong> !Upcoming Update! : v4.0 Update </strong></p>
 
 
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/VvSeanGTvV/Project-Restoration/commitTest.yml?label=Build%20Status%3A%20&style=for-the-badge)
