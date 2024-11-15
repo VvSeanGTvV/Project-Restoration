@@ -22,6 +22,10 @@ public class ExtendedSerpuloTechTree {
             node(ClassicBlocks.rtgGenerator);
         });
 
+        margeNode(groundZero, () -> {
+            node(RestorationSectorPresents.silverCrags);
+        });
+
         margeNode(combustionGenerator, () -> {
             node(shineGenerator);
             node(draugFactory, () -> {

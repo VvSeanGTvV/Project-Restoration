@@ -1,0 +1,18 @@
+package classicMod.content;
+
+import mindustry.content.*;
+import mindustry.type.SectorPreset;
+
+public class RestorationSectorPresents extends SectorPresets {
+
+    public static SectorPreset
+    silverCrags
+    ;
+
+    public static void load() {
+        silverCrags = new SectorPreset("silverCrags", Planets.serpulo, 18) {{
+            captureWave = 15;
+            difficulty = 3;
+        }};
+    }
+}
