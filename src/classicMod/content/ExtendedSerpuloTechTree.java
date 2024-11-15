@@ -22,7 +22,7 @@ public class ExtendedSerpuloTechTree {
             node(ClassicBlocks.rtgGenerator);
         });
 
-        margeNode(craters, () -> {
+        margeNode(frozenForest, () -> {
             node(RestorationSectorPresents.silverCrags, Seq.with(
                 new SectorComplete(frozenForest),
                 new Research(Items.titanium)
