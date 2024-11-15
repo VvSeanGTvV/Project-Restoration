@@ -9,7 +9,6 @@ import mindustry.type.ItemStack;
 import static classicMod.content.ClassicBlocks.*;
 import static mindustry.content.Blocks.*;
 import static mindustry.content.SectorPresets.*;
-import static mindustry.content.SectorPresets.craters;
 import static mindustry.content.TechTree.*;
 
 public class ExtendedSerpuloTechTree {
@@ -22,8 +21,11 @@ public class ExtendedSerpuloTechTree {
             node(ClassicBlocks.rtgGenerator);
         });
 
-        margeNode(groundZero, () -> {
-            node(RestorationSectorPresents.silverCrags);
+        margeNode(craters, () -> {
+            node(RestorationSectorPresents.silverCrags, Seq.with(
+                new SectorComplete(frozenForest),
+                new Research(Items.titanium)
+            ));
         });
 
         margeNode(combustionGenerator, () -> {
@@ -94,7 +96,9 @@ public class ExtendedSerpuloTechTree {
 
         margeNode(arc,
                 () -> node(arcAir,
-                        () -> node(teslaTurret, Seq.with(new SectorComplete(nuclearComplex)))
+                        () -> node(teslaTurret, Seq.with(
+                                   new SectorComplete(nuclearComplex)
+                                  ))
                 )
         );
 
