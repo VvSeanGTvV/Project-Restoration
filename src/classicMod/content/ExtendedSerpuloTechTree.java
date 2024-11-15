@@ -9,6 +9,7 @@ import mindustry.type.ItemStack;
 import static classicMod.content.ClassicBlocks.*;
 import static mindustry.content.Blocks.*;
 import static mindustry.content.SectorPresets.craters;
+import static mindustry.content.SectorPresets.*;
 import static mindustry.content.TechTree.*;
 
 public class ExtendedSerpuloTechTree {
