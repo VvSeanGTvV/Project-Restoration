@@ -5,6 +5,7 @@ set copied=0
 
 :START
 cls
+title Gradlew Auto Run w/ Modified gradlew.bat
 echo Gradlew Auto Run w/ Modified gradlew.bat
 echo Created by VvSeanGtvV [ V2 ]
 if %builded%==0 echo ^> :buildJar [ PROGRESS ]
@@ -33,6 +34,7 @@ set copied=1
 goto START
 
 :executeMindustry
+title Mindustry
 set mindustry=D:\user\Downloads\mindustry-windows-64-bit\Mindustry.exe
 echo autorun to %mindustry%
 set stage=3

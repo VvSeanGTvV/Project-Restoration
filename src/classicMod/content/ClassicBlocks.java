@@ -458,16 +458,14 @@ public class ClassicBlocks {
 
         };
 
-        shieldBreaker = new ShieldBreaker("shield-breaker"){{ //TODO fix break block bugs
-            requirements(Category.effect, with(Items.tungsten, 700, Items.graphite, 620, Items.silicon, 250));
-            envEnabled |= Env.space;
-            toDestroy = new Block[]{Blocks.shieldProjector, Blocks.largeShieldProjector};
+        largeShieldProjector = new BaseShield("large-shield-projector"){{
+            requirements(Category.effect, ItemStack.mult(shieldProjector.requirements,2));
 
-            size = 5;
-            itemCapacity = 100;
-            scaledHealth = 120f;
+            size = 4;
+            radius = 400f;
+            generatedIcons = new TextureRegion[]{Core.atlas.find(name), Core.atlas.find(name + "-team")};
 
-            consumeItem(Items.tungsten, 100);
+            consumePower(5f);
         }
 
             @Override
@@ -477,14 +475,16 @@ public class ClassicBlocks {
 
         };
 
-        largeShieldProjector = new BaseShield("large-shield-projector"){{
-            requirements(Category.effect, ItemStack.mult(shieldProjector.requirements,2));
+        shieldBreaker = new ShieldBreaker("shield-breaker"){{ //TODO fix break block bugs
+            requirements(Category.effect, with(Items.tungsten, 700, Items.graphite, 620, Items.silicon, 250));
+            envEnabled |= Env.space;
+            toDestroy = new Block[]{Blocks.shieldProjector, Blocks.largeShieldProjector, shieldProjector, largeShieldProjector};
 
-            size = 4;
-            radius = 400f;
-            generatedIcons = new TextureRegion[]{Core.atlas.find(name), Core.atlas.find(name + "-team")};
+            size = 5;
+            itemCapacity = 100;
+            scaledHealth = 120f;
 
-            consumePower(5f);
+            consumeItem(Items.tungsten, 100);
         }
 
             @Override

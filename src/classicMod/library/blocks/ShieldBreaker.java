@@ -3,7 +3,7 @@ package classicMod.library.blocks;
 import arc.Core;
 import arc.graphics.Color;
 import arc.graphics.g2d.*;
-import arc.util.Scaling;
+import arc.util.*;
 import classicMod.content.ExtendedStat;
 import mindustry.Vars;
 import mindustry.content.Fx;
@@ -59,15 +59,28 @@ public class ShieldBreaker extends Block {
                 for (var blocko : toDestroy) {
                     if (Vars.state.rules.isBanned(blocko)) {
                         t.image(Icon.cancel).color(Pal.remove).size(40);
-                        t.add(blocko.localizedName).color(Pal.remove).left().pad(10f);
+                        t.table(info -> {
+                            info.add(blocko.localizedName).color(Pal.remove).left();
+                            if(blocko.isModded()) {
+                                info.row();
+                                info.add("Modded").color(Pal.ammo).left();
+                            }
+                        }).left().pad(10f);
                         return;
                     }
 
                     t.image(blocko.uiIcon).size(40).pad(10f).left().scaling(Scaling.fit);
-                    t.add(blocko.localizedName).left().pad(10f);
+                    t.table(info -> {
+                        info.add(blocko.localizedName).left();
+                        if(blocko.isModded()) {
+                            info.row();
+                            info.add("Modded").color(Pal.ammo).left();
+                        }
+                    }).left().pad(10f);
+
                     t.row();
                 }
-            });
+            }).growX();
         });
     }
 
@@ -75,7 +88,7 @@ public class ShieldBreaker extends Block {
 
         public boolean isValidBuild(Building building) {
             for (var target : toDestroy) {
-                if ((Objects.equals(building.block.name, target.name))) return true;
+                if ((building.block == target)) return true;
             }
             return false;
         }
@@ -85,6 +98,7 @@ public class ShieldBreaker extends Block {
             if (efficiency >= 1f) {
                 effect.at(this);
                 Building b = Units.findEnemyTile(team, x, y, Float.MAX_VALUE / 2, building -> (building instanceof BaseShield.BaseShieldBuild && isValidBuild(building)));
+                Log.info(b);
                 if (b != null) {
                     breakEffect.at(b);
                     b.kill();
