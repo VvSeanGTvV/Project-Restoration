@@ -17,16 +17,17 @@ public class ExtendedSerpuloTechTree {
 
     public static void load() {
 
+        // Sector
+        margeNode(frozenForest, () -> {
+            node(RestorationSectorPresents.silverCrags, Seq.with(
+                    new SectorComplete(frozenForest),
+                    new Research(Items.titanium)
+            ));
+        });
+
         // Power
         margeNode(Blocks.rtgGenerator, () -> {
             node(ClassicBlocks.rtgGenerator);
-        });
-
-        margeNode(frozenForest, () -> {
-            node(RestorationSectorPresents.silverCrags, Seq.with(
-                new SectorComplete(frozenForest),
-                new Research(Items.titanium)
-            ));
         });
 
         margeNode(combustionGenerator, () -> {

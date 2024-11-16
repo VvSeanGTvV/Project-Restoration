@@ -22,11 +22,13 @@ public class ContentUnlockDebugDialog extends BaseDialog {
     float buttonWidth = 92f;
     float buttonHeight = 32f;
     int Page;
+    boolean compactedMode;
     public ContentUnlockDebugDialog() {
         super("@CUD.title");
         Page = 0;
+        compactedMode = true;
 
-        if(mobile){
+        if(compactedMode){
             addLeft();
             addUnlockAllButton();
             addCloseButton();
@@ -112,7 +114,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                             }).size(buttonWidth, buttonHeight).pad(2.5f);
                         }
                     }).left().pad(2.5f);
-                }).left().pad(10f);
+                }).growX().left().pad(10f);
                 row();
             }
         }};
@@ -141,7 +143,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                             }).size(buttonWidth, buttonHeight).pad(2.5f);
                         }
                     }).left().pad(2.5f);
-                }).left().pad(10f);
+                }).growX().left().pad(10f);
                 row();
             }
         }};
@@ -177,7 +179,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                             }).size(buttonWidth, buttonHeight).pad(2.5f);
                         }
                     }).left().pad(2.5f);
-                }).left().pad(10f);
+                }).growX().left().pad(10f);
                 row();
             }
         }};
@@ -207,7 +209,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
 
                                 yes.button("@transform", () -> {
                                     spawnMech(Content, player);
-                                }).size(buttonWidth, buttonHeight).pad(2.5f);
+                                }).size(buttonWidth * 1.5f, buttonHeight).pad(2.5f);
 
                             } else yes.button("@unlock", () -> {
                                 Content.unlock();
@@ -215,7 +217,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                             }).size(buttonWidth, buttonHeight).pad(2.5f);
                         }
                     }).left().pad(2.5f);
-                }).left().pad(10f);
+                }).growX().left().pad(10f);
                 row();
             }
         }};
@@ -363,7 +365,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
 
     void rebuild(){
         cont.clearChildren();
-        if(!mobile) for(int i = 0; i < 5; i++){
+        if(!compactedMode) for(int i = 0; i < 5; i++){
             rebuild(i);
         } else {
             rebuild(Page);

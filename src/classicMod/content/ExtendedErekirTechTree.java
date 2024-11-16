@@ -18,14 +18,18 @@ public class ExtendedErekirTechTree {
     static TechTree.TechNode context = null;
 
     public static void load() {
-        /*margeNode(breach, () -> {
-            node(ClassicBlocks.shieldBreaker, Seq.with(new OnSector(intersect)), () -> {
-                node(ClassicBlocks.barrierProjector,Seq.with(new Research(surgeCrucible), new Produce(scrap)), () -> {
-
+        margeNode(radar, () -> {
+            node(ClassicBlocks.shieldBreaker, Seq.with(
+                    new OnSector(intersect)
+            ), () -> {
+                node(ClassicBlocks.barrierProjector, Seq.with(
+                        new Research(surgeCrucible), new Produce(scrap)
+                ), () -> {
+                    
                 });
             });
         });
-        margeNode(breach, () -> {
+        /*margeNode(breach, () -> {
 
         });*/
 
