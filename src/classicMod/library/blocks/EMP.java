@@ -9,11 +9,13 @@ import arc.struct.Seq;
 import arc.util.*;
 import arc.util.io.*;
 import classicMod.content.ExtendedStat;
+import classicMod.library.MathE;
 import classicMod.library.blocks.legacyBlocks.LegacyUnitFactory;
 import mindustry.Vars;
 import mindustry.content.Fx;
 import mindustry.entities.*;
 import mindustry.entities.bullet.BulletType;
+import mindustry.game.Team;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.Item;
@@ -21,9 +23,11 @@ import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.BaseShield;
 import mindustry.world.blocks.production.Pump;
-import mindustry.world.meta.StatUnit;
+import mindustry.world.meta.*;
 
 import java.util.Objects;
+
+import static mindustry.Vars.*;
 
 public class EMP extends Block {
     /**
@@ -35,6 +39,8 @@ public class EMP extends Block {
      * Special Effect on: {@link #breakEffect}, {@link #effect}
      **/
     public Effect effect = Fx.shockwave, breakEffect = Fx.reactorExplosion;
+
+    public float range = 480f;
 
     /**
      * Creates a cool looking lightning with included variable {@link #lightningLength} & {@link #lightningLengthRand} if enabled.
@@ -55,6 +61,34 @@ public class EMP extends Block {
 
         solid = update = true;
         rebuildable = false;
+        configurable = true;
+    }
+
+    @Override
+    public void drawPlace(int x, int y, int rotation, boolean valid) {
+        super.drawPlace(x, y, rotation, valid);
+
+        Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, player.team().color);
+    }
+
+    @Override
+    public boolean canPlaceOn(Tile tile, Team team, int rotation) {
+        Seq<Building> buildings = team.data().buildings;
+        boolean tooNear = false;
+        for (var build : buildings){
+            Log.info(build);
+            Building nearestBuild = null;
+            if (build instanceof EMPBuild empBuild) nearestBuild = Units.closestBuilding(team, tile.worldx(), tile.worldy(), range * 2f, b ->
+                    b.isValid()
+                            && b instanceof EMPBuild
+            );
+
+            tooNear = (nearestBuild != null);
+            Log.info(nearestBuild);
+            Log.info(tooNear);
+            if (tooNear) break;
+        }
+        return !tooNear;
     }
 
     @Override
@@ -83,6 +117,7 @@ public class EMP extends Block {
     @Override
     public void setStats() {
         super.setStats();
+        stats.add(Stat.range, range / Vars.tilesize, StatUnit.blocks);
         stats.add(ExtendedStat.suppressedDuration, (cooldownTime - reEnable) / 60f, StatUnit.seconds);
         stats.add(ExtendedStat.cooldown, cooldownTime / 60f, StatUnit.seconds);
 
@@ -139,9 +174,14 @@ public class EMP extends Block {
             return super.acceptItem(source, item) && cooldownTimer <= 0;
         }
 
-        Vec2 interpolate(Vec2 start, Vec2 end, float div, float range) {
-            Vec2 between = ((end.sub(start).div(new Vec2(div,div))).add(start));
-            return new Vec2(between.x + Mathf.range(range), between.y + Mathf.range(range));
+        @Override
+        public void drawConfigure() {
+            Drawf.dashCircle(x, y, range, team.color);
+            //Drawf.square(x, y, tile.block().size * tilesize / 2f + 1f + Mathf.absin(Time.time, 4f, 1f));
+
+            /*if (target != null) {
+                Drawf.square(target.x, target.y, target.hitSize * 0.8f, Color.green);
+            }*/
         }
 
         @Override
@@ -165,7 +205,7 @@ public class EMP extends Block {
 
             if (efficiency >= 1f) {
                 effect.at(this);
-                Building b = Units.findEnemyTile(team, x, y, Float.MAX_VALUE / 2, building -> (building instanceof BaseShield.BaseShieldBuild && isValidBuild(building) && !disabled.contains(building)));
+                Building b = Units.findEnemyTile(team, x, y, range, building -> (building instanceof BaseShield.BaseShieldBuild && isValidBuild(building) && !disabled.contains(building)));
                 if (b != null) {
                     breakEffect.at(b);
                     b.enabled = false;
@@ -173,8 +213,8 @@ public class EMP extends Block {
                     Seq<Vec2> data = new Seq<>(
                             new Vec2[]{
                                     new Vec2(x, y),
-                                    interpolate(new Vec2(x, y), new Vec2(b.x, b.y), 1.25f, lightningLength + Mathf.random(lightningLengthRand)),
-                                    interpolate(new Vec2(x, y), new Vec2(b.x, b.y), 2.25f, lightningLength + Mathf.random(lightningLengthRand)),
+                                    MathE.interpolate(new Vec2(x, y), new Vec2(b.x, b.y), 1.25f, lightningLength + Mathf.random(lightningLengthRand)),
+                                    MathE.interpolate(new Vec2(x, y), new Vec2(b.x, b.y), 2.25f, lightningLength + Mathf.random(lightningLengthRand)),
                                     new Vec2(b.x, b.y)
                             }
                     );

@@ -6,6 +6,7 @@ import arc.struct.Seq;
 import arc.util.Log;
 import arc.util.pooling.Pool;
 import classicMod.content.ExtendedFx;
+import classicMod.library.MathE;
 import mindustry.Vars;
 import mindustry.ai.BlockIndexer;
 import mindustry.content.*;
@@ -40,11 +41,6 @@ public class NewTeslaOrbType extends BulletType {
         this.lifetime = Float.MAX_VALUE;
     }
 
-    Vec2 interpolate(Vec2 start, Vec2 end, float div, float range) {
-        Vec2 between = ((end.sub(start).div(new Vec2(div,div))).add(start));
-        return new Vec2(between.x + Mathf.range(range), between.y + Mathf.range(range));
-    }
-
     void taserTarget(Bullet b){
         if(TargetList.size > 0){
             Vec2 lastVec = new Vec2(b.x, b.y);
@@ -55,8 +51,8 @@ public class NewTeslaOrbType extends BulletType {
                 Vec2 blastPos = new Vec2(blasted.x(), blasted.y());
                 Seq<Vec2> lData = new Seq<>(new Vec2[]{
                         new Vec2(lastVec.x, lastVec.y),
-                        interpolate(lastVec, blastPos, 1.25f, lightningLength + Mathf.random(lightningLengthRand)),
-                        interpolate(lastVec, blastPos, 2.25f, lightningLength + Mathf.random(lightningLengthRand)),
+                        MathE.interpolate(lastVec, blastPos, 1.25f, lightningLength + Mathf.random(lightningLengthRand)),
+                        MathE.interpolate(lastVec, blastPos, 2.25f, lightningLength + Mathf.random(lightningLengthRand)),
                         new Vec2(blasted.x(), blasted.y())
                 });
                 Fx.lightning.at(lastVec.x, lastVec.y, b.rotation(), lightningColor, lData);
@@ -90,8 +86,8 @@ public class NewTeslaOrbType extends BulletType {
 
             Seq<Vec2> lData = new Seq<>(new Vec2[]{
                     new Vec2(bulletPosition.x, bulletPosition.y),
-                    interpolate(bulletPosition, movePosition, 1.25f, lightningLength + Mathf.random(lightningLengthRand)),
-                    interpolate(bulletPosition, movePosition, 2.25f, lightningLength + Mathf.random(lightningLengthRand)),
+                    MathE.interpolate(bulletPosition, movePosition, 1.25f, lightningLength + Mathf.random(lightningLengthRand)),
+                    MathE.interpolate(bulletPosition, movePosition, 2.25f, lightningLength + Mathf.random(lightningLengthRand)),
                     new Vec2(movePosition.x, movePosition.y)
             });
             Fx.lightning.at(bulletPosition.x, bulletPosition.y, b.rotation(), lightningColor, lData);
