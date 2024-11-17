@@ -71,15 +71,27 @@ public class EMP extends Block {
         Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, player.team().color);
     }
 
+    public Building getNearestEMP(Tile tile, Team team, float range){
+        return Units.closestBuilding(team, tile.worldx(), tile.worldy(), range, b ->
+                b.isValid()
+                        && b instanceof EMPBuild
+        );
+    }
+
+    public Building getNearestEMP(Building building, float range){
+        return getNearestEMP(building.tile, building.team, range);
+    }
+
+    public boolean nearToEMP(Tile tile, Team team){
+        return (getNearestEMP(tile, team, range * 2f) != null);
+    }
+    public boolean nearToEMP(Building building){
+        return nearToEMP(building.tile, building.team);
+    }
+
     @Override
     public boolean canPlaceOn(Tile tile, Team team, int rotation) {
-        Seq<Building> buildings = team.data().buildings;
-        Building nearestBuild = null;
-            nearestBuild = Units.closestBuilding(team, tile.worldx(), tile.worldy(), range * 2f, b ->
-                    b.isValid()
-                            && b instanceof EMPBuild
-            );
-        boolean tooNear = (nearestBuild != null);
+        boolean tooNear = nearToEMP(tile, team);
         return !tooNear;
     }
 
@@ -153,7 +165,7 @@ public class EMP extends Block {
 
         public float fraction(){ return 1 - (cooldownTimer / cooldownTime); }
 
-        public boolean isValidBuild(@Nullable Building building) {
+        public boolean isValidTarget(@Nullable Building building) {
             if (building == null) return false;
             for (var target : toDestroy) {
                 if ((building.block == target)) return true;
@@ -169,6 +181,8 @@ public class EMP extends Block {
         @Override
         public void drawConfigure() {
             Drawf.dashCircle(x, y, range, team.color);
+            Seq<Building> buildings = new Seq<>();
+            Building b = Units.findEnemyTile(team, x, y, range, building -> (building instanceof BaseShield.BaseShieldBuild && isValidTarget(building) && !disabled.contains(building)));
             //Drawf.square(x, y, tile.block().size * tilesize / 2f + 1f + Mathf.absin(Time.time, 4f, 1f));
 
             /*if (target != null) {
@@ -183,7 +197,7 @@ public class EMP extends Block {
                 for (var xy : IDXY) {
                     Building b = Vars.world.buildWorld(xy.x, xy.y);
                     Log.info(b);
-                    if (b != null && isValidBuild(b)) disabled.add(b);
+                    if (b != null && isValidTarget(b)) disabled.add(b);
                 }
                 IDXY.clear();
             }
@@ -197,7 +211,11 @@ public class EMP extends Block {
 
             if (efficiency >= 1f) {
                 effect.at(this);
-                Building b = Units.findEnemyTile(team, x, y, range, building -> (building instanceof BaseShield.BaseShieldBuild && isValidBuild(building) && !disabled.contains(building)));
+                if (nearToEMP(this)) {
+                    getNearestEMP(this, range * 2f).kill();
+                    kill();
+                }
+                Building b = Units.findEnemyTile(team, x, y, range, building -> (building instanceof BaseShield.BaseShieldBuild && isValidTarget(building) && !disabled.contains(building)));
                 if (b != null) {
                     breakEffect.at(b);
                     b.enabled = false;
