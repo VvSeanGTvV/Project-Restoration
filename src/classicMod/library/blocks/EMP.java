@@ -3,35 +3,54 @@ package classicMod.library.blocks;
 import arc.Core;
 import arc.graphics.Color;
 import arc.graphics.g2d.*;
+import arc.math.Mathf;
+import arc.math.geom.Vec2;
 import arc.struct.Seq;
 import arc.util.*;
 import arc.util.io.*;
 import classicMod.content.ExtendedStat;
+import classicMod.library.blocks.legacyBlocks.LegacyUnitFactory;
 import mindustry.Vars;
 import mindustry.content.Fx;
 import mindustry.entities.*;
+import mindustry.entities.bullet.BulletType;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.Item;
-import mindustry.ui.Styles;
+import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.BaseShield;
+import mindustry.world.blocks.production.Pump;
+import mindustry.world.meta.StatUnit;
 
 import java.util.Objects;
 
-public class ShieldBreaker extends Block {
+public class EMP extends Block {
     /**
-     * Specific block that can destroyed by this block
+     * Specific block that can suppressed blocks.
      **/
     public Block[] toDestroy = {};
 
     /**
-     * Special Effect on: {@link #breakEffect}, {@link #selfKillEffect}
+     * Special Effect on: {@link #breakEffect}, {@link #effect}
      **/
-    public Effect effect = Fx.shockwave, breakEffect = Fx.reactorExplosion, selfKillEffect = Fx.massiveExplosion;
+    public Effect effect = Fx.shockwave, breakEffect = Fx.reactorExplosion;
+
+    /**
+     * Creates a cool looking lightning with included variable {@link #lightningLength} & {@link #lightningLengthRand} if enabled.
+     **/
+    public boolean lightningEffectEnabled = false;
+
+    /**
+     * used for lightning effects. (can only work if {@link #lightningEffectEnabled} is set to true)
+     **/
+    public float lightningLength = 5f, lightningLengthRand = 0;
+
+    public float cooldownTime = 480, reEnable = 240;
+
     public TextureRegion top;
 
-    public ShieldBreaker(String name) {
+    public EMP(String name) {
         super(name);
 
         solid = update = true;
@@ -43,6 +62,12 @@ public class ShieldBreaker extends Block {
         super.load();
         teamRegion = Core.atlas.find(name + "-team");
         top = Core.atlas.find(name + "-top");
+    }
+
+    @Override
+    public void setBars() {
+        addBar("progress", (EMP.EMPBuild e) -> new Bar("bar.loadprogress", Pal.ammo, e::fraction));
+        super.setBars();
     }
 
     @Override
@@ -58,6 +83,9 @@ public class ShieldBreaker extends Block {
     @Override
     public void setStats() {
         super.setStats();
+        stats.add(ExtendedStat.suppressedDuration, (cooldownTime - reEnable) / 60f, StatUnit.seconds);
+        stats.add(ExtendedStat.cooldown, cooldownTime / 60f, StatUnit.seconds);
+
         stats.add(ExtendedStat.canBreak, table -> {
             table.row();
             table.table(Styles.grayPanel, t -> {
@@ -89,13 +117,17 @@ public class ShieldBreaker extends Block {
         });
     }
 
-    public class ShieldBreakerBuild extends Building {
+    public class EMPBuild extends Building {
 
         Seq<Building> disabled = new Seq<>();
-        public float cooldownTime = 0;
+        Seq<Vec2> IDXY = new Seq<>();
+        public float cooldownTimer = 0;
         public boolean cooling;
 
-        public boolean isValidBuild(Building building) {
+        public float fraction(){ return 1 - (cooldownTimer / cooldownTime); }
+
+        public boolean isValidBuild(@Nullable Building building) {
+            if (building == null) return false;
             for (var target : toDestroy) {
                 if ((building.block == target)) return true;
             }
@@ -104,16 +136,28 @@ public class ShieldBreaker extends Block {
 
         @Override
         public boolean acceptItem(Building source, Item item) {
-            return super.acceptItem(source, item) && cooldownTime <= 0;
+            return super.acceptItem(source, item) && cooldownTimer <= 0;
+        }
+
+        Vec2 interpolate(Vec2 start, Vec2 end, float div, float range) {
+            Vec2 between = ((end.sub(start).div(new Vec2(div,div))).add(start));
+            return new Vec2(between.x + Mathf.range(range), between.y + Mathf.range(range));
         }
 
         @Override
         public void updateTile() {
-            Log.info(cooldownTime);
-            Log.info(cooling);
-            if (cooldownTime <= 240 && cooling && disabled != null) {
-                for (var b : disabled){
+            if (!IDXY.isEmpty()) {
+                disabled.clear();
+                for (var xy : IDXY) {
+                    Building b = Vars.world.buildWorld(xy.x, xy.y);
                     Log.info(b);
+                    if (b != null && isValidBuild(b)) disabled.add(b);
+                }
+                IDXY.clear();
+            }
+
+            if (cooldownTimer <= reEnable && cooling && disabled != null) {
+                for (var b : disabled){
                     if (b != null) b.enabled = true;
                     disabled.remove(b);
                 }
@@ -121,26 +165,56 @@ public class ShieldBreaker extends Block {
 
             if (efficiency >= 1f) {
                 effect.at(this);
-                Building b = Units.findEnemyTile(team, x, y, Float.MAX_VALUE / 2, building -> (building instanceof BaseShield.BaseShieldBuild && isValidBuild(building)));
-                if (b != null && !disabled.contains(b)) {
+                Building b = Units.findEnemyTile(team, x, y, Float.MAX_VALUE / 2, building -> (building instanceof BaseShield.BaseShieldBuild && isValidBuild(building) && !disabled.contains(building)));
+                if (b != null) {
                     breakEffect.at(b);
                     b.enabled = false;
+
+                    Seq<Vec2> data = new Seq<>(
+                            new Vec2[]{
+                                    new Vec2(x, y),
+                                    interpolate(new Vec2(x, y), new Vec2(b.x, b.y), 1.25f, lightningLength + Mathf.random(lightningLengthRand)),
+                                    interpolate(new Vec2(x, y), new Vec2(b.x, b.y), 2.25f, lightningLength + Mathf.random(lightningLengthRand)),
+                                    new Vec2(b.x, b.y)
+                            }
+                    );
+                    if (lightningEffectEnabled) Fx.lightning.at(x, y, b.rotation, Color.valueOf("99d9ea"), data);
+
                     disabled.add(b);
                 } else {
-                    cooldownTime = 480;
+                    cooldownTimer = cooldownTime;
                     consume();
 
-                    damage(30f);
+                    //damage(30f);
                     //selfKillEffect.at(this);
                     //kill();
                 }
             }
-            if (cooldownTime > 0) {
+            if (cooldownTimer > 0) {
                 cooling = true;
-                cooldownTime -= (1 * this.delta());
+                cooldownTimer -= (1 * this.delta());
             } else {
                 cooling = false;
             }
+        }
+
+        void enableSuspendedBlock(){
+            for (var b : disabled){
+                if (b != null) b.enabled = true;
+                disabled.remove(b);
+            }
+        }
+
+        @Override
+        public void onRemoved() {
+            enableSuspendedBlock();
+            super.onRemoved();
+        }
+
+        @Override
+        public void onDestroyed() {
+            enableSuspendedBlock();
+            super.onDestroyed();
         }
 
         @Override
@@ -154,7 +228,7 @@ public class ShieldBreaker extends Block {
 
             Draw.color(team.color);
             Draw.rect(teamRegion, tile.drawx(), tile.drawy());
-            Draw.color(Color.valueOf("92dd7e"), Color.red,  (items.total() / itemCap));//items.total() / itemCap);
+            Draw.color(Color.valueOf("92dd7e"), Color.valueOf("99d9ea"),  (items.total() / itemCap));//items.total() / itemCap);
             Draw.rect(top, tile.drawx(), tile.drawy());
 
             Draw.reset();
@@ -164,10 +238,11 @@ public class ShieldBreaker extends Block {
         public void write(Writes write) {
             super.write(write);
 
-            write.f(cooldownTime);
+            write.f(cooldownTimer);
             write.i(disabled.size);
             write.bool(cooling);
-            for (var b : disabled){
+            for (int i = 0; i < disabled.size; i++){
+                var b = disabled.get(i);
                 write.f(b.x);
                 write.f(b.y);
             }
@@ -176,17 +251,16 @@ public class ShieldBreaker extends Block {
         @Override
         public void read(Reads read, byte revision) {
             super.read(read, revision);
+            IDXY.clear();
 
-            disabled.clear();
-            cooldownTime = read.f();
+            cooldownTimer = read.f();
             float dSize = read.i();
             cooling = read.bool();
             for (int i = 0; i < dSize; i++){
-                Building b = Vars.world.buildWorld(read.f(), read.f());
-                Log.info(b);
-                if (b instanceof BaseShield.BaseShieldBuild shieldBuild){
+                IDXY.add(new Vec2(read.f(), read.f()));
+                /*if (b instanceof BaseShield.BaseShieldBuild shieldBuild){
                     disabled.add(shieldBuild);
-                }
+                }*/
             }
         }
     }

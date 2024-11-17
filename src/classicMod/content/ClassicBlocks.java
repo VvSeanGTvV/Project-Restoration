@@ -6,13 +6,11 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.struct.Seq;
 import classicMod.library.blocks.*;
-import classicMod.library.blocks.classicBlocks.*;
 import classicMod.library.blocks.customBlocks.*;
 import classicMod.library.blocks.legacyBlocks.*;
 import classicMod.library.blocks.v6devBlocks.*;
 import classicMod.library.bullets.*;
 import mindustry.content.*;
-import mindustry.entities.Effect;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
 import mindustry.entities.part.RegionPart;
@@ -475,16 +473,19 @@ public class ClassicBlocks {
 
         };
 
-        shieldBreaker = new ShieldBreaker("shield-breaker"){{
+        shieldBreaker = new EMP("shield-breaker"){{
             squareSprite = false;
             requirements(Category.effect, with(Items.tungsten, 700, Items.graphite, 620, Items.silicon, 250));
             envEnabled |= Env.space;
             toDestroy = new Block[]{Blocks.shieldProjector, Blocks.largeShieldProjector, shieldProjector, largeShieldProjector};
 
+            cooldownTime = 600f;
+            lightningEffectEnabled = true;
+            lightningLengthRand = 15;
+
             size = 5;
             itemCapacity = 100;
             scaledHealth = 120f;
-            effect = Fx.spawnShockwave;
 
             consumeItem(Items.tungsten, 100);
         }

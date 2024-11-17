@@ -23,7 +23,8 @@ import static mindustry.world.meta.StatValues.*;
 public class ExtendedStat {
     public static final Stat
             StatusOutput = new Stat("status-give", StatCat.function),
-            StatusDuration = new Stat("status-give-duration", StatCat.function),
+            suppressedDuration = new Stat("suppressed-duration", StatCat.function),
+            cooldown = new Stat("cooldown", StatCat.function),
 
             fuel = new Stat("fuel", StatCat.crafting),
             inbetweenTeleport = new Stat("inbetween-teleport", StatCat.items),
