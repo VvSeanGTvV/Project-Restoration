@@ -459,13 +459,13 @@ public class ClassicBlocks {
         };
 
         largeShieldProjector = new BaseShield("large-shield-projector"){{
-            requirements(Category.effect, ItemStack.mult(shieldProjector.requirements,2));
+            requirements(Category.effect, ItemStack.mult(shieldProjector.requirements,2f));
 
             size = 4;
             radius = 400f;
             generatedIcons = new TextureRegion[]{Core.atlas.find(name), Core.atlas.find(name + "-team")};
 
-            consumePower(5f);
+            consumePower(12.5f);
         }
 
             @Override
@@ -475,7 +475,8 @@ public class ClassicBlocks {
 
         };
 
-        shieldBreaker = new ShieldBreaker("shield-breaker"){{ //TODO fix break block bugs
+        shieldBreaker = new ShieldBreaker("shield-breaker"){{
+            squareSprite = false;
             requirements(Category.effect, with(Items.tungsten, 700, Items.graphite, 620, Items.silicon, 250));
             envEnabled |= Env.space;
             toDestroy = new Block[]{Blocks.shieldProjector, Blocks.largeShieldProjector, shieldProjector, largeShieldProjector};
@@ -483,6 +484,7 @@ public class ClassicBlocks {
             size = 5;
             itemCapacity = 100;
             scaledHealth = 120f;
+            effect = Fx.spawnShockwave;
 
             consumeItem(Items.tungsten, 100);
         }
@@ -534,14 +536,6 @@ public class ClassicBlocks {
             consumePower(6.5f);
             consumeItem(Items.titanium, 2);
         }};
-
-        /*
-        		{ "item": "silicon", "amount": 340 },
-		{ "item": "titanium", "amount": 300 },
-		{ "item": "thorium", "amount": 200 },
-		{ "item": "surge-alloy", "amount": 75 },
-		{ "item": "phase-fabric", "amount": 50 }
-*/
 
         fusion = new GenericFusion("fusion"){
             {

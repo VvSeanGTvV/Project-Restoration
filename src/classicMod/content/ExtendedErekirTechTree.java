@@ -19,19 +19,19 @@ public class ExtendedErekirTechTree {
 
     public static void load() {
         margeNode(radar, () -> {
+            node(ClassicBlocks.barrierProjector, Seq.with(
+                    new OnSector(aegis)
+            ), () -> {});
+
             node(ClassicBlocks.shieldBreaker, Seq.with(
-                    new OnSector(intersect)
+                    new SectorComplete(intersect)
             ), () -> {
-                node(ClassicBlocks.barrierProjector, Seq.with(
-                        new Research(surgeCrucible), new Produce(scrap)
-                ), () -> {
-                    
+                node(ClassicBlocks.shieldProjector, () -> {
+                    node(ClassicBlocks.largeShieldProjector);
                 });
             });
-        });
-        /*margeNode(breach, () -> {
 
-        });*/
+        });
 
         margeNode(diffuse, () -> {
             node(fracture, Seq.with(new OnSector(aegis)), () -> {
