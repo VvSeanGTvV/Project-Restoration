@@ -75,7 +75,7 @@ public class EMP extends Block {
     public boolean canPlaceOn(Tile tile, Team team, int rotation) {
         Seq<Building> buildings = team.data().buildings;
         Building nearestBuild = null;
-            if (build instanceof EMPBuild empBuild) nearestBuild = Units.closestBuilding(team, tile.worldx(), tile.worldy(), range * 2f, b ->
+            nearestBuild = Units.closestBuilding(team, tile.worldx(), tile.worldy(), range * 2f, b ->
                     b.isValid()
                             && b instanceof EMPBuild
             );
