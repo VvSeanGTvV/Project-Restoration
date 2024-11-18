@@ -1,7 +1,7 @@
 <p align="center">
   <img width="570" height="90" src="assets/sprites-override/ui/logo.png"> </p>
 <p align="center"> Much more advance scripting, and more classic buildings. sup </p>
-<p align="center"><strong> !Upcoming Update! : v4.0 Update </strong></p>
+<p align="center"><strong> v4.0 Update </strong></p>
 
 
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/VvSeanGTvV/Project-Restoration/commitTest.yml?label=Build%20Status%3A%20&style=for-the-badge)
@@ -10,6 +10,10 @@
 _still in beta. (who knows when it'll end)_
 
 ## --- Mod Includes ---
+
+Advance Content (Partially)
+
+Example Mod (Almost finished)
 
 Classic Blocks
 
@@ -29,11 +33,11 @@ v7 Units
 
 ## --- In Progress ---
 
-v4.0 Beta Update
+nothin ;)
 
 ## --- Future Contents ---
 
-v4.0 Beta Update
+Tantros Update (MMMAYBE)
 
 ## --- Credits ---
 
