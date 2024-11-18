@@ -23,13 +23,13 @@ import static mindustry.world.meta.StatValues.*;
 public class ExtendedStat {
     public static final Stat
             StatusOutput = new Stat("status-give", StatCat.function),
-            suppressedDuration = new Stat("suppressed-duration", StatCat.function),
+            empDuration = new Stat("emp-duration", StatCat.function),
             cooldown = new Stat("cooldown", StatCat.function),
 
             fuel = new Stat("fuel", StatCat.crafting),
             inbetweenTeleport = new Stat("inbetween-teleport", StatCat.items),
             burnTime = new Stat("burn-time", StatCat.crafting),
-            canBreak = new Stat("can-break", StatCat.function),
+            canEMP = new Stat("can-emp", StatCat.function),
             launchSector = new Stat("launch-sector", StatCat.function),
             itemsMovedBase = new Stat("itemsmoved-base", StatCat.items),
             itemsMovedBoost = new Stat("itemsmoved-boost", StatCat.optional),

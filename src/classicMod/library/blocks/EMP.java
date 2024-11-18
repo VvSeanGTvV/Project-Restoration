@@ -74,7 +74,8 @@ public class EMP extends Block {
     public Building getNearestEMP(Tile tile, Team team, float range){
         return Units.closestBuilding(team, tile.worldx(), tile.worldy(), range, b ->
                 b.isValid()
-                        && b instanceof EMPBuild
+                && b instanceof EMPBuild
+                && b != tile.build
         );
     }
 
@@ -122,10 +123,10 @@ public class EMP extends Block {
     public void setStats() {
         super.setStats();
         stats.add(Stat.range, range / Vars.tilesize, StatUnit.blocks);
-        stats.add(ExtendedStat.suppressedDuration, (cooldownTime - reEnable) / 60f, StatUnit.seconds);
+        stats.add(ExtendedStat.empDuration, (cooldownTime - reEnable) / 60f, StatUnit.seconds);
         stats.add(ExtendedStat.cooldown, cooldownTime / 60f, StatUnit.seconds);
 
-        stats.add(ExtendedStat.canBreak, table -> {
+        stats.add(ExtendedStat.canEMP, table -> {
             table.row();
             table.table(Styles.grayPanel, t -> {
                 for (var blocko : toDestroy) {
@@ -182,8 +183,14 @@ public class EMP extends Block {
         public void drawConfigure() {
             Drawf.dashCircle(x, y, range, team.color);
             Seq<Building> buildings = new Seq<>();
-            Building b = Units.findEnemyTile(team, x, y, range, building -> (building instanceof BaseShield.BaseShieldBuild && isValidTarget(building) && !disabled.contains(building)));
-            //Drawf.square(x, y, tile.block().size * tilesize / 2f + 1f + Mathf.absin(Time.time, 4f, 1f));
+            Building b = Units.findEnemyTile(team, x, y, range, building -> (building instanceof BaseShield.BaseShieldBuild && isValidTarget(building) && !buildings.contains(building)));
+            while (b != null){
+                buildings.add(b);
+                b = Units.findEnemyTile(team, x, y, range, building -> (building instanceof BaseShield.BaseShieldBuild && isValidTarget(building) && !buildings.contains(building)));
+            }
+            for (var build : buildings) {
+                if (build != null) Drawf.circles(build.x, build.y, build.block.size * tilesize / 2f + 1f + Mathf.absin(Time.time, 4f, 1f), Color.red);
+            }
 
             /*if (target != null) {
                 Drawf.square(target.x, target.y, target.hitSize * 0.8f, Color.green);
@@ -211,12 +218,15 @@ public class EMP extends Block {
 
             if (efficiency >= 1f) {
                 effect.at(this);
+                Sounds.spark.at(this);
                 if (nearToEMP(this)) {
-                    getNearestEMP(this, range * 2f).kill();
+                    var Building = getNearestEMP(this, range * 2f);
+                    if (Building != null) Building.kill();
                     kill();
                 }
                 Building b = Units.findEnemyTile(team, x, y, range, building -> (building instanceof BaseShield.BaseShieldBuild && isValidTarget(building) && !disabled.contains(building)));
                 if (b != null) {
+                    Sounds.spark.at(b);
                     breakEffect.at(b);
                     b.enabled = false;
 
