@@ -17,25 +17,25 @@ body:
         - Linux
     validations:
       required: true
-  - type: dropdown
-    id: mindustryType
-    attributes:
-      label: Mindustry
-      description: What version of Mindustry did you find this bug?
-      multiple: false
-      options:
-        - Release (v146)
-        - Bleeding Edge
+#  - type: dropdown
+#    id: mindustryType
+#    attributes:
+#      label: Mindustry
+#      description: What version of Mindustry did you find this bug?
+#      multiple: false
+#      options:
+#        - Release (v146)
+#        - Bleeding Edge
     validations:
       required: true
- # - type: input
- #   id: build
- #   attributes:
- #     label: Build
- #     description: The build number inside the mod (Settings -> Project Restoration)!
- #     placeholder: LATEST IS NOT BUILD OR NOR A VERSION!
- #   validations:
- #     required: true
+  - type: input
+    id: build
+    attributes:
+      label: Build
+      description: The build number inside the mod (Settings -> Project Restoration)!
+      placeholder: LATEST IS NOT BUILD OR NOR A VERSION!
+    validations:
+      required: true
   - type: textarea
     id: issue
     attributes:
