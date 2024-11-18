@@ -5,7 +5,7 @@ import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
-import arc.struct.Seq;
+import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
 import classicMod.content.ExtendedStat;
@@ -18,11 +18,13 @@ import mindustry.entities.bullet.BulletType;
 import mindustry.game.Team;
 import mindustry.gen.*;
 import mindustry.graphics.*;
-import mindustry.type.Item;
+import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.BaseShield;
+import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.blocks.production.Pump;
+import mindustry.world.consumers.*;
 import mindustry.world.meta.*;
 
 import java.util.Objects;
@@ -53,6 +55,7 @@ public class EMP extends Block {
     public float lightningLength = 5f, lightningLengthRand = 0;
 
     public float cooldownTime = 480, reEnable = 240;
+
 
     public TextureRegion top;
 
@@ -161,7 +164,7 @@ public class EMP extends Block {
 
         Seq<Building> disabled = new Seq<>();
         Seq<Vec2> IDXY = new Seq<>();
-        public float cooldownTimer = 0;
+        public float cooldownTimer = 0, coolantMultiplier = 1;
         public boolean cooling;
 
         public float fraction(){ return 1 - (cooldownTimer / cooldownTime); }
@@ -191,10 +194,6 @@ public class EMP extends Block {
             for (var build : buildings) {
                 if (build != null) Drawf.circles(build.x, build.y, build.block.size * tilesize / 2f + 1f + Mathf.absin(Time.time, 4f, 1f), Color.red);
             }
-
-            /*if (target != null) {
-                Drawf.square(target.x, target.y, target.hitSize * 0.8f, Color.green);
-            }*/
         }
 
         @Override
@@ -217,15 +216,16 @@ public class EMP extends Block {
             }
 
             if (efficiency >= 1f) {
-                effect.at(this);
-                Sounds.spark.at(this);
                 if (nearToEMP(this)) {
                     var Building = getNearestEMP(this, range * 2f);
                     if (Building != null) Building.kill();
                     kill();
                 }
-                Building b = Units.findEnemyTile(team, x, y, range, building -> (building instanceof BaseShield.BaseShieldBuild && isValidTarget(building) && !disabled.contains(building)));
+                Building b = Units.findEnemyTile(team, x, y, range, building -> (building instanceof BaseShield.BaseShieldBuild && isValidTarget(building) && !disabled.contains(building) && building.efficiency >= 1f));
                 if (b != null) {
+                    effect.at(this);
+                    Sounds.spark.at(this);
+
                     Sounds.spark.at(b);
                     breakEffect.at(b);
                     b.enabled = false;
@@ -242,8 +242,10 @@ public class EMP extends Block {
 
                     disabled.add(b);
                 } else {
-                    cooldownTimer = cooldownTime;
-                    consume();
+                    if (disabled.size > 0) {
+                        cooldownTimer = cooldownTime;
+                        consume();
+                    }
 
                     //damage(30f);
                     //selfKillEffect.at(this);
@@ -252,7 +254,7 @@ public class EMP extends Block {
             }
             if (cooldownTimer > 0) {
                 cooling = true;
-                cooldownTimer -= (1 * this.delta());
+                cooldownTimer -= ((1 * coolantMultiplier) * this.delta());
             } else {
                 cooling = false;
             }
