@@ -1,4 +1,4 @@
-name: Bug report
+name: Bug Report
 description: Bug reports are MEANT for bugs, not FEATURES!
 labels: ["bug"]
 
@@ -17,8 +17,7 @@ body:
         - Linux
     validations:
       required: true
-
-- type: dropdown
+  - type: dropdown
     id: mindustryType
     attributes:
       label: Mindustry
@@ -29,7 +28,6 @@ body:
         - Bleeding Edge
     validations:
       required: true
-
   - type: input
     id: build
     attributes:
