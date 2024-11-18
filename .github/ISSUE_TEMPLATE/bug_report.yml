@@ -7,7 +7,7 @@ body:
     id: platform
     attributes:
       label: Platforms
-      description: On what platforms do you know the bug happens?
+      description: What specific platform does this bug happen on?
       multiple: false
       options:
         - iOS
@@ -17,11 +17,24 @@ body:
         - Linux
     validations:
       required: true
+
+- type: dropdown
+    id: mindustryType
+    attributes:
+      label: Mindustry
+      description: What version of Mindustry did you find this bug?
+      multiple: false
+      options:
+        - Release (v146)
+        - Bleeding Edge
+    validations:
+      required: true
+
   - type: input
     id: build
     attributes:
       label: Build
-      description: The build number inside the mod!
+      description: The build number inside the mod (Settings -> Project Restoration)!
       placeholder: LATEST IS NOT BUILD OR NOR A VERSION!
     validations:
       required: true
@@ -36,14 +49,14 @@ body:
     id: reproduction
     attributes:
       label: Steps to reproduce
-      description: How you happened across the issue, and what exactly did you do to make the bug happen.
+      description: How did you come across the issue, and what exactly did you do to make the bug happen?
     validations:
       required: true
   - type: textarea
     id: logs
     attributes:
-      label: (Crash) logs
-      description: Either crash reports from the crash folder or the file you get when you go into Settings -> Game Data -> Export Crash logs.
+      label: (Crash) Logs (relative to the Mod)
+      description: Either crash reports from the crash folder (if possible) or the file you get when you go into Settings -> Game Data -> Export Crash logs.
       placeholder: REQUIRED if you are reporting a crash. This also helps me how to solve problems without relying on myself, UNLESS the steps to reproduce are explanatory enough and easy to reproduce the crash.
     validations:
       required: false
@@ -55,5 +68,4 @@ body:
       options:
         - label: I have updated to the latest release (https://github.com/VvSeanGTvV/Project-Restoration/releases) to make sure my issue has not been fixed and NOT in older versions.
           required: true
-        - label: I have searched the closed and open issues to make sure that this problem has not already been reported.
-          required: true
+        - label: I have searched for any closed and open issues that this problem has not already been reported.
