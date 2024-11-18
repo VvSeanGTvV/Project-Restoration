@@ -28,14 +28,14 @@ body:
         - Bleeding Edge
     validations:
       required: true
-  - type: input
-    id: build
-    attributes:
-      label: Build
-      description: The build number inside the mod (Settings -> Project Restoration)!
-      placeholder: LATEST IS NOT BUILD OR NOR A VERSION!
-    validations:
-      required: true
+ # - type: input
+ #   id: build
+ #   attributes:
+ #     label: Build
+ #     description: The build number inside the mod (Settings -> Project Restoration)!
+ #     placeholder: LATEST IS NOT BUILD OR NOR A VERSION!
+ #   validations:
+ #     required: true
   - type: textarea
     id: issue
     attributes:
@@ -67,3 +67,6 @@ body:
         - label: I have updated to the latest release (https://github.com/VvSeanGTvV/Project-Restoration/releases) to make sure my issue has not been fixed and NOT in older versions.
           required: true
         - label: I have searched for any closed and open issues that this problem has not already been reported.
+          required: true
+        - label: I had the bug happen in Mindustry Release (v146) and not in Bleeding Edge.
+          required: true
