@@ -1,5 +1,5 @@
 name: Bug report
-description: The type of device you were playing on
+description: Bug reports are MEANT for bugs, not FEATURES!
 labels: ["bug"]
 
 body:
@@ -10,9 +10,9 @@ body:
       description: On what platforms do you know the bug happens?
       multiple: false
       options:
-        - Android
         - iOS
         - Mac
+        - Android
         - Windows
         - Linux
     validations:
@@ -36,14 +36,14 @@ body:
     id: reproduction
     attributes:
       label: Steps to reproduce
-      description: How you happened across the issue, and what exactly you did to make the bug happen.
+      description: How you happened across the issue, and what exactly did you do to make the bug happen.
     validations:
       required: true
   - type: textarea
     id: logs
     attributes:
       label: (Crash) logs
-      description: Either crash reports from the crash folder, or the file you get when you go into Settings -> Game Data -> Export Crash logs.
+      description: Either crash reports from the crash folder or the file you get when you go into Settings -> Game Data -> Export Crash logs.
       placeholder: REQUIRED if you are reporting a crash. This also helps me how to solve problems without relying on myself, UNLESS the steps to reproduce are explanatory enough and easy to reproduce the crash.
     validations:
       required: false
