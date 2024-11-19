@@ -10,8 +10,6 @@ body:
       description: What specific platform does this bug happen on?
       multiple: false
       options:
-        - iOS
-        - Mac
         - Android
         - Windows
         - Linux
