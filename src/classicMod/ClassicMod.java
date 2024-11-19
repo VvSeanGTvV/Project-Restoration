@@ -235,6 +235,7 @@ public class ClassicMod extends Mod{
         new ClassicUnitTypes().load();
         new ClassicBlocks().load();
         new RestorationSectorPresents().load();
+        new RestorationPlanets().load();
 
         // Tech Tree and Finalize
         new ExtendedSerpuloTechTree().load();

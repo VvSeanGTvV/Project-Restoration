@@ -77,6 +77,8 @@ public class ClassicBlocks {
     insulatorWall, insulatorWallLarge, //Wall - Insulator - Testing-candidate [v6-dev]
     launchPadLarge, coreSilo, //Launchpad - Campaign only - Block [v6-dev]
 
+    yellowCoral, // Corals - Tantros
+
     dataProcessor, //Research Block - Campaign only - Block [v6-dev]
 
     thermalPump, //Pump - Old Content [v6]
@@ -101,6 +103,19 @@ public class ClassicBlocks {
     public void load() {
 
         //Enviroment
+        yellowCoral = new SeaBush("yellowcoral") {
+            {
+                this.lobesMin = 2;
+                this.lobesMax = 3;
+                this.magMax = 8.0F;
+                this.magMin = 2.0F;
+                this.origin = 0.3F;
+                this.spread = 40.0F;
+                this.sclMin = 60.0F;
+                this.sclMax = 100.0F;
+            }
+        };
+
         silverOre = new OreBlock(ClassicItems.silver);
         silverPlate = new Floor("silver-plating", 0);
 
