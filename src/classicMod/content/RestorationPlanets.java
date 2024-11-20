@@ -17,7 +17,7 @@ public class RestorationPlanets {
         tantros = new Planet("tantros", Planets.sun, 1f, 2){{
             alwaysUnlocked = true;
             generator = new TantrosPlanetGenerator();
-            meshLoader = () -> new HexMesh(this, 4);
+            meshLoader = () -> new HexMesh(this, 12);
             accessible = true;
             visible = true;
             atmosphereColor = Color.valueOf("3db899");
