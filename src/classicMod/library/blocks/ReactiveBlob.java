@@ -13,8 +13,8 @@ import mindustry.world.blocks.environment.Prop;
 
 public class ReactiveBlob extends Prop {
 
-    public float brightness = 0.9f;
-    public float radius = 200f;
+    public float brightness = 0.8f;
+    public float radius = 65f;
 
     public ReactiveBlob(String name) {
         super(name);
@@ -41,7 +41,7 @@ public class ReactiveBlob extends Prop {
 
         Draw.z(layer);
         Draw.rect(Core.atlas.find(name), x, y);
-        Draw.alpha(progress);
+        Draw.alpha(1f);
         Draw.rect(Core.atlas.find(name + "-glow"), x, y);
         Draw.alpha(0f);
         Draw.reset();
