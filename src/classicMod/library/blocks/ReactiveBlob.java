@@ -5,19 +5,27 @@ import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
 import arc.util.Log;
+import mindustry.content.Fx;
 import mindustry.entities.Units;
 import mindustry.gen.*;
 import mindustry.graphics.Drawf;
-import mindustry.world.Tile;
+import mindustry.world.*;
 import mindustry.world.blocks.environment.Prop;
 
-public class ReactiveBlob extends Prop {
+public class ReactiveBlob extends Block {
+    public float layer = 32.0F;
 
     public float brightness = 0.8f;
     public float radius = 65f;
 
     public ReactiveBlob(String name) {
         super(name);
+        breakable = true;
+        alwaysReplace = true;
+        instantDeconstruct = true;
+        breakEffect = Fx.breakProp;
+        breakSound = Sounds.rockBreak;
+        update = true;
     }
 
     @Override
@@ -26,24 +34,31 @@ public class ReactiveBlob extends Prop {
         clipSize = Math.max(clipSize, lightRadius * 3f);
         emitLight = true;
 
-        super.init();
+        //super.init();
     }
 
-    float progress = 0f;
-    float detection(float x, float y) {
-        return (Units.anyEntities(x, y, 40f, 40f, u -> !u.dead) ? 1f : 0f);
-    }
-    @Override
-    public void drawBase(Tile tile) {
-        float x = tile.worldx(), y = tile.worldy();
-        progress = Mathf.lerpDelta(progress, detection(x, y), 0.1f);
-        Drawf.light(x, y, lightRadius * progress, Color.cyan, brightness * progress);
+    public class ReactiveBlobBuild extends Building {
+        float progress = 0f;
 
-        Draw.z(layer);
-        Draw.rect(Core.atlas.find(name), x, y);
-        Draw.alpha(1f);
-        Draw.rect(Core.atlas.find(name + "-glow"), x, y);
-        Draw.alpha(0f);
-        Draw.reset();
+        float detection(float range) {
+            float midX = x - (range / 2f), midY = y - (range / 2f);
+            return (Units.anyEntities(midX, midY, range, range, u -> !u.dead) ? 1f : 0f);
+        }
+        @Override
+        public void update() {
+            super.update();
+            progress = Mathf.lerpDelta(progress, detection(lightRadius), 0.05f);
+            Drawf.light(x, y, lightRadius * progress, Color.cyan, brightness * progress);
+        }
+
+        @Override
+        public void draw() {
+            Draw.z(layer);
+            Draw.rect(Core.atlas.find(name), x, y);
+            Draw.alpha(progress);
+            Draw.rect(Core.atlas.find(name + "-glow"), x, y);
+            Draw.alpha(0f);
+            Draw.reset();
+        }
     }
 }
