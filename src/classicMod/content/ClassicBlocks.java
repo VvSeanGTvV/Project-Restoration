@@ -77,7 +77,7 @@ public class ClassicBlocks {
     insulatorWall, insulatorWallLarge, //Wall - Insulator - Testing-candidate [v6-dev]
     launchPadLarge, coreSilo, //Launchpad - Campaign only - Block [v6-dev]
 
-    yellowCoral, // Corals - Tantros
+    yellowCoral, glowBlob, // Enviroment - Tantros
 
     dataProcessor, //Research Block - Campaign only - Block [v6-dev]
 
@@ -115,6 +115,10 @@ public class ClassicBlocks {
                 this.sclMax = 100.0F;
             }
         };
+
+        glowBlob = new ReactiveBlob("glow-blob"){{
+
+        }};
 
         silverOre = new OreBlock(ClassicItems.silver);
         silverPlate = new Floor("silver-plating", 0);

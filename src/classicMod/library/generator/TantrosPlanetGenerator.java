@@ -24,7 +24,7 @@ public class TantrosPlanetGenerator extends PlanetGenerator {
     Block[][] arr;
 
     public TantrosPlanetGenerator() {
-        this.arr = new Block[][]{{Blocks.redmat, Blocks.redmat, Blocks.darksand, Blocks.bluemat, Blocks.bluemat}};
+        this.arr = new Block[][]{{Blocks.redmat, Blocks.bluemat, Blocks.darksand, Blocks.bluemat, Blocks.redmat}};
         this.baseSeed = 1;
     }
 
@@ -60,6 +60,9 @@ public class TantrosPlanetGenerator extends PlanetGenerator {
         if (tile.floor == Blocks.bluemat && this.rand.chance(0.002)) {
             tile.block = ClassicBlocks.yellowCoral;
         }
+        if (tile.floor == Blocks.darksand && this.rand.chance(0.002)) {
+            tile.block = ClassicBlocks.glowBlob;
+        }
 
     }
 
@@ -78,7 +81,7 @@ public class TantrosPlanetGenerator extends PlanetGenerator {
                 this.block = this.floor.asFloor().wall;
             }
 
-            if ((double)this.noise((float)x, (float)y, 40.0, 1.0) > 0.9) {
+            if ((double)this.noise((float)x, (float)y, 50.0, 1.0) > 0.9) {
             }
 
         });
