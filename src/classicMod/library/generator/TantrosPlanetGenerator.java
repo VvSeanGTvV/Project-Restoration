@@ -24,7 +24,7 @@ public class TantrosPlanetGenerator extends PlanetGenerator {
     Block[][] arr;
 
     public TantrosPlanetGenerator() {
-        this.arr = new Block[][]{{Blocks.redmat, Blocks.bluemat, Blocks.darksand, Blocks.bluemat, Blocks.redmat}};
+        this.arr = new Block[][]{{Blocks.redmat, Blocks.redmat, Blocks.darksand, Blocks.bluemat, Blocks.bluemat}};
         this.baseSeed = 1;
     }
 
