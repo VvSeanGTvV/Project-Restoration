@@ -20,8 +20,7 @@ public class ExtendedSerpuloTechTree {
         // Sector
         margeNode(frozenForest, () -> {
             node(RestorationSectorPresents.silverCrags, Seq.with(
-                    new SectorComplete(frozenForest),
-                    new Research(Items.titanium)
+                    new SectorComplete(frozenForest)
             ));
         });
 
