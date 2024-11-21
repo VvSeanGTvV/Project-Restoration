@@ -58,8 +58,12 @@ public class TantrosPlanetGenerator extends PlanetGenerator {
         }
 
         if (tile.floor == Blocks.bluemat && this.rand.chance(0.002)) {
-            tile.block = ClassicBlocks.yellowCoral;
+            tile.block = Blocks.yellowCoral;
         }
+        if (tile.floor == Blocks.redmat && this.rand.chance(0.001)) {
+            tile.block = Blocks.yellowCoral;
+        }
+
         if (tile.floor == Blocks.darksand && this.rand.chance(0.002)) {
             tile.block = ClassicBlocks.glowBlob;
         }

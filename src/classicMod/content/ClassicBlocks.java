@@ -103,7 +103,7 @@ public class ClassicBlocks {
     public void load() {
 
         //Enviroment
-        yellowCoral = new SeaBush("yellowcoral") {
+        /*yellowCoral = new SeaBush("yellowcoral") {
             {
                 this.lobesMin = 2;
                 this.lobesMax = 3;
@@ -114,7 +114,7 @@ public class ClassicBlocks {
                 this.sclMin = 60.0F;
                 this.sclMax = 100.0F;
             }
-        };
+        };*/
 
         glowBlob = new ReactiveBlob("glow-blob"){{
             variants = 3;

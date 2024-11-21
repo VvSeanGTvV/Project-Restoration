@@ -18,6 +18,7 @@ if %stage%==2 goto executeMindustry
 
 :buildJar
 echo > :buildJar Started
+title [Gradlew]
 start /wait /b gradlew jar
 set stage=1
 set builded=1

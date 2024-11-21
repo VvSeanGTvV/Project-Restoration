@@ -13,6 +13,7 @@ body:
         - Android
         - Windows
         - Linux
+        - Mac
     validations:
       required: true
 #  - type: dropdown
