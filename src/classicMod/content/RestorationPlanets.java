@@ -4,7 +4,7 @@ import arc.graphics.Color;
 import classicMod.library.generator.TantrosPlanetGenerator;
 import mindustry.content.Planets;
 import mindustry.game.Team;
-import mindustry.graphics.g3d.HexMesh;
+import mindustry.graphics.g3d.*;
 import mindustry.type.Planet;
 import mindustry.world.meta.Env;
 
@@ -17,7 +17,13 @@ public class RestorationPlanets {
         tantros = new Planet("tantros", Planets.sun, 1f, 2){{
             alwaysUnlocked = true;
             generator = new TantrosPlanetGenerator();
-            meshLoader = () -> new HexMesh(this, 12);
+            meshLoader = () -> new HexMesh(this, 5);
+            cloudMeshLoader = () -> new MultiMesh(
+                    //new HexSkyMesh(this, 3, 0.13f, 0.011f, 5, Color.valueOf("c4ebed").a(0.75f), 2, 0.18f, 1.2f, 0.3f),
+                    //new HexSkyMesh(this, 5, 0.7f, 0.005f, 5, Color.valueOf("edfeff").a(0.65f), 3, 0.12f, 1.5f, 0.32f),
+                    new HexSkyMesh(this, 8, 0.3f, 0.002f, 5, Color.valueOf("7690de").a(0.55f), 2, 0.08f, 2f, 0.35f)
+            );
+
             accessible = true;
             visible = true;
             atmosphereColor = Color.valueOf("3db899");

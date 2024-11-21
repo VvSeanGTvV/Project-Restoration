@@ -117,7 +117,7 @@ public class ClassicBlocks {
         };
 
         glowBlob = new ReactiveBlob("glow-blob"){{
-
+            variants = 3;
         }};
 
         silverOre = new OreBlock(ClassicItems.silver);

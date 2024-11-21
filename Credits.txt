@@ -8,4 +8,4 @@ BasedUser#2215 - for some of the Resprited Sprites.
 Mythril#0197 - for the Idea of v7 development block.
 EyeOfDarkness#0350 - Advanced Content Mod (permission accepted)
 Anuke#4986 - Example Mod
-
+twcash - Aquarion's Tantros Planet Gen
