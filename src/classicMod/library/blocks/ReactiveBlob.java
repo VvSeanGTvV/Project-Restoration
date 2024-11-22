@@ -65,7 +65,6 @@ public class ReactiveBlob extends Block {
         }
         @Override
         public void update() {
-            super.update();
             progress = Mathf.lerpDelta(progress, detection(lightRadius), 0.05f);
         }
 

@@ -37,7 +37,7 @@ public class TantrosPlanetGenerator extends PlanetGenerator {
 
     public Color getColor(Vec3 position) {
         boolean light = skip(seed, position, 2, 0.08f, 1.75f, 0.25f); //Simplex.noise3d(seed, 2.0, 0.08f, 1.75f, position.x, position.y, position.z) >= 0.25f;
-        boolean deep = skip(seed, position, 2, 0.08f, 1.75f, 0.35f);
+        boolean deep = skip(seed, position, 2, 0.08f, 1.75f, 0.45f);
         //boolean skip = Simplex.noise3d(seed, 2.0, 0.08f, 1.75f, position.x, position.y, position.z) >= 0.25f;
         return (light && !deep) ? lightOcean : (deep) ? deepOcean : ocean;
         //float depth = Simplex.noise3d(this.seed, 2.0, 0.56, 1.7000000476837158, position.x, position.y, position.z) / 2.0F;

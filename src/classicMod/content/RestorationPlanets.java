@@ -15,13 +15,14 @@ public class RestorationPlanets {
 
     public static void load(){
         tantros = new Planet("tantros", Planets.sun, 1f, 2){{
+            int division = 6;
             alwaysUnlocked = true;
             generator = new TantrosPlanetGenerator();
-            meshLoader = () -> new HexMesh(this, 5);
+            meshLoader = () -> new HexMesh(this, division);
             cloudMeshLoader = () -> new MultiMesh(
                     //new HexSkyMesh(this, 3, 0.13f, 0.011f, 5, Color.valueOf("c4ebed").a(0.75f), 2, 0.18f, 1.2f, 0.3f),
                     //new HexSkyMesh(this, 5, 0.7f, 0.005f, 5, Color.valueOf("edfeff").a(0.65f), 3, 0.12f, 1.5f, 0.32f),
-                    new HexSkyMesh(this, 8, 0.3f, 0.11f, 5, Color.valueOf("6babf9").a(0.55f), 2, 0.08f, 1.75f, 0.265f)
+                    new HexSkyMesh(this, 8, 0.3f, 0.11f, division, Color.valueOf("6babf9").a(0.55f), 2, 0.08f, 1.75f, 0.265f)
             );
             accessible = true;
             visible = true;
