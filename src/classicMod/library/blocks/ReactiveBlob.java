@@ -66,13 +66,14 @@ public class ReactiveBlob extends Block {
         @Override
         public void update() {
             super.update();
-            if (variants > 0) variant = Mathf.randomSeed(tile.pos(), 0, Math.max(0, variantRegions.length - 1));
             progress = Mathf.lerpDelta(progress, detection(lightRadius), 0.05f);
-            Drawf.light(x, y, lightRadius * progress, Color.cyan, brightness * progress);
         }
 
         @Override
         public void draw() {
+            if (variants > 0) variant = Mathf.randomSeed(tile.pos(), 0, Math.max(0, variantRegions.length - 1));
+            Drawf.light(x, y, lightRadius * progress, Color.cyan, brightness * progress);
+
             TextureRegion origin = Core.atlas.find(name);
             if (variants > 0) origin = variantRegions[variant];
             Draw.z(layer);

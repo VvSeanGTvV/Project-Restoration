@@ -2,30 +2,26 @@ package classicMod.library.generator;
 
 import arc.graphics.Color;
 import arc.math.Mathf;
-import arc.math.geom.Geometry;
-import arc.math.geom.Point2;
-import arc.math.geom.Vec3;
+import arc.math.geom.*;
 import arc.util.Tmp;
 import arc.util.noise.Simplex;
 import classicMod.content.ClassicBlocks;
 import mindustry.Vars;
-import mindustry.content.Blocks;
-import mindustry.game.Rules;
-import mindustry.game.Schematics;
+import mindustry.content.*;
+import mindustry.game.*;
 import mindustry.maps.generators.PlanetGenerator;
-import mindustry.type.Sector;
-import mindustry.world.Block;
-import mindustry.world.TileGen;
+import mindustry.type.*;
+import mindustry.world.*;
 
 public class TantrosPlanetGenerator extends PlanetGenerator {
-    Color c1 = Color.valueOf("5057a6");
-    Color c2 = Color.valueOf("272766");
+    Color c1 = Color.valueOf("5057a6"), c2 = Color.valueOf("272766");
+    Color deepOcean = Color.valueOf("414891"), lightOcean = Color.valueOf("656cad"), ocean = Color.valueOf("5057a6");
     Color out = new Color();
     Block[][] arr;
 
     public TantrosPlanetGenerator() {
-        this.arr = new Block[][]{{Blocks.redmat, Blocks.redmat, Blocks.darksand, Blocks.bluemat, Blocks.bluemat}};
-        this.baseSeed = 1;
+        arr = new Block[][]{{Blocks.redmat, Blocks.redmat, Blocks.darksand, Blocks.bluemat, Blocks.bluemat}};
+        baseSeed = 1;
     }
 
     public void generateSector(Sector sector) {
@@ -35,9 +31,17 @@ public class TantrosPlanetGenerator extends PlanetGenerator {
         return 0.0F;
     }
 
+    public boolean skip(int seed, Vec3 position, int octaves, float persistence, float scale, float threshold){
+        return Simplex.noise3d(seed, octaves, persistence, scale, position.x, position.y, position.z) >= threshold;
+    }
+
     public Color getColor(Vec3 position) {
-        float depth = Simplex.noise3d(this.seed, 2.0, 0.56, 1.7000000476837158, (double)position.x, (double)position.y, (double)position.z) / 2.0F;
-        return this.c1.write(this.out).lerp(this.c2, Mathf.clamp(Mathf.round(depth, 0.15F))).a(0.2F);
+        boolean light = skip(seed, position, 2, 0.08f, 1.75f, 0.25f); //Simplex.noise3d(seed, 2.0, 0.08f, 1.75f, position.x, position.y, position.z) >= 0.25f;
+        boolean deep = skip(seed, position, 2, 0.08f, 1.75f, 0.35f);
+        //boolean skip = Simplex.noise3d(seed, 2.0, 0.08f, 1.75f, position.x, position.y, position.z) >= 0.25f;
+        return (light && !deep) ? lightOcean : (deep) ? deepOcean : ocean;
+        //float depth = Simplex.noise3d(this.seed, 2.0, 0.56, 1.7000000476837158, position.x, position.y, position.z) / 2.0F;
+        //return this.c1.write(this.out).lerp(this.c2, Mathf.clamp(Mathf.round(depth, 0.15F))).a(0.2F);
     }
 
     public float getSizeScl() {
@@ -45,10 +49,11 @@ public class TantrosPlanetGenerator extends PlanetGenerator {
     }
 
     public void addWeather(Sector sector, Rules rules) {
+        rules.weather.add(new Weather.WeatherEntry(Weathers.suspendParticles)).peek().always = true;
     }
 
     public void genTile(Vec3 position, TileGen tile) {
-        tile.floor = this.getBlock(position);
+        tile.floor = getBlock(position);
         if (tile.floor == Blocks.redmat && this.rand.chance(0.1)) {
             tile.block = Blocks.redweed;
         }
@@ -82,28 +87,28 @@ public class TantrosPlanetGenerator extends PlanetGenerator {
             }
 
             if (max > 0.0F) {
-                this.block = this.floor.asFloor().wall;
+                block = floor.asFloor().wall;
             }
 
-            if ((double)this.noise((float)x, (float)y, 50.0, 1.0) > 0.9) {
+            if ((double)noise((float)x, (float)y, 50.0, 1.0) > 0.9) {
             }
 
         });
-        Schematics.placeLaunchLoadout(this.width / 2, this.height / 2);
+        Schematics.placeLaunchLoadout(width / 2, height / 2);
     }
 
     float rawHeight(Vec3 position) {
-        return Simplex.noise3d(this.seed, 8.0, 0.699999988079071, 1.0, (double)position.x, (double)position.y, (double)position.z);
+        return Simplex.noise3d(seed, 8.0, 0.699999988079071, 1.0, position.x, position.y, position.z);
     }
 
     Block getBlock(Vec3 position) {
         float height = this.rawHeight(position);
         Tmp.v31.set(position);
         position = Tmp.v33.set(position).scl(2.0F);
-        float temp = Simplex.noise3d(this.seed, 8.0, 0.6, 0.5, (double)position.x, (double)(position.y + 99.0F), (double)position.z);
+        float temp = Simplex.noise3d(seed, 8.0, 0.6, 0.5, position.x, position.y + 99.0F, position.z);
         height *= 1.2F;
         height = Mathf.clamp(height);
-        return this.arr[Mathf.clamp((int)(temp * (float)this.arr.length), 0, this.arr[0].length - 1)][Mathf.clamp((int)(height * (float)this.arr[0].length), 0, this.arr[0].length - 1)];
+        return arr[Mathf.clamp((int)(temp * (float)arr.length), 0, arr[0].length - 1)][Mathf.clamp((int)(height * (float)arr[0].length), 0, arr[0].length - 1)];
     }
 }
 
