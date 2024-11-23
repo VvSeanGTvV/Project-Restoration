@@ -78,7 +78,7 @@ public class GlassJunction extends Block {
         @Override
         public boolean acceptItem(Building source, Item item) {
             int relative = source.relativeTo(this.tile);
-            if (relative != -1 && itemPositions.size < capacity){
+            if (relative != -1){
                 Building to = this.nearby(relative);
                 return to != null && to.team == this.team && to.acceptItem(this, item);
             } else {
