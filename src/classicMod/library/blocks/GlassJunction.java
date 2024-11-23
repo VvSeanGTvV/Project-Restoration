@@ -1,20 +1,22 @@
 package classicMod.library.blocks;
 
 import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.*;
 import arc.math.Mathf;
-import arc.math.geom.Geometry;
+import arc.math.geom.*;
 import arc.struct.Seq;
 import arc.util.*;
 import mindustry.gen.*;
 import mindustry.graphics.Layer;
 import mindustry.type.Item;
 import mindustry.world.*;
+import mindustry.world.blocks.distribution.Junction;
 
 import static mindustry.Vars.*;
 
 public class GlassJunction extends Block {
     public float speed = 5.0F;
+    public int capacity = 6;
     public Color transparentColor = new Color(0.4F, 0.4F, 0.4F, 0.1F);
 
     public GlassJunction(String name) {
@@ -32,32 +34,53 @@ public class GlassJunction extends Block {
     }
 
     public class GlassJunctionBuild extends Building {
-        public Seq<itemPosition> itemPositions = new Seq<>(6);
+        public Seq<itemPosition> itemPositions;
+
+        public GlassJunctionBuild() {
+            itemPositions = new Seq<>(capacity);
+        }
 
         @Override
         public void updateTile() {
-            for(var itemPos : itemPositions){
-                float progress = itemPos.progress;
-                progress += (this.delta() / speed * 2.15f);
-                itemPos.updateProgress(progress);
-                if (progress >= 2.05f){
-                    Item item = itemPos.item;
+            for(int i = 0; i < 4; ++i) {
+                if (i < itemPositions.size && itemPositions.get(i) != null) {
+                    itemPosition itemPos = itemPositions.get(i);
+                    float progress = itemPos.progress;
+
                     Building dest = this.nearby(itemPos.rotation);
-                    if (item != null && dest != null && dest.acceptItem(this, item) && dest.team == this.team) {
-                        dest.handleItem(this, item);
-                        itemPositions.remove(itemPos);
+                    if (dest != null) progress += (this.delta() / speed * 2f);
+
+                    itemPos.updateProgress(progress);
+                    if (progress * 1.15f >= 2f){
+                        Item item = itemPos.item;
+
+                        if (item != null && dest != null && dest.acceptItem(this, item) && dest.team == this.team) {
+                            dest.handleItem(this, item);
+                            itemPositions.remove(itemPos);
+                        } else {
+                            if (dest == null) itemPos.updateProgress(0);
+                        }
                     }
                 }
             }
         }
 
+        public int acceptStack(Item item, int amount, Teamc source) {
+            return 0;
+        }
+
+        @Override
+        public void handleItem(Building source, Item item) {
+            int relative = source.relativeTo(this.tile);
+            if (relative != -1) itemPositions.add(new itemPosition(item, relative, 0f));
+        }
+
         @Override
         public boolean acceptItem(Building source, Item item) {
             int relative = source.relativeTo(this.tile);
-            if (relative != -1 && itemPositions.size < 6){
+            if (relative != -1 && itemPositions.size < capacity){
                 Building to = this.nearby(relative);
-                itemPositions.add(new itemPosition(item, relative, 0f));
-                return to != null && to.team == this.team;
+                return to != null && to.team == this.team && to.acceptItem(this, item);
             } else {
                 return false;
             }
@@ -76,9 +99,10 @@ public class GlassJunction extends Block {
                 Item current = itemPos.item;
                 Tmp.v1.set(Geometry.d4x(recDir) * tilesize / 2f, Geometry.d4y(recDir) * tilesize / 2f)
                         .lerp(Geometry.d4x(r) * tilesize / 2f, Geometry.d4y(r) * tilesize / 2f,
-                                Mathf.clamp((progress - 0.05f) / 2f));
+                                Mathf.clamp((progress * 1.15f) / 2f));
+                Tmp.v2.set(Geometry.d4x(r), Geometry.d4y(r)).lerp(Vec2.ZERO, Mathf.clamp((progress - 0.05f) / 2f));
 
-                Draw.rect(current.fullIcon, x + Tmp.v1.x, y + Tmp.v1.y, itemSize, itemSize);
+                Draw.rect(current.fullIcon, x + Tmp.v1.x - Tmp.v2.x, y + Tmp.v1.y - Tmp.v2.y, itemSize, itemSize);
             }
 
             Draw.z(Layer.blockUnder + 0.2f);
