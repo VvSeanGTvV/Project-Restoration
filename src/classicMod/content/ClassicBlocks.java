@@ -96,7 +96,9 @@ public class ClassicBlocks {
 
     fracture, horde, chrome, tinyBreach, //Turrets - Erekir - Prototype [v7-dev]
 
-    interplanetaryAccelerator //Endgame - Mindustry
+    interplanetaryAccelerator, //Endgame - Mindustry
+
+    ductJunction //Erekir - Prototype [v8-dev]
     ;
 
 
@@ -807,6 +809,11 @@ public class ClassicBlocks {
             researchCost = with(Items.beryllium, 5, Items.surgeAlloy, 5);
         }};
 
+        electrumConveyor = new Conveyor("electrum-conveyor"){{
+            requirements(Category.distribution, with(Items.titanium, 3, ClassicItems.electrum, 3, Items.lead, 3, Items.graphite, 3));
+            speed = 0.12f;
+        }};
+
         laserConveyor = new InstantBridge("laser-conveyor"){{
             requirements(Category.distribution, with(Items.phaseFabric, 5, ClassicItems.electrum, 4, Items.silicon, 10, Items.graphite, 10));
             range = 18;
@@ -818,12 +825,6 @@ public class ClassicBlocks {
             consumePower(24f/60f);
         }};
 
-        //Transportation
-        electrumConveyor = new Conveyor("electrum-conveyor"){{
-            requirements(Category.distribution, with(Items.titanium, 3, ClassicItems.electrum, 3, Items.lead, 3, Items.graphite, 3));
-            speed = 0.12f;
-        }};
-
         warpGate = new WarpGate("warp-gate"){{
             requirements(Category.distribution, with(Items.titanium, 125, ClassicItems.dirium, 40, Items.silicon, 80, Items.thorium, 50));
             size = 3;
@@ -831,8 +832,11 @@ public class ClassicBlocks {
             powerUse = 1.825f;
         }};
 
-        // Drills
+        ductJunction = new GlassJunction("duct-junction"){{
+            requirements(Category.distribution, with(Items.beryllium, 1));
+        }};
 
+        // Drills
         electrumDrill = new Drill("electrum-drill"){{
             requirements(Category.production, with(ClassicItems.electrum, 80, Items.silicon, 40, Items.graphite, 20));
             drillTime = 250;
