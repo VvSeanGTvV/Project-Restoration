@@ -5,6 +5,7 @@ import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
+import arc.scene.ui.*;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
 import arc.util.Log;
@@ -47,18 +48,32 @@ public class LegacyCommandCenter extends Block {
         public Seq<Unit> targetsModern = new Seq<>();
         public Seq<LegacyCommandCenterBuild> CommandCenterArea = new Seq<>();
         public float blockID;
+        protected int select = 0;
 
         @Override
         public void buildConfiguration(Table table) {
             if (blockID == 0f) blockID = Mathf.randomSeed(this.id) * 120;
-            Table buttons = new Table();
+            final ButtonGroup<Button> group = new ButtonGroup<>();
+            group.setMinCheckCount(0);
+            ImageButton attack = table.button(Icon.commandAttack, Styles.cleari, () -> {
+                //UpdateCommand(RallyAI.UnitState.attack, "attack");
+            }).get();
+
+            ImageButton rally = table.button(Icon.commandRally, Styles.cleari, () -> {
+                //UpdateCommand(RallyAI.UnitState.attack, "attack");
+            }).get();
+
+            attack.changed(() -> configure(1));
+            rally.changed(() -> configure(2));
+
+            /*Table buttons = new Table();
             buttons.button(Icon.commandAttack, Styles.cleari, () -> {
                 UpdateCommand(RallyAI.UnitState.attack, "attack");
             });
             buttons.button(Icon.commandRally, Styles.cleari, () -> {
                 UpdateCommand(RallyAI.UnitState.rally, "rally");
             });
-            table.add(buttons);
+            table.add(buttons);*/
         }
 
         @Override
@@ -73,9 +88,22 @@ public class LegacyCommandCenter extends Block {
             Building building = null;
             if (buildingSeq.size >= 1) building = buildingSeq.get(0);
             if (building != null && building instanceof LegacyCommandCenterBuild f) closestBuild = f;
-            if (closestBuild != null) CommandSelect = closestBuild.CommandSelect; else CommandSelect = "attack";
+            if (closestBuild != null) CommandSelect = closestBuild.CommandSelect; else {
+                select = 1;
+                CommandSelect = "attack";
+            }
 
             super.created();
+        }
+
+        @Override
+        public Integer config() {
+            return select;
+        }
+
+        @Override
+        public void configured(Unit builder, Object value) {
+            if (select != 0) UpdateCommand(RallyAI.UnitState.all[select], RallyAI.UnitState.allString[select]);
         }
 
         @Override
@@ -183,7 +211,7 @@ public class LegacyCommandCenter extends Block {
 
         @Override
         public byte version() {
-            return 1;
+            return 2;
         }
 
         @Override
@@ -191,15 +219,18 @@ public class LegacyCommandCenter extends Block {
             super.write(write);
             write.str(CommandSelect);
             write.f(blockID);
+
+            write.i(select);
             //write.b((byte) PublicState.ordinal());
         }
 
         @Override
         public void read(Reads read, byte revision) {
             super.read(read, revision);
-            if (revision == 1) { // for Build 12
+            if (revision == 1 || revision == 2) { // for Build 12
                 CommandSelect = read.str();
                 blockID = read.f();
+                if (revision == 2) select = read.i();
             }
             if (revision == 0) { // for Build 9 - Build 11
                 CommandSelect = read.str();
