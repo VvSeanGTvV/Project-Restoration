@@ -1,8 +1,6 @@
 package classicMod.content;
 
 import mindustry.content.*;
-import mindustry.type.PayloadStack;
-import mindustry.world.blocks.units.UnitAssembler;
 
 public class OverridableContent {
 
