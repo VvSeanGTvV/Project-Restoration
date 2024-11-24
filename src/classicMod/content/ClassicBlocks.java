@@ -36,7 +36,6 @@ import mindustry.world.meta.*;
 import static classicMod.content.ClassicBullets.*;
 import static classicMod.content.ClassicSounds.*;
 import static classicMod.content.ClassicUnitTypes.*;
-import static classicMod.content.ClassicVars.empty;
 import static mindustry.content.Blocks.coreBastion;
 import static mindustry.type.ItemStack.with;
 
@@ -832,7 +831,7 @@ public class ClassicBlocks {
             powerUse = 1.825f;
         }};
 
-        ductJunction = new GlassJunction("duct-junction"){{
+        ductJunction = new DuctJunction("duct-junction"){{
             requirements(Category.distribution, with(Items.beryllium, 1));
         }};
 

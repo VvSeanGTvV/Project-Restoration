@@ -16,12 +16,12 @@ import mindustry.world.Block;
 
 import static mindustry.Vars.*;
 
-public class GlassJunction extends Block {
+public class DuctJunction extends Block {
     public float speed = 5.0F;
     public int capacity = 6;
     public Color transparentColor = new Color(0.4F, 0.4F, 0.4F, 0.1F);
 
-    public GlassJunction(String name) {
+    public DuctJunction(String name) {
         super(name);
 
         hasItems = true;
@@ -50,16 +50,16 @@ public class GlassJunction extends Block {
         Draw.rect(name, plan.drawx(), plan.drawy(), (float)(plan.rotation * 90));
     }
 
-    public class GlassJunctionBuild extends Building {
+    public class DuctJunctionBuild extends Building {
         public Seq<itemPosition> itemPositions;
 
-        public GlassJunctionBuild() {
+        public DuctJunctionBuild() {
             itemPositions = new Seq<>(capacity);
         }
 
         @Override
         public void updateTile() {
-            for(int i = 0; i < 4; ++i) {
+            for(int i = 0; i < capacity; ++i) {
                 if (i < itemPositions.size && itemPositions.get(i) != null) {
                     itemPosition itemPos = itemPositions.get(i);
                     float progress = itemPos.progress;
@@ -104,7 +104,7 @@ public class GlassJunction extends Block {
         @Override
         public boolean acceptItem(Building source, Item item) {
             int relative = source.relativeTo(this.tile);
-            if (relative != -1 && accepts(relative, 2)){
+            if (relative != -1 && accepts(relative, capacity)){
                 Building to = nearby(relative);
                 return to != null && to.team == this.team;
             } else {
@@ -129,7 +129,6 @@ public class GlassJunction extends Block {
                 Tmp.v2.set(Geometry.d4x(r), Geometry.d4y(r)).lerp(Vec2.ZERO, Mathf.clamp((progress + 1f) / 2f));
 
                 Draw.rect(current.fullIcon, x + Tmp.v1.x - Tmp.v2.x, y + Tmp.v1.y - Tmp.v2.y, itemSize, itemSize);
-                //Draw.rect(current.fullIcon, x + Tmp.v1.x, y + Tmp.v1.y, itemSize, itemSize);
             }
 
             Draw.z(Layer.blockUnder + 0.2f);

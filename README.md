@@ -1,7 +1,7 @@
 <p align="center">
   <img width="570" height="90" src="assets/sprites-override/ui/logo.png"> </p>
 <p align="center"> Much more advance scripting, and more classic buildings. sup </p>
-<p align="center"><strong> v4.0 Update </strong></p>
+<p align="center"><strong> v4.0 </strong></p>
 
 
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/VvSeanGTvV/Project-Restoration/commitTest.yml?label=Build%20Status%3A%20&style=for-the-badge)
@@ -33,11 +33,11 @@ v7 Units
 
 ## --- In Progress ---
 
-nothin ;)
+v8 Neoplasia
 
 ## --- Future Contents ---
 
-Tantros Update (MMMAYBE)
+v8 Neoplasia
 
 ## --- Credits ---
 
