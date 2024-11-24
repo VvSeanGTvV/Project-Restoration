@@ -4,7 +4,12 @@
 <p align="center"><strong> v4.0 </strong></p>
 
 
+![GitHub Release](https://img.shields.io/github/v/release/VvSeanGTvV/Project-Restoration?display_name=tag&style=for-the-badge&label=Latest%20Build)
+![GitHub Downloads (all assets, latest release)](https://img.shields.io/github/downloads/VvSeanGTvV/Project-Restoration/latest/total?style=for-the-badge&label=Latest%20Build%20Downloads)
+
+![GitHub last commit](https://img.shields.io/github/last-commit/VvSeanGTvV/Project-Restoration?style=for-the-badge)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/VvSeanGTvV/Project-Restoration/commitTest.yml?label=Build%20Status%3A%20&style=for-the-badge)
+
 ## --- Additional Notes ---
 
 _still in beta. (who knows when it'll end)_
