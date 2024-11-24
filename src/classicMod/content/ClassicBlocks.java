@@ -833,6 +833,11 @@ public class ClassicBlocks {
 
         ductJunction = new DuctJunction("duct-junction"){{
             requirements(Category.distribution, with(Items.beryllium, 2));
+
+            health = 75;
+            speed = 4.0F;
+
+            researchCost = ItemStack.with(Items.beryllium, 10);
         }};
 
         // Drills

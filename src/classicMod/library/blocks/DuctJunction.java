@@ -51,10 +51,11 @@ public class DuctJunction extends Block {
     }
 
     public class DuctJunctionBuild extends Building {
-        public Seq<itemData> itemDataSeq;
+        public Seq<itemData> itemDataSeq = new Seq<>(capacity);
 
-        public DuctJunctionBuild() {
-            itemDataSeq = new Seq<>(capacity);
+        boolean validBuilding(Building dest, Item item){
+            if (item == null) return false;
+            return dest.acceptItem(this, item) && dest.team == this.team;
         }
 
         @Override
@@ -67,17 +68,15 @@ public class DuctJunction extends Block {
                     Building dest = nearby(data.rotation);
                     progress += edelta() / (speed + 0.05f) * 2f;
 
-                    data.updateProgress(progress);
+                    data.updateProgress((dest == null) ? 0f : progress);
                     if (dest != null){
                         if (progress >= 2f - 1F) {
                             Item item = data.item;
-                            if (item != null && dest.acceptItem(this, item) && dest.team == this.team) {
+                            if (item != null && validBuilding(dest, item)) {
                                 dest.handleItem(this, item);
                                 itemDataSeq.remove(data);
                             }
                         }
-                    } else {
-                        data.updateProgress(0);
                     }
                 }
             }
@@ -90,7 +89,7 @@ public class DuctJunction extends Block {
         @Override
         public void handleItem(Building source, Item item) {
             int relative = source.relativeTo(this.tile);
-            if (relative != -1) itemDataSeq.add(new itemData(item, relative, -1f));
+            if (relative != -1) itemDataSeq.add(new itemData(item, relative));
         }
 
         boolean accepts(int dir, int maximum){
@@ -106,7 +105,7 @@ public class DuctJunction extends Block {
             int relative = source.relativeTo(this.tile);
             if (relative != -1 && accepts(relative, capacity)){
                 Building to = nearby(relative);
-                return to != null && to.team == this.team;
+                return to != null && to.team == this.team && to.acceptItem(this, item);
             } else {
                 return false;
             }
@@ -138,7 +137,7 @@ public class DuctJunction extends Block {
                 Tmp.v1.set(Geometry.d4x(recDir) * tilesize / 2f, Geometry.d4y(recDir) * tilesize / 2f)
                         .lerp(Geometry.d4x(r) * tilesize / 2f, Geometry.d4y(r) * tilesize / 2f,
                                 Mathf.clamp((progress + 1f) / 2f));
-                Tmp.v2.set(Geometry.d4x(r), Geometry.d4y(r)).lerp(Vec2.ZERO, Mathf.clamp((progress + 1f) / 2f));
+                Tmp.v2.set(Geometry.d4x(r) * 0.95f, Geometry.d4y(r) * 0.95f).lerp(Vec2.ZERO, Mathf.clamp((progress + 1f) / 2f));
 
                 Draw.rect(current.fullIcon, x + Tmp.v1.x - Tmp.v2.x, y + Tmp.v1.y - Tmp.v2.y, itemSize, itemSize);
             }
@@ -169,6 +168,7 @@ public class DuctJunction extends Block {
                 float progress = read.f();
                 itemDataSeq.add(new itemData(item, r, progress));
             }
+            updateTile();
         }
 
         public class itemData {
@@ -184,7 +184,7 @@ public class DuctJunction extends Block {
 
             public itemData(Item item, int rotation){
                 this.rotation = rotation;
-                this.progress = 0f;
+                this.progress = -1f;
                 this.item = item;
             }
 
