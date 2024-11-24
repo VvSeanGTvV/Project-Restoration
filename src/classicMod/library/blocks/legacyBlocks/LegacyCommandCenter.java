@@ -21,6 +21,7 @@ import java.util.Objects;
 
 import static classicMod.content.ClassicVars.*;
 import static classicMod.content.ExtendedFx.commandSend;
+import static mindustry.content.Fx.v;
 
 public class LegacyCommandCenter extends Block {
     public TextureRegion topRegion = Core.atlas.find(name + "-top");
@@ -56,15 +57,15 @@ public class LegacyCommandCenter extends Block {
             final ButtonGroup<Button> group = new ButtonGroup<>();
             group.setMinCheckCount(0);
             ImageButton attack = table.button(Icon.commandAttack, Styles.cleari, () -> {
-                //UpdateCommand(RallyAI.UnitState.attack, "attack");
+                configure(0);
             }).get();
 
             ImageButton rally = table.button(Icon.commandRally, Styles.cleari, () -> {
-                //UpdateCommand(RallyAI.UnitState.attack, "attack");
+                configure(1);
             }).get();
 
-            attack.changed(() -> configure(1));
-            rally.changed(() -> configure(2));
+            //attack.changed(() -> configure(1));
+            //rally.changed(() -> configure(2));
 
             /*Table buttons = new Table();
             buttons.button(Icon.commandAttack, Styles.cleari, () -> {
@@ -89,7 +90,7 @@ public class LegacyCommandCenter extends Block {
             if (buildingSeq.size >= 1) building = buildingSeq.get(0);
             if (building != null && building instanceof LegacyCommandCenterBuild f) closestBuild = f;
             if (closestBuild != null) CommandSelect = closestBuild.CommandSelect; else {
-                select = 1;
+                select = 0;
                 CommandSelect = "attack";
             }
 
@@ -103,7 +104,8 @@ public class LegacyCommandCenter extends Block {
 
         @Override
         public void configured(Unit builder, Object value) {
-            if (select != 0) UpdateCommand(RallyAI.UnitState.all[select], RallyAI.UnitState.allString[select]);
+            if (value instanceof Integer val) select = val;
+            if (select > -1) UpdateCommand(RallyAI.UnitState.all[select], RallyAI.UnitState.allString[select]);
         }
 
         @Override

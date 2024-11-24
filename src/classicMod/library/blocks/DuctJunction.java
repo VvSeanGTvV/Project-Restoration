@@ -51,33 +51,33 @@ public class DuctJunction extends Block {
     }
 
     public class DuctJunctionBuild extends Building {
-        public Seq<itemPosition> itemPositions;
+        public Seq<itemData> itemDataSeq;
 
         public DuctJunctionBuild() {
-            itemPositions = new Seq<>(capacity);
+            itemDataSeq = new Seq<>(capacity);
         }
 
         @Override
         public void updateTile() {
             for(int i = 0; i < capacity; ++i) {
-                if (i < itemPositions.size && itemPositions.get(i) != null) {
-                    itemPosition itemPos = itemPositions.get(i);
-                    float progress = itemPos.progress;
+                if (i < itemDataSeq.size && itemDataSeq.get(i) != null) {
+                    itemData data = itemDataSeq.get(i);
+                    float progress = data.progress;
 
-                    Building dest = nearby(itemPos.rotation);
+                    Building dest = nearby(data.rotation);
                     progress += edelta() / (speed + 0.05f) * 2f;
 
-                    itemPos.updateProgress(progress);
+                    data.updateProgress(progress);
                     if (dest != null){
                         if (progress >= 2f - 1F) {
-                            Item item = itemPos.item;
+                            Item item = data.item;
                             if (item != null && dest.acceptItem(this, item) && dest.team == this.team) {
                                 dest.handleItem(this, item);
-                                itemPositions.remove(itemPos);
+                                itemDataSeq.remove(data);
                             }
                         }
                     } else {
-                        itemPos.updateProgress(0);
+                        data.updateProgress(0);
                     }
                 }
             }
@@ -90,12 +90,12 @@ public class DuctJunction extends Block {
         @Override
         public void handleItem(Building source, Item item) {
             int relative = source.relativeTo(this.tile);
-            if (relative != -1) itemPositions.add(new itemPosition(item, relative, -1f));
+            if (relative != -1) itemDataSeq.add(new itemData(item, relative, -1f));
         }
 
         boolean accepts(int dir, int maximum){
             int number = 0;
-            for (var itemPos : itemPositions){
+            for (var itemPos : itemDataSeq){
                 if (itemPos.rotation == dir) number++;
             }
             return number < maximum;
@@ -117,19 +117,7 @@ public class DuctJunction extends Block {
             Draw.z(Layer.blockUnder);
             Draw.rect(name + "-bottom", x, y);
 
-            for(var itemPos : itemPositions){
-                Draw.z(29.6F);
-                float progress = itemPos.progress;
-                int r = itemPos.rotation;
-                int recDir = r - 2;
-                Item current = itemPos.item;
-                Tmp.v1.set(Geometry.d4x(recDir) * tilesize / 2f, Geometry.d4y(recDir) * tilesize / 2f)
-                        .lerp(Geometry.d4x(r) * tilesize / 2f, Geometry.d4y(r) * tilesize / 2f,
-                                Mathf.clamp((progress + 1f) / 2f));
-                Tmp.v2.set(Geometry.d4x(r), Geometry.d4y(r)).lerp(Vec2.ZERO, Mathf.clamp((progress + 1f) / 2f));
-
-                Draw.rect(current.fullIcon, x + Tmp.v1.x - Tmp.v2.x, y + Tmp.v1.y - Tmp.v2.y, itemSize, itemSize);
-            }
+            drawItems();
 
             Draw.z(Layer.blockUnder + 0.2f);
             Draw.color(transparentColor);
@@ -140,22 +128,38 @@ public class DuctJunction extends Block {
             Draw.reset();
         }
 
+        public void drawItems(){
+            for(var data : itemDataSeq){
+                Draw.z(29.6F);
+                float progress = data.progress;
+                int r = data.rotation;
+                int recDir = r - 2;
+                Item current = data.item;
+                Tmp.v1.set(Geometry.d4x(recDir) * tilesize / 2f, Geometry.d4y(recDir) * tilesize / 2f)
+                        .lerp(Geometry.d4x(r) * tilesize / 2f, Geometry.d4y(r) * tilesize / 2f,
+                                Mathf.clamp((progress + 1f) / 2f));
+                Tmp.v2.set(Geometry.d4x(r), Geometry.d4y(r)).lerp(Vec2.ZERO, Mathf.clamp((progress + 1f) / 2f));
+
+                Draw.rect(current.fullIcon, x + Tmp.v1.x - Tmp.v2.x, y + Tmp.v1.y - Tmp.v2.y, itemSize, itemSize);
+            }
+        }
+
         @Override
         public void write(Writes write) {
             super.write(write);
 
-            write.i(itemPositions.size);
-            for (var itemPos : itemPositions){
-                write.i(itemPos.rotation);
-                write.i(itemPos.item.id);
-                write.f(itemPos.progress);
+            write.i(itemDataSeq.size);
+            for (var data : itemDataSeq){
+                write.i(data.rotation);
+                write.i(data.item.id);
+                write.f(data.progress);
             }
         }
 
         @Override
         public void read(Reads read, byte revision) {
             super.read(read, revision);
-            itemPositions.clear();
+            itemDataSeq.clear();
 
             int size = read.i();
             for (int i = 0; i < size; i++){
@@ -163,22 +167,22 @@ public class DuctJunction extends Block {
                 int id = read.i();
                 Item item = content.item(id);
                 float progress = read.f();
-                itemPositions.add(new itemPosition(item, r, progress));
+                itemDataSeq.add(new itemData(item, r, progress));
             }
         }
 
-        public class itemPosition {
+        public class itemData {
             int rotation;
             float progress;
             Item item;
 
-            public itemPosition(Item item, int rotation, float progress){
+            public itemData(Item item, int rotation, float progress){
                 this.rotation = rotation;
                 this.progress = progress;
                 this.item = item;
             }
 
-            public itemPosition(Item item, int rotation){
+            public itemData(Item item, int rotation){
                 this.rotation = rotation;
                 this.progress = 0f;
                 this.item = item;
