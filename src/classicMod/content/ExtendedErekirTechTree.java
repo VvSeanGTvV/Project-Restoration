@@ -57,6 +57,10 @@ public class ExtendedErekirTechTree {
             });
         });
 
+        margeNode(duct, () -> {
+            node(ductJunction);
+        });
+
         margeNode(armoredDuct, () -> {
             node(surgeDuct);
         });
