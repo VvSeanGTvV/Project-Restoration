@@ -122,7 +122,6 @@ public class ScatterSilo extends Block {
         @Override
         public void buildConfiguration(Table table) {
             table.button(Icon.upOpen, Styles.clearTogglei, () -> {
-                manualActivation = true;
                 configure(0);
             }).size(50).disabled(efficiency < 1f || ammoTotal <= 0f || manualActivation);
         }
@@ -245,7 +244,7 @@ public class ScatterSilo extends Block {
 
         @Override
         public void configured(Unit builder, Object value) {
-            shoot = true;
+            manualActivation = true;
         }
 
         Boolean containsItem (Item item){
