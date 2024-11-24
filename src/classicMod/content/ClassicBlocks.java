@@ -832,7 +832,7 @@ public class ClassicBlocks {
         }};
 
         ductJunction = new DuctJunction("duct-junction"){{
-            requirements(Category.distribution, with(Items.beryllium, 1));
+            requirements(Category.distribution, with(Items.beryllium, 2));
         }};
 
         // Drills
