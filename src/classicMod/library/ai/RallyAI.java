@@ -49,5 +49,6 @@ public class RallyAI extends AIController {
         //retreat; //Dunno
 
         public static final UnitState[] all = values();
+        public static final String[] allString = new String[]{"attack", "rally"};
     }
 }

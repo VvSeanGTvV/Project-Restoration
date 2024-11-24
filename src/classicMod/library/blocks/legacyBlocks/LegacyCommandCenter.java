@@ -53,12 +53,10 @@ public class LegacyCommandCenter extends Block {
             if (blockID == 0f) blockID = Mathf.randomSeed(this.id) * 120;
             Table buttons = new Table();
             buttons.button(Icon.commandAttack, Styles.cleari, () -> {
-                CommandSelect = "attack";
-                UpdateCommand(RallyAI.UnitState.attack);
+                UpdateCommand(RallyAI.UnitState.attack, "attack");
             });
             buttons.button(Icon.commandRally, Styles.cleari, () -> {
-                CommandSelect = "rally";
-                UpdateCommand(RallyAI.UnitState.rally);
+                UpdateCommand(RallyAI.UnitState.rally, "rally");
             });
             table.add(buttons);
         }
@@ -99,7 +97,8 @@ public class LegacyCommandCenter extends Block {
             Draw.reset();
         }
 
-        public void UpdateCommand(RallyAI.UnitState State) {
+        public void UpdateCommand(RallyAI.UnitState State, String command) {
+            CommandSelect = command;
             commandSend.at(this);
             //PublicState = State;
 
@@ -205,7 +204,8 @@ public class LegacyCommandCenter extends Block {
             if (revision == 0) { // for Build 9 - Build 11
                 CommandSelect = read.str();
                 blockID = read.f();
-                UpdateCommand(RallyAI.UnitState.all[read.b()]);
+                int i = read.b();
+                UpdateCommand(RallyAI.UnitState.all[i], RallyAI.UnitState.allString[i]);
             }
             //PublicState = RallyAI.UnitState.all[read.b()];
         }
