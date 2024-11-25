@@ -97,7 +97,7 @@ public class ClassicBlocks {
 
     interplanetaryAccelerator, //Endgame - Mindustry
 
-    ductJunction //Erekir - Prototype [v8-dev]
+    ductJunction, cord //Erekir - Prototype [v8-dev]
     ;
 
 
@@ -843,6 +843,12 @@ public class ClassicBlocks {
             speed = 4.0F;
 
             researchCost = ItemStack.with(Items.beryllium, 10);
+        }};
+
+        //Neoplasia
+        cord = new Duct("cord"){{
+            requirements(Category.distribution, with(Items.beryllium, 2));
+            buildVisibility = BuildVisibility.hidden;
         }};
 
         // Drills
