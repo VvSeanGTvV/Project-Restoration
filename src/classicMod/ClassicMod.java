@@ -123,7 +123,7 @@ public class ClassicMod extends Mod{
     
     @Override
     public void init() {
-        MenuUI.load();
+        if (settings.getBool("use-planetmenu")) MenuUI.load();
         AutoUpdate.load();
         if(!settings.getBool("ignore-update")) AutoUpdate.check();
 
