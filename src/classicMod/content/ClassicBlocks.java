@@ -797,12 +797,13 @@ public class ClassicBlocks {
         surgeDuct = new DuctOvercharge("surge-duct"){{
             requirements(Category.distribution, with(Items.beryllium, 1, Items.surgeAlloy, 1));
             health = 90;
-            speed = 3.5f;
+            speed = 3.75f;
 
             hasPower = true;
             consumesPower = true;
             conductivePower = true;
             baseEfficiency = 1f;
+
             consumePower(1f / 60f);
 
             researchCost = with(Items.beryllium, 5, Items.surgeAlloy, 5);
@@ -810,7 +811,11 @@ public class ClassicBlocks {
 
         electrumConveyor = new Conveyor("electrum-conveyor"){{
             requirements(Category.distribution, with(Items.titanium, 3, ClassicItems.electrum, 3, Items.lead, 3, Items.graphite, 3));
+            health = 85;
+            buildCostMultiplier = 0.5f;
+
             speed = 0.12f;
+            displayedSpeed = 17.0F;
         }};
 
         laserConveyor = new InstantBridge("laser-conveyor"){{

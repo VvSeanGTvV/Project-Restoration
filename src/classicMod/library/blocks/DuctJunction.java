@@ -13,6 +13,7 @@ import mindustry.gen.*;
 import mindustry.graphics.Layer;
 import mindustry.type.Item;
 import mindustry.world.Block;
+import mindustry.world.meta.BlockGroup;
 
 import static mindustry.Vars.*;
 
@@ -24,6 +25,7 @@ public class DuctJunction extends Block {
     public DuctJunction(String name) {
         super(name);
 
+        group = BlockGroup.transportation;
         hasItems = true;
         update = true;
         solid = false;
@@ -93,11 +95,26 @@ public class DuctJunction extends Block {
         }
 
         boolean accepts(int dir, int maximum){
+            int number = totalDirection(dir);
+            return number < maximum;
+        }
+
+        int totalDirection(int dir){
             int number = 0;
             for (var itemPos : itemDataSeq){
                 if (itemPos.rotation == dir) number++;
             }
-            return number < maximum;
+            return number;
+        }
+
+        public boolean acceptItemBulk(Building source, Item item, int amount) {
+            int relative = source.relativeTo(this.tile);
+            if (relative != -1 && totalDirection(relative) + amount < capacity){
+                Building to = nearby(relative);
+                return to != null && to.team == this.team && to.acceptItem(this, item);
+            } else {
+                return false;
+            }
         }
 
         @Override

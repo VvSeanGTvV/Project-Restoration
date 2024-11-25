@@ -42,7 +42,7 @@ public class DuctOvercharge extends Duct {
         super.setStats();
 
         //stats.add(ExtendedStat.itemsMovedBase, 60f / speed, StatUnit.itemsSecond);
-        stats.add(ExtendedStat.itemsMovedBoost, 60f / (speed / (1f + baseEfficiency)), StatUnit.itemsSecond);
+        stats.add(ExtendedStat.itemsMovedBoost, 60f / (speed / (1f + (baseEfficiency * 2f))), StatUnit.itemsSecond);
     }
 
 
