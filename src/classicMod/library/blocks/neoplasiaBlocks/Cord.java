@@ -1,4 +1,4 @@
-package classicMod.library.blocks.customBlocks;
+package classicMod.library.blocks.neoplasiaBlocks;
 
 import arc.Core;
 import arc.graphics.Color;
@@ -14,7 +14,7 @@ import mindustry.world.*;
 import mindustry.world.blocks.Autotiler;
 import mindustry.world.meta.BlockGroup;
 
-public class Cord extends Block implements AutotilerPlus {
+public class Cord extends NeoplasiaBlock implements AutotilerPlus {
     public TextureRegion[] regions;
 
     public boolean source = false;
@@ -25,7 +25,7 @@ public class Cord extends Block implements AutotilerPlus {
 
         group = BlockGroup.transportation;
         hasItems = true;
-        update = true;
+        //update = true;
         solid = false;
         unloadable = false;
         underBullets = true;
@@ -41,7 +41,7 @@ public class Cord extends Block implements AutotilerPlus {
 
     @Override
     public void init() {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             regions = new TextureRegion[]{Core.atlas.find(name + "-" + i)};
         }
         super.init();
@@ -59,8 +59,8 @@ public class Cord extends Block implements AutotilerPlus {
         return otherblock.outputsItems() && this.blendsArmored(tile, rotation, otherx, othery, otherrot, otherblock) || this.lookingAt(tile, rotation, otherx, othery, otherblock) && otherblock.hasItems;
     }
 
-    public class CordBuild extends Building {
-        public float beat = 1f, beatTimer = 0;
+    public class CordBuild extends NeoplasiaBuilding {
+
         public float progress;
         @Nullable
         public Item current;
@@ -73,9 +73,6 @@ public class Cord extends Block implements AutotilerPlus {
         public Building next;
         @Nullable
         public CordBuild nextc;
-
-        boolean ready = false, alreadyBeat = false;
-        Color beatColor = Color.valueOf("cd6240");
 
         @Override
         public void draw() {
@@ -90,57 +87,11 @@ public class Cord extends Block implements AutotilerPlus {
                 }
             }
             Draw.z(Layer.block);
-            Draw.scl(xscl * beat, yscl * beat);
-
-            Draw.color(new Color(1.0F, 1.0F, 1.0F, 1.0F).lerp(beatColor, (beat - 1)));
+            drawBeat(xscl, yscl);
             drawAt(x, y, blendbits, rotation, SliceMode.none);
             Draw.color();
 
             Draw.reset();
-        }
-
-        @Override
-        public void updateTile() {
-            if (source) {
-                beatTimer += delta();
-                if (beatTimer >= 30) {
-                    beat = 1.5f;
-                    beatTimer = 0;
-                }
-            }
-
-            for(int i = 0; i < 4; ++i) {
-                if (i == rotation) continue;
-                Building next = nearby(i);
-                if (next instanceof CordBuild cordBuild) {
-                    if (cordBuild.beat >= 1.2f && !source && !alreadyBeat) ready = true;
-                }
-            }
-
-            if (ready && !alreadyBeat) {
-                if (beatTimer >= 2) {
-                    beatTimer = 0;
-                    ready = false;
-                    alreadyBeat = true;
-                    beat = 1.5f;
-                }
-            }
-            if (alreadyBeat){
-                if (beatTimer >= 20) {
-                    alreadyBeat = false;
-                    beatTimer = 0;
-                }
-            }
-            if (ready || alreadyBeat && !source) beatTimer += delta();
-
-
-            if (beat > 1.1f) {
-                beat = Mathf.lerpDelta(beat, 1f, 0.1f);
-            } else {
-                if (beat > 1) beat = 1;
-            }
-            //if (beat <= 1f) alreadyBeat = false;
-            //Log.info(beat);
         }
 
         protected void drawAt(float x, float y, int bits, float rotation, Autotiler.SliceMode slice) {
@@ -148,7 +99,14 @@ public class Cord extends Block implements AutotilerPlus {
         }
 
         boolean allSideOccupied(){
-            return front() != null && back() != null && left() != null && right() != null;
+            return isNeoplasia(front()) && isNeoplasia(back()) && isNeoplasia(right()) && isNeoplasia(left());
+        }
+        boolean noSideOccupied(){
+            return getNeoplasia(front()) == null && getNeoplasia(left()) == null && getNeoplasia(right()) == null;
+        }
+
+        boolean noConnectedNearby(){
+            return getNeoplasia(front()) == null && getNeoplasia(left()) == null && getNeoplasia(right()) == null && !isNeoplasia(back());
         }
 
         public void onProximityUpdate() {
@@ -160,10 +118,17 @@ public class Cord extends Block implements AutotilerPlus {
             //int bit = (left() != null && front() == null) ? 2 : (right() != null && front() == null) ? 2 : 0;
 
             //Log.info(bits[0]);
-            blendbits = (allSideOccupied()) ? 3 : (left() != null && back() == null && right() != null) ? 4 : (left() != null && back() == null) ? 1 : (left() != null && front() == null) ? 1 : (left() != null && back() != null && front() != null) ? 2 :
-                    (right() != null && back() == null && left() != null) ? 4 : (right() != null && back() == null) ? 1 : (right() != null && front() == null) ? 1 : (right() != null && back() != null && front() != null) ? 2 : 0;
-            xscl = ((rotation == 1 || rotation == 3) && right() != null) ? -1 : ((rotation == 0 || rotation == 2) && left() != null) ? 1 : -1;
-            yscl = ((rotation == 2 || rotation == 0) && right() != null) ? -1 : ((rotation == 1 || rotation == 3) && left() != null) ? 1 : -1;
+            blendbits = (allSideOccupied()) ? 3 :(noSideOccupied()) ? 5 : (isNeoplasia(left()) && !isNeoplasia(back()) && isNeoplasia(right())) ? 4 : (isNeoplasia(left()) && !isNeoplasia(back())) ? 1 : (isNeoplasia(left()) && !isNeoplasia(front())) ? 1 : (isNeoplasia(left()) && isNeoplasia(back()) && isNeoplasia(front())) ? 2 :
+                    (isNeoplasia(right()) && !isNeoplasia(back()) && isNeoplasia(left())) ? 4 : (isNeoplasia(right()) && !isNeoplasia(back())) ? 1 : (isNeoplasia(right()) && !isNeoplasia(front())) ? 1 : (isNeoplasia(right()) && isNeoplasia(back()) && isNeoplasia(front())) ? 2 : 0;
+            xscl =
+                    ((rotation == 1 || rotation == 2) && (isNeoplasia(right()) || isNeoplasia(left())) && !isNeoplasia(back())) ? 1 :
+                    ((rotation == 3 || rotation == 0) && (isNeoplasia(left()) || isNeoplasia(right()))&& !isNeoplasia(back())) ? 1 :
+                    ((rotation == 1 || rotation == 3) && isNeoplasia(right())) ? -1 : ((rotation == 1 || rotation == 3) && isNeoplasia(left())) ? 1 :
+                    ((rotation == 0 || rotation == 2) && isNeoplasia(left())) ? 1 : ((rotation == 0 || rotation == 2) && isNeoplasia(right())) ? -1 : 1;
+            yscl =
+                    ((rotation == 1) && isNeoplasia(left()) && !isNeoplasia(back())) ? 1 : ((rotation == 3) && isNeoplasia(right()) && !isNeoplasia(back())) ? -1 :
+                    ((rotation == 2 || rotation == 0) && isNeoplasia(right())) ? -1 : ((rotation == 2 || rotation == 0) && isNeoplasia(left())) ? 1 :
+                    ((rotation == 1 || rotation == 3) && isNeoplasia(left())) ? 1 : ((rotation == 1 || rotation == 3) && isNeoplasia(right())) ? -1 : 1;
 
             next = this.front();
             Building var3 = this.next;

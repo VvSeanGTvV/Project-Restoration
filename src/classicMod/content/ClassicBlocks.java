@@ -8,6 +8,7 @@ import arc.struct.Seq;
 import classicMod.library.blocks.*;
 import classicMod.library.blocks.customBlocks.*;
 import classicMod.library.blocks.legacyBlocks.*;
+import classicMod.library.blocks.neoplasiaBlocks.*;
 import classicMod.library.blocks.v6devBlocks.*;
 import classicMod.library.bullets.*;
 import mindustry.content.*;
@@ -851,9 +852,11 @@ public class ClassicBlocks {
             //buildVisibility = BuildVisibility.hidden;
         }};
 
-        cordBeat = new Cord("cordbeat"){{
+        cordBeat = new Heart("heart"){{
             requirements(Category.distribution, with(Items.beryllium, 2));
             source = true;
+            size = 3;
+            attribute = Attribute.steam;
             //buildVisibility = BuildVisibility.hidden;
         }};
 
