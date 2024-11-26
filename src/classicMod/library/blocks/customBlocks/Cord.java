@@ -162,8 +162,8 @@ public class Cord extends Block implements AutotilerPlus {
             //Log.info(bits[0]);
             blendbits = (allSideOccupied()) ? 3 : (left() != null && back() == null && right() != null) ? 4 : (left() != null && back() == null) ? 1 : (left() != null && front() == null) ? 1 : (left() != null && back() != null && front() != null) ? 2 :
                     (right() != null && back() == null && left() != null) ? 4 : (right() != null && back() == null) ? 1 : (right() != null && front() == null) ? 1 : (right() != null && back() != null && front() != null) ? 2 : 0;
-            xscl = ((rotation == 1 || rotation == 3) && right() != null) ? -1 : ((rotation == 0 || rotation == 2) && left() != null && front() == null) ? 1 : -1;
-            yscl = ((rotation == 2 || rotation == 0) && right() != null) ? -1 : ((rotation == 1 || rotation == 3) && left() != null && front() == null) ? 1 : -1;
+            xscl = ((rotation == 1 || rotation == 3) && right() != null) ? -1 : ((rotation == 0 || rotation == 2) && left() != null) ? 1 : -1;
+            yscl = ((rotation == 2 || rotation == 0) && right() != null) ? -1 : ((rotation == 1 || rotation == 3) && left() != null) ? 1 : -1;
 
             next = this.front();
             Building var3 = this.next;
