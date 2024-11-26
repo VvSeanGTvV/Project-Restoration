@@ -97,7 +97,7 @@ public class ClassicBlocks {
 
     interplanetaryAccelerator, //Endgame - Mindustry
 
-    ductJunction, cord //Erekir - Prototype [v8-dev]
+    ductJunction, cord, cordBeat //Erekir - Prototype [v8-dev]
     ;
 
 
@@ -846,9 +846,15 @@ public class ClassicBlocks {
         }};
 
         //Neoplasia
-        cord = new Duct("cord"){{
+        cord = new Cord("cord"){{
             requirements(Category.distribution, with(Items.beryllium, 2));
-            buildVisibility = BuildVisibility.hidden;
+            //buildVisibility = BuildVisibility.hidden;
+        }};
+
+        cordBeat = new Cord("cordbeat"){{
+            requirements(Category.distribution, with(Items.beryllium, 2));
+            source = true;
+            //buildVisibility = BuildVisibility.hidden;
         }};
 
         // Drills

@@ -107,16 +107,6 @@ public class DuctJunction extends Block {
             return number;
         }
 
-        public boolean acceptItemBulk(Building source, Item item, int amount) {
-            int relative = source.relativeTo(this.tile);
-            if (relative != -1 && totalDirection(relative) + amount < capacity){
-                Building to = nearby(relative);
-                return to != null && to.team == this.team && to.acceptItem(this, item);
-            } else {
-                return false;
-            }
-        }
-
         @Override
         public boolean acceptItem(Building source, Item item) {
             int relative = source.relativeTo(this.tile);
