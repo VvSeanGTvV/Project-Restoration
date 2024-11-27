@@ -2,14 +2,21 @@ package classicMod.library.blocks.neoplasiaBlocks;
 
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
-import arc.math.Mathf;
+import arc.math.*;
+import arc.math.geom.Geometry;
+import arc.struct.Seq;
+import arc.util.Log;
+import classicMod.content.ClassicBlocks;
+import mindustry.Vars;
 import mindustry.gen.Building;
-import mindustry.world.Block;
+import mindustry.world.*;
 
 public class NeoplasiaBlock extends Block {
 
     public boolean source = false;
     public Color beatColor = Color.valueOf("cd6240");
+
+    public boolean isCord = false;
 
     public NeoplasiaBlock(String name) {
         super(name);
@@ -19,8 +26,9 @@ public class NeoplasiaBlock extends Block {
 
     public class NeoplasiaBuilding extends Building {
 
+
         float beat = 1f, beatTimer = 0;
-        boolean ready = false, alreadyBeat = false;
+        boolean ready = false, alreadyBeat = false, grow = false;
 
         @Override
         public void draw() {
@@ -52,13 +60,115 @@ public class NeoplasiaBlock extends Block {
             }
         }
 
+        public Building nearby(int rotation, short x, short y) {
+            Building var10000;
+            switch (rotation) {
+                case 0:
+                    var10000 = Vars.world.build(x + 1, y);
+                    break;
+                case 1:
+                    var10000 = Vars.world.build(x, y + 1);
+                    break;
+                case 2:
+                    var10000 = Vars.world.build(x - 1, y);
+                    break;
+                case 3:
+                    var10000 = Vars.world.build(x, y - 1);
+                    break;
+                default:
+                    var10000 = null;
+            }
+
+            return var10000;
+        }
+
+        public Tile nearbyTile(int rotation, int offsetTrns) {
+            Tile var10000;
+            int trns = block.size / 2 + 1 + offsetTrns;
+            int dx = Geometry.d4(rotation).x * trns, dy = Geometry.d4(rotation).y * trns;
+            var10000 = Vars.world.tile(tile.x + dx, tile.y + dy);
+
+            return var10000;
+        }
+        public Tile nearbyTile(int rotation) {
+            return nearbyTile(rotation, 0);
+        }
+
+        public void growCord(Block block){
+            if (!isCord) {
+                int randRot = (int) Mathf.range(4);
+                Tile tile = nearbyTile(randRot);
+                if (tile != null) {
+                    if (tile.build == null) {
+                        tile.setBlock(block, team, randRot);
+                    }
+                }
+            } else {
+                boolean keepDirection = Mathf.randomBoolean(0.5f);
+                Log.info(keepDirection);
+                int randRot = (!keepDirection) ? rotation + Mathf.range(4) : rotation;
+                Seq<Tile> acceptedTiles = new Seq<>();
+                Seq<Integer> acceptedRot = new Seq<>();
+
+                Tile tile = nearbyTile(randRot);
+                Boolean safe = false;
+                if (tile.build == null) {
+                    for (int a = 0; a < 4; a++) {
+                        int rotb = Mathf.mod(rotation + a, 4);
+                        Building next = nearby(rotb, tile.x, tile.y);
+                        if (next == null) {
+                            safe = true;
+                        }
+                    }
+                }
+                if (!keepDirection) {
+                    boolean accept;
+                    for (int i = 0; i < 4; i++) {
+                        int rot = Mathf.mod(rotation + i, 4);
+                        Tile near = nearbyTile(rot);
+                        if (near.build == null) {
+                            for (int a = 0; a < 4; a++) {
+                                int rotb = Mathf.mod(rot + a, 4);
+                                Building next = nearby(rotb, near.x, near.y);
+                                if (next == null) {
+                                    accept = Mathf.randomBoolean();
+                                    if (accept) {
+                                        acceptedTiles.add(nearbyTile(rot));
+                                        acceptedRot.add(rotb);
+                                    }
+                                } else {
+                                    if (acceptedTiles.contains(near) && acceptedRot.contains(rot)) {
+                                        acceptedTiles.remove(near);
+                                        //acceptedRot.remove(rot);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (!(acceptedTiles.size > 0)) return;
+                    int id = (int) Mathf.clamp(Mathf.range(0, acceptedTiles.size), 0, acceptedTiles.size - 1);
+                    tile = acceptedTiles.get(id);
+                    randRot = acceptedRot.get(id);
+                }
+
+                if (tile != null) {
+                    if (tile.build == null) {
+                        tile.setBlock(block, team, randRot);
+                    }
+                }
+            }
+
+            grow = false;
+        }
+
         @Override
-        public void updateTile() {
+        public void update() {
             if (source) {
                 beatTimer += delta();
                 if (beatTimer >= 30) {
                     beat = 1.5f;
                     beatTimer = 0;
+                    //growCord(ClassicBlocks.cord);
                 }
             }
 
@@ -66,7 +176,10 @@ public class NeoplasiaBlock extends Block {
                 if (i == rotation) continue;
                 Building next = nearby(i);
                 if (next instanceof NeoplasiaBuilding neoplasiaBuilding) {
-                    if (neoplasiaBuilding.beat >= 1.2f && !source && !alreadyBeat) ready = true;
+                    if (neoplasiaBuilding.beat >= 1.2f && !source && !alreadyBeat) {
+                        ready = true;
+                        grow = true;
+                    }
                 }
             }
 
@@ -80,6 +193,7 @@ public class NeoplasiaBlock extends Block {
             }
             if (alreadyBeat){
                 if (beatTimer >= 20) {
+                    if (grow) growCord(ClassicBlocks.cord);
                     alreadyBeat = false;
                     beatTimer = 0;
                 }
