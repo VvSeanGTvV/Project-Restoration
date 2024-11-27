@@ -122,7 +122,7 @@ public class NeoplasiaBlock extends Block {
                     }
                 }
                 if (!keepDirection) {
-                    boolean accept;
+                    boolean place = true;
                     for (int i = 0; i < 4; i++) {
                         int rot = Mathf.mod(rotation + i, 4);
                         Tile near = nearbyTile(rot);
@@ -130,19 +130,17 @@ public class NeoplasiaBlock extends Block {
                             for (int a = 0; a < 4; a++) {
                                 int rotb = Mathf.mod(rot + a, 4);
                                 Building next = nearby(rotb, near.x, near.y);
-                                if (next == null) {
-                                    accept = Mathf.randomBoolean();
-                                    if (accept) {
-                                        acceptedTiles.add(nearbyTile(rot));
-                                        acceptedRot.add(rotb);
-                                    }
+                                if (next != null) {
+                                    place = false;
+                                    
                                 } else {
-                                    if (acceptedTiles.contains(near) && acceptedRot.contains(rot)) {
-                                        acceptedTiles.remove(near);
-                                        //acceptedRot.remove(rot);
-                                    }
+                                    
                                 }
                             }
+if (place)
+                                        acceptedTiles.add(nearbyTile(rot));
+                                        acceptedRot.add(rotb);
+}
                         }
                     }
                     if (!(acceptedTiles.size > 0)) return;
