@@ -33,7 +33,9 @@ public class NeoplasiaBlock extends Block {
         }
 
         public void drawBeat(float xscl, float yscl, float offsetSclBeat){
-            Draw.scl(xscl * beat * offsetSclBeat, yscl * beat * offsetSclBeat);
+            float xs = (xscl > 0) ? xscl + ((beat - 1f) * offsetSclBeat) : xscl - ((beat - 1f) * offsetSclBeat);
+            float ys = (yscl > 0) ? yscl + ((beat - 1f) * offsetSclBeat) : yscl - ((beat - 1f) * offsetSclBeat);
+            Draw.scl(xs, ys);
             Draw.color(new Color(1.0F, 1.0F, 1.0F, 1.0F).lerp(beatColor, (beat - 1)));
         }
 

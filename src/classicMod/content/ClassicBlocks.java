@@ -856,7 +856,10 @@ public class ClassicBlocks {
             requirements(Category.distribution, with(Items.beryllium, 2));
             source = true;
             size = 3;
+            minEfficiency = 8.9999F;
             attribute = Attribute.steam;
+            squareSprite = false;
+
             //buildVisibility = BuildVisibility.hidden;
         }};
 

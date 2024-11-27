@@ -79,14 +79,16 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
             float rotation = this.rotdeg();
             int r = this.rotation;
 
+            Draw.z(29.5F);
             for(int i = 0; i < 4; ++i) {
                 if ((blending & 1 << i) != 0) {
-                    int dir = r - i;
+                    int dir = r + i;
                     float rot = i == 0 ? rotation : (float)(dir * 90);
+                    drawBeat(xscl, yscl);
                     drawAt(x + (float)(Geometry.d4x(dir) * 8) * 0.75F, y + (float)(Geometry.d4y(dir) * 8) * 0.75F, 0, rot, i != 0 ? SliceMode.bottom : SliceMode.top);
                 }
             }
-            Draw.z(Layer.block);
+
             drawBeat(xscl, yscl);
             drawAt(x, y, blendbits, rotation, SliceMode.none);
             Draw.color();
@@ -107,6 +109,16 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
 
         boolean noConnectedNearby(){
             return getNeoplasia(front()) == null && getNeoplasia(left()) == null && getNeoplasia(right()) == null && !isNeoplasia(back());
+        }
+
+        int blending(NeoplasiaBuilding neoplasiaBuilding, int rotation){
+            int blend = 0;
+            if (neoplasiaBuilding == null) return 0;
+            if (neoplasiaBuilding.block == null) return 0;
+            if (neoplasiaBuilding.block instanceof NeoplasiaBlock neoplasiaBlock){
+                if (!neoplasiaBlock.squareSprite) blend = rotation;
+            }
+            return blend;
         }
 
         public void onProximityUpdate() {
@@ -130,7 +142,16 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
                     ((rotation == 2 || rotation == 0) && isNeoplasia(right())) ? -1 : ((rotation == 2 || rotation == 0) && isNeoplasia(left())) ? 1 :
                     ((rotation == 1 || rotation == 3) && isNeoplasia(left())) ? 1 : ((rotation == 1 || rotation == 3) && isNeoplasia(right())) ? -1 : 1;
 
-            next = this.front();
+
+            /*blending =
+                    (isNeoplasia(left())) && (rotation == 0 || rotation == 2) ? blending(getNeoplasia(left()), 2) :
+                    (isNeoplasia(right())) && (rotation == 0 || rotation == 2) ? blending(getNeoplasia(right()), 1) :
+                    (isNeoplasia(left())) && (rotation == 1 || rotation == 3) ? blending(getNeoplasia(left()), 1) :
+                    (isNeoplasia(right())) && (rotation == 1 || rotation == 3) ? blending(getNeoplasia(right()), 2) :
+                    blending(getNeoplasia(back()), 4)
+            ;*/
+
+                                            next = this.front();
             Building var3 = this.next;
             CordBuild var10001;
             if (var3 instanceof CordBuild) {

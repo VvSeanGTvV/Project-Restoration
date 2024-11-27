@@ -26,14 +26,14 @@ public class Heart extends NeoplasiaBlock {
 
     public boolean canPlaceOn(Tile tile, Team team, int rotation) {
         return tile.getLinkedTilesAs(this, tempTiles).sumf((other) -> {
-            return other.floor().attributes.get(this.attribute);
-        }) > this.minEfficiency;
+            return other.floor().attributes.get(attribute);
+        }) > minEfficiency;
     }
 
     public class HeartBuilding extends NeoplasiaBuilding {
         @Override
         public void draw() {
-            drawBeat(1.15f, 1.15f, 0.85f);
+            drawBeat(1.225f, 1.225f, 0.25f);
             Draw.rect(Core.atlas.find(name), x, y);
             Draw.color();
 
