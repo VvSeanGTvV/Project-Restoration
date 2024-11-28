@@ -59,6 +59,7 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
 
     public class CordBuild extends NeoplasiaBuilding {
 
+        //TODO make it work YIPPE
         public float progress;
         @Nullable
         public Item current;
@@ -132,11 +133,16 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
                     (isNeoplasia(right()) && !isNeoplasia(back()) && isNeoplasia(left())) ? 4 : (isNeoplasia(right()) && !isNeoplasia(back())) ? 1 : (isNeoplasia(right()) && !isNeoplasia(front())) ? 1 : (isNeoplasia(right()) && isNeoplasia(back()) && isNeoplasia(front())) ? 2 : 0;
             xscl =
                     ((rotation == 1 || rotation == 2) && (isNeoplasia(right()) || isNeoplasia(left())) && !isNeoplasia(back())) ? 1 :
-                    ((rotation == 3 || rotation == 0) && (isNeoplasia(left()) || isNeoplasia(right()))&& !isNeoplasia(back())) ? 1 :
+                    ((rotation == 3 || rotation == 0) && (isNeoplasia(left()) || isNeoplasia(right())) && !isNeoplasia(back())) ? 1 :
+                    ((rotation == 1 || rotation == 2) && (isNeoplasia(right())) && !isNeoplasia(front())) ? 1 :
+                    ((rotation == 3 || rotation == 0) && (isNeoplasia(left())) && !isNeoplasia(front())) ? -1 :
                     ((rotation == 1 || rotation == 3) && isNeoplasia(right())) ? -1 : ((rotation == 1 || rotation == 3) && isNeoplasia(left())) ? 1 :
                     ((rotation == 0 || rotation == 2) && isNeoplasia(left())) ? 1 : ((rotation == 0 || rotation == 2) && isNeoplasia(right())) ? -1 : 1;
             yscl =
-                    ((rotation == 1) && isNeoplasia(left()) && !isNeoplasia(back())) ? 1 : ((rotation == 3) && isNeoplasia(right()) && !isNeoplasia(back())) ? -1 :
+                    ((rotation == 1 || rotation == 2) && (isNeoplasia(right()) || isNeoplasia(left())) && !isNeoplasia(back())) ? 1 :
+                    ((rotation == 3 || rotation == 0) && (isNeoplasia(left()) || isNeoplasia(right())) && !isNeoplasia(back())) ? -1 :
+                    ((rotation == 1 || rotation == 2) && (isNeoplasia(right()) || isNeoplasia(left())) && !isNeoplasia(front())) ? -1 :
+                    ((rotation == 3 || rotation == 0) && (isNeoplasia(left()) || isNeoplasia(right())) && !isNeoplasia(front())) ? 1 :
                     ((rotation == 2 || rotation == 0) && isNeoplasia(right())) ? -1 : ((rotation == 2 || rotation == 0) && isNeoplasia(left())) ? 1 :
                     ((rotation == 1 || rotation == 3) && isNeoplasia(left())) ? 1 : ((rotation == 1 || rotation == 3) && isNeoplasia(right())) ? -1 : 1;
 
@@ -149,7 +155,7 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
                     blending(getNeoplasia(back()), 4)
             ;*/
 
-                                            next = this.front();
+            next = this.front();
             Building var3 = this.next;
             CordBuild var10001;
             if (var3 instanceof CordBuild) {
