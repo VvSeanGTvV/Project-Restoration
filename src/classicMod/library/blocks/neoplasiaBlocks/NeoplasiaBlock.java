@@ -36,7 +36,7 @@ public class NeoplasiaBlock extends Block {
             return facing != null && Point2.equals(tile.x + Geometry.d4(rotation).x, tile.y + Geometry.d4(rotation).y, facing.x, facing.y);
         }
 
-        boolean tookfromSource = false;
+        boolean tookfromSource = false, startBuild = true, initalize = false;
         float beat = 1f, beatTimer = 0, tookSourceTimes = 0;
         boolean ready = false, alreadyBeat = false, grow = false;
 
@@ -128,20 +128,22 @@ public class NeoplasiaBlock extends Block {
 
         public void coverVent(Block replacmentBlock, Block cordPlacement){
             float steam = 0;
-            for (int dy = -1; dy < 2; dy++){
-                for (int dx = -1; dx < 2; dx++){
-                    Tile tile = Vars.world.tile(this.tile.x + dx, this.tile.y + dy);
-                    if (tile.floor() != null){
-                        steam += tile.floor().attributes.get(Attribute.steam);
-                        if (tile.floor().attributes.get(Attribute.steam) >= 1){
-                            if (tile.build == null) tile.setBlock(cordPlacement, team);
+            if (this.tile.floor().attributes.get(Attribute.steam) >= 1) {
+                for (int dy = -1; dy < 2; dy++) {
+                    for (int dx = -1; dx < 2; dx++) {
+                        Tile tile = Vars.world.tile(this.tile.x + dx, this.tile.y + dy);
+                        if (tile.floor() != null) {
+                            steam += tile.floor().attributes.get(Attribute.steam);
+                            if (tile.floor().attributes.get(Attribute.steam) >= 1) {
+                                if (tile.build == null) tile.setBlock(cordPlacement, team, rotation);
+                            }
                         }
                     }
                 }
             }
             if (steam >= 9f){
                 Tile replacement = Vars.world.tile(this.tile.x, this.tile.y);
-                replacement.setBlock(replacmentBlock, team);
+                replacement.setBlock(replacmentBlock, team, rotation);
             }
         }
 
@@ -150,7 +152,7 @@ public class NeoplasiaBlock extends Block {
             int dxx = Geometry.d4x(rot);
             int dyy = Geometry.d4y(rot);
             if (dxx != 0) {
-                for (int fx = dxx; fx != -(dxx * 2); fx -= dxx) {
+                for (int fx = 0; fx != -(dxx * 2); fx -= dxx) {
                     for (int dy = dxx; dy != -(dxx * 2); dy -= dxx) {
                         int frontRot = -1;
                         Tile front = nearbyTile(x, y, fx, dy);
@@ -162,7 +164,7 @@ public class NeoplasiaBlock extends Block {
                     }
                 }
             } else {
-                for (int fx = 0; fx != -(dyy * 3); fx -= dyy) {
+                for (int fx = 0; fx != -(dyy * 2); fx -= dyy) {
                     for (int dx = dyy; dx != -(dyy * 2); dx -= dyy) {
                         int frontRot = -1;
                         Tile front = nearbyTile(x, y, fx, dx);
@@ -187,8 +189,8 @@ public class NeoplasiaBlock extends Block {
                     }
                 }
             } else {
-                boolean keepDirection = Mathf.randomBoolean(0.55f);
-                int randRot = (!keepDirection) ? rotation + Mathf.range(4) : rotation;
+                boolean keepDirection = Mathf.randomBoolean(0.25f);
+                int randRot = (!keepDirection) ? (int) (rotation + Mathf.range(1f, 4f)) : rotation;
 
                 Tile tile = nearbyTile(randRot);
                 boolean safe = false;
@@ -206,7 +208,7 @@ public class NeoplasiaBlock extends Block {
 
                 if (safe) {
                     //if (newTile != null) tile = newTile;
-                    if (rotation != randRot) this.tile.setBlock(block, team, randRot);
+                    if (rotation != randRot && !keepDirection) this.tile.setBlock(block, team, randRot);
                     tile.setBlock(block, team, randRot);
                 }
             }
@@ -216,50 +218,63 @@ public class NeoplasiaBlock extends Block {
 
         @Override
         public void update() {
-            if (source) {
-                beatTimer += delta();
-                if (beatTimer >= 30) {
-                    beat = 1.5f;
-                    beatTimer = 0;
-                    growCord(ClassicBlocks.cord);
-                }
-            }
-
-            for(int i = 0; i < 4; ++i) {
-                if (i == rotation) continue;
-                Building next = nearby(i);
-                if (next instanceof NeoplasiaBuilding neoplasiaBuilding) {
-                    if (neoplasiaBuilding.beat >= 1.2f && !source && !alreadyBeat) {
-                        ready = true;
-                        grow = true;
+            if (!startBuild) {
+                if (source) {
+                    beatTimer += delta();
+                    if (beatTimer >= 30) {
+                        beat = 1.5f;
+                        beatTimer = 0;
+                        growCord(ClassicBlocks.cord);
                     }
                 }
-            }
 
-            if (ready && !alreadyBeat) {
-                if (beatTimer >= 2) {
-                    if (isCord) coverVent(ClassicBlocks.cordBeat, ClassicBlocks.cord);
-                    beatTimer = 0;
-                    ready = false;
-                    alreadyBeat = true;
-                    beat = 1.5f;
+                for (int i = 0; i < 4; ++i) {
+                    if (i == rotation) continue;
+                    Building next = nearby(i);
+                    if (next instanceof NeoplasiaBuilding neoplasiaBuilding) {
+                        if (neoplasiaBuilding.beat >= 1.2f && !source && !alreadyBeat) {
+                            ready = true;
+                            grow = true;
+                        }
+                    }
                 }
-            }
 
-            if (alreadyBeat){
-                if (beatTimer >= 20) {
-                    if (grow) growCord(ClassicBlocks.cord);
-                    alreadyBeat = false;
-                    beatTimer = 0;
+                if (ready && !alreadyBeat) {
+                    if (beatTimer >= 2) {
+                        if (isCord) coverVent(ClassicBlocks.cordBeat, ClassicBlocks.cord);
+                        beatTimer = 0;
+                        ready = false;
+                        alreadyBeat = true;
+                        beat = 1.5f;
+                    }
                 }
-            }
-            if (ready || alreadyBeat && !source) beatTimer += delta();
+
+                if (alreadyBeat) {
+                    if (beatTimer >= 20) {
+                        if (grow) growCord(ClassicBlocks.cord);
+                        alreadyBeat = false;
+                        beatTimer = 0;
+                    }
+                }
+                if (ready || alreadyBeat && !source) beatTimer += delta();
 
 
-            if (beat > 1.05f) {
-                beat = Mathf.lerpDelta(beat, 1f, 0.1f);
+                if (beat > 1.05f) {
+                    beat = Mathf.lerpDelta(beat, 1f, 0.1f);
+                } else {
+                    if (beat > 1) beat = 1;
+                }
             } else {
-                if (beat > 1) beat = 1;
+                if (!initalize) {
+                    beat = -block.size / 3f;
+                    initalize = true;
+                } else {
+                    beat = Mathf.lerpDelta(beat, 1f, 0.1f);
+                    if (beat >= 0.95f) {
+                        beat = 1f;
+                        startBuild = false;
+                    }
+                }
             }
         }
     }

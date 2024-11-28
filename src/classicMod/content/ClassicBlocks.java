@@ -849,7 +849,6 @@ public class ClassicBlocks {
         //Neoplasia
         cord = new Cord("cord"){{
             requirements(Category.distribution, with(Items.beryllium, 2));
-            isCord = true;
         }};
 
         cordBeat = new Heart("heart"){{

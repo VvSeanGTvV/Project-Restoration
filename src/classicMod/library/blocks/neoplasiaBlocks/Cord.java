@@ -25,14 +25,12 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
 
         group = BlockGroup.transportation;
         hasItems = true;
-        //update = true;
+        targetable = true;
         solid = false;
         unloadable = false;
-        underBullets = true;
 
         rotate = true;
-        conveyorPlacement = true;
-        isDuct = true;
+        isCord = true;
 
         priority = -1.0F;
         //envEnabled = 7;
