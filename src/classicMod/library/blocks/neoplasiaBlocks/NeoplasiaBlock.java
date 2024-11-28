@@ -11,6 +11,9 @@ import mindustry.Vars;
 import mindustry.content.Blocks;
 import mindustry.gen.Building;
 import mindustry.world.*;
+import mindustry.world.blocks.Attributes;
+import mindustry.world.blocks.environment.*;
+import mindustry.world.meta.Attribute;
 
 public class NeoplasiaBlock extends Block {
 
@@ -28,13 +31,23 @@ public class NeoplasiaBlock extends Block {
     public class NeoplasiaBuilding extends Building {
 
 
-        float beat = 1f, beatTimer = 0;
+        boolean lookingAt(Tile tile, int rotation, int otherx, int othery, Block otherblock) {
+            Tile facing = Edges.getFacingEdge(otherblock, otherx, othery, tile);
+            return facing != null && Point2.equals(tile.x + Geometry.d4(rotation).x, tile.y + Geometry.d4(rotation).y, facing.x, facing.y);
+        }
+
+        boolean tookfromSource = false;
+        float beat = 1f, beatTimer = 0, tookSourceTimes = 0;
         boolean ready = false, alreadyBeat = false, grow = false;
 
         @Override
         public void draw() {
             drawBeat(1, 1);
             super.draw();
+        }
+
+        public boolean isSource(){
+            return source;
         }
 
         public void drawBeat(float xscl, float yscl){
@@ -102,12 +115,42 @@ public class NeoplasiaBlock extends Block {
             return nearbyTile(rotation, 0);
         }
 
+        public boolean passable(Block block){
+            if (block == null) return false;
+            if (
+                    block instanceof StaticWall
+            ) return false;
+            return block == Blocks.air
+                    || block instanceof Prop
+                    //|| TODO somethin
+            ;
+        }
+
+        public void coverVent(Block replacmentBlock, Block cordPlacement){
+            float steam = 0;
+            for (int dy = -1; dy < 2; dy++){
+                for (int dx = -1; dx < 2; dx++){
+                    Tile tile = Vars.world.tile(this.tile.x + dx, this.tile.y + dy);
+                    if (tile.floor() != null){
+                        steam += tile.floor().attributes.get(Attribute.steam);
+                        if (tile.floor().attributes.get(Attribute.steam) >= 1){
+                            if (tile.build == null) tile.setBlock(cordPlacement, team);
+                        }
+                    }
+                }
+            }
+            if (steam >= 9f){
+                Tile replacement = Vars.world.tile(this.tile.x, this.tile.y);
+                replacement.setBlock(replacmentBlock, team);
+            }
+        }
+
         public boolean front(int rot, short x, short y){
             boolean place = true;
             int dxx = Geometry.d4x(rot);
             int dyy = Geometry.d4y(rot);
             if (dxx != 0) {
-                for (int fx = 0; fx != -(dxx * 2); fx -= dxx) {
+                for (int fx = dxx; fx != -(dxx * 2); fx -= dxx) {
                     for (int dy = dxx; dy != -(dxx * 2); dy -= dxx) {
                         int frontRot = -1;
                         Tile front = nearbyTile(x, y, fx, dy);
@@ -115,11 +158,11 @@ public class NeoplasiaBlock extends Block {
                         if (front.build != null) {
                             if (front.build != this) frontRot = front.build.rotation;
                         }
-                        if (front.block() != Blocks.air && front.build != this || frontRot != -1) place = false;
+                        if (!passable(front.block()) && front.build != this || frontRot != -1) place = false;
                     }
                 }
             } else {
-                for (int fx = 0; fx != -(dyy * 2); fx -= dyy) {
+                for (int fx = 0; fx != -(dyy * 3); fx -= dyy) {
                     for (int dx = dyy; dx != -(dyy * 2); dx -= dyy) {
                         int frontRot = -1;
                         Tile front = nearbyTile(x, y, fx, dx);
@@ -127,7 +170,7 @@ public class NeoplasiaBlock extends Block {
                         if (front.build != null) {
                             if (front.build != this) frontRot = front.build.rotation;
                         }
-                        if (front.block() != Blocks.air && front.build != this || frontRot != -1) place = false;
+                        if (!passable(front.block()) && front.build != this || frontRot != -1) place = false;
                     }
                 }
             }
@@ -144,21 +187,19 @@ public class NeoplasiaBlock extends Block {
                     }
                 }
             } else {
-                boolean keepDirection = Mathf.randomBoolean(0.85f);
+                boolean keepDirection = Mathf.randomBoolean(0.55f);
                 int randRot = (!keepDirection) ? rotation + Mathf.range(4) : rotation;
 
                 Tile tile = nearbyTile(randRot);
-                Tile newTile = null;
                 boolean safe = false;
                 if (tile.build == null) {
                     safe = front(randRot, tile.x, tile.y);
                 }
-                if (!safe) {
+                if (!safe || !keepDirection) {
                     for (int repeat = 0; repeat < 2; repeat++) {
                         for (int i = 0; i < 4; i++) {
                             int rot = Mathf.mod(randRot + i, 4);
                             safe = front(rot, tile.x, tile.y);
-                            if (safe) newTile = nearbyTile(rot);
                         }
                     }
                 }
@@ -197,12 +238,14 @@ public class NeoplasiaBlock extends Block {
 
             if (ready && !alreadyBeat) {
                 if (beatTimer >= 2) {
+                    if (isCord) coverVent(ClassicBlocks.cordBeat, ClassicBlocks.cord);
                     beatTimer = 0;
                     ready = false;
                     alreadyBeat = true;
                     beat = 1.5f;
                 }
             }
+
             if (alreadyBeat){
                 if (beatTimer >= 20) {
                     if (grow) growCord(ClassicBlocks.cord);
