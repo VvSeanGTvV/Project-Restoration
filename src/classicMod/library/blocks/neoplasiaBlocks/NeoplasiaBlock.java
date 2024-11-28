@@ -164,7 +164,7 @@ public class NeoplasiaBlock extends Block {
                 }
 
                 if (safe) {
-                    if (newTile != null) tile = newTile;
+                    //if (newTile != null) tile = newTile;
                     if (rotation != randRot) this.tile.setBlock(block, team, randRot);
                     tile.setBlock(block, team, randRot);
                 }
