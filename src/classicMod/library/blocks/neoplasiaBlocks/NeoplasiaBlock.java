@@ -3,11 +3,12 @@ package classicMod.library.blocks.neoplasiaBlocks;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.math.*;
-import arc.math.geom.Geometry;
+import arc.math.geom.*;
 import arc.struct.Seq;
 import arc.util.Log;
 import classicMod.content.ClassicBlocks;
 import mindustry.Vars;
+import mindustry.content.Blocks;
 import mindustry.gen.Building;
 import mindustry.world.*;
 
@@ -60,27 +61,29 @@ public class NeoplasiaBlock extends Block {
             }
         }
 
-        public Building nearby(int rotation, short x, short y) {
-            Building var10000;
-            switch (rotation) {
-                case 0:
-                    var10000 = Vars.world.build(x + 1, y);
-                    break;
-                case 1:
-                    var10000 = Vars.world.build(x, y + 1);
-                    break;
-                case 2:
-                    var10000 = Vars.world.build(x - 1, y);
-                    break;
-                case 3:
-                    var10000 = Vars.world.build(x, y - 1);
-                    break;
-                default:
-                    var10000 = null;
-            }
-
-            return var10000;
+        public Tile nearbyTile(int rotation, short x, short y) {
+            return switch (rotation) {
+                case 0 -> Vars.world.tile(x + 1, y);
+                case 1 -> Vars.world.tile(x, y + 1);
+                case 2 -> Vars.world.tile(x - 1, y);
+                case 3 -> Vars.world.tile(x, y - 1);
+                default -> null;
+            };
         }
+
+        public Building nearby(int rotation, short x, short y) {
+            return switch (rotation) {
+                case 0 -> Vars.world.build(x + 1, y);
+                case 1 -> Vars.world.build(x, y + 1);
+                case 2 -> Vars.world.build(x - 1, y);
+                case 3 -> Vars.world.build(x, y - 1);
+                default -> null;
+            };
+        }
+        public Building nearby(short x, short y, int dx, int dy) {
+            return Vars.world.build(x + dx, y + dy);
+        }
+
 
         public Tile nearbyTile(int rotation, int offsetTrns) {
             Tile var10000;
@@ -90,8 +93,45 @@ public class NeoplasiaBlock extends Block {
 
             return var10000;
         }
+
+        public Tile nearbyTile(short x, short y, int dx, int dy) {
+            return Vars.world.tile(x + dx, y + dy);
+        }
+
         public Tile nearbyTile(int rotation) {
             return nearbyTile(rotation, 0);
+        }
+
+        public boolean front(int rot, short x, short y){
+            boolean place = true;
+            int dxx = Geometry.d4x(rot);
+            int dyy = Geometry.d4y(rot);
+            if (dxx != 0) {
+                for (int fx = 0; fx != -(dxx * 2); fx -= dxx) {
+                    for (int dy = dxx; dy != -(dxx * 2); dy -= dxx) {
+                        int frontRot = -1;
+                        Tile front = nearbyTile(x, y, fx, dy);
+                        if (front == null) continue;
+                        if (front.build != null) {
+                            if (front.build != this) frontRot = front.build.rotation;
+                        }
+                        if (front.block() != Blocks.air && front.build != this || frontRot != -1) place = false;
+                    }
+                }
+            } else {
+                for (int fx = 0; fx != -(dyy * 2); fx -= dyy) {
+                    for (int dx = dyy; dx != -(dyy * 2); dx -= dyy) {
+                        int frontRot = -1;
+                        Tile front = nearbyTile(x, y, fx, dx);
+                        if (front == null) continue;
+                        if (front.build != null) {
+                            if (front.build != this) frontRot = front.build.rotation;
+                        }
+                        if (front.block() != Blocks.air && front.build != this || frontRot != -1) place = false;
+                    }
+                }
+            }
+            return place;
         }
 
         public void growCord(Block block){
@@ -104,55 +144,29 @@ public class NeoplasiaBlock extends Block {
                     }
                 }
             } else {
-                boolean keepDirection = Mathf.randomBoolean(0.5f);
-                Log.info(keepDirection);
+                boolean keepDirection = Mathf.randomBoolean(0.85f);
                 int randRot = (!keepDirection) ? rotation + Mathf.range(4) : rotation;
-                Seq<Tile> acceptedTiles = new Seq<>();
-                Seq<Integer> acceptedRot = new Seq<>();
 
                 Tile tile = nearbyTile(randRot);
-                Boolean safe = false;
+                Tile newTile = null;
+                boolean safe = false;
                 if (tile.build == null) {
-                    for (int a = 0; a < 4; a++) {
-                        int rotb = Mathf.mod(rotation + a, 4);
-                        Building next = nearby(rotb, tile.x, tile.y);
-                        if (next == null) {
-                            safe = true;
-                        }
-                    }
+                    safe = front(randRot, tile.x, tile.y);
                 }
-                if (!keepDirection) {
-                    boolean place = true;
-                    for (int i = 0; i < 4; i++) {
-                        int rot = Mathf.mod(rotation + i, 4);
-                        Tile near = nearbyTile(rot);
-                        if (near.build == null) {
-                            for (int a = 0; a < 4; a++) {
-                                int rotb = Mathf.mod(rot + a, 4);
-                                Building next = nearby(rotb, near.x, near.y);
-                                if (next != null) {
-                                    place = false;
-                                    
-                                } else {
-                                    
-                                }
-                            }
-if (place)
-                                        acceptedTiles.add(nearbyTile(rot));
-                                        acceptedRot.add(rotb);
-}
+                if (!safe) {
+                    for (int repeat = 0; repeat < 2; repeat++) {
+                        for (int i = 0; i < 4; i++) {
+                            int rot = Mathf.mod(randRot + i, 4);
+                            safe = front(rot, tile.x, tile.y);
+                            if (safe) newTile = nearbyTile(rot);
                         }
                     }
-                    if (!(acceptedTiles.size > 0)) return;
-                    int id = (int) Mathf.clamp(Mathf.range(0, acceptedTiles.size), 0, acceptedTiles.size - 1);
-                    tile = acceptedTiles.get(id);
-                    randRot = acceptedRot.get(id);
                 }
 
-                if (tile != null) {
-                    if (tile.build == null) {
-                        tile.setBlock(block, team, randRot);
-                    }
+                if (safe) {
+                    if (newTile != null) tile = newTile;
+                    if (rotation != randRot) this.tile.setBlock(block, team, randRot);
+                    tile.setBlock(block, team, randRot);
                 }
             }
 
@@ -166,7 +180,7 @@ if (place)
                 if (beatTimer >= 30) {
                     beat = 1.5f;
                     beatTimer = 0;
-                    //growCord(ClassicBlocks.cord);
+                    growCord(ClassicBlocks.cord);
                 }
             }
 
