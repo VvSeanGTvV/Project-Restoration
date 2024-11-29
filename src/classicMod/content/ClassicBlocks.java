@@ -98,7 +98,7 @@ public class ClassicBlocks {
 
     interplanetaryAccelerator, //Endgame - Mindustry
 
-    ductJunction, cord, heart //Erekir - Prototype [v8-dev]
+    ductJunction, cord, heart, neoplasiaDrill //Erekir - Prototype [v8-dev]
     ;
 
 
@@ -848,11 +848,11 @@ public class ClassicBlocks {
 
         //Neoplasia
         cord = new Cord("cord"){{
-            requirements(Category.distribution, with(Items.beryllium, 2));
+            requirements(Category.distribution, with(Items.beryllium, 1));
         }};
 
         heart = new Heart("heart"){{
-            requirements(Category.distribution, with(Items.beryllium, 2));
+            requirements(Category.distribution, with(Items.beryllium, 1));
             source = true;
             size = 3;
             minEfficiency = 8.9999F;
@@ -860,6 +860,11 @@ public class ClassicBlocks {
             squareSprite = false;
 
             //buildVisibility = BuildVisibility.hidden;
+        }};
+
+        neoplasiaDrill = new DrillBeat("drill"){{
+            requirements(Category.distribution, with(Items.beryllium, 1));
+            size = 2;
         }};
 
         // Drills

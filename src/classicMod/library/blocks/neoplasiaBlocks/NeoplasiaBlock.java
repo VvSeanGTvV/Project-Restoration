@@ -153,6 +153,27 @@ public class NeoplasiaBlock extends Block {
             }
         }
 
+        public void coverOre(Block replacmentBlock, Block cordPlacement){
+            float ore = 0;
+            if (tile.drop() != null) {
+                for (int dy = 0; dy < 2; dy++) {
+                    for (int dx = 0; dx < 2; dx++) {
+                        Tile tile = Vars.world.tile(this.tile.x + dx, this.tile.y + dy);
+                        if (tile.floor() != null) {
+                            ore += (tile.drop() != null) ? 1 : 0;
+                            if (tile.floor().attributes.get(Attribute.steam) >= 1) {
+                                if (tile.build == null) tile.setBlock(cordPlacement, team, rotation);
+                            }
+                        }
+                    }
+                }
+            }
+            if (ore >= 4f){
+                Tile replacement = Vars.world.tile(this.tile.x, this.tile.y);
+                replacement.setBlock(replacmentBlock, team, rotation);
+            }
+        }
+
         public boolean front(int rot, short x, short y){
             boolean place = true;
             int dxx = Geometry.d4x(rot);
@@ -276,7 +297,8 @@ public class NeoplasiaBlock extends Block {
                 }
 
             } else {
-                if (this.tile.floor().attributes.get(Attribute.steam) >= 1 && this instanceof Cord.CordBuild) {
+                if ((this.tile.floor().attributes.get(Attribute.steam) >= 1 || tile.drop() != null) && this instanceof Cord.CordBuild) {
+                    if (isCord && tile.drop() != null) coverOre(ClassicBlocks.neoplasiaDrill, ClassicBlocks.cord);
                     if (isCord && this.tile.floor().attributes.get(Attribute.steam) >= 1) coverVent(ClassicBlocks.heart, ClassicBlocks.cord);
                 }
                 if (!initalize) {

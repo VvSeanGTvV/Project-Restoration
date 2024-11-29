@@ -5,6 +5,7 @@ import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
 import arc.math.geom.*;
+import arc.struct.Seq;
 import arc.util.*;
 import classicMod.AutotilerPlus;
 import mindustry.gen.Building;
@@ -85,8 +86,8 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
 
         @Override
         public boolean acceptItem(Building source, Item item) {
-            handleItem(source, item);
-            return current == null;
+            //handleItem(source, item);
+            return !items.any();
         }
 
         @Override
@@ -125,13 +126,21 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
         @Override
         public void updateBeat() {
             if (current != null){
-                int selected = Mathf.random(1, 4);
-                Item item = items.first();
-                Building dest = nearby(selected);
-                if (item != null && validBuilding(dest, item)){
-                    dest.handleItem(this, item);
-                    items.clear();
-                    current = null;
+                Seq<NeoplasiaBuilding> avaliable = new Seq<>();
+                for (int i = 0; i < 5; i++){
+                    NeoplasiaBuilding dest = getNeoplasia(nearby(i));
+                    Item item = items.first();
+                    if (validBuilding(dest, item)) avaliable.add(dest);
+                }
+                if (avaliable.size > 0) {
+                    int selected = Mathf.clamp(Mathf.random(0, avaliable.size), 0, avaliable.size - 1);
+                    Item item = items.first();
+                    Building dest = avaliable.get(selected);
+                    if (item != null && validBuilding(dest, item)) {
+                        current = null;
+                        items.clear();
+                        dest.handleItem(this, item);
+                    }
                 }
             }
         }

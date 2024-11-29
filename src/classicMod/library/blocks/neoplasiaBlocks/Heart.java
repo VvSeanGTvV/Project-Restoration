@@ -5,7 +5,8 @@ import arc.graphics.g2d.Draw;
 import arc.util.Nullable;
 import mindustry.entities.Effect;
 import mindustry.game.Team;
-import mindustry.type.LiquidStack;
+import mindustry.gen.Building;
+import mindustry.type.*;
 import mindustry.world.Tile;
 import mindustry.world.meta.Attribute;
 
@@ -22,6 +23,7 @@ public class Heart extends NeoplasiaBlock {
     public Heart(String name) {
         super(name);
         attribute = Attribute.heat;
+        hasItems = true;
     }
 
     public boolean canPlaceOn(Tile tile, Team team, int rotation) {
@@ -31,6 +33,12 @@ public class Heart extends NeoplasiaBlock {
     }
 
     public class HeartBuilding extends NeoplasiaBuilding {
+
+        @Override
+        public boolean acceptItem(Building source, Item item) {
+            return true;
+        }
+
         @Override
         public void draw() {
             drawBeat(1.225f, 1.225f, 0.25f);
