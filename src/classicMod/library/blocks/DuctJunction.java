@@ -56,7 +56,7 @@ public class DuctJunction extends Block {
         public Seq<itemData> itemDataSeq = new Seq<>(capacity);
 
         boolean validBuilding(Building dest, Item item){
-            if (item == null) return false;
+            if (item == null || dest == null) return false;
             return dest.acceptItem(this, item) && dest.team == this.team;
         }
 

@@ -14,6 +14,8 @@ import mindustry.world.*;
 import mindustry.world.blocks.Autotiler;
 import mindustry.world.meta.BlockGroup;
 
+import static mindustry.Vars.itemSize;
+
 public class Cord extends NeoplasiaBlock implements AutotilerPlus {
     public TextureRegion[] regions;
 
@@ -32,6 +34,7 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
         rotate = true;
         isCord = true;
 
+        itemCapacity = 1;
         priority = -1.0F;
         //envEnabled = 7;
         noUpdateDisabled = false;
@@ -73,37 +76,84 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
         @Nullable
         public CordBuild nextc;
 
+
+        @Override
+        public void handleItem(Building source, Item item) {
+            current = item;
+            super.handleItem(source, item);
+        }
+
+        @Override
+        public boolean acceptItem(Building source, Item item) {
+            handleItem(source, item);
+            return current == null;
+        }
+
         @Override
         public void draw() {
             float rotation = this.rotdeg();
             int r = this.rotation;
 
-            Draw.z(29.5F);
+            Draw.z(Layer.blockUnder);
             for(int i = 0; i < 4; ++i) {
                 if ((blending & 1 << i) != 0) {
                     int dir = r + i;
                     float rot = i == 0 ? rotation : (float)(dir * 90);
-                    drawBeat(xscl, yscl);
                     drawAt(x + (float)(Geometry.d4x(dir) * 8) * 0.75F, y + (float)(Geometry.d4y(dir) * 8) * 0.75F, 0, rot, i != 0 ? SliceMode.bottom : SliceMode.top);
                 }
             }
 
-            drawBeat(xscl, yscl);
+            if (current != null){
+                Draw.z(Layer.blockUnder + 0.1f);
+                Draw.color();
+                Draw.scl();
+                Draw.rect(current.fullIcon, x, y, itemSize, itemSize);
+            }
+
+            //drawBeat(xscl, yscl);
             drawAt(x, y, blendbits, rotation, SliceMode.none);
             Draw.color();
 
             Draw.reset();
         }
 
+        boolean validBuilding(Building dest, Item item){
+            if (item == null || dest == null) return false;
+            return dest.acceptItem(this, item) && dest.team == this.team;
+        }
+
+        @Override
+        public void updateBeat() {
+            if (current != null){
+                int selected = Mathf.random(1, 4);
+                Item item = items.first();
+                Building dest = nearby(selected);
+                if (item != null && validBuilding(dest, item)){
+                    dest.handleItem(this, item);
+                    items.clear();
+                    current = null;
+                }
+            }
+        }
+
         protected void drawAt(float x, float y, int bits, float rotation, Autotiler.SliceMode slice) {
+            Draw.z(Layer.blockUnder);
+            drawBeat(xscl, yscl);
             Draw.rect(sliced(Core.atlas.find(name + "-" + bits), slice), x, y, rotation);
+            Draw.color();
+            Draw.scl();
         }
 
         boolean allSideOccupied(){
             return isNeoplasia(front()) && isNeoplasia(back()) && isNeoplasia(right()) && isNeoplasia(left());
         }
-        boolean noSideOccupied(){
-            return getNeoplasia(front()) == null && getNeoplasia(left()) == null && getNeoplasia(right()) == null;
+
+        boolean SideOccupied(){
+            return isNeoplasia(left()) && isNeoplasia(right());
+        }
+
+        boolean EitherSideOccupied(){
+            return isNeoplasia(left()) || isNeoplasia(right());
         }
 
         boolean noConnectedNearby(){
@@ -129,20 +179,30 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
             //int bit = (left() != null && front() == null) ? 2 : (right() != null && front() == null) ? 2 : 0;
 
             //Log.info(bits[0]);
-            blendbits = (allSideOccupied()) ? 3 :(noSideOccupied()) ? 5 : (isNeoplasia(left()) && !isNeoplasia(back()) && isNeoplasia(right())) ? 4 : (isNeoplasia(left()) && !isNeoplasia(back())) ? 1 : (isNeoplasia(left()) && !isNeoplasia(front())) ? 1 : (isNeoplasia(left()) && isNeoplasia(back()) && isNeoplasia(front())) ? 2 :
-                    (isNeoplasia(right()) && !isNeoplasia(back()) && isNeoplasia(left())) ? 4 : (isNeoplasia(right()) && !isNeoplasia(back())) ? 1 : (isNeoplasia(right()) && !isNeoplasia(front())) ? 1 : (isNeoplasia(right()) && isNeoplasia(back()) && isNeoplasia(front())) ? 2 : 0;
+            blendbits =
+                    (allSideOccupied()) ? 3 :
+                    (!EitherSideOccupied() && !isNeoplasia(front())) ? 5 :
+                    (isNeoplasia(back()) && isNeoplasia(left()) && !isNeoplasia(front())) ? 1 :
+                    (isNeoplasia(back()) && isNeoplasia(right()) && !isNeoplasia(front())) ? 1 :
+                    (SideOccupied()) ? 4 :
+                    (isNeoplasia(left()) && !isNeoplasia(back()) && isNeoplasia(right())) ? 5 :
+                    (isNeoplasia(left()) && !isNeoplasia(back())) ? 1 :
+                    (isNeoplasia(left()) && !isNeoplasia(front())) ? 1 :
+                    (isNeoplasia(left()) && isNeoplasia(back()) && isNeoplasia(front())) ? 2 :
+                    (isNeoplasia(right()) && !isNeoplasia(back()) && isNeoplasia(left())) ? 4 :
+                    (isNeoplasia(right()) && !isNeoplasia(back())) ? 1 :
+                    (isNeoplasia(right()) && !isNeoplasia(front())) ? 1 :
+                    (isNeoplasia(right()) && isNeoplasia(back()) && isNeoplasia(front())) ? 2 : 0;
             xscl =
-                    ((rotation == 1 || rotation == 2) && (isNeoplasia(right()) || isNeoplasia(left())) && !isNeoplasia(back())) ? 1 :
-                    ((rotation == 3 || rotation == 0) && (isNeoplasia(left()) || isNeoplasia(right())) && !isNeoplasia(back())) ? 1 :
-                    ((rotation == 1 || rotation == 2) && (isNeoplasia(right())) && !isNeoplasia(front())) ? 1 :
-                    ((rotation == 3 || rotation == 0) && (isNeoplasia(left())) && !isNeoplasia(front())) ? -1 :
+                    ((rotation == 2 || rotation == 0) && (isNeoplasia(left())) && !isNeoplasia(front())) ? -1 :
+                    ((rotation == 1 || rotation == 3) && (isNeoplasia(left())) && !isNeoplasia(front())) ? -1 :
+                    ((rotation == 1 || rotation == 0 || rotation == 3 || rotation == 2) && (isNeoplasia(right()) || isNeoplasia(left())) && !isNeoplasia(back())) ? 1 :
                     ((rotation == 1 || rotation == 3) && isNeoplasia(right())) ? -1 : ((rotation == 1 || rotation == 3) && isNeoplasia(left())) ? 1 :
                     ((rotation == 0 || rotation == 2) && isNeoplasia(left())) ? 1 : ((rotation == 0 || rotation == 2) && isNeoplasia(right())) ? -1 : 1;
             yscl =
-                    ((rotation == 1 || rotation == 2) && (isNeoplasia(right()) || isNeoplasia(left())) && !isNeoplasia(back())) ? 1 :
-                    ((rotation == 3 || rotation == 0) && (isNeoplasia(left()) || isNeoplasia(right())) && !isNeoplasia(back())) ? -1 :
-                    ((rotation == 1 || rotation == 2) && (isNeoplasia(right()) || isNeoplasia(left())) && !isNeoplasia(front())) ? -1 :
-                    ((rotation == 3 || rotation == 0) && (isNeoplasia(left()) || isNeoplasia(right())) && !isNeoplasia(front())) ? 1 :
+                    ((rotation == 1 || rotation == 3) && (isNeoplasia(left())) && !isNeoplasia(front())) ? 1 :
+                    ((rotation == 1 || rotation == 0 || rotation == 3 || rotation == 2) && (isNeoplasia(right())) && !isNeoplasia(back())) ? -1 :
+                    ((rotation == 1 || rotation == 0 || rotation == 3 || rotation == 2) && (isNeoplasia(left())) && !isNeoplasia(back())) ? 1 :
                     ((rotation == 2 || rotation == 0) && isNeoplasia(right())) ? -1 : ((rotation == 2 || rotation == 0) && isNeoplasia(left())) ? 1 :
                     ((rotation == 1 || rotation == 3) && isNeoplasia(left())) ? 1 : ((rotation == 1 || rotation == 3) && isNeoplasia(right())) ? -1 : 1;
 

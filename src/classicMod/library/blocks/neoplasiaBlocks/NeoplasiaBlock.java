@@ -117,9 +117,15 @@ public class NeoplasiaBlock extends Block {
 
         public boolean passable(Block block){
             if (block == null) return false;
+
+            if (block instanceof Floor floor){
+                if (floor.liquidDrop != null) return false;
+            }
+
             if (
                     block instanceof StaticWall
             ) return false;
+
             return block == Blocks.air
                     || block instanceof Prop
                     //|| TODO somethin
@@ -190,7 +196,7 @@ public class NeoplasiaBlock extends Block {
                 }
             } else {
                 boolean keepDirection = Mathf.randomBoolean(0.25f);
-                int randRot = (!keepDirection) ? (int) (rotation + Mathf.range(1f, 4f)) : rotation;
+                int randRot = (!keepDirection) ? (int) (rotation + Mathf.random(1, 4)) : rotation;
 
                 Tile tile = nearbyTile(randRot);
                 boolean safe = false;
@@ -208,12 +214,16 @@ public class NeoplasiaBlock extends Block {
 
                 if (safe) {
                     //if (newTile != null) tile = newTile;
-                    if (rotation != randRot && !keepDirection) this.tile.setBlock(block, team, randRot);
+                    if (rotation != randRot) this.tile.setBlock(block, team, randRot);
                     tile.setBlock(block, team, randRot);
                 }
             }
 
             grow = false;
+        }
+
+        public void updateBeat(){
+
         }
 
         @Override
@@ -229,7 +239,7 @@ public class NeoplasiaBlock extends Block {
                 }
 
                 for (int i = 0; i < 4; ++i) {
-                    if (i == rotation) continue;
+                    //if (i == rotation) continue;
                     Building next = nearby(i);
                     if (next instanceof NeoplasiaBuilding neoplasiaBuilding) {
                         if (neoplasiaBuilding.beat >= 1.2f && !source && !alreadyBeat) {
@@ -241,7 +251,7 @@ public class NeoplasiaBlock extends Block {
 
                 if (ready && !alreadyBeat) {
                     if (beatTimer >= 2) {
-                        if (isCord) coverVent(ClassicBlocks.cordBeat, ClassicBlocks.cord);
+                        updateBeat();
                         beatTimer = 0;
                         ready = false;
                         alreadyBeat = true;
@@ -264,9 +274,13 @@ public class NeoplasiaBlock extends Block {
                 } else {
                     if (beat > 1) beat = 1;
                 }
+
             } else {
+                if (this.tile.floor().attributes.get(Attribute.steam) >= 1 && this instanceof Cord.CordBuild) {
+                    if (isCord && this.tile.floor().attributes.get(Attribute.steam) >= 1) coverVent(ClassicBlocks.heart, ClassicBlocks.cord);
+                }
                 if (!initalize) {
-                    beat = -block.size / 3f;
+                    beat = (float) -block.size / (block.size + 1.25f);
                     initalize = true;
                 } else {
                     beat = Mathf.lerpDelta(beat, 1f, 0.1f);

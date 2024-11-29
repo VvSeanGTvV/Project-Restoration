@@ -98,7 +98,7 @@ public class ClassicBlocks {
 
     interplanetaryAccelerator, //Endgame - Mindustry
 
-    ductJunction, cord, cordBeat //Erekir - Prototype [v8-dev]
+    ductJunction, cord, heart //Erekir - Prototype [v8-dev]
     ;
 
 
@@ -851,7 +851,7 @@ public class ClassicBlocks {
             requirements(Category.distribution, with(Items.beryllium, 2));
         }};
 
-        cordBeat = new Heart("heart"){{
+        heart = new Heart("heart"){{
             requirements(Category.distribution, with(Items.beryllium, 2));
             source = true;
             size = 3;
