@@ -241,7 +241,7 @@ public class NeoplasiaBlock extends Block {
 
                 Tile tile = nearbyTile(randRot);
                 if (!keepDirection) {
-                    for (int i = 0; i < 4; i++) {
+                    for (int i = -2; i < 3; i++) {
                         int rot = Mathf.mod(randRot + i, 4);
                         Tile newTile = nearbyTile(rot);
                         if (front3(rot, newTile.x, newTile.y) && newTile.build == null) {
