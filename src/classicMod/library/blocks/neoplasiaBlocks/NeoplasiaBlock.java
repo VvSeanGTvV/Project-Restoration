@@ -1,7 +1,7 @@
 package classicMod.library.blocks.neoplasiaBlocks;
 
 import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.Seq;
@@ -30,14 +30,10 @@ public class NeoplasiaBlock extends Block {
 
     public class NeoplasiaBuilding extends Building {
 
+        public Seq<Tile> proximityTiles = new Seq<>();
 
-        boolean lookingAt(Tile tile, int rotation, int otherx, int othery, Block otherblock) {
-            Tile facing = Edges.getFacingEdge(otherblock, otherx, othery, tile);
-            return facing != null && Point2.equals(tile.x + Geometry.d4(rotation).x, tile.y + Geometry.d4(rotation).y, facing.x, facing.y);
-        }
-
-        boolean tookfromSource = false, startBuild = true, initalize = false;
-        float beat = 1f, beatTimer = 0, tookSourceTimes = 0;
+        boolean startBuild = true, initalize = false;
+        float beat = 1f, beatTimer = 0, priority = 0;
         boolean ready = false, alreadyBeat = false, grow = false;
 
         @Override
@@ -187,22 +183,45 @@ public class NeoplasiaBlock extends Block {
                         if (front.build != null) {
                             if (front.build != this) frontRot = front.build.rotation;
                         }
-                        if (!passable(front.block()) && front.build != this || frontRot != -1) place = false;
+                        if (!passable(front.block()) && front.build != this || frontRot != -1 && front.build != this) place = false;
                     }
                 }
             } else {
-                for (int fx = 0; fx != -(dyy * 2); fx -= dyy) {
+                for (int fy = 0; fy != -(dyy * 2); fy -= dyy) {
                     for (int dx = dyy; dx != -(dyy * 2); dx -= dyy) {
                         int frontRot = -1;
-                        Tile front = nearbyTile(x, y, fx, dx);
+                        Tile front = nearbyTile(x, y, dx, fy);
                         if (front == null) continue;
                         if (front.build != null) {
                             if (front.build != this) frontRot = front.build.rotation;
                         }
-                        if (!passable(front.block()) && front.build != this || frontRot != -1) place = false;
+                        if (!passable(front.block()) && front.build != this || frontRot != -1 && front.build != this) place = false;
                     }
                 }
             }
+            return place;
+        }
+
+        public boolean front3(int rot, short x, short y){
+            boolean place = true;
+            int dxx = Geometry.d4x(rot);
+            int dyy = Geometry.d4y(rot);
+            if (dxx != 0) {
+                for (int dx = -dxx; dx != (dxx * 2); dx += dxx) {
+                    Tile front = nearbyTile(x, y, dx, dxx);
+                    if (front == null) place = false;
+                    if (front != null && (!passable(front.block()) && front.build != this))
+                        place = false;
+                }
+            } else {
+                for (int dy = -dyy; dy != (dyy * 2); dy += dyy) {
+                    Tile front = nearbyTile(x, y, dyy, dy);
+                    if (front == null) place = false;
+                    if (front != null && (!passable(front.block()) && front.build != this))
+                        place = false;
+                }
+            }
+
             return place;
         }
 
@@ -216,31 +235,76 @@ public class NeoplasiaBlock extends Block {
                     }
                 }
             } else {
-                boolean keepDirection = Mathf.randomBoolean(0.25f);
-                int randRot = (!keepDirection) ? (int) (rotation + Mathf.random(1, 4)) : rotation;
+                boolean keepDirection = false;
+                int randRot = (!keepDirection) ? (Mathf.mod(rotation + Mathf.random(1, 4), 4)) : rotation;
+                Seq<tileSafe> safeTiles = new Seq<>();
 
                 Tile tile = nearbyTile(randRot);
-                boolean safe = false;
-                if (tile.build == null) {
-                    safe = front(randRot, tile.x, tile.y);
-                }
-                if (!safe || !keepDirection) {
-                    for (int repeat = 0; repeat < 2; repeat++) {
-                        for (int i = 0; i < 4; i++) {
-                            int rot = Mathf.mod(randRot + i, 4);
-                            safe = front(rot, tile.x, tile.y);
+                if (!keepDirection) {
+                    for (int i = 0; i < 4; i++) {
+                        int rot = Mathf.mod(randRot + i, 4);
+                        Tile newTile = nearbyTile(rot);
+                        if (front3(rot, newTile.x, newTile.y) && newTile.build == null) {
+                            safeTiles.add(new tileSafe(newTile, rot));
                         }
                     }
                 }
+                // TODO grow branch
+                /*if (!keepDirection) {
+                    for (int i = 0; i < 4; i++) {
+                        int rot = Mathf.mod(randRot + i, 4);
+                        Tile newTile = nearbyTile(rot);
+                        if (front3(rot, newTile.x, newTile.y)) {
+                            safeTiles.add(new tileSafe(newTile, rot));
+                        }
+                    }
+                } else {
+                    if (front3(randRot, tile.x, tile.y)) {
+                        safeTiles.add(new tileSafe(tile, randRot));
+                    } else {
+                        for (int i = 0; i < 4; i++) {
+                            int rot = Mathf.mod(randRot + i, 4);
+                            Tile newTile = nearbyTile(rot);
+                            if (front3(rot, newTile.x, newTile.y)) {
+                                safeTiles.add(new tileSafe(newTile, rot));
+                            }
+                        }
+                    }
+                }*/
 
-                if (safe) {
-                    //if (newTile != null) tile = newTile;
+                if (safeTiles.size > 0) {
+                    int select = Mathf.clamp(Mathf.random(0, safeTiles.size), 0, safeTiles.size - 1);
+                    tile = safeTiles.get(select).tile;
+                    randRot = safeTiles.get(select).rot;
+
+                    for (var tileOre : safeTiles) {
+                        if (tileOre.tile.drop() != null){
+                            tile = safeTiles.get(select).tile;
+                            randRot = safeTiles.get(select).rot;
+                        }
+                    }
+
                     if (rotation != randRot) this.tile.setBlock(block, team, randRot);
                     tile.setBlock(block, team, randRot);
                 }
             }
 
             grow = false;
+        }
+
+        @Override
+        public void updateProximity() {
+
+            proximityTiles.clear();
+            Point2[] nearby = Edges.getEdges(size);
+            for (Point2 point : nearby) {
+                Tile other = Vars.world.tile(this.tile.x + point.x, this.tile.y + point.y);
+                if (other != null) {
+                    proximityTiles.add(other);
+                }
+            }
+
+            super.updateProximity();
         }
 
         public void updateBeat(){
@@ -251,6 +315,7 @@ public class NeoplasiaBlock extends Block {
         public void update() {
             if (!startBuild) {
                 if (source) {
+                    priority = 10;
                     beatTimer += delta();
                     if (beatTimer >= 30) {
                         beat = 1.5f;
@@ -259,11 +324,12 @@ public class NeoplasiaBlock extends Block {
                     }
                 }
 
-                for (int i = 0; i < 4; ++i) {
-                    //if (i == rotation) continue;
-                    Building next = nearby(i);
-                    if (next instanceof NeoplasiaBuilding neoplasiaBuilding) {
+                for(int i = 0; i <proximity.size; ++i) {
+                    this.incrementDump(proximity.size);
+                    Building other = proximity.get((i) % proximity.size);
+                    if (other instanceof NeoplasiaBuilding neoplasiaBuilding) {
                         if (neoplasiaBuilding.beat >= 1.2f && !source && !alreadyBeat) {
+                            if (neoplasiaBuilding.isSource()) priority = 10;
                             ready = true;
                             grow = true;
                         }
@@ -272,6 +338,7 @@ public class NeoplasiaBlock extends Block {
 
                 if (ready && !alreadyBeat) {
                     if (beatTimer >= 2) {
+                        if (priority > 0) priority -= 1;
                         updateBeat();
                         beatTimer = 0;
                         ready = false;
@@ -282,7 +349,6 @@ public class NeoplasiaBlock extends Block {
 
                 if (alreadyBeat) {
                     if (beatTimer >= 20) {
-                        if (grow) growCord(ClassicBlocks.cord);
                         alreadyBeat = false;
                         beatTimer = 0;
                     }
@@ -311,6 +377,22 @@ public class NeoplasiaBlock extends Block {
                         startBuild = false;
                     }
                 }
+            }
+        }
+
+        public class tileSafe {
+            Tile tile;
+            int rot;
+
+            public tileSafe(Tile tile, int rot){
+                this.tile = tile;
+                this.rot = rot;
+            }
+
+            @Override
+            public String toString() {
+                return "TILE : " + tile +
+                       " | ROT : " + rot;
             }
         }
     }

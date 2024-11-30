@@ -8,6 +8,7 @@ import arc.math.geom.*;
 import arc.struct.Seq;
 import arc.util.*;
 import classicMod.AutotilerPlus;
+import classicMod.content.ClassicBlocks;
 import mindustry.gen.Building;
 import mindustry.graphics.*;
 import mindustry.type.Item;
@@ -125,6 +126,7 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
 
         @Override
         public void updateBeat() {
+            if (grow) growCord(ClassicBlocks.cord);
             if (current != null){
                 Seq<NeoplasiaBuilding> avaliable = new Seq<>();
                 for (int i = 0; i < 5; i++){
