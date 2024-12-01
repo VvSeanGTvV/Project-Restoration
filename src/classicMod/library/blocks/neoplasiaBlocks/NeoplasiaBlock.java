@@ -155,7 +155,7 @@ public class NeoplasiaBlock extends Block {
                 for (int dy = 0; dy < 2; dy++) {
                     for (int dx = 0; dx < 2; dx++) {
                         Tile tile = Vars.world.tile(this.tile.x + dx, this.tile.y + dy);
-                        if (tile.floor() != null && (tile.build == null || tile.build instanceof Cord.CordBuild))) {
+                        if (tile.floor() != null && (tile.build == null || tile.build instanceof Cord.CordBuild)) {
                             ore += (tile.drop() != null) ? 1 : 0;
                             if (tile.floor().attributes.get(Attribute.steam) >= 1) {
                                 if (tile.build == null) tile.setBlock(cordPlacement, team, rotation);
