@@ -134,7 +134,7 @@ public class NeoplasiaBlock extends Block {
                 for (int dy = -1; dy < 2; dy++) {
                     for (int dx = -1; dx < 2; dx++) {
                         Tile tile = Vars.world.tile(this.tile.x + dx, this.tile.y + dy);
-                        if (tile.floor() != null && (tile.build == null)) {
+                        if (tile.floor() != null && (tile.build == null || tile.build instanceof Cord.CordBuild)) {
                             steam += tile.floor().attributes.get(Attribute.steam);
                             if (tile.floor().attributes.get(Attribute.steam) >= 1) {
                                 if (tile.build == null) tile.setBlock(cordPlacement, team, rotation);
@@ -155,7 +155,7 @@ public class NeoplasiaBlock extends Block {
                 for (int dy = 0; dy < 2; dy++) {
                     for (int dx = 0; dx < 2; dx++) {
                         Tile tile = Vars.world.tile(this.tile.x + dx, this.tile.y + dy);
-                        if (tile.floor() != null && (tile.build == null)) {
+                        if (tile.floor() != null && (tile.build == null || tile.build instanceof Cord.CordBuild))) {
                             ore += (tile.drop() != null) ? 1 : 0;
                             if (tile.floor().attributes.get(Attribute.steam) >= 1) {
                                 if (tile.build == null) tile.setBlock(cordPlacement, team, rotation);
@@ -208,14 +208,14 @@ public class NeoplasiaBlock extends Block {
             int dyy = Geometry.d4y(rot);
             if (dxx != 0) {
                 for (int dx = dxx; dx != -(dxx * 2); dx -= dxx) {
-                    Tile front = nearbyTile(x, y, dx, 0);
+                    Tile front = nearbyTile(x, y, dx, -dxx);
                     if (front == null) place = false;
                     if (front != null && (!passable(front.block()) && front.build != null && front.build != this))
                         place = false;
                 }
             } else {
                 for (int dy = dyy; dy != -(dyy * 2); dy -= dyy) {
-                    Tile front = nearbyTile(x, y, 0, dy);
+                    Tile front = nearbyTile(x, y, -dyy, dy);
                     if (front == null) place = false;
                     if (front != null && (!passable(front.block()) && front.build != null && front.build != this))
                         place = false;
