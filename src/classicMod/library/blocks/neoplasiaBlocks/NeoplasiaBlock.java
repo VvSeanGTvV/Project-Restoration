@@ -207,14 +207,14 @@ public class NeoplasiaBlock extends Block {
             int dxx = Geometry.d4x(rot);
             int dyy = Geometry.d4y(rot);
             if (dxx != 0) {
-                for (int dx = dxx + dxx; dx != -(dxx * 3); dx -= dxx) {
+                for (int dx = dxx; dx != -(dxx * 2); dx -= dxx) {
                     Tile front = nearbyTile(x, y, dx, dxx);
                     if (front == null) place = false;
                     if (front != null && (!passable(front.block()) && front.build != null && front.build != this))
                         place = false;
                 }
             } else {
-                for (int dy = dyy + dyy; dy != -(dyy * 3); dy -= dyy) {
+                for (int dy = dyy; dy != -(dyy * 2); dy -= dyy) {
                     Tile front = nearbyTile(x, y, dyy, dy);
                     if (front == null) place = false;
                     if (front != null && (!passable(front.block()) && front.build != null && front.build != this))
@@ -235,8 +235,8 @@ public class NeoplasiaBlock extends Block {
                     }
                 }
             } else {
-                boolean branchOut = Mathf.randomBoolean(0.85f);
-                boolean keepDirection = Mathf.randomBoolean(0.5f);
+                boolean branchOut = Mathf.randomBoolean(0.5f);
+                boolean keepDirection = Mathf.randomBoolean(0.95f);
                 int randRot = (!keepDirection) ? (Mathf.mod(rotation + Mathf.random(1, 4), 4)) : rotation;
                 Seq<tileSafe> safeTiles = new Seq<>();
                 Seq<tileSafe> branchTiles = new Seq<>();
@@ -315,7 +315,7 @@ public class NeoplasiaBlock extends Block {
                     }
                     
                     if (rotation != randRot) this.tile.setBlock(block, team, randRot);
-                    if (tile.build == null) tile.setBlock(block, team, randRot);
+                    if (tile.build == null && tile.block() == null) tile.setBlock(block, team, randRot);
                     if (branchTiles.size > 0){
                         int branch = Mathf.clamp(Mathf.random(0, branchTiles.size), 0, branchTiles.size - 1);
                         if (branchTiles.get(branch).tile.build == null) branchTiles.get(branch).tile.setBlock(block, team, branchTiles.get(branch).rot);
