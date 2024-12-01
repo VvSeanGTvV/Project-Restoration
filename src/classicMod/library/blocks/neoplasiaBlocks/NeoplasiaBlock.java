@@ -208,14 +208,14 @@ public class NeoplasiaBlock extends Block {
             int dyy = Geometry.d4y(rot);
             if (dxx != 0) {
                 for (int dx = dxx; dx != -(dxx * 2); dx -= dxx) {
-                    Tile front = nearbyTile(x, y, dx, dxx);
+                    Tile front = nearbyTile(x, y, dx, 0);
                     if (front == null) place = false;
                     if (front != null && (!passable(front.block()) && front.build != null && front.build != this))
                         place = false;
                 }
             } else {
                 for (int dy = dyy; dy != -(dyy * 2); dy -= dyy) {
-                    Tile front = nearbyTile(x, y, dyy, dy);
+                    Tile front = nearbyTile(x, y, 0, dy);
                     if (front == null) place = false;
                     if (front != null && (!passable(front.block()) && front.build != null && front.build != this))
                         place = false;
