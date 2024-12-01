@@ -244,10 +244,12 @@ public class NeoplasiaBlock extends Block {
                 Tile near = nearbyTile(rot);
                 Tile nearRight = near.nearby(Mathf.mod(rot + 1, 4));
                 Tile nearLeft = near.nearby(Mathf.mod(rot - 1, 4));
+                Tile nearFront = near.nearby(rot);
                 if (
                        passable(near.block())
                     && passable(nearRight.block())
                     && passable(nearLeft.block())
+                    && passable(nearFront.block())
                 ){
                     near.setBlock(ClassicBlocks.cord, team, rot);
                 }
