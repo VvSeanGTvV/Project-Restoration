@@ -134,7 +134,7 @@ public class NeoplasiaBlock extends Block {
                 for (int dy = -1; dy < 2; dy++) {
                     for (int dx = -1; dx < 2; dx++) {
                         Tile tile = Vars.world.tile(this.tile.x + dx, this.tile.y + dy);
-                        if (tile.floor() != null) {
+                        if (tile.floor() != null && (tile.build == null)) {
                             steam += tile.floor().attributes.get(Attribute.steam);
                             if (tile.floor().attributes.get(Attribute.steam) >= 1) {
                                 if (tile.build == null) tile.setBlock(cordPlacement, team, rotation);
@@ -155,7 +155,7 @@ public class NeoplasiaBlock extends Block {
                 for (int dy = 0; dy < 2; dy++) {
                     for (int dx = 0; dx < 2; dx++) {
                         Tile tile = Vars.world.tile(this.tile.x + dx, this.tile.y + dy);
-                        if (tile.floor() != null) {
+                        if (tile.floor() != null && (tile.build == null)) {
                             ore += (tile.drop() != null) ? 1 : 0;
                             if (tile.floor().attributes.get(Attribute.steam) >= 1) {
                                 if (tile.build == null) tile.setBlock(cordPlacement, team, rotation);
@@ -207,17 +207,17 @@ public class NeoplasiaBlock extends Block {
             int dxx = Geometry.d4x(rot);
             int dyy = Geometry.d4y(rot);
             if (dxx != 0) {
-                for (int dx = -dxx; dx != (dxx * 2); dx += dxx) {
+                for (int dx = dxx; dx != -(dxx * 2); dx -= dxx) {
                     Tile front = nearbyTile(x, y, dx, dxx);
                     if (front == null) place = false;
-                    if (front != null && (!passable(front.block()) && front.build != this))
+                    if (front != null && (!passable(front.block()) && front.build != null && front.build != this))
                         place = false;
                 }
             } else {
-                for (int dy = -dyy; dy != (dyy * 2); dy += dyy) {
+                for (int dy = dyy; dy != -(dyy * 2); dy -= dyy) {
                     Tile front = nearbyTile(x, y, dyy, dy);
                     if (front == null) place = false;
-                    if (front != null && (!passable(front.block()) && front.build != this))
+                    if (front != null && (!passable(front.block()) && front.build != null && front.build != this))
                         place = false;
                 }
             }
@@ -235,17 +235,47 @@ public class NeoplasiaBlock extends Block {
                     }
                 }
             } else {
-                boolean keepDirection = false;
+                boolean branchOut = Mathf.randomBoolean(0.85f);
+                boolean keepDirection = Mathf.randomBoolean(0.5f);
                 int randRot = (!keepDirection) ? (Mathf.mod(rotation + Mathf.random(1, 4), 4)) : rotation;
                 Seq<tileSafe> safeTiles = new Seq<>();
+                Seq<tileSafe> branchTiles = new Seq<>();
 
                 Tile tile = nearbyTile(randRot);
+                if (branchOut) {
+                    boolean left = Mathf.randomBoolean();
+                    if (left) {
+                        int rot = (Mathf.mod(randRot - 1, 4));
+                        Tile newTile = nearbyTile(rot);
+                        if (front3(rot, newTile.x, newTile.y) && newTile.build == null) {
+                            branchTiles.add(new tileSafe(newTile, rot));
+                        }
+                    } else {
+                        int rot = (Mathf.mod(randRot + 1, 4));
+                        Tile newTile = nearbyTile(rot);
+                        if (front3(rot, newTile.x, newTile.y) && newTile.build == null) {
+                            branchTiles.add(new tileSafe(newTile, rot));
+                        }
+                    }
+                }
                 if (!keepDirection) {
-                    for (int i = -2; i < 3; i++) {
-                        int rot = Mathf.mod(randRot + i, 4);
+                    for (int i = 0; i < 4; i++) {
+                        int rot = (Mathf.mod(randRot + Mathf.random(1, 4), 4));
                         Tile newTile = nearbyTile(rot);
                         if (front3(rot, newTile.x, newTile.y) && newTile.build == null) {
                             safeTiles.add(new tileSafe(newTile, rot));
+                        }
+                    }
+                } else {
+                    if (front3(randRot, tile.x, tile.y) && tile.build == null) {
+                        safeTiles.add(new tileSafe(tile, randRot));
+                    } else {
+                        for (int i = 0; i < 4; i++) {
+                            int rot = Mathf.mod(randRot + i, 4);
+                            Tile newTile = nearbyTile(rot);
+                            if (front3(rot, newTile.x, newTile.y) && newTile.build == null) {
+                                safeTiles.add(new tileSafe(newTile, rot));
+                            }
                         }
                     }
                 }
@@ -286,6 +316,10 @@ public class NeoplasiaBlock extends Block {
 
                     if (rotation != randRot) this.tile.setBlock(block, team, randRot);
                     tile.setBlock(block, team, randRot);
+                    if (branchTiles.size > 0){
+                        int branch = Mathf.clamp(Mathf.random(0, branchTiles.size), 0, branchTiles.size - 1);
+                        branchTiles.get(branch).tile.setBlock(block, team, branchTiles.get(branch).rot);
+                    }
                 }
             }
 
@@ -294,7 +328,6 @@ public class NeoplasiaBlock extends Block {
 
         @Override
         public void updateProximity() {
-
             proximityTiles.clear();
             Point2[] nearby = Edges.getEdges(size);
             for (Point2 point : nearby) {
@@ -315,7 +348,7 @@ public class NeoplasiaBlock extends Block {
         public void update() {
             if (!startBuild) {
                 if (source) {
-                    priority = 10;
+                    priority = 0;
                     beatTimer += delta();
                     if (beatTimer >= 30) {
                         beat = 1.5f;
