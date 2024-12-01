@@ -26,6 +26,7 @@ public class NeoplasiaBlock extends Block {
         super(name);
 
         update = true;
+        drawTeamOverlay = false;
     }
 
     public class NeoplasiaBuilding extends Building {
@@ -118,12 +119,10 @@ public class NeoplasiaBlock extends Block {
                 if (floor.liquidDrop != null) return false;
             }
 
-            if (
-                    block instanceof StaticWall
-            ) return false;
-
-            return block == Blocks.air
-                    || block instanceof Prop
+            return  !(block instanceof StaticWall)
+                    && (block == Blocks.air
+                    || block instanceof SteamVent
+                    || block instanceof Prop)
                     //|| TODO somethin
             ;
         }
@@ -207,18 +206,22 @@ public class NeoplasiaBlock extends Block {
             int dxx = Geometry.d4x(rot);
             int dyy = Geometry.d4y(rot);
             if (dxx != 0) {
-                for (int dx = dxx; dx != -(dxx * 2); dx -= dxx) {
-                    Tile front = nearbyTile(x, y, dx, -dxx);
-                    if (front == null) place = false;
-                    if (front != null && (!passable(front.block()) && front.build != null && front.build != this))
-                        place = false;
+                for (int fy = 0; fy != -(dxx * 2); fy -= dxx) {
+                    for (int dx = dxx; dx != -(dxx * 2); dx -= dxx) {
+                        Tile front = nearbyTile(x, y, dx, fy);
+                        if (front == null) place = false;
+                        if (front != null && (!passable(front.block()) && front.build != null && front.build != this))
+                            place = false;
+                    }
                 }
             } else {
-                for (int dy = dyy; dy != -(dyy * 2); dy -= dyy) {
-                    Tile front = nearbyTile(x, y, -dyy, dy);
-                    if (front == null) place = false;
-                    if (front != null && (!passable(front.block()) && front.build != null && front.build != this))
-                        place = false;
+                for (int fx = 0; fx != -(dyy * 2); fx -= dyy) {
+                    for (int dy = dyy; dy != -(dyy * 2); dy -= dyy) {
+                        Tile front = nearbyTile(x, y, fx, dy);
+                        if (front == null) place = false;
+                        if (front != null && (!passable(front.block()) && front.build != null && front.build != this))
+                            place = false;
+                    }
                 }
             }
 
@@ -235,91 +238,18 @@ public class NeoplasiaBlock extends Block {
                     }
                 }
             } else {
-                boolean branchOut = Mathf.randomBoolean(0.5f);
-                boolean keepDirection = Mathf.randomBoolean(0.95f);
-                int randRot = (!keepDirection) ? (Mathf.mod(rotation + Mathf.random(1, 4), 4)) : rotation;
-                Seq<tileSafe> safeTiles = new Seq<>();
-                Seq<tileSafe> branchTiles = new Seq<>();
-
-                Tile tile = nearbyTile(randRot);
-                if (branchOut) {
-                    boolean left = Mathf.randomBoolean();
-                    if (left) {
-                        int rot = (Mathf.mod(randRot - 1, 4));
-                        Tile newTile = nearbyTile(rot);
-                        if (front3(rot, newTile.x, newTile.y) && newTile.build == null) {
-                            branchTiles.add(new tileSafe(newTile, rot));
-                        }
-                    } else {
-                        int rot = (Mathf.mod(randRot + 1, 4));
-                        Tile newTile = nearbyTile(rot);
-                        if (front3(rot, newTile.x, newTile.y) && newTile.build == null) {
-                            branchTiles.add(new tileSafe(newTile, rot));
-                        }
-                    }
-                }
-                if (!keepDirection) {
-                    for (int i = 0; i < 4; i++) {
-                        int rot = (Mathf.mod(randRot + Mathf.random(1, 4), 4));
-                        Tile newTile = nearbyTile(rot);
-                        if (front3(rot, newTile.x, newTile.y) && newTile.build == null) {
-                            safeTiles.add(new tileSafe(newTile, rot));
-                        }
-                    }
-                } else {
-                    if (front3(randRot, tile.x, tile.y) && tile.build == null) {
-                        safeTiles.add(new tileSafe(tile, randRot));
-                    } else {
-                        for (int i = 0; i < 4; i++) {
-                            int rot = Mathf.mod(randRot + i, 4);
-                            Tile newTile = nearbyTile(rot);
-                            if (front3(rot, newTile.x, newTile.y) && newTile.build == null) {
-                                safeTiles.add(new tileSafe(newTile, rot));
-                            }
-                        }
-                    }
-                }
-                // TODO grow branch
-                /*if (!keepDirection) {
-                    for (int i = 0; i < 4; i++) {
-                        int rot = Mathf.mod(randRot + i, 4);
-                        Tile newTile = nearbyTile(rot);
-                        if (front3(rot, newTile.x, newTile.y)) {
-                            safeTiles.add(new tileSafe(newTile, rot));
-                        }
-                    }
-                } else {
-                    if (front3(randRot, tile.x, tile.y)) {
-                        safeTiles.add(new tileSafe(tile, randRot));
-                    } else {
-                        for (int i = 0; i < 4; i++) {
-                            int rot = Mathf.mod(randRot + i, 4);
-                            Tile newTile = nearbyTile(rot);
-                            if (front3(rot, newTile.x, newTile.y)) {
-                                safeTiles.add(new tileSafe(newTile, rot));
-                            }
-                        }
-                    }
-                }*/
-
-                if (safeTiles.size > 0) {
-                    int select = Mathf.clamp(Mathf.random(0, safeTiles.size), 0, safeTiles.size - 1);
-                    tile = safeTiles.get(select).tile;
-                    randRot = safeTiles.get(select).rot;
-
-                    for (var tileOre : safeTiles) {
-                        if (tileOre.tile.drop() != null){
-                            tile = safeTiles.get(select).tile;
-                            randRot = safeTiles.get(select).rot;
-                        }
-                    }
-                    
-                    if (rotation != randRot) this.tile.setBlock(block, team, randRot);
-                    if (tile.build == null && tile.block() == null) tile.setBlock(block, team, randRot);
-                    if (branchTiles.size > 0){
-                        int branch = Mathf.clamp(Mathf.random(0, branchTiles.size), 0, branchTiles.size - 1);
-                        if (branchTiles.get(branch).tile.build == null) branchTiles.get(branch).tile.setBlock(block, team, branchTiles.get(branch).rot);
-                    }
+                boolean keepDir = Mathf.randomBoolean(0.95f);
+                int i = Mathf.random(1, 4);
+                int rot = (keepDir) ? rotation : Mathf.mod(rotation + i, 4);
+                Tile near = nearbyTile(rot);
+                Tile nearRight = near.nearby(Mathf.mod(rot + 1, 4));
+                Tile nearLeft = near.nearby(Mathf.mod(rot - 1, 4));
+                if (
+                       passable(near.block())
+                    && passable(nearRight.block())
+                    && passable(nearLeft.block())
+                ){
+                    near.setBlock(ClassicBlocks.cord, team, rot);
                 }
             }
 

@@ -9,6 +9,7 @@ import arc.struct.Seq;
 import arc.util.*;
 import classicMod.AutotilerPlus;
 import classicMod.content.ClassicBlocks;
+import mindustry.content.Blocks;
 import mindustry.gen.Building;
 import mindustry.graphics.*;
 import mindustry.type.Item;
