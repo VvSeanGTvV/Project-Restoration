@@ -119,12 +119,20 @@ public class NeoplasiaBlock extends Block {
                 if (floor.liquidDrop != null) return false;
             }
 
-            return  !(block instanceof StaticWall)
+            return  !(
+                            block instanceof StaticWall ||
+                            block == ClassicBlocks.cord
+            )
                     && (block == Blocks.air
                     || block instanceof SteamVent
-                    || block instanceof Prop)
+                    || block instanceof Prop
+                    || block instanceof NeoplasiaBlock)
                     //|| TODO somethin
             ;
+        }
+
+        public boolean CantReplace(Block block){
+            return block instanceof  NeoplasiaBlock;
         }
 
         public void coverVent(Block replacmentBlock, Block cordPlacement){
@@ -148,7 +156,7 @@ public class NeoplasiaBlock extends Block {
             }
         }
 
-        public void coverOre(Block replacmentBlock, Block cordPlacement){
+        public void coverOre(Block replacmentBlock, Block cordPlacement) {
             float ore = 0;
             if (tile.drop() != null) {
                 for (int dy = 0; dy < 2; dy++) {
@@ -163,69 +171,10 @@ public class NeoplasiaBlock extends Block {
                     }
                 }
             }
-            if (ore >= 4f){
+            if (ore >= 4f) {
                 Tile replacement = Vars.world.tile(this.tile.x, this.tile.y);
                 replacement.setBlock(replacmentBlock, team, rotation);
             }
-        }
-
-        public boolean front(int rot, short x, short y){
-            boolean place = true;
-            int dxx = Geometry.d4x(rot);
-            int dyy = Geometry.d4y(rot);
-            if (dxx != 0) {
-                for (int fx = 0; fx != -(dxx * 2); fx -= dxx) {
-                    for (int dy = dxx; dy != -(dxx * 2); dy -= dxx) {
-                        int frontRot = -1;
-                        Tile front = nearbyTile(x, y, fx, dy);
-                        if (front == null) continue;
-                        if (front.build != null) {
-                            if (front.build != this) frontRot = front.build.rotation;
-                        }
-                        if (!passable(front.block()) && front.build != this || frontRot != -1 && front.build != this) place = false;
-                    }
-                }
-            } else {
-                for (int fy = 0; fy != -(dyy * 2); fy -= dyy) {
-                    for (int dx = dyy; dx != -(dyy * 2); dx -= dyy) {
-                        int frontRot = -1;
-                        Tile front = nearbyTile(x, y, dx, fy);
-                        if (front == null) continue;
-                        if (front.build != null) {
-                            if (front.build != this) frontRot = front.build.rotation;
-                        }
-                        if (!passable(front.block()) && front.build != this || frontRot != -1 && front.build != this) place = false;
-                    }
-                }
-            }
-            return place;
-        }
-
-        public boolean front3(int rot, short x, short y){
-            boolean place = true;
-            int dxx = Geometry.d4x(rot);
-            int dyy = Geometry.d4y(rot);
-            if (dxx != 0) {
-                for (int fy = 0; fy != -(dxx * 2); fy -= dxx) {
-                    for (int dx = dxx; dx != -(dxx * 2); dx -= dxx) {
-                        Tile front = nearbyTile(x, y, dx, fy);
-                        if (front == null) place = false;
-                        if (front != null && (!passable(front.block()) && front.build != null && front.build != this))
-                            place = false;
-                    }
-                }
-            } else {
-                for (int fx = 0; fx != -(dyy * 2); fx -= dyy) {
-                    for (int dy = dyy; dy != -(dyy * 2); dy -= dyy) {
-                        Tile front = nearbyTile(x, y, fx, dy);
-                        if (front == null) place = false;
-                        if (front != null && (!passable(front.block()) && front.build != null && front.build != this))
-                            place = false;
-                    }
-                }
-            }
-
-            return place;
         }
 
         public void growCord(Block block){
@@ -251,7 +200,7 @@ public class NeoplasiaBlock extends Block {
                     && passable(nearLeft.block())
                     && passable(nearFront.block())
                 ){
-                    near.setBlock(ClassicBlocks.cord, team, rot);
+                    if (!CantReplace(near.block())) near.setBlock(ClassicBlocks.cord, team, rot);
                 }
             }
 
