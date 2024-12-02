@@ -118,7 +118,7 @@ public class NeoplasiaBlock extends Block {
 
             if (block instanceof Floor floor){
                 if (floor.liquidDrop != null){
-                    Log.info(floor.liquidDrop)
+                    Log.info(floor.liquidDrop);
                     return false;
                 }
             }
