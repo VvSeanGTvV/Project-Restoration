@@ -113,21 +113,24 @@ public class NeoplasiaBlock extends Block {
         }
 
         public boolean passable(Block block){
-            if (block == null) return false;
+            boolean acceptable = true;
+            if (block == null) acceptable = false;
 
             if (block instanceof Floor floor){
-                if (floor.liquidDrop != null) return false;
+                if (floor.liquidDrop != null) acceptable = false;
             }
 
-            return  !(
+            return acceptable
+                    && !(
                             block instanceof StaticWall ||
                             block == ClassicBlocks.cord
-            )
-                    && (block == Blocks.air
-                    || block instanceof SteamVent
-                    || block instanceof Prop
-                    || block instanceof NeoplasiaBlock)
-                    //|| TODO somethin
+                    )
+                    && (
+                            block != null
+                            || block instanceof SteamVent
+                            || block instanceof Prop
+                            || block instanceof NeoplasiaBlock
+                    )
             ;
         }
 
