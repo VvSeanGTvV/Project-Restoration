@@ -135,7 +135,9 @@ public class NeoplasiaBlock extends Block {
         }
 
         public boolean CantReplace(Block block){
-            return block instanceof  NeoplasiaBlock;
+            return
+                    block instanceof NeoplasiaBlock
+                    || block != Blocks.air;
         }
 
         public void coverVent(Block replacmentBlock, Block cordPlacement){
