@@ -126,7 +126,7 @@ public class NeoplasiaBlock extends Block {
                             block == ClassicBlocks.cord
                     )
                     && (
-                            block != null
+                            block == Blocks.air
                             || block instanceof SteamVent
                             || block instanceof Prop
                             || block instanceof NeoplasiaBlock
@@ -137,7 +137,7 @@ public class NeoplasiaBlock extends Block {
         public boolean CantReplace(Block block){
             return
                     block instanceof NeoplasiaBlock
-                    || block != Blocks.air;
+                    ;
         }
 
         public void coverVent(Block replacmentBlock, Block cordPlacement){
