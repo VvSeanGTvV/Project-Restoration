@@ -851,7 +851,7 @@ public class ClassicBlocks {
             requirements(Category.distribution, with(Items.beryllium, 1));
         }};
 
-        heart = new Heart("heart"){{
+        heart = new Heart("neoplasm-cardius"){{
             requirements(Category.distribution, with(Items.beryllium, 1));
             source = true;
             size = 3;

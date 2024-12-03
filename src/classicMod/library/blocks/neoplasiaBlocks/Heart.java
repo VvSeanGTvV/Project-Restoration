@@ -41,7 +41,7 @@ public class Heart extends NeoplasiaBlock {
 
         @Override
         public void draw() {
-            drawBeat(1.225f, 1.225f, 0.25f);
+            drawBeat(1f, 1f, 0.25f);
             Draw.rect(Core.atlas.find(name), x, y);
             Draw.color();
 
