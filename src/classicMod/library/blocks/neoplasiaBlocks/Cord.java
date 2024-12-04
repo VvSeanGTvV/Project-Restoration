@@ -179,7 +179,7 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
                 }
                 if (liquids.get(Liquids.neoplasm) <= 1f) deathTimer += delta();
                 else deathTimer = 0;
-                if (deathTimer >= 10) this.damage(health);
+                if (deathTimer >= 30) this.damage(health);
             }
             super.update();
         }
