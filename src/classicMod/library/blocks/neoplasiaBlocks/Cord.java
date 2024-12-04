@@ -177,9 +177,9 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
                     Puddles.deposit(behind, this.tile, neoplasm, liquids.get(neoplasm), true, true);
                     liquids.remove(neoplasm, leakAmount);
                 }
-                if (liquids.get(Liquids.neoplasm) <= 1f) deathTimer++;
+                if (liquids.get(Liquids.neoplasm) <= 1f) deathTimer += delta();
                 else deathTimer = 0;
-                if (deathTimer >= 500) this.damage(health);
+                if (deathTimer >= 10) this.damage(health);
             }
             super.update();
         }
