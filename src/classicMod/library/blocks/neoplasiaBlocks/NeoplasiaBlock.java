@@ -242,6 +242,7 @@ public class NeoplasiaBlock extends Block {
                     priority = 0;
                     beatTimer += delta();
                     if (beatTimer >= 25) {
+                        updateBeat();
                         beat = 1.5f;
                         beatTimer = 0;
                         growCord(ClassicBlocks.cord);
