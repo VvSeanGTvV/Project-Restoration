@@ -173,11 +173,11 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
                 Tile behind = nearbyTile(Mathf.mod(rotation + 2, 4));
 
                 if (back() == null && behind != null) {
-                    float leakAmount = liquids.get(neoplasm) / 1.5F;
+                    float leakAmount = liquids.get(neoplasm) / 1.15F;
                     Puddles.deposit(behind, this.tile, neoplasm, liquids.get(neoplasm), true, true);
                     liquids.remove(neoplasm, leakAmount);
                 }
-                if (liquids.get(Liquids.neoplasm) == 0) deathTimer++;
+                if (liquids.get(Liquids.neoplasm) <= 0.001f) deathTimer++;
                 else deathTimer = 0;
                 if (deathTimer >= 500) this.damage(health);
             }
