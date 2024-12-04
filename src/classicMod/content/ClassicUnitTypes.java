@@ -1,12 +1,9 @@
 package classicMod.content;
 
-import arc.Core;
 import arc.graphics.*;
-import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
-import arc.util.Time;
 import classicMod.library.ability.*;
 import classicMod.library.ai.*;
 import classicMod.library.bullets.*;
@@ -17,7 +14,6 @@ import mindustry.ai.types.*;
 import mindustry.content.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.part.*;
-import mindustry.entities.units.WeaponMount;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
@@ -26,7 +22,7 @@ import mindustry.type.weapons.BuildWeapon;
 
 import static arc.struct.SnapshotSeq.with;
 import static classicMod.ClassicMod.internalMod;
-import static classicMod.content.ClassicSounds.pew;
+import static classicMod.content.RSounds.pew;
 import static classicMod.content.ClassicVars.empty;
 import static classicMod.content.ExtendedFx.*;
 import static mindustry.Vars.tilePayload;

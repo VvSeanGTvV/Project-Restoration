@@ -6,9 +6,9 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.Seq;
 import arc.util.Log;
-import classicMod.content.ClassicBlocks;
+import classicMod.content.*;
 import mindustry.Vars;
-import mindustry.content.Blocks;
+import mindustry.content.*;
 import mindustry.gen.Building;
 import mindustry.world.*;
 import mindustry.world.blocks.Attributes;
@@ -27,6 +27,8 @@ public class NeoplasiaBlock extends Block {
 
         update = true;
         drawTeamOverlay = false;
+        destroySound = breakSound = RSounds.splat;
+        hasLiquids = true;
     }
 
     public class NeoplasiaBuilding extends Building {
@@ -236,9 +238,10 @@ public class NeoplasiaBlock extends Block {
         public void update() {
             if (!startBuild) {
                 if (source) {
+                    if (liquids.current() == Liquids.water && liquids.get(Liquids.neoplasm) == 0) liquids.add(Liquids.neoplasm, 10f);
                     priority = 0;
                     beatTimer += delta();
-                    if (beatTimer >= 30) {
+                    if (beatTimer >= 25) {
                         beat = 1.5f;
                         beatTimer = 0;
                         growCord(ClassicBlocks.cord);
@@ -250,6 +253,7 @@ public class NeoplasiaBlock extends Block {
                     Building other = proximity.get((i) % proximity.size);
                     if (other instanceof NeoplasiaBuilding neoplasiaBuilding) {
                         if (neoplasiaBuilding.beat >= 1.2f && !source && !alreadyBeat) {
+                            if (liquids.get(Liquids.neoplasm) < liquidCapacity) liquids.add(Liquids.neoplasm, Math.min(liquidCapacity, neoplasiaBuilding.liquids.get(Liquids.neoplasm)));
                             if (neoplasiaBuilding.isSource()) priority = 10;
                             ready = true;
                             grow = true;
@@ -278,7 +282,7 @@ public class NeoplasiaBlock extends Block {
 
 
                 if (beat > 1.05f) {
-                    beat = Mathf.lerpDelta(beat, 1f, 0.1f);
+                    beat = Mathf.lerpDelta(beat, 1f, 0.15f);
                 } else {
                     if (beat > 1) beat = 1;
                 }

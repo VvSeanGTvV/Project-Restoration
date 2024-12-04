@@ -9,10 +9,11 @@ import arc.struct.Seq;
 import arc.util.*;
 import classicMod.AutotilerPlus;
 import classicMod.content.ClassicBlocks;
-import mindustry.content.Blocks;
+import mindustry.content.*;
+import mindustry.entities.Puddles;
 import mindustry.gen.Building;
 import mindustry.graphics.*;
-import mindustry.type.Item;
+import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.Autotiler;
 import mindustry.world.meta.BlockGroup;
@@ -38,6 +39,7 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
         isCord = true;
 
         itemCapacity = 1;
+        liquidCapacity = 50f;
         priority = -1.0F;
         //envEnabled = 7;
         noUpdateDisabled = false;
@@ -66,7 +68,7 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
     public class CordBuild extends NeoplasiaBuilding {
 
         //TODO make it work YIPPE
-        public float progress;
+        public float progress, deathTimer;
         @Nullable
         public Item current;
         public int recDir = 0;
@@ -91,6 +93,8 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
             //handleItem(source, item);
             return !items.any();
         }
+
+
 
         @Override
         public void draw() {
@@ -120,6 +124,20 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
             Draw.reset();
         }
 
+        @Override
+        public void onDestroyed() {
+            Liquid neoplasm = Liquids.neoplasm;
+            float leakAmount = liquids.get(neoplasm);
+            Puddles.deposit(this.tile, this.tile, neoplasm, liquids.get(neoplasm), true, true);
+            liquids.remove(neoplasm, leakAmount);
+            super.onDestroyed();
+        }
+
+        @Override
+        public boolean acceptLiquid(Building source, Liquid liquid) {
+            return liquid == Liquids.neoplasm;
+        }
+
         boolean validBuilding(Building dest, Item item){
             if (item == null || dest == null) return false;
             return dest.acceptItem(this, item) && dest.team == this.team;
@@ -146,6 +164,24 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
                     }
                 }
             }
+        }
+
+        @Override
+        public void update() {
+            if (!startBuild) {
+                Liquid neoplasm = Liquids.neoplasm;
+                Tile behind = nearbyTile(Mathf.mod(rotation + 2, 4));
+
+                if (back() == null && behind != null) {
+                    float leakAmount = liquids.get(neoplasm) / 1.5F;
+                    Puddles.deposit(behind, this.tile, neoplasm, liquids.get(neoplasm), true, true);
+                    liquids.remove(neoplasm, leakAmount);
+                }
+                if (liquids.get(Liquids.neoplasm) == 0) deathTimer++;
+                else deathTimer = 0;
+                if (deathTimer >= 500) this.damage(health);
+            }
+            super.update();
         }
 
         protected void drawAt(float x, float y, int bits, float rotation, Autotiler.SliceMode slice) {

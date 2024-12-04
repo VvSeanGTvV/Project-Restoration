@@ -3,7 +3,10 @@ package classicMod.content;
 import arc.audio.Sound;
 import mindustry.Vars;
 
-public class ClassicSounds {
+public class RSounds {
+
+    //neoplasm
+    public static Sound splat = Vars.tree.loadSound("splat");
 
     //classic
     public static Sound blast = Vars.tree.loadSound("classic_shoot_blast");

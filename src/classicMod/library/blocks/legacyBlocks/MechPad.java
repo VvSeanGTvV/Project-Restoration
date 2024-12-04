@@ -5,7 +5,7 @@ import arc.audio.Sound;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
 import arc.util.*;
-import classicMod.content.ClassicSounds;
+import classicMod.content.RSounds;
 import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.gen.*;
@@ -36,7 +36,7 @@ public class MechPad extends Block {
         solid = false;
         hasPower = true;
         ambientSound = Sounds.respawning;
-        finishedSounds = ClassicSounds.respawn;
+        finishedSounds = RSounds.respawn;
     }
 
     public static void spawnMech(UnitType unitType, Tile tile, Player player) {

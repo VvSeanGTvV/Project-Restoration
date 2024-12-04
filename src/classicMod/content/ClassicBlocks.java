@@ -35,7 +35,7 @@ import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
 import static classicMod.content.ClassicBullets.*;
-import static classicMod.content.ClassicSounds.*;
+import static classicMod.content.RSounds.*;
 import static classicMod.content.ClassicUnitTypes.*;
 import static mindustry.content.Blocks.coreBastion;
 import static mindustry.type.ItemStack.with;
