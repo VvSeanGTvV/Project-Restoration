@@ -1,7 +1,6 @@
 package classicMod;
 
 import arc.*;
-import arc.files.Fi;
 import arc.func.Func;
 import arc.scene.ui.Dialog;
 import arc.struct.Seq;
@@ -11,7 +10,6 @@ import classicMod.library.ai.*;
 import classicMod.library.ui.UIExtended;
 import classicMod.library.ui.dialog.*;
 import classicMod.library.ui.menu.*;
-import mindustry.Vars;
 import mindustry.ai.types.CommandAI;
 import mindustry.game.EventType.ClientLoadEvent;
 import mindustry.gen.Icon;
@@ -20,10 +18,6 @@ import mindustry.mod.Mods.LoadedMod;
 import mindustry.type.UnitType;
 import mindustry.ui.Styles;
 import mindustry.ui.fragments.MenuFragment;
-
-import java.io.*;
-import java.util.*;
-import java.util.zip.*;
 
 import static arc.Core.*;
 import static classicMod.library.ui.menu.MenuUI.*;
@@ -232,7 +226,7 @@ public class ClassicMod extends Mod{
         new ClassicItems().load();
         new OverridableContent().loadOverride();
         new ClassicBullets().load();
-        new ClassicUnitTypes().load();
+        new RUnitTypes().load();
         new ClassicBlocks().load();
         new RestorationSectorPresents().load();
         new RestorationPlanets().load();

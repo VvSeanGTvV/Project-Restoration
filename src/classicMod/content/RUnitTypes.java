@@ -27,7 +27,7 @@ import static classicMod.content.ClassicVars.empty;
 import static classicMod.content.ExtendedFx.*;
 import static mindustry.Vars.tilePayload;
 
-public class ClassicUnitTypes {
+public class RUnitTypes {
     //public static Sound pew = Vars.tree.loadSound("v5_sounds_pew"); //just pew lol
 
     public static UnitType
@@ -62,12 +62,20 @@ public class ClassicUnitTypes {
 
     electra, chromeWraith, //Unit - Example-mod - Old content [v5]
 
-    mantis, // TESTING
+    mantis, blob, // TESTING
 
     alphaChan, crawlerChan, boulderChan, monoChan, octChan, oxynoeChan, quadChan, seiChan, zenithChan //Unit - Old Content [Animdustry]
     ;
 
     public static void load() {
+
+        blob = new NeoplasmUnitType("vesicle"){{
+            useUnitCap = false;
+            controller = u -> new HugAI();
+            health = 20;
+
+            constructor = MechUnit::create;
+        }};
 
         mantis = new MantisRayType("skat"){{
             constructor = UnitEntity::create;

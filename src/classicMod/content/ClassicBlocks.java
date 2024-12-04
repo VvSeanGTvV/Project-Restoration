@@ -36,7 +36,7 @@ import mindustry.world.meta.*;
 
 import static classicMod.content.ClassicBullets.*;
 import static classicMod.content.RSounds.*;
-import static classicMod.content.ClassicUnitTypes.*;
+import static classicMod.content.RUnitTypes.*;
 import static mindustry.content.Blocks.coreBastion;
 import static mindustry.type.ItemStack.with;
 
@@ -146,7 +146,7 @@ public class ClassicBlocks {
             requirements(Category.effect, with(Items.lead, 225, Items.graphite, 275, Items.silicon, 325, Items.thorium, 300, Items.surgeAlloy, 120));
             size = 3;
             hasPower = true;
-            unitType = ClassicUnitTypes.omega;
+            unitType = RUnitTypes.omega;
 
             //mechReqs = with(mindustry.content.Items.copper, 0);
             consumePower(1.2f);
@@ -156,7 +156,7 @@ public class ClassicBlocks {
             requirements(Category.effect, with(Items.lead, 175, Items.titanium, 175, Items.copper, 200, Items.silicon, 225, Items.thorium, 150));
             size = 2;
             hasPower = true;
-            unitType = ClassicUnitTypes.delta;
+            unitType = RUnitTypes.delta;
 
             consumePower(0.7f);
         }};
@@ -165,7 +165,7 @@ public class ClassicBlocks {
             requirements(Category.effect, with(Items.lead, 175, Items.silicon, 225, Items.titanium, 250, Items.plastanium, 200, Items.phaseFabric, 100));
             size = 2;
             hasPower = true;
-            unitType = ClassicUnitTypes.javelin;
+            unitType = RUnitTypes.javelin;
 
             consumePower(0.8f);
         }};
@@ -174,7 +174,7 @@ public class ClassicBlocks {
             requirements(Category.effect, with(Items.lead, 125, Items.copper, 125, Items.silicon, 125, Items.titanium, 150, Items.plastanium, 100));
             size = 2;
             hasPower = true;
-            unitType = ClassicUnitTypes.trident;
+            unitType = RUnitTypes.trident;
 
             consumePower(1f);
         }};
@@ -183,7 +183,7 @@ public class ClassicBlocks {
             requirements(Category.effect, with(Items.lead, 100, Items.graphite, 50, Items.copper, 75));
             size = 2;
             hasPower = true;
-            unitType = ClassicUnitTypes.dart;
+            unitType = RUnitTypes.dart;
 
             consumePower(0.5f);
         }};
@@ -192,7 +192,7 @@ public class ClassicBlocks {
             requirements(Category.effect, with(Items.lead, 100, Items.graphite, 50, Items.copper, 75));
             size = 2;
             hasPower = true;
-            unitType = ClassicUnitTypes.alpha;
+            unitType = RUnitTypes.alpha;
 
             consumePower(0.5f);
         }};
@@ -201,7 +201,7 @@ public class ClassicBlocks {
             requirements(Category.effect, with(Items.lead, 125, Items.titanium, 125, Items.copper, 125, Items.silicon, 125));
             size = 2;
             hasPower = true;
-            unitType = ClassicUnitTypes.tau;
+            unitType = RUnitTypes.tau;
 
             consumePower(1f);
         }};
@@ -210,7 +210,7 @@ public class ClassicBlocks {
             requirements(Category.effect, with(Items.lead, 225, Items.silicon, 325, Items.titanium, 350, Items.plastanium, 300, Items.surgeAlloy, 100));
             size = 3;
             hasPower = true;
-            unitType = ClassicUnitTypes.glaive;
+            unitType = RUnitTypes.glaive;
 
             consumePower(1.2f);
         }};
@@ -233,7 +233,7 @@ public class ClassicBlocks {
 
             consumePower(0.5f);
             requirement = with(Items.silicon, 10, Items.titanium, 5);
-            unitType = ClassicUnitTypes.wraith;
+            unitType = RUnitTypes.wraith;
         }};
 
         chromeWraithFactory = new LegacyUnitFactory("chrome-wraith-factory") {{
@@ -255,7 +255,7 @@ public class ClassicBlocks {
 
             consumePower(1.2f);
             requirement = with(Items.silicon, 15, Items.titanium, 10);
-            unitType = ClassicUnitTypes.ghoul;
+            unitType = RUnitTypes.ghoul;
         }};
 
         revenantFactory = new LegacyUnitFactory("revenant-factory") {{
@@ -266,7 +266,7 @@ public class ClassicBlocks {
 
             consumePower(3f);
             requirement = with(Items.silicon, 40, Items.titanium, 30);
-            unitType = ClassicUnitTypes.revenant;
+            unitType = RUnitTypes.revenant;
         }};
 
         draugFactory = new LegacyUnitFactory("draug-factory") {{
@@ -276,7 +276,7 @@ public class ClassicBlocks {
 
             consumePower(1.2f);
             //requirement = with(Items.silicon, 40, Items.titanium, 30);
-            unitType = ClassicUnitTypes.draug;
+            unitType = RUnitTypes.draug;
         }};
 
         aptrgangrFactory = new LegacyUnitFactory("aptrgangr-factory") {{
@@ -298,7 +298,7 @@ public class ClassicBlocks {
 
             consumePower(1.2f);
             requirement = with(Items.silicon, 30, Items.lead, 30);
-            unitType = ClassicUnitTypes.spirit;
+            unitType = RUnitTypes.spirit;
         }};
 
         phantomFactory = new LegacyUnitFactory("phantom-factory") {{
@@ -309,7 +309,7 @@ public class ClassicBlocks {
 
             consumePower(2.5f);
             requirement = with(Items.silicon, 50, Items.lead, 30, Items.titanium, 20);
-            unitType = ClassicUnitTypes.phantom;
+            unitType = RUnitTypes.phantom;
         }};
 
         crawlerFactory = new LegacyUnitFactory("crawler-factory") {{
@@ -320,7 +320,7 @@ public class ClassicBlocks {
 
             consumePower(0.5f);
             requirement = with(Items.coal, 10);
-            unitType = ClassicUnitTypes.crawler;
+            unitType = RUnitTypes.crawler;
         }};
 
         daggerFactory = new LegacyUnitFactory("dagger-factory") {{
@@ -331,7 +331,7 @@ public class ClassicBlocks {
 
             consumePower(0.5f);
             requirement = with(Items.silicon, 6);
-            unitType = ClassicUnitTypes.dagger;
+            unitType = RUnitTypes.dagger;
         }};
 
         titanFactory = new LegacyUnitFactory("titan-factory") {{
@@ -342,7 +342,7 @@ public class ClassicBlocks {
 
             consumePower(0.6f);
             requirement = with(Items.silicon, 12);
-            unitType = ClassicUnitTypes.titan;
+            unitType = RUnitTypes.titan;
         }};
 
         fortressFactory = new LegacyUnitFactory("fortress-factory") {{
@@ -353,7 +353,7 @@ public class ClassicBlocks {
 
             consumePower(1.2f);
             requirement = with(Items.silicon, 20, Items.graphite, 10);
-            unitType = ClassicUnitTypes.fortress;
+            unitType = RUnitTypes.fortress;
         }};
 
         droneCenter = new DroneCenterNew("drone-center"){{
