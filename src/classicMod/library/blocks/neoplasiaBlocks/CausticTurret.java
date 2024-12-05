@@ -14,6 +14,22 @@ public class CausticTurret extends NeoplasiaBlock {
     }
 
     public class CausticTurretBuilding extends NeoplasiaBuilding {
+        BulletType bulletType = new BasicBulletType(5.0F, 16.0F, "shell") {
+                {
+                    homingPower = 0.19F;
+                    homingDelay = 4.0F;
+                    width = 7.0F;
+                    height = 12.0F;
+                    lifetime = 30.0F;
+                    shootEffect = Fx.sparkShoot;
+                    smokeEffect = Fx.shootBigSmoke;
+                    hitColor = backColor = trailColor = Pal.suppress;
+                    frontColor = Color.white;
+                    trailWidth = 1.5F;
+                    trailLength = 5;
+                    hitEffect = despawnEffect = Fx.hitBulletColor;
+                }
+            };
 
         @Override
         public void draw() {
@@ -26,22 +42,6 @@ public class CausticTurret extends NeoplasiaBlock {
 
         @Override
         public void updateBeat() {
-            BulletType bulletType = new BasicBulletType(5.0F, 16.0F) {
-                {
-                    this.homingPower = 0.19F;
-                    this.homingDelay = 4.0F;
-                    this.width = 7.0F;
-                    this.height = 12.0F;
-                    this.lifetime = 30.0F;
-                    this.shootEffect = Fx.sparkShoot;
-                    this.smokeEffect = Fx.shootBigSmoke;
-                    this.hitColor = this.backColor = this.trailColor = Pal.suppress;
-                    this.frontColor = Color.white;
-                    this.trailWidth = 1.5F;
-                    this.trailLength = 5;
-                    this.hitEffect = this.despawnEffect = Fx.hitBulletColor;
-                }
-            };
             for (int i = 0; i < 8; i++){
                 bulletType.create(this, x, y, i * -Mathf.mod(i, 1));
             }
