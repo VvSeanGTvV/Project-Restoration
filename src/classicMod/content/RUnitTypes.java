@@ -1,6 +1,8 @@
 package classicMod.content;
 
+import arc.Core;
 import arc.graphics.*;
+import arc.graphics.g2d.TextureRegion;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
@@ -73,6 +75,8 @@ public class RUnitTypes {
             useUnitCap = false;
             controller = u -> new HugAI();
             health = 20;
+
+            baseRegion = legRegion = Core.atlas.white();
 
             constructor = MechUnit::create;
         }};

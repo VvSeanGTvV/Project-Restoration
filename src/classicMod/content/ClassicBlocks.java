@@ -98,7 +98,7 @@ public class ClassicBlocks {
 
     interplanetaryAccelerator, //Endgame - Mindustry
 
-    ductJunction, cord, heart, neoplasiaDrill //Erekir - Prototype [v8-dev]
+    ductJunction, cord, heart, neoplasiaDrill, bloom  //Erekir - Prototype [v8-dev]
     ;
 
 
@@ -860,6 +860,10 @@ public class ClassicBlocks {
             squareSprite = false;
 
             //buildVisibility = BuildVisibility.hidden;
+        }};
+
+        bloom = new CausticTurret("neoplasm-bloom"){{
+            size = 3;
         }};
 
         neoplasiaDrill = new DrillBeat("drill"){{

@@ -21,7 +21,8 @@ import mindustry.world.meta.BlockGroup;
 import static mindustry.Vars.itemSize;
 
 public class Cord extends NeoplasiaBlock implements AutotilerPlus {
-    public TextureRegion[] regions;
+    public TextureRegion[] tiles;
+    public TextureRegion[][] regions;
 
     public boolean source = false;
 
@@ -47,8 +48,8 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
 
     @Override
     public void init() {
-        for (int i = 0; i < 6; i++) {
-            regions = new TextureRegion[]{Core.atlas.find(name + "-" + i)};
+        for (int i = 0; i < 5; i++) {
+            tiles = new TextureRegion[]{Core.atlas.find(name + "-" + i)};
         }
         super.init();
     }
@@ -102,13 +103,13 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
             int r = this.rotation;
 
             Draw.z(Layer.blockUnder);
-            for(int i = 0; i < 4; ++i) {
+            /*for(int i = 0; i < 4; ++i) {
                 if ((blending & 1 << i) != 0) {
                     int dir = r + i;
                     float rot = i == 0 ? rotation : (float)(dir * 90);
                     drawAt(x + (float)(Geometry.d4x(dir) * 8) * 0.75F, y + (float)(Geometry.d4y(dir) * 8) * 0.75F, 0, rot, i != 0 ? SliceMode.bottom : SliceMode.top);
                 }
-            }
+            }*/
 
             if (current != null){
                 Draw.z(Layer.blockUnder + 0.1f);
@@ -116,6 +117,8 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
                 Draw.scl();
                 Draw.rect(current.fullIcon, x, y, itemSize, itemSize);
             }
+
+
 
             //drawBeat(xscl, yscl);
             drawAt(x, y, blendbits, rotation, SliceMode.none);
@@ -141,6 +144,26 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
         boolean validBuilding(Building dest, Item item){
             if (item == null || dest == null) return false;
             return dest.acceptItem(this, item) && dest.team == this.team;
+        }
+
+        @Override
+        public void growCord(Block block) {
+            boolean keepDir = Mathf.randomBoolean(0.95f);
+            int i = Mathf.random(1, 4);
+            int rot = (keepDir) ? rotation : Mathf.mod(rotation + i, 4);
+            Tile near = nearbyTile(rot);
+            Tile nearRight = near.nearby(Mathf.mod(rot + 1, 4));
+            Tile nearLeft = near.nearby(Mathf.mod(rot - 1, 4));
+            Tile nearFront = near.nearby(rot);
+            if (
+                    passable(near.block())
+                            && passable(nearRight.block())
+                            && passable(nearLeft.block())
+                            && passable(nearFront.block())
+            ){
+                if (!CantReplace(near.block())) near.setBlock(ClassicBlocks.cord, team, rot);
+            }
+            super.growCord(block);
         }
 
         @Override
@@ -179,7 +202,7 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
                 }
                 if (liquids.get(Liquids.neoplasm) <= 1f) deathTimer += delta();
                 else deathTimer = 0;
-                if (deathTimer >= 30) this.damage(health);
+                if (deathTimer >= 10) this.damage(health);
             }
             super.update();
         }
@@ -227,6 +250,7 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
             //int bit = (left() != null && front() == null) ? 2 : (right() != null && front() == null) ? 2 : 0;
 
             //Log.info(bits[0]);
+
             blendbits =
                     (allSideOccupied()) ? 3 :
                     (!EitherSideOccupied() && !isNeoplasia(front())) ? 5 :

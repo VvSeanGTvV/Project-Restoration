@@ -11,7 +11,7 @@ import mindustry.entities.Effect;
 import mindustry.game.Team;
 import mindustry.gen.*;
 import mindustry.type.*;
-import mindustry.world.Tile;
+import mindustry.world.*;
 import mindustry.world.meta.Attribute;
 
 public class Heart extends NeoplasiaBlock {
@@ -40,6 +40,18 @@ public class Heart extends NeoplasiaBlock {
 
         public UnitType unitType = RUnitTypes.blob;
         public @Nullable Unit unit;
+
+        @Override
+        public void growCord(Block block) {
+            int randRot = (int) Mathf.range(4);
+            Tile tile = nearbyTile(randRot);
+            if (tile != null) {
+                if (tile.build == null) {
+                    tile.setBlock(block, team, randRot);
+                }
+            }
+            super.growCord(block);
+        }
 
         @Override
         public void updateBeat() {

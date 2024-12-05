@@ -187,32 +187,6 @@ public class NeoplasiaBlock extends Block {
         }
 
         public void growCord(Block block){
-            if (!isCord) {
-                int randRot = (int) Mathf.range(4);
-                Tile tile = nearbyTile(randRot);
-                if (tile != null) {
-                    if (tile.build == null) {
-                        tile.setBlock(block, team, randRot);
-                    }
-                }
-            } else {
-                boolean keepDir = Mathf.randomBoolean(0.95f);
-                int i = Mathf.random(1, 4);
-                int rot = (keepDir) ? rotation : Mathf.mod(rotation + i, 4);
-                Tile near = nearbyTile(rot);
-                Tile nearRight = near.nearby(Mathf.mod(rot + 1, 4));
-                Tile nearLeft = near.nearby(Mathf.mod(rot - 1, 4));
-                Tile nearFront = near.nearby(rot);
-                if (
-                       passable(near.block())
-                    && passable(nearRight.block())
-                    && passable(nearLeft.block())
-                    && passable(nearFront.block())
-                ){
-                    if (!CantReplace(near.block())) near.setBlock(ClassicBlocks.cord, team, rot);
-                }
-            }
-
             grow = false;
         }
 
@@ -236,15 +210,20 @@ public class NeoplasiaBlock extends Block {
 
         @Override
         public void update() {
+            if (!source) {
+                NeoplasiaBuilding behind = getNeoplasia(back());
+                if (behind != null && liquids.get(Liquids.neoplasm) < liquidCapacity)
+                    liquids.add(Liquids.neoplasm, Math.min(liquidCapacity, behind.liquids.get(Liquids.neoplasm)));
+            }
             if (!startBuild) {
                 if (source) {
                     if (liquids.current() == Liquids.water && liquids.get(Liquids.neoplasm) == 0) liquids.add(Liquids.neoplasm, 10f);
                     priority = 0;
                     beatTimer += delta();
                     if (beatTimer >= 25) {
-                        updateBeat();
                         beat = 1.5f;
                         beatTimer = 0;
+                        updateBeat();
                         growCord(ClassicBlocks.cord);
                     }
                 }
@@ -254,7 +233,6 @@ public class NeoplasiaBlock extends Block {
                     Building other = proximity.get((i) % proximity.size);
                     if (other instanceof NeoplasiaBuilding neoplasiaBuilding) {
                         if (neoplasiaBuilding.beat >= 1.2f && !source && !alreadyBeat) {
-                            if (liquids.get(Liquids.neoplasm) < liquidCapacity) liquids.add(Liquids.neoplasm, Math.min(liquidCapacity, neoplasiaBuilding.liquids.get(Liquids.neoplasm)));
                             if (neoplasiaBuilding.isSource()) priority = 10;
                             ready = true;
                             grow = true;
@@ -303,22 +281,6 @@ public class NeoplasiaBlock extends Block {
                         startBuild = false;
                     }
                 }
-            }
-        }
-
-        public class tileSafe {
-            Tile tile;
-            int rot;
-
-            public tileSafe(Tile tile, int rot){
-                this.tile = tile;
-                this.rot = rot;
-            }
-
-            @Override
-            public String toString() {
-                return "TILE : " + tile +
-                       " | ROT : " + rot;
             }
         }
     }
