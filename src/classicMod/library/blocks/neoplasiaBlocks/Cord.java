@@ -161,10 +161,9 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
                             && passable(nearLeft.block())
                             && passable(nearFront.block())
             ){
-                if (!CantReplace(near.block())) near.setBlock(ClassicBlocks.cord, team, rot);
                 if ((Units.closestEnemy(team, x, y, 120f, u -> u.type.killable && u.type.hittable) != null) || (Units.findEnemyTile(team, x, y, 120f, Building::isValid) != null)) {
                     if (!CantReplace(near.block())) near.setBlock(ClassicBlocks.bloom, team, rot);
-                }
+                } else if (!CantReplace(near.block())) near.setBlock(ClassicBlocks.cord, team, rot);
             }
             super.growCord(block);
         }
