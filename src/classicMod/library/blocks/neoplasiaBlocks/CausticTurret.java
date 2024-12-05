@@ -5,31 +5,22 @@ import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.math.Mathf;
 import mindustry.content.Fx;
+import mindustry.entities.Units;
 import mindustry.entities.bullet.*;
+import mindustry.gen.Building;
 import mindustry.graphics.Pal;
 
 public class CausticTurret extends NeoplasiaBlock {
+
+    public BulletType bulletType;
+    public float range = 60f;
     public CausticTurret(String name) {
         super(name);
     }
 
     public class CausticTurretBuilding extends NeoplasiaBuilding {
-        BulletType bulletType = new BasicBulletType(5.0F, 16.0F, "shell") {
-                {
-                    homingPower = 0.19F;
-                    homingDelay = 4.0F;
-                    width = 7.0F;
-                    height = 12.0F;
-                    lifetime = 30.0F;
-                    shootEffect = Fx.sparkShoot;
-                    smokeEffect = Fx.shootBigSmoke;
-                    hitColor = backColor = trailColor = Pal.suppress;
-                    frontColor = Color.white;
-                    trailWidth = 1.5F;
-                    trailLength = 5;
-                    hitEffect = despawnEffect = Fx.hitBulletColor;
-                }
-            };
+
+        boolean shoot = false;
 
         @Override
         public void draw() {
@@ -42,8 +33,13 @@ public class CausticTurret extends NeoplasiaBlock {
 
         @Override
         public void updateBeat() {
-            for (int i = 0; i < 8; i++){
-                bulletType.create(this, x, y, i * -Mathf.mod(i, 1));
+            shoot = (Units.closestEnemy(team, x, y, range, u -> u.type.killable && u.type.hittable) != null) || (Units.findEnemyTile(team, x, y, range, Building::isValid) != null);
+            if (shoot) {
+                int bulletCount = 7;
+                for (int i = 0; i < bulletCount; i++) {
+                    float angle = 180f / bulletCount;
+                    bulletType.create(this, x, y, i * angle);
+                }
             }
         }
     }

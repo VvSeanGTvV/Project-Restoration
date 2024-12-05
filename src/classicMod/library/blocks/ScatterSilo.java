@@ -155,7 +155,7 @@ public class ScatterSilo extends Block {
                 warmup %= 1f;
             }
 
-            shoot = (Units.closestEnemy(team, x, y, range, u -> !u.spawnedByCore && u.type.killable && u.type.hittable) != null);
+            shoot = (Units.closestEnemy(team, x, y, range, u -> u.type.killable && u.type.hittable) != null);
             super.updateTile();
         }
 

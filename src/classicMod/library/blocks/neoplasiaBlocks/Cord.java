@@ -10,7 +10,7 @@ import arc.util.*;
 import classicMod.AutotilerPlus;
 import classicMod.content.ClassicBlocks;
 import mindustry.content.*;
-import mindustry.entities.Puddles;
+import mindustry.entities.*;
 import mindustry.gen.Building;
 import mindustry.graphics.*;
 import mindustry.type.*;
@@ -162,6 +162,9 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
                             && passable(nearFront.block())
             ){
                 if (!CantReplace(near.block())) near.setBlock(ClassicBlocks.cord, team, rot);
+                if ((Units.closestEnemy(team, x, y, 120f, u -> u.type.killable && u.type.hittable) != null) || (Units.findEnemyTile(team, x, y, 120f, Building::isValid) != null)) {
+                    if (!CantReplace(near.block())) near.setBlock(ClassicBlocks.bloom, team, rot);
+                }
             }
             super.growCord(block);
         }
