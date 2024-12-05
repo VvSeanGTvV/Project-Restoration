@@ -857,12 +857,13 @@ public class ClassicBlocks {
             size = 3;
             minEfficiency = 8.9999F;
             attribute = Attribute.steam;
-            squareSprite = false;
+            //squareSprite = false;
 
             //buildVisibility = BuildVisibility.hidden;
         }};
 
         bloom = new CausticTurret("neoplasm-bloom"){{
+            requirements(Category.distribution, with(Items.beryllium, 1));
             size = 3;
         }};
 
