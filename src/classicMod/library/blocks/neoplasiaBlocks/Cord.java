@@ -69,7 +69,7 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
     public class CordBuild extends NeoplasiaBuilding {
 
         //TODO make it work YIPPE
-        public float progress, deathTimer;
+        public float progress;
         @Nullable
         public Item current;
         public int recDir = 0;
@@ -103,14 +103,6 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
             int r = this.rotation;
 
             Draw.z(Layer.blockUnder);
-            /*for(int i = 0; i < 4; ++i) {
-                if ((blending & 1 << i) != 0) {
-                    int dir = r + i;
-                    float rot = i == 0 ? rotation : (float)(dir * 90);
-                    drawAt(x + (float)(Geometry.d4x(dir) * 8) * 0.75F, y + (float)(Geometry.d4y(dir) * 8) * 0.75F, 0, rot, i != 0 ? SliceMode.bottom : SliceMode.top);
-                }
-            }*/
-
             if (current != null){
                 Draw.z(Layer.blockUnder + 0.1f);
                 Draw.color();
@@ -118,27 +110,10 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
                 Draw.rect(current.fullIcon, x, y, itemSize, itemSize);
             }
 
-
-
-            //drawBeat(xscl, yscl);
             drawAt(x, y, blendbits, rotation, SliceMode.none);
             Draw.color();
 
             Draw.reset();
-        }
-
-        @Override
-        public void onDestroyed() {
-            Liquid neoplasm = Liquids.neoplasm;
-            float leakAmount = liquids.get(neoplasm);
-            Puddles.deposit(this.tile, this.tile, neoplasm, liquids.get(neoplasm), true, true);
-            liquids.remove(neoplasm, leakAmount);
-            super.onDestroyed();
-        }
-
-        @Override
-        public boolean acceptLiquid(Building source, Liquid liquid) {
-            return liquid == Liquids.neoplasm;
         }
 
         boolean validBuilding(Building dest, Item item){
@@ -148,7 +123,7 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
 
         @Override
         public void growCord(Block block) {
-            boolean keepDir = Mathf.randomBoolean(0.95f);
+            boolean keepDir = Mathf.randomBoolean(0.98f);
             int i = Mathf.random(1, 4);
             int rot = (keepDir) ? rotation : Mathf.mod(rotation + i, 4);
             Tile near = nearbyTile(rot);
@@ -159,18 +134,22 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
                     passable(near.block())
                             && passable(nearRight.block())
                             && passable(nearLeft.block())
-                            && passable(nearFront.block())
+                            //&& passable(nearFront.block())
             ){
-                if ((Units.closestEnemy(team, x, y, 120f, u -> u.type.killable && u.type.hittable) != null) || (Units.findEnemyTile(team, x, y, 120f, Building::isValid) != null)) {
-                    if (!CantReplace(near.block())) near.setBlock(ClassicBlocks.bloom, team, rot);
-                } else if (!CantReplace(near.block())) near.setBlock(ClassicBlocks.cord, team, rot);
+                if (!CantReplace(near.block())) near.setBlock(ClassicBlocks.cord, team, rot);
             }
             super.growCord(block);
         }
 
         @Override
         public void updateBeat() {
-            if (grow) growCord(ClassicBlocks.cord);
+            if (grow) {
+                if ((Units.closestEnemy(team, x, y, 120f, u -> u.type.killable && u.type.hittable) != null) || (Units.findEnemyTile(team, x, y, 120f, Building::isValid) != null)) {
+                    bloomTurret();
+                } else {
+                    growCord(ClassicBlocks.cord);
+                }
+            }
             if (current != null){
                 Seq<NeoplasiaBuilding> avaliable = new Seq<>();
                 for (int i = 0; i < 5; i++){
@@ -194,17 +173,13 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
         @Override
         public void update() {
             if (!startBuild) {
-                Liquid neoplasm = Liquids.neoplasm;
+                Liquid neoplasm = blood;
                 Tile behind = nearbyTile(Mathf.mod(rotation + 2, 4));
-
                 if (back() == null && behind != null) {
                     float leakAmount = liquids.get(neoplasm) / 1.5F;
                     Puddles.deposit(behind, this.tile, neoplasm, liquids.get(neoplasm), true, true);
                     liquids.remove(neoplasm, leakAmount);
                 }
-                if (liquids.get(Liquids.neoplasm) <= 1f) deathTimer += delta();
-                else deathTimer = 0;
-                if (deathTimer >= 10) this.damage(health);
             }
             super.update();
         }
