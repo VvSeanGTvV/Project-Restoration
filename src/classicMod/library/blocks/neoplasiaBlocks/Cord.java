@@ -129,11 +129,11 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
             Tile near = nearbyTile(rot);
             Tile nearRight = near.nearby(Mathf.mod(rot + 1, 4));
             Tile nearLeft = near.nearby(Mathf.mod(rot - 1, 4));
-            Tile nearFront = near.nearby(rot);
+            //Tile nearFront = near.nearby(rot);
             if (
-                    passable(near.block())
-                            && passable(nearRight.block())
-                            && passable(nearLeft.block())
+                    passable(near)
+                            && passable(nearRight)
+                            && passable(nearLeft)
                             //&& passable(nearFront.block())
             ){
                 if (!CantReplace(near.block())) near.setBlock(ClassicBlocks.cord, team, rot);

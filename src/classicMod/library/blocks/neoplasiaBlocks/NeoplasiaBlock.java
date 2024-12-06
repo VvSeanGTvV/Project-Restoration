@@ -98,8 +98,10 @@ public class NeoplasiaBlock extends Block {
             return nearbyTile(rotation, 0);
         }
 
-        public boolean passable(Block block){
-            boolean acceptable = true;
+        public boolean passable(Tile tile){
+            if (tile == null) return false;
+
+            Block block = tile.block();
             if (block == null) return false;
 
             if (block instanceof Floor floor){
