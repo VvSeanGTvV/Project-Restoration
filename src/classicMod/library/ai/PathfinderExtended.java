@@ -14,27 +14,52 @@ public class PathfinderExtended extends Pathfinder {
     Seq<Tile> SteamVent = new Seq<>();
 
     public static class SteamVents extends Flowfield {
+        Seq<Tile> Vents = new Seq<>();
+
         public SteamVents() {
         }
 
         protected void getPositions(IntSeq out) {
 
-            for (Tile tile : Vars.world.tiles) {
-                if (tile.floor().attributes.get(Attribute.steam) <= 0f) continue;
-                float steam = 0f;
-                for (int dy = -1; dy < 2; dy++) {
-                    for (int dx = -1; dx < 2; dx++) {
-                        Tile vents = Vars.world.tile(tile.x + dx, tile.y + dy);
-                        if (vents != null && vents.build == null)
+            if (Vents.size <= 0) {
+                for (Tile tile : Vars.world.tiles) {
+                    if (tile.floor().attributes.get(Attribute.steam) <= 0f) continue;
+                    float steam = 0f;
+                    for (int dy = -1; dy < 2; dy++) {
+                        for (int dx = -1; dx < 2; dx++) {
+                            Tile vents = Vars.world.tile(tile.x + dx, tile.y + dy);
+                            if (vents == null || vents.build != null || vents.floor().attributes.get(Attribute.steam) <= 0f)
+                                continue;
                             steam += vents.floor().attributes.get(Attribute.steam);
+                        }
+                    }
+                    if (steam >= 9f) {
+                        out.add(tile.array());
+                        Vents.add(tile);
                     }
                 }
-                if (steam >= 9f) out.add(tile.array());
+            } else {
+                for (Tile tile : Vents) {
+                    if (tile.floor().attributes.get(Attribute.steam) <= 0f) continue;
+                    float steam = 0f;
+                    for (int dy = -1; dy < 2; dy++) {
+                        for (int dx = -1; dx < 2; dx++) {
+                            Tile vents = Vars.world.tile(tile.x + dx, tile.y + dy);
+                            if (vents == null || vents.build != null || vents.floor().attributes.get(Attribute.steam) <= 0f)
+                                continue;
+                            steam += vents.floor().attributes.get(Attribute.steam);
+                        }
+                    }
+                    if (steam >= 9f) {
+                        out.add(tile.array());
+                    }
+                }
             }
         }
     }
 
     public static void addonFieldTypes(){
+
         fieldTypes.add(SteamVents::new);
     }
 }
