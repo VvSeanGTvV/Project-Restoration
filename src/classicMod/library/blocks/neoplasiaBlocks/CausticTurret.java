@@ -15,6 +15,8 @@ import mindustry.world.Tile;
 
 public class CausticTurret extends NeoplasiaBlock {
 
+    public int bulletCount = 7;
+    public float bulletAnglePer = 15f;
     public BulletType bulletType;
     public float range = 60f;
     public CausticTurret(String name) {
@@ -40,12 +42,11 @@ public class CausticTurret extends NeoplasiaBlock {
         public void updateBeat() {
             shoot = target != null;
             if (shoot) {
-                int bulletCount = 7;
                 float targetAngle = angleTo(target);
                 bulletType.create(this, x, y, targetAngle);
                 for (int i = 0; i < bulletCount; i++){
                     int invert = -Mathf.round((float) bulletCount / 2);
-                    bulletType.create(this, x, y, ((invert + i) * 15f) + targetAngle);
+                    bulletType.create(this, x, y, ((invert + i) * bulletAnglePer) + targetAngle);
                 }
             }
         }
@@ -56,12 +57,12 @@ public class CausticTurret extends NeoplasiaBlock {
         }
 
         @Override
-        public void Death() {
+        public void death() {
             for (int i = 0; i < 4; i++) {
                 int rot = Mathf.mod((rotation + i), 4);
                 Tile tile = nearbyTile(rot, -1);
                 this.tile.setBlock(ClassicBlocks.cord, team);
-                if (tile != null) {
+                if (tile != null && tile.build == null) {
                     tile.setBlock(ClassicBlocks.cord, team, rot);
                 }
             }

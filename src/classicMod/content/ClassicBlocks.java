@@ -98,7 +98,7 @@ public class ClassicBlocks {
 
     interplanetaryAccelerator, //Endgame - Mindustry
 
-    ductJunction, cord, heart, neoplasiaDrill, bloom  //Erekir - Prototype [v8-dev]
+    ductJunction, cord, heart, neoplasiaDrill, bloom, tole //Erekir - Prototype [v8-dev]
     ;
 
 
@@ -862,9 +862,11 @@ public class ClassicBlocks {
             //buildVisibility = BuildVisibility.hidden;
         }};
 
-        bloom = new CausticTurret("neoplasm-bloom"){{
+        tole = new CausticTurret("neoplasm-tole"){{
             requirements(Category.distribution, with(Items.beryllium, 1));
-            range = 120f;
+            range = 80f;
+            bulletCount = 5;
+            bulletAnglePer = 35f;
             bulletType = new BasicBulletType(5.0F, 16.0F) {{
                 backSprite = sprite = "bullet";
                 homingPower = 0.19F;
@@ -880,6 +882,29 @@ public class ClassicBlocks {
                 trailLength = 5;
                 hitEffect = despawnEffect = Fx.hitBulletColor;
             }};
+
+            size = 2;
+        }};
+
+        bloom = new CausticTurret("neoplasm-bloom"){{
+            requirements(Category.distribution, with(Items.beryllium, 1));
+            range = 140f;
+            bulletType = new BasicBulletType(5.0F, 16.0F) {{
+                backSprite = sprite = "bullet";
+                homingPower = 0.19F;
+                homingDelay = 4.0F;
+                width = 7.0F;
+                height = 12.0F;
+                lifetime = 30.0F;
+                shootEffect = Fx.sparkShoot;
+                smokeEffect = Fx.shootBigSmoke;
+                hitColor = backColor = trailColor = Pal.neoplasm1;
+                frontColor = Color.white;
+                trailWidth = 1.5F;
+                trailLength = 5;
+                hitEffect = despawnEffect = Fx.hitBulletColor;
+            }};
+
             size = 3;
         }};
 

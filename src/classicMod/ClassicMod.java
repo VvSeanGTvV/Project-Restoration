@@ -10,6 +10,7 @@ import classicMod.library.ai.*;
 import classicMod.library.ui.UIExtended;
 import classicMod.library.ui.dialog.*;
 import classicMod.library.ui.menu.*;
+import mindustry.ai.Pathfinder;
 import mindustry.ai.types.CommandAI;
 import mindustry.game.EventType.ClientLoadEvent;
 import mindustry.gen.Icon;
@@ -26,7 +27,7 @@ import static mindustry.Vars.*;
 
 public class ClassicMod extends Mod{
     /** Mod's current Version **/
-    public static String ModVersion = "4.1 Beta";
+    public static String ModVersion = "4.5 Pre-Alpha";
     /** Mod's current Build **/
     public static final String BuildVer = "13";
     /** Mod's internal name **/
@@ -234,6 +235,7 @@ public class ClassicMod extends Mod{
         // Tech Tree and Finalize
         new ExtendedSerpuloTechTree().load();
         new ExtendedErekirTechTree().load();
+        PathfinderExtended.addonFieldTypes();
         ModdedMusic.load();
 
         for(UnitType a : content.units()){

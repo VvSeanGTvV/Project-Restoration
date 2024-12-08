@@ -6,7 +6,7 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.Seq;
-import arc.util.Log;
+import arc.util.*;
 import classicMod.content.*;
 import mindustry.Vars;
 import mindustry.content.*;
@@ -34,6 +34,7 @@ public class NeoplasiaBlock extends Block {
         destroySound = breakSound = RSounds.splat;
         hasLiquids = true;
         liquidCapacity = 100f;
+        liquidPressure = 10f;
     }
 
     public class NeoplasiaBuilding extends Building {
@@ -42,7 +43,7 @@ public class NeoplasiaBlock extends Block {
         public Seq<Tile> proximityTiles = new Seq<>();
 
         boolean startBuild = true, initalize = false;
-        float beat = 1, beatTimer = 0, priority = 0, deathTimer = 0;
+        float beat = 1, beatTimer = 0, priority = 0, deathTimer = 0, timer = 0;
         boolean ready = false, alreadyBeat = false, grow = false;
 
         @Override
@@ -103,13 +104,7 @@ public class NeoplasiaBlock extends Block {
 
             Block block = tile.block();
             if (block == null) return false;
-
-            if (block instanceof Floor floor){
-                if (floor.liquidDrop != null){
-                    Log.info(floor.liquidDrop);
-                    return false;
-                }
-            }
+            if (tile.floor() != null && tile.floor().liquidDrop != null) return false;
 
             return !(
                             block instanceof StaticWall ||
@@ -151,19 +146,19 @@ public class NeoplasiaBlock extends Block {
             }
         }
 
-        public void bloomTurret(){
+        public void Turret(Block turret){
             float spaceAvaliable = 0;
-            for (int dy = -1; dy < 2; dy++) {
-                for (int dx = -1; dx < 2; dx++) {
+            for (int dy = (2 - turret.size); dy < 2; dy++) {
+                for (int dx = (2 - turret.size); dx < 2; dx++) {
                     Tile tile = Vars.world.tile(this.tile.x + dx, this.tile.y + dy);
                     if (tile.floor() != null && (tile.build == null || tile.build instanceof Cord.CordBuild)) {
                         spaceAvaliable += 1;
                     }
                 }
             }
-            if (spaceAvaliable >= 9) {
+            if (spaceAvaliable >= turret.size * turret.size) {
                 Tile replacement = Vars.world.tile(this.tile.x, this.tile.y);
-                replacement.setBlock(ClassicBlocks.bloom, team, rotation);
+                replacement.setBlock(turret, team, rotation);
             }
         }
 
@@ -214,12 +209,25 @@ public class NeoplasiaBlock extends Block {
             return (liquids.get(blood) <= 1f);
         }
 
-        public void Death(){
+        public void death(){
             Events.fire(new EventType.BlockDestroyEvent(this.tile));
-            Liquid neoplasm = blood;
-            float leakAmount = liquids.get(neoplasm);
-            Puddles.deposit(this.tile, this.tile, neoplasm, liquids.get(neoplasm), true, true);
-            liquids.remove(neoplasm, leakAmount);
+
+            if (this.block.hasLiquids && Vars.state.rules.damageExplosions) {
+                this.liquids.each((liquid, amountx) -> {
+                    float splash = Mathf.clamp(liquidCapacity / 4.0F, 0.0F, 10.0F);
+
+                    for(int i = 0; (float)i < Mathf.clamp(amountx / 5.0F, 0.0F, 30.0F); ++i) {
+                        Time.run((float)i / 2.0F, () -> {
+                            Tile other = Vars.world.tileWorld(this.x + (float)Mathf.range(this.block.size * 8 / 2), this.y + (float)Mathf.range(this.block.size * 8 / 2));
+                            if (other != null) {
+                                Puddles.deposit(other, liquid, splash);
+                            }
+                        });
+                    }
+
+                });
+            }
+
             destroySound.at(this);
 
             if (this.tile != Vars.emptyTile) {
@@ -232,19 +240,75 @@ public class NeoplasiaBlock extends Block {
 
         @Override
         public void killed() {
-            Death();
+            death();
+            super.killed();
+        }
+
+        public float moveFromLiquid(Building from, Liquid liquid) {
+            Building next = this;
+            if (from == null) {
+                return 0.0F;
+            } else {
+                next = next.getLiquidDestination(from, liquid);
+                if (next.team == from.team && next.block.hasLiquids && from.liquids.get(liquid) > 0.0F) {
+                    float ofract = next.liquids.get(liquid) / next.block.liquidCapacity;
+                    float fract = from.liquids.get(liquid) / from.block.liquidCapacity * from.block.liquidPressure;
+                    float flow = Math.min(Mathf.clamp(fract - ofract) * from.block.liquidCapacity, from.liquids.get(liquid));
+                    flow = Math.min(flow, next.block.liquidCapacity - next.liquids.get(liquid));
+                    if (flow > 0.0F && ofract <= fract && next.acceptLiquid(from, liquid)) {
+                        next.handleLiquid(from, liquid, flow);
+                        from.liquids.remove(liquid, flow);
+                        return flow;
+                    }
+
+                    if (!next.block.consumesLiquid(liquid) && next.liquids.currentAmount() / next.block.liquidCapacity > 0.1F && fract > 0.1F) {
+                        float fx = (from.x + next.x) / 2.0F;
+                        float fy = (from.y + next.y) / 2.0F;
+                        Liquid other = next.liquids.current();
+                        if (other.blockReactive && liquid.blockReactive) {
+                            if ((!(other.flammability > 0.3F) || !(liquid.temperature > 0.7F)) && (!(liquid.flammability > 0.3F) || !(other.temperature > 0.7F))) {
+                                if (liquid.temperature > 0.7F && other.temperature < 0.55F || other.temperature > 0.7F && liquid.temperature < 0.55F) {
+                                    this.liquids.remove(liquid, Math.min(from.liquids.get(liquid), 0.7F * Time.delta));
+                                    if (Mathf.chanceDelta(0.20000000298023224)) {
+                                        Fx.steam.at(fx, fy);
+                                    }
+                                }
+                            } else {
+                                from.damageContinuous(1.0F);
+                                next.damageContinuous(1.0F);
+                                if (Mathf.chanceDelta(0.1)) {
+                                    Fx.fire.at(fx, fy);
+                                }
+                            }
+                        }
+                    }
+                }
+                return 0.0F;
+            }
+        }
+
+        public void takeBlood(){
+            for(int i = 0; i <proximity.size; ++i) {
+                Building other = proximity.get((i) % proximity.size);
+                if (other instanceof NeoplasiaBuilding neoplasiaBuilding) {
+                    if (!source && !neoplasiaBuilding.deathImminent() && liquids.get(blood) < liquidCapacity) {
+                        float amount = Math.min(liquidCapacity, neoplasiaBuilding.liquids.get(blood));
+                        neoplasiaBuilding.liquids.remove(blood, amount);
+                        liquids.add(blood, amount);
+                    }
+                }
+            }
         }
 
         @Override
         public void update() {
-            if (!source) {
-                NeoplasiaBuilding behind = getNeoplasia(back());
-                if (behind != null && liquids.get(blood) < liquidCapacity) {
-                    float amount = Math.min(liquidCapacity, behind.liquids.get(blood));
-                    liquids.add(blood, amount);
-                    behind.liquids.remove(blood, amount);
-                }
+            takeBlood();
+            timer += delta();
+            if (timer >= 10f) {
+                timer = 0;
+                liquids.remove(blood, 5f);
             }
+
             if (!startBuild) {
                 if (source) {
                     if (liquids.get(blood) < liquidCapacity) liquids.add(blood, Math.min(liquidCapacity - liquids.get(blood), liquidCapacity));
@@ -260,7 +324,7 @@ public class NeoplasiaBlock extends Block {
 
                 if (deathImminent()) deathTimer += delta();
                 else deathTimer = 0;
-                if (deathTimer >= 5) Death();
+                if (deathTimer >= 5) death();
 
                 for(int i = 0; i <proximity.size; ++i) {
                     Building other = proximity.get((i) % proximity.size);

@@ -2,7 +2,6 @@ package classicMod.content;
 
 import arc.Core;
 import arc.graphics.*;
-import arc.graphics.g2d.TextureRegion;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
@@ -73,12 +72,12 @@ public class RUnitTypes {
 
         blob = new NeoplasmUnitType("vesicle"){{
             useUnitCap = false;
-            controller = u -> new HugAI();
+            controller = u -> new SteamHugAI();
             health = 20;
 
             baseRegion = legRegion = Core.atlas.white();
 
-            constructor = MechUnit::create;
+            constructor = CrawlUnit::create;
         }};
 
         mantis = new MantisRayType("skat"){{

@@ -16,6 +16,7 @@ import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.Autotiler;
+import mindustry.world.blocks.defense.turrets.Turret;
 import mindustry.world.meta.BlockGroup;
 
 import static mindustry.Vars.itemSize;
@@ -144,8 +145,12 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
         @Override
         public void updateBeat() {
             if (grow) {
-                if ((Units.closestEnemy(team, x, y, 120f, u -> u.type.killable && u.type.hittable) != null) || (Units.findEnemyTile(team, x, y, 120f, Building::isValid) != null)) {
-                    bloomTurret();
+                if ((Units.closestEnemy(team, x, y, 120f, u -> u.type.killable && u.type.hittable) != null) ||
+                        (Units.findEnemyTile(team, x, y, 120f, b -> b.isValid() && (b instanceof Turret.TurretBuild)) != null)) {
+                    Turret(ClassicBlocks.bloom);
+                } if ((Units.closestEnemy(team, x, y, 30f, u -> u.type.killable && u.type.hittable) != null) ||
+                        (Units.findEnemyTile(team, x, y, 30f, b -> b.isValid() && !(b instanceof Turret.TurretBuild)) != null)) {
+                    Turret(ClassicBlocks.tole);
                 } else {
                     growCord(ClassicBlocks.cord);
                 }
@@ -171,17 +176,11 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
         }
 
         @Override
-        public void update() {
-            if (!startBuild) {
-                Liquid neoplasm = blood;
-                Tile behind = nearbyTile(Mathf.mod(rotation + 2, 4));
-                if (back() == null && behind != null) {
-                    float leakAmount = liquids.get(neoplasm) / 1.5F;
-                    Puddles.deposit(behind, this.tile, neoplasm, liquids.get(neoplasm), true, true);
-                    liquids.remove(neoplasm, leakAmount);
-                }
+        public void takeBlood() {
+            NeoplasiaBuilding behind = getNeoplasia(back());
+            if (behind != null && liquids.get(blood) < liquidCapacity) {
+                moveFromLiquid(behind, blood);
             }
-            super.update();
         }
 
         protected void drawAt(float x, float y, int bits, float rotation, Autotiler.SliceMode slice) {
