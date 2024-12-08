@@ -55,7 +55,7 @@ public class Heart extends NeoplasiaBlock {
 
         @Override
         public void updateBeat() {
-            if (Mathf.chance(0.5)){
+            if (Mathf.chance(0.25)){
                 if (!Vars.net.client()) {
                     unit = unitType.create(team);
                     if (unit instanceof BuildingTetherc bt) {
