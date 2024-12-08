@@ -17,10 +17,10 @@ public class PathfinderExtended extends Pathfinder {
         Seq<Tile> Vents = new Seq<>();
 
         public SteamVents() {
+            refreshRate = 900; //for Optimization purpose
         }
 
         protected void getPositions(IntSeq out) {
-
             if (Vents.size <= 0) {
                 for (Tile tile : Vars.world.tiles) {
                     if (tile.floor().attributes.get(Attribute.steam) <= 0f) continue;
