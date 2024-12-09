@@ -3,6 +3,7 @@ package classicMod.library.ai;
 import arc.Events;
 import arc.math.geom.QuadTree;
 import arc.struct.*;
+import arc.util.Log;
 import mindustry.Vars;
 import mindustry.ai.Pathfinder;
 import mindustry.game.EventType;
@@ -19,24 +20,7 @@ public class PathfinderExtended extends Pathfinder {
     public static Seq<Tile> SteamVents = new Seq<>();
     public static Seq<LegacyCommandCenter.CommandBuild> CommandCenter = new Seq<>();
 
-    public PathfinderExtended(){
-        Events.on(EventType.WorldLoadEvent.class, (event) -> {
-            for (Tile tile : Vars.world.tiles) {
-                float steam = 0f;
-                for (int dy = -1; dy < 2; dy++) {
-                    for (int dx = -1; dx < 2; dx++) {
-                        Tile vents = Vars.world.tile(tile.x + dx, tile.y + dy);
-                        if (vents == null || vents.build != null || vents.floor().attributes.get(Attribute.steam) <= 0f)
-                            continue;
-                        steam += vents.floor().attributes.get(Attribute.steam);
-                    }
-                }
-                if (steam >= 9f) {
-                    SteamVents.add(tile);
-                }
-            }
-        });
-    }
+    public PathfinderExtended(){}
 
     public static class SteamVentField extends Flowfield {
 
@@ -77,8 +61,29 @@ public class PathfinderExtended extends Pathfinder {
             }
         }
     }
+    public static void preloadAddons(){
+        Events.on(EventType.WorldLoadEvent.class, (event) -> {
+            for (Tile tile : Vars.world.tiles) {
+                if (tile.floor().attributes.get(Attribute.steam) >= 1f) {
+                    float steam = 0f;
+                    for (int dy = -1; dy < 2; dy++) {
+                        for (int dx = -1; dx < 2; dx++) {
+                            Tile vents = Vars.world.tile(tile.x + dx, tile.y + dy);
+                            if (vents == null || vents.build != null || vents.floor().attributes.get(Attribute.steam) <= 0f)
+                                continue;
+                            steam += vents.floor().attributes.get(Attribute.steam);
+                        }
+                    }
+                    if (steam >= 9f) {
+                        SteamVents.add(tile);
+                    }
+                }
+            }
+        });
+    }
 
     public static void addonFieldTypes(){
+
 
         fieldTypes.add(SteamVentField::new);
         fieldTypes.add(CommandCenterField::new);

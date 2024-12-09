@@ -235,7 +235,10 @@ public class ClassicMod extends Mod{
         // Tech Tree and Finalize
         new ExtendedSerpuloTechTree().load();
         new ExtendedErekirTechTree().load();
+
+        PathfinderExtended.preloadAddons();
         PathfinderExtended.addonFieldTypes();
+
         ModdedMusic.load();
 
         for(UnitType a : content.units()){
