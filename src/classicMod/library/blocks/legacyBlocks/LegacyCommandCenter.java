@@ -10,7 +10,7 @@ import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
 import arc.util.Log;
 import arc.util.io.*;
-import classicMod.library.ai.RallyAI;
+import classicMod.library.ai.*;
 import mindustry.ai.UnitCommand;
 import mindustry.entities.Units;
 import mindustry.gen.*;
@@ -188,7 +188,8 @@ public class LegacyCommandCenter extends Block {
                             var building = Units.closestBuilding(targetM.team, targetM.x, targetM.y, MaximumRangeCommand, b -> (b instanceof LegacyCommandCenter.LegacyCommandCenterBuild) && b.isValid() && !(b.isNull()));
                             if (targetM.isFlying()) ai.circle(building, 65f + Mathf.randomSeed(targetM.id) * 100);
                             else {
-                                ai.moveTo(building, 65f + Mathf.randomSeed(targetM.id) * 100, 25f, true, Vec2.ZERO, true);
+                                ai.pathfind(PathfinderExtended.fieldCommandCenter);
+                                //ai.moveTo(building, 65f + Mathf.randomSeed(targetM.id) * 100, 25f, true, Vec2.ZERO, true);
                                 ai.faceMovement();
                             }
                             ai.commandTarget(building);
