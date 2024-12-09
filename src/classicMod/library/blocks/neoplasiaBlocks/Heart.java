@@ -43,11 +43,14 @@ public class Heart extends NeoplasiaBlock {
 
         @Override
         public void growCord(Block block) {
-            int randRot = (int) Mathf.range(4);
+            int randRot = Mathf.range(4);
             Tile tile = nearbyTile(randRot);
             if (tile != null) {
                 if (tile.build == null) {
-                    tile.setBlock(block, team, randRot);
+                    tile.setBlock(block, team);
+                    if (tile.build != null && tile.build instanceof Cord.CordBuild cordBuild) {
+                        cordBuild.facingRot = randRot;
+                    }
                 }
             }
             super.growCord(block);

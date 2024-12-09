@@ -38,7 +38,7 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
         solid = false;
         unloadable = false;
 
-        rotate = true;
+        rotate = false;
         isCord = true;
 
         itemCapacity = 1;
@@ -71,6 +71,7 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
     public class CordBuild extends NeoplasiaBuilding {
 
         //TODO make it work YIPPE
+        int facingRot = 1;
         public float progress;
         @Nullable
         public Item current;
@@ -84,23 +85,23 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
         @Nullable
         public CordBuild nextc;
 
-        int[][] bitmask = new int[][]{
-                new int[]{39, 36, 39, 36, 27, 16, 27, 24, 39, 36, 39, 36, 27, 16, 27, 24},
-                new int[]{38, 37, 38, 37, 17, 41, 17, 43, 38, 37, 38, 37, 26, 21, 26, 25},
-                new int[]{39, 36, 39, 36, 27, 16, 27, 24, 39, 36, 39, 36, 27, 16, 27, 24},
-                new int[]{38, 37, 38, 37, 17, 41, 17, 43, 38, 37, 38, 37, 26, 21, 26, 25},
-                new int[]{3,  4,  3,  4, 15, 40, 15, 20,  3,  4,  3,  4, 15, 40, 15, 20},
-                new int[]{5, 28,  5, 28, 29, 10, 29, 23,  5, 28,  5, 28, 31, 11, 31, 32},
-                new int[]{3,  4,  3,  4, 15, 40, 15, 20,  3,  4,  3,  4, 15, 40, 15, 20},
-                new int[]{2, 30,  2, 30,  9, 46,  9, 22,  2, 30,  2, 30, 14, 44, 14,  6},
-                new int[]{39, 36, 39, 36, 27, 16, 27, 24, 39, 36, 39, 36, 27, 16, 27, 24},
-                new int[]{38, 37, 38, 37, 17, 41, 17, 43, 38, 37, 38, 37, 26, 21, 26, 25},
-                new int[]{39, 36, 39, 36, 27, 16, 27, 24, 39, 36, 39, 36, 27, 16, 27, 24},
-                new int[]{38, 37, 38, 37, 17, 41, 17, 43, 38, 37, 38, 37, 26, 21, 26, 25},
-                new int[]{3,  0,  3,  0, 15, 42, 15, 12,  3,  0,  3,  0, 15, 42, 15, 12},
-                new int[]{5,  8,  5,  8, 29, 35, 29, 33,  5,  8,  5,  8, 31, 34, 31,  7},
-                new int[]{3,  0,  3,  0, 15, 42, 15, 12,  3,  0,  3,  0, 15, 42, 15, 12},
-                new int[]{2,  1,  2,  1,  9, 45,  9, 19,  2,  1,  2,  1, 14, 18, 14, 13}
+        int[] bitmask = new int[]{
+                39, 36, 39, 36, 27, 16, 27, 24, 39, 36, 39, 36, 27, 16, 27, 24,
+                38, 37, 38, 37, 17, 41, 17, 43, 38, 37, 38, 37, 26, 21, 26, 25,
+                39, 36, 39, 36, 27, 16, 27, 24, 39, 36, 39, 36, 27, 16, 27, 24,
+                38, 37, 38, 37, 17, 41, 17, 43, 38, 37, 38, 37, 26, 21, 26, 25,
+                3,  4,  3,  4, 15, 40, 15, 20,  3,  4,  3,  4, 15, 40, 15, 20,
+                5, 28,  5, 28, 29, 10, 29, 23,  5, 28,  5, 28, 31, 11, 31, 32,
+                3,  4,  3,  4, 15, 40, 15, 20,  3,  4,  3,  4, 15, 40, 15, 20,
+                2, 30,  2, 30,  9, 46,  9, 22,  2, 30,  2, 30, 14, 44, 14,  6,
+                39, 36, 39, 36, 27, 16, 27, 24, 39, 36, 39, 36, 27, 16, 27, 24,
+                38, 37, 38, 37, 17, 41, 17, 43, 38, 37, 38, 37, 26, 21, 26, 25,
+                39, 36, 39, 36, 27, 16, 27, 24, 39, 36, 39, 36, 27, 16, 27, 24,
+                38, 37, 38, 37, 17, 41, 17, 43, 38, 37, 38, 37, 26, 21, 26, 25,
+                3,  0,  3,  0, 15, 42, 15, 12,  3,  0,  3,  0, 15, 42, 15, 12,
+                5,  8,  5,  8, 29, 35, 29, 33,  5,  8,  5,  8, 31, 34, 31,  7,
+                3,  0,  3,  0, 15, 42, 15, 12,  3,  0,  3,  0, 15, 42, 15, 12,
+                2,  1,  2,  1,  9, 45,  9, 19,  2,  1,  2,  1, 14, 18, 14, 13
         };
 
 
@@ -116,12 +117,14 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
             return !items.any();
         }
 
-
+        @Override
+        public float rotdeg() {
+            return (float)(this.rotation * 90);
+        }
 
         @Override
         public void draw() {
             float rotation = this.rotdeg();
-            int r = this.rotation;
 
             Draw.z(Layer.blockUnder);
             if (current != null){
@@ -146,7 +149,7 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
         public void growCord(Block block) {
             boolean keepDir = Mathf.randomBoolean(0.98f);
             int i = Mathf.random(1, 4);
-            int rot = (keepDir) ? rotation : Mathf.mod(rotation + i, 4);
+            int rot = (keepDir) ? facingRot : Mathf.mod(facingRot + i, 4);
             Tile near = nearbyTile(rot);
             Tile nearRight = near.nearby(Mathf.mod(rot + 1, 4));
             Tile nearLeft = near.nearby(Mathf.mod(rot - 1, 4));
@@ -157,7 +160,10 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
                             && passable(nearLeft)
                             //&& passable(nearFront.block())
             ){
-                if (!CantReplace(near.block())) near.setBlock(ClassicBlocks.cord, team, rot);
+                if (!CantReplace(near.block())) near.setBlock(ClassicBlocks.cord, team);
+                if (near.build != null && near.build instanceof CordBuild cordBuild) {
+                    cordBuild.facingRot = rot;
+                }
             }
             super.growCord(block);
         }
@@ -193,6 +199,12 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
                     }
                 }
             }
+        }
+
+        @Override
+        public Building back() {
+            int trns = this.block.size / 2 + 1;
+            return this.nearby(Geometry.d4(this.facingRot + 2).x * trns, Geometry.d4(this.facingRot + 2).y * trns);
         }
 
         @Override
@@ -248,25 +260,16 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
             //Log.info(bits[0]);
 
             int bit = 0;
-            int tild = 0;
-            int dy = 0;
-            int dx = 1;
-            for (int i = 0; i < 9; i++){
-                //Log.info(dx + " | " + dy);
-                Tile mask = Vars.world.tile(tile.x + dx, tile.y + dy);
+            for (int i = 0; i < 8; i++){
+                Tile mask = Vars.world.tile(tile.x + Geometry.d8(i).x, tile.y + Geometry.d8(i).y);
                 if (mask != null && mask.build instanceof NeoplasiaBuilding) {
                     bit |= 1 << (i);
-                    tild += i;
                 }
-                if (i == 0) dy += 1;
-                if (i > 0 && i < 3) dx -= 1;
-                if (i > 2 && i < 5) dy -= 1;
-                if (i > 4) dx += 1;
             }
-            /*blendbits = bitmask[bit][1];
+            blendbits = bitmask[bit];
             xscl = 1;
-            yscl = 1;*/
-                    blendbits = (allSideOccupied()) ? 3 :
+            yscl = 1;
+                    /*blendbits = (allSideOccupied()) ? 3 :
                     (!EitherSideOccupied() && !isNeoplasia(front())) ? 5 :
                     (isNeoplasia(back()) && isNeoplasia(left()) && !isNeoplasia(front())) ? 1 :
                     (isNeoplasia(back()) && isNeoplasia(right()) && !isNeoplasia(front())) ? 1 :
