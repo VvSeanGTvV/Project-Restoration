@@ -908,7 +908,7 @@ public class ClassicBlocks {
             size = 3;
         }};
 
-        neoplasiaDrill = new DrillBeat("drill"){{
+        neoplasiaDrill = new CausticDrill("drill"){{
             requirements(Category.distribution, with(Items.beryllium, 1));
             size = 2;
         }};

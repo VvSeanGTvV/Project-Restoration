@@ -42,7 +42,7 @@ public class NeoplasiaBlock extends Block {
         Liquid blood = Liquids.neoplasm;
         public Seq<Tile> proximityTiles = new Seq<>();
 
-        boolean startBuild = true, initalize = false;
+        boolean grown = false, initalized = false;
         float beat = 1, beatTimer = 0, priority = 0, deathTimer = 0, timer = 0;
         boolean ready = false, alreadyBeat = false, grow = false;
 
@@ -162,7 +162,7 @@ public class NeoplasiaBlock extends Block {
             }
         }
 
-        public void coverOre(Block replacmentBlock, Block cordPlacement) {
+        public void coverOre(Block replacmentBlock) {
             float ore = 0;
             if (tile.drop() != null) {
                 for (int dy = 0; dy < 2; dy++) {
@@ -170,9 +170,6 @@ public class NeoplasiaBlock extends Block {
                         Tile tile = Vars.world.tile(this.tile.x + dx, this.tile.y + dy);
                         if (tile.floor() != null && (tile.build == null || tile.build instanceof Cord.CordBuild)) {
                             ore += (tile.drop() != null) ? 1 : 0;
-                            if (tile.floor().attributes.get(Attribute.steam) >= 1) {
-                                if (tile.build == null) tile.setBlock(cordPlacement, team, rotation);
-                            }
                         }
                     }
                 }
@@ -300,6 +297,10 @@ public class NeoplasiaBlock extends Block {
             }
         }
 
+        public boolean isGrown(){
+            return grown;
+        }
+
         @Override
         public void update() {
             takeBlood();
@@ -309,7 +310,7 @@ public class NeoplasiaBlock extends Block {
                 liquids.remove(blood, 5f);
             }
 
-            if (!startBuild) {
+            if (grown) {
                 if (source) {
                     if (liquids.get(blood) < liquidCapacity) liquids.add(blood, Math.min(liquidCapacity - liquids.get(blood), liquidCapacity));
                     priority = 0;
@@ -364,17 +365,23 @@ public class NeoplasiaBlock extends Block {
 
             } else {
                 if ((this.tile.floor().attributes.get(Attribute.steam) >= 1 || tile.drop() != null) && this instanceof Cord.CordBuild) {
-                    if (isCord && tile.drop() != null) coverOre(ClassicBlocks.neoplasiaDrill, ClassicBlocks.cord);
+                    if (isCord && tile.drop() != null) coverOre(ClassicBlocks.neoplasiaDrill);
                     if (isCord && this.tile.floor().attributes.get(Attribute.steam) >= 1) coverVent(ClassicBlocks.heart, ClassicBlocks.cord);
                 }
-                if (!initalize) {
+                if (!initalized) {
                     beat = (float) -block.size / (block.size + 1.25f);
-                    initalize = true;
+                    initalized = true;
                 } else {
                     beat = Mathf.lerpDelta(beat, 1f, 0.1f);
                     if (beat >= 0.95f) {
+                        for(int i = 0; i <proximity.size; ++i) {
+                            Building other = proximity.get((i) % proximity.size);
+                            if (other instanceof NeoplasiaBuilding neoplasiaBuilding) {
+                                neoplasiaBuilding.updateProximity();
+                            }
+                        }
                         beat = 1f;
-                        startBuild = false;
+                        grown = true;
                     }
                 }
             }

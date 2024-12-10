@@ -7,6 +7,7 @@ import arc.math.Mathf;
 import arc.math.geom.*;
 import arc.struct.Seq;
 import arc.util.*;
+import arc.util.io.*;
 import classicMod.AutotilerPlus;
 import classicMod.content.ClassicBlocks;
 import mindustry.Vars;
@@ -147,8 +148,7 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
 
         @Override
         public void growCord(Block block) {
-            boolean keepDir = Mathf.randomBoolean(0.98f);
-            int i = Mathf.random(1, 4);
+            boolean keepDir = Mathf.randomBoolean(0.98f); int i = Mathf.random(1, 4);
             int rot = (keepDir) ? facingRot : Mathf.mod(facingRot + i, 4);
             Tile near = nearbyTile(rot);
             Tile nearRight = near.nearby(Mathf.mod(rot + 1, 4));
@@ -169,6 +169,20 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
         }
 
         @Override
+        public void update() {
+            super.update();
+            this.block.nearbySide(tile.x, tile.y, Mathf.mod(facingRot, 4), 0, Tmp.p1);
+
+            Tile other = Vars.world.tile(Tmp.p1.x + Geometry.d4x(facingRot), Tmp.p1.y + Geometry.d4y(facingRot));
+            if (other != null && other.solid()) {
+                Item drop = other.wallDrop();
+                if (drop != null) {
+                    tile.setBlock(ClassicBlocks.neoplasiaDrill, team);
+                }
+            }
+        }
+
+        @Override
         public void updateBeat() {
             if (grow) {
                 if ((Units.closestEnemy(team, x, y, 120f, u -> u.type.killable && u.type.hittable) != null) ||
@@ -183,8 +197,8 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
             }
             if (current != null){
                 Seq<NeoplasiaBuilding> avaliable = new Seq<>();
-                for (int i = 0; i < 5; i++){
-                    NeoplasiaBuilding dest = getNeoplasia(nearby(i));
+                for (int i = 0; i < 4; i++){
+                    NeoplasiaBuilding dest = getNeoplasia(nearby(facingRot + i));
                     Item item = items.first();
                     if (validBuilding(dest, item)) avaliable.add(dest);
                 }
@@ -199,6 +213,15 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
                     }
                 }
             }
+        }
+
+        @Override
+        public void death() {
+            if (current != null) {
+                current = null;
+                items.clear();
+            }
+            super.death();
         }
 
         @Override
@@ -223,98 +246,33 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
             Draw.scl();
         }
 
-        boolean allSideOccupied(){
-            return isNeoplasia(front()) && isNeoplasia(back()) && isNeoplasia(right()) && isNeoplasia(left());
-        }
-
-        boolean SideOccupied(){
-            return isNeoplasia(left()) && isNeoplasia(right());
-        }
-
-        boolean EitherSideOccupied(){
-            return isNeoplasia(left()) || isNeoplasia(right());
-        }
-
-        boolean noConnectedNearby(){
-            return getNeoplasia(front()) == null && getNeoplasia(left()) == null && getNeoplasia(right()) == null && !isNeoplasia(back());
-        }
-
-        int blending(NeoplasiaBuilding neoplasiaBuilding, int rotation){
-            int blend = 0;
-            if (neoplasiaBuilding == null) return 0;
-            if (neoplasiaBuilding.block == null) return 0;
-            if (neoplasiaBuilding.block instanceof NeoplasiaBlock neoplasiaBlock){
-                if (!neoplasiaBlock.squareSprite) blend = rotation;
-            }
-            return blend;
-        }
-
         public void onProximityUpdate() {
             super.onProximityUpdate();
-            Building prevBuild = nearby(Mathf.mod(rotation - 2, 4));
-            Tile prev = (prevBuild != null) ? prevBuild.tile : tile;
-
-
-            //int bit = (left() != null && front() == null) ? 2 : (right() != null && front() == null) ? 2 : 0;
-
-            //Log.info(bits[0]);
 
             int bit = 0;
             for (int i = 0; i < 8; i++){
                 Tile mask = Vars.world.tile(tile.x + Geometry.d8(i).x, tile.y + Geometry.d8(i).y);
-                if (mask != null && mask.build instanceof NeoplasiaBuilding) {
-                    bit |= 1 << (i);
+                if (mask != null && mask.build instanceof NeoplasiaBuilding neoplasiaBuilding) {
+                    if (neoplasiaBuilding.isGrown()) bit |= 1 << (i);
                 }
             }
             blendbits = bitmask[bit];
             xscl = 1;
             yscl = 1;
-                    /*blendbits = (allSideOccupied()) ? 3 :
-                    (!EitherSideOccupied() && !isNeoplasia(front())) ? 5 :
-                    (isNeoplasia(back()) && isNeoplasia(left()) && !isNeoplasia(front())) ? 1 :
-                    (isNeoplasia(back()) && isNeoplasia(right()) && !isNeoplasia(front())) ? 1 :
-                    (SideOccupied()) ? 4 :
-                    (isNeoplasia(left()) && !isNeoplasia(back()) && isNeoplasia(right())) ? 5 :
-                    (isNeoplasia(left()) && !isNeoplasia(back())) ? 1 :
-                    (isNeoplasia(left()) && !isNeoplasia(front())) ? 1 :
-                    (isNeoplasia(left()) && isNeoplasia(back()) && isNeoplasia(front())) ? 2 :
-                    (isNeoplasia(right()) && !isNeoplasia(back()) && isNeoplasia(left())) ? 4 :
-                    (isNeoplasia(right()) && !isNeoplasia(back())) ? 1 :
-                    (isNeoplasia(right()) && !isNeoplasia(front())) ? 1 :
-                    (isNeoplasia(right()) && isNeoplasia(back()) && isNeoplasia(front())) ? 2 : 0;
-            xscl =
-                    ((rotation == 2 || rotation == 0) && (isNeoplasia(left())) && !isNeoplasia(front())) ? -1 :
-                    ((rotation == 1 || rotation == 3) && (isNeoplasia(left())) && !isNeoplasia(front())) ? -1 :
-                    ((rotation == 1 || rotation == 0 || rotation == 3 || rotation == 2) && (isNeoplasia(right()) || isNeoplasia(left())) && !isNeoplasia(back())) ? 1 :
-                    ((rotation == 1 || rotation == 3) && isNeoplasia(right())) ? -1 : ((rotation == 1 || rotation == 3) && isNeoplasia(left())) ? 1 :
-                    ((rotation == 0 || rotation == 2) && isNeoplasia(left())) ? 1 : ((rotation == 0 || rotation == 2) && isNeoplasia(right())) ? -1 : 1;
-            yscl =
-                    ((rotation == 1 || rotation == 3) && (isNeoplasia(left())) && !isNeoplasia(front())) ? 1 :
-                    ((rotation == 1 || rotation == 0 || rotation == 3 || rotation == 2) && (isNeoplasia(right())) && !isNeoplasia(back())) ? -1 :
-                    ((rotation == 1 || rotation == 0 || rotation == 3 || rotation == 2) && (isNeoplasia(left())) && !isNeoplasia(back())) ? 1 :
-                    ((rotation == 2 || rotation == 0) && isNeoplasia(right())) ? -1 : ((rotation == 2 || rotation == 0) && isNeoplasia(left())) ? 1 :
-                    ((rotation == 1 || rotation == 3) && isNeoplasia(left())) ? 1 : ((rotation == 1 || rotation == 3) && isNeoplasia(right())) ? -1 : 1;
+        }
 
+        @Override
+        public void write(Writes write) {
+            super.write(write);
 
-            /*blending =
-                    (isNeoplasia(left())) && (rotation == 0 || rotation == 2) ? blending(getNeoplasia(left()), 2) :
-                    (isNeoplasia(right())) && (rotation == 0 || rotation == 2) ? blending(getNeoplasia(right()), 1) :
-                    (isNeoplasia(left())) && (rotation == 1 || rotation == 3) ? blending(getNeoplasia(left()), 1) :
-                    (isNeoplasia(right())) && (rotation == 1 || rotation == 3) ? blending(getNeoplasia(right()), 2) :
-                    blending(getNeoplasia(back()), 4)
-            ;*/
+            write.i(facingRot);
+        }
 
-            next = this.front();
-            Building var3 = this.next;
-            CordBuild var10001;
-            if (var3 instanceof CordBuild) {
-                CordBuild d = (CordBuild) var3;
-                var10001 = d;
-            } else {
-                var10001 = null;
-            }
+        @Override
+        public void read(Reads read, byte revision) {
+            super.read(read, revision);
 
-            nextc = var10001;
+            facingRot = read.i();
         }
     }
 }

@@ -13,11 +13,8 @@ public class SteamHugAI extends AIController {
 
     @Nullable
     public Tile getClosestVent() {
-        Seq<Tile> vents = new Seq<>();
-        for(Tile tile : Vars.world.tiles) {
-            if (tile.floor().attributes.get(Attribute.steam) >= 1f) vents.add(tile);
-        }
-        return (Tile) Geometry.findClosest(this.unit.x, this.unit.y, vents);
+        Tile vent = Geometry.findFurthest(this.unit.x, this.unit.y, PathfinderExtended.SteamVents);
+        return (vent != null && vent.build == null) ? vent : null;
     }
 
     @Override
@@ -34,7 +31,12 @@ public class SteamHugAI extends AIController {
 
     @Override
     public void updateMovement() {
-        pathfind(PathfinderExtended.fieldVent);
+        Tile closestVent = getClosestVent();
+        if (closestVent != null){
+            pathfind(PathfinderExtended.fieldVent);
+        } else {
+            unit.kill();
+        }
         faceMovement();
         Tile tile = unit.tileOn();
         if (tile != null && tile.floor().attributes.get(Attribute.steam) >= 1f && tile.build == null) {
@@ -48,7 +50,7 @@ public class SteamHugAI extends AIController {
             }
             if (steam >= 9f) {
                 tile.setBlock(ClassicBlocks.cord, unit.team);
-                unit.killed();
+                unit.kill();
             }
         }
     }

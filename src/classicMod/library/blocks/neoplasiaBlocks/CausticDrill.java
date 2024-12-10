@@ -3,16 +3,18 @@ package classicMod.library.blocks.neoplasiaBlocks;
 import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.math.Mathf;
+import arc.math.geom.Geometry;
 import arc.struct.*;
-import arc.util.Nullable;
+import arc.util.*;
+import arc.util.io.*;
+import mindustry.Vars;
 import mindustry.game.Team;
 import mindustry.type.Item;
 import mindustry.world.Tile;
-import mindustry.world.blocks.production.Drill;
 
 import java.util.Iterator;
 
-public class DrillBeat extends NeoplasiaBlock {
+public class CausticDrill extends NeoplasiaBlock {
 
     protected final ObjectIntMap<Item> oreCount = new ObjectIntMap<>();
     protected final Seq<Item> itemArray = new Seq<>();
@@ -21,13 +23,27 @@ public class DrillBeat extends NeoplasiaBlock {
     protected Item returnItem;
     protected int returnCount;
 
-    public DrillBeat(String name) {
+    public CausticDrill(String name) {
         super(name);
 
         hasItems = true;
     }
 
     public boolean canPlaceOn(Tile tile, Team team, int rotation) {
+
+        for (int r = 0; r < 4; r++) {
+            for (int i = 0; i < this.size; ++i) {
+                this.nearbySide(tile.x, tile.y, Mathf.mod(rotation + r, 4), i, Tmp.p1);
+                Tile other = Vars.world.tile(Tmp.p1.x, Tmp.p1.y);
+                if (other != null && other.solid()) {
+                    Item drop = other.wallDrop();
+                    if (drop != null) {
+                        return true;
+                    }
+                }
+            }
+        }
+
         if (this.isMultiblock()) {
             Iterator var4 = tile.getLinkedTilesAs(this, tempTiles).iterator();
 
@@ -58,6 +74,21 @@ public class DrillBeat extends NeoplasiaBlock {
 
     public Item getDrop(Tile tile) {
         return tile.drop();
+    }
+
+    protected void drillWall(Tile tile, int rotation){
+        for (int r = 0; r < 4; r++) {
+            for (int i = 0; i < this.size; ++i) {
+                this.nearbySide(tile.x, tile.y, Mathf.mod(rotation + r, 4), i, Tmp.p1);
+                Tile other = Vars.world.tile(Tmp.p1.x, Tmp.p1.y);
+                if (other != null && other.solid()) {
+                    Item drop = other.wallDrop();
+                    if (drop != null) {
+                        returnItem = drop;
+                    }
+                }
+            }
+        }
     }
 
     protected void countOre(Tile tile) {
@@ -102,8 +133,9 @@ public class DrillBeat extends NeoplasiaBlock {
 
         public void onProximityUpdate() {
             super.onProximityUpdate();
-            DrillBeat.this.countOre(this.tile);
-            dominantItem = DrillBeat.this.returnItem;
+            CausticDrill.this.countOre(this.tile);
+            if (CausticDrill.this.returnItem == null) CausticDrill.this.drillWall(tile, rotation);
+            dominantItem = CausticDrill.this.returnItem;
             //this.dominantItems = Drill.this.returnCount;
         }
 
@@ -122,12 +154,26 @@ public class DrillBeat extends NeoplasiaBlock {
 
         @Override
         public void updateBeat() {
-            if (timer(DrillBeat.this.timerDump, 5.0F)) {
+            if (timer(CausticDrill.this.timerDump, 5.0F)) {
                 dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);
             }
             if (items.total() < itemCapacity) {
-                if (Mathf.randomBoolean(0.5f)) offload(dominantItem);
+                if (Mathf.randomBoolean(0.15f)) offload(dominantItem);
             }
+        }
+
+        @Override
+        public void write(Writes write) {
+            super.write(write);
+
+            write.i(dominantItem.id);
+        }
+
+        @Override
+        public void read(Reads read, byte revision) {
+            super.read(read, revision);
+
+            dominantItem = Vars.content.item(read.i());
         }
     }
 }
