@@ -172,11 +172,13 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
         public void update() {
             super.update();
             this.block.nearbySide(tile.x, tile.y, Mathf.mod(facingRot, 4), 0, Tmp.p1);
-
-            Tile other = Vars.world.tile(Tmp.p1.x + Geometry.d4x(facingRot), Tmp.p1.y + Geometry.d4y(facingRot));
+            int dx = (Geometry.d4x(facingRot) > 0) ? 1 : 0;
+            int dy = (Geometry.d4y(facingRot) > 0) ? 1 : 0;
+            Tile other = Vars.world.tile(Tmp.p1.x + dx, Tmp.p1.y + dy);
             if (other != null && other.solid()) {
+                int spaces = calculateSpaces(drill.size, other.x, other.y);
                 Item drop = other.wallDrop();
-                if (drop != null) {
+                if (drop != null && spaces >= drill.size * drill.size) {
                     tile.setBlock(ClassicBlocks.neoplasiaDrill, team);
                 }
             }
@@ -253,7 +255,7 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
             for (int i = 0; i < 8; i++){
                 Tile mask = Vars.world.tile(tile.x + Geometry.d8(i).x, tile.y + Geometry.d8(i).y);
                 if (mask != null && mask.build instanceof NeoplasiaBuilding neoplasiaBuilding) {
-                    if (neoplasiaBuilding.isGrown()) bit |= 1 << (i);
+                    bit |= 1 << (i);
                 }
             }
             blendbits = bitmask[bit];

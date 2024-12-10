@@ -7,6 +7,7 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.Seq;
 import arc.util.*;
+import arc.util.io.*;
 import classicMod.content.*;
 import mindustry.Vars;
 import mindustry.content.*;
@@ -38,6 +39,9 @@ public class NeoplasiaBlock extends Block {
     }
 
     public class NeoplasiaBuilding extends Building {
+        Block pipe = ClassicBlocks.cord;
+        Block core = ClassicBlocks.heart;
+        Block drill = ClassicBlocks.neoplasiaDrill;
 
         Liquid blood = Liquids.neoplasm;
         public Seq<Tile> proximityTiles = new Seq<>();
@@ -108,7 +112,7 @@ public class NeoplasiaBlock extends Block {
 
             return !(
                             block instanceof StaticWall ||
-                            block == ClassicBlocks.cord
+                            block == pipe
                     )
                     && (
                             block == Blocks.air
@@ -144,6 +148,19 @@ public class NeoplasiaBlock extends Block {
                 Tile replacement = Vars.world.tile(this.tile.x, this.tile.y);
                 replacement.setBlock(replacmentBlock, team, rotation);
             }
+        }
+
+        public int calculateSpaces(int size, short tileX, short tileY){
+            int spaceAvaliable = 0;
+            for (int dy = (2 - size); dy < 2; dy++) {
+                for (int dx = (2 - size); dx < 2; dx++) {
+                    Tile tile = Vars.world.tile(this.tile.x + dx, this.tile.y + dy);
+                    if (tile.floor() != null && (tile.build == null || tile.build instanceof Cord.CordBuild)) {
+                        spaceAvaliable += 1;
+                    }
+                }
+            }
+            return spaceAvaliable;
         }
 
         public void Turret(Block turret){
@@ -319,7 +336,7 @@ public class NeoplasiaBlock extends Block {
                         beat = 1.5f;
                         beatTimer = 0;
                         updateBeat();
-                        growCord(ClassicBlocks.cord);
+                        growCord(pipe);
                     }
                 }
 
@@ -365,8 +382,8 @@ public class NeoplasiaBlock extends Block {
 
             } else {
                 if ((this.tile.floor().attributes.get(Attribute.steam) >= 1 || tile.drop() != null) && this instanceof Cord.CordBuild) {
-                    if (isCord && tile.drop() != null) coverOre(ClassicBlocks.neoplasiaDrill);
-                    if (isCord && this.tile.floor().attributes.get(Attribute.steam) >= 1) coverVent(ClassicBlocks.heart, ClassicBlocks.cord);
+                    if (isCord && tile.drop() != null) coverOre(drill);
+                    if (isCord && this.tile.floor().attributes.get(Attribute.steam) >= 1) coverVent(core, pipe);
                 }
                 if (!initalized) {
                     beat = (float) -block.size / (block.size + 1.25f);
@@ -374,17 +391,27 @@ public class NeoplasiaBlock extends Block {
                 } else {
                     beat = Mathf.lerpDelta(beat, 1f, 0.1f);
                     if (beat >= 0.95f) {
-                        for(int i = 0; i <proximity.size; ++i) {
-                            Building other = proximity.get((i) % proximity.size);
-                            if (other instanceof NeoplasiaBuilding neoplasiaBuilding) {
-                                neoplasiaBuilding.updateProximity();
-                            }
-                        }
                         beat = 1f;
                         grown = true;
                     }
                 }
             }
+        }
+
+        @Override
+        public void write(Writes write) {
+            super.write(write);
+
+            write.bool(grown);
+            write.bool(initalized);
+        }
+
+        @Override
+        public void read(Reads read, byte revision) {
+            super.read(read, revision);
+
+            grown = read.bool();
+            initalized = read.bool();
         }
     }
 }
