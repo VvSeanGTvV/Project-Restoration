@@ -74,6 +74,9 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
         //TODO make it work YIPPE
         int facingRot = 1;
         public float progress;
+
+        boolean useful;
+
         @Nullable
         public Item current;
         public int recDir = 0;
@@ -169,6 +172,12 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
         }
 
         @Override
+        public boolean deathImminent() {
+            return (liquids.get(blood) <= liquidCapacity % 20 && !useful) ||
+                    (super.deathImminent() && useful);
+        }
+
+        @Override
         public void update() {
             super.update();
             this.block.nearbySide(tile.x, tile.y, Mathf.mod(facingRot, 4), 0, Tmp.p1);
@@ -182,6 +191,19 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
                     tile.setBlock(ClassicBlocks.neoplasiaDrill, team);
                 }
             }
+
+            useful = false;
+            for (int i = 0; i < 4; i++) {
+                Tile man = nearbyTile(Mathf.mod(facingRot + i, 4));
+                if (man != null){
+                    if (man.block() instanceof CausticDrill ||
+                            man.build instanceof CordBuild cordBuild && cordBuild.useful) {
+                        useful = true;
+                        break;
+                    }
+                }
+            }
+            drain = (useful) ? 1f : 5f;
         }
 
         @Override
@@ -200,7 +222,7 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
             if (current != null){
                 Seq<NeoplasiaBuilding> avaliable = new Seq<>();
                 for (int i = 0; i < 4; i++){
-                    NeoplasiaBuilding dest = getNeoplasia(nearby(facingRot + i));
+                    NeoplasiaBuilding dest = getNeoplasia(nearby(rotation + i));
                     Item item = items.first();
                     if (validBuilding(dest, item)) avaliable.add(dest);
                 }
@@ -233,10 +255,38 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
         }
 
         @Override
+        public Building right() {
+            int trns = this.block.size / 2 + 1;
+            return this.nearby(Geometry.d4(this.facingRot + 3).x * trns, Geometry.d4(this.facingRot + 3).y * trns);
+        }
+
+        @Override
+        public Building left() {
+            int trns = this.block.size / 2 + 1;
+            return this.nearby(Geometry.d4(this.facingRot + 1).x * trns, Geometry.d4(this.facingRot + 1).y * trns);
+        }
+
+        @Override
+        public Building front() {
+            int trns = this.block.size / 2 + 1;
+            return this.nearby(Geometry.d4(this.facingRot).x * trns, Geometry.d4(this.facingRot).y * trns);
+        }
+
+        @Override
         public void takeBlood() {
             NeoplasiaBuilding behind = getNeoplasia(back());
             if (behind != null && liquids.get(blood) < liquidCapacity) {
                 moveFromLiquid(behind, blood);
+            }
+
+            NeoplasiaBuilding left = getNeoplasia(left());
+            if (left != null && liquids.get(blood) < liquidCapacity) {
+                moveFromLiquid(left, blood);
+            }
+
+            NeoplasiaBuilding right = getNeoplasia(right());
+            if (right != null && liquids.get(blood) < liquidCapacity) {
+                moveFromLiquid(right, blood);
             }
         }
 

@@ -3,8 +3,11 @@ package classicMod.library.blocks.neoplasiaBlocks;
 import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.math.Mathf;
+import arc.math.geom.Geometry;
+import arc.struct.Seq;
 import arc.util.Nullable;
 import classicMod.content.RUnitTypes;
+import classicMod.library.ai.PathfinderExtended;
 import mindustry.Vars;
 import mindustry.content.Fx;
 import mindustry.entities.Effect;
@@ -56,9 +59,17 @@ public class Heart extends NeoplasiaBlock {
             super.growCord(block);
         }
 
+        @Nullable
+        public Tile getClosestVent() {
+            Seq<Tile> avaliableVents = PathfinderExtended.SteamVents;
+            Tile vent = Geometry.findClosest(this.x, this.y, avaliableVents.removeAll(tile -> tile.build != null));
+            return (vent != null && vent.build == null) ? vent : null;
+        }
+
         @Override
         public void updateBeat() {
-            if (Mathf.chance(0.25)){
+
+            if (Mathf.chance(0.25) && getClosestVent() != null){
                 if (!Vars.net.client()) {
                     unit = unitType.create(team);
                     if (unit instanceof BuildingTetherc bt) {
@@ -68,7 +79,9 @@ public class Heart extends NeoplasiaBlock {
                     unit.rotation(90f);
                     unit.add();
                     //unit.vel.y = launchVelocity;
-                    //Fx.producesmoke.at(this);
+                    for (int i = 0; i < 5; i++) {
+                        Fx.ventSteam.at(this.x + Mathf.random(1), this.y + Mathf.random(1), blood.color);
+                    }
                     //Effect.shake(4f*1.5f, 5f, this);
                     //units.add(unit);
                 }

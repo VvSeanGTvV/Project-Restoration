@@ -13,20 +13,9 @@ public class SteamHugAI extends AIController {
 
     @Nullable
     public Tile getClosestVent() {
-        Tile vent = Geometry.findFurthest(this.unit.x, this.unit.y, PathfinderExtended.SteamVents);
+        Seq<Tile> avaliableVents = PathfinderExtended.SteamVents;
+        Tile vent = Geometry.findClosest(this.unit.x, this.unit.y, avaliableVents.removeAll(tile -> tile.build != null));
         return (vent != null && vent.build == null) ? vent : null;
-    }
-
-    @Override
-    public void pathfind(int pathTarget) {
-        int costType = this.unit.pathType();
-        Tile tile = this.unit.tileOn();
-        if (tile != null) {
-            Tile targetTile = Vars.pathfinder.getTargetTile(tile, Vars.pathfinder.getField(this.unit.team, costType, pathTarget));
-            if (tile != targetTile && (costType != 2 || targetTile.floor().isLiquid)) {
-                this.unit.movePref(vec.trns(this.unit.angleTo(targetTile.worldx(), targetTile.worldy()), this.unit.speed()));
-            }
-        }
     }
 
     @Override

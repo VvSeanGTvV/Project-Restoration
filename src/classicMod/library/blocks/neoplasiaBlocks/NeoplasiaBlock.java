@@ -43,6 +43,8 @@ public class NeoplasiaBlock extends Block {
         Block core = ClassicBlocks.heart;
         Block drill = ClassicBlocks.neoplasiaDrill;
 
+        float drain = 5f;
+
         Liquid blood = Liquids.neoplasm;
         public Seq<Tile> proximityTiles = new Seq<>();
 
@@ -154,7 +156,7 @@ public class NeoplasiaBlock extends Block {
             int spaceAvaliable = 0;
             for (int dy = (2 - size); dy < 2; dy++) {
                 for (int dx = (2 - size); dx < 2; dx++) {
-                    Tile tile = Vars.world.tile(this.tile.x + dx, this.tile.y + dy);
+                    Tile tile = Vars.world.tile(tileX + dx, tileY + dy);
                     if (tile.floor() != null && (tile.build == null || tile.build instanceof Cord.CordBuild)) {
                         spaceAvaliable += 1;
                     }
@@ -264,7 +266,7 @@ public class NeoplasiaBlock extends Block {
                 return 0.0F;
             } else {
                 next = next.getLiquidDestination(from, liquid);
-                if (next.team == from.team && next.block.hasLiquids && from.liquids.get(liquid) > 0.0F) {
+                if (next.team == from.team && next.block.hasLiquids && from.liquids.get(liquid) > 0.1F) {
                     float ofract = next.liquids.get(liquid) / next.block.liquidCapacity;
                     float fract = from.liquids.get(liquid) / from.block.liquidCapacity * from.block.liquidPressure;
                     float flow = Math.min(Mathf.clamp(fract - ofract) * from.block.liquidCapacity, from.liquids.get(liquid));
@@ -320,11 +322,22 @@ public class NeoplasiaBlock extends Block {
 
         @Override
         public void update() {
+
             takeBlood();
             timer += delta();
             if (timer >= 10f) {
                 timer = 0;
-                liquids.remove(blood, 5f);
+                liquids.remove(blood, drain);
+            }
+
+            if (!source){
+                liquidPressure -= Mathf.lerpDelta(liquidPressure, 0f, 0.05f);
+                for(int i = 0; i <proximity.size; ++i) {
+                    Building other = proximity.get((i) % proximity.size);
+                    if (other instanceof NeoplasiaBuilding) {
+                        liquidPressure = 1f;
+                    }
+                }
             }
 
             if (grown) {
