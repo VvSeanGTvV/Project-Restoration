@@ -335,7 +335,7 @@ public class NeoplasiaBlock extends Block {
                 for(int i = 0; i <proximity.size; ++i) {
                     Building other = proximity.get((i) % proximity.size);
                     if (other instanceof NeoplasiaBuilding) {
-                        liquidPressure = 1f;
+                        liquidPressure = other.block.liquidPressure;
                     }
                 }
             }
