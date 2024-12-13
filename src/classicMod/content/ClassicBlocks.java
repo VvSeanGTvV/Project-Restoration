@@ -915,6 +915,7 @@ public class ClassicBlocks {
             size = 3;
 
             spawn = UnitTypes.renale;
+            spawnTime = 120f;
         }};
 
         neoplasiaDrill = new CausticDrill("drill"){{

@@ -48,11 +48,6 @@ public class CausticTurret extends NeoplasmBlock {
         }
 
         @Override
-        public boolean deathImminent() {
-            return super.deathImminent() || target == null;
-        }
-
-        @Override
         public void death() {
             for (int i = 0; i < 4; i++) {
                 int rot = Mathf.mod((rotation + i), 4);

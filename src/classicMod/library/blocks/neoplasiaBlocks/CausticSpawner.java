@@ -13,6 +13,7 @@ import mindustry.world.consumers.ConsumeItems;
 public class CausticSpawner extends NeoplasmBlock {
 
     public TextureRegion topRegion, ballRegion, bottomRegion;
+    public float spawnTime = 60f;
 
     public UnitType spawn;
 
@@ -36,13 +37,18 @@ public class CausticSpawner extends NeoplasmBlock {
     public class CausticSpawnerBuilding extends NeoplasmBuilding {
         public float progress, speedScl;
 
+        public float fraction(){
+            return progress / spawnTime;
+        }
+
         @Override
         public void draw() {
+            float frac = fraction();
             drawBeat(1, 1, 0.25f);
             Draw.rect(bottomRegion, x, y);
             Draw.rect(region, x, y);
 
-            drawBeat(Math.min(progress, 1f), Math.min(progress, 1f), 0.25f);
+            drawBeat(Math.min(frac, 1f), Math.min(frac, 1f), 0.25f);
             Draw.rect(ballRegion, x, y);
 
             drawBeat(1, 1, 0.25f);
@@ -79,7 +85,7 @@ public class CausticSpawner extends NeoplasmBlock {
         @Override
         public void updateBeat() {
             super.updateBeat();
-            if (progress >= 120f){
+            if (progress >= spawnTime){
 
                 consume();
                 progress %= 1f;
