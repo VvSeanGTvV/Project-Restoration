@@ -98,7 +98,7 @@ public class ClassicBlocks {
 
     interplanetaryAccelerator, //Endgame - Mindustry
 
-    ductJunction, cord, heart, neoplasiaDrill, bloom, tole //Erekir - Prototype [v8-dev]
+    ductJunction, cord, heart, neoplasiaDrill, bloom, tole, renaleSpawner //Erekir - Prototype [v8-dev]
     ;
 
 
@@ -906,6 +906,15 @@ public class ClassicBlocks {
             }};
 
             size = 3;
+        }};
+
+        renaleSpawner = new CausticSpawner("renale-spawner"){{
+            requirements(Category.distribution, with(Items.beryllium, 1));
+            consumeItems(with(Items.beryllium, 1));
+
+            size = 3;
+
+            spawn = UnitTypes.renale;
         }};
 
         neoplasiaDrill = new CausticDrill("drill"){{

@@ -16,18 +16,17 @@ import mindustry.game.EventType;
 import mindustry.gen.Building;
 import mindustry.type.Liquid;
 import mindustry.world.*;
-import mindustry.world.blocks.Attributes;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.meta.Attribute;
 
-public class NeoplasiaBlock extends Block {
+public class NeoplasmBlock extends Block {
 
     public boolean source = false;
     public Color beatColor = Color.valueOf("cd6240");
 
     public boolean isCord = false;
 
-    public NeoplasiaBlock(String name) {
+    public NeoplasmBlock(String name) {
         super(name);
 
         update = true;
@@ -38,7 +37,7 @@ public class NeoplasiaBlock extends Block {
         liquidPressure = 10f;
     }
 
-    public class NeoplasiaBuilding extends Building {
+    public class NeoplasmBuilding extends Building {
         Block pipe = ClassicBlocks.cord;
         Block core = ClassicBlocks.heart;
         Block drill = ClassicBlocks.neoplasiaDrill;
@@ -80,11 +79,11 @@ public class NeoplasiaBlock extends Block {
 
         public boolean isNeoplasia(Building building){
             if (building == null) return false;
-            return building instanceof NeoplasiaBuilding;
+            return building instanceof NeoplasmBuilding;
         }
 
-        public NeoplasiaBuilding getNeoplasia(Building building){
-            if (building instanceof NeoplasiaBuilding cordBuild){
+        public NeoplasmBuilding getNeoplasia(Building building){
+            if (building instanceof NeoplasmBuilding cordBuild){
                 return cordBuild;
             } else {
                 return null;
@@ -120,14 +119,14 @@ public class NeoplasiaBlock extends Block {
                             block == Blocks.air
                             || block instanceof SteamVent
                             || block instanceof Prop
-                            || block instanceof NeoplasiaBlock
+                            || block instanceof NeoplasmBlock
                     )
             ;
         }
 
         public boolean CantReplace(Block block){
             return
-                    block instanceof NeoplasiaBlock
+                    block instanceof NeoplasmBlock
                     ;
         }
 
@@ -306,10 +305,10 @@ public class NeoplasiaBlock extends Block {
         public void takeBlood(){
             for(int i = 0; i <proximity.size; ++i) {
                 Building other = proximity.get((i) % proximity.size);
-                if (other instanceof NeoplasiaBuilding neoplasiaBuilding) {
-                    if (!source && !neoplasiaBuilding.deathImminent() && liquids.get(blood) < liquidCapacity) {
-                        float amount = Math.min(liquidCapacity, neoplasiaBuilding.liquids.get(blood));
-                        neoplasiaBuilding.liquids.remove(blood, amount);
+                if (other instanceof NeoplasmBuilding neoplasmBuilding) {
+                    if (!source && !neoplasmBuilding.deathImminent() && liquids.get(blood) < liquidCapacity) {
+                        float amount = Math.min(liquidCapacity, neoplasmBuilding.liquids.get(blood));
+                        neoplasmBuilding.liquids.remove(blood, amount);
                         liquids.add(blood, amount);
                     }
                 }
@@ -331,10 +330,10 @@ public class NeoplasiaBlock extends Block {
             }
 
             if (!source){
-                liquidPressure -= Mathf.lerpDelta(liquidPressure, 0f, 0.05f);
+                liquidPressure -= delta() / 100;
                 for(int i = 0; i <proximity.size; ++i) {
                     Building other = proximity.get((i) % proximity.size);
-                    if (other instanceof NeoplasiaBuilding) {
+                    if (other instanceof NeoplasmBuilding) {
                         liquidPressure = other.block.liquidPressure;
                     }
                 }
@@ -359,8 +358,8 @@ public class NeoplasiaBlock extends Block {
 
                 for(int i = 0; i <proximity.size; ++i) {
                     Building other = proximity.get((i) % proximity.size);
-                    if (other instanceof NeoplasiaBuilding neoplasiaBuilding) {
-                        if (neoplasiaBuilding.beat >= 1.2f && !source && !alreadyBeat && !neoplasiaBuilding.deathImminent()) {
+                    if (other instanceof NeoplasmBuilding neoplasmBuilding) {
+                        if (neoplasmBuilding.beat >= 1.2f && !source && !alreadyBeat && !neoplasmBuilding.deathImminent()) {
                             ready = true;
                             grow = true;
                         }

@@ -145,17 +145,17 @@ public class DroneCenterNew extends Block {
                 if (droneProgress >= 1f || hadUnit) {
                     hadUnit = true;
                     placeUnit = false;
-                    if (!Vars.net.client()) {
-                        unit = droneType.create(team);
-                        if (unit instanceof BuildingTetherc bt) {
-                            bt.building(this);
-                        }
-                        unit.set(x, y);
-                        unit.rotation = 90f;
-                        unit.add();
 
-                        Call.unitTetherBlockSpawned(tile, unit.id);
+                    unit = droneType.create(team);
+                    if (unit instanceof BuildingTetherc bt) {
+                        bt.building(this);
                     }
+                    unit.set(x, y);
+                    unit.rotation = 90f;
+                    unit.add();
+
+                    Call.unitTetherBlockSpawned(tile, unit.id);
+
                 }
 
                 if (target != null && !target.isValid()) {

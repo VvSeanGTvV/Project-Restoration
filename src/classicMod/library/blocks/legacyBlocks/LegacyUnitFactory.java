@@ -1,6 +1,6 @@
 package classicMod.library.blocks.legacyBlocks;
 
-import arc.Core;
+import arc.*;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
 import arc.struct.*;
@@ -9,6 +9,7 @@ import arc.util.io.*;
 import mindustry.Vars;
 import mindustry.content.Fx;
 import mindustry.entities.Effect;
+import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
@@ -145,7 +146,7 @@ public class LegacyUnitFactory extends Block {
                 unitIDs.clear();
             }
 
-            if(team == state.rules.waveTeam) FactoryunitCap = Integer.MAX_VALUE;
+            if(team == state.rules.waveTeam && !Vars.state.rules.pvp) FactoryunitCap = Integer.MAX_VALUE;
             if(team == state.rules.defaultTeam) FactoryunitCap = maxSpawn;
 
             if(efficiency > 0 && !(units.size >= FactoryunitCap)){
@@ -164,21 +165,19 @@ public class LegacyUnitFactory extends Block {
 
                 consume();
 
-                LegacyUnitFactory factory = (LegacyUnitFactory)tile.block();
-
-                if (!Vars.net.client()) {
-                    unit = factory.unitType.create(team);
-                    if (unit instanceof BuildingTetherc bt) {
-                        bt.building(this);
-                    }
-                    unit.set(this);
-                    unit.rotation(90f);
-                    unit.add();
-                    unit.vel.y = launchVelocity;
-                    Fx.producesmoke.at(this);
-                    Effect.shake(4f*1.5f, 5f, this);
-                    units.add(unit);
+                LegacyUnitFactory factory = (LegacyUnitFactory) tile.block();
+                unit = factory.unitType.create(team);
+                if (unit instanceof BuildingTetherc bt) {
+                    bt.building(this);
                 }
+                unit.set(this);
+                unit.rotation(90f);
+                unit.add();
+                unit.vel.y = launchVelocity;
+                Fx.producesmoke.at(this);
+                Effect.shake(4f * 1.5f, 5f, this);
+                Events.fire(new EventType.UnitCreateEvent(unit, this));
+                units.add(unit);
 
                 //Call.unitBlockSpawn(this.tile);
                 //Unit unit = factory.unitType.create(team);

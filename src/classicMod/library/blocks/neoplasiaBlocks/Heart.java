@@ -17,7 +17,7 @@ import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.meta.Attribute;
 
-public class Heart extends NeoplasiaBlock {
+public class Heart extends NeoplasmBlock {
 
     public Effect generateEffect;
     public float effectChance;
@@ -39,7 +39,7 @@ public class Heart extends NeoplasiaBlock {
         }) > minEfficiency;
     }
 
-    public class HeartBuilding extends NeoplasiaBuilding {
+    public class HeartBuilding extends NeoplasmBuilding {
 
         public UnitType unitType = RUnitTypes.blob;
         public @Nullable Unit unit;

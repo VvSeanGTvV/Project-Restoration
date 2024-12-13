@@ -1,19 +1,15 @@
 package classicMod.library.blocks.neoplasiaBlocks;
 
 import arc.Core;
-import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.math.*;
-import arc.util.Log;
 import classicMod.content.ClassicBlocks;
-import mindustry.content.*;
 import mindustry.entities.Units;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
-import mindustry.graphics.Pal;
 import mindustry.world.Tile;
 
-public class CausticTurret extends NeoplasiaBlock {
+public class CausticTurret extends NeoplasmBlock {
 
     public int bulletCount = 7;
     public float bulletAnglePer = 15f;
@@ -23,7 +19,7 @@ public class CausticTurret extends NeoplasiaBlock {
         super(name);
     }
 
-    public class CausticTurretBuilding extends NeoplasiaBuilding {
+    public class CausticTurretBuilding extends NeoplasmBuilding {
 
         boolean shoot = false;
 

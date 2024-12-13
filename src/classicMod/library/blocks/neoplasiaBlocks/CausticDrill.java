@@ -3,7 +3,6 @@ package classicMod.library.blocks.neoplasiaBlocks;
 import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.math.Mathf;
-import arc.math.geom.Geometry;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
@@ -14,7 +13,7 @@ import mindustry.world.Tile;
 
 import java.util.Iterator;
 
-public class CausticDrill extends NeoplasiaBlock {
+public class CausticDrill extends NeoplasmBlock {
 
     protected final ObjectIntMap<Item> oreCount = new ObjectIntMap<>();
     protected final Seq<Item> itemArray = new Seq<>();
@@ -127,7 +126,7 @@ public class CausticDrill extends NeoplasiaBlock {
         }
     }
 
-    public class DrillBeatBuilding extends NeoplasiaBuilding {
+    public class DrillBeatBuilding extends NeoplasmBuilding {
 
         public Item dominantItem;
 

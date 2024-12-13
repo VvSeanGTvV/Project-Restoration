@@ -1,7 +1,6 @@
 package classicMod.library.blocks.neoplasiaBlocks;
 
 import arc.Core;
-import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
 import arc.math.geom.*;
@@ -11,7 +10,6 @@ import arc.util.io.*;
 import classicMod.AutotilerPlus;
 import classicMod.content.ClassicBlocks;
 import mindustry.Vars;
-import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.gen.Building;
 import mindustry.graphics.*;
@@ -23,7 +21,7 @@ import mindustry.world.meta.BlockGroup;
 
 import static mindustry.Vars.itemSize;
 
-public class Cord extends NeoplasiaBlock implements AutotilerPlus {
+public class Cord extends NeoplasmBlock implements AutotilerPlus {
     public TextureRegion[] tiles;
     public TextureRegion[][] regions;
 
@@ -69,7 +67,7 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
         return otherblock.outputsItems() && this.blendsArmored(tile, rotation, otherx, othery, otherrot, otherblock) || this.lookingAt(tile, rotation, otherx, othery, otherblock) && otherblock.hasItems;
     }
 
-    public class CordBuild extends NeoplasiaBuilding {
+    public class CordBuild extends NeoplasmBuilding {
 
         //TODO make it work YIPPE
         int facingRot = 1;
@@ -220,9 +218,9 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
                 }
             }
             if (current != null){
-                Seq<NeoplasiaBuilding> avaliable = new Seq<>();
+                Seq<NeoplasmBuilding> avaliable = new Seq<>();
                 for (int i = 0; i < 4; i++){
-                    NeoplasiaBuilding dest = getNeoplasia(nearby(rotation + i));
+                    NeoplasmBuilding dest = getNeoplasia(nearby(rotation + i));
                     Item item = items.first();
                     if (validBuilding(dest, item)) avaliable.add(dest);
                 }
@@ -274,17 +272,17 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
 
         @Override
         public void takeBlood() {
-            NeoplasiaBuilding behind = getNeoplasia(back());
+            NeoplasmBuilding behind = getNeoplasia(back());
             if (behind != null && liquids.get(blood) < liquidCapacity) {
                 moveFromLiquid(behind, blood);
             }
 
-            NeoplasiaBuilding left = getNeoplasia(left());
+            NeoplasmBuilding left = getNeoplasia(left());
             if (left != null && liquids.get(blood) < liquidCapacity) {
                 moveFromLiquid(left, blood);
             }
 
-            NeoplasiaBuilding right = getNeoplasia(right());
+            NeoplasmBuilding right = getNeoplasia(right());
             if (right != null && liquids.get(blood) < liquidCapacity) {
                 moveFromLiquid(right, blood);
             }
@@ -304,7 +302,7 @@ public class Cord extends NeoplasiaBlock implements AutotilerPlus {
             int bit = 0;
             for (int i = 0; i < 8; i++){
                 Tile mask = Vars.world.tile(tile.x + Geometry.d8(i).x, tile.y + Geometry.d8(i).y);
-                if (mask != null && mask.build instanceof NeoplasiaBuilding neoplasiaBuilding) {
+                if (mask != null && mask.build instanceof NeoplasmBuilding neoplasmBuilding) {
                     bit |= 1 << (i);
                 }
             }
