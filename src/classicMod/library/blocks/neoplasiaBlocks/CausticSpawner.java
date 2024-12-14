@@ -87,7 +87,6 @@ public class CausticSpawner extends NeoplasmBlock {
                 consume();
                 progress %= 1f;
                 speedScl = 0f;
-                Fx.mineHuge.at(x, y, items.first().color);
                 if (Units.canCreate(team, spawn)) {
                     var unit = spawn.create(team);
                     unit.set(this);
