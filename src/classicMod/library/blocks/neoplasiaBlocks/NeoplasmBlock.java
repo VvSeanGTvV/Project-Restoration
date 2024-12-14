@@ -164,19 +164,19 @@ public class NeoplasmBlock extends Block {
             return spaceAvaliable;
         }
 
-        public void Turret(Block turret){
+        public void ReplaceTo(Block toBlock){
             float spaceAvaliable = 0;
-            for (int dy = (2 - turret.size); dy < 2; dy++) {
-                for (int dx = (2 - turret.size); dx < 2; dx++) {
+            for (int dy = (2 - toBlock.size); dy < 2; dy++) {
+                for (int dx = (2 - toBlock.size); dx < 2; dx++) {
                     Tile tile = Vars.world.tile(this.tile.x + dx, this.tile.y + dy);
                     if (tile.floor() != null && (tile.build == null || tile.build instanceof Cord.CordBuild)) {
                         spaceAvaliable += 1;
                     }
                 }
             }
-            if (spaceAvaliable >= turret.size * turret.size) {
+            if (spaceAvaliable >= toBlock.size * toBlock.size) {
                 Tile replacement = Vars.world.tile(this.tile.x, this.tile.y);
-                replacement.setBlock(turret, team, rotation);
+                replacement.setBlock(toBlock, team, rotation);
             }
         }
 
@@ -225,6 +225,7 @@ public class NeoplasmBlock extends Block {
         }
 
         public void death(){
+            Fx.neoplasiaSmoke.at(this.x + Mathf.random(1), this.y + Mathf.random(1));
             Events.fire(new EventType.BlockDestroyEvent(this.tile));
 
             if (this.block.hasLiquids && Vars.state.rules.damageExplosions) {

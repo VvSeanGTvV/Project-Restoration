@@ -195,7 +195,9 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
             for (int i = 0; i < 4; i++) {
                 Tile man = nearbyTile(Mathf.mod(facingRot + i, 4));
                 if (man != null){
-                    if (man.block() instanceof CausticDrill ||
+                    if (man.build instanceof CausticDrill.CausticDrillBuild ||
+                            man.build instanceof CausticTurret.CausticTurretBuild ||
+                            man.build instanceof CausticSpawner.CausticSpawnerBuild ||
                             man.build instanceof CordBuild cordBuild && cordBuild.useful) {
                         useful = true;
                         break;
@@ -214,17 +216,17 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                         left() == null &&
                         right() == null
                 ){
-                    Turret(ClassicBlocks.renaleSpawner);
+                    ReplaceTo(ClassicBlocks.renaleSpawner);
                 }
 
                 if ((Units.closestEnemy(team, x, y, 120f, u -> u.type.killable && u.type.hittable) != null) ||
                         (Units.findEnemyTile(team, x, y, 140f, b -> b.isValid() && (b instanceof Turret.TurretBuild)) != null)) {
-                    boolean tooClose = Units.closestBuilding(team, x, y, 120f, b -> (b instanceof CausticTurret.CausticTurretBuilding)) != null;
-                    if (!tooClose) Turret(ClassicBlocks.bloom);
+                    boolean tooClose = Units.closestBuilding(team, x, y, 120f, b -> (b instanceof CausticTurret.CausticTurretBuild)) != null;
+                    if (!tooClose) ReplaceTo(ClassicBlocks.bloom);
                 } if ((Units.closestEnemy(team, x, y, 30f, u -> u.type.killable && u.type.hittable) != null) ||
                         (Units.findEnemyTile(team, x, y, 40f, b -> b.isValid() && !(b instanceof Turret.TurretBuild)) != null)) {
-                    boolean tooClose = Units.closestBuilding(team, x, y, 120f, b -> (b instanceof CausticTurret.CausticTurretBuilding)) != null;
-                    if (!tooClose) Turret(ClassicBlocks.tole);
+                    boolean tooClose = Units.closestBuilding(team, x, y, 120f, b -> (b instanceof CausticTurret.CausticTurretBuild)) != null;
+                    if (!tooClose) ReplaceTo(ClassicBlocks.tole);
                 } else {
                     growCord(ClassicBlocks.cord);
                 }
@@ -232,7 +234,7 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
             if (current != null){
                 Seq<NeoplasmBuilding> avaliable = new Seq<>();
                 for (int i = 0; i < 4; i++){
-                    NeoplasmBuilding dest = getNeoplasia(nearby(rotation + i));
+                    NeoplasmBuilding dest = getNeoplasia(nearby(facingRot + i));
                     Item item = items.first();
                     if (validBuilding(dest, item)) avaliable.add(dest);
                 }

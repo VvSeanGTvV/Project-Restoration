@@ -4,7 +4,7 @@ import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.math.Mathf;
 import arc.math.geom.Geometry;
-import arc.struct.Seq;
+import arc.struct.*;
 import arc.util.Nullable;
 import classicMod.content.RUnitTypes;
 import classicMod.library.ai.PathfinderExtended;
@@ -15,7 +15,8 @@ import mindustry.game.Team;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.*;
-import mindustry.world.meta.Attribute;
+import mindustry.world.blocks.storage.CoreBlock;
+import mindustry.world.meta.*;
 
 public class Heart extends NeoplasmBlock {
 
@@ -31,6 +32,10 @@ public class Heart extends NeoplasmBlock {
         super(name);
         attribute = Attribute.heat;
         hasItems = true;
+
+        priority = 2.0F;
+        flags = EnumSet.of(BlockFlag.core);
+        unitCapModifier = 10;
     }
 
     public boolean canPlaceOn(Tile tile, Team team, int rotation) {
@@ -80,7 +85,7 @@ public class Heart extends NeoplasmBlock {
                     unit.add();
                     //unit.vel.y = launchVelocity;
                     for (int i = 0; i < 5; i++) {
-                        Fx.ventSteam.at(this.x + Mathf.random(1), this.y + Mathf.random(1), blood.color);
+                        Fx.neoplasmHeal.at(this.x + Mathf.random(1), this.y + Mathf.random(1));
                     }
                     //Effect.shake(4f*1.5f, 5f, this);
                     //units.add(unit);

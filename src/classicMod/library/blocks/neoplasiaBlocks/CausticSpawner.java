@@ -3,10 +3,8 @@ package classicMod.library.blocks.neoplasiaBlocks;
 import arc.Core;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
-import arc.util.Log;
-import mindustry.Vars;
+import mindustry.content.Fx;
 import mindustry.entities.Units;
-import mindustry.gen.Building;
 import mindustry.type.UnitType;
 import mindustry.world.consumers.ConsumeItems;
 
@@ -34,7 +32,7 @@ public class CausticSpawner extends NeoplasmBlock {
         return new TextureRegion[]{Core.atlas.find(name + "-bottom"), Core.atlas.find(name), Core.atlas.find(name + "-top")};
     }
 
-    public class CausticSpawnerBuilding extends NeoplasmBuilding {
+    public class CausticSpawnerBuild extends NeoplasmBuilding {
         public float progress, speedScl;
 
         public float fraction(){
@@ -86,10 +84,10 @@ public class CausticSpawner extends NeoplasmBlock {
         public void updateBeat() {
             super.updateBeat();
             if (progress >= spawnTime){
-
                 consume();
                 progress %= 1f;
                 speedScl = 0f;
+                Fx.mineHuge.at(x, y, items.first().color);
                 if (Units.canCreate(team, spawn)) {
                     var unit = spawn.create(team);
                     unit.set(this);

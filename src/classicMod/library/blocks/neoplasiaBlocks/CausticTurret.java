@@ -4,6 +4,7 @@ import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.math.*;
 import classicMod.content.ClassicBlocks;
+import mindustry.content.Fx;
 import mindustry.entities.Units;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
@@ -19,7 +20,7 @@ public class CausticTurret extends NeoplasmBlock {
         super(name);
     }
 
-    public class CausticTurretBuilding extends NeoplasmBuilding {
+    public class CausticTurretBuild extends NeoplasmBuilding {
 
         boolean shoot = false;
 
@@ -38,6 +39,10 @@ public class CausticTurret extends NeoplasmBlock {
         public void updateBeat() {
             shoot = target != null;
             if (shoot) {
+
+                for (int i = 0; i < 5; i++) {
+                    Fx.ventSteam.at(this.x + Mathf.random(1), this.y + Mathf.random(1), blood.color);
+                }
                 float targetAngle = angleTo(target);
                 bulletType.create(this, x, y, targetAngle);
                 for (int i = 0; i < bulletCount; i++){
@@ -49,6 +54,7 @@ public class CausticTurret extends NeoplasmBlock {
 
         @Override
         public void death() {
+            Fx.neoplasiaSmoke.at(this.x + Mathf.random(1), this.y + Mathf.random(1));
             for (int i = 0; i < 4; i++) {
                 int rot = Mathf.mod((rotation + i), 4);
                 Tile tile = nearbyTile(rot, -1);

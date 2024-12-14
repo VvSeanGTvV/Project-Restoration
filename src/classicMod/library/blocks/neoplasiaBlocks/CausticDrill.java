@@ -7,6 +7,8 @@ import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
 import mindustry.Vars;
+import mindustry.content.Fx;
+import mindustry.entities.Effect;
 import mindustry.game.Team;
 import mindustry.type.Item;
 import mindustry.world.Tile;
@@ -17,6 +19,8 @@ public class CausticDrill extends NeoplasmBlock {
 
     protected final ObjectIntMap<Item> oreCount = new ObjectIntMap<>();
     protected final Seq<Item> itemArray = new Seq<>();
+
+    public Effect drillEffect = Fx.mineHuge;
 
     @Nullable
     protected Item returnItem;
@@ -126,7 +130,7 @@ public class CausticDrill extends NeoplasmBlock {
         }
     }
 
-    public class DrillBeatBuilding extends NeoplasmBuilding {
+    public class CausticDrillBuild extends NeoplasmBuilding {
 
         public Item dominantItem;
 
@@ -157,7 +161,10 @@ public class CausticDrill extends NeoplasmBlock {
                 dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);
             }
             if (items.total() < itemCapacity) {
-                if (Mathf.randomBoolean(0.15f)) offload(dominantItem);
+                if (Mathf.randomBoolean(0.15f)) {
+                    drillEffect.at(x, y, dominantItem.color);
+                    offload(dominantItem);
+                }
             }
         }
 
