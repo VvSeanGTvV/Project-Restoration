@@ -40,9 +40,9 @@ public class CausticTurret extends NeoplasmBlock {
             shoot = target != null;
             if (shoot) {
 
-                for (int i = 0; i < 5; i++) {
+                //for (int i = 0; i < 5; i++) {
                     Fx.ventSteam.at(this.x + Mathf.random(1), this.y + Mathf.random(1), blood.color);
-                }
+                //}
                 float targetAngle = angleTo(target);
                 bulletType.create(this, x, y, targetAngle);
                 for (int i = 0; i < bulletCount; i++){
@@ -52,7 +52,7 @@ public class CausticTurret extends NeoplasmBlock {
             }
         }
 
-        @Override
+        /*@Override
         public void death() {
             Fx.neoplasiaSmoke.at(this.x + Mathf.random(1), this.y + Mathf.random(1));
             for (int i = 0; i < 4; i++) {
@@ -63,7 +63,7 @@ public class CausticTurret extends NeoplasmBlock {
                     tile.setBlock(ClassicBlocks.cord, team, rot);
                 }
             }
-        }
+        }*/
 
         @Override
         public void update() {
