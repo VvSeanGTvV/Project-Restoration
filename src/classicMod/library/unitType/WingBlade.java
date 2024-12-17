@@ -53,6 +53,7 @@ public class WingBlade extends Weapon {
         wingMount.bladeRotation += ((bladeMaxMoveAngle * type.bladeMoveSpeedScl) + bladeMinMoveAngle) * Time.delta;
     }
 
+    @Override
     public void load() {
         bladeRegion = Core.atlas.find(spriteName);
         blurRegion = Core.atlas.find(spriteName + "-blur");

@@ -83,6 +83,21 @@ public class OrnitopterUnitType extends UnitType {
         }
     }
 
+    @Override
+    public void draw(Unit unit) {
+        //super.draw(unit);
+
+        Draw.z(Layer.flyingUnit - 1f);
+        drawShadow(unit);
+
+        Draw.z(Layer.flyingUnit);
+        drawOutline(unit);
+        //drawWeaponOutlines(unit);
+
+        drawBody(unit);
+        drawBlade(unit);
+    }
+
     public void drawBlade(Unit unit){
         float z = unit.elevation > 0.5f ? (lowAltitude ? Layer.flyingUnitLow : Layer.flyingUnit) : groundLayer + Mathf.clamp(hitSize / 4000f, 0, 0.01f);
 
