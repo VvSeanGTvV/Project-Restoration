@@ -63,12 +63,38 @@ public class RUnitTypes {
 
     electra, chromeWraith, //Unit - Example-mod - Old content [v5]
 
-    mantis, blob, // TESTING
+    mantis, blob, matte,// TESTING
 
     alphaChan, crawlerChan, boulderChan, monoChan, octChan, oxynoeChan, quadChan, seiChan, zenithChan //Unit - Old Content [Animdustry]
     ;
 
     public static void load() {
+
+        matte = new OrnitopterUnitType("matte"){{
+            constructor = UnitEntity::create;
+            useUnitCap = false;
+            lowAltitude = true;
+            speed = 2.7f;
+            accel = 0.08f;
+            drag = 0.04f;
+            flying = true;
+            health = 210;
+            range = 15 * 8f;
+            maxRange = range;
+            rotateMoveFirst = true;
+            rotateSpeed = 6f;
+            fallDriftScl = 60f;
+
+            for(float angle : new float[]{40, -40}){
+                blades.addAll(new WingBlade(name + "-blade"){{
+                    x = 6f;
+                    y = 2f;
+                    bladeMaxMoveAngle = angle;
+                    blurAlpha = 1f;
+                }});
+            }
+
+        }};
 
         blob = new NeoplasmUnitType("vesicle"){{
             useUnitCap = false;
