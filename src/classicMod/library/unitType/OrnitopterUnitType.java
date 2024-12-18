@@ -12,7 +12,7 @@ import mindustry.graphics.*;
 import mindustry.type.UnitType;
 
 // from xstabux!
-public class OrnitopterUnitType extends UnitType {
+public class OrnitopterUnitType extends NeoplasmUnitType {
     public final Seq<WingBlade> blades = new Seq<>();
     public float bladeDeathMoveSlowdown = 0.01f, fallDriftScl = 60f;
     public float fallSmokeX = 0f, fallSmokeY = 0f, fallSmokeChance = 0.1f;
