@@ -2,14 +2,18 @@ package classicMod.library.unitType;
 
 import arc.Core;
 import arc.func.Func;
-import arc.graphics.g2d.TextureRegion;
+import arc.graphics.Color;
+import arc.graphics.g2d.*;
+import arc.math.*;
 import arc.util.Time;
 import mindustry.entities.units.WeaponMount;
 import mindustry.gen.Unit;
+import mindustry.graphics.Layer;
 import mindustry.io.JsonIO;
 import mindustry.type.Weapon;
 
 public class WingBlade extends Weapon {
+    public long drawSeed = 0;
     public Func<WingBlade, WingBladeMount> mountType;
     public final String spriteName;
     public TextureRegion bladeRegion, blurRegion, bladeOutlineRegion, shadeRegion;
@@ -32,7 +36,7 @@ public class WingBlade extends Weapon {
 
     public WingBlade(String name) {
         this.spriteName = name;
-        mountType = WingBlade.WingBladeMount::new;
+        mountType = WingBladeMount::new;
     }
 
     public static class WingBladeMount extends WeaponMount{
@@ -53,7 +57,6 @@ public class WingBlade extends Weapon {
         wingMount.bladeRotation += ((bladeMaxMoveAngle * type.bladeMoveSpeedScl) + bladeMinMoveAngle) * Time.delta;
     }
 
-    @Override
     public void load() {
         bladeRegion = Core.atlas.find(spriteName);
         blurRegion = Core.atlas.find(spriteName + "-blur");

@@ -85,9 +85,9 @@ public class RUnitTypes {
             rotateSpeed = 6f;
             fallDriftScl = 60f;
 
-            for(float angle : new float[]{40, -40}){
+            for(float angle : new float[]{60, -60}){
                 blades.addAll(new WingBlade(name + "-blade"){{
-                    x = 6f;
+                    x = 8f;
                     y = 2f;
                     bladeMaxMoveAngle = angle;
                     blurAlpha = 1f;

@@ -4,7 +4,7 @@ import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.math.*;
 import arc.struct.Seq;
-import arc.util.Time;
+import arc.util.*;
 import classicMod.library.drawCustom.Outliner;
 import mindustry.content.Fx;
 import mindustry.gen.Unit;
@@ -13,7 +13,6 @@ import mindustry.type.UnitType;
 
 // from xstabux!
 public class OrnitopterUnitType extends UnitType {
-
     public final Seq<WingBlade> blades = new Seq<>();
     public float bladeDeathMoveSlowdown = 0.01f, fallDriftScl = 60f;
     public float fallSmokeX = 0f, fallSmokeY = 0f, fallSmokeChance = 0.1f;
@@ -26,7 +25,6 @@ public class OrnitopterUnitType extends UnitType {
 
     private float driftAngle;
     private boolean hasDriftAngle = false;
-    public long drawSeed = 0;
     public float driftAngle() {
         return driftAngle;
     }
@@ -37,7 +35,6 @@ public class OrnitopterUnitType extends UnitType {
 
     @Override
     public void update(Unit unit) {
-        drawSeed++;
         OrnitopterUnitType type = (OrnitopterUnitType) unit.type;
         float rX = unit.x + Angles.trnsx(unit.rotation - 90, type.fallSmokeX, type.fallSmokeY);
         float rY = unit.y + Angles.trnsy(unit.rotation - 90, type.fallSmokeX, type.fallSmokeY);
@@ -84,6 +81,14 @@ public class OrnitopterUnitType extends UnitType {
     }
 
     @Override
+    public void load() {
+        super.load();
+        for (WingBlade blade : blades()){
+            blade.load();
+        }
+    }
+
+    @Override
     public void draw(Unit unit) {
         //super.draw(unit);
 
@@ -92,8 +97,9 @@ public class OrnitopterUnitType extends UnitType {
 
         Draw.z(Layer.flyingUnit);
         drawOutline(unit);
-        //drawWeaponOutlines(unit);
+        drawWeaponOutlines(unit);
 
+        //drawWeapons(unit);
         drawBody(unit);
         drawBlade(unit);
     }
@@ -106,11 +112,11 @@ public class OrnitopterUnitType extends UnitType {
             for(int sign : Mathf.signs){
                 long seedOffset = 0;
                 for(WingBlade blade : copter.blades()){
+                    blade.drawSeed++;
                     float rx = unit.x + Angles.trnsx(unit.rotation - 90, blade.x * sign, blade.y);
                     float ry = unit.y + Angles.trnsy(unit.rotation - 90, blade.x * sign, blade.y);
                     float bladeScl = Draw.scl * blade.bladeSizeScl;
                     float shadeScl = Draw.scl * blade.shadeSizeScl;
-
 
                     if(blade.bladeRegion.found()){
                         Draw.z(z + blade.layerOffset);
@@ -119,13 +125,13 @@ public class OrnitopterUnitType extends UnitType {
                                 blade.bladeOutlineRegion, rx, ry,
                                 blade.bladeOutlineRegion.width * bladeScl * sign,
                                 blade.bladeOutlineRegion.height * bladeScl,
-                                unit.rotation - 90 + sign * Mathf.randomSeed(copter.drawSeed + (seedOffset++), blade.bladeMaxMoveAngle, -blade.bladeMinMoveAngle)
+                                unit.rotation - 90 + sign * Mathf.randomSeed(blade.drawSeed + (seedOffset++), blade.bladeMaxMoveAngle, -blade.bladeMinMoveAngle)
                         );
                         Draw.mixcol(Color.white, unit.hitTime);
                         Draw.rect(blade.bladeRegion, rx, ry,
                                 blade.bladeRegion.width * bladeScl * sign,
                                 blade.bladeRegion.height * bladeScl,
-                                unit.rotation - 90 + sign * Mathf.randomSeed(copter.drawSeed + (seedOffset++), blade.bladeMaxMoveAngle, -blade.bladeMinMoveAngle)
+                                unit.rotation - 90 + sign * Mathf.randomSeed(blade.drawSeed + (seedOffset++), blade.bladeMaxMoveAngle, -blade.bladeMinMoveAngle)
                         );
                         Draw.reset();
                     }
@@ -137,7 +143,7 @@ public class OrnitopterUnitType extends UnitType {
                                 blade.blurRegion, rx, ry,
                                 blade.blurRegion.width * bladeScl * sign,
                                 blade.blurRegion.height * bladeScl,
-                                unit.rotation - 90 + sign * Mathf.randomSeed(copter.drawSeed + (seedOffset++), blade.bladeMaxMoveAngle, -blade.bladeMinMoveAngle)
+                                unit.rotation - 90 + sign * Mathf.randomSeed(blade.drawSeed + (seedOffset++), blade.bladeMaxMoveAngle, -blade.bladeMinMoveAngle)
                         );
                         Draw.reset();
                     }
@@ -149,7 +155,7 @@ public class OrnitopterUnitType extends UnitType {
                                 blade.shadeRegion, rx, ry,
                                 blade.shadeRegion.width * shadeScl * sign,
                                 blade.shadeRegion.height * shadeScl,
-                                unit.rotation - 90 + sign * Mathf.randomSeed(copter.drawSeed + (seedOffset++), blade.bladeMaxMoveAngle, -blade.bladeMinMoveAngle)
+                                unit.rotation - 90 + sign * Mathf.randomSeed(blade.drawSeed + (seedOffset++), blade.bladeMaxMoveAngle, -blade.bladeMinMoveAngle)
                         );
                         Draw.mixcol(Color.white, unit.hitTime);
                         Draw.reset();
