@@ -10,16 +10,39 @@ import mindustry.content.Fx;
 import mindustry.gen.Unit;
 import mindustry.graphics.*;
 import mindustry.entities.abilities.*;
-import mindustry.type.*;
+import mindustry.type.UnitType;
 
 // from xstabux!
-public class OrnitopterUnitType extends NeoplasmUnitType {
+public class OrnitopterUnitType extends UnitType {
     public final Seq<WingBlade> blades = new Seq<>();
     public float bladeDeathMoveSlowdown = 0.01f, fallDriftScl = 60f;
     public float fallSmokeX = 0f, fallSmokeY = 0f, fallSmokeChance = 0.1f;
 
     public OrnitopterUnitType(String name) {
         super(name);
+        outlineColor = Pal.neoplasmOutline;
+        immunities.addAll(StatusEffects.burning, StatusEffects.melting);
+        envDisabled = Env.none;
+        //drawCell = false;
+
+        abilities.add(new RegenAbility(){{
+            //fully regen in 70 seconds
+            percentAmount = 1f / (70f * 60f) * 100f;
+        }});
+
+        abilities.add(new LiquidExplodeAbility(){{
+            liquid = Liquids.neoplasm;
+        }});
+
+        abilities.add(new LiquidRegenAbility(){{
+            liquid = Liquids.neoplasm;
+            slurpEffect = Fx.neoplasmHeal;
+        }});
+
+        //green flashing is unnecessary since they always regen
+        healFlash = true;
+
+        healColor = Pal.neoplasm1;
     }
 
     public float bladeMoveSpeedScl = 1f;
