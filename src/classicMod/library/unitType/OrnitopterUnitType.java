@@ -9,8 +9,10 @@ import classicMod.library.drawCustom.Outliner;
 import mindustry.content.Fx;
 import mindustry.gen.Unit;
 import mindustry.graphics.*;
+import mindustry.content.*;
 import mindustry.entities.abilities.*;
-import mindustry.type.UnitType;
+import mindustry.world.meta.*;
+import mindustry.type.*;
 
 // from xstabux!
 public class OrnitopterUnitType extends UnitType {
