@@ -92,6 +92,12 @@ public class RUnitTypes {
                     bladeMaxMoveAngle = angle;
                     blurAlpha = 1f;
                 }});
+                blades.addAll(new WingBlade(name + "-blade1"){{
+                    x = 0f;
+                    y = -5f;
+                    bladeMaxMoveAngle = angle;
+                    blurAlpha = 1f;
+                }});
             }
 
         }};
