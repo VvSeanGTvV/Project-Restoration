@@ -29,7 +29,12 @@ public class MantisRayType extends UnitType {
     @Override
     public void update(Unit unit) {
         super.update(unit);
-        Tail.update(unit);
+        Tail.timer += Time.delta / 20f;
+        Tail.rot = Mathf.slerpDelta(Tail.rot, unit.rotation, 0.35f + Tail.tailRotationSpeed);
+        Tail.rotEnd = Mathf.slerpDelta(Tail.rotEnd, unit.rotation, 0.15f + Tail.tailRotationSpeed);
+
+        Tail.lastRot = (unit.rotation >= 180f) ? Tail.rot - 360f : Tail.rot;
+        Tail.lastRotEnd = (unit.rotation >= 180f) ? Tail.rotEnd - 360f : Tail.rotEnd;
     }
 
     @Override
@@ -55,20 +60,84 @@ public class MantisRayType extends UnitType {
         drawOutline(unit);
         
         drawBody(unit);
-        drawTail(unit);
+        drawWholeTail(unit);
         Draw.rect(eye, unit.x, unit.y, unit.rotation - 90);
     }
 
-    public void drawTail(Unit unit){
+    public void drawOutline(Unit unit){
+        float lRot0 = Tail.lastRot - unit.rotation;
+        float yBody = (Tail.TailBody.height / 7.5f) + 0f;
+        Tmp.v1.trns(unit.rotation + lRot0 - 90, 0, yBody);
+
+        if (Core.atlas.isFound(Tail.TailBodyOutline)) {
+            Draw.rect(Tail.TailBodyOutline, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 - 90);
+            Draw.reset();
+        }
+        float lRot1 = Tail.lastRotEnd - unit.rotation;
+        yBody += (Tail.TailBodyEnd.height / 6.15f) + 0f;
+        Tmp.v1.trns(unit.rotation + lRot1 - 90, 0, yBody);
+        if (Core.atlas.isFound(Tail.TailBodyEndOutline)) {
+            Draw.rect(Tail.TailBodyEndOutline, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot1 - 90);
+            Draw.reset();
+        }
+    }
+
+    public void drawBodyTail(Unit unit){
+        float lRot0 = Tail.lastRot - unit.rotation;
+        float yBody = (Tail.TailBody.height / 7.5f) + 0f;
+        Tmp.v1.trns(unit.rotation + lRot0 - 90, 0, yBody);
+        Draw.rect(Tail.TailBody, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 - 90);
+
+        float lRot1 = Tail.lastRotEnd - unit.rotation;
+        yBody += (Tail.TailBodyEnd.height / 6.15f) + 0f;
+        Tmp.v1.trns(unit.rotation + lRot1 - 90, 0, yBody);
+        Draw.rect(Tail.TailBodyEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot1 - 90);
+    }
+
+    public void drawTail(Unit unit) {
+        var sine0 = Mathf.sin(Tail.timer) * 10f;
+        float sclr = 1f;
+        float unitRot = ((unit.rotation >= 180f) ? unit.rotation - 360f : unit.rotation);
+        float rotation = Tail.lastRot;
+        float rotationOffset = -90f;
+        Tmp.v1.trns(unitRot + rotationOffset, Tail.TailOffsetBegin.x, Tail.TailOffsetBegin.y);
+        Draw.rect(Tail.TailBegin, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unitRot + rotationOffset);
+
+        float lRot0 = 0f;
+        Tmp.v1.trns(rotation + sine0 + lRot0 + Tail.AngleOffset[0] + rotationOffset, Tail.offsetX - ((lRot0 / 10f) + sine0 / 5f), ((Tail.TailBegin.height / 8f) + 6.6f + Tail.padding) * sclr);
+        Draw.rect(Tail.TailMiddle, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, rotation + lRot0 + sine0 + Tail.AngleOffset[0] + rotationOffset);
+        drawShadowTexture(unit, Tail.TailMiddle, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, rotation + lRot0 + sine0 + Tail.AngleOffset[0] + rotationOffset);
+
+        Tmp.v1.trns(rotation + sine0 + lRot0 + Tail.AngleOffset[1] + rotationOffset,Tail.offsetX - ((lRot0 / 20f) + sine0 / 5f), ((Tail.TailMiddle.height / 4f) + 0.15f + Tail.padding) * sclr);
+        Draw.rect(Tail.TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, rotation + lRot0 + sine0 + sine0 + Tail.AngleOffset[1] + rotationOffset);
+        drawShadowTexture(unit, Tail.TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, rotation + lRot0 + sine0 + sine0 + Tail.AngleOffset[1] + rotationOffset);
+    }
+
+    public void drawTailShadow(Unit unit) {
+        //drawShadowTexture(unit, region, unit.x, unit.y, unit.rotation - 90);
+
+        float lRot0 = Tail.lastRot - unit.rotation;
+        float yBody = (Tail.TailBody.height / 7.5f) + 0f;
+        Tmp.v1.trns(unit.rotation + lRot0 - 90, 0, yBody);
+
+        drawShadowTexture(unit, Tail.TailBody, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 - 90);
+        float lRot1 = Tail.lastRotEnd - unit.rotation;
+        yBody += (Tail.TailBodyEnd.height / 6.15f) + 0f;
+        Tmp.v1.trns(unit.rotation + lRot1 - 90, 0, yBody);
+
+        drawShadowTexture(unit, Tail.TailBodyEndOutline, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot1 - 90);
+    }
+
+    public void drawWholeTail(Unit unit){
         float z = Draw.z();
         Draw.z(z + Tail.layerOffset);
-        Tail.drawShadow(unit);
+        drawTailShadow(unit);
 
         unit.type.applyColor(unit);
 
-        Tail.drawBodyTail(unit);
-        Tail.drawOutline(unit);
-        Tail.drawTail(unit);
+        drawBodyTail(unit);
+        drawOutline(unit);
+        drawTail(unit);
 
         Draw.z(z);
     }
