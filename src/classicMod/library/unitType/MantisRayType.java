@@ -19,14 +19,17 @@ import static mindustry.Vars.world;
 
 public class MantisRayType extends UnitType {
 
+    public MantisTail Tail;
     public TextureRegion eye;
 
     public MantisRayType(String name) {
         super(name);
+    }
 
-        weapons.add(new MantisTail(){{
-            tailRotationSpeed = -0.05f;
-        }});
+    @Override
+    public void update(Unit unit) {
+        super.update(unit);
+        Tail.update(unit);
     }
 
     @Override
@@ -38,6 +41,7 @@ public class MantisRayType extends UnitType {
     public void load() {
         super.load();
         eye = Core.atlas.find(name + "-eye");
+        Tail.load();
     }
 
     @Override
@@ -49,11 +53,24 @@ public class MantisRayType extends UnitType {
 
         Draw.z(Layer.flyingUnit);
         drawOutline(unit);
-        drawWeaponOutlines(unit);
         
         drawBody(unit);
-        drawWeapons(unit);
+        drawTail(unit);
         Draw.rect(eye, unit.x, unit.y, unit.rotation - 90);
+    }
+
+    public void drawTail(Unit unit){
+        float z = Draw.z();
+        Draw.z(z + Tail.layerOffset);
+        Tail.drawShadow(unit);
+
+        unit.type.applyColor(unit);
+
+        Tail.drawBodyTail(unit);
+        Tail.drawOutline(unit);
+        Tail.drawTail(unit);
+
+        Draw.z(z);
     }
 
 
@@ -61,7 +78,6 @@ public class MantisRayType extends UnitType {
         applyColor(unit);
 
         Draw.rect(region, unit.x, unit.y, unit.rotation - 90);
-        //drawShadowTexture(unit, region, unit.x, unit.y, unit.rotation - 90);
     }
 
     @Override

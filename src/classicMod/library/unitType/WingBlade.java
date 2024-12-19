@@ -2,17 +2,12 @@ package classicMod.library.unitType;
 
 import arc.Core;
 import arc.func.Func;
-import arc.graphics.Color;
-import arc.graphics.g2d.*;
-import arc.math.*;
+import arc.graphics.g2d.TextureRegion;
 import arc.util.Time;
-import mindustry.entities.units.WeaponMount;
 import mindustry.gen.Unit;
-import mindustry.graphics.Layer;
 import mindustry.io.JsonIO;
-import mindustry.type.Weapon;
 
-public class WingBlade extends Weapon {
+public class WingBlade implements Cloneable {
     public long drawSeed = 0;
     public Func<WingBlade, WingBladeMount> mountType;
     public final String spriteName;
@@ -20,6 +15,7 @@ public class WingBlade extends Weapon {
 
     public float x = 0f, y = 0f;
 
+    public float bladeRotation;
     public float bladeSizeScl = 1, shadeSizeScl = 1;
     /**
      * Blade max moving distance
@@ -39,22 +35,30 @@ public class WingBlade extends Weapon {
         mountType = WingBladeMount::new;
     }
 
-    public static class WingBladeMount extends WeaponMount{
+    @Override
+    public WingBlade clone() {
+        try {
+            WingBlade clone = (WingBlade) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
+
+    public static class WingBladeMount{
         public WingBlade blade;
-        public float bladeRotation;
 
 
         public WingBladeMount(WingBlade blade){
-            super(blade);
             this.blade = blade;
         }
     }
 
-    @Override
-    public void update(Unit unit, WeaponMount mount) {
-        WingBladeMount wingMount = (WingBladeMount)mount;
+    public void update(Unit unit) {
         OrnitopterUnitType type = (OrnitopterUnitType)unit.type;
-        wingMount.bladeRotation += ((bladeMaxMoveAngle * type.bladeMoveSpeedScl) + bladeMinMoveAngle) * Time.delta;
+        bladeRotation += ((bladeMaxMoveAngle * type.bladeMoveSpeedScl) + bladeMinMoveAngle) * Time.delta;
+        drawSeed++;
     }
 
     public void load() {

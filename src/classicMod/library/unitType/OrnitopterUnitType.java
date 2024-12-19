@@ -11,40 +11,18 @@ import mindustry.gen.Unit;
 import mindustry.graphics.*;
 import mindustry.content.*;
 import mindustry.entities.abilities.*;
+import mindustry.type.unit.NeoplasmUnitType;
 import mindustry.world.meta.*;
 import mindustry.type.*;
 
 // from xstabux!
-public class OrnitopterUnitType extends UnitType {
+public class OrnitopterUnitType extends NeoplasmUnitType {
     public final Seq<WingBlade> blades = new Seq<>();
     public float bladeDeathMoveSlowdown = 0.01f, fallDriftScl = 60f;
     public float fallSmokeX = 0f, fallSmokeY = 0f, fallSmokeChance = 0.1f;
 
     public OrnitopterUnitType(String name) {
         super(name);
-        outlineColor = Pal.neoplasmOutline;
-        immunities.addAll(StatusEffects.burning, StatusEffects.melting);
-        envDisabled = Env.none;
-        //drawCell = false;
-
-        abilities.add(new RegenAbility(){{
-            //fully regen in 70 seconds
-            percentAmount = 1f / (70f * 60f) * 100f;
-        }});
-
-        abilities.add(new LiquidExplodeAbility(){{
-            liquid = Liquids.neoplasm;
-        }});
-
-        abilities.add(new LiquidRegenAbility(){{
-            liquid = Liquids.neoplasm;
-            slurpEffect = Fx.neoplasmHeal;
-        }});
-
-        //green flashing is unnecessary since they always regen
-        healFlash = true;
-
-        healColor = Pal.neoplasm1;
     }
 
     public float bladeMoveSpeedScl = 1f;
@@ -65,6 +43,7 @@ public class OrnitopterUnitType extends UnitType {
         float rX = unit.x + Angles.trnsx(unit.rotation - 90, type.fallSmokeX, type.fallSmokeY);
         float rY = unit.y + Angles.trnsy(unit.rotation - 90, type.fallSmokeX, type.fallSmokeY);
 
+        blades.each(wingBlade -> wingBlade.update(unit));
         // When dying
         if (unit.dead || health <= 0) {
             if (Mathf.chanceDelta(type.fallSmokeChance)) {
@@ -138,7 +117,6 @@ public class OrnitopterUnitType extends UnitType {
             for(int sign : Mathf.signs){
                 long seedOffset = 0;
                 for(WingBlade blade : copter.blades()){
-                    blade.drawSeed++;
                     float rx = unit.x + Angles.trnsx(unit.rotation - 90, blade.x * sign, blade.y);
                     float ry = unit.y + Angles.trnsy(unit.rotation - 90, blade.x * sign, blade.y);
                     float bladeScl = Draw.scl * blade.bladeSizeScl;

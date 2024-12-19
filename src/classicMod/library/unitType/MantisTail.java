@@ -4,28 +4,27 @@ package classicMod.library.unitType;
 import arc.Core;
 import arc.func.Func;
 import arc.graphics.g2d.*;
-import arc.math.*;
+import arc.math.Mathf;
 import arc.math.geom.Vec2;
-import arc.struct.Seq;
 import arc.util.*;
-import mindustry.entities.Sized;
 import mindustry.entities.units.WeaponMount;
 import mindustry.gen.Unit;
 import mindustry.graphics.*;
 import mindustry.type.Weapon;
-import mindustry.type.weapons.RepairBeamWeapon;
 import mindustry.world.blocks.environment.Floor;
-import mindustry.world.blocks.units.RepairTurret;
 
 import static classicMod.content.ClassicVars.empty;
 import static mindustry.Vars.world;
 
-public class MantisTail extends Weapon {
+public class MantisTail implements Cloneable {
+    public float layerOffset;
     public float tailRotationSpeed;
+    public String spriteName;
     public TextureRegion TailBegin, TailMiddle, TailEnd;
     public TextureRegion TailBody, TailBodyEnd;
     public TextureRegion TailBodyOutline, TailBodyEndOutline;
-
+    public Func<MantisTail, MantisMountTail> mountType;
+    public float timer, lastRot, lastRotEnd, rot, rotEnd;
 
     public float shadowElevation = -1f;
     public float shadowElevationScl = 1f;
@@ -36,44 +35,23 @@ public class MantisTail extends Weapon {
     public float padding = 0f;
     public float offsetX = 0f;
 
-    public MantisTail(){
-    }
-
-    {
-        //does nothing other visual effects
-        //must be >0 to prevent various bugs
-        showStatSprite = display = false;
-        reload = 1f;
-        predictTarget = autoTarget =false;
-        controllable = false;
-        rotate = useAmmo = false;
-        recoil = 0f;
-        noAttack = true;
-        useAttackRange = false;
-        top = false;
+    public MantisTail(String name){
+        spriteName = name;
         mountType = MantisMountTail::new;
     }
 
-    @Override
-    public void update(Unit unit, WeaponMount mount) {
-        super.update(unit, mount);
-        MantisMountTail tail = (MantisMountTail)mount;
 
-        tail.timer += Time.delta / 20f;
-        tail.rot = Mathf.slerpDelta(tail.rot, unit.rotation, 0.35f + tailRotationSpeed);
-        tail.rotEnd = Mathf.slerpDelta(tail.rotEnd, unit.rotation, 0.15f + tailRotationSpeed);
+    public void update(Unit unit) {
+        timer += Time.delta / 20f;
+        rot = Mathf.slerpDelta(rot, unit.rotation, 0.35f + tailRotationSpeed);
+        rotEnd = Mathf.slerpDelta(rotEnd, unit.rotation, 0.15f + tailRotationSpeed);
 
-        tail.lastRot = (unit.rotation >= 180f) ? tail.rot - 360f : tail.rot;
-        tail.lastRotEnd = (unit.rotation >= 180f) ? tail.rotEnd - 360f : tail.rotEnd;
+        lastRot = (unit.rotation >= 180f) ? rot - 360f : rot;
+        lastRotEnd = (unit.rotation >= 180f) ? rotEnd - 360f : rotEnd;
     }
 
-    @Override
-    protected void shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) {
-        //Do nothing HAHAHAHAHAHA sorry
-    }
-
-    public void drawOutline(Unit unit, MantisMountTail tail){
-        float lRot0 = tail.lastRot - unit.rotation;
+    public void drawOutline(Unit unit){
+        float lRot0 = lastRot - unit.rotation;
         float yBody = (TailBody.height / 7.5f) + 0f;
         Tmp.v1.trns(unit.rotation + lRot0 - 90, 0, yBody);
 
@@ -81,7 +59,7 @@ public class MantisTail extends Weapon {
             Draw.rect(TailBodyOutline, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 - 90);
             Draw.reset();
         }
-        float lRot1 = tail.lastRotEnd - unit.rotation;
+        float lRot1 = lastRotEnd - unit.rotation;
         yBody += (TailBodyEnd.height / 6.15f) + 0f;
         Tmp.v1.trns(unit.rotation + lRot1 - 90, 0, yBody);
         if (Core.atlas.isFound(TailBodyEndOutline)) {
@@ -90,23 +68,23 @@ public class MantisTail extends Weapon {
         }
     }
 
-    public void drawBodyTail(Unit unit, MantisMountTail tail){
-        float lRot0 = tail.lastRot - unit.rotation;
+    public void drawBodyTail(Unit unit){
+        float lRot0 = lastRot - unit.rotation;
         float yBody = (TailBody.height / 7.5f) + 0f;
         Tmp.v1.trns(unit.rotation + lRot0 - 90, 0, yBody);
         Draw.rect(TailBody, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 - 90);
 
-        float lRot1 = tail.lastRotEnd - unit.rotation;
+        float lRot1 = lastRotEnd - unit.rotation;
         yBody += (TailBodyEnd.height / 6.15f) + 0f;
         Tmp.v1.trns(unit.rotation + lRot1 - 90, 0, yBody);
         Draw.rect(TailBodyEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot1 - 90);
     }
 
-    public void drawTail(Unit unit, MantisMountTail tail) {
-        var sine0 = Mathf.sin(tail.timer) * 10f;
+    public void drawTail(Unit unit) {
+        var sine0 = Mathf.sin(timer) * 10f;
         float sclr = 1f;
         float unitRot = ((unit.rotation >= 180f) ? unit.rotation - 360f : unit.rotation);
-        float rotation = tail.lastRot;
+        float rotation = lastRot;
         float rotationOffset = -90f;
         Tmp.v1.trns(unitRot + rotationOffset, TailOffsetBegin.x, TailOffsetBegin.y);
         Draw.rect(TailBegin, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unitRot + rotationOffset);
@@ -121,15 +99,15 @@ public class MantisTail extends Weapon {
         drawShadowTexture(unit, TailEnd, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, rotation + lRot0 + sine0 + sine0 + AngleOffset[1] + rotationOffset);
     }
 
-    public void drawShadow(Unit unit, MantisMountTail tail) {
-        drawShadowTexture(unit, region, unit.x, unit.y, unit.rotation - 90);
+    public void drawShadow(Unit unit) {
+        //drawShadowTexture(unit, region, unit.x, unit.y, unit.rotation - 90);
 
-        float lRot0 = tail.lastRot - unit.rotation;
+        float lRot0 = lastRot - unit.rotation;
         float yBody = (TailBody.height / 7.5f) + 0f;
         Tmp.v1.trns(unit.rotation + lRot0 - 90, 0, yBody);
 
         drawShadowTexture(unit, TailBody, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot0 - 90);
-        float lRot1 = tail.lastRotEnd - unit.rotation;
+        float lRot1 = lastRotEnd - unit.rotation;
         yBody += (TailBodyEnd.height / 6.15f) + 0f;
         Tmp.v1.trns(unit.rotation + lRot1 - 90, 0, yBody);
 
@@ -153,50 +131,36 @@ public class MantisTail extends Weapon {
         Draw.z(Layer.flyingUnit);
     }
 
-    @Override
-    public void draw(Unit unit, WeaponMount mount){
-        //super.draw(unit, mount);
-        MantisMountTail tail = (MantisMountTail)mount;
-        float z = Draw.z();
-        Draw.z(z + layerOffset);
-        drawShadow(unit, tail);
 
-        unit.type.applyColor(unit);
-
-        drawBodyTail(unit, tail);
-        drawTail(unit, tail);
-        //drawOutline(unit, tail);
-
-        Draw.z(z);
-    }
-
-    @Override
-    public void drawOutline(Unit unit, WeaponMount mount) {
-        MantisMountTail tail = (MantisMountTail)mount;
-        drawOutline(unit, tail);
-    }
-
-    @Override
     public void load() {
-        super.load();
-        String name = "restored-mind-skat";
-        region = Core.atlas.find(empty);
-        TailBegin = Core.atlas.find(name + "-tail-0");
-        TailMiddle = Core.atlas.find(name + "-tail-1");
-        TailEnd = Core.atlas.find(name + "-tail-2");
+        TailBegin = Core.atlas.find(spriteName + "-0");
+        TailMiddle = Core.atlas.find(spriteName + "-1");
+        TailEnd = Core.atlas.find(spriteName + "-2");
 
-        TailBody = Core.atlas.find(name + "-tail-mid");
-        TailBodyEnd = Core.atlas.find(name + "-tail-end");
+        TailBody = Core.atlas.find(spriteName + "-mid");
+        TailBodyEnd = Core.atlas.find(spriteName + "-end");
 
-        TailBodyOutline = Core.atlas.find(name + "-tail-mid-outline");
-        TailBodyEndOutline = Core.atlas.find(name + "-tail-end-outline");
+        TailBodyOutline = Core.atlas.find(spriteName + "-mid-outline");
+        TailBodyEndOutline = Core.atlas.find(spriteName + "-end-outline");
     }
 
-    public static class MantisMountTail extends WeaponMount{
+    @Override
+    public MantisTail clone() {
+        try {
+            MantisTail clone = (MantisTail) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
+
+    public static class MantisMountTail {
         /** Float variable associated with this mount */
-        public float timer, lastRot, lastRotEnd, rot, rotEnd;
-        public MantisMountTail(Weapon weapon){
-            super(weapon);
+        public MantisTail tail;
+
+        public MantisMountTail(MantisTail tail) {
+            this.tail = tail;
         }
     }
 }
