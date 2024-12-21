@@ -14,6 +14,7 @@ public class CausticTurret extends NeoplasmBlock {
 
     public int bulletCount = 7;
     public float bulletAnglePer = 15f;
+    public int perBeat = 1;
     public BulletType bulletType;
     public float range = 60f;
     public CausticTurret(String name) {
@@ -22,6 +23,7 @@ public class CausticTurret extends NeoplasmBlock {
 
     public class CausticTurretBuild extends NeoplasmBuilding {
 
+        int beat = 0;
         boolean shoot = false;
 
         Healthc target;
@@ -37,17 +39,23 @@ public class CausticTurret extends NeoplasmBlock {
 
         @Override
         public void updateBeat() {
+            beat++;
             shoot = target != null;
-            if (shoot) {
-
+            if (shoot && beat >= perBeat) {
+                beat = 0;
                 //for (int i = 0; i < 5; i++) {
-                    Fx.ventSteam.at(this.x + Mathf.random(1), this.y + Mathf.random(1), blood.color);
+                Fx.neoplasiaSmoke.at(this.x + Mathf.random(1), this.y + Mathf.random(1));
+                    //Fx.ventSteam.at(this.x + Mathf.random(1), this.y + Mathf.random(1), blood.color);
                 //}
                 float targetAngle = angleTo(target);
-                bulletType.create(this, x, y, targetAngle);
-                for (int i = 0; i < bulletCount; i++){
-                    int invert = -Mathf.round((float) bulletCount / 2);
-                    bulletType.create(this, x, y, ((invert + i) * bulletAnglePer) + targetAngle);
+                if (bulletCount > 1) {
+                    bulletType.create(this, x, y, targetAngle);
+                    for (int i = 0; i < bulletCount; i++) {
+                        int invert = -Mathf.round((float) bulletCount / 2);
+                        bulletType.create(this, x, y, ((invert + i) * bulletAnglePer) + targetAngle);
+                    }
+                } else {
+                    bulletType.create(this, x, y, targetAngle);
                 }
             }
         }

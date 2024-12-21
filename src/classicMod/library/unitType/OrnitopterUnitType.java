@@ -1,7 +1,8 @@
 package classicMod.library.unitType;
 
+import arc.Core;
 import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.struct.Seq;
 import arc.util.*;
@@ -20,6 +21,7 @@ public class OrnitopterUnitType extends NeoplasmUnitType {
     public final Seq<WingBlade> blades = new Seq<>();
     public float bladeDeathMoveSlowdown = 0.01f, fallDriftScl = 60f;
     public float fallSmokeX = 0f, fallSmokeY = 0f, fallSmokeChance = 0.1f;
+    public TextureRegion healthCellRegion, tuskRegion;
 
     public OrnitopterUnitType(String name) {
         super(name);
@@ -79,6 +81,8 @@ public class OrnitopterUnitType extends NeoplasmUnitType {
     @Override
     public void createIcons(MultiPacker packer) {
         super.createIcons(packer);
+        if (tuskRegion != null) Outliner.outlineTemplateRegion(packer, Core.atlas.find(name + "-tusk-template"), outlineColor, name + "-tusk-outline");
+        if (healthCellRegion != null) Outliner.outlineRegion(packer, healthCellRegion, outlineColor, name + "-health-outline", outlineRadius);
         for (WingBlade blade : blades) {
             Outliner.outlineRegion(packer, blade.bladeRegion, outlineColor, blade.spriteName + "-outline", outlineRadius);
             Outliner.outlineRegion(packer, blade.shadeRegion, outlineColor, blade.spriteName + "-top-outline", outlineRadius);
@@ -88,6 +92,8 @@ public class OrnitopterUnitType extends NeoplasmUnitType {
     @Override
     public void load() {
         super.load();
+        tuskRegion = Core.atlas.find(name + "-tusk");
+        healthCellRegion = Core.atlas.find(name + "-health");
         for (WingBlade blade : blades()){
             blade.load();
         }
@@ -104,13 +110,37 @@ public class OrnitopterUnitType extends NeoplasmUnitType {
         drawOutline(unit);
         drawWeaponOutlines(unit);
 
-        //drawWeapons(unit);
+        drawWeapons(unit);
+        drawHealthCell(unit);
         drawBody(unit);
-        drawBlade(unit);
+        drawBlades(unit);
+        drawTusk(unit);
     }
 
-    public void drawBlade(Unit unit){
-        float z = unit.elevation > 0.5f ? (lowAltitude ? Layer.flyingUnitLow : Layer.flyingUnit) : groundLayer + Mathf.clamp(hitSize / 4000f, 0, 0.01f);
+
+    public void drawTusk(Unit unit) {
+        applyColor(unit);
+        Draw.rect(Core.atlas.find(name + "-tusk-outline"), unit.x, unit.y, unit.rotation - 90.0F);
+        Draw.rect(tuskRegion, unit.x, unit.y, unit.rotation - 90.0F);
+        Draw.reset();
+    }
+
+    public Color cellColor(Unit unit, Color color) {
+        float f = Mathf.clamp(unit.healthf());
+        return Tmp.c1.set(Color.black).lerp(color, f + Mathf.absin(Time.time, Math.max(f * 5.0F, 1.0F), 1.0F - f));
+    }
+
+    public void drawHealthCell(Unit unit){
+        applyColor(unit);
+        Draw.color(cellColor(unit, Color.white));
+        Draw.rect(Core.atlas.find(name + "-health-outline"), unit.x, unit.y, unit.rotation - 90.0F);
+        Draw.rect(healthCellRegion, unit.x, unit.y, unit.rotation - 90.0F);
+        Draw.reset();
+    }
+
+    public void drawBlades(Unit unit){
+        float z = Draw.z();
+        //float z = unit.elevation > 0.5f ? (lowAltitude ? Layer.flyingUnitLow : Layer.flyingUnit) : groundLayer + Mathf.clamp(hitSize / 4000f, 0, 0.01f);
 
         applyColor(unit);
         if(unit.type instanceof OrnitopterUnitType copter){
@@ -121,6 +151,13 @@ public class OrnitopterUnitType extends NeoplasmUnitType {
                     float ry = unit.y + Angles.trnsy(unit.rotation - 90, blade.x * sign, blade.y);
                     float bladeScl = Draw.scl * blade.bladeSizeScl;
                     float shadeScl = Draw.scl * blade.shadeSizeScl;
+
+                    /*Draw.rect(blade.bladeRegion, rx, ry, --Bugfixes intention
+                            blade.bladeRegion.width * bladeScl * sign,
+                            blade.bladeRegion.height * bladeScl,
+                            unit.rotation - 90 + sign
+                    );*/
+
 
                     if(blade.bladeRegion.found()){
                         Draw.z(z + blade.layerOffset);

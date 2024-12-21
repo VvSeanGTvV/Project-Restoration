@@ -12,6 +12,7 @@ import classicMod.library.blocks.neoplasiaBlocks.*;
 import classicMod.library.blocks.v6devBlocks.*;
 import classicMod.library.bullets.*;
 import mindustry.content.*;
+import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
 import mindustry.entities.part.RegionPart;
@@ -19,6 +20,7 @@ import mindustry.entities.pattern.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
+import mindustry.type.unit.MissileUnitType;
 import mindustry.world.Block;
 import mindustry.world.blocks.campaign.LaunchPad;
 import mindustry.world.blocks.defense.*;
@@ -98,7 +100,7 @@ public class ClassicBlocks {
 
     interplanetaryAccelerator, //Endgame - Mindustry
 
-    ductJunction, cord, heart, neoplasiaDrill, bloom, tole, renaleSpawner //Erekir - Prototype [v8-dev]
+    ductJunction, cord, heart, neoplasiaDrill, bloom, pore, tole, renaleSpawner //Erekir - Prototype [v8-dev]
     ;
 
 
@@ -884,6 +886,68 @@ public class ClassicBlocks {
             }};
 
             size = 2;
+        }};
+
+        pore = new CausticTurret("neoplasm-pore"){{
+            requirements(Category.distribution, with(Items.beryllium, 1));
+            range = 140f;
+            bulletCount = 1;
+            perBeat = 3;
+            bulletType = new BasicBulletType(0f, 1) {{
+                shootEffect = Fx.shootBig;
+                smokeEffect = Fx.neoplasiaSmoke;
+                ammoMultiplier = 1f;
+
+                spawnUnit = new MissileUnitType("pore-missile") {{
+
+                    outlineColor = Pal.neoplasmOutline;
+                    immunities.addAll(StatusEffects.burning, StatusEffects.melting);
+                    envDisabled = 0;
+                    drawCell = false;
+                    abilities.add(new LiquidExplodeAbility() {
+                        {
+                            this.liquid = Liquids.neoplasm;
+                        }
+                    });
+                    //healFlash = true;
+                    //healColor = Pal.neoplasm1;
+
+                    speed = 4.6f;
+                    maxRange = 6f;
+                    lifetime = 60f * 5.5f;
+                    engines.clear();
+                    /*engineColor = trailColor = Pal.neoplasm1;
+                    engineLayer = Layer.effect;
+                    engineSize = 3.1f;
+                    engineOffset = 10f;*/
+                    rotateSpeed = 0.75f;
+                    trailLength = 18;
+                    trailColor = Pal.neoplasm1;
+                    missileAccelTime = 50f;
+                    lowAltitude = true;
+                    loopSound = Sounds.missileTrail;
+                    loopSoundVolume = 0.6f;
+                    deathSound = Sounds.largeExplosion;
+                    targetAir = false;
+
+                    fogRadius = 6f;
+
+                    health = 210;
+
+                    weapons.add(new Weapon() {{
+                        shootCone = 360f;
+                        mirror = false;
+                        reload = 1f;
+                        deathExplosionEffect = Fx.massiveExplosion;
+                        shootOnDeath = true;
+                        shake = 10f;
+                        bullet = new ExplosionBulletType(1500f, 65f) {{
+                            hitColor = Pal.redLight;
+                        }};
+                    }});
+                }};
+            }};
+            size = 3;
         }};
 
         bloom = new CausticTurret("neoplasm-bloom"){{

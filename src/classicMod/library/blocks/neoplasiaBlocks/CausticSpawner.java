@@ -10,7 +10,7 @@ import mindustry.world.consumers.ConsumeItems;
 
 public class CausticSpawner extends NeoplasmBlock {
 
-    public TextureRegion topRegion, ballRegion, bottomRegion;
+    public TextureRegion topRegion, ballRegion;
     public float spawnTime = 60f;
 
     public UnitType spawn;
@@ -24,12 +24,11 @@ public class CausticSpawner extends NeoplasmBlock {
         super.load();
         topRegion = Core.atlas.find(name + "-top");
         ballRegion = Core.atlas.find(name + "-ball");
-        bottomRegion = Core.atlas.find(name + "-bottom");
     }
 
     @Override
     protected TextureRegion[] icons() {
-        return new TextureRegion[]{Core.atlas.find(name + "-bottom"), Core.atlas.find(name), Core.atlas.find(name + "-top")};
+        return new TextureRegion[]{Core.atlas.find(name), Core.atlas.find(name + "-top")};
     }
 
     public class CausticSpawnerBuild extends NeoplasmBuilding {
@@ -43,7 +42,6 @@ public class CausticSpawner extends NeoplasmBlock {
         public void draw() {
             float frac = fraction();
             drawBeat(1, 1, 0.25f);
-            Draw.rect(bottomRegion, x, y);
             Draw.rect(region, x, y);
 
             drawBeat(Math.min(frac, 1f), Math.min(frac, 1f), 0.25f);

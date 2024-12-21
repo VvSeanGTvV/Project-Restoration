@@ -63,12 +63,145 @@ public class RUnitTypes {
 
     electra, chromeWraith, //Unit - Example-mod - Old content [v5]
 
-    mantis, blob, matte,// TESTING
+    mantis, // TESTING
+
+    blob, matte, squid, worm, mule, kalyx, // NEOPLASM TESTING
 
     alphaChan, crawlerChan, boulderChan, monoChan, octChan, oxynoeChan, quadChan, seiChan, zenithChan //Unit - Old Content [Animdustry]
     ;
 
     public static void load() {
+
+        kalyx = new NeoplasmUnitType("kalyx"){{
+            constructor = UnitEntity::create;
+            aiController = FlyingAI::new;
+
+            health = 220;
+            armor = 1.15f;
+            hitSize = 9f;
+            omniMovement = false;
+            targetAir = false;
+            targetGround = true;
+            rotateSpeed = 2.5f;
+            weapons.add(new Weapon(){{
+                x = -1 + 1.5f;
+                y = -1;
+                //length = 1.5f;
+                reload = 30f;
+                //roundrobin = true;
+                showStatSprite = false;
+                inaccuracy = 6f;
+                velocityRnd = 0.1f;
+                ejectEffect = Fx.none;
+                bullet = new HealBulletType(){{
+                    backColor = engineColor;
+                    homingPower = 20f;
+                    height = 4f;
+                    width = 1.5f;
+                    damage = 3f;
+                    speed = 4f;
+                    lifetime = 40f;
+                    shootEffect = Fx.shootHealYellow;
+                    smokeEffect = hitEffect = despawnEffect = ExtendedFx.hitYellowLaser;
+                }};
+            }});
+
+        }};
+
+        mule = new NeoplasmUnitType("mule"){{
+            constructor = CrawlUnit::create;
+
+            health = 250;
+            armor = 1.25f;
+            hitSize = 9f;
+            omniMovement = false;
+            targetAir = false;
+            rotateSpeed = 2.5f;
+            segmentRotSpeed = 0.75f;
+
+            segments = 3;
+
+            segmentScl = 3f;
+            segmentPhase = 5f;
+            segmentMag = 0.5f;
+            speed = 1.2f;
+
+            drawBody = false;
+            aiController = HugAI::new;
+        }};
+
+        worm = new NeoplasmUnitType("worm"){{
+            constructor = CrawlUnit::create;
+
+            health = 550;
+            armor = 1.5f;
+            hitSize = 9f;
+            omniMovement = false;
+            targetAir = false;
+            rotateSpeed = 2.5f;
+            segmentRotSpeed = 0.75f;
+
+            segments = 3;
+
+            segmentScl = 3f;
+            segmentPhase = 5f;
+            segmentMag = 0.5f;
+            speed = 1.15f;
+
+            drawBody = false;
+            aiController = HugAI::new;
+        }};
+
+        squid = new NeoplasmUnitType("flying-neoplasm-squid"){
+            public final DrawPart.PartProgress timeSin = p -> Mathf.absin( 20f, 1f);
+
+            {
+                constructor = UnitEntity::create;
+                speed = 1.5f;
+                accel = 0.03f;
+                drag = 0.06f;
+                flying = true;
+                rotateSpeed = 1f;
+                health = 70;
+                engineOffset = 5.75f;
+                engineSize = 0;
+                hitSize = 9;
+                itemCapacity = 10;
+                omniMovement = false;
+                circleTarget = true;
+                parts.add(new RegionPart("-tentacle") {{
+                    moves.add(new PartMove(timeSin, 0, 0, 20));
+                    x = -4f;
+                    y = 0.5f;
+                    rotation = -10;
+                    mirror = true;
+                }});
+                weapons.add(new Weapon() {{
+                    minShootVelocity = 0.5f;
+                    x = 0f;
+                    shootY = 0f;
+                    reload = 50f;
+                    shootCone = 180f;
+                    ejectEffect = Fx.none;
+                    inaccuracy = 15f;
+                    ignoreRotation = true;
+                    shootSound = Sounds.none;
+                    bullet = new BombBulletType(27f, 25f) {{
+                        width = 10f;
+                        height = 14f;
+                        hitEffect = Fx.blastExplosion;
+                        shootEffect = Fx.none;
+                        smokeEffect = Fx.none;
+                        frontColor = Pal.neoplasm1;
+                        backColor = Pal.neoplasm2;
+                        puddleLiquid = Liquids.neoplasm;
+                        puddleAmount = 20f;
+                        puddleRange = 4f;
+                        puddles = 3;
+                    }};
+                }});
+            }
+        };
 
         matte = new OrnitopterUnitType("matte"){{
             constructor = UnitEntity::create;
@@ -78,23 +211,26 @@ public class RUnitTypes {
             accel = 0.08f;
             drag = 0.04f;
             flying = true;
+
+            armor = 1.225f;
             health = 210;
             range = 15 * 8f;
             maxRange = range;
             rotateMoveFirst = true;
             rotateSpeed = 6f;
             fallDriftScl = 60f;
+            hitSize = 16f;
 
             for(float angle : new float[]{60, -60}){
                 blades.addAll(new WingBlade(name + "-blade"){{
-                    x = 8f;
+                    x = 4.7f;
                     y = 2f;
                     bladeMaxMoveAngle = angle;
                     blurAlpha = 1f;
                 }});
                 blades.addAll(new WingBlade(name + "-blade1"){{
-                    x = 0f;
-                    y = -5f;
+                    x = 5.7f;
+                    y = -0.35f;
                     bladeMaxMoveAngle = angle;
                     blurAlpha = 1f;
                 }});

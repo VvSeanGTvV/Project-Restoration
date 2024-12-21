@@ -220,10 +220,14 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                 }
 
                 if ((Units.closestEnemy(team, x, y, 120f, u -> u.type.killable && u.type.hittable) != null) ||
-                        (Units.findEnemyTile(team, x, y, 140f, b -> b.isValid() && (b instanceof Turret.TurretBuild)) != null)) {
+                        (Units.findEnemyTile(team, x, y, 140f, b -> b.isValid() && (
+                                b instanceof Turret.TurretBuild turretBuild && turretBuild.range() >= 80f)
+                        ) != null)) {
                     boolean tooClose = Units.closestBuilding(team, x, y, 120f, b -> (b instanceof CausticTurret.CausticTurretBuild)) != null;
                     if (!tooClose) ReplaceTo(ClassicBlocks.bloom);
-                } if ((Units.closestEnemy(team, x, y, 30f, u -> u.type.killable && u.type.hittable) != null) ||
+                }
+
+                if ((Units.closestEnemy(team, x, y, 30f, u -> u.type.killable && u.type.hittable) != null) ||
                         (Units.findEnemyTile(team, x, y, 40f, b -> b.isValid() && !(b instanceof Turret.TurretBuild)) != null)) {
                     boolean tooClose = Units.closestBuilding(team, x, y, 120f, b -> (b instanceof CausticTurret.CausticTurretBuild)) != null;
                     if (!tooClose) ReplaceTo(ClassicBlocks.tole);
