@@ -10,7 +10,6 @@ import classicMod.library.ai.*;
 import classicMod.library.ui.UIExtended;
 import classicMod.library.ui.dialog.*;
 import classicMod.library.ui.menu.*;
-import mindustry.ai.Pathfinder;
 import mindustry.ai.types.CommandAI;
 import mindustry.game.EventType.ClientLoadEvent;
 import mindustry.gen.Icon;
@@ -224,13 +223,13 @@ public class ClassicMod extends Mod{
     @Override
     public void loadContent(){
         // Load contents
-        new ClassicItems().load();
+        new RItems().load();
         new OverridableContent().loadOverride();
         new ClassicBullets().load();
         new RUnitTypes().load();
         new ClassicBlocks().load();
-        new RestorationSectorPresents().load();
-        new RestorationPlanets().load();
+        new RSectorPresents().load();
+        new RPlanets().load();
 
         // Tech Tree and Finalize
         new ExtendedSerpuloTechTree().load();
@@ -239,7 +238,7 @@ public class ClassicMod extends Mod{
         PathfinderExtended.preloadAddons();
         PathfinderExtended.addonFieldTypes();
 
-        ModdedMusic.load();
+        RMusic.load();
 
         for(UnitType a : content.units()){
             if(a.controller instanceof CommandAI){

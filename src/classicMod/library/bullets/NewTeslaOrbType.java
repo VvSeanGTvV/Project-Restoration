@@ -3,21 +3,11 @@ package classicMod.library.bullets;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.struct.Seq;
-import arc.util.Log;
-import arc.util.pooling.Pool;
-import classicMod.content.ExtendedFx;
 import classicMod.library.MathE;
-import mindustry.Vars;
-import mindustry.ai.BlockIndexer;
 import mindustry.content.*;
-import mindustry.core.World;
 import mindustry.entities.*;
 import mindustry.entities.bullet.BulletType;
 import mindustry.gen.*;
-import mindustry.type.StatusEffect;
-import mindustry.world.*;
-
-import java.util.concurrent.atomic.AtomicReference;
 
 import static mindustry.Vars.*;
 

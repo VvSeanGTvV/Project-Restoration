@@ -2,11 +2,10 @@ package classicMod.content;
 
 import arc.graphics.Color;
 import arc.struct.Seq;
-import arc.util.Log;
 import mindustry.content.*;
 import mindustry.type.Item;
 
-public class ClassicItems extends Items {
+public class RItems extends Items {
     public static Item
             // Example-mod
             electrum, goldPowder, silver,

@@ -16,7 +16,6 @@ import mindustry.Vars;
 import mindustry.content.Liquids;
 import mindustry.entities.*;
 import mindustry.entities.units.BuildPlan;
-import mindustry.game.EventType.WorldLoadEvent;
 import mindustry.game.Team;
 import mindustry.gen.*;
 import mindustry.graphics.Pal;
@@ -53,9 +52,9 @@ public class WarpGate extends Block {
     public float teleportLiquidUse = 0.3f;
     public float liquidUse = 0.1f;
     public Liquid inputLiquid;
-    protected Effect activateEffect = ExtendedFx.teleportActivate;
-    protected Effect teleportEffect = ExtendedFx.teleport;
-    protected Effect teleportOutEffect = ExtendedFx.teleportOut;
+    protected Effect activateEffect = RFx.teleportActivate;
+    protected Effect teleportEffect = RFx.teleport;
+    protected Effect teleportOutEffect = RFx.teleportOut;
     protected TextureRegion blankRegion;
 
     public WarpGate(String name) {
@@ -434,10 +433,10 @@ public class WarpGate extends Block {
             Vec2 tr = new Vec2();
 
             Effect.shake(6f, 16f, this);
-            ExtendedFx.nuclearShockwave.at(this);
+            RFx.nuclearShockwave.at(this);
             for (int i = 0; i < 6; i++) {
                 Time.run(Mathf.random(40), () -> {
-                    ExtendedFx.nuclearcloud.at(this);
+                    RFx.nuclearcloud.at(this);
                 });
             }
 
@@ -446,14 +445,14 @@ public class WarpGate extends Block {
             for (int i = 0; i < 20; i++) {
                 Time.run(Mathf.random(50), () -> {
                     tr.rnd(Mathf.random(40f));
-                    ExtendedFx.explosion.at(tr.x + tile.worldx(), tr.y + tile.worldy());
+                    RFx.explosion.at(tr.x + tile.worldx(), tr.y + tile.worldy());
                 });
             }
 
             for (int i = 0; i < 70; i++) {
                 Time.run(Mathf.random(80), () -> {
                     tr.rnd(Mathf.random(120f));
-                    ExtendedFx.nuclearsmoke.at(tr.x + tile.worldx(), tr.y + tile.worldy());
+                    RFx.nuclearsmoke.at(tr.x + tile.worldx(), tr.y + tile.worldy());
                 });
             }
         }

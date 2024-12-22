@@ -219,17 +219,27 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                     ReplaceTo(ClassicBlocks.renaleSpawner);
                 }
 
-                if ((Units.closestEnemy(team, x, y, 120f, u -> u.type.killable && u.type.hittable) != null) ||
+                if ((Units.closestEnemy(team, x, y, 440f, u -> u.type.killable && u.type.hittable && u.range() > 240f) != null) ||
+                        (Units.findEnemyTile(team, x, y, 440f, b -> b.isValid() && (
+                                b instanceof Turret.TurretBuild turretBuild && turretBuild.range() >= 200f)
+                        ) != null)) {
+                    boolean tooClose = Units.closestBuilding(team, x, y, 440f, b -> (b instanceof CausticTurret.CausticTurretBuild && b.block == ClassicBlocks.pore)) != null;
+                    if (!tooClose) ReplaceTo(ClassicBlocks.pore);
+                }
+
+                if ((Units.closestEnemy(team, x, y, 120f, u -> u.type.killable && u.type.hittable && u.range() > 120f) != null) ||
                         (Units.findEnemyTile(team, x, y, 140f, b -> b.isValid() && (
                                 b instanceof Turret.TurretBuild turretBuild && turretBuild.range() >= 80f)
                         ) != null)) {
-                    boolean tooClose = Units.closestBuilding(team, x, y, 120f, b -> (b instanceof CausticTurret.CausticTurretBuild)) != null;
+                    boolean tooClose = Units.closestBuilding(team, x, y, 120f, b -> (b instanceof CausticTurret.CausticTurretBuild && b.block == ClassicBlocks.bloom)) != null;
                     if (!tooClose) ReplaceTo(ClassicBlocks.bloom);
                 }
 
-                if ((Units.closestEnemy(team, x, y, 30f, u -> u.type.killable && u.type.hittable) != null) ||
-                        (Units.findEnemyTile(team, x, y, 40f, b -> b.isValid() && !(b instanceof Turret.TurretBuild)) != null)) {
-                    boolean tooClose = Units.closestBuilding(team, x, y, 120f, b -> (b instanceof CausticTurret.CausticTurretBuild)) != null;
+                if ((Units.closestEnemy(team, x, y, 30f, u -> u.type.killable && u.type.hittable && u.range() > 30f) != null) ||
+                        (Units.findEnemyTile(team, x, y, 30f, b -> b.isValid() && (
+                                b instanceof Turret.TurretBuild turretBuild && turretBuild.range() >= 30f)
+                        ) != null)) {
+                    boolean tooClose = Units.closestBuilding(team, x, y, 30f, b -> (b instanceof CausticTurret.CausticTurretBuild && b.block == ClassicBlocks.tole)) != null;
                     if (!tooClose) ReplaceTo(ClassicBlocks.tole);
                 } else {
                     growCord(ClassicBlocks.cord);

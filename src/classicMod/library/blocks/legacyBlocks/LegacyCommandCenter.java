@@ -4,11 +4,9 @@ import arc.Core;
 import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
-import arc.math.geom.Vec2;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
-import arc.util.Log;
 import arc.util.io.*;
 import classicMod.library.ai.*;
 import mindustry.ai.UnitCommand;
@@ -20,8 +18,7 @@ import mindustry.world.Block;
 import java.util.Objects;
 
 import static classicMod.content.ClassicVars.*;
-import static classicMod.content.ExtendedFx.commandSend;
-import static mindustry.content.Fx.v;
+import static classicMod.content.RFx.commandSend;
 
 public class LegacyCommandCenter extends Block {
     public TextureRegion topRegion = Core.atlas.find(name + "-top");

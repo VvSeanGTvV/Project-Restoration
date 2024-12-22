@@ -15,6 +15,7 @@ import mindustry.ai.types.*;
 import mindustry.content.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.part.*;
+import mindustry.entities.pattern.ShootPattern;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
@@ -25,7 +26,6 @@ import static arc.struct.SnapshotSeq.with;
 import static classicMod.ClassicMod.internalMod;
 import static classicMod.content.RSounds.pew;
 import static classicMod.content.ClassicVars.empty;
-import static classicMod.content.ExtendedFx.*;
 import static mindustry.Vars.tilePayload;
 
 public class RUnitTypes {
@@ -75,34 +75,44 @@ public class RUnitTypes {
         kalyx = new NeoplasmUnitType("kalyx"){{
             constructor = UnitEntity::create;
             aiController = FlyingAI::new;
+            //smokeTrail = Fx.neoplasiaSmoke;
 
             health = 220;
             armor = 1.15f;
             hitSize = 9f;
-            omniMovement = false;
-            targetAir = false;
             targetGround = true;
+            flying = true;
             rotateSpeed = 2.5f;
             weapons.add(new Weapon(){{
-                x = -1 + 1.5f;
-                y = -1;
-                //length = 1.5f;
-                reload = 30f;
-                //roundrobin = true;
+                x = -1;
+                reload = 60f;
                 showStatSprite = false;
-                inaccuracy = 6f;
+                inaccuracy = 12f;
                 velocityRnd = 0.1f;
                 ejectEffect = Fx.none;
-                bullet = new HealBulletType(){{
-                    backColor = engineColor;
-                    homingPower = 20f;
-                    height = 4f;
-                    width = 1.5f;
-                    damage = 3f;
-                    speed = 4f;
-                    lifetime = 40f;
-                    shootEffect = Fx.shootHealYellow;
-                    smokeEffect = hitEffect = despawnEffect = ExtendedFx.hitYellowLaser;
+                mirror = false;
+                shoot = new ShootPattern(){{
+                    shots = 3;
+                    shake = 1.25f;
+                    shotDelay = 1f;
+                }};
+                bullet = new MissileBulletType(4.0F, 16.0F) {{
+                    backSprite = sprite = "bullet";
+                    shootEffect = RFx.kalyxShoot;
+                    smokeEffect = RFx.kalyxSmoke;
+                    homingPower = 0.19F;
+                    homingDelay = 4.0F;
+                    width = 15.0F;
+                    height = 15.5F;
+                    lifetime = 80.0F;
+                    hitColor = backColor = trailColor = Pal.neoplasm2;
+                    frontColor = Pal.neoplasm1;
+                    trailChance = 1f;
+                    //trailWidth = 3.5F;
+                    //trailLength = 7;
+                    weaveScale = 5f;
+                    weaveMag = 1f;
+                    hitEffect = despawnEffect = Fx.hitBulletColor;
                 }};
             }});
 
@@ -158,17 +168,16 @@ public class RUnitTypes {
             {
                 constructor = UnitEntity::create;
                 speed = 1.5f;
-                accel = 0.03f;
+                accel = 0.15f;
                 drag = 0.06f;
                 flying = true;
-                rotateSpeed = 1f;
                 health = 70;
                 engineOffset = 5.75f;
                 engineSize = 0;
                 hitSize = 9;
                 itemCapacity = 10;
-                omniMovement = false;
                 circleTarget = true;
+                faceTarget = false;
                 parts.add(new RegionPart("-tentacle") {{
                     moves.add(new PartMove(timeSin, 0, 0, 20));
                     x = -4f;
@@ -186,6 +195,7 @@ public class RUnitTypes {
                     inaccuracy = 15f;
                     ignoreRotation = true;
                     shootSound = Sounds.none;
+                    shootCone = 180f;
                     bullet = new BombBulletType(27f, 25f) {{
                         width = 10f;
                         height = 14f;
@@ -380,7 +390,7 @@ public class RUnitTypes {
                 reload = 12f;
                 showStatSprite = false;
 
-                ejectEffect = ExtendedFx.none;
+                ejectEffect = RFx.none;
 
                 bullet = ClassicBullets.modifierBullet;
             }});
@@ -418,7 +428,7 @@ public class RUnitTypes {
                     speed = 4f;
                     lifetime = 40f;
                     shootEffect = Fx.shootHealYellow;
-                    smokeEffect = hitEffect = despawnEffect = ExtendedFx.hitYellowLaser;
+                    smokeEffect = hitEffect = despawnEffect = RFx.hitYellowLaser;
                 }};
             }});
         }
@@ -474,7 +484,7 @@ public class RUnitTypes {
 
                 reload = 7.5f;
                 alternate = true;
-                ejectEffect = ExtendedFx.shellEjectSmall;
+                ejectEffect = RFx.shellEjectSmall;
                 shootX = -2.6f;
                 mirror = true;
                 bullet = new BasicBulletType(2.5f, 9f) {{ //reformat v5 coding into v7
@@ -693,7 +703,7 @@ public class RUnitTypes {
 
                 reload = 7.5f;
                 alternate = true;
-                ejectEffect = ExtendedFx.shellEjectSmall;
+                ejectEffect = RFx.shellEjectSmall;
                 mirror = true;
                 shootSound = pew;
                 shootX = -2.5f;
@@ -733,7 +743,7 @@ public class RUnitTypes {
                 reload = 12f;
 
                 shootSound = Sounds.shootSnap;
-                ejectEffect = ExtendedFx.shellEjectSmall;
+                ejectEffect = RFx.shellEjectSmall;
 
                 bullet = ClassicBullets.standardGlaive;
             }});
@@ -764,7 +774,6 @@ public class RUnitTypes {
                 reload = 15f;
                 shoot.shotDelay = 1f;
                 shoot.shots = 10;
-                inaccuracy = 2f;
                 alternate = true;
                 ejectEffect = Fx.none;
                 velocityRnd = 1f;
@@ -809,7 +818,7 @@ public class RUnitTypes {
                 reload = 6.5f;
                 inaccuracy = 2f;
                 alternate = true;
-                ejectEffect = ExtendedFx.shellEjectSmall;
+                ejectEffect = RFx.shellEjectSmall;
                 shootSound = Sounds.shootSnap;
                 mirror = true;
                 showStatSprite = false;
@@ -875,7 +884,7 @@ public class RUnitTypes {
 
                 reload = 14f;
                 alternate = true;
-                ejectEffect = ExtendedFx.shellEjectSmall;
+                ejectEffect = RFx.shellEjectSmall;
                 shootSound = Sounds.shoot;
                 mirror = true;
 
@@ -1283,7 +1292,7 @@ public class RUnitTypes {
 
                 reload = 14f;
                 alternate = true;
-                ejectEffect = ExtendedFx.shellEjectSmall;
+                ejectEffect = RFx.shellEjectSmall;
                 shootX = 0f;
                 mirror = true;
 
@@ -1451,7 +1460,7 @@ public class RUnitTypes {
 
                 reload = 25f;
                 alternate = true;
-                ejectEffect = ExtendedFx.shellEjectMedium;
+                ejectEffect = RFx.shellEjectMedium;
                 shootX = 0f;
                 mirror = true;
                 recoil = 3f;
@@ -1493,7 +1502,7 @@ public class RUnitTypes {
 
                 reload = 15f;
                 alternate = true;
-                ejectEffect = ExtendedFx.shellEjectMedium;
+                ejectEffect = RFx.shellEjectMedium;
                 shootX = 0f;
                 mirror = true;
                 recoil = 3f;
@@ -1783,8 +1792,8 @@ public class RUnitTypes {
 
                     lifetime = 50f;
                     hitSize = 6f;
-                    shootEffect = shootMantel;
-                    smokeEffect = shootSmokeMantel;
+                    shootEffect = RFx.shootMantel;
+                    smokeEffect = RFx.shootSmokeMantel;
                     pierceCap = 2;
                     pierce = true;
                     pierceBuilding = true;
@@ -2049,7 +2058,7 @@ public class RUnitTypes {
                     reload = 10f;
                     x = 1.25f;
                     rotate = true;
-                    ejectEffect = ExtendedFx.shellEjectSmall;
+                    ejectEffect = RFx.shellEjectSmall;
                     bullet = ClassicBullets.standardCopper;
                 }});
         }};

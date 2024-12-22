@@ -3,7 +3,7 @@ package classicMod.library.bullets;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.math.geom.Vec2;
-import classicMod.content.ExtendedFx;
+import classicMod.content.RFx;
 import mindustry.content.Fx;
 import mindustry.entities.*;
 import mindustry.entities.bullet.BulletType;
@@ -12,7 +12,7 @@ import mindustry.gen.*;
 public class LaserOnTargetType extends BulletType {
 
     public Color beamColor;
-    public Effect beamEffect = ExtendedFx.laserBeam;
+    public Effect beamEffect = RFx.laserBeam;
 
     // Temporary Values
     protected int l = 0;
@@ -29,7 +29,7 @@ public class LaserOnTargetType extends BulletType {
         this.damage = damage;
         this.range = range;
         this.beamColor = beamColor;
-        hitEffect = ExtendedFx.laserhit;
+        hitEffect = RFx.laserhit;
         despawnEffect = Fx.none;
         drawSize = 200f;
         this.lifetime = lifetime;

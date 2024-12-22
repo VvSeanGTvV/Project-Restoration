@@ -1,17 +1,13 @@
 package classicMod.library.blocks;
 
-import arc.Core;
 import arc.audio.Sound;
-import arc.graphics.g2d.Draw;
 import arc.math.*;
 import arc.scene.ui.Image;
 import arc.scene.ui.layout.Table;
 import arc.struct.*;
-import arc.util.Log;
 import arc.util.io.*;
 import classicMod.content.*;
 import mindustry.Vars;
-import mindustry.content.Bullets;
 import mindustry.entities.*;
 import mindustry.entities.bullet.BulletType;
 import mindustry.gen.*;
@@ -19,7 +15,6 @@ import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.Block;
-import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.consumers.ConsumeItemFilter;
 import mindustry.world.meta.*;
 
@@ -27,7 +22,7 @@ import static mindustry.Vars.*;
 
 public class ScatterSilo extends Block {
 
-    public Effect siloLaunch = ExtendedFx.siloLaunchEffect;
+    public Effect siloLaunch = RFx.siloLaunchEffect;
     public Sound shootSound = Sounds.shoot;
     public Effect shootEffect;
 

@@ -3,7 +3,7 @@ package classicMod.library.blocks.customBlocks;
 import arc.Core;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
-import classicMod.content.ExtendedFx;
+import classicMod.content.RFx;
 import mindustry.content.*;
 import mindustry.graphics.*;
 import mindustry.type.Item;
@@ -34,7 +34,7 @@ public class SingleDrill extends Drill {
     public SingleDrill(String name) {
         super(name);
         tier = requiredItem.hardness;
-        drillEffect = ExtendedFx.spark;
+        drillEffect = RFx.spark;
         updateEffect = Fx.none;
         hasLiquids = false;
         drawRim = false;

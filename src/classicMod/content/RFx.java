@@ -14,9 +14,9 @@ import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.stroke;
 import static mindustry.graphics.Pal.*;
 
-public class ExtendedFx extends Fx {
+public class RFx extends Fx {
     public static final Effect
-
+    // Mantel
     shootMantel = new Effect(10, e -> {
         color(Pal.lightOrange, e.color, e.fin());
         float w = 2.3f + 10 * e.fout();
@@ -36,6 +36,45 @@ public class ExtendedFx extends Fx {
             }
     }),
 
+    // Neoplasm
+    missilePoreLaunch = new Effect(280.0F, (e) -> {
+        Draw.color(neoplasm2);
+        Draw.alpha(0.6F);
+        rand.setSeed(e.id);
+
+        for(int i = 0; i < 12; ++i) {
+            float len = rand.random(25.0F);
+            float rot = rand.range(120.0F) + e.rotation;
+            e.scaled(e.lifetime * rand.random(0.3F, 1.0F), (b) -> {
+                v.trns(rot, len * b.finpow());
+                Fill.circle(e.x + v.x, e.y + v.y, 5.3F * b.fslope() + 0.2F);
+            });
+        }
+    }).followParent(false),
+
+    kalyxSmoke = new Effect(70.0F, (e) -> {
+        Draw.color(neoplasm1, neoplasmMid, e.fout());
+        Draw.alpha(0.6F);
+        rand.setSeed(e.id);
+
+        for(int i = 0; i < 12; ++i) {
+            float len = rand.random(50.0F);
+            float rot = (rand.range(30.0F) + e.rotation);
+            e.scaled(e.lifetime * rand.random(0.3F, 1.0F), (b) -> {
+                v.trns(rot, len * b.finpow());
+                Fill.circle(e.x + v.x, e.y + v.y, 5.3F * b.foutpow() + 0.2F);
+            });
+        }
+    }).followParent(false),
+
+    kalyxShoot = new Effect(9.0F, (e) -> {
+        Draw.color(neoplasm1, neoplasm2, e.fin());
+        float w = 1.2F + 12.0F * e.fout();
+        Drawf.tri(e.x, e.y, w, 50.0F * e.fout(), e.rotation);
+        Drawf.tri(e.x, e.y, w, 8.0F * e.fout(), e.rotation + 180.0F);
+    }),
+
+    // Effects
     siloLaunchEffect = new Effect(20f, e -> {
         Draw.color(Color.white, Color.lightGray, e.fin()); //color goes from white to light gray
         Lines.stroke(e.fout() * 3); //line thickness goes from 3 to 0

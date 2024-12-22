@@ -8,7 +8,6 @@ import mindustry.type.ItemStack;
 
 import static classicMod.content.ClassicBlocks.*;
 import static mindustry.content.Blocks.*;
-import static mindustry.content.SectorPresets.craters;
 import static mindustry.content.SectorPresets.*;
 import static mindustry.content.TechTree.*;
 
@@ -19,7 +18,7 @@ public class ExtendedSerpuloTechTree {
 
         // Sector
         margeNode(frozenForest, () -> {
-            node(RestorationSectorPresents.silverCrags, Seq.with(
+            node(RSectorPresents.silverCrags, Seq.with(
                     new SectorComplete(frozenForest)
             ));
         });
@@ -134,7 +133,7 @@ public class ExtendedSerpuloTechTree {
                 node(arcSmelter, Seq.with(new Research(combustionGenerator)), () -> {
                     node(electrumForge, Seq.with(
                             new Research(Items.titanium),
-                            new Research(ClassicItems.goldPowder)
+                            new Research(RItems.goldPowder)
                             )
                     );
                 });
@@ -153,7 +152,7 @@ public class ExtendedSerpuloTechTree {
             node(stoneSeparator, Seq.with(
                     new OnSector(ruinousShores),
                     new Research(Items.coal),
-                    new Research(ClassicItems.stone)
+                    new Research(RItems.stone)
             ), () -> {
                 node(stoneMelter, () -> {
                     node(stoneFormer);
@@ -197,21 +196,21 @@ public class ExtendedSerpuloTechTree {
 
         // Items
         margeNode(Items.lead, () -> {
-            nodeProduce(ClassicItems.denseAlloy, () -> {
+            nodeProduce(RItems.denseAlloy, () -> {
 
             });
         });
 
         margeNode(Items.sand, () -> {
-            nodeProduce(ClassicItems.goldPowder);
-            nodeProduce(ClassicItems.stone, () -> {
+            nodeProduce(RItems.goldPowder);
+            nodeProduce(RItems.stone, () -> {
 
             });
         });
 
         margeNode(Items.titanium, () -> {
-            nodeProduce(ClassicItems.silver);
-            nodeProduce(ClassicItems.electrum, () -> {
+            nodeProduce(RItems.silver);
+            nodeProduce(RItems.electrum, () -> {
 
             });
         });

@@ -3,7 +3,7 @@ package classicMod.content;
 import mindustry.content.*;
 import mindustry.type.SectorPreset;
 
-public class RestorationSectorPresents extends SectorPresets {
+public class RSectorPresents extends SectorPresets {
 
     public static SectorPreset
     silverCrags

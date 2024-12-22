@@ -4,11 +4,9 @@ import arc.Core;
 import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
-import arc.struct.Seq;
 import arc.util.*;
 import arc.util.io.*;
 import classicMod.content.*;
-import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.entities.Effect;
 import mindustry.gen.Building;
@@ -16,7 +14,6 @@ import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.ui.Bar;
 import mindustry.world.blocks.production.GenericCrafter;
-import mindustry.world.consumers.*;
 import mindustry.world.meta.*;
 
 public class GenericSmelter extends GenericCrafter {
@@ -34,13 +31,13 @@ public class GenericSmelter extends GenericCrafter {
     /**
      * Burning Effect upon on fuel depletion or consumed.
      **/
-    public Effect burnEffect = ExtendedFx.fuelburn;
+    public Effect burnEffect = RFx.fuelburn;
 
     private @Nullable ItemStack[] fuelItems;
 
     public GenericSmelter(String name) {
         super(name);
-        if (craftEffect == Fx.none) craftEffect = ExtendedFx.smelt;
+        if (craftEffect == Fx.none) craftEffect = RFx.smelt;
     }
 
     @Override

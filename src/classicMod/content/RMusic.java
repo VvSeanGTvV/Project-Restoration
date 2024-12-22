@@ -4,14 +4,12 @@ import arc.Core;
 import arc.audio.Music;
 import arc.struct.Seq;
 import arc.util.Nullable;
-import mindustry.Vars;
-import mindustry.gen.Musics;
 
 import static mindustry.Vars.*;
 
 // WilloIzCitron Music Player
 // uujuju#8068 - for reminding me that they do have loading things......... guh
-public class ModdedMusic {
+public class RMusic {
 
     private static @Nullable Music current;
     private static Music lastMusicPlayed;

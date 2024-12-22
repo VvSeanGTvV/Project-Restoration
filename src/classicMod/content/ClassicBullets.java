@@ -139,7 +139,7 @@ public class ClassicBullets {
         };
         stone = new BulletType(1.4f*ClassicBulletsMultiplier, 2*ClassicBulletsMultiplier){
             {
-                hitEffect = ExtendedFx.hit;
+                hitEffect = RFx.hit;
                 despawnEffect = Fx.none;
             }
             public void draw(Bullet b){
@@ -150,7 +150,7 @@ public class ClassicBullets {
         };
         iron = new BulletType(1.7f*ClassicBulletsMultiplier, 4*ClassicBulletsMultiplier){
             {
-                hitEffect = ExtendedFx.hit;
+                hitEffect = RFx.hit;
                 despawnEffect = Fx.none;
             }
             public void draw(Bullet b){
@@ -162,7 +162,7 @@ public class ClassicBullets {
 
         sniper = new BulletType(3.5f*ClassicBulletsMultiplier, 35*ClassicBulletsMultiplier){
             {
-                hitEffect = ExtendedFx.hit;
+                hitEffect = RFx.hit;
                 despawnEffect = Fx.none;
             }
             public void draw(Bullet b){
@@ -174,14 +174,14 @@ public class ClassicBullets {
 
             public void update(Bullet b){
                 if(b.timer.get(0, 4*ClassicBulletsMultiplier)){
-                    ExtendedFx.railsmoke.at(b.x, b.y);
+                    RFx.railsmoke.at(b.x, b.y);
                 }
             }
         };
 
         flameClassic = new BulletType(0.7f*ClassicBulletsMultiplier, 5*ClassicBulletsMultiplier){
             {
-                hitEffect = ExtendedFx.hit;
+                hitEffect = RFx.hit;
                 despawnEffect = Fx.none;
             }
             public void draw(Bullet b){
@@ -217,7 +217,7 @@ public class ClassicBullets {
             }
 
             public void hit(Bullet b, float hitx, float hity) {
-                ExtendedFx.shellsmoke.at(b);
+                RFx.shellsmoke.at(b);
                 for(int i = 0; i < 3; i ++){
                     createBullet(flakSpark, b.team, hitx, hity, b.rotation() + Mathf.range(120f), flakSpark.damage, 1, 1);
                 }
@@ -231,7 +231,7 @@ public class ClassicBullets {
         flakSpark = new BulletType(2f * ClassicBulletsMultiplier, 2 * ClassicBulletsMultiplier) {
             {
                 drag = 0.05f;
-                hitEffect = ExtendedFx.hit;
+                hitEffect = RFx.hit;
                 despawnEffect = Fx.none;
             }
 
@@ -277,15 +277,15 @@ public class ClassicBullets {
                 Effect.shake(3f, 3f, b);
                 splashDamage = (damage * 2f/3f);
 
-                ExtendedFx.shockwaveSmall.at(b);
-                ExtendedFx.shellsmoke.at(b);
+                RFx.shockwaveSmall.at(b);
+                RFx.shellsmoke.at(b);
 
             }
         };
 
         chain = new BulletType(2f*ClassicBulletsMultiplier, 8*ClassicBulletsMultiplier){{
             ammoMultiplier = 2;
-            hitEffect = ExtendedFx.hit;
+            hitEffect = RFx.hit;
             despawnEffect = Fx.none;
         }
             public void draw(Bullet b){
@@ -297,7 +297,7 @@ public class ClassicBullets {
 
         plasmaflame = new BulletType(0.8f*1.15f, 17*ClassicBulletsMultiplier){
             {
-                hitEffect = ExtendedFx.hit;
+                hitEffect = RFx.hit;
                 despawnEffect = Fx.none;
                 lifetime = 65f;
                 ammoMultiplier = 4;
@@ -759,7 +759,7 @@ public class ClassicBullets {
             {
                 lifetime = 1;
                 despawnEffect = Fx.none;
-                hitEffect = ExtendedFx.hitLancer;
+                hitEffect = RFx.hitLancer;
             }
 
             @Override

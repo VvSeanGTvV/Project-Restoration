@@ -43,10 +43,10 @@ public class CausticTurret extends NeoplasmBlock {
             shoot = target != null;
             if (shoot && beat >= perBeat) {
                 beat = 0;
-                //for (int i = 0; i < 5; i++) {
-                Fx.neoplasiaSmoke.at(this.x + Mathf.random(1), this.y + Mathf.random(1));
-                    //Fx.ventSteam.at(this.x + Mathf.random(1), this.y + Mathf.random(1), blood.color);
-                //}
+                if (bulletType.smokeEffect != null) bulletType.smokeEffect.at(this.x + Mathf.random(1), this.y + Mathf.random(1));
+                else Fx.neoplasiaSmoke.at(this.x + Mathf.random(1), this.y + Mathf.random(1));
+                if (bulletType.shootEffect != null) bulletType.shootEffect.at(this.x + Mathf.random(1), this.y + Mathf.random(1));
+
                 float targetAngle = angleTo(target);
                 if (bulletCount > 1) {
                     bulletType.create(this, x, y, targetAngle);

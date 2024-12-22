@@ -5,12 +5,14 @@ import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.struct.Seq;
+import classicMod.library.ai.MissileTargetAI;
 import classicMod.library.blocks.*;
 import classicMod.library.blocks.customBlocks.*;
 import classicMod.library.blocks.legacyBlocks.*;
 import classicMod.library.blocks.neoplasiaBlocks.*;
 import classicMod.library.blocks.v6devBlocks.*;
 import classicMod.library.bullets.*;
+import classicMod.library.unitType.MissileSmokeUnitType;
 import mindustry.content.*;
 import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
@@ -20,7 +22,6 @@ import mindustry.entities.pattern.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
-import mindustry.type.unit.MissileUnitType;
 import mindustry.world.Block;
 import mindustry.world.blocks.campaign.LaunchPad;
 import mindustry.world.blocks.defense.*;
@@ -124,18 +125,18 @@ public class ClassicBlocks {
             variants = 3;
         }};
 
-        silverOre = new OreBlock(ClassicItems.silver);
+        silverOre = new OreBlock(RItems.silver);
         silverPlate = new Floor("silver-plating", 0);
 
         goldSand = new Floor("gold-sand"){{
             variants = 3;
-            itemDrop = ClassicItems.goldPowder;
+            itemDrop = RItems.goldPowder;
             playerUnmineable = true;
         }};
 
         //Mechpad
         electraPad = new MechPad("electra-mech-pad") {{
-            requirements(Category.effect, with(ClassicItems.silver, 70, ClassicItems.electrum, 40, Items.silicon, 40, Items.graphite, 50));
+            requirements(Category.effect, with(RItems.silver, 70, RItems.electrum, 40, Items.silicon, 40, Items.graphite, 50));
             size = 2;
             hasPower = true;
             unitType = electra;
@@ -239,13 +240,13 @@ public class ClassicBlocks {
         }};
 
         chromeWraithFactory = new LegacyUnitFactory("chrome-wraith-factory") {{
-            requirements(Category.units, ItemStack.with(ClassicItems.silver, 70, ClassicItems.electrum, 40, Items.silicon, 40, Items.titanium, 20));
+            requirements(Category.units, ItemStack.with(RItems.silver, 70, RItems.electrum, 40, Items.silicon, 40, Items.titanium, 20));
             size = 2;
             produceTime = 350;
             maxSpawn = 4;
 
             consumePower(0.5f);
-            requirement = with(Items.silicon, 10, ClassicItems.silver, 5);
+            requirement = with(Items.silicon, 10, RItems.silver, 5);
             unitType = chromeWraith;
         }};
 
@@ -403,7 +404,7 @@ public class ClassicBlocks {
         }};
 
         wallDense = new Wall("dense-wall"){{
-            requirements(Category.defense, with(ClassicItems.denseAlloy, 12));
+            requirements(Category.defense, with(RItems.denseAlloy, 12));
             health = 110 * wallHealthMultiplier;
             size = 1;
         }};
@@ -415,7 +416,7 @@ public class ClassicBlocks {
         }};
 
         wallShieldedTitanium = new ShieldWallColor("titanium-shieldwall"){{
-            requirements(Category.defense, with(ClassicItems.titanium, 6, ClassicItems.lead, 6));
+            requirements(Category.defense, with(RItems.titanium, 6, RItems.lead, 6));
             glowColor = Items.titanium.color.a(0.5f);
             shieldColor = Items.titanium.color.a(1f);
             shieldHealth = 400f;
@@ -426,12 +427,12 @@ public class ClassicBlocks {
         }};
 
         wallDirium = new Wall("dirium-wall"){{
-            requirements(Category.defense, with(ClassicItems.dirium, 12));
+            requirements(Category.defense, with(RItems.dirium, 12));
             health = 190 * wallHealthMultiplier;
         }};
 
         wallComposite = new Wall("composite-wall"){{
-            requirements(Category.defense, with(ClassicItems.dirium, 12, Items.titanium, 12, Items.lead, 12));
+            requirements(Category.defense, with(RItems.dirium, 12, Items.titanium, 12, Items.lead, 12));
             health = 270 * wallHealthMultiplier;
         }};
 
@@ -522,21 +523,21 @@ public class ClassicBlocks {
 
         //Crafting
         stoneFormer = new GenericCrafter("stone-former"){{
-            requirements(Category.crafting, with(ClassicItems.stone, 30, Items.lead, 30, Items.copper, 55));
+            requirements(Category.crafting, with(RItems.stone, 30, Items.lead, 30, Items.copper, 55));
             consumeLiquid(Liquids.slag, 18f/60f);
-            outputItem = new ItemStack(ClassicItems.stone, 1);
+            outputItem = new ItemStack(RItems.stone, 1);
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawDefault());
             health = 80;
             craftTime = 12;
             consumePower(30f/60f);
-            craftEffect = ExtendedFx.purifystone;
+            craftEffect = RFx.purifystone;
         }};
 
         stoneMelter = new GenericCrafter("stone-melter"){{
-            requirements(Category.crafting, with(ClassicItems.stone, 30, Items.graphite, 35, Items.copper, 50));
+            requirements(Category.crafting, with(RItems.stone, 30, Items.graphite, 35, Items.copper, 50));
             health = 85;
             outputLiquid = new LiquidStack(Liquids.slag, 4f/60f);
-            consumeItems(with(ClassicItems.stone, 1));
+            consumeItems(with(RItems.stone, 1));
             consumePower(62.5f/60f);
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawDefault());
             craftTime = 10f;
@@ -593,25 +594,25 @@ public class ClassicBlocks {
         denseSmelter = new GenericSmelter("dense-smelter"){{
             health = 70;
             requirements(Category.crafting, with(Items.copper, 100));
-            outputItem = new ItemStack(ClassicItems.denseAlloy, 1);
+            outputItem = new ItemStack(RItems.denseAlloy, 1);
             consumeItems(with(Items.copper, 1, Items.lead, 2));
             consumeFuels(with(Items.coal, 1));
 
             burnEffect = Fx.coalSmeltsmoke;
-            updateEffect = ExtendedFx.smeltsmoke;
-            craftEffect = ExtendedFx.smeltsmoke;
+            updateEffect = RFx.smeltsmoke;
+            craftEffect = RFx.smeltsmoke;
             craftTime = 45f;
             burnTime = 46f;
         }};
 
         electrumForge = new GenericCrafter("electrum-forge"){{
-            requirements(Category.crafting, with(Items.thorium, 80, Items.silicon, 60, ClassicItems.denseAlloy, 50, Items.lead, 50));
+            requirements(Category.crafting, with(Items.thorium, 80, Items.silicon, 60, RItems.denseAlloy, 50, Items.lead, 50));
             craftEffect = Fx.smeltsmoke;
             liquidCapacity = 50f;
 
-            outputItem = new ItemStack(ClassicItems.electrum, 1);
+            outputItem = new ItemStack(RItems.electrum, 1);
             consumeLiquids(LiquidStack.with(Liquids.slag, 4f / 60f));
-            consumeItems(with(Items.titanium, 2, ClassicItems.goldPowder, 2));
+            consumeItems(with(Items.titanium, 2, RItems.goldPowder, 2));
             consumePower(0.7f);
             drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc999")));
             craftTime = 60f * 10;
@@ -620,9 +621,9 @@ public class ClassicBlocks {
         }};
 
         arcSmelter = new GenericCrafter("arc-smelter"){{
-            requirements(Category.crafting, with(Items.copper, 110, ClassicItems.denseAlloy, 70, Items.lead, 50));
+            requirements(Category.crafting, with(Items.copper, 110, RItems.denseAlloy, 70, Items.lead, 50));
             craftEffect = Fx.smeltsmoke;
-            outputItem = new ItemStack(ClassicItems.denseAlloy, 2);
+            outputItem = new ItemStack(RItems.denseAlloy, 2);
             consumeItems(with(Items.copper, 2, Items.lead, 4));
             consumePower(0.125f);
             drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc999")));
@@ -634,23 +635,23 @@ public class ClassicBlocks {
         crucible = new GenericSmelter("crucible"){{
             requirements(Category.crafting, with(Items.titanium, 50, Items.lead, 50));
             health = 90;
-            outputItem = new ItemStack(ClassicItems.dirium, 1);
+            outputItem = new ItemStack(RItems.dirium, 1);
             consumeItems(with(Items.titanium, 1, Items.lead, 1));
             consumeFuels(with(Items.coal, 1));
 
             burnEffect = Fx.coalSmeltsmoke;
-            updateEffect = ExtendedFx.smeltsmoke;
-            craftEffect = ExtendedFx.smeltsmoke;
+            updateEffect = RFx.smeltsmoke;
+            craftEffect = RFx.smeltsmoke;
             burnTime = 40f;
             craftTime = 20f;
             itemCapacity = 20;
         }};
 
         stoneSeparator = new Separator("stone-separator"){{
-            requirements(Category.crafting, with(Items.copper, 15, ClassicItems.denseAlloy, 15));
+            requirements(Category.crafting, with(Items.copper, 15, RItems.denseAlloy, 15));
             results = with(
                     Items.sand, 10,
-                    ClassicItems.stone, 9,
+                    RItems.stone, 9,
                     Items.copper, 4,
                     Items.lead, 2,
                     Items.coal, 2,
@@ -660,17 +661,17 @@ public class ClassicBlocks {
             craftTime = 40f;
             size = 1;
 
-            consumeItems(with(ClassicItems.stone, 2));
+            consumeItems(with(RItems.stone, 2));
             consumeLiquid(Liquids.water, 0.3f / 40f);
 
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawRegion("-spinner", 3, true), new DrawDefault());
         }};
 
         centrifuge = new Separator("centrifuge"){{
-            requirements(Category.crafting, with(Items.copper, 50, ClassicItems.denseAlloy, 50, Items.titanium, 25));
+            requirements(Category.crafting, with(Items.copper, 50, RItems.denseAlloy, 50, Items.titanium, 25));
             results = with(
                     Items.sand, 12,
-                    ClassicItems.stone, 11,
+                    RItems.stone, 11,
                     Items.copper, 5,
                     Items.lead, 3,
                     Items.coal, 3,
@@ -681,7 +682,7 @@ public class ClassicBlocks {
             craftTime = 15f;
             size = 2;
 
-            consumeItems(with(ClassicItems.stone, 2));
+            consumeItems(with(RItems.stone, 2));
             consumeLiquid(Liquids.water, 0.5f / 40f);
             consumePower(0.2f);
 
@@ -813,7 +814,7 @@ public class ClassicBlocks {
         }};
 
         electrumConveyor = new Conveyor("electrum-conveyor"){{
-            requirements(Category.distribution, with(Items.titanium, 3, ClassicItems.electrum, 3, Items.lead, 3, Items.graphite, 3));
+            requirements(Category.distribution, with(Items.titanium, 3, RItems.electrum, 3, Items.lead, 3, Items.graphite, 3));
             health = 85;
             buildCostMultiplier = 0.5f;
 
@@ -822,7 +823,7 @@ public class ClassicBlocks {
         }};
 
         laserConveyor = new InstantBridge("laser-conveyor"){{
-            requirements(Category.distribution, with(Items.phaseFabric, 5, ClassicItems.electrum, 4, Items.silicon, 10, Items.graphite, 10));
+            requirements(Category.distribution, with(Items.phaseFabric, 5, RItems.electrum, 4, Items.silicon, 10, Items.graphite, 10));
             range = 18;
             arrowPeriod = 0.9f;
             arrowTimeScl = 2.75f;
@@ -833,7 +834,7 @@ public class ClassicBlocks {
         }};
 
         warpGate = new WarpGate("warp-gate"){{
-            requirements(Category.distribution, with(Items.titanium, 125, ClassicItems.dirium, 40, Items.silicon, 80, Items.thorium, 50));
+            requirements(Category.distribution, with(Items.titanium, 125, RItems.dirium, 40, Items.silicon, 80, Items.thorium, 50));
             size = 3;
             squareSprite = false;
             powerUse = 1.825f;
@@ -876,8 +877,6 @@ public class ClassicBlocks {
                 width = 7.0F;
                 height = 12.0F;
                 lifetime = 30.0F;
-                shootEffect = Fx.sparkShoot;
-                smokeEffect = Fx.shootBigSmoke;
                 hitColor = backColor = trailColor = Pal.neoplasm1;
                 frontColor = Color.white;
                 trailWidth = 1.5F;
@@ -890,16 +889,15 @@ public class ClassicBlocks {
 
         pore = new CausticTurret("neoplasm-pore"){{
             requirements(Category.distribution, with(Items.beryllium, 1));
-            range = 140f;
+            range = 440f;
             bulletCount = 1;
-            perBeat = 3;
+            perBeat = 5;
             bulletType = new BasicBulletType(0f, 1) {{
-                shootEffect = Fx.shootBig;
+                shootEffect = RFx.missilePoreLaunch;
                 smokeEffect = Fx.neoplasiaSmoke;
                 ammoMultiplier = 1f;
 
-                spawnUnit = new MissileUnitType("pore-missile") {{
-
+                spawnUnit = new MissileSmokeUnitType("pore-missile") {{
                     outlineColor = Pal.neoplasmOutline;
                     immunities.addAll(StatusEffects.burning, StatusEffects.melting);
                     envDisabled = 0;
@@ -909,26 +907,25 @@ public class ClassicBlocks {
                             this.liquid = Liquids.neoplasm;
                         }
                     });
-                    //healFlash = true;
-                    //healColor = Pal.neoplasm1;
-
+                    aiController = MissileTargetAI::new;
+                    this.homingDelay = 4.0F;
                     speed = 4.6f;
-                    maxRange = 6f;
+                    maxRange = 440f;
                     lifetime = 60f * 5.5f;
-                    engines.clear();
-                    /*engineColor = trailColor = Pal.neoplasm1;
+                    engineColor = trailColor = Pal.neoplasm1;
                     engineLayer = Layer.effect;
-                    engineSize = 3.1f;
-                    engineOffset = 10f;*/
-                    rotateSpeed = 0.75f;
-                    trailLength = 18;
-                    trailColor = Pal.neoplasm1;
+                    engineSize = 0f;
+                    engineOffset = 10f;
+                    trailLength = 0;
+
+                    smokeTrail = Fx.neoplasiaSmoke;
+
                     missileAccelTime = 50f;
                     lowAltitude = true;
                     loopSound = Sounds.missileTrail;
                     loopSoundVolume = 0.6f;
                     deathSound = Sounds.largeExplosion;
-                    targetAir = false;
+                    targetAir = true;
 
                     fogRadius = 6f;
 
@@ -947,7 +944,7 @@ public class ClassicBlocks {
                     }});
                 }};
             }};
-            size = 3;
+            size = 4;
         }};
 
         bloom = new CausticTurret("neoplasm-bloom"){{
@@ -960,8 +957,6 @@ public class ClassicBlocks {
                 width = 7.0F;
                 height = 12.0F;
                 lifetime = 30.0F;
-                shootEffect = Fx.sparkShoot;
-                smokeEffect = Fx.shootBigSmoke;
                 hitColor = backColor = trailColor = Pal.neoplasm1;
                 frontColor = Color.white;
                 trailWidth = 1.5F;
@@ -989,7 +984,7 @@ public class ClassicBlocks {
 
         // Drills
         electrumDrill = new Drill("electrum-drill"){{
-            requirements(Category.production, with(ClassicItems.electrum, 80, Items.silicon, 40, Items.graphite, 20));
+            requirements(Category.production, with(RItems.electrum, 80, Items.silicon, 40, Items.graphite, 20));
             drillTime = 250;
             size = 3;
             consumePower(2.5f);
@@ -1007,7 +1002,7 @@ public class ClassicBlocks {
         }};
 
         areaExtractor = new Drill("area-extractor"){{
-            requirements(Category.production, with(Items.copper, 250, Items.graphite, 180, ClassicItems.denseAlloy, 100, Items.silicon, 90, Items.titanium, 200, Items.thorium, 70, Items.surgeAlloy, 25));
+            requirements(Category.production, with(Items.copper, 250, Items.graphite, 180, RItems.denseAlloy, 100, Items.silicon, 90, Items.titanium, 200, Items.thorium, 70, Items.surgeAlloy, 25));
             tier = 5;
             drillTime = 200;
             drawMineItem = false;
@@ -1021,7 +1016,7 @@ public class ClassicBlocks {
         }};
 
         poweredDrill = new Drill("powered-drill"){{
-            requirements(Category.production, with(Items.copper, 22, Items.titanium, 5, ClassicItems.denseAlloy, 5));
+            requirements(Category.production, with(Items.copper, 22, Items.titanium, 5, RItems.denseAlloy, 5));
             tier = 4;
             drawMineItem = false;
             drillTime = 300;
@@ -1047,7 +1042,7 @@ public class ClassicBlocks {
 
         //Turrets
         scatterSilo = new ScatterSilo("scatter-silo"){{
-            requirements(Category.turret, with(ClassicItems.electrum, 30, Items.graphite, 75));
+            requirements(Category.turret, with(RItems.electrum, 30, Items.graphite, 75));
             size = 2;
             range = 120f;
             scaledHealth = 180;
@@ -1068,7 +1063,7 @@ public class ClassicBlocks {
                         height = 9f;
                         ammoMultiplier = 4f;
                     }},
-                    new ItemStack(ClassicItems.electrum, 2), new FlakBulletType(8f, 20){{
+                    new ItemStack(RItems.electrum, 2), new FlakBulletType(8f, 20){{
                         ammoMultiplier = 5f;
                         splashDamage = 50f * 1.5f;
                         splashDamageRadius = 38f;
@@ -1082,9 +1077,9 @@ public class ClassicBlocks {
         }};
 
         rippleb41 = new ItemTurret("ripple-b41"){{
-            requirements(Category.turret, with(ClassicItems.denseAlloy, 300, Items.titanium, 220, Items.thorium, 120));
+            requirements(Category.turret, with(RItems.denseAlloy, 300, Items.titanium, 220, Items.thorium, 120));
             ammo(
-                    ClassicItems.denseAlloy, new ArtilleryBulletType(3f, 0, "shell"){{
+                    RItems.denseAlloy, new ArtilleryBulletType(3f, 0, "shell"){{
                         hitEffect = Fx.flakExplosion;
                         knockback = 0.8f;
                         lifetime = 50f;
@@ -1164,7 +1159,7 @@ public class ClassicBlocks {
             inaccuracy = 12f;
             reload = 60f;
             ammoEjectBack = 5f;
-            ammoUseEffect = ExtendedFx.shellEjectBig;
+            ammoUseEffect = RFx.shellEjectBig;
             ammoPerShot = 2;
             velocityRnd = 0.2f;
 
@@ -1189,7 +1184,7 @@ public class ClassicBlocks {
                         height = 9f;
                     }},
 
-                    ClassicItems.denseAlloy, new BasicBulletType(5f, 5){{
+                    RItems.denseAlloy, new BasicBulletType(5f, 5){{
                         ammoMultiplier = 0.8f;
                         width = 7f;
                         height = 9f;
@@ -1248,9 +1243,9 @@ public class ClassicBlocks {
         }};
 
         fuseMKI = new ItemTurretV6("fuse-b40"){{
-            requirements(Category.turret, with(ClassicItems.copper, 210, ClassicItems.denseAlloy, 190, Items.surgeAlloy, 130));
+            requirements(Category.turret, with(RItems.copper, 210, RItems.denseAlloy, 190, Items.surgeAlloy, 130));
             ammo(
-                    ClassicItems.denseAlloy, fuseShot
+                    RItems.denseAlloy, fuseShot
             );
             shootSound = Sounds.shotgun;
             reload = 50f;
@@ -1282,7 +1277,7 @@ public class ClassicBlocks {
         }};
 
         teslaTurret = new PowerTurret("tesla-turret"){{
-            requirements(Category.turret, with(Items.lead, 50, Items.titanium, 35, Items.thorium, 15, ClassicItems.dirium, 15));
+            requirements(Category.turret, with(Items.lead, 50, Items.titanium, 35, Items.thorium, 15, RItems.dirium, 15));
             range = 92.5f;
             shootCone = 45f;
             shootType = new NewTeslaOrbType(range,26){{
@@ -1308,7 +1303,7 @@ public class ClassicBlocks {
         }};
 
         chainTurret = new MirroredItemTurret("chain-turret"){{
-            requirements(Category.turret, with(Items.titanium, 50, ClassicItems.dirium, 80, Items.lead, 100));
+            requirements(Category.turret, with(Items.titanium, 50, RItems.dirium, 80, Items.lead, 100));
             //ammo(Items.thorium, chain);
             ammo(
                     Items.thorium, new BasicBulletType(8f, 8){{
@@ -1334,7 +1329,7 @@ public class ClassicBlocks {
             );
             size = 2;
             shootSound = bigshot;
-            shootEffect = ExtendedFx.chainshot;
+            shootEffect = RFx.chainshot;
             smokeEffect = Fx.none;
             health = 430;
             shootCone = 9f;
@@ -1668,7 +1663,7 @@ public class ClassicBlocks {
 
         // Power
         shineGenerator = new ConsumeGenerator("shine-generator"){{
-            requirements(Category.power, with(Items.metaglass, 80, Items.silicon, 60, ClassicItems.electrum, 50));
+            requirements(Category.power, with(Items.metaglass, 80, Items.silicon, 60, RItems.electrum, 50));
             size = 2;
             powerProduction = 3f;
             itemDuration = 80f;
@@ -1683,7 +1678,7 @@ public class ClassicBlocks {
         }};
 
         rtgGenerator = new ConsumeGenerator("compacted-rtg-generator"){{
-            requirements(Category.power, with(Items.lead, 50, Items.silicon, 15, Items.phaseFabric, 5, ClassicItems.thorium, 10));
+            requirements(Category.power, with(Items.lead, 50, Items.silicon, 15, Items.phaseFabric, 5, RItems.thorium, 10));
             size = 1;
             powerProduction = 4.15f;
             itemDuration = 60 * 20f;
@@ -1783,7 +1778,7 @@ public class ClassicBlocks {
         };
 
         electrumVault = new StorageBlock("electrum-vault"){{
-                requirements(Category.effect, with(Items.titanium, 60, Items.thorium, 40, ClassicItems.electrum, 20));
+                requirements(Category.effect, with(Items.titanium, 60, Items.thorium, 40, RItems.electrum, 20));
                 size = 3;
                 itemCapacity = 2500;
                 health = 2000;

@@ -8,7 +8,7 @@ import mindustry.graphics.g3d.*;
 import mindustry.type.Planet;
 import mindustry.world.meta.Env;
 
-public class RestorationPlanets {
+public class RPlanets {
     public static Planet
             tantros
     ;

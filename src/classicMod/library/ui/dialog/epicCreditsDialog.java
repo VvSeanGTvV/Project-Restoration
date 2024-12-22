@@ -2,29 +2,22 @@ package classicMod.library.ui.dialog;
 
 import arc.*;
 import arc.graphics.g2d.*;
-import arc.input.KeyCode;
 import arc.math.Mathf;
 import arc.math.geom.*;
-import arc.scene.Scene;
 import arc.scene.style.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.Table;
-import arc.struct.Seq;
 import arc.util.*;
-import classicMod.library.ui.menu.*;
-import mindustry.Vars;
 import mindustry.content.Planets;
 import mindustry.gen.*;
 import mindustry.graphics.g3d.*;
-import mindustry.mod.Mod;
-import mindustry.type.Planet;
 import mindustry.ui.Styles;
 
 import java.util.Objects;
 
 import static arc.Core.*;
 import static classicMod.ClassicMod.*;
-import static classicMod.content.ModdedMusic.*;
+import static classicMod.content.RMusic.*;
 import static classicMod.library.ui.UIExtended.fdelta;
 import static mindustry.Vars.*;
 

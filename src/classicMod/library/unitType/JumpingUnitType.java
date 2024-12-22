@@ -5,7 +5,7 @@ import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
 import arc.util.Time;
-import classicMod.content.ExtendedFx;
+import classicMod.content.RFx;
 import classicMod.library.ai.JumpingAI;
 import mindustry.entities.Effect;
 import mindustry.gen.Unit;
@@ -23,8 +23,8 @@ public class JumpingUnitType extends UnitType {
 
     public boolean onlySlide = false;
 
-    public Effect StompEffect = ExtendedFx.dynamicWaveBig;
-    public Effect StompExplosionEffect = ExtendedFx.dynamicSmallBomb;
+    public Effect StompEffect = RFx.dynamicWaveBig;
+    public Effect StompExplosionEffect = RFx.dynamicSmallBomb;
     public Color StompColor = Color.valueOf("ffd27e");
     public boolean StompExplosion = false;
 
