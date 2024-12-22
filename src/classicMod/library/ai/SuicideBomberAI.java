@@ -29,13 +29,10 @@ public class SuicideBomberAI extends AIController {
         }
 
         Building core = unit.closestEnemyCore();
-
         boolean rotate = false, shoot = false;
-
-        if(target == null){
+        if(target == null) {
             target = core;
         }
-
         if (!Units.invalidateTarget(target, unit, unit.range()) && unit.hasWeapons()){
             boolean move = true;
             rotate = true;

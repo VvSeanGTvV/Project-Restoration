@@ -81,7 +81,9 @@ public class RUnitTypes {
             smokeX = -2f;
             smokeY = -8f;
             smokeXRand = 4f;
+            range = Float.MAX_VALUE;
 
+            targetAir = false;
             flying = true;
             health = 220;
             armor = 1.15f;
