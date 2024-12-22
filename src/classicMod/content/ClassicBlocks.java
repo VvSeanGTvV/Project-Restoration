@@ -985,7 +985,7 @@ public class ClassicBlocks {
 
             selfDestruct = true;
             selfDestructEffect = RFx.smokeColor;
-            spawn = UnitTypes.renale;
+            spawn = hydroBomber;
             spawnTime = 120f;
         }};
 
