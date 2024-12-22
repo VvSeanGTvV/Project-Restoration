@@ -101,7 +101,7 @@ public class ClassicBlocks {
 
     interplanetaryAccelerator, //Endgame - Mindustry
 
-    ductJunction, cord, heart, neoplasiaDrill, bloom, pore, tole, renaleSpawner //Erekir - Prototype [v8-dev]
+    ductJunction, cord, heart, neoplasiaDrill, bloom, pore, tole, renaleSpawner, hydroBomberSpawner, arcBomberSpawner //Erekir - Prototype [v8-dev]
     ;
 
 
@@ -976,6 +976,19 @@ public class ClassicBlocks {
             spawn = UnitTypes.renale;
             spawnTime = 120f;
         }};
+
+        hydroBomberSpawner = new CausticSpawner("neoplasm-immitis-pod"){{
+            requirements(Category.distribution, with(Items.beryllium, 1));
+            consumeItems(with(Items.graphite, 1));
+
+            size = 3;
+
+            selfDestruct = true;
+            selfDestructEffect = RFx.smokeColor;
+            spawn = UnitTypes.renale;
+            spawnTime = 120f;
+        }};
+
 
         neoplasiaDrill = new CausticDrill("drill"){{
             requirements(Category.distribution, with(Items.beryllium, 1));

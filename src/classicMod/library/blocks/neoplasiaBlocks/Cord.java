@@ -219,6 +219,14 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                     ReplaceTo(ClassicBlocks.renaleSpawner);
                 }
 
+                if (items.has(Items.graphite) &&
+                        front() == null &&
+                        left() == null &&
+                        right() == null
+                ){
+                    ReplaceTo(ClassicBlocks.renaleSpawner);
+                }
+
                 if ((Units.closestEnemy(team, x, y, 440f, u -> u.type.killable && u.type.hittable && u.range() > 240f) != null) ||
                         (Units.findEnemyTile(team, x, y, 440f, b -> b.isValid() && (
                                 b instanceof Turret.TurretBuild turretBuild && turretBuild.range() >= 200f)

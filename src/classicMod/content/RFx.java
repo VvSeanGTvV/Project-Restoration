@@ -50,7 +50,22 @@ public class RFx extends Fx {
                 Fill.circle(e.x + v.x, e.y + v.y, 5.3F * b.fslope() + 0.2F);
             });
         }
-    }).followParent(false),
+    }),
+
+    smokeColor = new Effect(280.0F, (e) -> {
+        Draw.color(e.color);
+        Draw.alpha(0.6F);
+        rand.setSeed(e.id);
+
+        for(int i = 0; i < 12; ++i) {
+            float len = rand.random(25.0F);
+            float rot = rand.range(120.0F) + e.rotation;
+            e.scaled(e.lifetime * rand.random(0.3F, 1.0F), (b) -> {
+                v.trns(rot, len * b.finpow());
+                Fill.circle(e.x + v.x, e.y + v.y, 5.3F * b.fslope() + 0.2F);
+            });
+        }
+    }),
 
     kalyxSmoke = new Effect(70.0F, (e) -> {
         Draw.color(neoplasm1, neoplasmMid, e.fout());

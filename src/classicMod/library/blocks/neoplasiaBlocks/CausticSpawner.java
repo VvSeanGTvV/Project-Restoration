@@ -3,8 +3,8 @@ package classicMod.library.blocks.neoplasiaBlocks;
 import arc.Core;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
-import mindustry.content.Fx;
-import mindustry.entities.Units;
+import mindustry.content.*;
+import mindustry.entities.*;
 import mindustry.type.UnitType;
 import mindustry.world.consumers.ConsumeItems;
 
@@ -12,6 +12,9 @@ public class CausticSpawner extends NeoplasmBlock {
 
     public TextureRegion topRegion, ballRegion;
     public float spawnTime = 60f;
+    /** Self destructs upon a new unit spawn.**/
+    public boolean selfDestruct;
+    public Effect selfDestructEffect;
 
     public UnitType spawn;
 
@@ -91,7 +94,10 @@ public class CausticSpawner extends NeoplasmBlock {
                     unit.rotation(90f);
                     unit.add();
                 }
-                
+                if (selfDestruct){
+                    this.damage(health);
+                    selfDestructEffect.at(this.x, this.y, Liquids.hydrogen.color);
+                }
             }
         }
     }
