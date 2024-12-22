@@ -224,7 +224,7 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                         left() == null &&
                         right() == null
                 ){
-                    ReplaceTo(ClassicBlocks.renaleSpawner);
+                    ReplaceTo(ClassicBlocks.hydroBomberSpawner);
                 }
 
                 if ((Units.closestEnemy(team, x, y, 440f, u -> u.type.killable && u.type.hittable && u.range() > 240f) != null) ||
