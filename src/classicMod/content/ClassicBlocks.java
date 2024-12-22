@@ -977,11 +977,11 @@ public class ClassicBlocks {
             spawnTime = 120f;
         }};
 
-        hydroBomberSpawner = new CausticSpawner("neoplasm-immitis-pod"){{
+        hydroBomberSpawner = new CausticSpawner("neoplasm-immitis-hydro-pod"){{
             requirements(Category.distribution, with(Items.beryllium, 1));
             consumeItems(with(Items.graphite, 1));
 
-            size = 3;
+            size = 2;
 
             selfDestruct = true;
             selfDestructEffect = RFx.smokeColor;

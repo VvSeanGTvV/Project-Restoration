@@ -1,16 +1,19 @@
 package classicMod.library.blocks.neoplasiaBlocks;
 
 import arc.Core;
+import arc.graphics.Blending;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
+import classicMod.library.drawCustom.BlendingCustom;
 import mindustry.content.*;
 import mindustry.entities.*;
+import mindustry.graphics.Layer;
 import mindustry.type.UnitType;
 import mindustry.world.consumers.ConsumeItems;
 
 public class CausticSpawner extends NeoplasmBlock {
 
-    public TextureRegion topRegion, ballRegion;
+    public TextureRegion topRegion, ballRegion, glowRegion;
     public float spawnTime = 60f;
     /** Self destructs upon a new unit spawn.**/
     public boolean selfDestruct;
@@ -27,6 +30,7 @@ public class CausticSpawner extends NeoplasmBlock {
         super.load();
         topRegion = Core.atlas.find(name + "-top");
         ballRegion = Core.atlas.find(name + "-ball");
+        glowRegion = Core.atlas.find(name + "-glow");
     }
 
     @Override
@@ -48,10 +52,19 @@ public class CausticSpawner extends NeoplasmBlock {
             Draw.rect(region, x, y);
 
             drawBeat(Math.min(frac, 1f), Math.min(frac, 1f), 0.25f);
-            Draw.rect(ballRegion, x, y);
+            if (ballRegion.found()) Draw.rect(ballRegion, x, y);
 
             drawBeat(1, 1, 0.25f);
-            Draw.rect(topRegion, x, y);
+            if (topRegion.found()) Draw.rect(topRegion, x, y);
+            if (glowRegion.found()) {
+                Draw.alpha(0.55f);
+                Draw.z(Layer.blockAdditive);
+                Draw.blend(BlendingCustom.Bloom);
+                Draw.rect(glowRegion, x, y);
+                Draw.blend();
+                Draw.color();
+                Draw.alpha(0f);
+            }
         }
 
         public void updateEfficiency(){

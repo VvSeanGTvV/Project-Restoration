@@ -65,12 +65,48 @@ public class RUnitTypes {
 
     mantis, // TESTING
 
-    blob, matte, squid, worm, mule, kalyx, // NEOPLASM TESTING
+    blob, matte, squid, worm, mule, kalyx, hydroBomber, // NEOPLASM TESTING
 
     alphaChan, crawlerChan, boulderChan, monoChan, octChan, oxynoeChan, quadChan, seiChan, zenithChan //Unit - Old Content [Animdustry]
     ;
 
     public static void load() {
+
+        hydroBomber = new BomberUnitType("hydro-bomber"){{
+            constructor = UnitEntity::create;
+            aiController = SuicideBomberAI::new;
+            smokeTrail = RFx.smokeTrailColor;
+            smokeColor = Liquids.hydrogen.color;
+            trailChance = 0.75f;
+            smokeX = -2f;
+            smokeY = -8f;
+            smokeXRand = 4f;
+
+            flying = true;
+            health = 220;
+            armor = 1.15f;
+            hitSize = 9f;
+            weapons.add(new Weapon() {{
+                x = y = 0;
+                reload = 6f;
+                ejectEffect = Fx.none;
+                shootSound = Sounds.explosion;
+
+                bullet = new BombBulletType(40f, 50f) {{
+                    hitEffect = Fx.pulverize;
+                    shootEffect = RFx.smokeHydro;
+                    lifetime = 30f;
+                    speed = 1.1f;
+                    splashDamageRadius = 55f;
+                    instantDisappear = true;
+                    splashDamage = 30f;
+                    collidesAir = true;
+                    collidesGround = true;
+
+                    killShooter = true;
+                }};
+            }});
+        }};
 
         kalyx = new NeoplasmUnitType("kalyx"){{
             constructor = UnitEntity::create;
@@ -190,7 +226,6 @@ public class RUnitTypes {
                     x = 0f;
                     shootY = 0f;
                     reload = 50f;
-                    shootCone = 180f;
                     ejectEffect = Fx.none;
                     inaccuracy = 15f;
                     ignoreRotation = true;
@@ -1250,7 +1285,7 @@ public class RUnitTypes {
             constructor = MechUnit::create;
             controller = u -> new SuicideAI();
 
-            weapons.add(new Weapon(internalMod + "-nullTexture-equip") {{
+            weapons.add(new Weapon() {{
                 reload = 6f;
                 ejectEffect = Fx.none;
                 shootSound = Sounds.explosion;

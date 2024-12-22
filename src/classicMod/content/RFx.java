@@ -6,7 +6,7 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.util.Time;
-import mindustry.content.Fx;
+import mindustry.content.*;
 import mindustry.entities.Effect;
 import mindustry.graphics.*;
 
@@ -47,10 +47,25 @@ public class RFx extends Fx {
             float rot = rand.range(120.0F) + e.rotation;
             e.scaled(e.lifetime * rand.random(0.3F, 1.0F), (b) -> {
                 v.trns(rot, len * b.finpow());
-                Fill.circle(e.x + v.x, e.y + v.y, 5.3F * b.fslope() + 0.2F);
+                Fill.circle(e.x + v.x, e.y + v.y, 7.4F * b.fout() + 0.2F);
             });
         }
     }),
+
+    smokeHydro = new Effect(80.0F, (e) -> {
+        color(Liquids.hydrogen.color);
+        Draw.alpha(0.6F);
+        rand.setSeed(e.id);
+
+        for(int i = 0; i < 24; ++i) {
+            float len = rand.random(50.0F);
+            float rot = rand.range(180.0F) + e.rotation;
+            e.scaled(e.lifetime * rand.random(0.3F, 1.0F), (b) -> {
+                v.trns(rot, len * b.finpow());
+                Fill.circle(e.x + v.x, e.y + v.y, 5.3F * b.fout() + 0.2F);
+            });
+        }
+    }).followParent(false),
 
     smokeColor = new Effect(280.0F, (e) -> {
         Draw.color(e.color);
@@ -63,6 +78,21 @@ public class RFx extends Fx {
             e.scaled(e.lifetime * rand.random(0.3F, 1.0F), (b) -> {
                 v.trns(rot, len * b.finpow());
                 Fill.circle(e.x + v.x, e.y + v.y, 5.3F * b.fslope() + 0.2F);
+            });
+        }
+    }),
+
+    smokeTrailColor = new Effect(80.0F, (e) -> {
+        Draw.color(e.color);
+        Draw.alpha(0.6F);
+        rand.setSeed(e.id);
+
+        for(int i = 0; i < 5; ++i) {
+            float len = rand.random(25.0F);
+            float rot = rand.range(10.0F) + e.rotation;
+            e.scaled(e.lifetime * rand.random(0.3F, 1.0F), (b) -> {
+                v.trns(rot, len * b.finpow());
+                Fill.circle(e.x + v.x, e.y + v.y, 2.3F * b.fout() + 0.2F);
             });
         }
     }),
