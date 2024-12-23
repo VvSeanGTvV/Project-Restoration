@@ -991,7 +991,7 @@ public class ClassicBlocks {
             spawnTime = 60f;
         }};
 
-        walkySpawner = new CausticSpawner("neoplasm-amogus"){{
+        walkySpawner = new CausticSpawner("neoplasm-immitis-arc-pod"){{
             requirements(Category.distribution, with(Items.beryllium, 1));
             consumeItems(with(Items.beryllium, 1));
 
@@ -1010,7 +1010,7 @@ public class ClassicBlocks {
             consumeItems(with(Items.oxide, 1));
 
             size = 3;
-            sclOffset = 0.15f;
+            sclOffset = 0.165f;
 
             selfDestruct = true;
             spawnEffect = RFx.smokeColor;
