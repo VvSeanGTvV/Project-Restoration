@@ -87,7 +87,7 @@ public class RFx extends Fx {
         Draw.alpha(0.6F);
         rand.setSeed(e.id);
 
-        for(int i = 0; i < 5; ++i) {
+        for(int i = 0; i < 2; ++i) {
             float len = rand.random(25.0F);
             float rot = rand.range(10.0F) + e.rotation;
             e.scaled(e.lifetime * rand.random(0.3F, 1.0F), (b) -> {

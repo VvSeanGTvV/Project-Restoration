@@ -77,22 +77,25 @@ public class RUnitTypes {
             aiController = SuicideBomberAI::new;
             smokeTrail = RFx.smokeTrailColor;
             smokeColor = Liquids.hydrogen.color;
-            trailChance = 0.75f;
+            trailChance = 0.55f;
             smokeX = -2f;
             smokeY = -8f;
             smokeXRand = 4f;
-            range = Float.MAX_VALUE;
+            range = 550f;
 
             targetAir = false;
             flying = true;
             health = 220;
             armor = 1.15f;
             hitSize = 9f;
+            speed = 2f;
             weapons.add(new Weapon() {{
                 x = y = 0;
                 reload = 6f;
                 ejectEffect = Fx.none;
                 shootSound = Sounds.explosion;
+                ignoreRotation = true;
+                shootCone = 180f;
 
                 bullet = new BombBulletType(40f, 50f) {{
                     hitEffect = Fx.pulverize;
@@ -121,6 +124,7 @@ public class RUnitTypes {
             targetGround = true;
             flying = true;
             rotateSpeed = 2.5f;
+            speed = 1.5f;
             weapons.add(new Weapon(){{
                 x = -1;
                 reload = 60f;
@@ -1282,7 +1286,6 @@ public class RUnitTypes {
             speed = 1.27f * 3;
             drag = 0.4f;
             health = 120f;
-            range = 50f;
             canBoost = false;
             constructor = MechUnit::create;
             controller = u -> new SuicideAI();

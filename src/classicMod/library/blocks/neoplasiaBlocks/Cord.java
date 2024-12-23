@@ -73,6 +73,8 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
         //TODO make it work YIPPE
         int facingRot = 1;
         public float progress;
+        public Seq<Integer> ignorePath = new Seq<>();
+        public int retry = 0;
 
         boolean useful;
 
@@ -84,9 +86,7 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
         public int yscl;
         public int blending;
         @Nullable
-        public Building next;
-        @Nullable
-        public CordBuild nextc;
+        public CordBuild prev;
 
         int[] bitmask = new int[]{
                 39, 36, 39, 36, 27, 16, 27, 24, 39, 36, 39, 36, 27, 16, 27, 24,
@@ -150,21 +150,36 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
 
         @Override
         public void growCord(Block block) {
-            boolean keepDir = Mathf.randomBoolean(0.98f); int i = Mathf.random(1, 4);
-            int rot = (keepDir) ? facingRot : Mathf.mod(facingRot + i, 4);
+
+            retry++;
+            for (int a = 0; a < 4; a++) {
+                Tile man = nearbyTile(Mathf.mod(facingRot + a, 4));
+                if (man != null && backTile() != null && backTile() != man){
+                    if (man.build instanceof NeoplasmBuilding) {
+                        retry = 0;
+                        break;
+                    }
+                }
+            }
+
+            boolean keepDir = Mathf.randomBoolean(0.98f);
+            int i = Mathf.random(1, 4),
+                    rot = (keepDir && !ignorePath.contains(facingRot)) ? facingRot : Mathf.mod(facingRot + i, 4);
             Tile near = nearbyTile(rot);
             Tile nearRight = near.nearby(Mathf.mod(rot + 1, 4));
             Tile nearLeft = near.nearby(Mathf.mod(rot - 1, 4));
             //Tile nearFront = near.nearby(rot);
             if (
                     passable(near)
-                            && passable(nearRight)
-                            && passable(nearLeft)
+                    && passable(nearRight)
+                    && passable(nearLeft)
+                    && !ignorePath.contains(rot)
                             //&& passable(nearFront.block())
             ){
                 if (!CantReplace(near.block())) near.setBlock(ClassicBlocks.cord, team);
                 if (near.build != null && near.build instanceof CordBuild cordBuild) {
                     cordBuild.facingRot = rot;
+                    cordBuild.prev = this;
                 }
             }
             super.growCord(block);
@@ -173,12 +188,15 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
         @Override
         public boolean deathImminent() {
             return (liquids.get(blood) <= liquidCapacity % 20 && !useful) ||
-                    (super.deathImminent() && useful);
+                    (super.deathImminent() && useful) || retry >= 5;
         }
 
         @Override
         public void update() {
             super.update();
+            if (prev != null && retry >= 5){
+                if (!prev.ignorePath.contains(facingRot)) prev.ignorePath.add(facingRot);
+            }
             this.block.nearbySide(tile.x, tile.y, Mathf.mod(facingRot, 4), 0, Tmp.p1);
             int dx = (Geometry.d4x(facingRot) > 0) ? 1 : 0;
             int dy = (Geometry.d4y(facingRot) > 0) ? 1 : 0;
@@ -209,14 +227,15 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
 
         @Override
         public void updateBeat() {
+            boolean cordMode = true;
             if (grow) {
-
                 if (items.has(Items.beryllium) &&
                         front() == null &&
                         left() == null &&
                         right() == null
                 ){
                     ReplaceTo(ClassicBlocks.renaleSpawner);
+                    cordMode = false;
                 }
 
                 if (items.has(Items.graphite) &&
@@ -225,6 +244,7 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                         right() == null
                 ){
                     ReplaceTo(ClassicBlocks.hydroBomberSpawner);
+                    cordMode = false;
                 }
 
                 if ((Units.closestEnemy(team, x, y, 440f, u -> u.type.killable && u.type.hittable && u.range() > 240f) != null) ||
@@ -232,7 +252,10 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                                 b instanceof Turret.TurretBuild turretBuild && turretBuild.range() >= 200f)
                         ) != null)) {
                     boolean tooClose = Units.closestBuilding(team, x, y, 440f, b -> (b instanceof CausticTurret.CausticTurretBuild && b.block == ClassicBlocks.pore)) != null;
-                    if (!tooClose) ReplaceTo(ClassicBlocks.pore);
+                    if (!tooClose) {
+                        ReplaceTo(ClassicBlocks.pore);
+                        cordMode = false;
+                    }
                 }
 
                 if ((Units.closestEnemy(team, x, y, 120f, u -> u.type.killable && u.type.hittable && u.range() > 120f) != null) ||
@@ -240,7 +263,10 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                                 b instanceof Turret.TurretBuild turretBuild && turretBuild.range() >= 80f)
                         ) != null)) {
                     boolean tooClose = Units.closestBuilding(team, x, y, 120f, b -> (b instanceof CausticTurret.CausticTurretBuild && b.block == ClassicBlocks.bloom)) != null;
-                    if (!tooClose) ReplaceTo(ClassicBlocks.bloom);
+                    if (!tooClose) {
+                        ReplaceTo(ClassicBlocks.bloom);
+                        cordMode = false;
+                    }
                 }
 
                 if ((Units.closestEnemy(team, x, y, 30f, u -> u.type.killable && u.type.hittable && u.range() > 30f) != null) ||
@@ -248,10 +274,11 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                                 b instanceof Turret.TurretBuild turretBuild && turretBuild.range() >= 30f)
                         ) != null)) {
                     boolean tooClose = Units.closestBuilding(team, x, y, 30f, b -> (b instanceof CausticTurret.CausticTurretBuild && b.block == ClassicBlocks.tole)) != null;
-                    if (!tooClose) ReplaceTo(ClassicBlocks.tole);
-                } else {
-                    growCord(ClassicBlocks.cord);
-                }
+                    if (!tooClose) {
+                        ReplaceTo(ClassicBlocks.tole);
+                        cordMode = false;
+                    }
+                } if (cordMode) growCord(ClassicBlocks.cord);
             }
             if (current != null){
                 Seq<NeoplasmBuilding> avaliable = new Seq<>();
@@ -286,6 +313,11 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
         public Building back() {
             int trns = this.block.size / 2 + 1;
             return this.nearby(Geometry.d4(this.facingRot + 2).x * trns, Geometry.d4(this.facingRot + 2).y * trns);
+        }
+
+        public Tile backTile() {
+            int trns = this.block.size / 2 + 1;
+            return this.nearbyXY(Geometry.d4(this.facingRot + 2).x * trns, Geometry.d4(this.facingRot + 2).y * trns);
         }
 
         @Override

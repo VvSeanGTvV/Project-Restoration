@@ -91,6 +91,10 @@ public class NeoplasmBlock extends Block {
         }
 
 
+        public Tile nearbyXY(int dx, int dy) {
+            return Vars.world.tile(this.tile.x + dx, this.tile.y + dy);
+        }
+
         public Tile nearbyTile(int rotation, int offsetTrns) {
             Tile var10000;
             int trns = block.size / 2 + 1 + offsetTrns;

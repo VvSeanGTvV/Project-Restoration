@@ -16,7 +16,7 @@ import mindustry.world.blocks.environment.Floor;
 import static classicMod.content.ClassicVars.empty;
 import static mindustry.Vars.world;
 
-public class MantisTail implements Cloneable {
+public class MantisTail {
     public float layerOffset;
     public float tailRotationSpeed;
     public String spriteName;
@@ -50,17 +50,6 @@ public class MantisTail implements Cloneable {
 
         TailBodyOutline = Core.atlas.find(spriteName + "-mid-outline");
         TailBodyEndOutline = Core.atlas.find(spriteName + "-end-outline");
-    }
-
-    @Override
-    public MantisTail clone() {
-        try {
-            MantisTail clone = (MantisTail) super.clone();
-            // TODO: copy mutable state here, so the clone can't change the internals of the original
-            return clone;
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError();
-        }
     }
 
     public static class MantisMountTail {

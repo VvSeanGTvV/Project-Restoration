@@ -2,7 +2,7 @@ package classicMod.library.ai;
 
 import arc.math.Mathf;
 import arc.math.geom.*;
-import arc.util.Time;
+import arc.util.*;
 import mindustry.Vars;
 import mindustry.core.World;
 import mindustry.entities.Units;
@@ -12,9 +12,9 @@ import mindustry.world.Tile;
 import mindustry.world.blocks.distribution.Conveyor;
 import mindustry.world.blocks.liquid.Conduit;
 import mindustry.world.blocks.storage.CoreBlock;
-import mindustry.world.meta.BlockGroup;
+import mindustry.world.meta.*;
 
-import static mindustry.Vars.state;
+import static mindustry.Vars.*;
 
 public class SuicideBomberAI extends AIController {
 
@@ -25,7 +25,8 @@ public class SuicideBomberAI extends AIController {
         }
 
         if(retarget()){
-            target = target(unit.x, unit.y, unit.range(), unit.type.targetAir, unit.type.targetGround);
+            targetClosestEnemyFlag(BlockFlag.turret);
+            //target = target(unit.x, unit.y, unit.range(), unit.type.targetAir, unit.type.targetGround);
         }
 
         Building core = unit.closestEnemyCore();
@@ -33,11 +34,10 @@ public class SuicideBomberAI extends AIController {
         if(target == null) {
             target = core;
         }
-        if (!Units.invalidateTarget(target, unit, unit.range()) && unit.hasWeapons()){
+        if (target != null){
             boolean move = true;
             rotate = true;
-            shoot = unit.within(target, unit.type.weapons.first().bullet.range +
-                    (target instanceof Building b ? b.block.size * Vars.tilesize / 2f : ((Hitboxc)target).hitSize() / 2f));
+            shoot = (unit.tileOn() != null && unit.tileOn().build != null && unit.tileOn().build.team != unit.team);
 
             //stop moving toward the drop zone if applicable
             if(core == null && state.rules.waves && unit.team == state.rules.defaultTeam){
@@ -47,14 +47,17 @@ public class SuicideBomberAI extends AIController {
                 }
             }
 
-            if(move){
-                unit.movePref(vec.set(target).sub(unit).limit(unit.speed()));
-            }
+            unit.movePref(vec.set(target).sub(unit).limit(unit.speed()));
         }
 
         unit.controlWeapons(rotate, shoot);
 
         faceTarget();
+    }
+
+    protected void targetClosestEnemyFlag(BlockFlag flag){
+        Teamc target = Geometry.findClosest(unit.x(), unit.y(), indexer.getEnemy(unit.team(), flag));
+        if(target != null) this.target = target;
     }
 
     @Override
