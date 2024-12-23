@@ -65,12 +65,62 @@ public class RUnitTypes {
 
     mantis, // TESTING
 
-    blob, matte, squid, worm, mule, kalyx, hydroBomber, // NEOPLASM TESTING
+    blob, matte, squid, worm, mule, kalyx, hydroBomber, miserable,// NEOPLASM TESTING
 
     alphaChan, crawlerChan, boulderChan, monoChan, octChan, oxynoeChan, quadChan, seiChan, zenithChan //Unit - Old Content [Animdustry]
     ;
 
     public static void load() {
+
+        miserable = new NeoplasmUnitType("walky"){{
+            constructor = LegsUnit::create;
+            aiController = GroundAI::new;
+            drag = 0.1f;
+            speed = 1f;
+            hitSize = 9f;
+            health = 140;
+            //baseElevation = 0.51f;
+
+            legCount = 3;
+            legMoveSpace = 1f;
+            //legPairOffset = 3f;
+            legLength = 17.5f;
+            //rotateShooting = false;
+            legExtension = -2.15f;
+            legBaseOffset = 3f;
+            stepShake = 0f;
+            legLengthScl = 1f;
+            rippleScale = 2f;
+            legSpeed = 0.2f / 5f;
+            legSplashDamage = 5;
+            legSplashRange = 10;
+
+            weapons.add(new Weapon() {{
+                x = y = 0;
+                reload = 6f;
+                ejectEffect = Fx.none;
+                shootSound = Sounds.pew;
+
+                shoot = new ShootPattern(){{
+                    shots = 3;
+                }};
+
+                bullet = new BasicBulletType(5.0F, 16.0F) {{
+                    backSprite = sprite = "bullet";
+                    homingPower = 0.19F;
+                    homingDelay = 4.0F;
+                    width = 7.0F;
+                    height = 12.0F;
+                    lifetime = 30.0F;
+                    hitColor = backColor = trailColor = Pal.neoplasm2;
+                    frontColor = Pal.neoplasm1;
+                    trailWidth = 1.5F;
+                    trailLength = 5;
+                    hitEffect = despawnEffect = Fx.hitBulletColor;
+                }};
+
+            }});
+        }};
 
         hydroBomber = new BomberUnitType("hydro-bomber"){{
             constructor = UnitEntity::create;
@@ -279,6 +329,9 @@ public class RUnitTypes {
                     bladeMaxMoveAngle = angle;
                     blurAlpha = 1f;
                 }});
+            }
+
+            for(float angle : new float[]{50, -50}){
                 blades.addAll(new WingBlade(name + "-blade1"){{
                     x = 5.7f;
                     y = -0.35f;

@@ -1,7 +1,7 @@
 package classicMod.library.blocks.neoplasiaBlocks;
 
 import arc.Core;
-import arc.graphics.Blending;
+import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
 import classicMod.library.drawCustom.BlendingCustom;
@@ -14,10 +14,12 @@ import mindustry.world.consumers.ConsumeItems;
 public class CausticSpawner extends NeoplasmBlock {
 
     public TextureRegion topRegion, ballRegion;
+    public float sclOffset = 0f;
     public float spawnTime = 60f;
     /** Self destructs upon a new unit spawn.**/
     public boolean selfDestruct;
-    public Effect selfDestructEffect;
+    public Effect spawnEffect;
+    public Color spawnColor;
 
     public UnitType spawn;
 
@@ -48,13 +50,13 @@ public class CausticSpawner extends NeoplasmBlock {
         @Override
         public void draw() {
             float frac = fraction();
-            drawBeat(1, 1, 0.25f);
+            drawBeat(1 + sclOffset, 1 + sclOffset, 0.25f);
             Draw.rect(region, x, y);
 
-            drawBeat(Math.min(frac, 1f), Math.min(frac, 1f), 0.25f);
+            drawBeat(Math.min(frac, 1f + sclOffset), Math.min(frac, 1f + sclOffset), 0.25f);
             if (ballRegion.found()) Draw.rect(ballRegion, x, y);
 
-            drawBeat(1, 1, 0.25f);
+            drawBeat(1 + sclOffset, 1 + sclOffset, 0.25f);
             if (topRegion.found()) Draw.rect(topRegion, x, y);
         }
 
@@ -93,6 +95,7 @@ public class CausticSpawner extends NeoplasmBlock {
                 progress %= 1f;
                 speedScl = 0f;
                 if (Units.canCreate(team, spawn)) {
+                    if (spawnEffect != null) spawnEffect.at(this.x, this.y, (spawnColor != null) ? spawnColor : Color.white);
                     var unit = spawn.create(team);
                     unit.set(this);
                     unit.rotation(90f);
@@ -100,7 +103,6 @@ public class CausticSpawner extends NeoplasmBlock {
                 }
                 if (selfDestruct){
                     this.damage(health);
-                    selfDestructEffect.at(this.x, this.y, Liquids.hydrogen.color);
                 }
             }
         }

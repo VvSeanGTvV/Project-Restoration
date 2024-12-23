@@ -39,7 +39,6 @@ import mindustry.world.meta.*;
 
 import static classicMod.content.ClassicBullets.*;
 import static classicMod.content.RSounds.*;
-import static classicMod.content.RUnitTypes.*;
 import static mindustry.content.Blocks.coreBastion;
 import static mindustry.type.ItemStack.with;
 
@@ -101,7 +100,7 @@ public class ClassicBlocks {
 
     interplanetaryAccelerator, //Endgame - Mindustry
 
-    ductJunction, cord, heart, neoplasiaDrill, bloom, pore, tole, renaleSpawner, hydroBomberSpawner, arcBomberSpawner //Erekir - Prototype [v8-dev]
+    ductJunction, cord, heart, neoplasiaDrill, bloom, pore, tole, renaleSpawner, hydroBomberSpawner, walkySpawner, squidSpawner //Erekir - Prototype [v8-dev]
     ;
 
 
@@ -139,7 +138,7 @@ public class ClassicBlocks {
             requirements(Category.effect, with(RItems.silver, 70, RItems.electrum, 40, Items.silicon, 40, Items.graphite, 50));
             size = 2;
             hasPower = true;
-            unitType = electra;
+            unitType = RUnitTypes.electra;
 
             //mechReqs = with(mindustry.content.Items.copper, 0);
             consumePower(0.7f);
@@ -222,7 +221,7 @@ public class ClassicBlocks {
             requirements(Category.effect, with(Items.lead, 250, Items.silicon, 350, Items.graphite, 350, Items.titanium, 320, Items.plastanium, 300, Items.surgeAlloy, 120));
             size = 3;
             hasPower = true;
-            unitType = halberd;
+            unitType = RUnitTypes.halberd;
 
             consumePower(1.3f);
         }};
@@ -247,7 +246,7 @@ public class ClassicBlocks {
 
             consumePower(0.5f);
             requirement = with(Items.silicon, 10, RItems.silver, 5);
-            unitType = chromeWraith;
+            unitType = RUnitTypes.chromeWraith;
         }};
 
         ghoulFactory = new LegacyUnitFactory("ghoul-factory") {{
@@ -290,7 +289,7 @@ public class ClassicBlocks {
 
             consumePower(1.2f);
             requirement = with(Items.thorium, 5);
-            unitType = aptrgangr;
+            unitType = RUnitTypes.aptrgangr;
         }};
 
         spiritFactory = new LegacyUnitFactory("spirit-factory") {{
@@ -366,7 +365,7 @@ public class ClassicBlocks {
             statusDuration = 60f * 10f;
             consumePower(3f);
 
-            droneType = effectDrone;
+            droneType = RUnitTypes.effectDrone;
         }};
 
         batteryMedium = new Battery("battery-medium"){{
@@ -974,19 +973,50 @@ public class ClassicBlocks {
             size = 3;
 
             spawn = UnitTypes.renale;
+            spawnEffect = RFx.smokeColor;
+            spawnColor = Liquids.arkycite.color;
             spawnTime = 120f;
+        }};
+
+        squidSpawner = new CausticSpawner("neoplasm-squid-spawner"){{
+            requirements(Category.distribution, with(Items.beryllium, 1));
+            consumeItems(with(Items.graphite, 1));
+
+            size = 3;
+
+            selfDestruct = true;
+            spawnEffect = RFx.smokeColor;
+            spawnColor = Color.valueOf("8a54a6");
+            spawn = RUnitTypes.squid;
+            spawnTime = 60f;
+        }};
+
+        walkySpawner = new CausticSpawner("neoplasm-amogus"){{
+            requirements(Category.distribution, with(Items.beryllium, 1));
+            consumeItems(with(Items.beryllium, 1));
+
+            size = 3;
+            sclOffset = 0.15f;
+
+            selfDestruct = true;
+            spawnEffect = RFx.smokeColor;
+            spawnColor = Liquids.arkycite.color;
+            spawn = RUnitTypes.miserable;
+            spawnTime = 60f;
         }};
 
         hydroBomberSpawner = new CausticSpawner("neoplasm-immitis-hydro-pod"){{
             requirements(Category.distribution, with(Items.beryllium, 1));
-            consumeItems(with(Items.graphite, 1));
+            consumeItems(with(Items.oxide, 1));
 
-            size = 2;
+            size = 3;
+            sclOffset = 0.15f;
 
             selfDestruct = true;
-            selfDestructEffect = RFx.smokeColor;
-            spawn = hydroBomber;
-            spawnTime = 120f;
+            spawnEffect = RFx.smokeColor;
+            spawnColor = Liquids.hydrogen.color;
+            spawn = RUnitTypes.hydroBomber;
+            spawnTime = 60f;
         }};
 
 

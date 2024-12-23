@@ -222,7 +222,6 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                     }
                 }
             }
-            drain = (useful) ? 1f : 5f;
         }
 
         @Override
@@ -234,11 +233,21 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                         left() == null &&
                         right() == null
                 ){
-                    ReplaceTo(ClassicBlocks.renaleSpawner);
+                    if (Mathf.randomBoolean(0.5f)) ReplaceTo(ClassicBlocks.renaleSpawner);
+                    else ReplaceTo(ClassicBlocks.walkySpawner);
                     cordMode = false;
                 }
 
                 if (items.has(Items.graphite) &&
+                        front() == null &&
+                        left() == null &&
+                        right() == null
+                ){
+                    ReplaceTo(ClassicBlocks.squidSpawner);
+                    cordMode = false;
+                }
+
+                if (items.has(Items.oxide) &&
                         front() == null &&
                         left() == null &&
                         right() == null
@@ -280,8 +289,30 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                     }
                 } if (cordMode) growCord(ClassicBlocks.cord);
             }
+        }
+
+        @Override
+        public void updateAfterBeat() {
             if (current != null){
                 Seq<NeoplasmBuilding> avaliable = new Seq<>();
+                for (int i = 0; i < 4; i++){
+                    NeoplasmBuilding dest = getNeoplasia(nearby(Mathf.mod(facingRot + i, 4)));
+                    //NeoplasmBuilding dest = getNeoplasia(nearby(facingRot + i));
+                    Item item = items.first();
+                    if (validBuilding(dest, item)) avaliable.add(dest);
+                }
+                if (avaliable.size > 0) {
+                    int selected = Mathf.clamp(Mathf.random(0, avaliable.size), 0, avaliable.size - 1);
+                    Item item = items.first();
+                    Building dest = avaliable.get(selected);
+                    if (item != null && validBuilding(dest, item)) {
+                        current = null;
+                        items.clear();
+                        dest.handleItem(this, item);
+                    }
+                }
+
+                /*Seq<NeoplasmBuilding> avaliable = new Seq<>();
                 for (int i = 0; i < 4; i++){
                     NeoplasmBuilding dest = getNeoplasia(nearby(facingRot + i));
                     Item item = items.first();
@@ -296,7 +327,7 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                         items.clear();
                         dest.handleItem(this, item);
                     }
-                }
+                }*/
             }
         }
 

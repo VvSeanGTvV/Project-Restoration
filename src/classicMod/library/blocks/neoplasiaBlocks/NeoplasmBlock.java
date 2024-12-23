@@ -42,7 +42,7 @@ public class NeoplasmBlock extends Block {
         Block core = ClassicBlocks.heart;
         Block drill = ClassicBlocks.neoplasiaDrill;
 
-        float drain = 5f;
+        float drain = 1f;
 
         Liquid blood = Liquids.neoplasm;
         public Seq<Tile> proximityTiles = new Seq<>();
@@ -224,6 +224,10 @@ public class NeoplasmBlock extends Block {
 
         }
 
+        public void updateAfterBeat(){
+
+        }
+
         public boolean deathImminent(){
             return (liquids.get(blood) <= 1f);
         }
@@ -346,7 +350,6 @@ public class NeoplasmBlock extends Block {
 
             if (grown) {
                 if (source) {
-                    if (liquids.get(blood) < liquidCapacity) liquids.add(blood, Math.min(liquidCapacity - liquids.get(blood), liquidCapacity));
                     priority = 0;
                     beatTimer += delta();
                     if (beatTimer >= 25) {
@@ -394,7 +397,10 @@ public class NeoplasmBlock extends Block {
                 if (beat > 1.05f) {
                     beat = Mathf.lerpDelta(beat, 1f, 0.15f);
                 } else {
-                    if (beat > 1) beat = 1;
+                    if (beat > 1) {
+                        updateAfterBeat();
+                        beat = 1;
+                    }
                 }
 
             } else {

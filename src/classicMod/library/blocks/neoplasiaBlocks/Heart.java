@@ -9,7 +9,7 @@ import arc.util.Nullable;
 import classicMod.content.RUnitTypes;
 import classicMod.library.ai.PathfinderExtended;
 import mindustry.Vars;
-import mindustry.content.Fx;
+import mindustry.content.*;
 import mindustry.entities.Effect;
 import mindustry.game.Team;
 import mindustry.gen.*;
@@ -33,9 +33,11 @@ public class Heart extends NeoplasmBlock {
         attribute = Attribute.heat;
         hasItems = true;
 
+        liquidCapacity = 200f;
         priority = 2.0F;
         flags = EnumSet.of(BlockFlag.core);
         unitCapModifier = 10;
+        itemCapacity = 10;
     }
 
     public boolean canPlaceOn(Tile tile, Team team, int rotation) {
@@ -77,9 +79,6 @@ public class Heart extends NeoplasmBlock {
             if (Mathf.chance(0.25) && getClosestVent() != null){
                 if (!Vars.net.client()) {
                     unit = unitType.create(team);
-                    if (unit instanceof BuildingTetherc bt) {
-                        bt.building(this);
-                    }
                     unit.set(this);
                     unit.rotation(90f);
                     unit.add();
@@ -93,6 +92,21 @@ public class Heart extends NeoplasmBlock {
             }
 
             super.updateBeat();
+        }
+
+        public void ConvertTo(Item toItem, Item fromItem){
+            if (toItem == null || fromItem == null || !items.has(fromItem)) return;
+            int total = items.get(fromItem);
+            items.remove(fromItem, total);
+            items.add(toItem, total);
+        }
+
+        @Override
+        public void update() {
+            if (liquids.get(blood) < liquidCapacity) liquids.add(blood, Math.min(liquidCapacity - liquids.get(blood), liquidCapacity));
+            super.update();
+            ConvertTo(Items.oxide, Items.beryllium);
+            ConvertTo(Items.oxide, Items.graphite);
         }
 
         @Override
