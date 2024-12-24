@@ -42,7 +42,7 @@ public class NeoplasmBlock extends Block {
         Block core = ClassicBlocks.heart;
         Block drill = ClassicBlocks.neoplasiaDrill;
 
-        float drain = 1f;
+        float drain = 0.25f;
 
         Liquid blood = Liquids.neoplasm;
         public Seq<Tile> proximityTiles = new Seq<>();
@@ -229,7 +229,7 @@ public class NeoplasmBlock extends Block {
         }
 
         public boolean deathImminent(){
-            return (liquids.get(blood) <= 1f);
+            return (liquidPressure <= 0f);
         }
 
         public void death(){
@@ -335,7 +335,7 @@ public class NeoplasmBlock extends Block {
             timer += delta();
             if (timer >= 10f) {
                 timer = 0;
-                liquids.remove(blood, drain);
+                //liquids.remove(blood, drain); TODO something
             }
 
             if (!source){
@@ -349,16 +349,7 @@ public class NeoplasmBlock extends Block {
             }
 
             if (grown) {
-                if (source) {
-                    priority = 0;
-                    beatTimer += delta();
-                    if (beatTimer >= 25) {
-                        beat = 1.5f;
-                        beatTimer = 0;
-                        updateBeat();
-                        growCord(pipe);
-                    }
-                }
+
 
                 if (deathImminent()) deathTimer += delta();
                 else deathTimer = 0;
@@ -386,7 +377,7 @@ public class NeoplasmBlock extends Block {
                 }
 
                 if (alreadyBeat) {
-                    if (beatTimer >= 20) {
+                    if (beatTimer >= 10) {
                         alreadyBeat = false;
                         beatTimer = 0;
                     }
@@ -395,7 +386,7 @@ public class NeoplasmBlock extends Block {
 
 
                 if (beat > 1.05f) {
-                    beat = Mathf.lerpDelta(beat, 1f, 0.15f);
+                    beat = Mathf.lerpDelta(beat, 1f, 0.25f);
                 } else {
                     if (beat > 1) {
                         updateAfterBeat();

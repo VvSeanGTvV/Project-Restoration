@@ -48,6 +48,7 @@ public class Heart extends NeoplasmBlock {
 
     public class HeartBuilding extends NeoplasmBuilding {
 
+        public boolean inDanger;
         public UnitType unitType = RUnitTypes.blob;
         public @Nullable Unit unit;
 
@@ -105,6 +106,20 @@ public class Heart extends NeoplasmBlock {
         public void update() {
             if (liquids.get(blood) < liquidCapacity) liquids.add(blood, Math.min(liquidCapacity - liquids.get(blood), liquidCapacity));
             super.update();
+            inDanger = (health < maxHealth);
+            if (grown){
+                if (source) {
+                    priority = 0;
+                    beatTimer += delta();
+                    if (beatTimer >= 25 || (beatTimer >= 15 && inDanger)) {
+                        beat = 1.5f;
+                        beatTimer = 0;
+                        updateBeat();
+                        growCord(pipe);
+                    }
+                }
+            }
+
             ConvertTo(Items.oxide, Items.beryllium);
             ConvertTo(Items.oxide, Items.graphite);
         }
