@@ -234,6 +234,7 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                         right() == null
                 ){
                     if (Mathf.randomBoolean(0.5f)) ReplaceTo(ClassicBlocks.renaleSpawner);
+                    else if (Mathf.randomBoolean(0.5f)) ReplaceTo(ClassicBlocks.oxideCrafter);
                     else ReplaceTo(ClassicBlocks.walkySpawner);
                     cordMode = false;
                 }

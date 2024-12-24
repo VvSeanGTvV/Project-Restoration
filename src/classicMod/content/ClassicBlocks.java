@@ -100,7 +100,7 @@ public class ClassicBlocks {
 
     interplanetaryAccelerator, //Endgame - Mindustry
 
-    ductJunction, cord, heart, neoplasiaDrill, bloom, pore, tole, renaleSpawner, hydroBomberSpawner, walkySpawner, squidSpawner //Erekir - Prototype [v8-dev]
+    ductJunction, cord, heart, neoplasiaDrill, bloom, pore, tole, oxideCrafter, renaleSpawner, hydroBomberSpawner, walkySpawner, squidSpawner //Erekir - Prototype [v8-dev]
     ;
 
 
@@ -963,6 +963,13 @@ public class ClassicBlocks {
                 hitEffect = despawnEffect = Fx.hitBulletColor;
             }};
 
+            size = 3;
+        }};
+
+        oxideCrafter = new CausticCrafter("neoplasm-oxide"){{ //TODO test
+            requirements(Category.distribution, with(Items.beryllium, 1));
+            from = Items.beryllium;
+            to = Items.oxide;
             size = 3;
         }};
 
