@@ -3,7 +3,7 @@ package classicMod.library.blocks.neoplasiaBlocks;
 import arc.util.Nullable;
 import mindustry.entities.Effect;
 import mindustry.type.*;
-import mindustry.world.*;
+import mindustry.gen.Building;
 import mindustry.world.blocks.production.GenericCrafter;
 
 public class CausticCrafter extends NeoplasmBlock{
@@ -22,7 +22,16 @@ public class CausticCrafter extends NeoplasmBlock{
             int total = 1;
             items.remove(fromItem, total);
             items.add(toItem, total);
+        }@Override
+        public void draw() {
+            drawBeat(1f, 1f, 0.25f);
+            Draw.rect(Core.atlas.find(name), x, y);
+            Draw.color();
+
+            Draw.reset();
         }
+
+        
 
         @Override
         public boolean acceptItem(Building source, Item item) {
