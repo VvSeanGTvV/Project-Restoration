@@ -24,7 +24,9 @@ public class CausticCrafter extends NeoplasmBlock{
             int total = 1;
             items.remove(fromItem, total);
             items.add(toItem, total);
-        }@Override
+        }
+        
+        @Override
         public void draw() {
             drawBeat(1f, 1f, 0.25f);
             Draw.rect(Core.atlas.find(name), x, y);
@@ -42,7 +44,7 @@ public class CausticCrafter extends NeoplasmBlock{
 
         @Override
         public void updateBeat() {
-            ConvertTo(from, to);
+            ConvertTo(to, from);
             this.dump(to);
         }
     }
