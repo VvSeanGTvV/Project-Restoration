@@ -4,6 +4,7 @@ import arc.math.geom.Geometry;
 import arc.struct.Seq;
 import arc.util.Nullable;
 import classicMod.content.ClassicBlocks;
+import classicMod.library.blocks.neoplasiaBlocks.Heart;
 import mindustry.Vars;
 import mindustry.entities.units.AIController;
 import mindustry.world.Tile;
@@ -13,9 +14,9 @@ public class SteamHugAI extends AIController {
 
     @Nullable
     public Tile getClosestVent() {
-        Seq<Tile> avaliableVents = PathfinderExtended.SteamVents;
-        Tile vent = Geometry.findClosest(this.unit.x, this.unit.y, avaliableVents.removeAll(tile -> tile.build != null));
-        return (vent != null && vent.build == null) ? vent : null;
+        Seq<Tile> avaliableVents = PathfinderExtended.SteamVents.removeAll(tile -> tile.build instanceof Heart.HeartBuilding);
+        Tile vent = Geometry.findClosest(this.unit.x, this.unit.y, avaliableVents);
+        return (vent != null && !(vent.build instanceof Heart.HeartBuilding)) ? vent : null;
     }
 
     @Override

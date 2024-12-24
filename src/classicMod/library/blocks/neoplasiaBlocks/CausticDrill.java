@@ -166,6 +166,7 @@ public class CausticDrill extends NeoplasmBlock {
                     offload(dominantItem);
                 }
             }
+            super.updateBeat();
         }
 
         @Override

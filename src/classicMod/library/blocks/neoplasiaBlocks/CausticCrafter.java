@@ -1,15 +1,14 @@
 package classicMod.library.blocks.neoplasiaBlocks;
 
 import arc.Core;
-import arc.util.Nullable;
-import mindustry.entities.Effect;
-import mindustry.type.*;
-import mindustry.gen.Building;
 import arc.graphics.g2d.Draw;
-import mindustry.world.blocks.production.GenericCrafter;
+import mindustry.entities.Effect;
+import mindustry.gen.Building;
+import mindustry.type.Item;
 
 public class CausticCrafter extends NeoplasmBlock{
 
+    public int perBeat = 0;
     public Item from, to;
     public Effect craftEffect;
     public CausticCrafter(String name) {
@@ -19,6 +18,7 @@ public class CausticCrafter extends NeoplasmBlock{
     }
 
     public class CausticCrafterBuild extends NeoplasmBuilding {
+        int beat = 0;
         public void ConvertTo(Item toItem, Item fromItem){
             if (toItem == null || fromItem == null || !items.has(fromItem)) return;
             int total = 1;
@@ -44,8 +44,14 @@ public class CausticCrafter extends NeoplasmBlock{
 
         @Override
         public void updateBeat() {
-            ConvertTo(to, from);
-            this.dump(to);
+            beat++;
+            if (beat >= perBeat) {
+                beat = 0;
+                if (craftEffect != null) craftEffect.at(x, y, to.color);
+                ConvertTo(to, from);
+                this.dump(to);
+            }
+            super.updateBeat();
         }
     }
 }

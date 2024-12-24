@@ -58,6 +58,7 @@ public class CausticTurret extends NeoplasmBlock {
                     bulletType.create(this, x, y, targetAngle);
                 }
             }
+            super.updateBeat();
         }
 
         /*@Override

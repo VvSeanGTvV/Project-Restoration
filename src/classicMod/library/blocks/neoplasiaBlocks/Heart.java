@@ -33,7 +33,7 @@ public class Heart extends NeoplasmBlock {
         attribute = Attribute.heat;
         hasItems = true;
 
-        liquidCapacity = 200f;
+        liquidCapacity = 1000f;
         priority = 2.0F;
         flags = EnumSet.of(BlockFlag.core);
         unitCapModifier = 10;
@@ -54,6 +54,7 @@ public class Heart extends NeoplasmBlock {
 
         @Override
         public void growCord(Block block) {
+
             int randRot = Mathf.range(4);
             Tile tile = nearbyTile(randRot);
             if (tile != null) {
@@ -69,8 +70,8 @@ public class Heart extends NeoplasmBlock {
 
         @Nullable
         public Tile getClosestVent() {
-            Seq<Tile> avaliableVents = PathfinderExtended.SteamVents;
-            Tile vent = Geometry.findClosest(this.x, this.y, avaliableVents.removeAll(tile -> tile.build != null));
+            Seq<Tile> avaliableVents = PathfinderExtended.SteamVents.removeAll(tile -> tile.build instanceof Heart.HeartBuilding);
+            Tile vent = Geometry.findClosest(this.x, this.y, avaliableVents);
             return (vent != null && vent.build == null) ? vent : null;
         }
 
@@ -85,7 +86,7 @@ public class Heart extends NeoplasmBlock {
                     unit.add();
                     //unit.vel.y = launchVelocity;
                     for (int i = 0; i < 5; i++) {
-                        Fx.neoplasmHeal.at(this.x + Mathf.random(1), this.y + Mathf.random(1));
+                        Fx.neoplasiaSmoke.at(this.x + Mathf.random(1), this.y + Mathf.random(1));
                     }
                     //Effect.shake(4f*1.5f, 5f, this);
                     //units.add(unit);
@@ -119,9 +120,6 @@ public class Heart extends NeoplasmBlock {
                     }
                 }
             }
-
-            ConvertTo(Items.oxide, Items.beryllium);
-            ConvertTo(Items.oxide, Items.graphite);
         }
 
         @Override

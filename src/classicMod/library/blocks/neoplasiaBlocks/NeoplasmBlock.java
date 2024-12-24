@@ -44,6 +44,9 @@ public class NeoplasmBlock extends Block {
 
         float drain = 0.25f;
 
+
+        public float previousBeat = 0f;
+
         Liquid blood = Liquids.neoplasm;
         public Seq<Tile> proximityTiles = new Seq<>();
 
@@ -221,7 +224,7 @@ public class NeoplasmBlock extends Block {
         }
 
         public void updateBeat(){
-
+            previousBeat = 0f;
         }
 
         public void updateAfterBeat(){
@@ -229,7 +232,7 @@ public class NeoplasmBlock extends Block {
         }
 
         public boolean deathImminent(){
-            return (liquidPressure <= 0f);
+            return (liquidPressure <= 0f) || previousBeat >= 600f;
         }
 
         public void death(){
@@ -333,9 +336,10 @@ public class NeoplasmBlock extends Block {
 
             takeBlood();
             timer += delta();
+            previousBeat += delta();
             if (timer >= 10f) {
                 timer = 0;
-                //liquids.remove(blood, drain); TODO something
+                //liquids.remove(blood, drain); //TODO something
             }
 
             if (!source){

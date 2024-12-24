@@ -229,7 +229,6 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
             boolean cordMode = true;
             if (grow) {
                 if (items.has(Items.beryllium) &&
-                        front() == null &&
                         left() == null &&
                         right() == null
                 ){
@@ -240,7 +239,6 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                 }
 
                 if (items.has(Items.graphite) &&
-                        front() == null &&
                         left() == null &&
                         right() == null
                 ){
@@ -249,7 +247,6 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                 }
 
                 if (items.has(Items.oxide) &&
-                        front() == null &&
                         left() == null &&
                         right() == null
                 ){
@@ -290,6 +287,7 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                     }
                 } if (cordMode) growCord(ClassicBlocks.cord);
             }
+            super.updateBeat();
         }
 
         @Override

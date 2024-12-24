@@ -62,7 +62,7 @@ public class PathfinderExtended extends Pathfinder {
         }
     }
     public static void preloadAddons(){
-        Events.on(EventType.WorldLoadEvent.class, (event) -> {
+        Events.on(EventType.WorldLoadEndEvent.class, (event) -> {
             for (Tile tile : Vars.world.tiles) {
                 if (tile.floor().attributes.get(Attribute.steam) >= 1f) {
                     float steam = 0f;
@@ -83,8 +83,6 @@ public class PathfinderExtended extends Pathfinder {
     }
 
     public static void addonFieldTypes(){
-
-
         fieldTypes.add(SteamVentField::new);
         fieldTypes.add(CommandCenterField::new);
     }
