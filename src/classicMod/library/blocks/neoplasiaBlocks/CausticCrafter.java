@@ -3,6 +3,7 @@ package classicMod.library.blocks.neoplasiaBlocks;
 import arc.util.Nullable;
 import mindustry.entities.Effect;
 import mindustry.type.*;
+import mindustry.world.*;
 import mindustry.world.blocks.production.GenericCrafter;
 
 public class CausticCrafter extends NeoplasmBlock{
