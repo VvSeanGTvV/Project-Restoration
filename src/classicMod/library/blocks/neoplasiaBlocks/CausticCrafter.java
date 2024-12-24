@@ -1,9 +1,11 @@
 package classicMod.library.blocks.neoplasiaBlocks;
 
+import arc.Core;
 import arc.util.Nullable;
 import mindustry.entities.Effect;
 import mindustry.type.*;
 import mindustry.gen.Building;
+import arc.graphics.g2d.Draw;
 import mindustry.world.blocks.production.GenericCrafter;
 
 public class CausticCrafter extends NeoplasmBlock{
