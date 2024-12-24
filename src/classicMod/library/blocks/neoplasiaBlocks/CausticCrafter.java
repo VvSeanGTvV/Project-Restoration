@@ -11,6 +11,8 @@ public class CausticCrafter extends NeoplasmBlock{
     public Effect craftEffect;
     public CausticCrafter(String name) {
         super(name);
+        itemCapacity = 10;
+        hasItems = true;
     }
 
     public class CausticCrafterBuild extends NeoplasmBuilding {
