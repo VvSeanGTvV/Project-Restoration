@@ -24,6 +24,11 @@ public class CausticCrafter extends NeoplasmBlock{
         }
 
         @Override
+        public boolean acceptItem(Building source, Item item) {
+            return item == from && items.get(item) < itemCapacity;
+        }
+
+        @Override
         public void updateBeat() {
             ConvertTo(from, to);
             this.dump(to);
