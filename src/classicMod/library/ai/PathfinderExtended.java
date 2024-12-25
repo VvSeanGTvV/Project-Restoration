@@ -1,9 +1,9 @@
 package classicMod.library.ai;
 
 import arc.Events;
-import arc.math.geom.QuadTree;
+import arc.math.geom.*;
 import arc.struct.*;
-import arc.util.Log;
+import arc.util.*;
 import mindustry.Vars;
 import mindustry.ai.Pathfinder;
 import mindustry.game.EventType;
@@ -61,6 +61,7 @@ public class PathfinderExtended extends Pathfinder {
             }
         }
     }
+
     public static void preloadAddons(){
         Events.on(EventType.WorldLoadEndEvent.class, (event) -> {
             for (Tile tile : Vars.world.tiles) {

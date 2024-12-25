@@ -9,7 +9,9 @@ import arc.util.*;
 import arc.util.io.*;
 import classicMod.AutotilerPlus;
 import classicMod.content.ClassicBlocks;
+import classicMod.library.ai.PathfinderExtended;
 import mindustry.Vars;
+import mindustry.ai.*;
 import mindustry.content.Items;
 import mindustry.entities.*;
 import mindustry.gen.Building;
@@ -182,6 +184,40 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                     cordBuild.prev = this;
                 }
             }
+            /*Tile next = pathfind(PathfinderExtended.fieldVent);
+            if (
+                    passable(next)
+                    && !ignorePath.contains(facingRot)
+                //&& passable(nearFront.block())
+            ){
+                Seq<Tile> nearTiles = new Seq<>(4);
+                for (var d : Geometry.d4) {
+                    Tile dTile = Vars.world.tile(next.x + d.x, next.y + d.y);
+                    int rot = this.tile.relativeTo(dTile);
+                    Tile nearRight = dTile.nearby(Mathf.mod(rot + 1, 4));
+                    Tile nearLeft = dTile.nearby(Mathf.mod(rot - 1, 4));
+                    if (
+                            passable(dTile)
+                            && passable(nearRight)
+                            && passable(nearLeft)
+                            && !ignorePath.contains(facingRot)
+                            && dTile.relativeTo(this.tile) != -1
+                        //&& passable(nearFront.block())
+                    ) {
+                        nearTiles.add(dTile);
+                    }
+                }
+                if (nearTiles.size > 0) {
+                    int selected = Mathf.clamp(Mathf.random(0, nearTiles.size), 0, nearTiles.size - 1);
+                    Tile nTile = nearTiles.get(selected);
+                    int rot = this.tile.relativeTo(nTile);
+                    if (!CantReplace(nTile.block())) nTile.setBlock(ClassicBlocks.cord, team);
+                    if (nTile.build != null && nTile.build instanceof CordBuild cordBuild) {
+                        cordBuild.facingRot = rot;
+                        cordBuild.prev = this;
+                    }
+                }
+            }*/
             super.growCord(block);
         }
 
@@ -189,6 +225,18 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
         public boolean deathImminent() {
             return (liquids.get(blood) <= liquidCapacity % 20 && !useful) ||
                     (super.deathImminent() && useful) || retry >= 5;
+        }
+
+        public Tile pathfind(int pathTarget) {
+            int costType = Pathfinder.costGround;
+            Tile tile = this.tile;
+            if (tile != null) {
+                Tile targetTile = Vars.pathfinder.getTargetTile(tile, Vars.pathfinder.getField(team, costType, pathTarget));
+                if (tile != targetTile && (costType != 2 || targetTile.floor().isLiquid)) {
+                    return targetTile;
+                }
+            }
+            return null;
         }
 
         @Override
