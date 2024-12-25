@@ -14,7 +14,7 @@ public class SteamHugAI extends AIController {
 
     @Nullable
     public Tile getClosestVent() {
-        Seq<Tile> avaliableVents = PathfinderExtended.SteamVents.removeAll(tile -> tile.build instanceof Heart.HeartBuilding);
+        Seq<Tile> avaliableVents = PathfinderExtended.SteamVents.copy().removeAll(tile -> tile.build instanceof Heart.HeartBuilding);
         Tile vent = Geometry.findClosest(this.unit.x, this.unit.y, avaliableVents);
         return (vent != null && !(vent.build instanceof Heart.HeartBuilding)) ? vent : null;
     }

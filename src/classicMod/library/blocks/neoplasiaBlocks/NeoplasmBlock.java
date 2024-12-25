@@ -232,7 +232,7 @@ public class NeoplasmBlock extends Block {
         }
 
         public boolean deathImminent(){
-            return (liquidPressure <= 0f) || previousBeat >= 600f;
+            return (liquidPressure <= 0f) || previousBeat >= 300f;
         }
 
         public void death(){

@@ -87,6 +87,9 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
         public int xscl;
         public int yscl;
         public int blending;
+
+        public int task = 0;
+
         @Nullable
         public CordBuild prev;
 
@@ -164,7 +167,7 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                 }
             }
 
-            boolean keepDir = Mathf.randomBoolean(0.98f);
+            /*boolean keepDir = Mathf.randomBoolean(0.98f);
             int i = Mathf.random(1, 4),
                     rot = (keepDir && !ignorePath.contains(facingRot)) ? facingRot : Mathf.mod(facingRot + i, 4);
             Tile near = nearbyTile(rot);
@@ -183,8 +186,10 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                     cordBuild.facingRot = rot;
                     cordBuild.prev = this;
                 }
-            }
-            /*Tile next = pathfind(PathfinderExtended.fieldVent);
+            }*/
+            //boolean VentTask = Mathf.randomBoolean(0.98f);
+            task = (task != 0) ? task : PathfinderExtended.fieldVent;
+            Tile next = pathfind(task); //VentTask) ? pathfind(PathfinderExtended.fieldVent) : pathfind(PathfinderExtended.fieldOres);
             if (
                     passable(next)
                     && !ignorePath.contains(facingRot)
@@ -213,11 +218,13 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                     int rot = this.tile.relativeTo(nTile);
                     if (!CantReplace(nTile.block())) nTile.setBlock(ClassicBlocks.cord, team);
                     if (nTile.build != null && nTile.build instanceof CordBuild cordBuild) {
+                        cordBuild.task = Mathf.randomBoolean(0.98f) ? task :
+                                Mathf.randomBoolean(0.5f) ? PathfinderExtended.fieldOres : PathfinderExtended.fieldVent;
                         cordBuild.facingRot = rot;
                         cordBuild.prev = this;
                     }
                 }
-            }*/
+            }
             super.growCord(block);
         }
 
@@ -275,14 +282,14 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
         @Override
         public void updateBeat() {
             boolean cordMode = true;
-            if (grow) {
+            if (grow) { //TODO some AI strategy block
                 if (items.has(Items.beryllium) &&
                         left() == null &&
                         right() == null
                 ){
                     if (Mathf.randomBoolean(0.5f)) ReplaceTo(ClassicBlocks.renaleSpawner);
-                    else if (Mathf.randomBoolean(0.5f)) ReplaceTo(ClassicBlocks.oxideCrafter);
-                    else ReplaceTo(ClassicBlocks.walkySpawner);
+                    else if (Mathf.randomBoolean(0.5f)) ReplaceTo(ClassicBlocks.walkySpawner);
+                    else ReplaceTo(ClassicBlocks.oxideCrafter);
                     cordMode = false;
                 }
 
@@ -462,6 +469,7 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
             super.write(write);
 
             write.i(facingRot);
+            write.i(task);
         }
 
         @Override
@@ -469,6 +477,7 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
             super.read(read, revision);
 
             facingRot = read.i();
+            task = read.i();
         }
     }
 }
