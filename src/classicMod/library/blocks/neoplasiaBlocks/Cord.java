@@ -213,15 +213,24 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                     }
                 }
                 if (nearTiles.size > 0) {
+                    /*nearTiles.sort(tile1 -> tile1.dst(getClosestVent()));
+                    Tile nTile = nearTiles.get(0);
+                    /*for (Tile selectedTile : nearTiles){
+                        if ()
+                        //Log.info(selectedTile.dst(getClosestVent()) + " | " + getClosestVent());
+                    }*/
+
                     int selected = Mathf.clamp(Mathf.random(0, nearTiles.size), 0, nearTiles.size - 1);
                     Tile nTile = nearTiles.get(selected);
-                    int rot = this.tile.relativeTo(nTile);
-                    if (!CantReplace(nTile.block())) nTile.setBlock(ClassicBlocks.cord, team);
-                    if (nTile.build != null && nTile.build instanceof CordBuild cordBuild) {
-                        cordBuild.task = Mathf.randomBoolean(0.98f) ? task :
-                                Mathf.randomBoolean(0.5f) ? PathfinderExtended.fieldOres : PathfinderExtended.fieldVent;
-                        cordBuild.facingRot = rot;
-                        cordBuild.prev = this;
+                    if (nTile != null) {
+                        int rot = this.tile.relativeTo(nTile);
+                        if (!CantReplace(nTile.block())) nTile.setBlock(ClassicBlocks.cord, team);
+                        if (nTile.build != null && nTile.build instanceof CordBuild cordBuild) {
+                            cordBuild.task = Mathf.randomBoolean(0.98f) ? task :
+                                    Mathf.randomBoolean(0.5f) ? PathfinderExtended.fieldOres : PathfinderExtended.fieldVent;
+                            cordBuild.facingRot = rot;
+                            cordBuild.prev = this;
+                        }
                     }
                 }
             }
@@ -244,6 +253,13 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                 }
             }
             return null;
+        }
+
+        @Nullable
+        public Tile getClosestVent() {
+            Seq<Tile> avaliableVents = PathfinderExtended.SteamVents.copy().removeAll(tile -> tile.build instanceof Heart.HeartBuilding);
+            Tile vent = Geometry.findClosest(x, y, avaliableVents);
+            return (vent != null && !(vent.build instanceof Heart.HeartBuilding)) ? vent : null;
         }
 
         @Override
