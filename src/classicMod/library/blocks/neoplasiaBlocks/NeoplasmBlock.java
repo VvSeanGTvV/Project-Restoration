@@ -111,7 +111,7 @@ public class NeoplasmBlock extends Block {
             return nearbyTile(rotation, 0);
         }
 
-        public boolean passable(Tile tile){
+        public boolean passable(Tile tile, boolean checkWall){
             if (tile == null) return false;
 
             Block block = tile.block();
@@ -119,7 +119,7 @@ public class NeoplasmBlock extends Block {
             if (tile.floor() != null && tile.floor().liquidDrop != null) return false;
 
             return !(
-                            block instanceof StaticWall ||
+                            (block instanceof StaticWall && checkWall) ||
                             block == pipe
                     )
                     && (
@@ -232,7 +232,7 @@ public class NeoplasmBlock extends Block {
         }
 
         public boolean deathImminent(){
-            return (liquidPressure <= 0f) || previousBeat >= 300f;
+            return false;//(liquidPressure <= 0f) || previousBeat >= 300f;
         }
 
         public void death(){

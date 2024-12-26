@@ -87,7 +87,7 @@ public class PathfinderExtended extends Pathfinder {
                     for (int dy = -1; dy < 2; dy++) {
                         for (int dx = -1; dx < 2; dx++) {
                             Tile vents = Vars.world.tile(tile.x + dx, tile.y + dy);
-                            if (vents == null || vents.build instanceof Heart.HeartBuilding || vents.floor().attributes.get(Attribute.steam) <= 0f)
+                            if (vents == null || vents.floor().attributes.get(Attribute.steam) <= 0f)
                                 continue;
                             steam += vents.floor().attributes.get(Attribute.steam);
                         }

@@ -29,7 +29,7 @@ public class SteamHugAI extends AIController {
         }
         faceMovement();
         Tile tile = unit.tileOn();
-        if (tile != null && tile.floor().attributes.get(Attribute.steam) >= 1f && tile.build == null) {
+        if (tile != null && tile.floor().attributes.get(Attribute.steam) >= 1f) {
             float steam = 0f;
             for (int dy = -1; dy < 2; dy++) {
                 for (int dx = -1; dx < 2; dx++) {

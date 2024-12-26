@@ -191,7 +191,7 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
             task = (task != 0) ? task : PathfinderExtended.fieldVent;
             Tile next = pathfind(task); //VentTask) ? pathfind(PathfinderExtended.fieldVent) : pathfind(PathfinderExtended.fieldOres);
             if (
-                    passable(next)
+                    passable(next, true)
                     && !ignorePath.contains(facingRot)
                 //&& passable(nearFront.block())
             ){
@@ -201,10 +201,12 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                     int rot = this.tile.relativeTo(dTile);
                     Tile nearRight = dTile.nearby(Mathf.mod(rot + 1, 4));
                     Tile nearLeft = dTile.nearby(Mathf.mod(rot - 1, 4));
+                    Tile nearFront = dTile.nearby(rot);
                     if (
-                            passable(dTile)
-                            && passable(nearRight)
-                            && passable(nearLeft)
+                            passable(dTile, true)
+                            && passable(nearRight, false)
+                            && passable(nearLeft, false)
+                            && passable(nearFront, true)
                             && !ignorePath.contains(facingRot)
                             && dTile.relativeTo(this.tile) != -1
                         //&& passable(nearFront.block())
@@ -213,15 +215,17 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                     }
                 }
                 if (nearTiles.size > 0) {
-                    /*nearTiles.sort(tile1 -> tile1.dst(getClosestVent()));
-                    Tile nTile = nearTiles.get(0);
-                    /*for (Tile selectedTile : nearTiles){
-                        if ()
-                        //Log.info(selectedTile.dst(getClosestVent()) + " | " + getClosestVent());
+                    Tile nTile = null;
+                    /*if (task == PathfinderExtended.fieldVent && getClosestVent() != null) {
+                        nearTiles.sort(tile1 -> tile1.dst(getClosestVent()));
+                        nTile = nearTiles.get(0);
+                    }
+                    if (task == PathfinderExtended.fieldOres && getClosestOre() != null){
+                        nearTiles.sort(tile1 -> tile1.dst(getClosestOre()));
+                        nTile = nearTiles.get(0);
                     }*/
-
                     int selected = Mathf.clamp(Mathf.random(0, nearTiles.size), 0, nearTiles.size - 1);
-                    Tile nTile = nearTiles.get(selected);
+                    nTile = nearTiles.get(selected);
                     if (nTile != null) {
                         int rot = this.tile.relativeTo(nTile);
                         if (!CantReplace(nTile.block())) nTile.setBlock(ClassicBlocks.cord, team);
@@ -239,8 +243,7 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
 
         @Override
         public boolean deathImminent() {
-            return (liquids.get(blood) <= liquidCapacity % 20 && !useful) ||
-                    (super.deathImminent() && useful) || retry >= 5;
+            return super.deathImminent() || retry >= 5;
         }
 
         public Tile pathfind(int pathTarget) {
@@ -254,6 +257,13 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
             }
             return null;
         }
+        @Nullable
+        public Tile getClosestOre() {
+            Seq<Tile> avaliableOres = PathfinderExtended.Ores.copy();
+            Tile ore = Geometry.findClosest(x, y, avaliableOres);
+            return ore;
+        }
+
 
         @Nullable
         public Tile getClosestVent() {
@@ -266,6 +276,10 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
         public void update() {
             super.update();
             if (prev != null && retry >= 5){
+                if (task == PathfinderExtended.fieldVent) {
+                    task = PathfinderExtended.fieldOres;
+                    retry = 0;
+                } else
                 if (!prev.ignorePath.contains(facingRot)) prev.ignorePath.add(facingRot);
             }
             this.block.nearbySide(tile.x, tile.y, Mathf.mod(facingRot, 4), 0, Tmp.p1);

@@ -97,9 +97,10 @@ public class RUnitTypes {
 
             weapons.add(new Weapon() {{
                 x = y = 0;
-                reload = 6f;
+                reload = 60f;
                 ejectEffect = Fx.none;
                 shootSound = Sounds.pew;
+                inaccuracy = 10f;
 
                 shoot = new ShootPattern(){{
                     shots = 3;
