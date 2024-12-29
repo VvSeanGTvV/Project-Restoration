@@ -207,11 +207,28 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                             && passable(nearRight, false)
                             && passable(nearLeft, false)
                             && passable(nearFront, true)
-                            && !ignorePath.contains(facingRot)
+                            //&& !ignorePath.contains(facingRot)
                             && dTile.relativeTo(this.tile) != -1
                         //&& passable(nearFront.block())
                     ) {
                         nearTiles.add(dTile);
+                    }
+                }
+                if (nearTiles.size <= 0 && next.relativeTo(this.tile) != -1){
+                    int rot = this.tile.relativeTo(next);
+                    Tile nearRight = next.nearby(Mathf.mod(rot + 1, 4));
+                    Tile nearLeft = next.nearby(Mathf.mod(rot - 1, 4));
+                    //Tile nearFront = next.nearby(rot);
+                    if (
+                            passable(next, true)
+                                    && passable(nearRight, false)
+                                    && passable(nearLeft, false)
+                                    //&& passable(nearFront, true)
+                                    && !ignorePath.contains(facingRot)
+                                    && next.relativeTo(this.tile) != -1
+                        //&& passable(nearFront.block())
+                    ) {
+                        nearTiles.add(next);
                     }
                 }
                 if (nearTiles.size > 0) {
