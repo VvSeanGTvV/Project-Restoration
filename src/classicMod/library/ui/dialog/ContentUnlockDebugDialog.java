@@ -1,18 +1,21 @@
 package classicMod.library.ui.dialog;
 
 import arc.Events;
+import arc.graphics.Color;
 import arc.math.geom.Vec2;
-import arc.scene.ui.ScrollPane;
-import arc.scene.ui.layout.Table;
+import arc.scene.ui.*;
+import arc.scene.ui.layout.*;
 import arc.util.Scaling;
 import classicMod.ClassicMod;
 import mindustry.Vars;
+import mindustry.core.UI;
+import mindustry.ctype.UnlockableContent;
 import mindustry.game.EventType;
 import mindustry.gen.*;
 import mindustry.graphics.Pal;
 import mindustry.type.*;
 import mindustry.ui.Styles;
-import mindustry.ui.dialogs.BaseDialog;
+import mindustry.ui.dialogs.*;
 import mindustry.world.blocks.environment.*;
 
 import static mindustry.Vars.*;
@@ -41,13 +44,17 @@ public class ContentUnlockDebugDialog extends BaseDialog {
         }
 
         rebuild();
+    }
 
-        show();
+    @Override
+    public Dialog show() {
+        rebuild();
+        return super.show();
     }
 
     public void addUnlockAllButton(float width){
         buttons.defaults().size(width, 64f);
-        buttons.button("@unlockall", Icon.download, () -> {
+        buttons.button("@unlockall", Icon.lockOpen, () -> {
             ClassicMod.unlockAll();
             rebuild();
         }).size(width, 64f);
@@ -59,7 +66,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
 
     public void addLockAllButton(float width){
         buttons.defaults().size(width, 64f);
-        buttons.button("@lockall", Icon.download, () -> {
+        buttons.button("@lockall", Icon.lock, () -> {
             ClassicMod.lockAll();
             rebuild();
         }).size(width, 64f);
@@ -89,31 +96,61 @@ public class ContentUnlockDebugDialog extends BaseDialog {
         }).size(64f, 64f);
     }
 
+
+
+    Table createButton(UnlockableContent content){
+        float transformH = 60f, transformX = 130f;
+        float sectorH = 60f, sectorX = 130f;
+        float buttonH = 60f, buttonX = 160f;
+        return new Table(){{
+            if (content.alwaysUnlocked) {
+                add("@alwaysUnlock").pad(2.5f).color(Pal.accent);
+            } else {
+                if (content.unlocked()) {
+                    button("@lock", Icon.lock, () -> {
+                        content.clearUnlock();
+                        rebuild();
+                    }).size(buttonX, buttonH).pad(2.5f);
+                }
+                else button("@unlock", Icon.lockOpen, () -> {
+                    content.unlock();
+                    rebuild();
+                }).size(buttonX, buttonH).pad(2.5f);
+            }
+            if (content.alwaysUnlocked || content.unlocked()){
+                button("@database", Icon.bookOpen, () -> {
+                    ui.content.show(content);
+                }).size(buttonX, buttonH).pad(2.5f);
+                if (content instanceof UnitType unitType) button("@transform", () -> {
+                    spawnMech(unitType, player);
+                }).size(transformX, transformH).pad(2.5f);
+                if (content instanceof SectorPreset sector) button("@launch-to", () -> {
+                    StartSector(sector);
+                    hide();
+                }).size(sectorX, sectorH).pad(2.5f);
+            }
+        }};
+    }
+
+    Table buildInformation(UnlockableContent content){
+        return new Table(){{
+            image(content.fullIcon).size(32f).scaling(Scaling.fit).left();
+            table(details -> {
+                details.add(content.localizedName).row();
+                details.add(content.isModded() ? content.minfo.mod.meta.displayName : "Mindustry").color(!content.isModded() ? Color.white : Pal.redLight);
+            }).pad(10f).left();
+        }};
+    }
+
     void rebuildTable(){
         Items = new Table() {{
             for (var Content : Vars.content.items()) {
                 if(Content.isHidden()) continue;
                 table(Styles.grayPanel, info -> {
-                    info.table(details -> {
-                        details.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
-                        details.add(Content.localizedName).left().pad(10f);
-                    });
+                    info.add(buildInformation(Content)).grow().pad(10f).left().row();
 
                     info.row();
-                    info.table(yes -> {
-                        if (Content.alwaysUnlocked) {
-                            yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent);
-                        } else {
-                            if (Content.unlocked()) yes.button("@lock", () -> {
-                                Content.clearUnlock();
-                                rebuild();
-                            }).size(buttonWidth, buttonHeight).pad(2.5f);
-                            else yes.button("@unlock", () -> {
-                                Content.unlock();
-                                rebuild();
-                            }).size(buttonWidth, buttonHeight).pad(2.5f);
-                        }
-                    }).left().pad(2.5f);
+                    info.add(createButton(Content)).grow().left().pad(2.5f).center();
                 }).growX().left().pad(10f);
                 row();
             }
@@ -123,26 +160,10 @@ public class ContentUnlockDebugDialog extends BaseDialog {
             for (var Content : Vars.content.liquids()) {
                 if(Content.isHidden()) continue;
                 table(Styles.grayPanel, info -> {
-                    info.table(details -> {
-                        details.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
-                        details.add(Content.localizedName).left().pad(10f);
-                    });
+                    info.add(buildInformation(Content)).grow().pad(10f).left().row();
 
                     info.row();
-                    info.table(yes -> {
-                        if (Content.alwaysUnlocked) {
-                            yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent);
-                        } else {
-                            if (Content.unlocked()) yes.button("@lock", () -> {
-                                Content.clearUnlock();
-                                rebuild();
-                            }).size(buttonWidth, buttonHeight).pad(2.5f);
-                            else yes.button("@unlock", () -> {
-                                Content.unlock();
-                                rebuild();
-                            }).size(buttonWidth, buttonHeight).pad(2.5f);
-                        }
-                    }).left().pad(2.5f);
+                    info.add(createButton(Content)).grow().left().pad(2.5f).center();
                 }).growX().left().pad(10f);
                 row();
             }
@@ -159,26 +180,10 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                         Content.isHidden()
                 ) continue;
                 table(Styles.grayPanel, info -> {
-                    info.table(details -> {
-                        details.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
-                        details.add(Content.localizedName).left().pad(10f);
-                    });
+                    info.add(buildInformation(Content)).grow().pad(10f).left().row();
 
                     info.row();
-                    info.table(yes -> {
-                        if(Content.alwaysUnlocked) {
-                            yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent);
-                        } else {
-                            if (Content.unlocked()) yes.button("@lock", () -> {
-                                Content.clearUnlock();
-                                rebuild();
-                            }).size(buttonWidth, buttonHeight).pad(2.5f);
-                            else yes.button("@unlock", () -> {
-                                Content.unlock();
-                                rebuild();
-                            }).size(buttonWidth, buttonHeight).pad(2.5f);
-                        }
-                    }).left().pad(2.5f);
+                    info.add(createButton(Content)).grow().left().pad(2.5f).center();
                 }).growX().left().pad(10f);
                 row();
             }
@@ -188,35 +193,10 @@ public class ContentUnlockDebugDialog extends BaseDialog {
             for (var Content : Vars.content.units()){
                 if(Content.isHidden()) continue;
                 table(Styles.grayPanel, info -> {
-                    info.table(details -> {
-                        details.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
-                        details.add(Content.localizedName).left().pad(10f);
-                    });
+                    info.add(buildInformation(Content)).grow().pad(10f).left().row();
 
                     info.row();
-                    info.table(yes -> {
-                        if(Content.alwaysUnlocked) {
-                            yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent).row();
-                            yes.button("@transform", () -> {
-                                spawnMech(Content, player);
-                            }).size(buttonWidth, buttonHeight).pad(2.5f);
-                        } else {
-                            if (Content.unlocked()) {
-                                yes.button("@lock", () -> {
-                                    Content.clearUnlock();
-                                    rebuild();
-                                }).size(buttonWidth, buttonHeight).pad(2.5f);
-
-                                yes.button("@transform", () -> {
-                                    spawnMech(Content, player);
-                                }).size(buttonWidth * 1.5f, buttonHeight).pad(2.5f);
-
-                            } else yes.button("@unlock", () -> {
-                                Content.unlock();
-                                rebuild();
-                            }).size(buttonWidth, buttonHeight).pad(2.5f);
-                        }
-                    }).left().pad(2.5f);
+                    info.add(createButton(Content)).grow().left().pad(2.5f).center();
                 }).growX().left().pad(10f);
                 row();
             }
@@ -226,27 +206,11 @@ public class ContentUnlockDebugDialog extends BaseDialog {
             for (var Content : Vars.content.statusEffects()){
                 if(Content.isHidden()) continue;
                 table(Styles.grayPanel, info -> {
-                    info.table(details -> {
-                        details.image(Content.fullIcon).size(32f).scaling(Scaling.fit).pad(10f).left();
-                        details.add(Content.localizedName).left().pad(10f);
-                    });
+                    info.add(buildInformation(Content)).grow().pad(10f).left().row();
 
                     info.row();
-                    info.table(yes -> {
-                        if(Content.alwaysUnlocked) {
-                            yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent);
-                        } else {
-                            if (Content.unlocked()) yes.button("@lock", () -> {
-                                Content.clearUnlock();
-                                rebuild();
-                            }).size(buttonWidth, buttonHeight).pad(2.5f);
-                            else yes.button("@unlock", () -> {
-                                Content.unlock();
-                                rebuild();
-                            }).size(buttonWidth, buttonHeight).pad(2.5f);
-                        }
-                    }).left().pad(2.5f);
-                }).left().pad(10f);
+                    info.add(createButton(Content)).grow().left().pad(2.5f).center();
+                }).growX().left().pad(10f);
                 row();
             }
         }};
@@ -255,36 +219,11 @@ public class ContentUnlockDebugDialog extends BaseDialog {
             for (var Content : Vars.content.sectors()) {
                 if(Content.isHidden()) continue;
                 table(Styles.grayPanel, info -> {
-                    info.table(details -> {
-                        details.image(Icon.icons.get(Content.planet.icon + "Small", Icon.icons.get(Content.planet.icon, Icon.commandRallySmall))).size(32f).scaling(Scaling.fit).pad(10f).left().color(Content.planet.iconColor);
-                        details.add(Content.localizedName).left().pad(10f);
-                    });
+                    info.add(buildInformation(Content)).grow().pad(10f).left().row();
 
                     info.row();
-                    info.table(yes -> {
-                        if (Content.alwaysUnlocked) {
-                            yes.add("@alwaysUnlock").pad(2.5f).color(Pal.accent).row();
-                            yes.button("@launch-to", () -> {
-                                StartSector(Content);
-                                hide();
-                            }).size(105f, 64f).pad(2.5f);
-                        } else {
-                            if (Content.unlocked()) {
-                                yes.button("@lock", () -> {
-                                    Content.clearUnlock();
-                                    rebuild();
-                                }).size(buttonWidth, buttonHeight).pad(2.5f);
-                                yes.button("@launch-to", () -> {
-                                    StartSector(Content);
-                                    hide();
-                                }).size(105f, 64f).pad(2.5f);
-                            } else yes.button("@unlock", () -> {
-                                Content.unlock();
-                                rebuild();
-                            }).size(buttonWidth, buttonHeight).pad(2.5f);
-                        }
-                    }).left().pad(2.5f);
-                }).left().pad(10f);
+                    info.add(createButton(Content)).grow().left().pad(2.5f).center();
+                }).growX().left().pad(10f);
                 row();
             }
         }};

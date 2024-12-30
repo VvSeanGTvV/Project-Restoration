@@ -1,20 +1,32 @@
 package classicMod.library.ui;
 
-import arc.Core;
+import arc.*;
+import arc.graphics.Color;
 import arc.scene.style.*;
 import arc.scene.ui.*;
-import arc.scene.ui.layout.Cell;
+import arc.scene.ui.layout.*;
 import arc.scene.utils.Elem;
 import arc.util.*;
-import classicMod.library.ui.dialog.TechTreeDialog;
-import mindustry.gen.Tex;
+import classicMod.AutoUpdate;
+import classicMod.library.EventTypeExtended;
+import classicMod.library.ui.dialog.*;
+import mindustry.gen.*;
+import mindustry.graphics.Pal;
+import mindustry.ui.Styles;
 import mindustry.ui.dialogs.SettingsMenuDialog;
+
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import static classicMod.ClassicMod.*;
+import static mindustry.gen.Icon.icons;
 
 public class UIExtended {
     public static TechTreeDialog Techtree;
+    public static ContentUnlockDebugDialog contentUnlockDebugDialog;
 
     public static void init() {
         Techtree = new TechTreeDialog();
+        contentUnlockDebugDialog = new ContentUnlockDebugDialog();
     }
 
     /**
@@ -52,6 +64,8 @@ public class UIExtended {
 
     public static class Separator extends SettingsMenuDialog.SettingsTable.Setting { //This is from prog-mats-java!
         float height;
+        Color textColor = Color.gray;
+        Label.LabelStyle textFontStyle = Styles.outlineLabel;
 
         public Separator(String name) {
             super(name);
@@ -62,16 +76,80 @@ public class UIExtended {
             this.height = height;
         }
 
+        public Separator(float height, Color textColor) {
+            this("");
+            this.height = height;
+            this.textColor = textColor;
+        }
+
+        public Separator(float height, Label.LabelStyle textFontStyle) {
+            this("");
+            this.height = height;
+            this.textFontStyle = textFontStyle;
+        }
+
+        public Separator(float height, Color textColor, Label.LabelStyle textFontStyle) {
+            this("");
+            this.height = height;
+            this.textColor = textColor;
+            this.textFontStyle = textFontStyle;
+        }
+
         @Override
         public void add(SettingsMenuDialog.SettingsTable table) {
             if (name.isEmpty()) {
                 table.image(Tex.clear).height(height).padTop(3f);
             } else {
                 table.table(t -> {
-                    t.add(title).padTop(4f);
-                }).get().background(Tex.underline);
+                    t.add(title).color(textColor).style(textFontStyle).padTop(4f);
+                }).growX().get().background(Tex.underline);
             }
             table.row();
+        }
+    }
+
+    public static class ModInformation extends SettingsMenuDialog.SettingsTable.Setting {
+        boolean center;
+
+        AtomicBoolean overBuild = new AtomicBoolean(!AutoUpdate.overBuild);
+
+        public ModInformation(String name, boolean center) {
+            super(name);
+            this.center = center;
+        }
+
+        @Override
+        public void add(SettingsMenuDialog.SettingsTable table) {
+            Events.on(EventTypeExtended.UpdateInformation.class, e -> {
+                overBuild.set(e.overBuild);
+                table.rebuild();
+            });
+            Table info = new Table(){{
+
+                add("Mod Version: "+ModVersion).color(Pal.lightishGray).padTop(4f).row();
+                add("Build Version: "+BuildVer).color(Pal.lightishGray).padTop(4f).row();
+                add(new Table(){{
+                    add("Latest Release: ").color((!overBuild.get()) ? Pal.lightishGray : Pal.redLight);
+                    if (!overBuild.get()) add(new Image(Icon.ok)).color(Pal.heal).size(16f).center(); else add(new Image(Icon.cancel)).color(Pal.remove).size(16f).center();
+                }}).padTop(4f).row();
+                add(new Table(){{
+                    add("Development Release: ").color((overBuild.get()) ? Pal.lightishGray : Pal.redLight);
+                    if (overBuild.get()) add(new Image(Icon.ok)).color(Pal.heal).size(16f).center(); else add(new Image(Icon.cancel)).color(Pal.remove).size(16f).center();
+                }}).padTop(4f).row();
+
+                if (false) {
+                    for (var key : icons.keys()) {
+                        var ico = icons.get(key);
+                        add(new Image(ico));
+                        add(" | " + key);
+                        row();
+                    }
+                    ;
+                }
+            }};
+            if (center) table.add(info).center(); else table.add(info);
+            table.row();
+
         }
     }
 
@@ -102,12 +180,22 @@ public class UIExtended {
         Drawable icon;
         Runnable listener;
         float iconSize;
+        boolean center;
 
         public ButtonSetting(String name, Drawable icon, Runnable listener, float iconSize) {
             super(name);
             this.icon = icon;
             this.listener = listener;
             this.iconSize = iconSize;
+            this.center = false;
+        }
+
+        public ButtonSetting(String name, Drawable icon, Runnable listener, float iconSize, boolean center) {
+            super(name);
+            this.icon = icon;
+            this.listener = listener;
+            this.iconSize = iconSize;
+            this.center = center;
         }
 
         @Override
@@ -117,7 +205,8 @@ public class UIExtended {
             b.label(() -> title).padLeft(6).growX();
             b.center();
 
-            addDesc(table.add(b).left().padTop(3f).get());
+            if (!center) addDesc(table.add(b).left().padTop(3f).get());
+            else addDesc(table.add(b).left().center().padTop(3f).get());
             table.row();
         }
     }

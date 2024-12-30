@@ -224,7 +224,7 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                                     && passable(nearRight, false)
                                     && passable(nearLeft, false)
                                     //&& passable(nearFront, true)
-                                    && !ignorePath.contains(facingRot)
+                                    //&& !ignorePath.contains(facingRot)
                                     && next.relativeTo(this.tile) != -1
                         //&& passable(nearFront.block())
                     ) {
@@ -233,16 +233,16 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                 }
                 if (nearTiles.size > 0) {
                     Tile nTile = null;
-                    /*if (task == PathfinderExtended.fieldVent && getClosestVent() != null) {
+                    if (task == PathfinderExtended.fieldVent && getClosestVent() != null) {
                         nearTiles.sort(tile1 -> tile1.dst(getClosestVent()));
                         nTile = nearTiles.get(0);
                     }
                     if (task == PathfinderExtended.fieldOres && getClosestOre() != null){
                         nearTiles.sort(tile1 -> tile1.dst(getClosestOre()));
                         nTile = nearTiles.get(0);
-                    }*/
-                    int selected = Mathf.clamp(Mathf.random(0, nearTiles.size), 0, nearTiles.size - 1);
-                    nTile = nearTiles.get(selected);
+                    }
+                    //int selected = Mathf.clamp(Mathf.random(0, nearTiles.size), 0, nearTiles.size - 1);
+                    //nTile = nearTiles.get(selected);
                     if (nTile != null) {
                         int rot = this.tile.relativeTo(nTile);
                         if (!CantReplace(nTile.block())) nTile.setBlock(ClassicBlocks.cord, team);

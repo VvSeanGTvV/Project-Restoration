@@ -1,10 +1,12 @@
 package classicMod;
 
+import arc.Events;
 import arc.files.*;
 import arc.util.*;
 import arc.util.Http.HttpResponse;
 import arc.util.io.Streams;
 import arc.util.serialization.Jval;
+import classicMod.library.EventTypeExtended;
 import mindustry.mod.Mods.LoadedMod;
 
 import java.net.URLClassLoader;
@@ -35,7 +37,7 @@ public class AutoUpdate {
         mod.meta.description = meta.getString("description");
     }
 
-    public static void check() {
+    public static void check(boolean checkOnly) {
         Log.info("Checking for updates.");
         Http.get(url, res -> {
             Log.info("MOD RECEIVE "+ClassicMod.BuildVer);
@@ -49,7 +51,8 @@ public class AutoUpdate {
 
             //check if Build is not in the latest
             overBuild = (modBuild > latestBuild);
-            if (modBuild < latestBuild)
+            Events.fire(new EventTypeExtended.UpdateInformation(overBuild, latestBuild));
+            if (modBuild < latestBuild && !checkOnly)
             {ui.showCustomConfirm(
                     "@updater.restored-mind.name", bundle.format("updater.restored-mind.info", mod.meta.version, latest),
                     "@updater.restored-mind.load", "@ok", AutoUpdate::update, () -> {});

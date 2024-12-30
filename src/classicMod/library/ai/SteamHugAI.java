@@ -2,7 +2,7 @@ package classicMod.library.ai;
 
 import arc.math.geom.Geometry;
 import arc.struct.Seq;
-import arc.util.Nullable;
+import arc.util.*;
 import classicMod.content.ClassicBlocks;
 import classicMod.library.blocks.neoplasiaBlocks.Heart;
 import mindustry.Vars;
@@ -30,18 +30,8 @@ public class SteamHugAI extends AIController {
         faceMovement();
         Tile tile = unit.tileOn();
         if (tile != null && tile.floor().attributes.get(Attribute.steam) >= 1f) {
-            float steam = 0f;
-            for (int dy = -1; dy < 2; dy++) {
-                for (int dx = -1; dx < 2; dx++) {
-                    Tile vents = Vars.world.tile(tile.x + dx, tile.y + dy);
-                    if (vents != null && vents.build == null)
-                        steam += vents.floor().attributes.get(Attribute.steam);
-                }
-            }
-            if (steam >= 9f) {
-                tile.setBlock(ClassicBlocks.cord, unit.team);
-                unit.kill();
-            }
+            tile.setBlock(ClassicBlocks.cord, unit.team);
+            unit.kill();
         }
     }
 }

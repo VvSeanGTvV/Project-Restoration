@@ -2,7 +2,9 @@ package classicMod;
 
 import arc.*;
 import arc.func.Func;
+import arc.scene.Element;
 import arc.scene.ui.Dialog;
+import arc.scene.ui.layout.Cell;
 import arc.struct.Seq;
 import arc.util.*;
 import classicMod.content.*;
@@ -17,6 +19,7 @@ import mindustry.mod.Mod;
 import mindustry.mod.Mods.LoadedMod;
 import mindustry.type.UnitType;
 import mindustry.ui.Styles;
+import mindustry.ui.dialogs.BaseDialog;
 import mindustry.ui.fragments.MenuFragment;
 
 import static arc.Core.*;
@@ -26,9 +29,9 @@ import static mindustry.Vars.*;
 
 public class ClassicMod extends Mod{
     /** Mod's current Version **/
-    public static String ModVersion = "4.5 Pre-Alpha";
+    public static String ModVersion = "5.0 Pre-Alpha";
     /** Mod's current Build **/
-    public static final String BuildVer = "13";
+    public static final String BuildVer = "14";
     /** Mod's internal name **/
     public static String internalMod = "restored-mind";
     public static LoadedMod resMod = mods.locateMod(internalMod);
@@ -119,7 +122,7 @@ public class ClassicMod extends Mod{
     public void init() {
         if (settings.getBool("use-planetmenu")) MenuUI.load();
         AutoUpdate.load();
-        if(!settings.getBool("ignore-update")) AutoUpdate.check();
+        AutoUpdate.check(settings.getBool("ignore-update"));
 
         if(!headless) {
             resMod = mods.locateMod("restored-mind");
@@ -138,8 +141,14 @@ public class ClassicMod extends Mod{
     }
 
     private void loadSettings() {
-        ui.settings.addCategory("@setting.restored-mind", "restored-mind-icoMenu", t -> {
-            //t.pref(new UIExtended.Banner("restored-mind-logoMod", -1));
+
+        for (Cell test : ui.settings.buttons.getCells()){
+            Log.info(test.get().name);
+            Element actor = test.get();
+            ui.settings.removeChild(actor);
+        }
+        ui.settings.addCategory("@setting.restored-mind", Icon.bookOpen, t -> {
+            t.pref(new UIExtended.Banner("restored-mind-cat", -1));
             t.pref(new UIExtended.Separator("restored-graphic"));
             t.checkPref("use-planetmenu", false);
             t.checkPref("use-lastplanet-bg", false);
@@ -162,14 +171,16 @@ public class ClassicMod extends Mod{
                 t.checkPref("content-v4", false);
             }
 
-            t.pref(new UIExtended.ButtonSetting(Core.bundle.get("credits"), Icon.info, epicCreditsDialog::new, 32));
-            t.pref(new UIExtended.ButtonSetting(getModBundle.get(resMod.meta.name + "-debug.unlock"), Icon.download, ContentUnlockDebugDialog::new, 32));
+            t.pref(new UIExtended.Separator("restored-link"));
+            t.pref(new UIExtended.ButtonSetting("restored-youtube", Icon.play, () -> Core.app.openURI("https://www.youtube.com/@vvseangtvv"), 32, true));
+            t.pref(new UIExtended.ButtonSetting("restored-github", Icon.github, () -> Core.app.openURI("https://github.com/VvSeanGTvV/Project-Restoration"), 32, true));
+            t.pref(new UIExtended.ButtonSetting(Core.bundle.get("credits"), Icon.info, epicCreditsDialog::new, 32, true));
+            t.pref(new UIExtended.Separator("restored-information"));
             t.row();
-            t.add(resMod.meta.displayName+" - Info").padTop(4f).row();
-            t.add("Mod Version: "+ModVersion).row();
-            t.add("Build Version: "+BuildVer).row();
-            t.add("Latest Release: "+!AutoUpdate.overBuild).row();
+            t.pref(new UIExtended.ButtonSetting(getModBundle.get(resMod.meta.name + "-debug.unlock"), Icon.download, () -> UIExtended.contentUnlockDebugDialog.show(), 32, true));
+            t.pref(new UIExtended.ModInformation("restored-mod-information", true));
             settings.defaults("launched-planetary", false);
+            //t.add(resMod.meta.displayName+" - Info").padTop(4f).row();
             //t.checkPref("launched-planetary", false);
             //t.add("Mobile VSync: "+settings.getBool("vsync")).row();
             //t.add("Latest Pre-Release: "+AutoUpdate.overBuild).row();

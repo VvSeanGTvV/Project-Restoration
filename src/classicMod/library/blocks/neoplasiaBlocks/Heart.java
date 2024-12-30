@@ -61,7 +61,7 @@ public class Heart extends NeoplasmBlock {
                 if (tile.build == null) {
                     tile.setBlock(block, team);
                     if (tile.build != null && tile.build instanceof Cord.CordBuild cordBuild) {
-                        cordBuild.facingRot = randRot;
+                        cordBuild.facingRot = cordBuild.relativeTo(this.tile);
                     }
                 }
             }
