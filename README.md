@@ -3,6 +3,8 @@
 <p align="center"> Much more advance scripting, and more classic buildings. sup </p>
 <p align="center"><strong> v4.0 </strong></p>
 
+> [!NOTE]
+> This Mod is still in Beta/Alpha expect bugs.
 
 ![GitHub Release](https://img.shields.io/github/v/release/VvSeanGTvV/Project-Restoration?display_name=tag&style=for-the-badge&label=Latest%20Build)
 ![GitHub Downloads (all assets, latest release)](https://img.shields.io/github/downloads/VvSeanGTvV/Project-Restoration/latest/total?style=for-the-badge&label=Latest%20Build%20Downloads)
@@ -56,3 +58,7 @@ v8 Neoplasia
 <p align="left"><font color="red"><strong>EyeOfDarkness#0350 - Advance Content mod!</strong></font></p>
 <p align="left"><font color="#87cefa"><strong>WilloIzCitron#8360 - Banner & ButtonSetting & Music Player</strong></font></p>
 <p align="left"><font color="#f08080"><strong>xzxADIxzx#7729 - for Automatic Update in Scheme Size Mod</strong></font></p>
+
+## --- Starz ---
+
+[![Star History Chart](https://api.star-history.com/svg?repos=VvSeanGTvV/Project-Restoration&type=Date)](https://star-history.com/#VvSeanGTvV/Project-Restoration&Date)
