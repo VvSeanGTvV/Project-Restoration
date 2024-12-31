@@ -177,7 +177,7 @@ public class ClassicMod extends Mod{
             t.pref(new UIExtended.ButtonSetting(Core.bundle.get("credits"), Icon.info, epicCreditsDialog::new, 32, true));
             t.pref(new UIExtended.Separator("restored-information"));
             t.row();
-            t.pref(new UIExtended.ButtonSetting(getModBundle.get(resMod.meta.name + "-debug.unlock"), Icon.download, () -> UIExtended.contentUnlockDebugDialog.show(), 32, true));
+            t.pref(new UIExtended.ButtonSetting(getModBundle.get(resMod.meta.name + "-debug.unlock"), Icon.lockOpen, () -> UIExtended.contentUnlockDebugDialog.show(), 32, true));
             t.pref(new UIExtended.ModInformation("restored-mod-information", true));
             settings.defaults("launched-planetary", false);
             //t.add(resMod.meta.displayName+" - Info").padTop(4f).row();

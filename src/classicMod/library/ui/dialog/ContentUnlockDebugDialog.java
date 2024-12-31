@@ -263,32 +263,32 @@ public class ContentUnlockDebugDialog extends BaseDialog {
         rebuildTable();
         if(Table == 0){
             var PaneAdd = ItemPane;
-            cont.add(PaneAdd);
+            cont.add(PaneAdd).grow();
             PaneAdd.setScrollY(lastYItem);
         }
         if(Table == 1){
             var PaneAdd = LiquidPane;
-            cont.add(PaneAdd);
+            cont.add(PaneAdd).grow();
             PaneAdd.setScrollY(lastYLiquid);
         }
         if(Table == 2){
             var PaneAdd = UnitPane;
-            cont.add(PaneAdd);
+            cont.add(PaneAdd).grow();
             PaneAdd.setScrollY(lastYUnit);
         }
         if(Table == 3){
             var PaneAdd = BlockPane;
-            cont.add(PaneAdd);
+            cont.add(PaneAdd).grow();
             PaneAdd.setScrollY(lastYBlock);
         }
         if(Table == 4){
             var PaneAdd = StatPane;
-            cont.add(PaneAdd);
+            cont.add(PaneAdd).grow();
             PaneAdd.setScrollY(lastYStat);
         }
         if(Table == 5){
             var PaneAdd = SectorPane;
-            cont.add(PaneAdd);
+            cont.add(PaneAdd).grow();
             PaneAdd.setScrollY(lastYSector);
         }
     }
