@@ -17,6 +17,7 @@ import mindustry.ui.dialogs.SettingsMenuDialog;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static arc.Core.settings;
 import static classicMod.ClassicMod.*;
 import static mindustry.gen.Icon.icons;
 
@@ -120,12 +121,12 @@ public class UIExtended {
 
         @Override
         public void add(SettingsMenuDialog.SettingsTable table) {
-            Events.on(EventTypeExtended.UpdateInformation.class, e -> {
+            Events.on(EventTypeExtended.UpdateModInformation.class, e -> {
                 overBuild.set(e.overBuild);
                 table.rebuild();
             });
-            Table info = new Table(){{
 
+            Table info = new Table(){{
                 add("Mod Version: "+ModVersion).color(Pal.lightishGray).padTop(4f).row();
                 add("Build Version: "+BuildVer).color(Pal.lightishGray).padTop(4f).row();
                 add(new Table(){{

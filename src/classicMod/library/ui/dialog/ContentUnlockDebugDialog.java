@@ -18,6 +18,8 @@ import mindustry.ui.Styles;
 import mindustry.ui.dialogs.*;
 import mindustry.world.blocks.environment.*;
 
+import java.util.Objects;
+
 import static mindustry.Vars.*;
 
 public class ContentUnlockDebugDialog extends BaseDialog {
@@ -25,7 +27,8 @@ public class ContentUnlockDebugDialog extends BaseDialog {
     float buttonWidth = 92f;
     float buttonHeight = 32f;
     int Page;
-    boolean compactedMode;
+    boolean compactedMode, vanillaSearch;
+    String filterContext, filterMod;
     public ContentUnlockDebugDialog() {
         super("@CUD.title");
         Page = 0;
@@ -43,6 +46,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
             addLockAllButton();
         }
 
+        buildContent();
         rebuild();
     }
 
@@ -142,10 +146,23 @@ public class ContentUnlockDebugDialog extends BaseDialog {
         }};
     }
 
+    boolean filterSelection(UnlockableContent content){
+        return (((filterContext != null && !Objects.equals(filterContext, "")) && !content.localizedName.toLowerCase().contains(filterContext.toLowerCase())) ||
+                ((filterMod != null && !Objects.equals(filterMod, "")) &&
+                        (
+                                (content.isModded() && !vanillaSearch && !(content.minfo.mod.meta.displayName.toLowerCase().contains(filterMod.toLowerCase())))
+                        )
+                )
+                || content.isVanilla() && !vanillaSearch
+        );
+    }
+
     void rebuildTable(){
         Items = new Table() {{
             for (var Content : Vars.content.items()) {
-                if(Content.isHidden()) continue;
+                if(Content.isHidden() ||
+                        filterSelection(Content)
+                ) continue;
                 table(Styles.grayPanel, info -> {
                     info.add(buildInformation(Content)).grow().pad(10f).left().row();
 
@@ -158,7 +175,9 @@ public class ContentUnlockDebugDialog extends BaseDialog {
 
         Liquids = new Table() {{
             for (var Content : Vars.content.liquids()) {
-                if(Content.isHidden()) continue;
+                if(Content.isHidden() ||
+                        filterSelection(Content)
+                ) continue;
                 table(Styles.grayPanel, info -> {
                     info.add(buildInformation(Content)).grow().pad(10f).left().row();
 
@@ -177,7 +196,8 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                         Content instanceof AirBlock ||
                         Content instanceof SpawnBlock ||
                         Content instanceof ShallowLiquid ||
-                        Content.isHidden()
+                        Content.isHidden() ||
+                        filterSelection(Content)
                 ) continue;
                 table(Styles.grayPanel, info -> {
                     info.add(buildInformation(Content)).grow().pad(10f).left().row();
@@ -191,7 +211,9 @@ public class ContentUnlockDebugDialog extends BaseDialog {
 
         Units = new Table() {{
             for (var Content : Vars.content.units()){
-                if(Content.isHidden()) continue;
+                if(Content.isHidden() ||
+                        filterSelection(Content)
+                ) continue;
                 table(Styles.grayPanel, info -> {
                     info.add(buildInformation(Content)).grow().pad(10f).left().row();
 
@@ -204,7 +226,9 @@ public class ContentUnlockDebugDialog extends BaseDialog {
 
         Status = new Table() {{
             for (var Content : Vars.content.statusEffects()){
-                if(Content.isHidden()) continue;
+                if(Content.isHidden() ||
+                        filterSelection(Content)
+                ) continue;
                 table(Styles.grayPanel, info -> {
                     info.add(buildInformation(Content)).grow().pad(10f).left().row();
 
@@ -217,7 +241,9 @@ public class ContentUnlockDebugDialog extends BaseDialog {
 
         SectorPresets = new Table() {{
             for (var Content : Vars.content.sectors()) {
-                if(Content.isHidden()) continue;
+                if(Content.isHidden() ||
+                        filterSelection(Content)
+                ) continue;
                 table(Styles.grayPanel, info -> {
                     info.add(buildInformation(Content)).grow().pad(10f).left().row();
 
@@ -259,36 +285,46 @@ public class ContentUnlockDebugDialog extends BaseDialog {
     float lastYStat;
     float lastYSector;
 
+    Table ViewableArea = new Table();
+
+
+
     void rebuild(int Table){
         rebuildTable();
         if(Table == 0){
+            ViewableArea.add("Items Section").row();
             var PaneAdd = ItemPane;
-            cont.add(PaneAdd).grow();
+            ViewableArea.add(PaneAdd).grow();
             PaneAdd.setScrollY(lastYItem);
         }
         if(Table == 1){
+            ViewableArea.add("Liquids Section").row();
             var PaneAdd = LiquidPane;
-            cont.add(PaneAdd).grow();
+            ViewableArea.add(PaneAdd).grow();
             PaneAdd.setScrollY(lastYLiquid);
         }
         if(Table == 2){
+            ViewableArea.add("Units Section").row();
             var PaneAdd = UnitPane;
-            cont.add(PaneAdd).grow();
+            ViewableArea.add(PaneAdd).grow();
             PaneAdd.setScrollY(lastYUnit);
         }
         if(Table == 3){
+            ViewableArea.add("Blocks Section").row();
             var PaneAdd = BlockPane;
-            cont.add(PaneAdd).grow();
+            ViewableArea.add(PaneAdd).grow();
             PaneAdd.setScrollY(lastYBlock);
         }
         if(Table == 4){
+            ViewableArea.add("Status Section").row();
             var PaneAdd = StatPane;
-            cont.add(PaneAdd).grow();
+            ViewableArea.add(PaneAdd).grow();
             PaneAdd.setScrollY(lastYStat);
         }
         if(Table == 5){
+            ViewableArea.add("Sectors Section").row();
             var PaneAdd = SectorPane;
-            cont.add(PaneAdd).grow();
+            ViewableArea.add(PaneAdd).grow();
             PaneAdd.setScrollY(lastYSector);
         }
     }
@@ -302,8 +338,54 @@ public class ContentUnlockDebugDialog extends BaseDialog {
         if (Table == 5 && SectorPane != null) lastYSector = SectorPane.getScrollY();
     }
 
+    void buildContent(){
+        cont.table(Styles.grayPanel, t -> {
+            //TextButton filter = new TextButton("Filter");
+            CheckBox checkVanilla = new CheckBox("Search in Vanilla");
+            TextArea filterModContext = new TextArea("");
+            Table modContext = new Table();
+            Table Context = new Table();
+            Table filter = new Table();
+
+
+            if (vanillaSearch) modContext.clearChildren();
+            else {
+                modContext.add("Mod Filter:").pad(5f);
+                modContext.add(filterModContext).growX().pad(5f).row();
+            }
+
+            TextArea filterContent = new TextArea("");
+            Context.add("Content Filter:").pad(5f);
+            Context.add(filterContent).growX().pad(5f).row();
+            //t.add(filter).size(160f, 60f);
+            filterContent.changed(() -> {
+                filterContext = filterContent.getText();
+                rebuild();
+            });
+            checkVanilla.changed(() -> {
+                vanillaSearch = checkVanilla.isChecked();
+                if (checkVanilla.isChecked()) modContext.clearChildren();
+                else {
+                    modContext.add("Mod Filter:").pad(5f);
+                    modContext.add(filterModContext).growX().pad(5f).row();
+                }
+                rebuild();
+            });
+
+            filterModContext.changed(() -> {
+                filterMod = filterModContext.getText();
+                rebuild();
+            });
+            filter.add(checkVanilla).growX().row();
+            filter.add(modContext).growX().row();
+            filter.add(Context).growX().row();
+            t.add(filter).growX().top();
+        }).top().pad(10f).grow();
+        cont.add(ViewableArea).row();
+    }
+
     void rebuild(){
-        cont.clearChildren();
+        ViewableArea.clearChildren();
         if(!compactedMode) for(int i = 0; i < 5; i++){
             rebuild(i);
         } else {

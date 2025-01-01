@@ -5,13 +5,14 @@ import arc.func.Func;
 import arc.scene.Element;
 import arc.scene.ui.Dialog;
 import arc.scene.ui.layout.Cell;
-import arc.struct.Seq;
+import arc.struct.*;
 import arc.util.*;
 import classicMod.content.*;
 import classicMod.library.ai.*;
 import classicMod.library.ui.UIExtended;
 import classicMod.library.ui.dialog.*;
 import classicMod.library.ui.menu.*;
+import mindustry.Vars;
 import mindustry.ai.types.CommandAI;
 import mindustry.game.EventType.ClientLoadEvent;
 import mindustry.gen.Icon;
@@ -19,8 +20,10 @@ import mindustry.mod.Mod;
 import mindustry.mod.Mods.LoadedMod;
 import mindustry.type.UnitType;
 import mindustry.ui.Styles;
-import mindustry.ui.dialogs.BaseDialog;
+import mindustry.ui.dialogs.*;
 import mindustry.ui.fragments.MenuFragment;
+
+import java.util.Objects;
 
 import static arc.Core.*;
 import static classicMod.library.ui.menu.MenuUI.*;
@@ -37,6 +40,8 @@ public class ClassicMod extends Mod{
     public static LoadedMod resMod = mods.locateMod(internalMod);
     /** Mindustry's Contributors taken from internal **/
     public static Seq<String> contributors = new Seq<>();
+    boolean changedSettings = false;
+    SettingsMenuDialog.SettingsTable restorationSettings;
     public ClassicMod(){
         Events.on(ClientLoadEvent.class, e -> {
             loadSettings();
@@ -142,11 +147,32 @@ public class ClassicMod extends Mod{
 
     private void loadSettings() {
 
-        for (Cell test : ui.settings.buttons.getCells()){
-            Log.info(test.get().name);
-            Element actor = test.get();
-            ui.settings.removeChild(actor);
-        }
+        ObjectMap<String, Boolean> defaultsRestorationBoolean = new ObjectMap<>();
+        ui.settings.shown(() -> {
+            for (var tabSet : restorationSettings.getSettings()) {
+                if (tabSet instanceof SettingsMenuDialog.SettingsTable.CheckSetting) {
+                    defaultsRestorationBoolean.put(tabSet.name, settings.getBool(tabSet.name));
+                }
+            }
+        });
+        ui.settings.hidden(() -> {
+            int difference = 0;
+            for (var tabSet : restorationSettings.getSettings()) {
+                if (tabSet instanceof SettingsMenuDialog.SettingsTable.CheckSetting) {
+                    if (Objects.equals(tabSet.name, "use-planetmenu")) {
+                        if (settings.getBool(tabSet.name) != defaultsRestorationBoolean.get(tabSet.name)) {
+                            difference++;
+                        }
+                    }
+                }
+            }
+            if (difference >= 1) {
+                Vars.ui.showInfoOnHidden("@mod.restored-mind.restart", () -> {
+                    Log.info("Project: Restoration restarting");
+                    Core.app.exit();
+                });
+            }
+        });
         ui.settings.addCategory("@setting.restored-mind", Icon.bookOpen, t -> {
             t.pref(new UIExtended.Banner("restored-mind-cat", -1));
             t.pref(new UIExtended.Separator("restored-graphic"));
@@ -156,6 +182,7 @@ public class ClassicMod extends Mod{
             //t.checkPref("use-custom-logo", false);
 
             t.pref(new UIExtended.Separator("restored-annoying-window"));
+            t.pref(new UIExtended.ButtonSetting((!settings.getBool("ignore-update")) ? "check-update" : "check-only", Icon.up, () -> AutoUpdate.check(settings.getBool("ignore-update")), 32, true));
             t.checkPref("ignore-warning", false);
             t.checkPref("ignore-update", false);
 
@@ -186,6 +213,7 @@ public class ClassicMod extends Mod{
             //t.add("Latest Pre-Release: "+AutoUpdate.overBuild).row();
             //t.add("Github Build Version: "+AutoUpdate.getLatestBuild()).row();
             //t.areaTextPref("Mod Stats","Mod Version: "+ModVersion+"\nBuild Version: "+BuildVer+"\nPre-Release: "+overBuild);
+            restorationSettings = t;
         });
     }
 
