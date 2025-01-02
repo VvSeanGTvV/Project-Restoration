@@ -80,20 +80,23 @@ public class ClassicMod extends Mod{
                     warningDialog.table(information -> {
                         information.table(character -> {
                             character.add("@mod.restored-mind.lucine.name").row();
-                            character.image(Core.atlas.find(internalMod + "-lucineSmug-upscaled")).pad(10f).size(140f).scaling(Scaling.stretch);
+                            character.image(Core.atlas.find(internalMod + "-lucine-smug")).pad(10f).size(140f).scaling(Scaling.stretch);
                         }).right();
-                        information.add("@mod.restored-mind.earlyaccess.text").pad(20f).row();
-                        CheckBox showThis = new CheckBox("@mod.restored-mind.popup-warning");
-                        information.add(showThis).center().row();
-                        showThis.changed(() -> {
-                            settings.put("ignore-update", showThis.isChecked());
+                        information.table(text -> {
+                            text.add("@mod.restored-mind.earlyaccess.text").pad(20f).row();
+                            CheckBox box = new CheckBox("@mod.restored-mind.popup-warning");
+                            box.update(() -> {
+                                box.setChecked(Core.settings.getBool("ignore-warning"));
+                            });
+                            box.changed(() -> {
+                                settings.put("ignore-warning", box.isChecked());
+                            });
+                            text.add(box).left().row();
                         });
+
                     }).expand().row();
                     warningDialog.table(buttons -> {
-
                         buttons.button("@ok", Icon.ok, dialog::hide).padBottom(10f).size(210.0F, 54.0F).center();
-
-
                     }).growX().center();
 
                     //dialog.cont.defaults().grow();
@@ -172,6 +175,7 @@ public class ClassicMod extends Mod{
 
         ObjectMap<String, Boolean> defaultsRestorationBoolean = new ObjectMap<>();
         ui.settings.shown(() -> {
+            AutoUpdate.check(true);
             for (var tabSet : restorationSettings.getSettings()) {
                 if (tabSet instanceof SettingsMenuDialog.SettingsTable.CheckSetting) {
                     defaultsRestorationBoolean.put(tabSet.name, settings.getBool(tabSet.name));
