@@ -150,7 +150,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
         return (((filterContext != null && !Objects.equals(filterContext, "")) && !content.localizedName.toLowerCase().contains(filterContext.toLowerCase())) ||
                 ((filterMod != null && !Objects.equals(filterMod, "")) &&
                         (
-                                (content.isModded() && !vanillaSearch && !(content.minfo.mod.meta.displayName.toLowerCase().contains(filterMod.toLowerCase())))
+                                (content.isModded() && !(content.minfo.mod.meta.displayName.toLowerCase().contains(filterMod.toLowerCase())))
                         )
                 )
                 || content.isVanilla() && !vanillaSearch
@@ -163,6 +163,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                 if(Content.isHidden() ||
                         filterSelection(Content)
                 ) continue;
+                if (Content.isModded() && vanillaSearch) continue;
                 table(Styles.grayPanel, info -> {
                     info.add(buildInformation(Content)).grow().pad(10f).left().row();
 
@@ -178,6 +179,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                 if(Content.isHidden() ||
                         filterSelection(Content)
                 ) continue;
+                if (Content.isModded() && vanillaSearch) continue;
                 table(Styles.grayPanel, info -> {
                     info.add(buildInformation(Content)).grow().pad(10f).left().row();
 
@@ -199,6 +201,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                         Content.isHidden() ||
                         filterSelection(Content)
                 ) continue;
+                if (Content.isModded() && vanillaSearch) continue;
                 table(Styles.grayPanel, info -> {
                     info.add(buildInformation(Content)).grow().pad(10f).left().row();
 
@@ -214,6 +217,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                 if(Content.isHidden() ||
                         filterSelection(Content)
                 ) continue;
+                if (Content.isModded() && vanillaSearch) continue;
                 table(Styles.grayPanel, info -> {
                     info.add(buildInformation(Content)).grow().pad(10f).left().row();
 
@@ -229,6 +233,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                 if(Content.isHidden() ||
                         filterSelection(Content)
                 ) continue;
+                if (Content.isModded() && vanillaSearch) continue;
                 table(Styles.grayPanel, info -> {
                     info.add(buildInformation(Content)).grow().pad(10f).left().row();
 
@@ -244,6 +249,7 @@ public class ContentUnlockDebugDialog extends BaseDialog {
                 if(Content.isHidden() ||
                         filterSelection(Content)
                 ) continue;
+                if (Content.isModded() && vanillaSearch) continue;
                 table(Styles.grayPanel, info -> {
                     info.add(buildInformation(Content)).grow().pad(10f).left().row();
 

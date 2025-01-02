@@ -4,7 +4,7 @@ import arc.*;
 import arc.func.Func;
 import arc.scene.Element;
 import arc.scene.ui.Dialog;
-import arc.scene.ui.layout.Cell;
+import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
 import classicMod.content.*;
@@ -60,23 +60,31 @@ public class ClassicMod extends Mod{
             Log.info(pathFile());
 
             getContributors();
+            graphics.setTitle(settings.getAppName() + " | " + resMod.meta.displayName + " " + BuildVer);
 
             if (!ignoreWarning) {
                 Time.runTask(10f, () -> {
                     Dialog dialog = new Dialog();
-                    dialog.cont.table(Styles.grayPanel, Align.bottom, t -> {
-                        //t.add("@mod.restored-mind.earlyaccess.title").size(120f).pad(10f).row();
-                        t.table(character -> {
-                            character.add("@mod.restored-mind.lucine.name").row();
-                            character.image(Core.atlas.find("restored-mind-lucineSmug-upscaled")).pad(10f).size(140f).scaling(Scaling.stretch);
-                        }).right();
-                        t.add("@mod.restored-mind.earlyaccess.text").pad(20f).row();
-                        t.button("@ok", dialog::hide).marginRight(10f).size(130f, 50f);
-                    }).bottom();
+                    dialog.setFillParent(true);
+                    //dialog.align(1);
+                    //dialog.clearChildren();
+                    //dialog.stack(new Element[]{dialog.cont, dialog.buttons}).grow();
+                    //dialog.bottom();
+                    Table warningDialog = new Table(Styles.grayPanel){{
 
-                    dialog.update(() -> {
-                        dialog.cont.setTranslation(0, -((graphics.getHeight() / graphics.getAspect()) - (166f + (graphics.getAspect() * (graphics.getAspect() * 10)))));
-                    });
+                    }}.bottom();
+
+                    //t.add("@mod.restored-mind.earlyaccess.title").size(120f).pad(10f).row();
+                    warningDialog.table(character -> {
+                        character.add("@mod.restored-mind.lucine.name").row();
+                        character.image(Core.atlas.find(internalMod + "-lucineSmug-upscaled")).pad(10f).size(140f).scaling(Scaling.stretch);
+                    }).right();
+                    warningDialog.add("@mod.restored-mind.earlyaccess.text").pad(20f).row();
+                    warningDialog.button("@ok", dialog::hide).padBottom(10f).center().size(130f, 50f);
+                    //dialog.cont.defaults().grow();
+                    dialog.cont.bottom();
+                    dialog.cont.add(warningDialog);
+
 
                     dialog.show();
                 });
