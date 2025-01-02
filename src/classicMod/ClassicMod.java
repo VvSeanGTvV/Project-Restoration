@@ -3,7 +3,7 @@ package classicMod;
 import arc.*;
 import arc.func.Func;
 import arc.scene.Element;
-import arc.scene.ui.Dialog;
+import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
@@ -72,15 +72,30 @@ public class ClassicMod extends Mod{
                     //dialog.bottom();
                     Table warningDialog = new Table(Styles.grayPanel){{
 
-                    }}.bottom();
+                    }}.center();
 
                     //t.add("@mod.restored-mind.earlyaccess.title").size(120f).pad(10f).row();
-                    warningDialog.table(character -> {
-                        character.add("@mod.restored-mind.lucine.name").row();
-                        character.image(Core.atlas.find(internalMod + "-lucineSmug-upscaled")).pad(10f).size(140f).scaling(Scaling.stretch);
-                    }).right();
-                    warningDialog.add("@mod.restored-mind.earlyaccess.text").pad(20f).row();
-                    warningDialog.button("@ok", dialog::hide).padBottom(10f).center().size(130f, 50f);
+
+
+                    warningDialog.table(information -> {
+                        information.table(character -> {
+                            character.add("@mod.restored-mind.lucine.name").row();
+                            character.image(Core.atlas.find(internalMod + "-lucineSmug-upscaled")).pad(10f).size(140f).scaling(Scaling.stretch);
+                        }).right();
+                        information.add("@mod.restored-mind.earlyaccess.text").pad(20f).row();
+                        CheckBox showThis = new CheckBox("@mod.restored-mind.popup-warning");
+                        information.add(showThis).center().row();
+                        showThis.changed(() -> {
+                            settings.put("ignore-update", showThis.isChecked());
+                        });
+                    }).expand().row();
+                    warningDialog.table(buttons -> {
+
+                        buttons.button("@ok", Icon.ok, dialog::hide).padBottom(10f).size(210.0F, 54.0F).center();
+
+
+                    }).growX().center();
+
                     //dialog.cont.defaults().grow();
                     dialog.cont.bottom();
                     dialog.cont.add(warningDialog);
