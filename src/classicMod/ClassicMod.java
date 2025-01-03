@@ -277,7 +277,7 @@ public class ClassicMod extends Mod{
     boolean isChangedDirectory = false;
 
     boolean isValidExtension(String[] acceptedExtension,  Fi file) {
-        Log.info(file.extension());
+        Log.info(file.name());
 
         for (String extension : acceptedExtension){
             return file.extension().toLowerCase().endsWith(extension);
