@@ -277,10 +277,10 @@ public class ClassicMod extends Mod{
     boolean isChangedDirectory = false;
 
     boolean isValidExtension(String[] acceptedExtension,  Fi file) {
-        Log.info(file.name());
+        //Log.info(file.name());
 
         for (String extension : acceptedExtension){
-            return file.extension().toLowerCase().endsWith(extension);
+            return file.extension().toLowerCase().equalsIgnoreCase(extension.toLowerCase());
         }
         return false;
     }
@@ -346,14 +346,14 @@ public class ClassicMod extends Mod{
                                 }
                                 rebuildStaticImage();
                             } else {
-                                Vars.ui.showErrorMessage("@data.invalid");
+                                Vars.ui.showErrorMessage("@data.image-invalid");
                             }
                         } catch (IllegalArgumentException var3) {
-                            Vars.ui.showErrorMessage("@data.image.invalid");
+                            Vars.ui.showErrorMessage("@data.image-invalid");
                         } catch (Exception var4) {
                             var4.printStackTrace();
                             if (var4.getMessage() != null && var4.getMessage().contains("too short")) {
-                                Vars.ui.showErrorMessage("@data.image.invalid");
+                                Vars.ui.showErrorMessage("@data.image-invalid");
                             } else {
                                 Vars.ui.showException(var4);
                             }
