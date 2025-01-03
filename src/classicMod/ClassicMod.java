@@ -280,7 +280,7 @@ public class ClassicMod extends Mod{
         //Log.info(file.name());
 
         for (String extension : acceptedExtension){
-            Log.info(file.name + " | " + extension);
+            Log.info(file.name() + " | " + extension);
             return file.extension().toLowerCase().equalsIgnoreCase(extension.toLowerCase());
         }
         return false;
