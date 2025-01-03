@@ -234,7 +234,8 @@ public class ClassicMod extends Mod{
                         public void run() {
                             //Log.infoTag("ArchivDebug", "Background Running....");
                             if (!state.isMenu()) this.cancel();
-                            frame.set(imageData.get(image.get(settings.getInt("staticimage"))));
+                            int select = (settings.getInt("staticimage") >= image.size) ? settings.getInt("staticimage") - 1 : settings.getInt("staticimage");
+                            frame.set(imageData.get(image.get(select)));
                             menuBG.getRegion().set(frame);
                         }
                     };
@@ -281,7 +282,7 @@ public class ClassicMod extends Mod{
         boolean hasExtension = false;
         for (String extension : acceptedExtension){
             //Log.info(file.name() + " | " + extension);
-            hasExtension = file.extension().toLowerCase().equalsIgnoreCase(extension.toLowerCase());
+            hasExtension = file.extension().equalsIgnoreCase(extension);
             if (hasExtension) break;
         }
         return hasExtension;
@@ -328,7 +329,9 @@ public class ClassicMod extends Mod{
             else settings.put("use-staticmenu", false);
 
             if (settings.getBool("use-staticmenu")) {
-                t.pref(new UIExtended.SliderEventSetting("staticimage", 0, 0, image.size - 1, 1, stringProc -> image.get(stringProc)));
+                t.pref(new UIExtended.SliderEventSetting("staticimage", 0, 0, image.size - 1, 1, stringProc -> {
+                    return (stringProc >= image.size) ? image.get(stringProc - 1) : image.get(stringProc);
+                }));
                 //staticSelection.
                 t.pref(new UIExtended.ButtonSetting("staticimage-manager", Icon.book, () -> UIExtended.staticImageManager.show()));
                 t.pref(new UIExtended.ButtonSetting("staticimage-upload", Icon.upload, () -> {

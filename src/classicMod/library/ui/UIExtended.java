@@ -122,6 +122,8 @@ public class UIExtended {
         int step;
         SettingsMenuDialog.StringProcessor sp;
 
+        Table newSlider = new Table();
+
         public SliderEventSetting(String name, int def, int min, int max, int step, SettingsMenuDialog.StringProcessor s) {
             super(name);
             this.def = def;
@@ -131,12 +133,8 @@ public class UIExtended {
             this.sp = s;
         }
 
-        public void add(SettingsMenuDialog.SettingsTable table) {
-            Events.on(EventTypeExtended.UpdateSlide.class, e -> {
-                max = (e.max);
-                table.rebuild();
-            });
-
+        public void rebuildSlider(){
+            newSlider.clear();
             Slider slider = new Slider((float)this.min, (float)this.max, (float)this.step, false);
             slider.setValue((float)Core.settings.getInt(this.name));
             Label value = new Label("", Styles.outlineLabel);
@@ -150,51 +148,66 @@ public class UIExtended {
                 value.setText(this.sp.get((int)slider.getValue()));
             });
             slider.change();
-            this.addDesc(table.stack(new Element[]{slider, content}).width(Math.min((float)Core.graphics.getWidth() / 1.2F, 460.0F)).left().padTop(4.0F).get());
+            newSlider.stack(new Element[]{slider, content}).width(Math.min((float)Core.graphics.getWidth() / 1.2F, 460.0F)).left().padTop(4.0F).get();
+            //this.addDesc(.stack(new Element[]{slider, content}).width(Math.min((float)Core.graphics.getWidth() / 1.2F, 460.0F)).left().padTop(4.0F).get();
+            //newSlider.add(slider);
+        }
+
+        @Override
+        public void add(SettingsMenuDialog.SettingsTable table) {
+            Events.on(EventTypeExtended.UpdateSlide.class, e -> {
+                max = (e.max);
+                rebuildSlider();
+            });
+
+            rebuildSlider();
             table.row();
         }
     }
 
     public static class ModInformation extends SettingsMenuDialog.SettingsTable.Setting {
         boolean center;
-
         AtomicBoolean overBuild = new AtomicBoolean(!AutoUpdate.overBuild);
+        Table info = new Table();
 
         public ModInformation(String name, boolean center) {
             super(name);
             this.center = center;
         }
 
+        public void rebuildInformation(){
+            info.clear();
+            info.add("Mod Version: "+ModVersion).color(Pal.lightishGray).padTop(4f).row();
+            info.add("Build Version: "+BuildVer).color(Pal.lightishGray).padTop(4f).row();
+            info.add(new Table(){{
+                add("Latest Release: ").color((!overBuild.get()) ? Pal.lightishGray : Pal.redLight);
+                if (!overBuild.get()) add(new Image(Icon.ok)).color(Pal.heal).size(16f).center(); else add(new Image(Icon.cancel)).color(Pal.remove).size(16f).center();
+            }}).padTop(4f).row();
+            info.add(new Table(){{
+                add("Development Release: ").color((overBuild.get()) ? Pal.lightishGray : Pal.redLight);
+                if (overBuild.get()) add(new Image(Icon.ok)).color(Pal.heal).size(16f).center(); else add(new Image(Icon.cancel)).color(Pal.remove).size(16f).center();
+            }}).padTop(4f).row();
+
+            if (false) {
+                for (var key : icons.keys()) {
+                    var ico = icons.get(key);
+                    info.add(new Image(ico));
+                    info.add(" | " + key);
+                    info.row();
+                }
+            }
+        }
+
         @Override
         public void add(SettingsMenuDialog.SettingsTable table) {
             Events.on(EventTypeExtended.UpdateModInformation.class, e -> {
                 overBuild.set(e.overBuild);
-                table.rebuild();
+                rebuildInformation();
             });
 
-            Table info = new Table(){{
-                add("Mod Version: "+ModVersion).color(Pal.lightishGray).padTop(4f).row();
-                add("Build Version: "+BuildVer).color(Pal.lightishGray).padTop(4f).row();
-                add(new Table(){{
-                    add("Latest Release: ").color((!overBuild.get()) ? Pal.lightishGray : Pal.redLight);
-                    if (!overBuild.get()) add(new Image(Icon.ok)).color(Pal.heal).size(16f).center(); else add(new Image(Icon.cancel)).color(Pal.remove).size(16f).center();
-                }}).padTop(4f).row();
-                add(new Table(){{
-                    add("Development Release: ").color((overBuild.get()) ? Pal.lightishGray : Pal.redLight);
-                    if (overBuild.get()) add(new Image(Icon.ok)).color(Pal.heal).size(16f).center(); else add(new Image(Icon.cancel)).color(Pal.remove).size(16f).center();
-                }}).padTop(4f).row();
 
-                if (false) {
-                    for (var key : icons.keys()) {
-                        var ico = icons.get(key);
-                        add(new Image(ico));
-                        add(" | " + key);
-                        row();
-                    }
-                    ;
-                }
-            }};
             if (center) table.add(info).center(); else table.add(info);
+            rebuildInformation();
             table.row();
 
         }
