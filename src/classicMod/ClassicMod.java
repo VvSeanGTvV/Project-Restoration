@@ -276,12 +276,9 @@ public class ClassicMod extends Mod{
 
     boolean isChangedDirectory = false;
 
-    boolean isValidExtension(String[] acceptedExtension,  Fi file) {
+    boolean isValidExtension(Seq<String> acceptedExtension,  Fi file) {
         //Log.info(file.name());
-        Seq<String> extensions = new Seq<>();
-        extensions.add(acceptedExtension);
-
-        for (String extension : extensions){
+        for (String extension : acceptedExtension){
             Log.info(file.name() + " | " + extension);
             return file.extension().toLowerCase().equalsIgnoreCase(extension.toLowerCase());
         }
@@ -336,11 +333,11 @@ public class ClassicMod extends Mod{
                     Vars.platform.showMultiFileChooser((file) -> {
                         try {
                             var dest = dataDirectory + "/prjRes-background";
-                            if (isValidExtension(new String[]{
-                                    "jpg",
+                            if (isValidExtension(new Seq<>(new String[]{
+                                "jpg",
                                     "png",
                                     "jpeg"
-                            }, file)) {
+                            }), file)) {
                                 Fi newDir = new Fi(dest + "/" + file.name());
                                 if (file.isDirectory()) {
                                     newDir.mkdirs();
