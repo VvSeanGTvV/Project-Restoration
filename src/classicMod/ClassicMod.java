@@ -278,9 +278,11 @@ public class ClassicMod extends Mod{
 
     boolean isValidExtension(String[] acceptedExtension,  Fi file) {
         //Log.info(file.name());
+        Seq<String> extensions = new Seq<>();
+        extensions.add(acceptedExtension);
 
-        for (String extension : acceptedExtension){
-            Log.info(file.name() + " | " + extension);
+        for (String extension : extensions){
+            //Log.info(file.name() + " | " + extension);
             return file.extension().toLowerCase().equalsIgnoreCase(extension.toLowerCase());
         }
         return false;
