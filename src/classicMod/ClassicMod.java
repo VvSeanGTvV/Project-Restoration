@@ -30,6 +30,8 @@ import mindustry.ui.dialogs.*;
 import mindustry.ui.fragments.MenuFragment;
 
 import java.io.IOException;
+import java.nio.file.*;
+import java.nio.file.Files;
 import java.util.Objects;
 
 import static arc.Core.*;
@@ -274,12 +276,15 @@ public class ClassicMod extends Mod{
 
     boolean isChangedDirectory = false;
 
-    boolean isValidExtension(String[] acceptedExtension, Fi file){
-        Log.info(file.extension());
-        for (String extension : acceptedExtension){
+    boolean isValidExtension(Fi file) throws IOException {
+        //Log.info(file.extension());
+        String contentType = Files.probeContentType(file.file().toPath());
+        return contentType != null && contentType.startsWith("image/");
+
+        /*for (String extension : acceptedExtension){
             return file.extension().equalsIgnoreCase(extension);
         }
-        return false;
+        return false;*/
     }
     private void loadSettings() {
 
@@ -330,9 +335,7 @@ public class ClassicMod extends Mod{
                     Vars.platform.showFileChooser(true, "png", (file) -> {
                         try {
                             var dest = dataDirectory + "/prjRes-background";
-                            if (isValidExtension(new String[]{
-                                    "png", "jpg"
-                            }, file)) {
+                            if (isValidExtension(file)) {
                                 Fi newDir = new Fi(dest + "/" + file.name());
                                 if (file.isDirectory()) {
                                     newDir.mkdirs();
