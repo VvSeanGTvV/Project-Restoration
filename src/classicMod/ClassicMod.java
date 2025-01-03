@@ -273,6 +273,13 @@ public class ClassicMod extends Mod{
     }
 
     boolean isChangedDirectory = false;
+
+    boolean isValidExtension(String[] acceptedExtension, Fi file){
+        for (String extension : acceptedExtension){
+            return file.extension().equalsIgnoreCase(extension);
+        }
+        return false;
+    }
     private void loadSettings() {
 
         ObjectMap<String, Boolean> defaultsRestorationBoolean = new ObjectMap<>();
@@ -317,18 +324,24 @@ public class ClassicMod extends Mod{
             if (settings.getBool("use-staticmenu")) {
                 t.pref(new UIExtended.SliderEventSetting("staticimage", 0, 0, image.size - 1, 1, stringProc -> image.get(stringProc)));
                 //staticSelection.
-                t.pref(new UIExtended.ButtonSetting("staticimage-manager", () -> UIExtended.staticImageManager.show()));
+                t.pref(new UIExtended.ButtonSetting("staticimage-manager", Icon.book, () -> UIExtended.staticImageManager.show()));
                 t.pref(new UIExtended.ButtonSetting("staticimage-upload", Icon.upload, () -> {
                     Vars.platform.showFileChooser(true, "png", (file) -> {
                         try {
                             var dest = dataDirectory + "/prjRes-background";
-                            Fi newDir = new Fi(dest+ "/" + file.name());
-                            if(file.isDirectory()){
-                                newDir.mkdirs();
+                            if (isValidExtension(new String[]{
+                                    "png", "jpg"
+                            }, file)) {
+                                Fi newDir = new Fi(dest + "/" + file.name());
+                                if (file.isDirectory()) {
+                                    newDir.mkdirs();
+                                } else {
+                                    file.copyTo(newDir);
+                                }
+                                rebuildStaticImage();
                             } else {
-                                file.copyTo(newDir);
+                                Vars.ui.showErrorMessage("@data.invalid");
                             }
-                            rebuildStaticImage();
                         } catch (IllegalArgumentException var3) {
                             Vars.ui.showErrorMessage("@data.invalid");
                         } catch (Exception var4) {
