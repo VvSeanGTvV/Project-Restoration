@@ -212,7 +212,7 @@ public class NewAccelerator extends Block {
                     launchOppositeAnimation = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta);
                     if (launchAnimation < 0.01f) {
                         Effect.shake(3f, 3f, this);
-                        settings.put("launched-planetary", true);
+                        settings.put("unlocks" + "-launched-planetary", true);
                     }
 
                     zoomStyle = Interp.pow3In.apply(Scl.scl(0.02f), Scl.scl(maxScaleZoom), Mathf.clamp(1f - launchpadTimer * 2f));

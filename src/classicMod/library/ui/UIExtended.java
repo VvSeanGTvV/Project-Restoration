@@ -2,6 +2,8 @@ package classicMod.library.ui;
 
 import arc.*;
 import arc.graphics.Color;
+import arc.scene.Element;
+import arc.scene.event.Touchable;
 import arc.scene.style.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
@@ -24,10 +26,12 @@ import static mindustry.gen.Icon.icons;
 public class UIExtended {
     public static TechTreeDialog Techtree;
     public static ContentUnlockDebugDialog contentUnlockDebugDialog;
+    public static StaticImageManager staticImageManager;
 
     public static void init() {
         Techtree = new TechTreeDialog();
         contentUnlockDebugDialog = new ContentUnlockDebugDialog();
+        staticImageManager = new StaticImageManager();
     }
 
     /**
@@ -63,6 +67,8 @@ public class UIExtended {
         return targetFPS / secFPS;
     }
 
+
+    // Settings
     public static class Separator extends SettingsMenuDialog.SettingsTable.Setting { //This is from prog-mats-java!
         float height;
         Color textColor = Color.gray;
@@ -105,6 +111,46 @@ public class UIExtended {
                     t.add(title).color(textColor).style(textFontStyle).padTop(4f);
                 }).growX().get().background(Tex.underline);
             }
+            table.row();
+        }
+    }
+
+    public static class SliderEventSetting extends SettingsMenuDialog.SettingsTable.Setting {
+        int def;
+        int min;
+        int max;
+        int step;
+        SettingsMenuDialog.StringProcessor sp;
+
+        public SliderEventSetting(String name, int def, int min, int max, int step, SettingsMenuDialog.StringProcessor s) {
+            super(name);
+            this.def = def;
+            this.min = min;
+            this.max = max;
+            this.step = step;
+            this.sp = s;
+        }
+
+        public void add(SettingsMenuDialog.SettingsTable table) {
+            Events.on(EventTypeExtended.UpdateSlide.class, e -> {
+                max = (e.max);
+                table.rebuild();
+            });
+
+            Slider slider = new Slider((float)this.min, (float)this.max, (float)this.step, false);
+            slider.setValue((float)Core.settings.getInt(this.name));
+            Label value = new Label("", Styles.outlineLabel);
+            Table content = new Table();
+            content.add(this.title, Styles.outlineLabel).left().growX().wrap();
+            content.add(value).padLeft(10.0F).right();
+            content.margin(3.0F, 33.0F, 3.0F, 33.0F);
+            content.touchable = Touchable.disabled;
+            slider.changed(() -> {
+                Core.settings.put(this.name, (int)slider.getValue());
+                value.setText(this.sp.get((int)slider.getValue()));
+            });
+            slider.change();
+            this.addDesc(table.stack(new Element[]{slider, content}).width(Math.min((float)Core.graphics.getWidth() / 1.2F, 460.0F)).left().padTop(4.0F).get());
             table.row();
         }
     }
@@ -197,6 +243,17 @@ public class UIExtended {
             this.listener = listener;
             this.iconSize = iconSize;
             this.center = center;
+        }
+
+        public ButtonSetting(String name, Drawable icon, Runnable listener) {
+            super(name);
+            this.icon = icon;
+            this.listener = listener;
+        }
+
+        public ButtonSetting(String name, Runnable listener) {
+            super(name);
+            this.listener = listener;
         }
 
         @Override

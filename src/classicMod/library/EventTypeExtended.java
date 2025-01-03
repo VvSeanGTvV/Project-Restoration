@@ -16,4 +16,13 @@ public class EventTypeExtended extends EventType {
             this.build = build;
         }
     }
+
+    public static class UpdateSlide {
+
+        public final int max;
+
+        public UpdateSlide(int max) {
+            this.max = max;
+        }
+    }
 }

@@ -1,19 +1,25 @@
 package classicMod;
 
 import arc.*;
+import arc.files.*;
 import arc.func.Func;
-import arc.scene.Element;
+import arc.graphics.Texture;
+import arc.graphics.g2d.TextureRegion;
+import arc.scene.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
 import classicMod.content.*;
+import classicMod.library.EventTypeExtended;
 import classicMod.library.ai.*;
 import classicMod.library.ui.UIExtended;
 import classicMod.library.ui.dialog.*;
 import classicMod.library.ui.menu.*;
 import mindustry.Vars;
 import mindustry.ai.types.CommandAI;
+import mindustry.core.GameState;
+import mindustry.game.EventType;
 import mindustry.game.EventType.ClientLoadEvent;
 import mindustry.gen.Icon;
 import mindustry.mod.Mod;
@@ -23,9 +29,11 @@ import mindustry.ui.Styles;
 import mindustry.ui.dialogs.*;
 import mindustry.ui.fragments.MenuFragment;
 
+import java.io.IOException;
 import java.util.Objects;
 
 import static arc.Core.*;
+import static classicMod.library.ui.dialog.StaticImageManager.rebuildManager;
 import static classicMod.library.ui.menu.MenuUI.*;
 import static mindustry.Vars.*;
 //v5-java-mod is the current use
@@ -42,11 +50,25 @@ public class ClassicMod extends Mod{
     public static Seq<String> contributors = new Seq<>();
     boolean changedSettings = false;
     SettingsMenuDialog.SettingsTable restorationSettings;
+
+    static void defaultBackground() {
+        image.add("ohno");
+        imageData.put("ohno", atlas.find("ohno"));
+        image.add("router");
+        imageData.put("router", atlas.find("router"));
+    }
     public ClassicMod(){
+
+
+        //Events.on();
         Events.on(ClientLoadEvent.class, e -> {
-            loadSettings();
-            Core.app.post(UIExtended::init);
-            //MenuBackground bg = solarSystem;
+            try {
+                loadStaticImage();
+                rebuildStaticImage();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+
             boolean usePlanetBG = settings.getBool("use-planetmenu");
             boolean uselastPlanet = settings.getBool("use-lastplanet-bg");
             if (usePlanetBG) {
@@ -56,6 +78,10 @@ public class ClassicMod extends Mod{
                     Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(random));
                 }
             }
+
+            loadSettings();
+            Core.app.post(UIExtended::init);
+            //MenuBackground bg = solarSystem;
             boolean ignoreWarning = settings.getBool("ignore-warning");
             Log.info(pathFile());
 
@@ -148,10 +174,106 @@ public class ClassicMod extends Mod{
     public static Func<String, String> getModBundle = value -> bundle.get("mod." + value);
 
     public static Func<String, String> getStatBundle = value -> bundle.get("stat." + value);
-    
+
+    static TextureRegion frame = new TextureRegion();
+    static Image menuBG = new Image(frame);
+
+    static ObjectMap<String, TextureRegion> imageData = new ObjectMap<>();
+    static Seq<String> image = new Seq<>();
+
+    public static void rebuildStaticImage(){
+        image.clear();
+        imageData.clear();
+
+        defaultBackground();
+        dataDirectory.child("prjRes-background").walk(fi -> {
+            image.add(fi.nameWithoutExtension());
+            Texture image = new Texture(fi);
+            imageData.put(fi.nameWithoutExtension(), new TextureRegion(image));
+        });
+        rebuildManager();
+        Events.fire(new EventTypeExtended.UpdateSlide(image.size - 1));
+    }
+
+    public void loadStaticImage() throws IOException {
+        var dest = dataDirectory + "/";
+        ZipFi zip = new ZipFi(Fi.get(resMod.file.absolutePath()));
+        zip.child("prjRes-background").walk(fi -> {
+            Fi newDir = new Fi(dest+ "/" + fi.path());
+            if(fi.isDirectory()){
+                newDir.mkdirs();
+            } else {
+                fi.copyTo(newDir);
+            }
+            //bgData.add(new TextureRegion(image));
+        });
+        /*dataDirectory.child("prjRes-background").walk(fi -> {
+            image.add(fi.nameWithoutExtension());
+            Texture image = new Texture(fi);
+            imageData.put(fi.nameWithoutExtension(), new TextureRegion(image));
+        });
+        /*ZipFi background = new ZipFi(Fi.get(dest + "/prjRes-background"));
+        background.walk(fi -> {
+            image.add(fi.nameWithoutExtension());
+            Texture image = new Texture(fi);
+            imageData.put(fi.nameWithoutExtension(), new TextureRegion(image));
+            //bgData.add(new TextureRegion(image));
+        });
+        //Log.info();
+        //boolean created = new Fi(dest, Files.FileType.absolute).file().createNewFile();
+        //Log.info(created);
+        //Log.info(fi.exists() + " | " + fi.absolutePath());
+        //dataDirectory.mkdirs();
+        /*dataDirectory.child("prjRes-background").walk(f -> {
+            image.add(f.nameWithoutExtension());
+            imageData.put(f.nameWithoutExtension(), f.nameWithoutExtension());
+        });*/
+    }
+
     @Override
     public void init() {
-        if (settings.getBool("use-planetmenu")) MenuUI.load();
+
+        if (settings.getBool("use-planetmenu")) MenuUI.load(); else if (settings.getBool("use-staticmenu")) {
+            if(!headless) {
+                Reflect.set(ui.menufrag, "renderer", null);
+                Element tmp = ui.menuGroup.getChildren().first();
+                if (!(tmp instanceof Group group)) return;
+                Element render = group.getChildren().first();
+                if (!(render.getClass().isAnonymousClass()
+                        && render.getClass().getEnclosingClass() == Group.class
+                        && render.getClass().getSuperclass() == Element.class)) return;
+                render.visible = false;
+
+                Events.on(ClientLoadEvent.class, e -> {
+                    menuBG.setFillParent(true);
+                    group.addChildAt(0, menuBG);
+                    Timer timer = Timer.instance();
+                    Timer.Task task = new Timer.Task() {
+                        @Override
+                        public void run() {
+                            //Log.infoTag("ArchivDebug", "Background Running....");
+                            if (!state.isMenu()) this.cancel();
+                            frame.set(imageData.get(image.get(settings.getInt("staticimage"))));
+                            menuBG.getRegion().set(frame);
+                        }
+                    };
+                    Events.run(EventType.Trigger.update, () -> {
+                        if (!state.isMenu()) {
+                            //failsafe if it is still running in
+                            //Log.infoTag("ArchivDebug", "Background stopped for real");
+                            return;
+                        }
+                        if (state.isMenu() & timer.isEmpty() || !task.isScheduled())
+                            timer.scheduleTask(task, 0, 0.001f);
+                    });
+                    timer.scheduleTask(task, 0, 0.001f);
+                });
+            } else {
+                Log.warn("Headless detected! Background loading skipped.");
+                Log.infoTag("Project: Restoration", "Headless detected! Background loading skipped.");
+            }
+
+        }
         AutoUpdate.load();
         AutoUpdate.check(settings.getBool("ignore-update"));
 
@@ -171,6 +293,7 @@ public class ClassicMod extends Mod{
         }
     }
 
+    boolean isChangedDirectory = false;
     private void loadSettings() {
 
         ObjectMap<String, Boolean> defaultsRestorationBoolean = new ObjectMap<>();
@@ -191,9 +314,15 @@ public class ClassicMod extends Mod{
                             difference++;
                         }
                     }
+
+                    if (Objects.equals(tabSet.name, "use-staticmenu")) {
+                        if (settings.getBool(tabSet.name) != defaultsRestorationBoolean.get(tabSet.name)) {
+                            difference++;
+                        }
+                    }
                 }
             }
-            if (difference >= 1) {
+            if (difference >= 1 || isChangedDirectory) {
                 Vars.ui.showInfoOnHidden("@mod.restored-mind.restart", () -> {
                     Log.info("Project: Restoration restarting");
                     Core.app.exit();
@@ -203,8 +332,47 @@ public class ClassicMod extends Mod{
         ui.settings.addCategory("@setting.restored-mind", Icon.bookOpen, t -> {
             t.pref(new UIExtended.Banner("restored-mind-cat", -1));
             t.pref(new UIExtended.Separator("restored-graphic"));
-            t.checkPref("use-planetmenu", false);
-            t.checkPref("use-lastplanet-bg", false);
+            if (!settings.getBool("use-planetmenu")) t.checkPref("use-staticmenu", false);
+            else settings.put("use-staticmenu", false);
+
+            if (settings.getBool("use-staticmenu")) {
+                t.pref(new UIExtended.SliderEventSetting("staticimage", 0, 0, image.size - 1, 1, stringProc -> image.get(stringProc)));
+                //staticSelection.
+                t.pref(new UIExtended.ButtonSetting("staticimage-manager", () -> UIExtended.staticImageManager.show()));
+                t.pref(new UIExtended.ButtonSetting("staticimage-upload", Icon.upload, () -> {
+                    Vars.platform.showFileChooser(true, "png", (file) -> {
+                        try {
+                            var dest = dataDirectory + "/prjRes-background";
+                            Fi newDir = new Fi(dest+ "/" + file.name());
+                            if(file.isDirectory()){
+                                newDir.mkdirs();
+                            } else {
+                                file.copyTo(newDir);
+                            }
+                            rebuildStaticImage();
+                        } catch (IllegalArgumentException var3) {
+                            Vars.ui.showErrorMessage("@data.invalid");
+                        } catch (Exception var4) {
+                            var4.printStackTrace();
+                            if (var4.getMessage() != null && var4.getMessage().contains("too short")) {
+                                Vars.ui.showErrorMessage("@data.invalid");
+                            } else {
+                                Vars.ui.showException(var4);
+                            }
+                        }
+
+                    });
+                })
+            );
+            } else {
+                settings.put("staticimage", 0);
+            }
+
+            if (!settings.getBool("use-staticmenu")) t.checkPref("use-planetmenu", false);
+            else settings.put("use-planetmenu", false);
+            if (settings.getBool("use-planetmenu")) t.checkPref("use-lastplanet-bg", false);
+            else settings.put("use-lastplanet-bg", false);
+
             //t.checkPref("vsync", true, b -> Core.graphics.setVSync(b));
             //t.checkPref("use-custom-logo", false);
 
@@ -233,7 +401,7 @@ public class ClassicMod extends Mod{
             t.row();
             t.pref(new UIExtended.ButtonSetting(getModBundle.get(resMod.meta.name + "-debug.unlock"), Icon.lockOpen, () -> UIExtended.contentUnlockDebugDialog.show(), 32, true));
             t.pref(new UIExtended.ModInformation("restored-mod-information", true));
-            settings.defaults("launched-planetary", false);
+            if (!settings.has("unlocks" + "-launched-planetary")) settings.put("unlocks" + "-launched-planetary", false);
             //t.add(resMod.meta.displayName+" - Info").padTop(4f).row();
             //t.checkPref("launched-planetary", false);
             //t.add("Mobile VSync: "+settings.getBool("vsync")).row();
