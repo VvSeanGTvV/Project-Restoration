@@ -276,15 +276,13 @@ public class ClassicMod extends Mod{
 
     boolean isChangedDirectory = false;
 
-    boolean isValidExtension(Fi file) throws IOException {
-        //Log.info(file.extension());
-        String contentType = Files.probeContentType(file.file().toPath());
-        return contentType != null && contentType.startsWith("image/");
+    boolean isValidExtension(String[] acceptedExtension,  Fi file) {
+        Log.info(file.extension());
 
-        /*for (String extension : acceptedExtension){
-            return file.extension().equalsIgnoreCase(extension);
+        for (String extension : acceptedExtension){
+            return file.extension().toLowerCase().endsWith(extension);
         }
-        return false;*/
+        return false;
     }
     private void loadSettings() {
 
@@ -332,10 +330,14 @@ public class ClassicMod extends Mod{
                 //staticSelection.
                 t.pref(new UIExtended.ButtonSetting("staticimage-manager", Icon.book, () -> UIExtended.staticImageManager.show()));
                 t.pref(new UIExtended.ButtonSetting("staticimage-upload", Icon.upload, () -> {
-                    Vars.platform.showFileChooser(true, "png", (file) -> {
+                    Vars.platform.showMultiFileChooser((file) -> {
                         try {
                             var dest = dataDirectory + "/prjRes-background";
-                            if (isValidExtension(file)) {
+                            if (isValidExtension(new String[]{
+                                    "jpg",
+                                    "png",
+                                    "jpeg"
+                            }, file)) {
                                 Fi newDir = new Fi(dest + "/" + file.name());
                                 if (file.isDirectory()) {
                                     newDir.mkdirs();
@@ -357,7 +359,11 @@ public class ClassicMod extends Mod{
                             }
                         }
 
-                    });
+                    }, new String[]{
+                            "jpg",
+                            "png",
+                            "jpeg"}
+                    );
                 })
             );
             } else {
