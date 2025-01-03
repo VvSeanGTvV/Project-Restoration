@@ -282,7 +282,7 @@ public class ClassicMod extends Mod{
         extensions.add(acceptedExtension);
 
         for (String extension : extensions){
-            //Log.info(file.name() + " | " + extension);
+            Log.info(file.name() + " | " + extension);
             return file.extension().toLowerCase().equalsIgnoreCase(extension.toLowerCase());
         }
         return false;
