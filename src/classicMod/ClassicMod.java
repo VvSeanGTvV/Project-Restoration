@@ -278,11 +278,12 @@ public class ClassicMod extends Mod{
 
     boolean isValidExtension(Seq<String> acceptedExtension,  Fi file) {
         //Log.info(file.name());
+        boolean hasExtension = false;
         for (String extension : acceptedExtension){
             Log.info(file.name() + " | " + extension);
-            return file.extension().toLowerCase().equalsIgnoreCase(extension.toLowerCase());
+            hasExtension = file.extension().toLowerCase().equalsIgnoreCase(extension.toLowerCase());
         }
-        return false;
+        return hasExtension;
     }
     private void loadSettings() {
 
