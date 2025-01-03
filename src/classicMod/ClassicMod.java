@@ -280,6 +280,7 @@ public class ClassicMod extends Mod{
         //Log.info(file.name());
 
         for (String extension : acceptedExtension){
+            Log.info(file.name + " | " + extension);
             return file.extension().toLowerCase().equalsIgnoreCase(extension.toLowerCase());
         }
         return false;
@@ -346,14 +347,14 @@ public class ClassicMod extends Mod{
                                 }
                                 rebuildStaticImage();
                             } else {
-                                Vars.ui.showErrorMessage("@data.image-invalid");
+                                Vars.ui.showErrorMessage("@data.invalid-image");
                             }
                         } catch (IllegalArgumentException var3) {
-                            Vars.ui.showErrorMessage("@data.image-invalid");
+                            Vars.ui.showErrorMessage("@data.invalid-image");
                         } catch (Exception var4) {
                             var4.printStackTrace();
                             if (var4.getMessage() != null && var4.getMessage().contains("too short")) {
-                                Vars.ui.showErrorMessage("@data.image-invalid");
+                                Vars.ui.showErrorMessage("@data.invalid-image");
                             } else {
                                 Vars.ui.showException(var4);
                             }
