@@ -42,7 +42,10 @@ public class StaticImageManager extends BaseDialog {
                     }).size(210f, 64f);
                 });
             });
-            if (i.get() >= 2) ImageManger.row();
+            if (i.get() >= 2) {
+                ImageManger.row();
+                i.set(0);
+            }
         });
     }
 

@@ -207,27 +207,6 @@ public class ClassicMod extends Mod{
             }
             //bgData.add(new TextureRegion(image));
         });
-        /*dataDirectory.child("prjRes-background").walk(fi -> {
-            image.add(fi.nameWithoutExtension());
-            Texture image = new Texture(fi);
-            imageData.put(fi.nameWithoutExtension(), new TextureRegion(image));
-        });
-        /*ZipFi background = new ZipFi(Fi.get(dest + "/prjRes-background"));
-        background.walk(fi -> {
-            image.add(fi.nameWithoutExtension());
-            Texture image = new Texture(fi);
-            imageData.put(fi.nameWithoutExtension(), new TextureRegion(image));
-            //bgData.add(new TextureRegion(image));
-        });
-        //Log.info();
-        //boolean created = new Fi(dest, Files.FileType.absolute).file().createNewFile();
-        //Log.info(created);
-        //Log.info(fi.exists() + " | " + fi.absolutePath());
-        //dataDirectory.mkdirs();
-        /*dataDirectory.child("prjRes-background").walk(f -> {
-            image.add(f.nameWithoutExtension());
-            imageData.put(f.nameWithoutExtension(), f.nameWithoutExtension());
-        });*/
     }
 
     @Override
