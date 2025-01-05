@@ -12,6 +12,9 @@ import mindustry.world.meta.Attribute;
 
 public class SteamHugAI extends AIController {
 
+    boolean stucked = false;
+
+
     @Nullable
     public Tile getClosestVent() {
         Seq<Tile> avaliableVents = PathfinderExtended.SteamVents.copy().removeAll(tile -> tile.build instanceof Heart.HeartBuilding);
@@ -32,6 +35,21 @@ public class SteamHugAI extends AIController {
         if (tile != null && tile.floor().attributes.get(Attribute.steam) >= 1f) {
             tile.setBlock(ClassicBlocks.cord, unit.team);
             unit.kill();
+        }
+    }
+
+    @Override
+    public void pathfind(int pathTarget) {
+        stucked = false;
+        int costType = this.unit.pathType();
+        Tile tile = this.unit.tileOn();
+        if (tile != null) {
+            Tile targetTile = Vars.pathfinder.getTargetTile(tile, Vars.pathfinder.getField(this.unit.team, costType, pathTarget));
+            if (tile != targetTile && (costType != 2 || targetTile.floor().isLiquid)) {
+                this.unit.movePref(vec.trns(this.unit.angleTo(targetTile.worldx(), targetTile.worldy()), this.unit.speed()));
+            } else {
+                stucked = true;
+            }
         }
     }
 }

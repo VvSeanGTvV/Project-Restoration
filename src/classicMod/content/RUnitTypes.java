@@ -305,14 +305,26 @@ public class RUnitTypes {
             }
         };
 
+        blob = new NeoplasmUnitType("vesicle"){{
+            useUnitCap = false;
+            controller = u -> new SteamHugAI();
+            health = 20;
+
+            baseRegion = legRegion = Core.atlas.white();
+
+            constructor = CrawlUnit::create;
+        }};
+
         matte = new OrnitopterUnitType("matte"){{
-            constructor = UnitEntity::create;
+            constructor = PayloadUnit::create;
             useUnitCap = false;
             lowAltitude = true;
             speed = 2.7f;
             accel = 0.08f;
             drag = 0.04f;
             flying = true;
+            payloadCapacity = Mathf.sqr(0.75f) * tilePayload;
+            controller = u -> new HelperBlobAI();
 
             armor = 1.225f;
             health = 210;
@@ -341,16 +353,6 @@ public class RUnitTypes {
                 }});
             }
 
-        }};
-
-        blob = new NeoplasmUnitType("vesicle"){{
-            useUnitCap = false;
-            controller = u -> new SteamHugAI();
-            health = 20;
-
-            baseRegion = legRegion = Core.atlas.white();
-
-            constructor = CrawlUnit::create;
         }};
 
         mantis = new MantisRayType("skat"){{

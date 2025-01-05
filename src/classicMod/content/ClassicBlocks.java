@@ -100,7 +100,7 @@ public class ClassicBlocks {
 
     interplanetaryAccelerator, //Endgame - Mindustry
 
-    ductJunction, cord, heart, neoplasiaDrill, bloom, pore, tole, oxideCrafter, renaleSpawner, hydroBomberSpawner, walkySpawner, squidSpawner //Erekir - Prototype [v8-dev]
+    ductJunction, cord, heart, neoplasiaDrill, bloom, pore, tole, oxideCrafter, renaleSpawner, hydroBomberSpawner, walkySpawner, squidSpawner, muleSpawner //Erekir - Prototype [v8-dev]
     ;
 
 
@@ -983,6 +983,19 @@ public class ClassicBlocks {
             spawnEffect = RFx.smokeColor;
             spawnColor = Liquids.arkycite.color;
             spawnTime = 120f;
+        }};
+
+        muleSpawner = new CausticSpawner("mule-spawner"){{
+            requirements(Category.distribution, with(Items.beryllium, 1));
+            consumeItems(with(Items.graphite, 1));
+
+            size = 4;
+
+            selfDestruct = true;
+            spawn = RUnitTypes.mule;
+            spawnEffect = RFx.smokeColor;
+            spawnColor = Liquids.arkycite.color;
+            spawnTime = 60f;
         }};
 
         squidSpawner = new CausticSpawner("neoplasm-squid-spawner"){{
