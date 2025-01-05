@@ -344,7 +344,8 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                         left() == null &&
                         right() == null
                 ){
-                    ReplaceTo(ClassicBlocks.squidSpawner);
+                    if (Mathf.randomBoolean(0.5f)) ReplaceTo(ClassicBlocks.muleSpawner);
+                    else ReplaceTo(ClassicBlocks.squidSpawner);
                     cordMode = false;
                 }
 
@@ -352,6 +353,7 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                         left() == null &&
                         right() == null
                 ){
+
                     ReplaceTo(ClassicBlocks.hydroBomberSpawner);
                     cordMode = false;
                 }
