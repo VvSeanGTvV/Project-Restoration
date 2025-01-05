@@ -32,7 +32,7 @@ public class SteamHugAI extends AIController {
         }
         faceMovement();
         Tile tile = unit.tileOn();
-        if (tile != null && tile.floor().attributes.get(Attribute.steam) >= 1f) {
+        if (tile != null && tile.floor().attributes.get(Attribute.steam) >= 1f && !(tile.build instanceof Heart.HeartBuilding)) {
             tile.setBlock(ClassicBlocks.cord, unit.team);
             unit.kill();
         }

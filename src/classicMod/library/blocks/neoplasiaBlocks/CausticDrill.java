@@ -173,14 +173,15 @@ public class CausticDrill extends NeoplasmBlock {
         public void write(Writes write) {
             super.write(write);
 
-            write.i(dominantItem.id);
+            write.i((dominantItem != null) ? dominantItem.id : -1);
         }
 
         @Override
         public void read(Reads read, byte revision) {
             super.read(read, revision);
 
-            dominantItem = Vars.content.item(read.i());
+            int id = read.i();
+            dominantItem = (id <= -1) ? null : Vars.content.item(id);
         }
     }
 }

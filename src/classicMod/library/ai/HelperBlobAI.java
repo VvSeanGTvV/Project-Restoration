@@ -55,7 +55,12 @@ public class HelperBlobAI extends AIController {
         for (int y = -mid; y < r; y++){
             for (int x = -mid; x < r; x++){
                 Tile tile = Vars.world.tile(unit.tileX() + x, unit.tileY() + y);
-                if (tile != null && tile.block() == Blocks.air) avaliableLand.add(tile);
+                if (
+                        tile != null
+                        && tile.block() == Blocks.air
+                        && tile.floor() != null
+                        && !tile.floor().isLiquid
+                ) avaliableLand.add(tile);
             }
         }
 
@@ -68,7 +73,6 @@ public class HelperBlobAI extends AIController {
         Unit blob = Units.closest(unit.team, unit.x, unit.y, u -> u.controller() instanceof SteamHugAI hug && hug.stucked);
         Tile targetTile = getClosestVent();
         if(unit instanceof PayloadUnit payloadUnit && timer <= 0) {
-
             int range = 160;
             if (stage == 2 && blob != null){
                 unit.movePref(vec.trns(this.unit.angleTo(blob.x(), blob.y()), this.unit.speed()));
@@ -83,7 +87,10 @@ public class HelperBlobAI extends AIController {
                 //if (unit.within(vent, unit.hitSize)) payloadUnit.pickup(vent);
             }
             if (stage == 3 && payloadUnit.payloads.size > 0 && payloadUnit.payloads.first() instanceof UnitPayload blobPayload){
-                if (unit.tileOn() != null && unit.tileOn().block() == Blocks.air){
+                if (unit.tileOn() != null
+                        && unit.tileOn().block() == Blocks.air
+                        && !unit.tileOn().floor().isLiquid
+                ){
                     payloadUnit.dropLastPayload();
                     timer = 10f;
                 } else {

@@ -72,14 +72,14 @@ public class Heart extends NeoplasmBlock {
         public Tile getClosestVent() {
             Seq<Tile> avaliableVents = PathfinderExtended.SteamVents.copy().removeAll(tile -> tile.build instanceof Heart.HeartBuilding);
             Tile vent = Geometry.findClosest(this.x, this.y, avaliableVents);
-            return (vent != null && vent.build == null) ? vent : null;
+            return (vent != null && !(vent.build instanceof Heart.HeartBuilding)) ? vent : null;
         }
 
         @Override
         public void updateBeat() {
 
             if (Mathf.chance(0.25) && getClosestVent() != null){
-                if (!Vars.net.client() && false) {
+                if (!Vars.net.client()) {
                     unit = unitType.create(team);
                     unit.set(this);
                     unit.rotation(90f);
