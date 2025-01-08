@@ -16,7 +16,7 @@ import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
-public class SuicideBomberAI extends AIController {
+public class SuicideBomberAI extends NeoplasmAIController {
 
     @Override
     public void updateUnit(){

@@ -4,7 +4,7 @@ import mindustry.entities.Effect;
 import mindustry.gen.Unit;
 import mindustry.type.unit.NeoplasmUnitType;
 
-public class NeoplasmFlyingUnitType extends NeoplasmUnitType {
+public class NeoplasmFlyingUnitType extends NewNeoplasmUnitType {
 
     public Effect smokeTrail;
 

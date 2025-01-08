@@ -1,20 +1,15 @@
 package classicMod.library.ai;
 
 import arc.Events;
-import arc.math.geom.*;
+import arc.math.geom.QuadTree;
 import arc.struct.*;
-import arc.util.*;
 import classicMod.library.blocks.neoplasiaBlocks.Heart;
 import mindustry.Vars;
 import mindustry.ai.Pathfinder;
 import mindustry.game.EventType;
 import mindustry.gen.Building;
-import mindustry.type.Item;
 import mindustry.world.Tile;
-import mindustry.world.blocks.legacy.LegacyCommandCenter;
-import mindustry.world.meta.*;
-
-import java.util.Iterator;
+import mindustry.world.meta.Attribute;
 
 public class PathfinderExtended extends Pathfinder {
     public static final int fieldVent = 1, fieldCommandCenter = 2, fieldOres = 3;
@@ -109,4 +104,6 @@ public class PathfinderExtended extends Pathfinder {
         fieldTypes.add(CommandCenterField::new);
         fieldTypes.add(OresField::new);
     }
+
+
 }

@@ -17,7 +17,7 @@ import mindustry.world.meta.*;
 import mindustry.type.*;
 
 // from xstabux!
-public class OrnitopterUnitType extends NeoplasmUnitType {
+public class OrnitopterUnitType extends NewNeoplasmUnitType {
     public final Seq<WingBlade> blades = new Seq<>();
     public float bladeDeathMoveSlowdown = 0.01f, fallDriftScl = 60f;
     public float fallSmokeX = 0f, fallSmokeY = 0f, fallSmokeChance = 0.1f;

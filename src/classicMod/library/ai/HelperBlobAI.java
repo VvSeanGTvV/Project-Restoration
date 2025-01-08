@@ -17,7 +17,7 @@ import mindustry.world.blocks.payloads.UnitPayload;
 
 import static arc.util.Time.delta;
 
-public class HelperBlobAI extends AIController {
+public class HelperBlobAI extends NeoplasmAIController {
 
     int stage;
     float timer = 0;
@@ -36,13 +36,6 @@ public class HelperBlobAI extends AIController {
         }
         if (stage == 0) stage = 2;
         super.updateUnit();
-    }
-
-    @Nullable
-    public Tile getClosestVent() {
-        Seq<Tile> avaliableVents = PathfinderExtended.SteamVents.copy().removeAll(tile -> tile.build instanceof Heart.HeartBuilding);
-        Tile vent = Geometry.findClosest(this.unit.x, this.unit.y, avaliableVents);
-        return (vent != null && !(vent.build instanceof Heart.HeartBuilding)) ? vent : null;
     }
 
     @Nullable

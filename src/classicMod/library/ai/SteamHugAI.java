@@ -1,26 +1,14 @@
 package classicMod.library.ai;
 
-import arc.math.geom.Geometry;
-import arc.struct.Seq;
-import arc.util.*;
 import classicMod.content.ClassicBlocks;
 import classicMod.library.blocks.neoplasiaBlocks.Heart;
 import mindustry.Vars;
-import mindustry.entities.units.AIController;
 import mindustry.world.Tile;
 import mindustry.world.meta.Attribute;
 
-public class SteamHugAI extends AIController {
+public class SteamHugAI extends NeoplasmAIController {
 
     boolean stucked = false;
-
-
-    @Nullable
-    public Tile getClosestVent() {
-        Seq<Tile> avaliableVents = PathfinderExtended.SteamVents.copy().removeAll(tile -> tile.build instanceof Heart.HeartBuilding);
-        Tile vent = Geometry.findClosest(this.unit.x, this.unit.y, avaliableVents);
-        return (vent != null && !(vent.build instanceof Heart.HeartBuilding)) ? vent : null;
-    }
 
     @Override
     public void updateMovement() {

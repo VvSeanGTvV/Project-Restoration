@@ -7,7 +7,7 @@ import mindustry.gen.Unit;
 import mindustry.type.unit.NeoplasmUnitType;
 
 
-public class BomberUnitType extends NeoplasmUnitType {
+public class BomberUnitType extends NewNeoplasmUnitType {
     public Effect smokeTrail;
     public Color smokeColor;
     public float smokeX, smokeY, smokeXRand, smokeYRand;
