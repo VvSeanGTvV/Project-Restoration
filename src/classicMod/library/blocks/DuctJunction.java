@@ -13,6 +13,7 @@ import mindustry.gen.*;
 import mindustry.graphics.Layer;
 import mindustry.type.Item;
 import mindustry.world.Block;
+import mindustry.world.blocks.distribution.Junction;
 import mindustry.world.meta.BlockGroup;
 
 import static mindustry.Vars.*;
@@ -53,7 +54,8 @@ public class DuctJunction extends Block {
     }
 
     public class DuctJunctionBuild extends Building {
-        public Seq<itemData> itemDataSeq = new Seq<>(capacity);
+        public itemData[][] itemBuffer = new itemData[4][capacity];
+        public int[] index = new int[5];
 
         boolean validBuilding(Building dest, Item item){
             if (item == null || dest == null) return false;
@@ -62,21 +64,28 @@ public class DuctJunction extends Block {
 
         @Override
         public void updateTile() {
-            for(int i = 0; i < capacity; ++i) {
-                if (i < itemDataSeq.size && itemDataSeq.get(i) != null) {
-                    itemData data = itemDataSeq.get(i);
+            for (int i = 0; i < 4; ++i) {
+                if (index[i] > 0) {
+                    itemData data = itemBuffer[i][0];
+                    if (index[i] > capacity) {
+                        index[i] = capacity;
+                    }
+
                     float progress = data.progress;
 
                     Building dest = nearby(data.rotation);
                     progress += edelta() / (speed + 0.05f) * 2f;
 
                     data.updateProgress((dest == null) ? 0f : progress);
-                    if (dest != null){
+                    if (dest != null) {
                         if (progress >= 2f - 1F) {
                             Item item = data.item;
                             if (item != null && validBuilding(dest, item)) {
                                 dest.handleItem(this, item);
-                                itemDataSeq.remove(data);
+                                //itemBuffer[i][t - 1] = null;
+                                System.arraycopy(itemBuffer[i], 1, itemBuffer[i], 0, Math.max(index[i] - 1, 0));
+                                index[i]--;
+                                //itemDataSeq.remove(data);
                             }
                         }
                     }
@@ -91,22 +100,22 @@ public class DuctJunction extends Block {
         @Override
         public void handleItem(Building source, Item item) {
             int relative = source.relativeTo(this.tile);
-            if (relative != -1) itemDataSeq.add(new itemData(item, relative));
+            if (relative != -1){
+                itemBuffer[relative][index[relative]++] = new itemData(item, relative);
+            }
         }
 
-        boolean accepts(int dir, int maximum){
-            int number = totalDirection(dir);
-            return number < maximum;
-        }
-
-        int totalDirection(int dir){
+        int totalNonNull(int dir){
             int number = 0;
-            for (var itemPos : itemDataSeq){
-                if (itemPos.rotation == dir) number++;
+            for (var data : itemBuffer[dir]){
+                if (data != null) number++;
             }
             return number;
         }
 
+        boolean accepts(int dir, int maximum){
+            return index[dir] < itemBuffer[dir].length;
+        }
         @Override
         public boolean acceptItem(Building source, Item item) {
             int relative = source.relativeTo(this.tile);
@@ -135,47 +144,59 @@ public class DuctJunction extends Block {
         }
 
         public void drawItems(){
-            for(var data : itemDataSeq){
-                Draw.z(29.6F);
-                float progress = data.progress;
-                int r = data.rotation;
-                int recDir = r - 2;
-                Item current = data.item;
-                Tmp.v1.set(Geometry.d4x(recDir) * tilesize / 2f, Geometry.d4y(recDir) * tilesize / 2f)
-                        .lerp(Geometry.d4x(r) * tilesize / 2f, Geometry.d4y(r) * tilesize / 2f,
-                                Mathf.clamp((progress + 1f) / 2f));
-                Tmp.v2.set(Geometry.d4x(r) * 0.95f, Geometry.d4y(r) * 0.95f).lerp(Vec2.ZERO, Mathf.clamp((progress + 1f) / 2f));
+            for(int i = 0; i < 4; ++i){
+                for(var data : itemBuffer[i]){
+                    if (data == null) continue;
 
-                Draw.rect(current.fullIcon, x + Tmp.v1.x - Tmp.v2.x, y + Tmp.v1.y - Tmp.v2.y, itemSize, itemSize);
+                    Draw.z(29.6F);
+                    float progress = data.progress;
+                    int r = data.rotation;
+                    int recDir = r - 2;
+                    Item current = data.item;
+                    Tmp.v1.set(Geometry.d4x(recDir) * tilesize / 2f, Geometry.d4y(recDir) * tilesize / 2f)
+                            .lerp(Geometry.d4x(r) * tilesize / 2f, Geometry.d4y(r) * tilesize / 2f,
+                                    Mathf.clamp((progress + 1f) / 2f));
+                    Tmp.v2.set(Geometry.d4x(r) * 0.95f, Geometry.d4y(r) * 0.95f).lerp(Vec2.ZERO, Mathf.clamp((progress + 1f) / 2f));
+
+                    Draw.rect(current.fullIcon, x + Tmp.v1.x - Tmp.v2.x, y + Tmp.v1.y - Tmp.v2.y, itemSize, itemSize);
+                }
             }
+
         }
 
         @Override
         public void write(Writes write) {
             super.write(write);
 
-            write.i(itemDataSeq.size);
-            for (var data : itemDataSeq){
-                write.i(data.rotation);
-                write.i(data.item.id);
-                write.f(data.progress);
+            for(int r = 0; r < 4; ++r) {
+                write.i(index[r]);
+                for (var data : itemBuffer[r]) {
+                    if (data == null) continue;
+                    write.i(data.rotation);
+                    write.i(data.item.id);
+                    write.f(data.progress);
+                }
             }
         }
 
         @Override
         public void read(Reads read, byte revision) {
             super.read(read, revision);
-            itemDataSeq.clear();
 
-            int size = read.i();
-            for (int i = 0; i < size; i++){
-                int r = read.i();
-                int id = read.i();
-                Item item = content.item(id);
-                float progress = read.f();
-                itemDataSeq.add(new itemData(item, r, progress));
+            for(int r = 0; r < 4; ++r) {
+                int size = read.i();
+                index[r] = size;
+                for (int i = 0; i < size; i++) {
+                    if (size < itemBuffer[r].length) {
+                        int a = read.i();
+                        int id = read.i();
+                        Item item = content.item(id);
+                        float progress = read.f();
+                        itemBuffer[r][i] = new itemData(item, a, progress);
+                    }
+                    //itemDataSeq.add(new itemData(item, r, progress));
+                }
             }
-            updateTile();
         }
 
         public class itemData {

@@ -100,9 +100,8 @@ public class ClassicBlocks {
 
     interplanetaryAccelerator, //Endgame - Mindustry
 
-    ductJunction, cord, heart, neoplasiaDrill, bloom, pore, tole, oxideCrafter, renaleSpawner, hydroBomberSpawner, walkySpawner, squidSpawner, muleSpawner //Erekir - Prototype [v8-dev]
+    ductJunction, cord, heart, neoplasiaDrill, bloom, pore, tole, oxideCrafter, renaleSpawner, hydroBomberSpawner, walkySpawner, squidSpawner, muleSpawner, largeCliffCrusher //Erekir - Prototype [v8-dev]
     ;
-
 
     public void load() {
 
@@ -1102,6 +1101,29 @@ public class ClassicBlocks {
             consumePower(3f);
             consumeLiquid(Liquids.water, 0.2f);
         }};
+
+        largeCliffCrusher = new NewWallCrafter("large-cliff-crusher"){{
+            requirements(Category.production, with(Items.silicon, 80, Items.surgeAlloy, 60, Items.beryllium, 100, Items.tungsten, 50));
+            consumePower(30 / 60f);
+
+            drillTime = 50f;
+            size = 3;
+            attribute = Attribute.sand;
+            output = Items.sand;
+            fogRadius = 3;
+            ambientSound = Sounds.drill;
+            ambientSoundVolume = 0.05f;
+
+            consumeLiquid(Liquids.ozone, 1f / 60f);
+
+            itemConsumer = consumeItem(Items.tungsten).boost();
+            itemCapacity = 20;
+            boostItemUseTime = 60f * 10f;
+
+            //alternatively, boost using nitrogen:
+            //consumeLiquid(Liquids.nitrogen, 3f / 60f).boost();
+        }};
+
 
         //Turrets
         scatterSilo = new ScatterSilo("scatter-silo"){{

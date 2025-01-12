@@ -159,7 +159,7 @@ public class UIExtended {
                 max = (e.max);
                 rebuildSlider();
             });
-
+            table.add(newSlider).left();
             rebuildSlider();
             table.row();
         }

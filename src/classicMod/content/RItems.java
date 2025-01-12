@@ -78,16 +78,8 @@ public class RItems extends Items {
         fissileMatter.hidden = false; //ok
         Liquids.gallium.hidden = false;
 
-        for (var item : erekirItems){
-            erekirNewItems.add(item);
-        }
-        erekirNewItems.add(Items.scrap);
-        /*Planets.erekir.hiddenItems.clear();
-        for (var item : serpuloItems){
-            if (!erekirNewItems.contains(item)){
-                Planets.erekir.hiddenItems.add(item);
-            }
-        }*/
+        Items.erekirItems.add(scrap);
+        Items.serpuloItems.add(new Item[]{electrum, denseAlloy, goldPowder});
         Planets.erekir.hiddenItems.remove(scrap);
         Planets.erekir.hiddenItems.add(new Item[]{electrum, denseAlloy, goldPowder});
 
