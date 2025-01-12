@@ -54,8 +54,8 @@ public class DuctJunction extends Block {
     }
 
     public class DuctJunctionBuild extends Building {
-        public itemData[][] itemBuffer = new itemData[4][capacity];
-        public int[] index = new int[5];
+        public final itemData[][] itemBuffer = new itemData[4][capacity];
+        public final int[] index = new int[5];
 
         boolean validBuilding(Building dest, Item item){
             if (item == null || dest == null) return false;
@@ -83,14 +83,20 @@ public class DuctJunction extends Block {
                             if (item != null && validBuilding(dest, item)) {
                                 dest.handleItem(this, item);
                                 //itemBuffer[i][t - 1] = null;
-                                System.arraycopy(itemBuffer[i], 1, itemBuffer[i], 0, Math.max(index[i] - 1, 0));
+                                //itemBuffer[i][index[i]] = null;
+                                for (int a = 0; a < itemBuffer[i].length; a++){
+                                    if (a == 0) itemBuffer[i][a] = null;
+                                    else itemBuffer[i][a - 1] = itemBuffer[i][a];
+                                }
                                 index[i]--;
                                 //itemDataSeq.remove(data);
                             }
                         }
                     }
                 }
+                //Log.info(totalNonNull(i) + " | " + index[i]);
             }
+
         }
 
         public int acceptStack(Item item, int amount, Teamc source) {
