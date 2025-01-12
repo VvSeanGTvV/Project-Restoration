@@ -26,9 +26,7 @@ public class ExtendedErekirTechTree {
             node(ClassicBlocks.shieldBreaker, Seq.with(
                     new SectorComplete(intersect)
             ), () -> {
-                node(ClassicBlocks.shieldProjector, () -> {
-                    node(ClassicBlocks.largeShieldProjector);
-                });
+
             });
 
         });

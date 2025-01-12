@@ -462,7 +462,6 @@ public class ClassicBlocks {
         };
 
         shieldProjector = new BaseShield("shield-projector"){{
-            category = Category.effect;
             requirements(Category.effect, with(Items.tungsten, 130,Items.surgeAlloy, 75, Items.silicon, 110));
 
             size = 3;
