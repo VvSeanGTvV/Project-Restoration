@@ -5,10 +5,12 @@ import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
 import classicMod.library.drawCustom.BlendingCustom;
+import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.graphics.Layer;
 import mindustry.type.UnitType;
+import mindustry.world.Tile;
 import mindustry.world.consumers.ConsumeItems;
 
 public class CausticSpawner extends NeoplasmBlock {
@@ -88,6 +90,23 @@ public class CausticSpawner extends NeoplasmBlock {
         }
 
         @Override
+        public void death() {
+            Tile ontile = tile;
+            ontile.setBlock(pipe, team);
+            if (ontile.build != null && ontile.build instanceof Cord.CordBuild cordBuild){
+                for (int dy = -size; dy < size; dy++) {
+                    for (int dx = -size; dx < size; dx++) {
+                        Tile tile = Vars.world.tile(ontile.x + dx, ontile.y + dy);
+                        if (tile.floor() != null && (tile.build == this)) {
+                            cordBuild.Queue.add(tile);
+                        }
+                    }
+                }
+            }
+            super.death();
+        }
+
+        @Override
         public void updateBeat() {
             super.updateBeat();
             if (progress >= spawnTime){
@@ -102,9 +121,7 @@ public class CausticSpawner extends NeoplasmBlock {
                     unit.add();
                 }
                 if (selfDestruct){
-                    for (var Tile : proximityTiles){
-                        Tile.setBlock(pipe);
-                    }
+                    this.damage(this.health);
                 }
             }
         }

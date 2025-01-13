@@ -20,7 +20,7 @@ import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.Autotiler;
 import mindustry.world.blocks.defense.turrets.Turret;
-import mindustry.world.meta.BlockGroup;
+import mindustry.world.meta.*;
 
 import static mindustry.Vars.itemSize;
 
@@ -79,6 +79,8 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
         public int retry = 0;
 
         boolean useful;
+
+        public Seq<Tile> Queue;
 
         @Nullable
         public Item current;
@@ -167,27 +169,6 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                 }
             }
 
-            /*boolean keepDir = Mathf.randomBoolean(0.98f);
-            int i = Mathf.random(1, 4),
-                    rot = (keepDir && !ignorePath.contains(facingRot)) ? facingRot : Mathf.mod(facingRot + i, 4);
-            Tile near = nearbyTile(rot);
-            Tile nearRight = near.nearby(Mathf.mod(rot + 1, 4));
-            Tile nearLeft = near.nearby(Mathf.mod(rot - 1, 4));
-            //Tile nearFront = near.nearby(rot);
-            if (
-                    passable(near)
-                    && passable(nearRight)
-                    && passable(nearLeft)
-                    && !ignorePath.contains(rot)
-                            //&& passable(nearFront.block())
-            ){
-                if (!CantReplace(near.block())) near.setBlock(ClassicBlocks.cord, team);
-                if (near.build != null && near.build instanceof CordBuild cordBuild) {
-                    cordBuild.facingRot = rot;
-                    cordBuild.prev = this;
-                }
-            }*/
-            //boolean VentTask = Mathf.randomBoolean(0.98f);
             task = (task != 0) ? task : PathfinderExtended.fieldVent;
             Tile next = pathfind(task); //VentTask) ? pathfind(PathfinderExtended.fieldVent) : pathfind(PathfinderExtended.fieldOres);
             if (
@@ -414,24 +395,21 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                         dest.handleItem(this, item);
                     }
                 }
-
-                /*Seq<NeoplasmBuilding> avaliable = new Seq<>();
-                for (int i = 0; i < 4; i++){
-                    NeoplasmBuilding dest = getNeoplasia(nearby(facingRot + i));
-                    Item item = items.first();
-                    if (validBuilding(dest, item)) avaliable.add(dest);
-                }
-                if (avaliable.size > 0) {
-                    int selected = Mathf.clamp(Mathf.random(0, avaliable.size), 0, avaliable.size - 1);
-                    Item item = items.first();
-                    Building dest = avaliable.get(selected);
-                    if (item != null && validBuilding(dest, item)) {
-                        current = null;
-                        items.clear();
-                        dest.handleItem(this, item);
-                    }
-                }*/
             }
+        }
+
+        public void coverQueue(Block cordPlacement){
+            for (var tile : Queue){
+                if (tile.floor() != null && (tile.build == null || tile.build instanceof Cord.CordBuild)) {
+                    if (tile.build == null) tile.setBlock(cordPlacement, team, rotation);
+                }
+            }
+        }
+
+        @Override
+        public void updateTile() {
+            super.updateTile();
+            if (Queue.size > 0) coverQueue(pipe);
         }
 
         @Override
