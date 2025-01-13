@@ -29,12 +29,12 @@ public class MantisRayType extends UnitType {
     @Override
     public void update(Unit unit) {
         super.update(unit);
-        Tail.timer += Time.delta / 20f;
-        Tail.rot = Mathf.slerpDelta(Tail.rot, unit.rotation, 0.35f + Tail.tailRotationSpeed);
-        Tail.rotEnd = Mathf.slerpDelta(Tail.rotEnd, unit.rotation, 0.15f + Tail.tailRotationSpeed);
+        this.Tail.timer += Time.delta / 20f;
+        this.Tail.rot = Mathf.slerpDelta(this.Tail.rot, unit.rotation, 0.35f + this.Tail.tailRotationSpeed);
+        this.Tail.rotEnd = Mathf.slerpDelta(this.Tail.rotEnd, unit.rotation, 0.15f + this.Tail.tailRotationSpeed);
 
-        Tail.lastRot = (unit.rotation >= 180f) ? Tail.rot - 360f : Tail.rot;
-        Tail.lastRotEnd = (unit.rotation >= 180f) ? Tail.rotEnd - 360f : Tail.rotEnd;
+        this.Tail.lastRot = (unit.rotation >= 180f) ? this.Tail.rot - 360f : this.Tail.rot;
+        this.Tail.lastRotEnd = (unit.rotation >= 180f) ? this.Tail.rotEnd - 360f : this.Tail.rotEnd;
     }
 
     @Override

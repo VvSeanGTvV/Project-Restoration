@@ -20,7 +20,6 @@ public class NeoplasmAIController extends AIController {
     @Override
     public void updateUnit() {
         Unit uNeo = Units.closest(unit.team, unit.x, unit.y, u -> u.controller() instanceof NeoplasmAIController);
-        Log.info(DodgeTile);
 
         super.updateUnit();
     }
