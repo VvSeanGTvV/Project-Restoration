@@ -102,7 +102,9 @@ public class CausticSpawner extends NeoplasmBlock {
                     unit.add();
                 }
                 if (selfDestruct){
-                    this.damage(health);
+                    for (var Tile : proximityTiles){
+                        Tile.setBlock(pipe);
+                    }
                 }
             }
         }

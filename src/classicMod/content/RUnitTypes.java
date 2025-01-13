@@ -359,9 +359,9 @@ public class RUnitTypes {
             constructor = UnitEntity::create;
             health = 1000f;
 
-            Tail = new MantisTail(name + "-tail"){{
+            Tails.addAll(new MantisTail(name + "-tail"){{
                 tailRotationSpeed = -0.05f;
-            }};
+            }});
 
             flying = true;
         }};

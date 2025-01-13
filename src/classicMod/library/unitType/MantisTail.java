@@ -16,7 +16,7 @@ import mindustry.world.blocks.environment.Floor;
 import static classicMod.content.ClassicVars.empty;
 import static mindustry.Vars.world;
 
-public class MantisTail {
+public class MantisTail implements Cloneable{
     public float layerOffset;
     public float tailRotationSpeed;
     public String spriteName;
@@ -24,6 +24,7 @@ public class MantisTail {
     public TextureRegion TailBody, TailBodyEnd;
     public TextureRegion TailBodyOutline, TailBodyEndOutline;
     public Func<MantisTail, MantisMountTail> mountType;
+
     public float timer, lastRot, lastRotEnd, rot, rotEnd;
 
     public float shadowElevation = -1f;
@@ -50,6 +51,26 @@ public class MantisTail {
 
         TailBodyOutline = Core.atlas.find(spriteName + "-mid-outline");
         TailBodyEndOutline = Core.atlas.find(spriteName + "-end-outline");
+    }
+
+    public void update(Unit unit){
+        timer += Time.delta / 20f;
+        rot = Mathf.slerpDelta(rot, unit.rotation, 0.35f + tailRotationSpeed);
+        rotEnd = Mathf.slerpDelta(rotEnd, unit.rotation, 0.15f + tailRotationSpeed);
+
+        lastRot = (unit.rotation >= 180f) ? rot - 360f : rot;
+        lastRotEnd = (unit.rotation >= 180f) ? rotEnd - 360f : rotEnd;
+    }
+
+    @Override
+    public MantisTail clone() {
+        try {
+            MantisTail clone = (MantisTail) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 
     public static class MantisMountTail {

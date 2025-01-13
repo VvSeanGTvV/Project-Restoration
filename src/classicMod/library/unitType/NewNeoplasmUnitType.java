@@ -11,8 +11,6 @@ import mindustry.world.Tile;
 
 public class NewNeoplasmUnitType extends NeoplasmUnitType {
 
-
-
     public NewNeoplasmUnitType(String name) {
         super(name);
     }
