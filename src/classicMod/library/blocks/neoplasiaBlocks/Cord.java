@@ -80,7 +80,7 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
 
         boolean useful;
 
-        public Seq<Tile> Queue;
+        public Seq<Tile> Queue = new Seq<>();
 
         @Nullable
         public Item current;
@@ -273,6 +273,8 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
         @Override
         public void update() {
             super.update();
+            if (Queue.size > 0) coverQueue(pipe);
+
             if (prev != null && retry >= 5){
                 if (task == PathfinderExtended.fieldVent) {
                     task = PathfinderExtended.fieldOres;
@@ -400,16 +402,10 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
 
         public void coverQueue(Block cordPlacement){
             for (var tile : Queue){
-                if (tile.floor() != null && (tile.build == null || tile.build instanceof Cord.CordBuild)) {
-                    if (tile.build == null) tile.setBlock(cordPlacement, team, rotation);
+                if ((tile.build == null || tile.build instanceof Cord.CordBuild)) {
+                    tile.setBlock(cordPlacement, team, rotation);
                 }
             }
-        }
-
-        @Override
-        public void updateTile() {
-            super.updateTile();
-            if (Queue.size > 0) coverQueue(pipe);
         }
 
         @Override

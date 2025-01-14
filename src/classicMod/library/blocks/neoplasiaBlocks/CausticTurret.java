@@ -39,6 +39,7 @@ public class CausticTurret extends NeoplasmBlock {
 
         @Override
         public void updateBeat() {
+            growCord(pipe);
             beat++;
             shoot = target != null;
             if (shoot && beat >= perBeat) {

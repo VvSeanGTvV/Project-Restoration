@@ -52,22 +52,6 @@ public class Heart extends NeoplasmBlock {
         public UnitType unitType = RUnitTypes.blob;
         public @Nullable Unit unit;
 
-        @Override
-        public void growCord(Block block) {
-
-            int randRot = Mathf.range(4);
-            Tile tile = nearbyTile(randRot);
-            if (tile != null) {
-                if (tile.build == null) {
-                    tile.setBlock(block, team);
-                    if (tile.build != null && tile.build instanceof Cord.CordBuild cordBuild) {
-                        cordBuild.facingRot = cordBuild.relativeTo(this.tile);
-                    }
-                }
-            }
-            super.growCord(block);
-        }
-
         @Nullable
         public Tile getClosestVent() {
             Seq<Tile> avaliableVents = PathfinderExtended.SteamVents.copy().removeAll(tile -> tile.build instanceof Heart.HeartBuilding);

@@ -206,6 +206,18 @@ public class NeoplasmBlock extends Block {
         }
 
         public void growCord(Block block){
+            if (!isCord){
+                int rand = Mathf.random(0, proximityTiles.size);
+                Tile tile = proximityTiles.get(rand % proximityTiles.size);
+                if (tile != null) {
+                    if (tile.build == null) {
+                        tile.setBlock(block, team);
+                        if (tile.build != null && tile.build instanceof Cord.CordBuild cordBuild) {
+                            cordBuild.facingRot = cordBuild.relativeTo(this.tile);
+                        }
+                    }
+                }
+            }
             grow = false;
         }
 

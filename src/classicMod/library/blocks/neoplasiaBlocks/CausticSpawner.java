@@ -4,6 +4,7 @@ import arc.Core;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
+import arc.util.Log;
 import classicMod.library.drawCustom.BlendingCustom;
 import mindustry.Vars;
 import mindustry.content.*;
@@ -90,25 +91,9 @@ public class CausticSpawner extends NeoplasmBlock {
         }
 
         @Override
-        public void death() {
-            Tile ontile = tile;
-            ontile.setBlock(pipe, team);
-            if (ontile.build != null && ontile.build instanceof Cord.CordBuild cordBuild){
-                for (int dy = -size; dy < size; dy++) {
-                    for (int dx = -size; dx < size; dx++) {
-                        Tile tile = Vars.world.tile(ontile.x + dx, ontile.y + dy);
-                        if (tile.floor() != null && (tile.build == this)) {
-                            cordBuild.Queue.add(tile);
-                        }
-                    }
-                }
-            }
-            super.death();
-        }
-
-        @Override
         public void updateBeat() {
             super.updateBeat();
+            growCord(pipe);
             if (progress >= spawnTime){
                 consume();
                 progress %= 1f;
@@ -121,7 +106,19 @@ public class CausticSpawner extends NeoplasmBlock {
                     unit.add();
                 }
                 if (selfDestruct){
-                    this.damage(this.health);
+                    Tile ontile = proximityTiles.get(1);
+                    ontile.setBlock(pipe, team);
+                    if (ontile.build != null && ontile.build instanceof Cord.CordBuild cordBuild){
+                        for (int dy = -size; dy < size; dy++) {
+                            for (int dx = -size; dx < size; dx++) {
+                                Tile tile = Vars.world.tile(ontile.x + dx, ontile.y + dy);
+                                if ((tile.build == this)) {
+                                    cordBuild.Queue.add(tile);
+                                }
+                            }
+                        }
+                    }
+                    tile.setBlock(pipe, team);
                 }
             }
         }

@@ -44,6 +44,7 @@ public class CausticCrafter extends NeoplasmBlock{
 
         @Override
         public void updateBeat() {
+            growCord(pipe);
             beat++;
             if (beat >= perBeat) {
                 beat = 0;
