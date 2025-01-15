@@ -210,7 +210,7 @@ public class NeoplasmBlock extends Block {
                 int rand = Mathf.random(0, proximityTiles.size);
                 Tile tile = proximityTiles.get(rand % proximityTiles.size);
                 if (tile != null) {
-                    if (tile.build == null) {
+                    if (tile.build == null && passable(tile, true)) {
                         tile.setBlock(block, team);
                         if (tile.build != null && tile.build instanceof Cord.CordBuild cordBuild) {
                             cordBuild.facingRot = cordBuild.relativeTo(this.tile);

@@ -309,13 +309,31 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
             }
         }
 
+        public int getTotal(Item item, int size){
+            int total = 0;
+            for (int dy = -size; dy < size; dy++) {
+                for (int dx = -size; dx < size; dx++) {
+                    Tile tileOn = Vars.world.tile(tile.x + dx, tile.y + dy);
+                    if (tileOn != null){
+                        if (tileOn.build != null && tileOn.build instanceof CordBuild cordBuild){
+                            total += (cordBuild.items.has(item)) ? 1 : 0;
+                        }
+                    }
+                }
+            }
+            return total;
+        }
+
         @Override
         public void updateBeat() {
             boolean cordMode = true;
             if (grow) { //TODO some AI strategy block
-                if (items.has(Items.beryllium) &&
+                if (
+                        (items.has(Items.beryllium) &&
                         left() == null &&
-                        right() == null
+                        right() == null)
+                        ||
+                                (getTotal(Items.beryllium, 3) >= 3)
                 ){
                     if (Mathf.randomBoolean(0.5f)) ReplaceTo(ClassicBlocks.renaleSpawner);
                     else if (Mathf.randomBoolean(0.5f)) ReplaceTo(ClassicBlocks.walkySpawner);
@@ -323,18 +341,25 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                     cordMode = false;
                 }
 
-                if (items.has(Items.graphite) &&
+                if (
+                        (items.has(Items.graphite) &&
                         left() == null &&
-                        right() == null
+                        right() == null)
+                        ||
+                                ((getTotal(Items.graphite, 3) >= 3))
+
                 ){
                     if (Mathf.randomBoolean(0.5f)) ReplaceTo(ClassicBlocks.muleSpawner);
                     else ReplaceTo(ClassicBlocks.squidSpawner);
                     cordMode = false;
                 }
 
-                if (items.has(Items.oxide) &&
+                if (
+                        (items.has(Items.oxide) &&
                         left() == null &&
-                        right() == null
+                        right() == null)
+                        ||
+                                ((getTotal(Items.oxide, 3) >= 3))
                 ){
 
                     ReplaceTo(ClassicBlocks.hydroBomberSpawner);
@@ -404,6 +429,7 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
             for (var tile : Queue){
                 if ((tile.build == null || tile.build instanceof Cord.CordBuild)) {
                     tile.setBlock(cordPlacement, team, rotation);
+                    Queue.remove(tile);
                 }
             }
         }

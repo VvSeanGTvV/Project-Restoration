@@ -112,7 +112,7 @@ public class CausticSpawner extends NeoplasmBlock {
                         for (int dy = -size; dy < size; dy++) {
                             for (int dx = -size; dx < size; dx++) {
                                 Tile tile = Vars.world.tile(ontile.x + dx, ontile.y + dy);
-                                if ((tile.build == this)) {
+                                if ((tile.build == this) && !cordBuild.Queue.contains(tile)) {
                                     cordBuild.Queue.add(tile);
                                 }
                             }

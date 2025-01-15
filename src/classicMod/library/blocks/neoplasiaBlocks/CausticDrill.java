@@ -161,7 +161,7 @@ public class CausticDrill extends NeoplasmBlock {
                 dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);
             }
             if (items.total() < itemCapacity) {
-                if (Mathf.randomBoolean(0.75f)) {
+                if (Mathf.randomBoolean(0.75f) && dominantItem != null) {
                     drillEffect.at(x, y, dominantItem.color);
                     offload(dominantItem);
                 }
