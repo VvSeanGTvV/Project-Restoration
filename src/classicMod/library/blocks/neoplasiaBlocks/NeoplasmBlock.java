@@ -168,7 +168,6 @@ public class NeoplasmBlock extends Block {
                     }
                 }
             }
-            Log.info(spaceAvaliable);
             return spaceAvaliable;
         }
 
@@ -204,18 +203,16 @@ public class NeoplasmBlock extends Block {
 
         public void ReplaceTo(Block toBlock){
             float spaceAvaliable = 0;
-            for (int dy = -sizeRounded(toBlock.size); dy < sizeRounded(toBlock.size) - ((toBlock.size % 2 == 0) ? 1 : 0); dy++) {
-                for (int dx = -sizeRounded(toBlock.size); dx < sizeRounded(toBlock.size) - ((toBlock.size % 2 == 0) ? 1 : 0); dx++) {
+            int size = toBlock.size;
+            for (int dx = (tile.x - size); dx < (tile.x + size); dx++){
+                for (int dy = (tile.y - size); dy < (tile.y + size); dy++) {
                     Tile tile = Vars.world.tile(this.tile.x + dx, this.tile.y + dy);
-                    if (tile != null) {
-                        if (tile.floor() != null && tile.block() != null && (tile.block() == Blocks.air || tile.block() == ClassicBlocks.cord) && (tile.build == null || tile.build instanceof Cord.CordBuild)) {
-                            spaceAvaliable += 1;
-                        }
+                    if (tile != null && (tile.block() == Blocks.air || tile.block() == ClassicBlocks.cord)) {
+                        spaceAvaliable += 1;
                     }
                 }
             }
-            Log.info(spaceAvaliable);
-            if (spaceAvaliable >= toBlock.size * toBlock.size) {
+            if (spaceAvaliable >= size * size) {
                 Tile replacement = Vars.world.tile(this.tile.x, this.tile.y);
                 replacement.setBlock(toBlock, team, rotation);
             }
