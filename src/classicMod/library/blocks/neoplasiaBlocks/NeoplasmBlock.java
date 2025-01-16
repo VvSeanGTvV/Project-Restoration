@@ -168,19 +168,53 @@ public class NeoplasmBlock extends Block {
                     }
                 }
             }
+            Log.info(spaceAvaliable);
             return spaceAvaliable;
         }
 
+        int sizeRounded(int size){
+            float dSize = (float) size - 2f;
+            if (size % 2 == 1) return (int) (dSize - 0.5f);
+            else return (int) dSize;
+        }
+
+
+        /*fun checkValid(x: Int, y: Int, replace: Boolean): Boolean {
+            if (!replace) {
+                return (x - 1..x + 1).all { x1 ->
+                        (y - 1..y + 1).all { y1 ->
+                        val tile = Vars.world.tile(x1, y1)
+                    tile != null && tile.block() == Blocks.air
+                }
+                }
+            } else {
+                return (x - 1..x + 1).all { x1 ->
+                        (y - 1..y + 1).all { y1 ->
+                        val tile = Vars.world.tile(x1, y1)
+                    tile != null &&
+                            (tile.block() == Blocks.air ||
+                                    tile.block().isSerpuloDistribution ||
+                                    tile.block().isErekirDistribution)
+                }
+                }
+            } TODO convert kotlin by Jason01#6845 (.json (ping rely on))
+
+            for (dx = (x-size); dx < (x+size); dx++)
+        }*/
+
         public void ReplaceTo(Block toBlock){
             float spaceAvaliable = 0;
-            for (int dy = (2 - toBlock.size); dy < 2; dy++) {
-                for (int dx = (2 - toBlock.size); dx < 2; dx++) {
+            for (int dy = -sizeRounded(toBlock.size); dy < sizeRounded(toBlock.size) - ((toBlock.size % 2 == 0) ? 1 : 0); dy++) {
+                for (int dx = -sizeRounded(toBlock.size); dx < sizeRounded(toBlock.size) - ((toBlock.size % 2 == 0) ? 1 : 0); dx++) {
                     Tile tile = Vars.world.tile(this.tile.x + dx, this.tile.y + dy);
-                    if (tile.floor() != null && (tile.build == null || tile.build instanceof Cord.CordBuild)) {
-                        spaceAvaliable += 1;
+                    if (tile != null) {
+                        if (tile.floor() != null && tile.block() != null && (tile.block() == Blocks.air || tile.block() == ClassicBlocks.cord) && (tile.build == null || tile.build instanceof Cord.CordBuild)) {
+                            spaceAvaliable += 1;
+                        }
                     }
                 }
             }
+            Log.info(spaceAvaliable);
             if (spaceAvaliable >= toBlock.size * toBlock.size) {
                 Tile replacement = Vars.world.tile(this.tile.x, this.tile.y);
                 replacement.setBlock(toBlock, team, rotation);

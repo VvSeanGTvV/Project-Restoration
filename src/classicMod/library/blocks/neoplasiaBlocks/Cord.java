@@ -293,20 +293,6 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                     tile.setBlock(ClassicBlocks.neoplasiaDrill, team);
                 }
             }
-
-            useful = false;
-            for (int i = 0; i < 4; i++) {
-                Tile man = nearbyTile(Mathf.mod(facingRot + i, 4));
-                if (man != null){
-                    if (man.build instanceof CausticDrill.CausticDrillBuild ||
-                            man.build instanceof CausticTurret.CausticTurretBuild ||
-                            man.build instanceof CausticSpawner.CausticSpawnerBuild ||
-                            man.build instanceof CordBuild cordBuild && cordBuild.useful) {
-                        useful = true;
-                        break;
-                    }
-                }
-            }
         }
 
         public int getTotal(Item item, int size){
