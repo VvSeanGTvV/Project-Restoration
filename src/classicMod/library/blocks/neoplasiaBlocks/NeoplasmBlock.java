@@ -204,11 +204,12 @@ public class NeoplasmBlock extends Block {
         public void ReplaceTo(Block toBlock){
             float spaceAvaliable = 0;
             int size = toBlock.size;
-            for (int dx = (tile.x - size); dx < (tile.x + size); dx++){
-                for (int dy = (tile.y - size); dy < (tile.y + size); dy++) {
-                    Tile tile = Vars.world.tile(this.tile.x + dx, this.tile.y + dy);
+            int half = toBlock.size / 2;
+            for (int dx = (tile.x - half); dx < (tile.x + half); dx++){
+                for (int dy = (tile.y - half); dy < (tile.y + half); dy++) {
+                    Tile tile = Vars.world.tile(dx, dy);
                     if (tile != null && (tile.block() == Blocks.air || tile.block() == ClassicBlocks.cord)) {
-                        spaceAvaliable += 1;
+                        spaceAvaliable++;
                     }
                 }
             }
