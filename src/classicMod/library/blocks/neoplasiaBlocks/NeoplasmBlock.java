@@ -208,7 +208,8 @@ public class NeoplasmBlock extends Block {
             for (int dx = (tile.x - half); dx < (tile.x + half); dx++){
                 for (int dy = (tile.y - half); dy < (tile.y + half); dy++) {
                     Tile tile = Vars.world.tile(dx, dy);
-                    if (tile != null && (tile.block() == Blocks.air || tile.block() == ClassicBlocks.cord)) {
+                    if (tile != null) {
+                        if (tile.block() != Blocks.air || tile.block() != ClassicBlocks.cord) continue;
                         spaceAvaliable++;
                     }
                 }
