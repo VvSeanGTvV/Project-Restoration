@@ -197,22 +197,19 @@ public class NeoplasmBlock extends Block {
                 }
                 }
             } TODO convert kotlin by Jason01#6845 (.json (ping rely on))
-
-            for (dx = (x-size); dx < (x+size); dx++)
         }*/
 
         public void ReplaceTo(Block toBlock){
             float spaceAvaliable = 0;
             int size = toBlock.size;
-            int half = toBlock.size / 2;
-            for (int dx = (tile.x - half); dx < (tile.x + half); dx++){
-                for (int dy = (tile.y - half); dy < (tile.y + half); dy++) {
-                    Tile tile = Vars.world.tile(dx, dy);
-                    if (tile != null && (tile.block() instanceof AirBlock || tile.block() instanceof Cord)) {
-                        spaceAvaliable++;
-                    }
+            int half = size / 2;
+            for (int dx = (tile.x - half) + (size % 2 == 0 ? 1 : 0); dx <= (tile.x + half); dx++){
+                for (int dy = (tile.y - half) + (size % 2 == 0 ? 1 : 0); dy <= (tile.y + half); dy++) {
+                    Tile target = Vars.world.tile(dx, dy);
+                    if (target != null && (target.block() instanceof AirBlock || target.block() instanceof Cord)) spaceAvaliable++;
                 }
             }
+
             if (spaceAvaliable >= size * size) {
                 Tile replacement = Vars.world.tile(this.tile.x, this.tile.y);
                 replacement.setBlock(toBlock, team, rotation);

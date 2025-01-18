@@ -106,8 +106,9 @@ public class CausticSpawner extends NeoplasmBlock {
                     unit.add();
                 }
                 if (selfDestruct){
-                    Tile ontile = proximityTiles.get(1);
-                    ontile.setBlock(pipe, team);
+                    var dTile = proximityTiles.copy().removeAll(t -> !(t.build instanceof Cord.CordBuild));
+                    Tile ontile = dTile.get(Mathf.random(0, dTile.size - 1) % dTile.size);
+                    //ontile.setBlock(pipe, team);
                     if (ontile.build != null && ontile.build instanceof Cord.CordBuild cordBuild){
                         for (int dy = -size; dy < size; dy++) {
                             for (int dx = -size; dx < size; dx++) {
