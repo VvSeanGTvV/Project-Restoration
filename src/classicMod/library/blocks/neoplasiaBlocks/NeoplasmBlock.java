@@ -119,7 +119,7 @@ public class NeoplasmBlock extends Block {
             if (tile.floor() != null && tile.floor().liquidDrop != null) return false;
 
             return !(
-                            (block instanceof StaticWall staticWall && checkWall && block.itemDrop == null) ||
+                            (block instanceof StaticWall && checkWall && block.itemDrop == null) ||
                             block == pipe
                     )
                     && (
@@ -170,34 +170,6 @@ public class NeoplasmBlock extends Block {
             }
             return spaceAvaliable;
         }
-
-        int sizeRounded(int size){
-            float dSize = (float) size - 2f;
-            if (size % 2 == 1) return (int) (dSize - 0.5f);
-            else return (int) dSize;
-        }
-
-
-        /*fun checkValid(x: Int, y: Int, replace: Boolean): Boolean {
-            if (!replace) {
-                return (x - 1..x + 1).all { x1 ->
-                        (y - 1..y + 1).all { y1 ->
-                        val tile = Vars.world.tile(x1, y1)
-                    tile != null && tile.block() == Blocks.air
-                }
-                }
-            } else {
-                return (x - 1..x + 1).all { x1 ->
-                        (y - 1..y + 1).all { y1 ->
-                        val tile = Vars.world.tile(x1, y1)
-                    tile != null &&
-                            (tile.block() == Blocks.air ||
-                                    tile.block().isSerpuloDistribution ||
-                                    tile.block().isErekirDistribution)
-                }
-                }
-            } TODO convert kotlin by Jason01#6845 (.json (ping rely on))
-        }*/
 
         public void ReplaceTo(Block toBlock){
             float spaceAvaliable = 0;
