@@ -143,7 +143,7 @@ public class NeoplasmBlock extends Block {
                 for (int dy = -1; dy < 2; dy++) {
                     for (int dx = -1; dx < 2; dx++) {
                         Tile tile = Vars.world.tile(this.tile.x + dx, this.tile.y + dy);
-                        if (tile.floor() != null && (tile.build == null || tile.build instanceof Cord.CordBuild)) {
+                        if (tile.floor() != null && (tile.build == null || tile.build instanceof CausticCord.CordBuild)) {
                             steam += tile.floor().attributes.get(Attribute.steam);
                             if (tile.floor().attributes.get(Attribute.steam) >= 1) {
                                 if (tile.build == null) tile.setBlock(cordPlacement, team, rotation);
@@ -163,7 +163,7 @@ public class NeoplasmBlock extends Block {
             for (int dy = (2 - size); dy < 2; dy++) {
                 for (int dx = (2 - size); dx < 2; dx++) {
                     Tile tile = Vars.world.tile(tileX + dx, tileY + dy);
-                    if (tile.floor() != null && (tile.build == null || tile.build instanceof Cord.CordBuild)) {
+                    if (tile.floor() != null && (tile.build == null || tile.build instanceof CausticCord.CordBuild)) {
                         spaceAvaliable += 1;
                     }
                 }
@@ -178,7 +178,7 @@ public class NeoplasmBlock extends Block {
             for (int dx = (tile.x - half) + (size % 2 == 0 ? 1 : 0); dx <= (tile.x + half); dx++){
                 for (int dy = (tile.y - half) + (size % 2 == 0 ? 1 : 0); dy <= (tile.y + half); dy++) {
                     Tile target = Vars.world.tile(dx, dy);
-                    if (target != null && (target.block() instanceof AirBlock || target.block() instanceof Cord)) spaceAvaliable++;
+                    if (target != null && (target.block() instanceof AirBlock || target.block() instanceof CausticCord)) spaceAvaliable++;
                 }
             }
 
@@ -194,7 +194,7 @@ public class NeoplasmBlock extends Block {
                 for (int dy = 0; dy < 2; dy++) {
                     for (int dx = 0; dx < 2; dx++) {
                         Tile tile = Vars.world.tile(this.tile.x + dx, this.tile.y + dy);
-                        if (tile.floor() != null && (tile.build == null || tile.build instanceof Cord.CordBuild)) {
+                        if (tile.floor() != null && (tile.build == null || tile.build instanceof CausticCord.CordBuild)) {
                             ore += (tile.drop() != null) ? 1 : 0;
                         }
                     }
@@ -213,7 +213,7 @@ public class NeoplasmBlock extends Block {
                 if (tile != null) {
                     if (tile.build == null && passable(tile, true)) {
                         tile.setBlock(block, team);
-                        if (tile.build != null && tile.build instanceof Cord.CordBuild cordBuild) {
+                        if (tile.build != null && tile.build instanceof CausticCord.CordBuild cordBuild) {
                             cordBuild.facingRot = cordBuild.relativeTo(this.tile);
                         }
                     }
@@ -412,7 +412,7 @@ public class NeoplasmBlock extends Block {
                 }
 
             } else {
-                if ((this.tile.floor().attributes.get(Attribute.steam) >= 1 || tile.drop() != null) && this instanceof Cord.CordBuild) {
+                if ((this.tile.floor().attributes.get(Attribute.steam) >= 1 || tile.drop() != null) && this instanceof CausticCord.CordBuild) {
                     if (isCord && tile.drop() != null) coverOre(drill);
                     if (isCord && this.tile.floor().attributes.get(Attribute.steam) >= 1) coverVent(core, pipe);
                 }

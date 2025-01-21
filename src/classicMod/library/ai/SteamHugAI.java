@@ -1,7 +1,7 @@
 package classicMod.library.ai;
 
 import classicMod.content.ClassicBlocks;
-import classicMod.library.blocks.neoplasiaBlocks.Heart;
+import classicMod.library.blocks.neoplasiaBlocks.CausticHeart;
 import mindustry.Vars;
 import mindustry.world.Tile;
 import mindustry.world.meta.Attribute;
@@ -20,7 +20,7 @@ public class SteamHugAI extends NeoplasmAIController {
         }
         faceMovement();
         Tile tile = unit.tileOn();
-        if (tile != null && tile.floor().attributes.get(Attribute.steam) >= 1f && !(tile.build instanceof Heart.HeartBuilding)) {
+        if (tile != null && tile.floor().attributes.get(Attribute.steam) >= 1f && !(tile.build instanceof CausticHeart.HeartBuilding)) {
             tile.setBlock(ClassicBlocks.cord, unit.team);
             unit.kill();
         }

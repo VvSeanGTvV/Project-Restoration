@@ -15,10 +15,9 @@ import mindustry.game.Team;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.*;
-import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.meta.*;
 
-public class Heart extends NeoplasmBlock {
+public class CausticHeart extends NeoplasmBlock {
 
     public Effect generateEffect;
     public float effectChance;
@@ -28,7 +27,7 @@ public class Heart extends NeoplasmBlock {
     @Nullable
     public LiquidStack outputLiquid;
     public Attribute attribute;
-    public Heart(String name) {
+    public CausticHeart(String name) {
         super(name);
         attribute = Attribute.heat;
         hasItems = true;
@@ -54,9 +53,9 @@ public class Heart extends NeoplasmBlock {
 
         @Nullable
         public Tile getClosestVent() {
-            Seq<Tile> avaliableVents = PathfinderExtended.SteamVents.copy().removeAll(tile -> tile.build instanceof Heart.HeartBuilding);
+            Seq<Tile> avaliableVents = PathfinderExtended.SteamVents.copy().removeAll(tile -> tile.build instanceof CausticHeart.HeartBuilding);
             Tile vent = Geometry.findClosest(this.x, this.y, avaliableVents);
-            return (vent != null && !(vent.build instanceof Heart.HeartBuilding)) ? vent : null;
+            return (vent != null && !(vent.build instanceof CausticHeart.HeartBuilding)) ? vent : null;
         }
 
         @Override

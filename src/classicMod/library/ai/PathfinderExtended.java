@@ -3,7 +3,7 @@ package classicMod.library.ai;
 import arc.Events;
 import arc.math.geom.QuadTree;
 import arc.struct.*;
-import classicMod.library.blocks.neoplasiaBlocks.Heart;
+import classicMod.library.blocks.neoplasiaBlocks.CausticHeart;
 import mindustry.Vars;
 import mindustry.ai.Pathfinder;
 import mindustry.game.EventType;
@@ -32,7 +32,7 @@ public class PathfinderExtended extends Pathfinder {
                 for (int dy = -1; dy < 2; dy++) {
                     for (int dx = -1; dx < 2; dx++) {
                         Tile vents = Vars.world.tile(tile.x + dx, tile.y + dy);
-                        if (vents == null || vents.build instanceof Heart.HeartBuilding || vents.floor().attributes.get(Attribute.steam) <= 0f)
+                        if (vents == null || vents.build instanceof CausticHeart.HeartBuilding || vents.floor().attributes.get(Attribute.steam) <= 0f)
                             continue;
                         steam += vents.floor().attributes.get(Attribute.steam);
                     }

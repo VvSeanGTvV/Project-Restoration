@@ -100,7 +100,7 @@ public class ClassicBlocks {
 
     interplanetaryAccelerator, //Endgame - Mindustry
 
-    ductJunction, cord, heart, neoplasiaDrill, bloom, pore, tole, oxideCrafter, renaleSpawner, hydroBomberSpawner, walkySpawner, squidSpawner, muleSpawner, largeCliffCrusher //Erekir - Prototype [v8-dev]
+    ductJunction, cord, heart, neoplasiaDrill, bloom, pore, tole, oxideCrafter, renaleSpawner, hydroBomberSpawner, walkySpawner, squidSpawner, muleSpawner, neoplasiaBomb, largeCliffCrusher //Erekir - Prototype [v8-dev]
     ;
 
     public void load() {
@@ -847,11 +847,11 @@ public class ClassicBlocks {
         }};
 
         //Neoplasia
-        cord = new Cord("cord"){{
+        cord = new CausticCord("cord"){{
             requirements(Category.distribution, with(Items.beryllium, 1));
         }};
 
-        heart = new Heart("neoplasm-cardius"){{
+        heart = new CausticHeart("neoplasm-cardius"){{
             requirements(Category.distribution, with(Items.beryllium, 1));
             source = true;
             size = 3;
@@ -1037,6 +1037,13 @@ public class ClassicBlocks {
             spawnTime = 60f;
         }};
 
+        neoplasiaBomb = new CausticMine("Neoplasia-Bomb"){{
+            requirements(Category.distribution, with(Items.beryllium, 1));
+
+            damage = 25f;
+            explosionEffect = RFx.smokeColor;
+            explosionColor = Liquids.arkycite.color;
+        }};
 
         neoplasiaDrill = new CausticDrill("drill"){{
             requirements(Category.distribution, with(Items.beryllium, 1));

@@ -4,12 +4,8 @@ import arc.Core;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
-import arc.util.Log;
-import classicMod.library.drawCustom.BlendingCustom;
 import mindustry.Vars;
-import mindustry.content.*;
 import mindustry.entities.*;
-import mindustry.graphics.Layer;
 import mindustry.type.UnitType;
 import mindustry.world.Tile;
 import mindustry.world.consumers.ConsumeItems;
@@ -106,9 +102,9 @@ public class CausticSpawner extends NeoplasmBlock {
                     unit.add();
                 }
                 if (selfDestruct){
-                    var dTile = proximityTiles.copy().removeAll(t -> !(t.build instanceof Cord.CordBuild));
+                    var dTile = proximityTiles.copy().removeAll(t -> !(t.build instanceof CausticCord.CordBuild));
                     Tile ontile = dTile.get(Mathf.random(0, dTile.size - 1) % dTile.size);
-                    if (ontile.build != null && ontile.build instanceof Cord.CordBuild cordBuild){
+                    if (ontile.build != null && ontile.build instanceof CausticCord.CordBuild cordBuild){
                         for (int dy = -size; dy < size; dy++) {
                             for (int dx = -size; dx < size; dx++) {
                                 Tile tile = Vars.world.tile(ontile.x + dx, ontile.y + dy);

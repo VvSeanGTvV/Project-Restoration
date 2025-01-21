@@ -4,14 +4,10 @@ import arc.math.geom.Geometry;
 import arc.struct.Seq;
 import arc.util.*;
 import classicMod.content.RUnitTypes;
-import classicMod.library.blocks.neoplasiaBlocks.Heart;
 import mindustry.Vars;
-import mindustry.ai.types.HugAI;
 import mindustry.content.Blocks;
 import mindustry.entities.Units;
-import mindustry.entities.units.AIController;
 import mindustry.gen.*;
-import mindustry.type.UnitType;
 import mindustry.world.*;
 import mindustry.world.blocks.payloads.UnitPayload;
 

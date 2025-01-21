@@ -24,14 +24,14 @@ import mindustry.world.meta.*;
 
 import static mindustry.Vars.itemSize;
 
-public class Cord extends NeoplasmBlock implements AutotilerPlus {
+public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
     public TextureRegion[] tiles;
     public TextureRegion[][] regions;
 
     public boolean source = false;
 
 
-    public Cord(String name) {
+    public CausticCord(String name) {
         super(name);
 
         group = BlockGroup.transportation;
@@ -59,7 +59,7 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
     }
 
     public boolean blendsArmored(Tile tile, int rotation, int otherx, int othery, int otherrot, Block otherblock) {
-        return Point2.equals(tile.x + Geometry.d4(rotation).x, tile.y + Geometry.d4(rotation).y, otherx, othery) || !otherblock.rotatedOutput(otherx, othery) && Edges.getFacingEdge(otherblock, otherx, othery, tile) != null && Edges.getFacingEdge(otherblock, otherx, othery, tile).relativeTo(tile) == rotation || otherblock.rotatedOutput(otherx, othery) && otherblock instanceof Cord && Point2.equals(otherx + Geometry.d4(otherrot).x, othery + Geometry.d4(otherrot).y, tile.x, tile.y);
+        return Point2.equals(tile.x + Geometry.d4(rotation).x, tile.y + Geometry.d4(rotation).y, otherx, othery) || !otherblock.rotatedOutput(otherx, othery) && Edges.getFacingEdge(otherblock, otherx, othery, tile) != null && Edges.getFacingEdge(otherblock, otherx, othery, tile).relativeTo(tile) == rotation || otherblock.rotatedOutput(otherx, othery) && otherblock instanceof CausticCord && Point2.equals(otherx + Geometry.d4(otherrot).x, othery + Geometry.d4(otherrot).y, tile.x, tile.y);
     }
 
     public TextureRegion[] icons() {
@@ -252,9 +252,9 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
 
         @Nullable
         public Tile getClosestVent() {
-            Seq<Tile> avaliableVents = PathfinderExtended.SteamVents.copy().removeAll(tile -> tile.build instanceof Heart.HeartBuilding);
+            Seq<Tile> avaliableVents = PathfinderExtended.SteamVents.copy().removeAll(tile -> tile.build instanceof CausticHeart.HeartBuilding);
             Tile vent = Geometry.findClosest(x, y, avaliableVents);
-            return (vent != null && !(vent.build instanceof Heart.HeartBuilding)) ? vent : null;
+            return (vent != null && !(vent.build instanceof CausticHeart.HeartBuilding)) ? vent : null;
         }
 
         @Override
@@ -339,6 +339,17 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
                     cordMode = false;
                 }
 
+                if ((Units.closestEnemy(team, x, y, 220f, u -> u.type.killable && u.type.hittable && u.isGrounded()) != null)) {
+                    boolean tooClose = Units.closestBuilding(team, x, y, 60f, b -> (b.block == ClassicBlocks.neoplasiaBomb)) != null;
+                    if (!tooClose &&
+                            left() == null &&
+                            right() == null
+                    ) {
+                        ReplaceTo(ClassicBlocks.neoplasiaBomb);
+                        cordMode = false;
+                    }
+                }
+
                 if ((Units.closestEnemy(team, x, y, 440f, u -> u.type.killable && u.type.hittable && u.range() > 240f) != null) ||
                         (Units.findEnemyTile(team, x, y, 440f, b -> b.isValid() && (
                                 b instanceof Turret.TurretBuild turretBuild && turretBuild.range() >= 200f)
@@ -400,7 +411,7 @@ public class Cord extends NeoplasmBlock implements AutotilerPlus {
 
         public void coverQueue(Block cordPlacement){
             for (var tile : Queue){
-                if ((tile.build == null || tile.build instanceof Cord.CordBuild)) {
+                if ((tile.build == null || tile.build instanceof CausticCord.CordBuild)) {
                     tile.setBlock(cordPlacement, team, rotation);
                     Queue.remove(tile);
                 }

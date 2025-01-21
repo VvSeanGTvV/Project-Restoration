@@ -3,7 +3,7 @@ package classicMod.library.ai;
 import arc.math.geom.Geometry;
 import arc.struct.Seq;
 import arc.util.*;
-import classicMod.library.blocks.neoplasiaBlocks.Heart;
+import classicMod.library.blocks.neoplasiaBlocks.CausticHeart;
 import mindustry.Vars;
 import mindustry.content.Blocks;
 import mindustry.entities.Units;
@@ -26,9 +26,9 @@ public class NeoplasmAIController extends AIController {
 
     @Nullable
     public Tile getClosestVent() {
-        Seq<Tile> avaliableVents = PathfinderExtended.SteamVents.copy().removeAll(tile -> tile.build instanceof Heart.HeartBuilding);
+        Seq<Tile> avaliableVents = PathfinderExtended.SteamVents.copy().removeAll(tile -> tile.build instanceof CausticHeart.HeartBuilding);
         Tile vent = Geometry.findClosest(this.unit.x, this.unit.y, avaliableVents);
-        return (vent != null && !(vent.build instanceof Heart.HeartBuilding)) ? vent : null;
+        return (vent != null && !(vent.build instanceof CausticHeart.HeartBuilding)) ? vent : null;
     }
 
     public Tile getClosestTarget(int range){

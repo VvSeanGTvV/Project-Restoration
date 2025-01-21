@@ -28,10 +28,8 @@ public class NewNeoplasmUnitType extends NeoplasmUnitType {
         Unit uNeo = Units.closest(unit.team, unit.x, unit.y, u -> u.controller() instanceof NeoplasmAIController);
         if (uNeo != null) {
             if (uNeo.controller() instanceof NeoplasmAIController neoplasmAIController) {
-                Log.info("dead update");
                 neoplasmAIController.update = true;
                 if (unit.tileOn() != null) neoplasmAIController.DodgeTile.add(unit.tileOn());
-                Log.info(neoplasmAIController.DodgeTile);
             }
         }
 
