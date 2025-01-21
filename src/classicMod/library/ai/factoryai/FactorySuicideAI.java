@@ -15,7 +15,7 @@ import mindustry.world.blocks.liquid.Conduit;
 import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.meta.BlockGroup;
 
-import static classicMod.content.ClassicVars.*;
+import static classicMod.content.RVars.*;
 
 public class FactorySuicideAI extends RallyAI {
     static boolean blockedByBlock;

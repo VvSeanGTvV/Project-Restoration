@@ -7,14 +7,7 @@ import arc.graphics.g2d.*;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.util.*;
-import mindustry.entities.units.WeaponMount;
 import mindustry.gen.Unit;
-import mindustry.graphics.*;
-import mindustry.type.Weapon;
-import mindustry.world.blocks.environment.Floor;
-
-import static classicMod.content.ClassicVars.empty;
-import static mindustry.Vars.world;
 
 public class MantisTail implements Cloneable{
     public float layerOffset;

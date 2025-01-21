@@ -9,7 +9,7 @@ import mindustry.entities.Units;
 import mindustry.gen.Building;
 import mindustry.world.Tile;
 
-import static classicMod.content.ClassicVars.*;
+import static classicMod.content.RVars.*;
 import static mindustry.Vars.tilesize;
 
 public class ReplacementGroundAI extends RallyAI {

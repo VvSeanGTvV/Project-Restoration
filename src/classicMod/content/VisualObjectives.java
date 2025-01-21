@@ -28,7 +28,6 @@ public class VisualObjectives extends Objectives {
 
         @Override
         public boolean complete() {
-            Log.info(settings.get("launched-planetary", false));
             return (boolean)settings.get("launched-planetary", false);
         }
 

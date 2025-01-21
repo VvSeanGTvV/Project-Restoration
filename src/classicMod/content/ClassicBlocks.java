@@ -37,7 +37,7 @@ import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
-import static classicMod.content.ClassicBullets.*;
+import static classicMod.content.RBullets.*;
 import static classicMod.content.RSounds.*;
 import static mindustry.content.Blocks.coreBastion;
 import static mindustry.type.ItemStack.with;
@@ -857,9 +857,6 @@ public class ClassicBlocks {
             size = 3;
             minEfficiency = 8.9999F;
             attribute = Attribute.steam;
-            //squareSprite = false;
-
-            //buildVisibility = BuildVisibility.hidden;
         }};
 
         tole = new CausticTurret("neoplasm-tole"){{

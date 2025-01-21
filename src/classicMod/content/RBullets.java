@@ -13,10 +13,10 @@ import mindustry.graphics.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.Floor;
 
-import static classicMod.content.ClassicVars.ClassicBulletsMultiplier;
+import static classicMod.content.RVars.ClassicBulletsMultiplier;
 import static mindustry.graphics.Pal.surge;
 
-public class ClassicBullets {
+public class RBullets {
     public static BulletType
     //artillery
     artilleryDense, artilleryPlastic, artilleryPlasticFrag, artilleryHoming, artilleryIncendiary, artilleryExplosive,

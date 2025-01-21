@@ -8,7 +8,7 @@ import mindustry.entities.Units;
 import mindustry.gen.Teamc;
 import mindustry.world.meta.BlockFlag;
 
-import static classicMod.content.ClassicVars.*;
+import static classicMod.content.RVars.*;
 
 public class ReplacementFlyingAI extends RallyAI {
     @Override

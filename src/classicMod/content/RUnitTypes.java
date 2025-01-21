@@ -25,7 +25,7 @@ import mindustry.type.weapons.BuildWeapon;
 import static arc.struct.SnapshotSeq.with;
 import static classicMod.ClassicMod.internalMod;
 import static classicMod.content.RSounds.pew;
-import static classicMod.content.ClassicVars.empty;
+import static classicMod.content.RVars.empty;
 import static mindustry.Vars.tilePayload;
 
 public class RUnitTypes {
@@ -489,7 +489,7 @@ public class RUnitTypes {
 
                 ejectEffect = RFx.none;
 
-                bullet = ClassicBullets.modifierBullet;
+                bullet = RBullets.modifierBullet;
             }});
         }};
 
@@ -842,7 +842,7 @@ public class RUnitTypes {
                 shootSound = Sounds.shootSnap;
                 ejectEffect = RFx.shellEjectSmall;
 
-                bullet = ClassicBullets.standardGlaive;
+                bullet = RBullets.standardGlaive;
             }});
         }};
 
@@ -921,7 +921,7 @@ public class RUnitTypes {
                 showStatSprite = false;
 
 
-                bullet = ClassicBullets.standardGlaive;
+                bullet = RBullets.standardGlaive;
             }});
         }};
 
@@ -953,7 +953,7 @@ public class RUnitTypes {
                 shootSound = Sounds.missile;
                 mirror = true;
 
-                bullet = ClassicBullets.missileJavelin;
+                bullet = RBullets.missileJavelin;
             }});
         }};
         // --- Air Units Region End ---
@@ -1099,7 +1099,7 @@ public class RUnitTypes {
                 reload = 35f;
 
 
-                bullet = ClassicBullets.OldmissileSwarm;
+                bullet = RBullets.OldmissileSwarm;
             }});
         }};
 
@@ -1650,7 +1650,7 @@ public class RUnitTypes {
                         mirror = true;
                         //flipSprite = !b;
                         shake = 1f;
-                        bullet = ClassicBullets.missileSwarm;
+                        bullet = RBullets.missileSwarm;
                     }});
         }};
         oculon = new UnitType("oculon") {{
@@ -2155,7 +2155,7 @@ public class RUnitTypes {
                     x = 1.25f;
                     rotate = true;
                     ejectEffect = RFx.shellEjectSmall;
-                    bullet = ClassicBullets.standardCopper;
+                    bullet = RBullets.standardCopper;
                 }});
         }};
         // --- Naval Units Region End ---

@@ -9,7 +9,7 @@ import mindustry.gen.Building;
 
 import java.util.Objects;
 
-import static classicMod.content.ClassicVars.MaximumRangeCommand;
+import static classicMod.content.RVars.MaximumRangeCommand;
 
 public class RallyAI extends AIController {
     public UnitState state, defaultState; //Default Value so it doesn't crap itself.

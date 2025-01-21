@@ -18,7 +18,6 @@ import classicMod.library.ui.dialog.*;
 import classicMod.library.ui.menu.*;
 import mindustry.Vars;
 import mindustry.ai.types.CommandAI;
-import mindustry.core.GameState;
 import mindustry.game.EventType;
 import mindustry.game.EventType.ClientLoadEvent;
 import mindustry.gen.Icon;
@@ -30,8 +29,6 @@ import mindustry.ui.dialogs.*;
 import mindustry.ui.fragments.MenuFragment;
 
 import java.io.IOException;
-import java.nio.file.*;
-import java.nio.file.Files;
 import java.util.Objects;
 
 import static arc.Core.*;
@@ -364,10 +361,10 @@ public class ClassicMod extends Mod{
                             }
                         }
 
-                    }, new String[]{
+                    },
                             "jpg",
                             "png",
-                            "jpeg"}
+                            "jpeg"
                     );
                 })
             );
@@ -466,7 +463,7 @@ public class ClassicMod extends Mod{
         // Load contents
         new RItems().load();
         new OverridableContent().loadOverride();
-        new ClassicBullets().load();
+        new RBullets().load();
         new RUnitTypes().load();
         new ClassicBlocks().load();
         new RSectorPresents().load();

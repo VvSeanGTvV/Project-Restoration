@@ -17,7 +17,7 @@ import mindustry.world.Block;
 
 import java.util.Objects;
 
-import static classicMod.content.ClassicVars.*;
+import static classicMod.content.RVars.*;
 import static classicMod.content.RFx.commandSend;
 
 public class LegacyCommandCenter extends Block {

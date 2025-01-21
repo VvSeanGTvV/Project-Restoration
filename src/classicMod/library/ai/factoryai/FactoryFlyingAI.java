@@ -14,7 +14,7 @@ import mindustry.type.Weapon;
 import mindustry.world.meta.BlockFlag;
 
 import static arc.math.Mathf.dst;
-import static classicMod.content.ClassicVars.*;
+import static classicMod.content.RVars.*;
 import static mindustry.Vars.*;
 
 public class FactoryFlyingAI extends RallyAI {
