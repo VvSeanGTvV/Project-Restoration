@@ -1,6 +1,8 @@
 package classicMod.library.blocks.neoplasiaBlocks;
 
+import arc.Core;
 import arc.graphics.Color;
+import arc.graphics.g2d.Draw;
 import arc.struct.Seq;
 import mindustry.entities.*;
 import mindustry.gen.Unit;
@@ -36,6 +38,15 @@ public class CausticMine extends NeoplasmBlock {
             for (var uni : inRange){
                 uni.damage(damage);
             }
+        }
+
+        @Override
+        public void draw() {
+            drawBeat(1f, 1f, 0.25f);
+            Draw.rect(Core.atlas.find(name), x, y);
+            Draw.color();
+
+            Draw.reset();
         }
     }
 }

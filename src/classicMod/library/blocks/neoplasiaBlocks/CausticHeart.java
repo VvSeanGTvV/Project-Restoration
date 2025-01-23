@@ -79,13 +79,6 @@ public class CausticHeart extends NeoplasmBlock {
             super.updateBeat();
         }
 
-        public void ConvertTo(Item toItem, Item fromItem){
-            if (toItem == null || fromItem == null || !items.has(fromItem)) return;
-            int total = items.get(fromItem);
-            items.remove(fromItem, total);
-            items.add(toItem, total);
-        }
-
         @Override
         public void update() {
             if (liquids.get(blood) < liquidCapacity) liquids.add(blood, Math.min(liquidCapacity - liquids.get(blood), liquidCapacity));
