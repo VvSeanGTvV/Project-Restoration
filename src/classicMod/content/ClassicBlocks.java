@@ -1106,16 +1106,16 @@ public class ClassicBlocks {
         }};
 
         largeCliffCrusher = new NewWallCrafter("large-cliff-crusher"){{
-            requirements(Category.production, with(Items.silicon, 80, Items.surgeAlloy, 60, Items.beryllium, 100, Items.tungsten, 50));
+            requirements(Category.production, with(Items.silicon, 80, Items.surgeAlloy, 15, Items.beryllium, 100, Items.tungsten, 50));
             consumePower(30 / 60f);
 
-            drillTime = 50f;
+            drillTime = 48f;
             size = 3;
             attribute = Attribute.sand;
             output = Items.sand;
             fogRadius = 3;
             ambientSound = Sounds.drill;
-            ambientSoundVolume = 0.05f;
+            ambientSoundVolume = 0.08f;
 
             consumeLiquid(Liquids.ozone, 1f / 60f);
 
