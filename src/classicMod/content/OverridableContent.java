@@ -11,7 +11,6 @@ public class OverridableContent {
         Blocks.craters.itemDrop = RItems.stone;
         Blocks.craters.playerUnmineable = true;
 
-        SectorPresets.onset.alwaysUnlocked = false;
        /* Blocks.overflowGate.update =
                 Blocks.underflowGate.update =
                         true;

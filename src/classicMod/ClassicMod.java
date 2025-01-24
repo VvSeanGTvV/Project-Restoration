@@ -465,7 +465,7 @@ public class ClassicMod extends Mod{
         new OverridableContent().loadOverride();
         new RBullets().load();
         new RUnitTypes().load();
-        new ClassicBlocks().load();
+        new RBlocks().load();
         new RSectorPresents().load();
         new RPlanets().load();
 

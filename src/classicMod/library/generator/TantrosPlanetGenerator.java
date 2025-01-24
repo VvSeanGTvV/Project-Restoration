@@ -5,7 +5,7 @@ import arc.math.Mathf;
 import arc.math.geom.*;
 import arc.util.Tmp;
 import arc.util.noise.Simplex;
-import classicMod.content.ClassicBlocks;
+import classicMod.content.RBlocks;
 import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.game.*;
@@ -70,7 +70,7 @@ public class TantrosPlanetGenerator extends PlanetGenerator {
         }
 
         if (tile.floor == Blocks.darksand && this.rand.chance(0.002)) {
-            tile.block = ClassicBlocks.glowBlob;
+            tile.block = RBlocks.glowBlob;
         }
 
     }

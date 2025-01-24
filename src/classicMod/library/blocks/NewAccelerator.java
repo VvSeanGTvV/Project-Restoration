@@ -27,6 +27,12 @@ import static classicMod.library.ui.UIExtended.fdelta;
 import static mindustry.Vars.*;
 
 public class NewAccelerator extends Block {
+    /*
+    TODO List:
+    - New Animation
+    - New Configuration
+     */
+
     protected static final float[] thrusterSizes = {0f, 0f, 0.15f, 0.3f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f};
     public TextureRegion arrowRegion = Core.atlas.find("launch-arrow");
     public Block launching = Blocks.coreBastion;

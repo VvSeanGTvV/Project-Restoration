@@ -1,14 +1,12 @@
 package classicMod.content;
 
 import arc.struct.Seq;
-import arc.util.Log;
 import mindustry.content.*;
 import mindustry.ctype.UnlockableContent;
-import mindustry.game.Objectives;
 import mindustry.game.Objectives.*;
 import mindustry.type.*;
 
-import static classicMod.content.ClassicBlocks.*;
+import static classicMod.content.RBlocks.*;
 import static mindustry.content.Blocks.*;
 import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.*;
@@ -19,11 +17,11 @@ public class ExtendedErekirTechTree {
 
     public static void load() {
         margeNode(radar, () -> {
-            node(ClassicBlocks.barrierProjector, Seq.with(
+            node(RBlocks.barrierProjector, Seq.with(
                     new OnSector(aegis)
             ), () -> {});
 
-            node(ClassicBlocks.shieldBreaker, Seq.with(
+            node(RBlocks.shieldBreaker, Seq.with(
                     new SectorComplete(intersect)
             ), () -> {
 
@@ -34,7 +32,7 @@ public class ExtendedErekirTechTree {
         margeNode(diffuse, () -> {
             node(fracture, Seq.with(new OnSector(aegis)), () -> {
                 node(horde,Seq.with(
-                        new Research(ClassicBlocks.slagCentrifuge),
+                        new Research(RBlocks.slagCentrifuge),
                         new Produce(scrap)
                 ), () -> {
 
@@ -48,7 +46,7 @@ public class ExtendedErekirTechTree {
 
         margeNode(afflict, () -> {
             node(chrome, Seq.with(
-                    new Research(ClassicBlocks.heatReactor),
+                    new Research(RBlocks.heatReactor),
                     new Produce(fissileMatter)
             ), () -> {
 
@@ -64,7 +62,7 @@ public class ExtendedErekirTechTree {
         });
 
         margeNode(electricHeater, () -> {
-            node(ClassicBlocks.heatReactor, Seq.with(new OnSector(stronghold), new Produce(thorium) ,new Research(atmosphericConcentrator), new Produce(nitrogen)), () -> {
+            node(RBlocks.heatReactor, Seq.with(new OnSector(stronghold), new Produce(thorium) ,new Research(atmosphericConcentrator), new Produce(nitrogen)), () -> {
 
             });
         });
@@ -74,7 +72,7 @@ public class ExtendedErekirTechTree {
         });
 
         margeNode(slagIncinerator, () -> {
-            node(ClassicBlocks.slagCentrifuge,Seq.with(new OnSector(crevice), new Produce(Items.sand), new Produce(Liquids.slag)), () -> {});
+            node(RBlocks.slagCentrifuge,Seq.with(new OnSector(crevice), new Produce(Items.sand), new Produce(Liquids.slag)), () -> {});
         });
 
         margeNode(basicAssemblerModule, () -> {
@@ -82,7 +80,7 @@ public class ExtendedErekirTechTree {
         });
 
         margeNode(cliffCrusher, () ->{
-            node(ClassicBlocks.largeCliffCrusher);
+            node(RBlocks.largeCliffCrusher);
         });
 
         margeNodeSpecific(Liquids.slag, tungsten, () -> {

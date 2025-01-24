@@ -38,9 +38,9 @@ public class NeoplasmBlock extends Block {
     }
 
     public class NeoplasmBuilding extends Building {
-        Block pipe = ClassicBlocks.cord;
-        Block core = ClassicBlocks.heart;
-        Block drill = ClassicBlocks.neoplasiaDrill;
+        Block pipe = RBlocks.cord;
+        Block core = RBlocks.heart;
+        Block drill = RBlocks.neoplasiaDrill;
 
         float drain = 0.25f;
 

@@ -6,7 +6,7 @@ import mindustry.ctype.UnlockableContent;
 import mindustry.game.Objectives.*;
 import mindustry.type.ItemStack;
 
-import static classicMod.content.ClassicBlocks.*;
+import static classicMod.content.RBlocks.*;
 import static mindustry.content.Blocks.*;
 import static mindustry.content.SectorPresets.*;
 import static mindustry.content.TechTree.*;
@@ -25,7 +25,7 @@ public class ExtendedSerpuloTechTree {
 
         // Power
         margeNode(Blocks.rtgGenerator, () -> {
-            node(ClassicBlocks.rtgGenerator);
+            node(RBlocks.rtgGenerator);
         });
 
         margeNode(combustionGenerator, () -> {
@@ -233,13 +233,13 @@ public class ExtendedSerpuloTechTree {
         });
 
         // Launchpad
-        margeNode(planetaryTerminal, () -> {
-            nodePlanetary(onset, ClassicBlocks.interplanetaryAccelerator, () -> {});
-        });
+        /*margeNode(planetaryTerminal, () -> {
+            nodePlanetary(onset, RBlocks.interplanetaryAccelerator, () -> {});
+        });*/
 
         margeNode(launchPad, () -> {
             node(launchPadLarge, () -> {
-                node(ClassicBlocks.interplanetaryAccelerator, Seq.with(new SectorComplete(planetaryTerminal))); //Endgame bois
+                node(RBlocks.interplanetaryAccelerator, Seq.with(new SectorComplete(planetaryTerminal))); //Endgame bois
             });
         });
 

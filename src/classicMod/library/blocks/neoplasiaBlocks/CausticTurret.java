@@ -3,12 +3,10 @@ package classicMod.library.blocks.neoplasiaBlocks;
 import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.math.*;
-import classicMod.content.ClassicBlocks;
 import mindustry.content.Fx;
 import mindustry.entities.Units;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
-import mindustry.world.Tile;
 
 public class CausticTurret extends NeoplasmBlock {
 
@@ -68,9 +66,9 @@ public class CausticTurret extends NeoplasmBlock {
             for (int i = 0; i < 4; i++) {
                 int rot = Mathf.mod((rotation + i), 4);
                 Tile tile = nearbyTile(rot, -1);
-                this.tile.setBlock(ClassicBlocks.cord, team);
+                this.tile.setBlock(RBlocks.cord, team);
                 if (tile != null && tile.build == null) {
-                    tile.setBlock(ClassicBlocks.cord, team, rot);
+                    tile.setBlock(RBlocks.cord, team, rot);
                 }
             }
         }*/

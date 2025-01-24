@@ -42,7 +42,7 @@ import static classicMod.content.RSounds.*;
 import static mindustry.content.Blocks.coreBastion;
 import static mindustry.type.ItemStack.with;
 
-public class ClassicBlocks {
+public class RBlocks {
     public static Block
     crucible, //Production - classic
     wallDirium, wallComposite, wallDiriumLarge, wallShieldedTitanium,//Wall - classic

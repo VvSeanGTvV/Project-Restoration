@@ -8,7 +8,7 @@ import arc.struct.Seq;
 import arc.util.*;
 import arc.util.io.*;
 import classicMod.AutotilerPlus;
-import classicMod.content.ClassicBlocks;
+import classicMod.content.RBlocks;
 import classicMod.library.ai.PathfinderExtended;
 import mindustry.Vars;
 import mindustry.ai.*;
@@ -214,7 +214,7 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
                     }
                     if (nTile != null) {
                         int rot = this.tile.relativeTo(nTile);
-                        if (!CantReplace(nTile.block())) nTile.setBlock(ClassicBlocks.cord, team);
+                        if (!CantReplace(nTile.block())) nTile.setBlock(RBlocks.cord, team);
                         if (nTile.build != null && nTile.build instanceof CordBuild cordBuild) {
                             cordBuild.task = Mathf.randomBoolean(0.98f) ? task :
                                     Mathf.randomBoolean(0.5f) ? PathfinderExtended.fieldOres : PathfinderExtended.fieldVent;
@@ -277,7 +277,7 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
                 int spaces = calculateSpaces(drill.size, other.x, other.y);
                 Item drop = other.wallDrop();
                 if (drop != null && spaces >= drill.size * drill.size) {
-                    tile.setBlock(ClassicBlocks.neoplasiaDrill, team);
+                    tile.setBlock(RBlocks.neoplasiaDrill, team);
                 }
             }
         }
@@ -308,9 +308,9 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
                         ||
                                 (getTotal(Items.beryllium, 3) >= 3)
                 ){
-                    if (Mathf.randomBoolean(0.5f)) ReplaceTo(ClassicBlocks.renaleSpawner);
-                    else if (Mathf.randomBoolean(0.5f)) ReplaceTo(ClassicBlocks.walkySpawner);
-                    else ReplaceTo(ClassicBlocks.oxideCrafter);
+                    if (Mathf.randomBoolean(0.5f)) ReplaceTo(RBlocks.renaleSpawner);
+                    else if (Mathf.randomBoolean(0.5f)) ReplaceTo(RBlocks.walkySpawner);
+                    else ReplaceTo(RBlocks.oxideCrafter);
                     cordMode = false;
                 }
 
@@ -322,8 +322,8 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
                                 ((getTotal(Items.graphite, 3) >= 3))
 
                 ){
-                    if (Mathf.randomBoolean(0.5f)) ReplaceTo(ClassicBlocks.muleSpawner);
-                    else ReplaceTo(ClassicBlocks.squidSpawner);
+                    if (Mathf.randomBoolean(0.5f)) ReplaceTo(RBlocks.muleSpawner);
+                    else ReplaceTo(RBlocks.squidSpawner);
                     cordMode = false;
                 }
 
@@ -335,17 +335,17 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
                                 ((getTotal(Items.oxide, 3) >= 3))
                 ){
 
-                    ReplaceTo(ClassicBlocks.hydroBomberSpawner);
+                    ReplaceTo(RBlocks.hydroBomberSpawner);
                     cordMode = false;
                 }
 
                 if ((Units.closestEnemy(team, x, y, 220f, u -> u.type.killable && u.type.hittable && u.isGrounded()) != null)) {
-                    boolean tooClose = Units.closestBuilding(team, x, y, 60f, b -> (b.block == ClassicBlocks.neoplasiaBomb)) != null;
+                    boolean tooClose = Units.closestBuilding(team, x, y, 60f, b -> (b.block == RBlocks.neoplasiaBomb)) != null;
                     if (!tooClose &&
                             left() == null &&
                             right() == null
                     ) {
-                        ReplaceTo(ClassicBlocks.neoplasiaBomb);
+                        ReplaceTo(RBlocks.neoplasiaBomb);
                         cordMode = false;
                     }
                 }
@@ -354,9 +354,9 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
                         (Units.findEnemyTile(team, x, y, 440f, b -> b.isValid() && (
                                 b instanceof Turret.TurretBuild turretBuild && turretBuild.range() >= 200f)
                         ) != null)) {
-                    boolean tooClose = Units.closestBuilding(team, x, y, 440f, b -> (b instanceof CausticTurret.CausticTurretBuild && b.block == ClassicBlocks.pore)) != null;
+                    boolean tooClose = Units.closestBuilding(team, x, y, 440f, b -> (b instanceof CausticTurret.CausticTurretBuild && b.block == RBlocks.pore)) != null;
                     if (!tooClose) {
-                        ReplaceTo(ClassicBlocks.pore);
+                        ReplaceTo(RBlocks.pore);
                         cordMode = false;
                     }
                 }
@@ -365,9 +365,9 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
                         (Units.findEnemyTile(team, x, y, 140f, b -> b.isValid() && (
                                 b instanceof Turret.TurretBuild turretBuild && turretBuild.range() >= 80f)
                         ) != null)) {
-                    boolean tooClose = Units.closestBuilding(team, x, y, 120f, b -> (b instanceof CausticTurret.CausticTurretBuild && b.block == ClassicBlocks.bloom)) != null;
+                    boolean tooClose = Units.closestBuilding(team, x, y, 120f, b -> (b instanceof CausticTurret.CausticTurretBuild && b.block == RBlocks.bloom)) != null;
                     if (!tooClose) {
-                        ReplaceTo(ClassicBlocks.bloom);
+                        ReplaceTo(RBlocks.bloom);
                         cordMode = false;
                     }
                 }
@@ -376,12 +376,12 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
                         (Units.findEnemyTile(team, x, y, 30f, b -> b.isValid() && (
                                 b instanceof Turret.TurretBuild turretBuild && turretBuild.range() >= 30f)
                         ) != null)) {
-                    boolean tooClose = Units.closestBuilding(team, x, y, 30f, b -> (b instanceof CausticTurret.CausticTurretBuild && b.block == ClassicBlocks.tole)) != null;
+                    boolean tooClose = Units.closestBuilding(team, x, y, 30f, b -> (b instanceof CausticTurret.CausticTurretBuild && b.block == RBlocks.tole)) != null;
                     if (!tooClose) {
-                        ReplaceTo(ClassicBlocks.tole);
+                        ReplaceTo(RBlocks.tole);
                         cordMode = false;
                     }
-                } if (cordMode) growCord(ClassicBlocks.cord);
+                } if (cordMode) growCord(RBlocks.cord);
             }
             super.updateBeat();
         }
