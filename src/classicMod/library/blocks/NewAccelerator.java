@@ -11,13 +11,14 @@ import arc.util.*;
 import classicMod.content.ExtendedStat;
 import mindustry.Vars;
 import mindustry.content.*;
+import mindustry.core.UI;
 import mindustry.entities.Effect;
 import mindustry.entities.units.UnitController;
 import mindustry.game.EventType.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
-import mindustry.ui.Styles;
+import mindustry.ui.*;
 import mindustry.world.Block;
 import mindustry.world.blocks.ControlBlock;
 
@@ -36,6 +37,7 @@ public class NewAccelerator extends Block {
     protected static final float[] thrusterSizes = {0f, 0f, 0.15f, 0.3f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f};
     public TextureRegion arrowRegion = Core.atlas.find("launch-arrow");
     public Block launching = Blocks.coreBastion;
+    public float powerBufferRequirement;
     public Block requirementsBlock = Blocks.coreNucleus;
 
     public Sector Destination = SectorPresets.onset.sector;
@@ -71,6 +73,19 @@ public class NewAccelerator extends Block {
     @Override
     public boolean outputsItems() {
         return false;
+    }
+
+    @Override
+    public void setBars(){
+        super.setBars();
+
+        if(powerBufferRequirement > 0f){
+            addBar("powerBufferRequirement", b -> new Bar(
+                    () -> Core.bundle.format("bar.powerbuffer", UI.formatAmount((long)b.power.graph.getBatteryStored()),  UI.formatAmount((long)powerBufferRequirement)),
+                    () -> Pal.powerBar,
+                    () -> b.power.graph.getBatteryStored() / powerBufferRequirement
+            ));
+        }
     }
 
     @Override
@@ -126,6 +141,19 @@ public class NewAccelerator extends Block {
 
         public float fraction() {
             return progress / launchTime;
+        }
+
+        public boolean canLaunch(){
+            return isValid() && state.isCampaign() && efficiency > 0f && power.graph.getBatteryStored() >= powerBufferRequirement-0.00001f && progress >= 1f;
+        }
+
+        @Override
+        public void drawSelect(){
+            super.drawSelect();
+
+            if(power.graph.getBatteryStored() < powerBufferRequirement){
+                drawPlaceText(Core.bundle.get("bar.nobatterypower"), tile.x, tile.y, false);
+            }
         }
 
         @Override
@@ -190,6 +218,7 @@ public class NewAccelerator extends Block {
             unit.ammo(unit.type().ammoCapacity * fraction());
 
             if (progress >= launchTime && items.total() >= itemCapacity) {
+                
                 if (originMinZoom == 0 || originMaxZoom == 0) {
                     originMinZoom = renderer.minZoom;
                     originMaxZoom = renderer.maxZoom;

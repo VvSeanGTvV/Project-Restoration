@@ -1791,6 +1791,8 @@ public class RBlocks {
             researchCostMultiplier = 0.1f;
             size = 7;
             hasPower = true;
+
+            powerBufferRequirement = 1_000_000f;
             consumePower(10f);
             buildCostMultiplier = 0.5f;
             scaledHealth = 80;
