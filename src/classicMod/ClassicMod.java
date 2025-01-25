@@ -470,7 +470,7 @@ public class ClassicMod extends Mod{
         new RPlanets().load();
 
         // Tech Tree and Finalize
-        new ExtendedSerpuloTechTree().load();
+        new RSerpuloTechTree().load();
         new ExtendedErekirTechTree().load();
 
         PathfinderExtended.preloadAddons();
