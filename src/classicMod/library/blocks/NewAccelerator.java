@@ -35,7 +35,7 @@ public class NewAccelerator extends Block {
      */
 
     protected static final float[] thrusterSizes = {0f, 0f, 0.15f, 0.3f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f};
-    public TextureRegion arrowRegion = Core.atlas.find("launch-arrow");
+    public TextureRegion arrowRegion;
     public Block launching = Blocks.coreBastion;
     public float powerBufferRequirement;
     public Block requirementsBlock = Blocks.coreNucleus;
@@ -44,6 +44,7 @@ public class NewAccelerator extends Block {
     public int[] capacities = {};
 
     public float launchTime = 60f * 10f;
+    public float buildTime = 60f * 2f;
 
     public float thrusterLength = 14f / 4f;
     //TODO dynamic
@@ -123,8 +124,14 @@ public class NewAccelerator extends Block {
         //stats.add(Strings.autoFixed(launchTime / 60f, 1) + " " + Core.bundle.get("unit.seconds")).color(Color.lightGray);
     }
 
+    @Override
+    public void load() {
+        arrowRegion = Core.atlas.find("launch-arrow");
+        super.load();
+    }
+
     public class NewAcceleratorBuild extends Building implements ControlBlock {
-        public float heat, statusLerp, blockLerp, heatOpposite, progress;
+        public float heat, statusLerp, blockLerp, heatOpposite, progress, buildProgress, time;
         public @Nullable BlockUnitc unit;
         //counter
         public float launchAnimation, launchOppositeAnimation, zoomStyle, launchpadTimer, launchpadPrepTimer, shockwaveTimer;
@@ -144,7 +151,7 @@ public class NewAccelerator extends Block {
         }
 
         public boolean canLaunch(){
-            return isValid() && state.isCampaign() && efficiency > 0f && power.graph.getBatteryStored() >= powerBufferRequirement-0.00001f && progress >= 1f;
+            return isValid() && state.isCampaign() && efficiency > 0f && power.graph.getBatteryStored() >= powerBufferRequirement - 0.00001f && buildProgress >= 1f;
         }
 
         @Override
@@ -168,10 +175,20 @@ public class NewAccelerator extends Block {
                 reset = false;
             }
 
+
+
             heat = Mathf.lerpDelta(heat, efficiency, 0.05f);
             statusLerp = Mathf.lerpDelta(statusLerp, power.status, 0.05f);
+
+            time += Time.delta * efficiency;
+
+            if(efficiency >= 0f){
+                buildProgress += Time.delta * efficiency / buildTime;
+                buildProgress = Math.min(buildProgress, 1f);
+            }
+
             if (efficiency > 0) {
-                if (isControlled()) {
+                if (isControlled() && canLaunch()) {
                     progress += edelta();
                 } else {
                     progress = 0;
@@ -182,9 +199,11 @@ public class NewAccelerator extends Block {
                 progress = 0;
                 heatOpposite = 0f;
                 blockLerp = Mathf.clamp(Mathf.lerpDelta(blockLerp, efficiency, 0.05f));
+                buildProgress = Mathf.clamp(Mathf.lerpDelta(buildProgress, efficiency, 0.05f));
                 launchingStartup = false;
                 once = false;
             }
+
             if (!StartAnimation) {
                 if (launchingStartup || isControlled()) {
                     if (!once || mobile) {
@@ -217,7 +236,7 @@ public class NewAccelerator extends Block {
             }
             unit.ammo(unit.type().ammoCapacity * fraction());
 
-            if (progress >= launchTime && items.total() >= itemCapacity) {
+            if (progress >= launchTime && canLaunch()) {
                 
                 if (originMinZoom == 0 || originMaxZoom == 0) {
                     originMinZoom = renderer.minZoom;
@@ -275,7 +294,6 @@ public class NewAccelerator extends Block {
         @Override
         public void draw() {
             super.draw();
-            arrowRegion = Core.atlas.find("launch-arrow");
 
             for (int l = 0; l < 4; l++) {
                 float length = 7f + l * 5f;
@@ -525,20 +543,49 @@ public class NewAccelerator extends Block {
 
         public void DrawCore() {
             Draw.reset();
-            Draw.alpha(Mathf.clamp(blockLerp * 12f));
+            /*Draw.alpha(Mathf.clamp(blockLerp * 12f));
             Draw.rect(launching.uiIcon, x, y);
 
             Draw.z(Layer.effect + 0.001f);
             Color epic = new Color(team.color.r, team.color.g, team.color.b, 1f - Mathf.clamp(blockLerp * 3f));
             if (efficiency > 0) {
                 Drawf.additive(launching.uiIcon, epic, x, y);
+            }*/
+
+            Drawf.shadow(x, y, launching.size * tilesize * 2f, buildProgress);
+
+            if (buildProgress < 1f) {
+                Draw.draw(Layer.blockBuilding, () -> {
+                    Draw.color(Pal.accent, heat);
+
+                    for (TextureRegion region : launching.getGeneratedIcons()) {
+                        Shaders.blockbuild.region = region;
+                        Shaders.blockbuild.time = time;
+                        Shaders.blockbuild.progress = buildProgress;
+
+                        Draw.rect(region, x, y);
+                        Draw.flush();
+                    }
+
+                    Draw.color();
+                });
+                if (buildProgress > 0.999f && efficiency > 0) {
+                    Fx.placeBlock.at(x, y, launching.size);
+                    Fx.coreBuildBlock.at(x, y, rotation, launching);
+                    Fx.coreBuildShockwave.at(x, y, launching.size);
+                }
+            } else {
+                for (TextureRegion region : launching.getGeneratedIcons()) {
+                    Draw.rect(region, x, y);
+                }
             }
+
             Draw.reset();
         }
 
         @Override
-        public Cursor getCursor() {
-            return !state.isCampaign() || efficiency <= 0f ? SystemCursor.arrow : super.getCursor();
+        public Cursor getCursor(){
+            return canLaunch() ? SystemCursor.hand : super.getCursor();
         }
 
         public void StartNewPlanet(Sector to) {
@@ -562,8 +609,10 @@ public class NewAccelerator extends Block {
 
         @Override
         public void buildConfiguration(Table table) {
+
             if (isControlled()) deselect();
-            if (!state.isCampaign() || efficiency <= 0f) return;
+            if (!canLaunch()) return;
+
             table.button(Icon.upOpen, Styles.cleari, () -> {
                 launchingStartup = true;
                 deselect();
