@@ -1,6 +1,7 @@
 package classicMod.library.ui.dialog;
 
 import arc.Core;
+import arc.graphics.g2d.Draw;
 import arc.input.KeyCode;
 import arc.math.Mathf;
 import arc.math.geom.Vec3;
@@ -9,6 +10,7 @@ import arc.scene.ui.*;
 import arc.util.*;
 import mindustry.Vars;
 import mindustry.content.Planets;
+import mindustry.core.GameState;
 import mindustry.ctype.ContentType;
 import mindustry.gen.*;
 import mindustry.graphics.Pal;
@@ -18,11 +20,13 @@ import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.ui.dialogs.*;
 
-public class NewLaunchDialog extends BaseDialog {
+public class NewLaunchDialog extends Dialog {
     public final PlanetRenderer planets;
     public PlanetParams state = new PlanetParams();
     public float zoom;
     public Label hoverLabel;
+    protected boolean wasPaused;
+    protected boolean shouldPause;
 
     public NewLaunchDialog() {
         super("", new Dialog.DialogStyle() {
@@ -33,8 +37,21 @@ public class NewLaunchDialog extends BaseDialog {
                 this.titleFontColor = Pal.accent;
             }
         });
+        this.hidden(() -> {
+            if (this.shouldPause && Vars.state.isGame() && !Vars.net.active() && !this.wasPaused) {
+                Vars.state.set(GameState.State.playing);
+            }
 
-        shouldPause = true;
+            Sounds.back.play();
+        });
+        this.shown(() -> {
+            if (this.shouldPause && Vars.state.isGame() && !Vars.net.active()) {
+                this.wasPaused = Vars.state.is(GameState.State.paused);
+                Vars.state.set(GameState.State.paused);
+            }
+        });
+
+        shouldPause = false;
         this.planets = Vars.renderer.planets;
         state.planet = Vars.content.getByName(ContentType.planet, Core.settings.getString("lastplanet", "serpulo"));
         if(state.planet == null) state.planet = Planets.serpulo;
@@ -123,6 +140,7 @@ public class NewLaunchDialog extends BaseDialog {
     @Override
     public void draw() {
         planets.render(state);
+        Draw.flush();
         super.draw();
     }
 
@@ -152,5 +170,8 @@ public class NewLaunchDialog extends BaseDialog {
         } else {
             this.hoverLabel.remove();
         }
+
+        this.state.zoom = Mathf.lerpDelta(this.state.zoom, this.zoom, 0.4F);
+        this.state.uiAlpha = Mathf.lerpDelta(this.state.uiAlpha, (float)Mathf.num(this.state.zoom < 1.9F), 0.1F);
     }
 }
