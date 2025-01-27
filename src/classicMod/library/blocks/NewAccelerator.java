@@ -9,6 +9,7 @@ import arc.math.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
 import classicMod.content.ExtendedStat;
+import classicMod.library.ui.UIExtended;
 import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.core.UI;
@@ -36,7 +37,7 @@ public class NewAccelerator extends Block {
 
     protected static final float[] thrusterSizes = {0f, 0f, 0.15f, 0.3f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f};
     public TextureRegion arrowRegion;
-    public Block launching = Blocks.coreBastion;
+    public Block launchBlock = Blocks.coreBastion;
     public float powerBufferRequirement;
     public Block requirementsBlock = Blocks.coreNucleus;
 
@@ -108,10 +109,10 @@ public class NewAccelerator extends Block {
                 }).left().pad(10f).row();
 
                 t.table(coreInfo -> {
-                    coreInfo.image(launching.uiIcon).size(40).pad(2.5f).left().scaling(Scaling.fit);
+                    coreInfo.image(launchBlock.uiIcon).size(40).pad(2.5f).left().scaling(Scaling.fit);
                     coreInfo.table(info -> {
                         info.add(getStatBundle.get("starting-core")).color(Pal.accent).row();
-                        info.add(launching.localizedName);
+                        info.add(launchBlock.localizedName);
                     });
                 }).left().pad(10f).row();
 
@@ -346,23 +347,23 @@ public class NewAccelerator extends Block {
             float warpSquareStroke = 1.25f;
 
             if (stageLaunchAnimation == 0) {
-                Draw.rect(launching.uiIcon, x, y);
+                Draw.rect(launchBlock.uiIcon, x, y);
 
                 Color epic = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation));
-                Drawf.additive(launching.uiIcon, epic, x, y);
+                Drawf.additive(launchBlock.uiIcon, epic, x, y);
 
                 Color woah = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation * 3f));
-                Drawf.additive(launching.uiIcon, woah, x, y);
+                Drawf.additive(launchBlock.uiIcon, woah, x, y);
 
                 Draw.z(Layer.bullet - 0.0001f);
 
                 Color bruh = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation));
                 Draw.color(bruh);
-                Draw.rect(launching.uiIcon, x, y);
+                Draw.rect(launchBlock.uiIcon, x, y);
 
                 Color glow = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation * 1.5f));
                 Draw.color(glow);
-                Draw.rect(launching.uiIcon, x, y);
+                Draw.rect(launchBlock.uiIcon, x, y);
 
                 Lines.stroke(1.75f, Pal.accent);
                 Lines.square(x, y, rad * 1.22f, 45f);
@@ -456,7 +457,7 @@ public class NewAccelerator extends Block {
 
             float thrusterSize = Mathf.sample(thrusterSizes, launchpadPrepTimer);
 
-            float size = launching.size;
+            float size = launchBlock.size;
             float strength = (1f + (size - 3) / 2.5f) * scl * thrusterSize * (0.95f + Mathf.absin(2f, 0.1f));
             float offset = (size - 3) * 3f * scl;
 
@@ -476,7 +477,7 @@ public class NewAccelerator extends Block {
 
             drawLandingThrusters(x, y, rotation, thrusterFrame);
 
-            Drawf.spinSprite(launching.fullIcon, x, y, rotation);
+            Drawf.spinSprite(launchBlock.fullIcon, x, y, rotation);
 
             Draw.alpha(Interp.pow4In.apply(thrusterFrame));
             drawLandingThrusters(x, y, rotation, thrusterFrame);
@@ -516,8 +517,8 @@ public class NewAccelerator extends Block {
             float length = thrusterLength * (frame - 1f) - 1f / 4f;
             float alpha = Draw.getColor().a;
 
-            TextureRegion thruster1 = Core.atlas.find(launching.name + "-thruster1");
-            TextureRegion thruster2 = Core.atlas.find(launching.name + "-thruster2");
+            TextureRegion thruster1 = Core.atlas.find(launchBlock.name + "-thruster1");
+            TextureRegion thruster2 = Core.atlas.find(launchBlock.name + "-thruster2");
 
             //two passes for consistent lighting
             for (int j = 0; j < 2; j++) {
@@ -552,13 +553,13 @@ public class NewAccelerator extends Block {
                 Drawf.additive(launching.uiIcon, epic, x, y);
             }*/
 
-            Drawf.shadow(x, y, launching.size * tilesize * 2f, buildProgress);
+            Drawf.shadow(x, y, launchBlock.size * tilesize * 2f, buildProgress);
 
             if (buildProgress < 1f) {
                 Draw.draw(Layer.blockBuilding, () -> {
                     Draw.color(Pal.accent, heat);
 
-                    for (TextureRegion region : launching.getGeneratedIcons()) {
+                    for (TextureRegion region : launchBlock.getGeneratedIcons()) {
                         Shaders.blockbuild.region = region;
                         Shaders.blockbuild.time = time;
                         Shaders.blockbuild.progress = buildProgress;
@@ -570,12 +571,12 @@ public class NewAccelerator extends Block {
                     Draw.color();
                 });
                 if (buildProgress > 0.999f && efficiency > 0) {
-                    Fx.placeBlock.at(x, y, launching.size);
-                    Fx.coreBuildBlock.at(x, y, rotation, launching);
-                    Fx.coreBuildShockwave.at(x, y, launching.size);
+                    Fx.placeBlock.at(x, y, launchBlock.size);
+                    Fx.coreBuildBlock.at(x, y, rotation, launchBlock);
+                    Fx.coreBuildShockwave.at(x, y, launchBlock.size);
                 }
             } else {
-                for (TextureRegion region : launching.getGeneratedIcons()) {
+                for (TextureRegion region : launchBlock.getGeneratedIcons()) {
                     Draw.rect(region, x, y);
                 }
             }
@@ -609,14 +610,14 @@ public class NewAccelerator extends Block {
 
         @Override
         public void buildConfiguration(Table table) {
-
-            if (isControlled()) deselect();
+            deselect();
             if (!canLaunch()) return;
 
-            table.button(Icon.upOpen, Styles.cleari, () -> {
+            UIExtended.newLaunchDialog.showPlanetLaunch(state.rules.sector);
+            /*table.button(Icon.upOpen, Styles.cleari, () -> {
                 launchingStartup = true;
                 deselect();
-            }).size(40f);
+            }).size(40f);*/
 
             Events.fire(Trigger.acceleratorUse);
         }

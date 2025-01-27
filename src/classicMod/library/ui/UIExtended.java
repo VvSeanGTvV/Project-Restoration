@@ -27,11 +27,13 @@ public class UIExtended {
     public static TechTreeDialog Techtree;
     public static ContentUnlockDebugDialog contentUnlockDebugDialog;
     public static StaticImageManager staticImageManager;
+    public static NewLaunchDialog newLaunchDialog;
 
     public static void init() {
         Techtree = new TechTreeDialog();
         contentUnlockDebugDialog = new ContentUnlockDebugDialog();
         staticImageManager = new StaticImageManager();
+        newLaunchDialog = new NewLaunchDialog();
     }
 
     /**
