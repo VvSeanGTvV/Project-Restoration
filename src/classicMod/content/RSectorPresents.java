@@ -10,7 +10,7 @@ public class RSectorPresents extends SectorPresets {
     ;
 
     public static void load() {
-        silverCrags = new SectorPreset("silverCrags", Planets.serpulo, 18) {{
+        silverCrags = new SectorPreset("silverCrags", Planets.serpulo, 20) {{
             captureWave = 15;
             difficulty = 3;
         }};
