@@ -21,7 +21,7 @@ import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.ui.dialogs.*;
 
-public class NewLaunchDialog extends Dialog implements PlanetRenderer.PlanetInterfaceRenderer {
+public class NewLaunchDialog extends Dialog {
     public final PlanetRenderer planets;
     public PlanetParams state = new PlanetParams();
     public float zoom;
@@ -228,7 +228,7 @@ public class NewLaunchDialog extends Dialog implements PlanetRenderer.PlanetInte
             this.hoverLabel.getText().setLength(0);
             StringBuilder tx = this.hoverLabel.getText();
             tx.append("[accent][[ [white]").append(hoverPlanet.localizedName).append("[accent] ]");
-            
+
 
 
             this.hoverLabel.invalidateHierarchy();
