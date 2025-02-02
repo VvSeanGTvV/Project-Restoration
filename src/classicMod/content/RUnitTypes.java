@@ -72,7 +72,7 @@ public class RUnitTypes {
 
     public static void load() {
 
-        miserable = new NewNeoplasmUnitType("walky"){{
+        miserable = new NeoplasmUnitType("walky"){{
             constructor = LegsUnit::create;
             aiController = GroundAI::new;
             drag = 0.1f;
@@ -164,7 +164,7 @@ public class RUnitTypes {
             }});
         }};
 
-        kalyx = new NewNeoplasmUnitType("kalyx"){{
+        kalyx = new NeoplasmUnitType("kalyx"){{
             constructor = UnitEntity::create;
             aiController = FlyingAI::new;
             //smokeTrail = Fx.neoplasiaSmoke;
@@ -211,7 +211,7 @@ public class RUnitTypes {
 
         }};
 
-        mule = new NewNeoplasmUnitType("mule"){{
+        mule = new NeoplasmUnitType("mule"){{
             constructor = CrawlUnit::create;
 
             health = 250;
@@ -233,7 +233,7 @@ public class RUnitTypes {
             aiController = HugAI::new;
         }};
 
-        worm = new NewNeoplasmUnitType("worm"){{
+        worm = new NeoplasmUnitType("worm"){{
             constructor = CrawlUnit::create;
 
             health = 550;
@@ -255,7 +255,7 @@ public class RUnitTypes {
             aiController = HugAI::new;
         }};
 
-        squid = new NewNeoplasmUnitType("flying-neoplasm-squid"){
+        squid = new NeoplasmUnitType("flying-neoplasm-squid"){
             public final DrawPart.PartProgress timeSin = p -> Mathf.absin( 20f, 1f);
 
             {
@@ -305,7 +305,7 @@ public class RUnitTypes {
             }
         };
 
-        blob = new NewNeoplasmUnitType("vesicle"){{
+        blob = new NeoplasmUnitType("vesicle"){{
             useUnitCap = false;
             controller = u -> new SteamHugAI();
             health = 20;
