@@ -192,7 +192,7 @@ public class NewLaunchDialog extends Dialog {
             }
         }
 
-        if (selectPlanet != null && fromPlanet != selectPlanet) {
+        if (selectPlanet != null) {
             this.addChild(this.selectLabel);
             this.selectLabel.toFront();
             this.selectLabel.touchable = Touchable.disabled;
@@ -239,10 +239,5 @@ public class NewLaunchDialog extends Dialog {
         this.state.zoom = Mathf.lerpDelta(this.state.zoom, this.zoom, 0.4F);
         this.state.uiAlpha = Mathf.lerpDelta(this.state.uiAlpha, (float)Mathf.num(this.state.zoom < 1.9F), 0.1F);
         super.act(delta);
-    }
-
-
-    public void renderProjections(Planet planet) {
-
     }
 }
