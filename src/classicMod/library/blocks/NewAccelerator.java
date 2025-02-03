@@ -276,11 +276,11 @@ public class NewAccelerator extends Block {
                     }
 
                     zoomStyle = Interp.pow3In.apply(Scl.scl(0.02f), Scl.scl(maxScaleZoom), Mathf.clamp(1f - launchpadTimer * 2f));
-                    launchpadPrepTimer = Mathf.clamp(launchpadPrepTimer + 0.0035f * Time.delta);
+                    launchpadPrepTimer = Mathf.clamp(launchpadPrepTimer + 0.0055f * Time.delta);
 
                     if (launchpadPrepTimer >= 0.45f)
                         launchpadTimer = Mathf.clamp(launchpadTimer + 0.0055f * Time.delta);
-                    if (launchpadTimer * 2f >= 1.05f) stageLaunch += 1;
+                    if (launchpadTimer * 2f >= 1f) stageLaunch += 1;
                     if (launchpadTimer >= 0.25f) shockwaveTimer = Mathf.clamp(launchpadTimer + 0.01f * Time.delta);
                 }
                 if (stageLaunch >= 2) {
@@ -430,23 +430,8 @@ public class NewAccelerator extends Block {
 
                 Draw.reset();
                 DrawCoreLaunch();
-
-                //Drawf.additive(launching.uiIcon, bruh, x, y);
             }
         }
-
-
-        /*float cx(){
-            return x + Interp.pow2In.apply(launchpadTimer) * (12f + Mathf.randomSeedRange(id() + 3, 4f));
-        }
-
-        float cy(){
-            return y + Interp.sineIn.apply(launchpadTimer) * (100f + Mathf.randomSeedRange(id() + 2, 30f));
-        }
-
-        float fslope(){
-            return (0.5f - Math.abs(launchpadTimer - 0.5f)) * 2f;
-        }*/
 
         //damn
         public void DrawCoreLaunch() {
@@ -629,7 +614,7 @@ public class NewAccelerator extends Block {
         @Override
         public void buildConfiguration(Table table) {
             deselect();
-            if (StartAnimation || isControlled()) return;
+            if (StartAnimation || isControlled() || !(isValid() && state.isCampaign() && efficiency > 0f && power.graph.getBatteryStored() >= powerBufferRequirement - 0.00001f)) return;
 
             UIExtended.newLaunchDialog.showPlanetLaunch(state.rules.sector, p -> {
                 launchBlock = p.defaultCore;

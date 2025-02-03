@@ -25,6 +25,8 @@ import mindustry.ui.*;
 import mindustry.ui.dialogs.*;
 import mindustry.world.Block;
 
+import java.util.Iterator;
+
 import static classicMod.ClassicMod.getStatBundle;
 
 public class NewLaunchDialog extends Dialog {
@@ -167,6 +169,7 @@ public class NewLaunchDialog extends Dialog {
         state.planet = selectPlanet;
         state.otherCamPos = selectPlanet.position;
         state.otherCamAlpha = 0f;
+
         Table ptable = this.planetTop;
         if (selectPlanet == fromPlanet) {
             ptable.clear();
@@ -235,19 +238,29 @@ public class NewLaunchDialog extends Dialog {
         this.addCloseListener();
     }
 
+    void addNext() {
+        this.buttons.button("@next", Icon.right, () -> {
+            
+        }).size(200.0F, 54.0F).pad(2.0F).bottom();
+    }
+
     void rebuildButtons(){
         this.buttons.clearChildren();
         this.buttons.bottom();
         if (Core.graphics.isPortrait()) {
-            this.buttons.add(this.planetTop).colspan(2).fillX().row();
             this.addBack();
+            this.buttons.add(this.planetTop).colspan(2).fillX().row();
+
         } else {
             this.addBack();
             this.buttons.add().growX();
             this.buttons.add(this.planetTop).minWidth(230.0F);
             this.buttons.add().growX();
+            this.addNext();
         }
     }
+
+
 
     @Override
     public void draw() {
