@@ -8,7 +8,6 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
-import classicMod.content.ExtendedStat;
 import classicMod.library.ui.UIExtended;
 import mindustry.Vars;
 import mindustry.content.*;
@@ -24,7 +23,6 @@ import mindustry.world.Block;
 import mindustry.world.blocks.ControlBlock;
 
 import static arc.Core.*;
-import static classicMod.ClassicMod.getStatBundle;
 import static classicMod.library.ui.UIExtended.fdelta;
 import static mindustry.Vars.*;
 
@@ -37,11 +35,14 @@ public class NewAccelerator extends Block {
 
     protected static final float[] thrusterSizes = {0f, 0f, 0.15f, 0.3f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f};
     public TextureRegion arrowRegion;
-    public Block launchBlock = Blocks.coreBastion;
+
     public float powerBufferRequirement;
     public Block requirementsBlock = Blocks.coreNucleus;
 
-    public Sector Destination = SectorPresets.onset.sector;
+    @Nullable
+    public Sector destination;
+    @Nullable
+    public Block launchBlock;
     public int[] capacities = {};
 
     public float launchTime = 60f * 10f;
@@ -49,7 +50,7 @@ public class NewAccelerator extends Block {
 
     public float thrusterLength = 14f / 4f;
     //TODO dynamic
-    boolean launchingStartup, once, StartAnimation;
+    boolean launchingStartup = false, once = false, StartAnimation = false;
 
     public NewAccelerator(String name) {
         super(name);
@@ -94,7 +95,7 @@ public class NewAccelerator extends Block {
     public void setStats() {
         super.setStats();
 
-        stats.add(ExtendedStat.launchSector, table -> {
+        /*stats.add(ExtendedStat.launchSector, table -> {
             table.row();
             table.table(Styles.grayPanel, t -> {
                 t.table(infoSector -> {
@@ -121,7 +122,7 @@ public class NewAccelerator extends Block {
                     info.add(Strings.autoFixed(launchTime / 60f, 1) + " " + Core.bundle.get("unit.seconds")).color(Color.lightGray);
                 }).left().pad(10f).row();
             });
-        });
+        });*/
         //stats.add(Strings.autoFixed(launchTime / 60f, 1) + " " + Core.bundle.get("unit.seconds")).color(Color.lightGray);
     }
 
@@ -140,7 +141,7 @@ public class NewAccelerator extends Block {
         public Unit originUnit;
         float originMinZoom, originMaxZoom;
         int stageLaunch = 0;
-        boolean reset;
+        boolean reset = true;
 
         @Override
         public boolean shouldAutoTarget() {
@@ -153,6 +154,10 @@ public class NewAccelerator extends Block {
 
         public boolean canLaunch(){
             return isValid() && state.isCampaign() && efficiency > 0f && power.graph.getBatteryStored() >= powerBufferRequirement - 0.00001f && buildProgress >= 1f;
+        }
+
+        public boolean readyLaunch(){
+            return (launchBlock != null && destination != null);
         }
 
         @Override
@@ -168,7 +173,7 @@ public class NewAccelerator extends Block {
         public void updateTile() {
             super.updateTile();
 
-            if (reset) {
+            if (reset || !readyLaunch()) {
                 launchpadTimer = 0;
                 launchAnimation = 0;
                 StartAnimation = false;
@@ -177,18 +182,18 @@ public class NewAccelerator extends Block {
             }
 
 
-
-            heat = Mathf.lerpDelta(heat, efficiency, 0.05f);
+            float eff = (readyLaunch()) ? efficiency : 0f;
+            heat = Mathf.lerpDelta(heat, eff, 0.05f);
             statusLerp = Mathf.lerpDelta(statusLerp, power.status, 0.05f);
 
-            time += Time.delta * efficiency;
+            time += Time.delta * eff;
 
-            if(efficiency >= 0f){
-                buildProgress += Time.delta * efficiency / buildTime;
+            if(eff >= 0f){
+                buildProgress += Time.delta * eff / buildTime;
                 buildProgress = Math.min(buildProgress, 1f);
             }
 
-            if (efficiency > 0) {
+            if (eff > 0) {
                 if (isControlled() && canLaunch()) {
                     progress += edelta();
                 } else {
@@ -199,8 +204,8 @@ public class NewAccelerator extends Block {
             } else {
                 progress = 0;
                 heatOpposite = 0f;
-                blockLerp = Mathf.clamp(Mathf.lerpDelta(blockLerp, efficiency, 0.05f));
-                buildProgress = Mathf.clamp(Mathf.lerpDelta(buildProgress, efficiency, 0.05f));
+                blockLerp = Mathf.clamp(Mathf.lerpDelta(blockLerp, eff, 0.05f));
+                buildProgress = Mathf.clamp(Mathf.lerpDelta(buildProgress, eff, 0.05f));
                 launchingStartup = false;
                 once = false;
             }
@@ -235,9 +240,9 @@ public class NewAccelerator extends Block {
                     once = false;
                 }
             }
-            unit.ammo(unit.type().ammoCapacity * fraction());
+            //unit.ammo(unit.type().ammoCapacity * fraction());
 
-            if (progress >= launchTime && canLaunch()) {
+            if (isControlled() && canLaunch()) {
                 
                 if (originMinZoom == 0 || originMaxZoom == 0) {
                     originMinZoom = renderer.minZoom;
@@ -267,19 +272,19 @@ public class NewAccelerator extends Block {
                     launchOppositeAnimation = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta);
                     if (launchAnimation < 0.01f) {
                         Effect.shake(3f, 3f, this);
-                        settings.put("unlocks" + "-launched-planetary", true);
+                        //settings.put("unlocks" + "-launched-planetary", true);
                     }
 
                     zoomStyle = Interp.pow3In.apply(Scl.scl(0.02f), Scl.scl(maxScaleZoom), Mathf.clamp(1f - launchpadTimer * 2f));
                     launchpadPrepTimer = Mathf.clamp(launchpadPrepTimer + 0.0035f * Time.delta);
 
-                    if (launchpadPrepTimer >= 0.25f)
-                        launchpadTimer = Mathf.clamp(launchpadTimer + 0.0075f * Time.delta);
-                    if (launchpadTimer * 2f >= 0.85f) stageLaunch += 1;
+                    if (launchpadPrepTimer >= 0.45f)
+                        launchpadTimer = Mathf.clamp(launchpadTimer + 0.0055f * Time.delta);
+                    if (launchpadTimer * 2f >= 1.05f) stageLaunch += 1;
                     if (launchpadTimer >= 0.25f) shockwaveTimer = Mathf.clamp(launchpadTimer + 0.01f * Time.delta);
                 }
                 if (stageLaunch >= 2) {
-                    StartNewPlanet(Destination);
+                    StartNewPlanet(destination);
                 }
             } else if (progress <= 0 && StartAnimation) {
                 player.clearUnit();
@@ -553,31 +558,33 @@ public class NewAccelerator extends Block {
                 Drawf.additive(launching.uiIcon, epic, x, y);
             }*/
 
-            Drawf.shadow(x, y, launchBlock.size * tilesize * 2f, buildProgress);
+            if (launchBlock != null) {
+                Drawf.shadow(x, y, launchBlock.size * tilesize * 2f, buildProgress);
 
-            if (buildProgress < 1f) {
-                Draw.draw(Layer.blockBuilding, () -> {
-                    Draw.color(Pal.accent, heat);
+                if (buildProgress < 1f) {
+                    Draw.draw(Layer.blockBuilding, () -> {
+                        Draw.color(Pal.accent, heat);
 
-                    for (TextureRegion region : launchBlock.getGeneratedIcons()) {
-                        Shaders.blockbuild.region = region;
-                        Shaders.blockbuild.time = time;
-                        Shaders.blockbuild.progress = buildProgress;
+                        for (TextureRegion region : launchBlock.getGeneratedIcons()) {
+                            Shaders.blockbuild.region = region;
+                            Shaders.blockbuild.time = time;
+                            Shaders.blockbuild.progress = buildProgress;
 
-                        Draw.rect(region, x, y);
-                        Draw.flush();
+                            Draw.rect(region, x, y);
+                            Draw.flush();
+                        }
+
+                        Draw.color();
+                    });
+                    if (buildProgress > 0.999f && efficiency > 0) {
+                        Fx.placeBlock.at(x, y, launchBlock.size);
+                        Fx.coreBuildBlock.at(x, y, rotation, launchBlock);
+                        Fx.coreBuildShockwave.at(x, y, launchBlock.size);
                     }
-
-                    Draw.color();
-                });
-                if (buildProgress > 0.999f && efficiency > 0) {
-                    Fx.placeBlock.at(x, y, launchBlock.size);
-                    Fx.coreBuildBlock.at(x, y, rotation, launchBlock);
-                    Fx.coreBuildShockwave.at(x, y, launchBlock.size);
-                }
-            } else {
-                for (TextureRegion region : launchBlock.getGeneratedIcons()) {
-                    Draw.rect(region, x, y);
+                } else {
+                    for (TextureRegion region : launchBlock.getGeneratedIcons()) {
+                        Draw.rect(region, x, y);
+                    }
                 }
             }
 
@@ -603,21 +610,37 @@ public class NewAccelerator extends Block {
             renderer.maxZoom = originMaxZoom;
             originMaxZoom = originMinZoom = 0;
 
+            consume();
+            power.graph.useBatteries(powerBufferRequirement);
+
             Events.fire(new SectorLaunchEvent(to));
             control.playSector(to);
+
+            launchBlock = null;
+            destination = null;
             reset = true;
+        }
+
+        @Override
+        public boolean canControl() {
+            return readyLaunch();
         }
 
         @Override
         public void buildConfiguration(Table table) {
             deselect();
-            if (!canLaunch()) return;
+            if (StartAnimation || isControlled()) return;
 
-            UIExtended.newLaunchDialog.showPlanetLaunch(state.rules.sector);
-            /*table.button(Icon.upOpen, Styles.cleari, () -> {
-                launchingStartup = true;
-                deselect();
-            }).size(40f);*/
+            UIExtended.newLaunchDialog.showPlanetLaunch(state.rules.sector, p -> {
+                launchBlock = p.defaultCore;
+                destination = p.sectors.get(p.startSector);
+                buildProgress = heat = statusLerp = 0f;
+
+                player.clearUnit();
+                unit.controller(player);
+
+                player.set(this);
+            });
 
             Events.fire(Trigger.acceleratorUse);
         }

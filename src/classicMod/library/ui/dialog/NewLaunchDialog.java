@@ -1,13 +1,16 @@
 package classicMod.library.ui.dialog;
 
 import arc.Core;
+import arc.func.Cons;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.input.KeyCode;
 import arc.math.Mathf;
-import arc.math.geom.Vec3;
+import arc.math.geom.*;
 import arc.scene.event.*;
+import arc.scene.style.TextureRegionDrawable;
 import arc.scene.ui.*;
+import arc.scene.ui.layout.Table;
 import arc.util.*;
 import mindustry.Vars;
 import mindustry.content.Planets;
@@ -20,6 +23,9 @@ import mindustry.input.Binding;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.ui.dialogs.*;
+import mindustry.world.Block;
+
+import static classicMod.ClassicMod.getStatBundle;
 
 public class NewLaunchDialog extends Dialog {
     public final PlanetRenderer planets;
@@ -27,7 +33,9 @@ public class NewLaunchDialog extends Dialog {
     public float zoom;
     public Label hoverLabel, selectLabel;
     protected Planet hoverPlanet, selectPlanet, fromPlanet;
-    protected Sector test;
+    protected Cons<Planet> listener;
+
+    public Table planetTop;
     protected boolean wasPaused;
     protected boolean shouldPause;
 
@@ -57,6 +65,11 @@ public class NewLaunchDialog extends Dialog {
 
         shouldPause = false;
         this.planets = Vars.renderer.planets;
+        this.listener = (p) -> {
+        };
+
+        planetTop = new Table();
+
         state.planet = Vars.content.getByName(ContentType.planet, Core.settings.getString("lastplanet", "serpulo"));
         if(state.planet == null) state.planet = Planets.serpulo;
 
@@ -147,21 +160,70 @@ public class NewLaunchDialog extends Dialog {
             }
         });
 
-        addBack();
+        rebuildButtons();
     }
 
     void updateSelect(){
         state.planet = selectPlanet;
         state.otherCamPos = selectPlanet.position;
         state.otherCamAlpha = 0f;
+        Table ptable = this.planetTop;
+        if (selectPlanet == fromPlanet) {
+            ptable.clear();
+            ptable.visible = false;
+        } else {
+            ptable.visible = true;
+            float x = ptable.getX(1);
+            float y = ptable.getY(1);
+            ptable.clear();
+            ptable.background(Styles.black6);
+
+            ptable.table((title) -> {
+                title.add("[accent]" + fromPlanet.localizedName).padLeft(6.0F);
+                title.image(Icon.planetSmall).color(fromPlanet.iconColor).size(24.0F).pad(6f);
+
+                title.image(Icon.rightSmall).size(24.0F).pad(6f);
+
+                title.add("[accent]" + selectPlanet.localizedName).padLeft(3.0F);
+                title.image(Icon.planetSmall).color(selectPlanet.iconColor).size(24.0F).pad(6f);
+            }).row();
+            ptable.image().color(Pal.accent).fillX().height(3.0F).pad(3.0F).row();
+
+            ptable.table((landing) -> {
+                landing.add(getStatBundle.get("sector-land")).row();
+                landing.add(selectPlanet.sectors.get(selectPlanet.startSector).name());
+            }).center().pad(10f).row();
+
+            ptable.table(coreInfo -> {
+                Block launchBlock = selectPlanet.defaultCore;
+                coreInfo.image(launchBlock.uiIcon).size(40).pad(2.5f).left().scaling(Scaling.fit);
+                coreInfo.table(info -> {
+                    info.add(getStatBundle.get("starting-core")).color(Pal.accent).row();
+                    info.add(launchBlock.localizedName);
+                });
+            }).center().pad(10f).row();
+
+            ptable.button("@sectors.go", Icon.play, () -> {
+                if (listener != null){
+                    listener.get(selectPlanet);
+                }
+                this.hide();
+            }).growX().height(54.0F).minWidth(170.0F).padTop(4.0F);
+
+            ptable.pack();
+            ptable.setPosition(x, y, 1);
+            ptable.act(0.0F);
+        }
     }
 
-    public void showPlanetLaunch(Sector sector) {
+    public void showPlanetLaunch(Sector sector, Cons<Planet> listener) {
+        this.listener = listener;
         state.zoom = this.zoom = sector.planet.minZoom;
         state.planet = fromPlanet = hoverPlanet = selectPlanet = sector.planet;
         state.otherCamPos = sector.planet.position;
-        test = sector;
         state.otherCamAlpha = 0f;
+
+        updateSelect();
         super.show();
     }
 
@@ -171,6 +233,20 @@ public class NewLaunchDialog extends Dialog {
     void addBack() {
         this.buttons.button("@back", Icon.left, this::hide).size(200.0F, 54.0F).pad(2.0F).bottom();
         this.addCloseListener();
+    }
+
+    void rebuildButtons(){
+        this.buttons.clearChildren();
+        this.buttons.bottom();
+        if (Core.graphics.isPortrait()) {
+            this.buttons.add(this.planetTop).colspan(2).fillX().row();
+            this.addBack();
+        } else {
+            this.addBack();
+            this.buttons.add().growX();
+            this.buttons.add(this.planetTop).minWidth(230.0F);
+            this.buttons.add().growX();
+        }
     }
 
     @Override
@@ -185,14 +261,14 @@ public class NewLaunchDialog extends Dialog {
         hoverPlanet = null;
         for (var planet : Vars.content.planets()) {
             var pos = planet.intersect(this.planets.cam.getMouseRay(), 1.17F * planet.radius);
-            if (!planet.accessible || !planet.visible) continue;
+            if (!planet.accessible || !planet.visible || planet == selectPlanet) continue;
             if (pos != null) {
                 hoverPlanet = planet;
                 break;
             }
         }
 
-        if (selectPlanet != null) {
+        if (selectPlanet != null && selectPlanet != fromPlanet) {
             this.addChild(this.selectLabel);
             this.selectLabel.toFront();
             this.selectLabel.touchable = Touchable.disabled;
@@ -207,15 +283,31 @@ public class NewLaunchDialog extends Dialog {
                 tx.append("[green]> [lime]").append(selectPlanet.localizedName).append("[green] <");
             } if (d < 23 && d > 15){
                 tx.append("[green]>[lime]").append(selectPlanet.localizedName).append("[green]<");
-            } if (d > 23){
-                d = 0;
             }
-            d += Time.delta;
-
 
             this.selectLabel.invalidateHierarchy();
         } else {
-            this.selectLabel.remove();
+            if (selectPlanet != null){
+                this.addChild(this.selectLabel);
+                this.selectLabel.toFront();
+                this.selectLabel.touchable = Touchable.disabled;
+                this.selectLabel.color.a = this.state.uiAlpha;
+                Vec3 pos = this.planets.cam.project(Tmp.v31.set(selectPlanet.position).setLength(0F * selectPlanet.radius).rotate(Vec3.Y, -selectPlanet.getRotation()).add(selectPlanet.position));
+                this.selectLabel.setPosition(pos.x - Core.scene.marginLeft, pos.y - Core.scene.marginBottom, 1);
+                this.selectLabel.getText().setLength(0);
+                StringBuilder tx = this.selectLabel.getText();
+                if (d < 7){
+                    tx.append("[red]<[accent]").append(fromPlanet.localizedName).append("[red]>");
+                } if (d < 15 && d > 7){
+                    tx.append("[red]< [accent]").append(fromPlanet.localizedName).append("[red] >");
+                } if (d < 23 && d > 15){
+                    tx.append("[red]<  [accent]").append(fromPlanet.localizedName).append("[red]  >");
+                }
+
+                this.selectLabel.invalidateHierarchy();
+            } else {
+                this.selectLabel.remove();
+            }
         }
 
         if (hoverPlanet != null && !Vars.mobile && selectPlanet != hoverPlanet) {
@@ -238,6 +330,12 @@ public class NewLaunchDialog extends Dialog {
 
         this.state.zoom = Mathf.lerpDelta(this.state.zoom, this.zoom, 0.4F);
         this.state.uiAlpha = Mathf.lerpDelta(this.state.uiAlpha, (float)Mathf.num(this.state.zoom < 1.9F), 0.1F);
+
+        if (d > 23){
+            d = 0;
+        }
+        d += Time.delta;
+
         super.act(delta);
     }
 }
