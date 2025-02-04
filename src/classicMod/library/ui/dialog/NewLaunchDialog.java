@@ -240,7 +240,14 @@ public class NewLaunchDialog extends Dialog {
 
     void addNext() {
         this.buttons.button("@next", Icon.right, () -> {
-            
+            int selection = Vars.content.planets().indexOf(selectPlanet);
+            while (true) {
+                selection++;
+                if (selection >= Vars.content.planets().size) selection = 1;
+                selectPlanet = Vars.content.planets().get(selection);
+                if (selectPlanet.accessible && selectPlanet.visible) break;
+            }
+            updateSelect();
         }).size(200.0F, 54.0F).pad(2.0F).bottom();
     }
 
@@ -250,7 +257,7 @@ public class NewLaunchDialog extends Dialog {
         if (Core.graphics.isPortrait()) {
             this.addBack();
             this.buttons.add(this.planetTop).colspan(2).fillX().row();
-
+            this.addNext();
         } else {
             this.addBack();
             this.buttons.add().growX();
