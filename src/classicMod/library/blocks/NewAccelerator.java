@@ -7,24 +7,29 @@ import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.scene.ui.layout.*;
+import arc.struct.*;
 import arc.util.*;
 import classicMod.library.ui.UIExtended;
 import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.core.UI;
+import mindustry.ctype.UnlockableContent;
 import mindustry.entities.Effect;
 import mindustry.entities.units.UnitController;
 import mindustry.game.EventType.*;
+import mindustry.game.Schematic;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.Block;
 import mindustry.world.blocks.ControlBlock;
+import mindustry.world.blocks.storage.CoreBlock;
 
 import static arc.Core.*;
 import static classicMod.library.ui.UIExtended.fdelta;
 import static mindustry.Vars.*;
+import static mindustry.ctype.ContentType.sector;
 
 public class NewAccelerator extends Block {
     /*
@@ -532,16 +537,9 @@ public class NewAccelerator extends Block {
             Draw.alpha(1f);
         }
 
+
         public void DrawCore() {
             Draw.reset();
-            /*Draw.alpha(Mathf.clamp(blockLerp * 12f));
-            Draw.rect(launching.uiIcon, x, y);
-
-            Draw.z(Layer.effect + 0.001f);
-            Color epic = new Color(team.color.r, team.color.g, team.color.b, 1f - Mathf.clamp(blockLerp * 3f));
-            if (efficiency > 0) {
-                Drawf.additive(launching.uiIcon, epic, x, y);
-            }*/
 
             if (launchBlock != null) {
                 Drawf.shadow(x, y, launchBlock.size * tilesize * 2f, buildProgress);
@@ -591,6 +589,8 @@ public class NewAccelerator extends Block {
                 }
             }
 
+
+
             renderer.minZoom = originMinZoom;
             renderer.maxZoom = originMaxZoom;
             originMaxZoom = originMinZoom = 0;
@@ -598,7 +598,12 @@ public class NewAccelerator extends Block {
             consume();
             power.graph.useBatteries(powerBufferRequirement);
 
-            Events.fire(new SectorLaunchEvent(to));
+            // from BE
+            to.planet.unlockedOnLand.each(UnlockableContent::unlock);
+
+            universe.clearLoadoutInfo();
+            universe.updateLoadout((CoreBlock)launchBlock, new Schematic(Seq.with(new Schematic.Stile(block, 0, 0, null, (byte)0)), new StringMap(), block.size, block.size));
+
             control.playSector(to);
 
             launchBlock = null;

@@ -239,7 +239,9 @@ public class NewLaunchDialog extends Dialog {
     }
 
     void addNext() {
-        this.buttons.button("@next", Icon.right, () -> {
+        int p = Vars.content.planets().indexOf(selectPlanet);
+        if (p >= Vars.content.planets().size) p = 1;
+        this.buttons.button("@planets", Icon.right, () -> {
             int selection = Vars.content.planets().indexOf(selectPlanet);
             while (true) {
                 selection++;
