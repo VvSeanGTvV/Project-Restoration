@@ -87,20 +87,13 @@ public class ClassicMod extends Mod{
             getContributors();
             graphics.setTitle(settings.getAppName() + " | " + resMod.meta.displayName + " " + BuildVer);
 
-            if (!ignoreWarning) {
-                Time.runTask(10f, () -> {
+            Time.runTask(10f, () -> {
+                UIExtended.postInit();
+                if (!ignoreWarning) {
                     Dialog dialog = new Dialog();
                     dialog.setFillParent(true);
-                    //dialog.align(1);
-                    //dialog.clearChildren();
-                    //dialog.stack(new Element[]{dialog.cont, dialog.buttons}).grow();
-                    //dialog.bottom();
-                    Table warningDialog = new Table(Styles.grayPanel){{
-
-                    }}.center();
-
-                    //t.add("@mod.restored-mind.earlyaccess.title").size(120f).pad(10f).row();
-
+                    Table warningDialog = new Table(Styles.grayPanel) {
+                    }.center();
 
                     warningDialog.table(information -> {
                         information.table(character -> {
@@ -124,15 +117,13 @@ public class ClassicMod extends Mod{
                         buttons.button("@ok", Icon.ok, dialog::hide).padBottom(10f).size(210.0F, 54.0F).center();
                     }).growX().center();
 
-                    //dialog.cont.defaults().grow();
                     dialog.cont.bottom();
                     dialog.cont.add(warningDialog);
 
-
                     dialog.show();
-                });
+                }
+            });
                 //ui.showOkText("@mod.restored-mind.earlyaccess.title", "@mod.restored-mind.earlyaccess.text", () -> {});
-            }
 
             /*if(settings.getBool("backward-v5", true)){
                 if(!settings.getBool("backward-v6", false)){

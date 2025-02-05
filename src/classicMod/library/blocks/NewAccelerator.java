@@ -9,6 +9,7 @@ import arc.math.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
+import classicMod.content.RFx;
 import classicMod.library.ui.UIExtended;
 import mindustry.Vars;
 import mindustry.content.*;
@@ -264,7 +265,7 @@ public class NewAccelerator extends Block {
                 renderer.maxZoom = Scl.scl(6f);
                 renderer.setScale(Scl.scl(zoomStyle));
                 var maxScaleZoom = (Vars.mobile) ? Core.graphics.getAspect() : 4f;
-                launchAnimation = Mathf.clamp(launchAnimation + 0.0025f * Time.delta);
+                launchAnimation = Mathf.clamp(launchAnimation + 0.0045f * Time.delta);
                 if (launchAnimation >= 1f && stageLaunch < 1) {
                     stageLaunch += 1;
                     launchAnimation = 0f;
@@ -278,6 +279,11 @@ public class NewAccelerator extends Block {
                     if (launchAnimation < 0.01f) {
                         Effect.shake(3f, 3f, this);
                         //settings.put("unlocks" + "-launched-planetary", true);
+                    }
+
+                    if (launchAnimation < 0.0001f) {
+                        Fx.coreLaunchConstruct.at(x, y, launchBlock.size);
+                        RFx.launchAccelerator.at(x, y);
                     }
 
                     zoomStyle = Interp.pow3In.apply(Scl.scl(0.02f), Scl.scl(maxScaleZoom), Mathf.clamp(1f - launchpadTimer * 2f));
@@ -382,7 +388,7 @@ public class NewAccelerator extends Block {
                     var stroke = warpSquareStroke * (strokeScaling * i);
                     var centre = i - (i * Mathf.clamp(launchAnimation));
                     Lines.stroke(stroke * Mathf.clamp(launchAnimation * 2f / bop), Pal.accent);
-                    Lines.square(x, y + 10f * centre * centre, rad * 1.22f * i, 90f);
+                    Lines.square(x, y + 10f * centre * centre, rad * 1.22f * i, (i == 1) ? 90f : (Time.time / (scl + i)));
                 }
 
                 var Opposite = 1f - Mathf.clamp(launchAnimation * 3f);
@@ -405,7 +411,6 @@ public class NewAccelerator extends Block {
                     float length = 26f * Opposite;
                     Draw.rect(arrowRegion, x + Angles.trnsx(rot, length), y + Angles.trnsy(rot, length), rot + 180f);
                 }
-
 
             }
 
@@ -450,14 +455,15 @@ public class NewAccelerator extends Block {
 
             Draw.z(Layer.weather - 1);
 
-            float thrusterSize = Mathf.sample(thrusterSizes, launchpadPrepTimer);
+            float thrusterSize = Mathf.sample(thrusterSizes, (launchpadPrepTimer / 1.5f));
 
             float size = launchBlock.size;
-            float strength = (1f + (size - 3) / 2.5f) * scl * thrusterSize * (0.95f + Mathf.absin(2f, 0.1f));
+            float strength = ((1f + (size - 3) / 2.5f) * scl * thrusterSize * (0.95f + Mathf.absin(2f, 0.1f)));
             float offset = (size - 3) * 3f * scl;
 
+            float rotOffset = 1f + launchpadTimer / 1.35f;
             for (int i = 0; i < 4; i++) {
-                Tmp.v1.trns(i * 90 + rotation, 1f);
+                Tmp.v1.trns(i * 90 + rotation * rotOffset, 1f);
 
                 Tmp.v1.setLength((size * tilesize / 2f + 1f) * scl + strength * 2f + offset);
                 Draw.color(Pal.accent);
@@ -470,12 +476,13 @@ public class NewAccelerator extends Block {
 
             Draw.scl(scl);
 
-            drawLandingThrusters(x, y, rotation, thrusterFrame);
 
-            Drawf.spinSprite(launchBlock.fullIcon, x, y, rotation);
+            drawLandingThrusters(x, y, rotation * rotOffset, thrusterFrame);
+
+            Drawf.spinSprite(launchBlock.fullIcon, x, y, rotation * rotOffset);
 
             Draw.alpha(Interp.pow4In.apply(thrusterFrame));
-            drawLandingThrusters(x, y, rotation, thrusterFrame);
+            drawLandingThrusters(x, y, rotation * rotOffset, thrusterFrame);
             Draw.alpha(1f);
 
             drawShockwave(x, y, scl, 6f, 50f, Mathf.clamp(shockwaveTimer * 4f));
@@ -559,7 +566,7 @@ public class NewAccelerator extends Block {
 
                         Draw.color();
                     });
-                    if (buildProgress > 0.999f && efficiency > 0) {
+                    if (buildProgress > 0.995f && efficiency > 0) {
                         Fx.placeBlock.at(x, y, launchBlock.size);
                         Fx.coreBuildBlock.at(x, y, rotation, launchBlock);
                         Fx.coreBuildShockwave.at(x, y, launchBlock.size);

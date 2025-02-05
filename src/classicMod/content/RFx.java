@@ -36,6 +36,13 @@ public class RFx extends Fx {
             }
     }),
 
+    // BE for Mindustry V8
+    launchAccelerator = new Effect(22, e -> {
+        color(Pal.accent);
+        stroke(e.fout() * 2f);
+        Lines.circle(e.x, e.y, 4f + e.finpow() * 160f);
+    }),
+
     // Neoplasm
     missilePoreLaunch = new Effect(280.0F, (e) -> {
         Draw.color(neoplasm2);
