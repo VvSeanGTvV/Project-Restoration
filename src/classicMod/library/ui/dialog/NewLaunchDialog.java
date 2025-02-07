@@ -27,7 +27,9 @@ import mindustry.world.Block;
 
 import java.util.Iterator;
 
+import static arc.Core.settings;
 import static classicMod.ClassicMod.getStatBundle;
+import static mindustry.Vars.content;
 
 public class NewLaunchDialog extends Dialog {
     public final PlanetRenderer planets;
@@ -182,18 +184,18 @@ public class NewLaunchDialog extends Dialog {
             ptable.background(Styles.black6);
 
             ptable.table((title) -> {
-                title.add("[accent]" + fromPlanet.localizedName).padLeft(6.0F);
+                title.add(fromPlanet.localizedName).color(Pal.accent).padLeft(6.0F);
                 title.image(Icon.planetSmall).color(fromPlanet.iconColor).size(24.0F).pad(6f);
 
-                title.image(Icon.rightSmall).size(24.0F).pad(6f);
+                title.image(Icon.rightSmall).color(Pal.accent).size(24.0F).pad(6f);
 
-                title.add("[accent]" + selectPlanet.localizedName).padLeft(3.0F);
+                title.add(selectPlanet.localizedName).color(Pal.accent).padLeft(3.0F);
                 title.image(Icon.planetSmall).color(selectPlanet.iconColor).size(24.0F).pad(6f);
             }).row();
             ptable.image().color(Pal.accent).fillX().height(3.0F).pad(3.0F).row();
 
             ptable.table((landing) -> {
-                landing.add(getStatBundle.get("sector-land")).row();
+                landing.add(getStatBundle.get("sector-land")).color(Pal.accent).row();
                 landing.add(selectPlanet.sectors.get(selectPlanet.startSector).name());
             }).center().pad(10f).row();
 
@@ -238,18 +240,33 @@ public class NewLaunchDialog extends Dialog {
         this.addCloseListener();
     }
 
+    Planet nextPlanet(Planet cur){
+        Planet next;
+        int selection = (cur != null) ? Vars.content.planets().indexOf(cur) : 1;
+        while (true) {
+            selection++;
+            if (selection >= Vars.content.planets().size) selection = 1;
+            next = Vars.content.planets().get(selection);
+            if (next.accessible && next.visible) break;
+        }
+        return next;
+    }
+
     void addNext() {
-        int p = Vars.content.planets().indexOf(selectPlanet);
-        if (p >= Vars.content.planets().size) p = 1;
-        this.buttons.button("@planets", Icon.right, () -> {
+
+        var name = (nextPlanet(selectPlanet) == null) ? content.getByName(ContentType.planet, settings.getString("lastplanet", "serpulo")).name : nextPlanet(selectPlanet).localizedName;
+
+        this.buttons.button(name, Icon.right, () -> {
             int selection = Vars.content.planets().indexOf(selectPlanet);
             while (true) {
                 selection++;
                 if (selection >= Vars.content.planets().size) selection = 1;
                 selectPlanet = Vars.content.planets().get(selection);
                 if (selectPlanet.accessible && selectPlanet.visible) break;
+
             }
             updateSelect();
+            rebuildButtons();
         }).size(200.0F, 54.0F).pad(2.0F).bottom();
     }
 
