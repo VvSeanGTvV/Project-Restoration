@@ -13,7 +13,7 @@ import mindustry.world.Tile;
 
 public class NeoplasmAIController extends AIController {
 
-    public Seq<Tile> DodgeTile;
+    public Seq<Tile> DodgeTile = Seq<>(); // TODO thus
 
     public boolean update;
 
