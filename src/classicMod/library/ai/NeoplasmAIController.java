@@ -13,7 +13,7 @@ import mindustry.world.Tile;
 
 public class NeoplasmAIController extends AIController {
 
-    public Seq<Tile> DodgeTile; // TODO thus
+    public Seq<Tile> DodgeTile; = new Seq<>(); // TODO thus
 
     public boolean update;
 
@@ -59,7 +59,6 @@ public class NeoplasmAIController extends AIController {
     public void pathfind(int pathTarget) {
         int costType = this.unit.pathType();
         Tile tile = this.unit.tileOn();
-        DodgeTile = Seq<>();
         if (tile != null) {
             Tile targetTile = Vars.pathfinder.getTargetTile(tile, Vars.pathfinder.getField(this.unit.team, costType, pathTarget));
             if (tile != targetTile && (costType != 2 || targetTile.floor().isLiquid)) {
