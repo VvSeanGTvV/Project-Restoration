@@ -10,7 +10,7 @@ import classicMod.content.RUnitTypes;
 import classicMod.library.ai.PathfinderExtended;
 import mindustry.Vars;
 import mindustry.content.*;
-import mindustry.entities.Effect;
+import mindustry.entities.*;
 import mindustry.game.Team;
 import mindustry.gen.*;
 import mindustry.type.*;
@@ -19,14 +19,9 @@ import mindustry.world.meta.*;
 
 public class CausticHeart extends NeoplasmBlock {
 
-    public Effect generateEffect;
-    public float effectChance;
     public float minEfficiency;
-    public float displayEfficiencyScale;
-    public boolean displayEfficiency;
-    @Nullable
-    public LiquidStack outputLiquid;
     public Attribute attribute;
+    public int unitCap;
     public CausticHeart(String name) {
         super(name);
         attribute = Attribute.heat;
@@ -37,6 +32,7 @@ public class CausticHeart extends NeoplasmBlock {
         flags = EnumSet.of(BlockFlag.core);
         unitCapModifier = 10;
         itemCapacity = 10;
+        unitCap = 50;
     }
 
     public boolean canPlaceOn(Tile tile, Team team, int rotation) {
@@ -58,11 +54,15 @@ public class CausticHeart extends NeoplasmBlock {
             return (vent != null && !(vent.build instanceof CausticHeart.HeartBuilding)) ? vent : null;
         }
 
+        public boolean canCreate(Team team, UnitType type) {
+            return team.data().countType(type) < unitCap && !type.isBanned();
+        }
+
         @Override
         public void updateBeat() {
 
             if (Mathf.chance(0.25) && getClosestVent() != null){
-                if (!Vars.net.client()) {
+                if (!Vars.net.client() && canCreate(team, unitType)) {
                     unit = unitType.create(team);
                     unit.set(this);
                     unit.rotation(90f);

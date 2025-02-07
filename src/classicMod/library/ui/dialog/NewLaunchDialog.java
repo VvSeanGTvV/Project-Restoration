@@ -229,6 +229,7 @@ public class NewLaunchDialog extends Dialog {
         state.otherCamAlpha = 0f;
 
         updateSelect();
+        rebuildButtons();
         super.show();
     }
 
