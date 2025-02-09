@@ -1,7 +1,7 @@
 <p align="center">
-  <img width="570" height="90" src="assets/sprites-override/ui/logo.png"> </p>
-<p align="center"> Much more advance scripting, and more classic buildings. sup </p>
-<p align="center"><strong> v4.0 </strong></p>
+  <img width="570" height="158" src="assets/sprites-override/ui/logo.png"> </p>
+<p align="center"> Much more advance scripting, more classic buildings, etc. </p>
+<p align="center"><strong> v5.0 Pre-Alpha </strong></p>
 
 > [!NOTE]
 > This Mod is still in Beta/Alpha expect bugs.
@@ -40,11 +40,11 @@ v7 Units
 
 ## --- In Progress ---
 
-nothing.
+v8 Neoplasm Contents
 
 ## --- Future Contents ---
 
-v8 Neoplasia
+Storyline
 
 ## --- Credits ---
 

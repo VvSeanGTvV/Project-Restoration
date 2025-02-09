@@ -13,7 +13,7 @@ import arc.scene.ui.layout.*;
 import arc.struct.Seq;
 import arc.util.*;
 import classicMod.library.ui.UIExtended;
-import classicMod.library.ui.dialog.epicCreditsDialog;
+import classicMod.library.ui.dialog.CreditsCutsceneDialog;
 import mindustry.core.Version;
 import mindustry.game.EventType;
 import mindustry.gen.*;
@@ -70,7 +70,7 @@ public class MenuNewFragment{
                 font = Fonts.def;
                 fontColor = Color.white;
                 up = infoBanner;
-            }}, ui.about::show).size(84, 45).name("info"));
+            }}, UIExtended.aboutNewDialog::show).size(84, 45).name("info"));
 
             parent.fill((x, y, w, h) -> {
                 if(Core.scene.marginBottom > 0){
@@ -115,7 +115,7 @@ public class MenuNewFragment{
 
     private void buildMobile(){
         container.clear();
-        container.name = "buttons";
+        container.name = "mobile buttons";
         container.setSize(Core.graphics.getWidth(), Core.graphics.getHeight());
 
         float size = 120f;
@@ -130,7 +130,7 @@ public class MenuNewFragment{
                 tools = new MobileButton(Icon.settings, "@settings", ui.settings::show),
                 mods = new MobileButton(Icon.book, "@mods", ui.mods::show),
                 exit = new MobileButton(Icon.exit, "@quit", () -> Core.app.exit()),
-                about = new MobileButton(Icon.info, "@about.button", epicCreditsDialog::new);
+                about = new MobileButton(Icon.info, "@about.button", UIExtended.creditsCutsceneDialog::show);
 
         Seq<MobileButton> customs = customButtons.map(b -> new MobileButton(b.icon, b.text, b.runnable == null ? () -> {} : b.runnable));
 
@@ -199,11 +199,11 @@ public class MenuNewFragment{
                         new MenuButton("@database.button", Icon.menu,
                                 new MenuButton("@schematics", Icon.paste, ui.schematics::show),
                                 new MenuButton("@database", Icon.book, ui.database::show),
-                                new MenuButton("@about.button", Icon.info, ui.about::show)
+                                new MenuButton("@about.button", Icon.info, UIExtended.aboutNewDialog::show)
                         ),
                         new MenuButton("@editor", Icon.terrain, () -> checkPlay(ui.maps::show)), steam ? new MenuButton("@workshop", Icon.steam, platform::openWorkshop) : null,
                         new MenuButton("@mods", Icon.book, ui.mods::show),
-                        new MenuButton("@credits", Icon.info, epicCreditsDialog::new),
+                        new MenuButton("@credits", Icon.info, UIExtended.creditsCutsceneDialog::show),
                         new MenuButton("@settings", Icon.settings, ui.settings::show)
                 );
             }

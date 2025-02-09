@@ -69,13 +69,7 @@ public class ClassicMod extends Mod{
 
             boolean usePlanetBG = settings.getBool("use-planetmenu");
             boolean uselastPlanet = settings.getBool("use-lastplanet-bg");
-            if (usePlanetBG) {
-                if (uselastPlanet) {
-                    Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(SortedPlanet));
-                } else {
-                    Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(random));
-                }
-            }
+
 
 
 
@@ -91,6 +85,14 @@ public class ClassicMod extends Mod{
             Time.runTask(10f, () -> {
                 UIExtended.postInit();
                 Reflect.set(MenuFragment.class, ui.menufrag, "container", UIExtended.menuNewFragment.container);
+
+                if (usePlanetBG) {
+                    if (uselastPlanet) {
+                        Reflect.set(MenuNewFragment.class, UIExtended.menuNewFragment, "renderer", new MainMenuRenderer(SortedPlanet));
+                    } else {
+                        Reflect.set(MenuNewFragment.class, UIExtended.menuNewFragment, "renderer", new MainMenuRenderer(random));
+                    }
+                }
 
                 Log.info(Reflect.get(MenuFragment.class, ui.menufrag, "container"));
                 if (!ignoreWarning) {
@@ -205,7 +207,6 @@ public class ClassicMod extends Mod{
 
     @Override
     public void init() {
-
         if (settings.getBool("use-planetmenu")) MenuUI.load(); else if (settings.getBool("use-staticmenu")) {
             if(!headless) {
                 Reflect.set(ui.menufrag, "renderer", null);
@@ -395,7 +396,7 @@ public class ClassicMod extends Mod{
             t.pref(new UIExtended.Separator("restored-link"));
             t.pref(new UIExtended.ButtonSetting("restored-youtube", Icon.play, () -> Core.app.openURI("https://www.youtube.com/@vvseangtvv"), 32, true));
             t.pref(new UIExtended.ButtonSetting("restored-github", Icon.github, () -> Core.app.openURI("https://github.com/VvSeanGTvV/Project-Restoration"), 32, true));
-            t.pref(new UIExtended.ButtonSetting(Core.bundle.get("credits"), Icon.info, epicCreditsDialog::new, 32, true));
+            //t.pref(new UIExtended.ButtonSetting(Core.bundle.get("credits"), Icon.info, UIExtended.creditsCutsceneDialog::show, 32, true));
             t.pref(new UIExtended.Separator("restored-information"));
             t.row();
             t.pref(new UIExtended.ButtonSetting(getModBundle.get(resMod.meta.name + "-debug.unlock"), Icon.lockOpen, () -> UIExtended.contentUnlockDebugDialog.show(), 32, true));

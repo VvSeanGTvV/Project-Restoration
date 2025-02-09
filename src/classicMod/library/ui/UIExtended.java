@@ -30,13 +30,17 @@ public class UIExtended {
     public static ContentUnlockDebugDialog contentUnlockDebugDialog;
     public static StaticImageManager staticImageManager;
     public static NewLaunchDialog newLaunchDialog;
+    public static CreditsCutsceneDialog creditsCutsceneDialog;
     public static MenuNewFragment menuNewFragment;
+    public static AboutNewDialog aboutNewDialog;
 
     public static void init() {
         Techtree = new TechTreeDialog();
         staticImageManager = new StaticImageManager();
         newLaunchDialog = new NewLaunchDialog();
         menuNewFragment = new MenuNewFragment();
+        creditsCutsceneDialog = new CreditsCutsceneDialog();
+        aboutNewDialog = new AboutNewDialog();
 
         menuNewFragment.build(Vars.ui.menuGroup);
     }

@@ -21,7 +21,7 @@ import static classicMod.content.RMusic.*;
 import static classicMod.library.ui.UIExtended.fdelta;
 import static mindustry.Vars.*;
 
-public class epicCreditsDialog extends Dialog {
+public class CreditsCutsceneDialog extends Dialog {
 
     public final PlanetRenderer planets = renderer.planets;
     Image logo = new Image(new TextureRegionDrawable(Core.atlas.find("restored-mind-logoMod")), Scaling.fit);
@@ -35,7 +35,7 @@ public class epicCreditsDialog extends Dialog {
 
     Table credit = new Table() {{
         //add(icon).size(120f, 90f);
-        add(logo).size(570f, 90f).row();
+        add(logo).size(570f, 158f).row();
         image(Tex.clear).height(27.5f).padTop(3f).row();
         add("v" + ModVersion).row();
         add("build " + BuildVer).row();
@@ -97,12 +97,8 @@ public class epicCreditsDialog extends Dialog {
     }
 
     boolean hidden;
-    public epicCreditsDialog() {
+    public CreditsCutsceneDialog() {
         super();
-        scrollbar = 0f;
-        playMusic(seq);
-        hidden = false;
-        show();
 
         MenuKeybind = findKeybind("menu");
     }
@@ -170,6 +166,12 @@ public class epicCreditsDialog extends Dialog {
     public void hide() {
         once = false;
         hidden = true;
+
+        resetStage();
+        scrollbar = 0f; i = stage = 0;
+        alpha = 1f; contributeY = 0f;
+        dontFadeOut = false;
+
         super.hide();
     }
 
@@ -177,12 +179,21 @@ public class epicCreditsDialog extends Dialog {
     public Dialog show() {
         once = false;
         hidden = false;
+
+        resetStage();
+        scrollbar = 0f; i = stage = 0;
+        alpha = 1f; contributeY = 0f;
+        playMusic(seq);
+        hidden = false;
+        dontFadeOut = false;
+
+
         return super.show();
     }
 
     boolean once, setVec, dontFadeOut = false;
     float alpha = 1f, contributeY = 0f;
-    int i;
+    float i;
 
     public void drawEsc(float centerX){
         String keybind = getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile());
@@ -220,7 +231,8 @@ public class epicCreditsDialog extends Dialog {
     @Override //TODO revamp the cutscene
     public void draw() {
         int FPSCAP = (!app.isMobile()) ? settings.getInt("fpscap") : Mathf.round((float) settings.getInt("fpscap"));
-        i += Mathf.round(fdelta(1000f, FPSCAP));
+        i += Time.delta;
+        var timingCam = Time.delta / 5;
         var Wui = (TextureRegionDrawable) Tex.whiteui;
         alpha = (!dontFadeOut) ? Mathf.lerpDelta(alpha, 0f, 0.05f) : 1f;
         Drawable background = Wui.tint(0f, 0f, 0f, alpha);
@@ -234,8 +246,8 @@ public class epicCreditsDialog extends Dialog {
         backgroundG.draw(0, 0, graphics.getWidth(), graphics.getHeight());
 
         if (stage == 0){
-            int maxLimit = 1000;
-            int fadeTime = 250;
+            int maxLimit = 5;
+            float fadeTime = 5.25f;
 
             state.planet = Planets.sun;
 
@@ -248,21 +260,21 @@ public class epicCreditsDialog extends Dialog {
                 state.zoom = 5f;
                 setVec = true;
             }
-            state.camPos.rotate(Vec3.Y, fdelta(50f, FPSCAP));
+            state.camPos.rotate(Vec3.Y, timingCam);
 
-            if (i >= maxLimit) {
-                alpha = ((float) (i - maxLimit) / fadeTime);
-                if (i >= maxLimit + fadeTime) {
+            if (i >= (float) maxLimit * 60) {
+                alpha = ((float) (i - (maxLimit * 60)) / (fadeTime * 60));
+                if (i >= (maxLimit * 60) + (fadeTime * 60)) {
                     changeStage(1);
                     i = 0;
                 }
             }
         }
         if (stage == 1) {
-            int maxLimit = 2900;
-            int fadeTime = 250;
+            int maxLimit = 7;
+            float fadeTime = 7.25f;
 
-            contributeY += fdelta(550f, FPSCAP);
+            contributeY += Time.delta * 2;
             state.planet = Planets.erekir;
 
             contribute.x = centerX;
@@ -273,13 +285,13 @@ public class epicCreditsDialog extends Dialog {
                 state.camPos.rotate(Vec3.X, -5f);
                 setVec = true;
             }
-            state.camPos.rotate(Vec3.Z, fdelta(35f, FPSCAP));
-            state.camPos.rotate(Vec3.Y, -fdelta(45f, FPSCAP));
-            state.zoom += fdelta(3f, 120f);
+            state.camPos.rotate(Vec3.Z, timingCam);
+            state.camPos.rotate(Vec3.Y, -timingCam);
+            state.zoom += timingCam / 40;
 
-            if (i >= maxLimit) {
-                alpha = ((float) (i - maxLimit) / fadeTime);
-                if (i >= maxLimit + fadeTime) {
+            if (i >= (float) maxLimit * 60) {
+                alpha = ((float) (i - (maxLimit * 60)) / (fadeTime * 60));
+                if (i >= (maxLimit * 60) + (fadeTime * 60)) {
                     changeStage(2);
                     contribute.clearChildren();
                     if (!contributors.isEmpty()) {
@@ -295,10 +307,10 @@ public class epicCreditsDialog extends Dialog {
             }
         }
         if (stage == 2) {
-            int maxLimit = 2700;
-            int fadeTime = 250;
+            int maxLimit = 5;
+            float fadeTime = 5.25f;
 
-            contributeY += fdelta(650f, FPSCAP);
+            contributeY += Time.delta * 2;
             state.planet = Planets.serpulo;
 
             contribute.x = centerX;
@@ -310,13 +322,13 @@ public class epicCreditsDialog extends Dialog {
                 state.camPos.rotate(Vec3.X, -5f);
                 setVec = true;
             }
-            state.camPos.rotate(Vec3.Z, -fdelta(35f, FPSCAP));
-            state.camPos.rotate(Vec3.X, fdelta(40f, FPSCAP));
-            state.zoom -= fdelta(1f, FPSCAP);
+            state.camPos.rotate(Vec3.Z, -timingCam);
+            state.camPos.rotate(Vec3.X, timingCam);
+            state.zoom -= timingCam / 40;
 
-            if (i >= maxLimit) {
-                alpha = ((float) (i - maxLimit) / fadeTime);
-                if (i >= maxLimit + fadeTime) {
+            if (i >= (float) maxLimit * 60) {
+                alpha = ((float) (i - (maxLimit * 60)) / (fadeTime * 60));
+                if (i >= (maxLimit * 60) + (fadeTime * 60)) {
                     dontFadeOut = true;
                     changeStage(3);
                     FinishedCredits();
