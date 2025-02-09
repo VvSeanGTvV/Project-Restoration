@@ -47,7 +47,6 @@ public class ClassicMod extends Mod{
     public static LoadedMod resMod = mods.locateMod(internalMod);
     /** Mindustry's Contributors taken from internal **/
     public static Seq<String> contributors = new Seq<>();
-    boolean changedSettings = false;
     SettingsMenuDialog.SettingsTable restorationSettings;
 
     static void defaultBackground() {
@@ -78,6 +77,8 @@ public class ClassicMod extends Mod{
                 }
             }
 
+
+
             loadSettings();
             Core.app.post(UIExtended::init);
             //MenuBackground bg = solarSystem;
@@ -89,6 +90,9 @@ public class ClassicMod extends Mod{
 
             Time.runTask(10f, () -> {
                 UIExtended.postInit();
+                Reflect.set(MenuFragment.class, ui.menufrag, "container", UIExtended.menuNewFragment.container);
+
+                Log.info(Reflect.get(MenuFragment.class, ui.menufrag, "container"));
                 if (!ignoreWarning) {
                     Dialog dialog = new Dialog();
                     dialog.setFillParent(true);

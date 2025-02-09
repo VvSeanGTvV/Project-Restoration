@@ -12,6 +12,8 @@ import arc.util.*;
 import classicMod.AutoUpdate;
 import classicMod.library.EventTypeExtended;
 import classicMod.library.ui.dialog.*;
+import classicMod.library.ui.menu.MenuNewFragment;
+import mindustry.Vars;
 import mindustry.gen.*;
 import mindustry.graphics.Pal;
 import mindustry.ui.Styles;
@@ -28,11 +30,15 @@ public class UIExtended {
     public static ContentUnlockDebugDialog contentUnlockDebugDialog;
     public static StaticImageManager staticImageManager;
     public static NewLaunchDialog newLaunchDialog;
+    public static MenuNewFragment menuNewFragment;
 
     public static void init() {
         Techtree = new TechTreeDialog();
         staticImageManager = new StaticImageManager();
         newLaunchDialog = new NewLaunchDialog();
+        menuNewFragment = new MenuNewFragment();
+
+        menuNewFragment.build(Vars.ui.menuGroup);
     }
 
     public static void postInit(){
