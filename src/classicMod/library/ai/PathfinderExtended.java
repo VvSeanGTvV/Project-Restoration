@@ -3,6 +3,7 @@ package classicMod.library.ai;
 import arc.Events;
 import arc.math.geom.QuadTree;
 import arc.struct.*;
+import classicMod.library.blocks.legacyBlocks.LegacyCommandCenter;
 import classicMod.library.blocks.neoplasiaBlocks.CausticHeart;
 import mindustry.Vars;
 import mindustry.ai.Pathfinder;
@@ -50,10 +51,18 @@ public class PathfinderExtended extends Pathfinder {
 
         protected void getPositions(IntSeq out) {
             Seq<Building> builds = new Seq<>();
+            Seq<Building> valid = new Seq<>();
             QuadTree<Building> buildings = team.data().buildingTree;
             buildings.getObjects(builds);
-            builds.removeAll(b -> !(b instanceof classicMod.library.blocks.legacyBlocks.LegacyCommandCenter.LegacyCommandCenterBuild) && b.team != team);
-            for (var center : builds){
+
+            for (var build : builds) {
+                if (build.team == team && build instanceof LegacyCommandCenter.LegacyCommandCenterBuild){
+                    valid.add(build);
+                }
+            }
+
+            //builds.removeAll(b -> !(b instanceof classicMod.library.blocks.legacyBlocks.LegacyCommandCenter.LegacyCommandCenterBuild) && b.team != team);
+            for (var center : valid){
                 out.add(center.tile.array());
             }
         }

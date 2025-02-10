@@ -37,7 +37,7 @@ public class StaticImageManager extends BaseDialog {
                         Vars.ui.showConfirm("@confirm", "@delete.file-disclaimer", () -> {
                             fi.delete();
                             rebuildManager();
-                            ClassicMod.rebuildStaticImage();
+                            ClassicMod.rebuildStaticImage(ClassicMod.staticImageBackground);
                         });
                     }).size(210f, 64f);
                 });

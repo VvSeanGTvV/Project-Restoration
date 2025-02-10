@@ -13,7 +13,6 @@ import arc.scene.ui.layout.*;
 import arc.struct.Seq;
 import arc.util.*;
 import classicMod.library.ui.UIExtended;
-import classicMod.library.ui.dialog.CreditsCutsceneDialog;
 import mindustry.core.Version;
 import mindustry.game.EventType;
 import mindustry.gen.*;

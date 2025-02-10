@@ -35,7 +35,7 @@ public class CreditsCutsceneDialog extends Dialog {
 
     Table credit = new Table() {{
         //add(icon).size(120f, 90f);
-        add(logo).size(570f, 158f).row();
+        add(logo).size(570f, 174f).row();
         image(Tex.clear).height(27.5f).padTop(3f).row();
         add("v" + ModVersion).row();
         add("build " + BuildVer).row();
@@ -247,7 +247,7 @@ public class CreditsCutsceneDialog extends Dialog {
 
         if (stage == 0){
             int maxLimit = 5;
-            float fadeTime = 5.25f;
+            float fadeTime = 1f;
 
             state.planet = Planets.sun;
 
@@ -272,7 +272,7 @@ public class CreditsCutsceneDialog extends Dialog {
         }
         if (stage == 1) {
             int maxLimit = 7;
-            float fadeTime = 7.25f;
+            float fadeTime = 1f;
 
             contributeY += Time.delta * 2;
             state.planet = Planets.erekir;
@@ -308,7 +308,7 @@ public class CreditsCutsceneDialog extends Dialog {
         }
         if (stage == 2) {
             int maxLimit = 5;
-            float fadeTime = 5.25f;
+            float fadeTime = 1f;
 
             contributeY += Time.delta * 2;
             state.planet = Planets.serpulo;

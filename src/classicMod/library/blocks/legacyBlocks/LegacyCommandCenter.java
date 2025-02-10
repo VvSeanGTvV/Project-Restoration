@@ -89,6 +89,7 @@ public class LegacyCommandCenter extends Block {
             if (closestBuild != null) CommandSelect = closestBuild.CommandSelect; else {
                 select = 0;
                 CommandSelect = "attack";
+                configure(0);
             }
 
             super.created();

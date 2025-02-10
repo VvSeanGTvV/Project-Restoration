@@ -13,7 +13,7 @@ import static classicMod.content.RVars.MaximumRangeCommand;
 
 public class RallyAI extends AIController {
     public UnitState state, defaultState; //Default Value so it doesn't crap itself.
-    public Seq<Building> LegacyCommandCenterArea = new Seq<>();
+    public Seq<LegacyCommandCenterBuild> LegacyCommandCenterArea = new Seq<>();
     public float lastCommandCenterID;
     private int lastNum;
     public Building building;
@@ -21,7 +21,20 @@ public class RallyAI extends AIController {
     @Override
     public void init() {
         super.init();
-        if(state == null) state = UnitState.attack;
+
+    }
+
+    @Override
+    public void updateUnit() {
+        super.updateUnit();
+        if (state == null) {
+            NearbyCommand();
+            if (LegacyCommandCenterArea.size > 0){
+                state = RallyAI.UnitState.all[LegacyCommandCenterArea.get(0).config()];
+            } else {
+                state = UnitState.attack;
+            }
+        }
     }
 
     public void updateState(UnitState unitState){
@@ -29,11 +42,21 @@ public class RallyAI extends AIController {
         state = unitState;
     }
 
+    public void NearbyCommand(){
+        LegacyCommandCenterArea.clear();
+        Units.closestBuilding(unit.team, unit.x, unit.y, MaximumRangeCommand, u -> {
+            if(u instanceof LegacyCommandCenterBuild lccb){
+                LegacyCommandCenterArea.add(lccb);
+            }
+            return false;
+        });
+    }
+
     public void NearbyCenter(){
         LegacyCommandCenterArea.clear();
         Units.closestBuilding(unit.team, unit.x, unit.y, MaximumRangeCommand, u -> {
-            if(u instanceof LegacyCommandCenterBuild){
-                if(Objects.equals(((LegacyCommandCenterBuild) u).CommandSelect, state.name())) LegacyCommandCenterArea.add(u);
+            if(u instanceof LegacyCommandCenterBuild lccb){
+                if(Objects.equals(((LegacyCommandCenterBuild) u).CommandSelect, state.name())) LegacyCommandCenterArea.add(lccb);
             }
             return false;
         });

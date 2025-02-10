@@ -2,6 +2,7 @@ package classicMod.library.ai;
 
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
+import arc.util.Log;
 import classicMod.library.blocks.legacyBlocks.LegacyCommandCenter;
 import mindustry.Vars;
 import mindustry.ai.Pathfinder;
@@ -63,13 +64,14 @@ public class ReplacementGroundAI extends RallyAI {
             }
             if(target == null) {
                 NearbyCenter();
-                building = Units.closestBuilding(unit.team, unit.x, unit.y, MaximumRangeCommand, b -> (b instanceof LegacyCommandCenter.LegacyCommandCenterBuild) && b.isValid() && !(b.isNull()));
+                building = Units.closestBuilding(unit.team, unit.x, unit.y, MaximumRangeCommand, b -> (b instanceof LegacyCommandCenter.LegacyCommandCenterBuild lccb) && b.isValid() && !(b.isNull()) && RallyAI.UnitState.all[lccb.config()] == this.state);
                 if (building != null) {
-                    /*if(!unit.within(building, unit.type.range * 0.5f)){
-                        pathfind(Pathfinder.fieldCore);
+                    if(!unit.within(building, unit.type.range * 0.5f)){
+                        pathfind(PathfinderExtended.fieldCommandCenter);
+                        unit.lookAt(building);
                         target = building;
-                    }*/
-                    moveTo(building, 65f + Mathf.randomSeed(unit.id) * 100, 25f, true, Vec2.ZERO, true);
+                    }
+                    //moveTo(building, 65f + Mathf.randomSeed(unit.id) * 100, 25f, true, Vec2.ZERO, true);
                 }
             } else {
                 state = UnitState.attack;

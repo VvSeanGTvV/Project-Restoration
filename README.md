@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="570" height="158" src="assets/sprites-override/ui/logo.png"> </p>
+  <img width="570" height="174" src="assets/sprites-override/ui/logo.png"> </p>
 <p align="center"> Much more advance scripting, more classic buildings, etc. </p>
 <p align="center"><strong> v5.0 Pre-Alpha </strong></p>
 

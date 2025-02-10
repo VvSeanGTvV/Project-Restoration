@@ -35,7 +35,8 @@ import static arc.Core.*;
 import static classicMod.library.ui.dialog.StaticImageManager.rebuildManager;
 import static classicMod.library.ui.menu.MenuUI.*;
 import static mindustry.Vars.*;
-//v5-java-mod is the current use
+
+//project-restoration is the current use
 
 public class ClassicMod extends Mod{
     /** Mod's current Version **/
@@ -48,12 +49,13 @@ public class ClassicMod extends Mod{
     /** Mindustry's Contributors taken from internal **/
     public static Seq<String> contributors = new Seq<>();
     SettingsMenuDialog.SettingsTable restorationSettings;
+    public static StaticImageBackground staticImageBackground;
 
-    static void defaultBackground() {
-        image.add("ohno");
-        imageData.put("ohno", atlas.find("ohno"));
-        image.add("router");
-        imageData.put("router", atlas.find("router"));
+    static void defaultBackground(StaticImageBackground staticImageBackground) {
+        staticImageBackground.image.add("ohno");
+        staticImageBackground.imageData.put("ohno", atlas.find("ohno"));
+        staticImageBackground.image.add("router");
+        staticImageBackground.imageData.put("router", atlas.find("router"));
     }
     public ClassicMod(){
 
@@ -61,17 +63,15 @@ public class ClassicMod extends Mod{
         //Events.on();
         Events.on(ClientLoadEvent.class, e -> {
             try {
+                staticImageBackground = new StaticImageBackground();
                 loadStaticImage();
-                rebuildStaticImage();
+                rebuildStaticImage(staticImageBackground);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
 
             boolean usePlanetBG = settings.getBool("use-planetmenu");
             boolean uselastPlanet = settings.getBool("use-lastplanet-bg");
-
-
-
 
             loadSettings();
             Core.app.post(UIExtended::init);
@@ -92,6 +92,8 @@ public class ClassicMod extends Mod{
                     } else {
                         Reflect.set(MenuNewFragment.class, UIExtended.menuNewFragment, "renderer", new MainMenuRenderer(random));
                     }
+                } else {
+                    loadStaticBackground();
                 }
 
                 Log.info(Reflect.get(MenuFragment.class, ui.menufrag, "container"));
@@ -171,24 +173,18 @@ public class ClassicMod extends Mod{
 
     public static Func<String, String> getStatBundle = value -> bundle.get("stat." + value);
 
-    static TextureRegion frame = new TextureRegion();
-    static Image menuBG = new Image(frame);
+    public static void rebuildStaticImage(StaticImageBackground staticImageBackground){
+        staticImageBackground.image.clear();
+        staticImageBackground.imageData.clear();
 
-    static ObjectMap<String, TextureRegion> imageData = new ObjectMap<>();
-    static Seq<String> image = new Seq<>();
-
-    public static void rebuildStaticImage(){
-        image.clear();
-        imageData.clear();
-
-        defaultBackground();
+        defaultBackground(staticImageBackground);
         dataDirectory.child("prjRes-background").walk(fi -> {
-            image.add(fi.nameWithoutExtension());
+            staticImageBackground.image.add(fi.nameWithoutExtension());
             Texture image = new Texture(fi);
-            imageData.put(fi.nameWithoutExtension(), new TextureRegion(image));
+            staticImageBackground.imageData.put(fi.nameWithoutExtension(), new TextureRegion(image));
         });
         rebuildManager();
-        Events.fire(new EventTypeExtended.UpdateSlide(image.size - 1));
+        Events.fire(new EventTypeExtended.UpdateSlide(staticImageBackground.image.size - 1));
     }
 
     public void loadStaticImage() throws IOException {
@@ -205,12 +201,11 @@ public class ClassicMod extends Mod{
         });
     }
 
-    @Override
-    public void init() {
-        if (settings.getBool("use-planetmenu")) MenuUI.load(); else if (settings.getBool("use-staticmenu")) {
+    public void loadStaticBackground() {
+        if (settings.getBool("use-staticmenu")) {
             if(!headless) {
-                Reflect.set(ui.menufrag, "renderer", null);
-                Element tmp = ui.menuGroup.getChildren().first();
+                Reflect.set(UIExtended.menuNewFragment, "renderer", new MainMenuRenderer(staticImageBackground));
+                /*(Element tmp = ui.menuGroup.getChildren().first();
                 if (!(tmp instanceof Group group)) return;
                 Element render = group.getChildren().first();
                 if (!(render.getClass().isAnonymousClass()
@@ -242,13 +237,18 @@ public class ClassicMod extends Mod{
                             timer.scheduleTask(task, 0, 0.001f);
                     });
                     timer.scheduleTask(task, 0, 0.001f);
-                });
+                });*/
             } else {
                 Log.warn("Headless detected! Background loading skipped.");
                 Log.infoTag("Project: Restoration", "Headless detected! Background loading skipped.");
             }
 
         }
+    }
+
+    @Override
+    public void init() {
+        if (settings.getBool("use-planetmenu")) MenuUI.load();
         AutoUpdate.load();
         AutoUpdate.check(settings.getBool("ignore-update"));
 
@@ -322,8 +322,8 @@ public class ClassicMod extends Mod{
             else settings.put("use-staticmenu", false);
 
             if (settings.getBool("use-staticmenu")) {
-                t.pref(new UIExtended.SliderEventSetting("staticimage", 0, 0, image.size - 1, 1, stringProc -> {
-                    return (stringProc >= image.size) ? image.get(stringProc - 1) : image.get(stringProc);
+                t.pref(new UIExtended.SliderEventSetting("staticimage", 0, 0, staticImageBackground.image.size - 1, 1, stringProc -> {
+                    return (stringProc >= staticImageBackground.image.size) ? staticImageBackground.image.get(stringProc - 1) : staticImageBackground.image.get(stringProc);
                 }));
                 //staticSelection.
                 t.pref(new UIExtended.ButtonSetting("staticimage-manager", Icon.book, () -> UIExtended.staticImageManager.show()));
@@ -342,7 +342,7 @@ public class ClassicMod extends Mod{
                                 } else {
                                     file.copyTo(newDir);
                                 }
-                                rebuildStaticImage();
+                                rebuildStaticImage(staticImageBackground);
                             } else {
                                 Vars.ui.showErrorMessage("@data.invalid-image");
                             }

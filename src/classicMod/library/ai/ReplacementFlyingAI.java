@@ -41,9 +41,10 @@ public class ReplacementFlyingAI extends RallyAI {
             }
             if (target == null) {
                 NearbyCenter();
-                building = Units.closestBuilding(unit.team, unit.x, unit.y, MaximumRangeCommand, b -> (b instanceof LegacyCommandCenter.LegacyCommandCenterBuild) && b.isValid() && !(b.isNull()));
+                building = Units.closestBuilding(unit.team, unit.x, unit.y, MaximumRangeCommand, b -> (b instanceof LegacyCommandCenter.LegacyCommandCenterBuild lccb) && b.isValid() && !(b.isNull()) && RallyAI.UnitState.all[lccb.config()] == this.state);
                 if (building != null) {
                     circleBlock(65f + Mathf.randomSeed(unit.id) * 100);
+                    target = building;
                 }
             } else {
                 moveTo(target, unit.type.range * 0.8f);
@@ -95,8 +96,9 @@ public class ReplacementFlyingAI extends RallyAI {
             vec.rotate((circleLength - vec.len()) / circleLength * 180f);
         }
 
-        vec.setLength(speed * Time.delta);
+        //float length = circleLength <= 0.001F ? 1.0F : Mathf.clamp((unit.dst(building) - circleLength) / 100.0F, -1.0F, 1.0F);
+        vec.setLength(speed * 1f);
 
-        unit.moveAt(vec);
+        unit.movePref(vec);
     }
 }
