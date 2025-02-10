@@ -23,7 +23,7 @@ import mindustry.game.EventType.ClientLoadEvent;
 import mindustry.gen.*;
 import mindustry.mod.Mod;
 import mindustry.mod.Mods.LoadedMod;
-import mindustry.type.UnitType;
+import mindustry.type.*;
 import mindustry.ui.Styles;
 import mindustry.ui.dialogs.*;
 import mindustry.ui.fragments.MenuFragment;
@@ -71,6 +71,8 @@ public class ClassicMod extends Mod{
             }
 
             boolean flareUseWraith = settings.getBool("flare-use-v5");
+            boolean april2022 = settings.getBool("aprils-2022");
+
             boolean usePlanetBG = settings.getBool("use-planetmenu");
             boolean uselastPlanet = settings.getBool("use-lastplanet-bg");
 
@@ -100,6 +102,13 @@ public class ClassicMod extends Mod{
                 if (flareUseWraith) {
                     UnitType flare = content.unit("flare");
                     flare.controller = u -> new ReplacementFlyingAI();
+                }
+
+                if (april2022) {
+                    UnitType flare = content.unit("flare");
+                    Item blast = content.item("blast-compound");
+                    //flare.fullIcon = flare.uiIcon = Core.atlas.find(internalMod + "-flarogus");
+                    blast.fullIcon = blast.uiIcon = Core.atlas.find(internalMod + "-blast");
                 }
 
                 //Log.info(Reflect.get(MenuFragment.class, ui.menufrag, "container"));
@@ -359,6 +368,7 @@ public class ClassicMod extends Mod{
 
             t.pref(new UIExtended.Separator("restored-april"));
             t.checkPref("flare-use-v5", false);
+            t.checkPref("aprils-2022", false);
 
             if(false) {
                 t.pref(new UIExtended.Separator("restored-updates"));
