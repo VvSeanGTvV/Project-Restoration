@@ -205,39 +205,6 @@ public class ClassicMod extends Mod{
         if (settings.getBool("use-staticmenu")) {
             if(!headless) {
                 Reflect.set(UIExtended.menuNewFragment, "renderer", new MainMenuRenderer(staticImageBackground));
-                /*(Element tmp = ui.menuGroup.getChildren().first();
-                if (!(tmp instanceof Group group)) return;
-                Element render = group.getChildren().first();
-                if (!(render.getClass().isAnonymousClass()
-                        && render.getClass().getEnclosingClass() == Group.class
-                        && render.getClass().getSuperclass() == Element.class)) return;
-                render.visible = false;
-
-                Events.on(ClientLoadEvent.class, e -> {
-                    menuBG.setFillParent(true);
-                    group.addChildAt(0, menuBG);
-                    Timer timer = Timer.instance();
-                    Timer.Task task = new Timer.Task() {
-                        @Override
-                        public void run() {
-                            //Log.infoTag("ArchivDebug", "Background Running....");
-                            if (!state.isMenu()) this.cancel();
-                            int select = (settings.getInt("staticimage") >= image.size) ? settings.getInt("staticimage") - 1 : settings.getInt("staticimage");
-                            frame.set(imageData.get(image.get(select)));
-                            menuBG.getRegion().set(frame);
-                        }
-                    };
-                    Events.run(EventType.Trigger.update, () -> {
-                        if (!state.isMenu()) {
-                            //failsafe if it is still running in
-                            //Log.infoTag("ArchivDebug", "Background stopped for real");
-                            return;
-                        }
-                        if (state.isMenu() & timer.isEmpty() || !task.isScheduled())
-                            timer.scheduleTask(task, 0, 0.001f);
-                    });
-                    timer.scheduleTask(task, 0, 0.001f);
-                });*/
             } else {
                 Log.warn("Headless detected! Background loading skipped.");
                 Log.infoTag("Project: Restoration", "Headless detected! Background loading skipped.");

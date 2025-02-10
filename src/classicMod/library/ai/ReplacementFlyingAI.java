@@ -97,7 +97,7 @@ public class ReplacementFlyingAI extends RallyAI {
         }
 
         //float length = circleLength <= 0.001F ? 1.0F : Mathf.clamp((unit.dst(building) - circleLength) / 100.0F, -1.0F, 1.0F);
-        vec.setLength(speed * 1f);
+        vec.setLength(speed);
 
         unit.movePref(vec);
     }
