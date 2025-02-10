@@ -20,7 +20,7 @@ import mindustry.Vars;
 import mindustry.ai.types.CommandAI;
 import mindustry.game.EventType;
 import mindustry.game.EventType.ClientLoadEvent;
-import mindustry.gen.Icon;
+import mindustry.gen.*;
 import mindustry.mod.Mod;
 import mindustry.mod.Mods.LoadedMod;
 import mindustry.type.UnitType;
@@ -70,6 +70,7 @@ public class ClassicMod extends Mod{
                 throw new RuntimeException(ex);
             }
 
+            boolean flareUseWraith = settings.getBool("flare-use-v5");
             boolean usePlanetBG = settings.getBool("use-planetmenu");
             boolean uselastPlanet = settings.getBool("use-lastplanet-bg");
 
@@ -96,7 +97,15 @@ public class ClassicMod extends Mod{
                     loadStaticBackground();
                 }
 
-                Log.info(Reflect.get(MenuFragment.class, ui.menufrag, "container"));
+                if (flareUseWraith) {
+                    UnitType flare = content.unit("flare");
+                    flare.controller = u -> new ReplacementFlyingAI();
+                }
+
+                //Log.info(Reflect.get(MenuFragment.class, ui.menufrag, "container"));
+
+
+
                 if (!ignoreWarning) {
                     Dialog dialog = new Dialog();
                     dialog.setFillParent(true);
@@ -347,6 +356,9 @@ public class ClassicMod extends Mod{
             t.pref(new UIExtended.ButtonSetting((!settings.getBool("ignore-update")) ? "check-update" : "check-only", Icon.up, () -> AutoUpdate.check(settings.getBool("ignore-update")), 32, true));
             t.checkPref("ignore-warning", false);
             t.checkPref("ignore-update", false);
+
+            t.pref(new UIExtended.Separator("restored-april"));
+            t.checkPref("flare-use-v5", false);
 
             if(false) {
                 t.pref(new UIExtended.Separator("restored-updates"));
