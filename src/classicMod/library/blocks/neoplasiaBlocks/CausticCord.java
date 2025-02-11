@@ -490,8 +490,11 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
                 Tile mask = Vars.world.tile(tile.x + Geometry.d8(i).x, tile.y + Geometry.d8(i).y);
                 if (mask != null && mask.build instanceof NeoplasmBuilding neoplasmBuilding) {
                     bit |= 1 << (i);
+                    neoplasmBuilding.ready = neoplasmBuilding.alreadyBeat = neoplasmBuilding.grow = false;
+                    neoplasmBuilding.beatTimer = 0f;
                 }
             }
+
             blendbits = bitmask[bit];
             xscl = 1;
             yscl = 1;
