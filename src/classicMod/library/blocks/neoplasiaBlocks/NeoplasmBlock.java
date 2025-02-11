@@ -423,6 +423,10 @@ public class NeoplasmBlock extends Block {
                     beat = Mathf.lerpDelta(beat, 1f, 0.1f);
                     if (beat >= 0.95f) {
                         beat = 1f;
+
+                        ready = alreadyBeat = grow = false;
+                        beatTimer = 0f;
+
                         grown = true;
                     }
                 }

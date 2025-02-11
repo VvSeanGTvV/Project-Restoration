@@ -65,12 +65,17 @@ public class RUnitTypes {
 
     mantis, // TESTING
 
-    blob, matte, squid, worm, mule, kalyx, hydroBomber, miserable,// NEOPLASM TESTING
+    blob, matte, squid, worm, mule, kalyx, hydroBomber, miserable, pallium,// NEOPLASM TESTING
 
     alphaChan, crawlerChan, boulderChan, monoChan, octChan, oxynoeChan, quadChan, seiChan, zenithChan //Unit - Old Content [Animdustry]
     ;
 
     public static void load() {
+
+        pallium = new NeoplasmUnitType("pallium"){{
+            constructor = UnitEntity::create;
+            aiController = FlyingAI::new;
+        }};
 
         miserable = new NeoplasmUnitType("walky"){{
             constructor = LegsUnit::create;
