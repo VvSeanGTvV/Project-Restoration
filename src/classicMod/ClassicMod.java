@@ -107,13 +107,9 @@ public class ClassicMod extends Mod{
                 if (april2022) {
                     UnitType flare = content.unit("flare");
                     Item blast = content.item("blast-compound");
-                    //flare.fullIcon = flare.uiIcon = Core.atlas.find(internalMod + "-flarogus");
+                    flare.fullIcon = flare.uiIcon = flare.region = Core.atlas.find(internalMod + "-flarogus-full");
                     blast.fullIcon = blast.uiIcon = Core.atlas.find(internalMod + "-blast");
                 }
-
-                //Log.info(Reflect.get(MenuFragment.class, ui.menufrag, "container"));
-
-
 
                 if (!ignoreWarning) {
                     Dialog dialog = new Dialog();
