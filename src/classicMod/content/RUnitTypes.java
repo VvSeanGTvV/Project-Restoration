@@ -73,18 +73,28 @@ public class RUnitTypes {
     public static void load() {
 
         pallium = new NeoplasmUnitType("pallium"){
-            public final DrawPart.PartProgress timeSin = p -> Mathf.absin( 20f, 1f);
+            public final DrawPart.PartProgress timeSin = p -> Mathf.absin( 30f, 1f);
             {
             constructor = UnitEntity::create;
             aiController = FlyingAI::new;
-            parts.add(new RegionPart("-leg-1") {{
-                moves.add(new PartMove(timeSin, 0, 0, 20));
-                x = -10f;
-                y = 5f;
-                rotation = -10;
-                layerOffset = -0.01F;
-                mirror = true;
-            }});
+                parts.add(
+                        new RegionPart("-leg-" + 1) {{
+                            moves.add(new PartMove(p -> Mathf.absin( 30f, 1f), -2, -2, 20));
+                            x = -20f;
+                            y = -2f;
+                            rotation = -10;
+                            layerOffset = -0.01F;
+                            mirror = true;
+                        }},
+                        new RegionPart("-leg-" + 2) {{
+                            moves.add(new PartMove(p -> Mathf.absin(32f, 1f), -2, -2, 20));
+                            x = -24f;
+                            y = -15f;
+                            rotation = -10;
+                            layerOffset = -0.01F;
+                            mirror = true;
+                        }}
+                );
         }};
 
         miserable = new NeoplasmUnitType("walky"){{
