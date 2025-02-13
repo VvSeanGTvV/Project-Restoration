@@ -75,21 +75,71 @@ public class RUnitTypes {
         pallium = new NeoplasmUnitType("pallium"){
             public final DrawPart.PartProgress timeSin = p -> Mathf.absin( 30f, 1f);
             {
-            constructor = UnitEntity::create;
-            aiController = FlyingAI::new;
+                flying = true;
+                constructor = UnitEntity::create;
+                aiController = FlyingAI::new;
+                accel = 0.64f * 2f;
+                speed = 1f;
+                drag = 0.07f;
+                rotateSpeed = 1.0F;
+
+                weapons.add(new Weapon(internalMod + "-pallium-head") {{
+                    x = -2.5f;
+                    y = 38;
+                    reload = 10f;
+                    rotateSpeed = 1.0F;
+                    rotationLimit = 70f;
+                    ejectEffect = Fx.none;
+                    shootSound = Sounds.lasershoot;
+                    inaccuracy = 10f;
+                    mirror = top = false;
+                    rotate = true;
+
+                    bullet = new LaserBulletType(16.0F) {{
+                        //backSprite = sprite = "bullet";
+                        width = 12.0F;
+                        length = 320.0F;
+                        lifetime = 30.0F;
+                        hitColor = trailColor = Pal.neoplasm2;
+                        //frontColor = Pal.neoplasm1;
+                        //shootEffect = RFx.missilePoreLaunch;
+                        colors = new Color[]{Pal.neoplasm2, Pal.neoplasmMid, Pal.neoplasm1};
+                        trailWidth = 1.5F;
+                        trailLength = 5;
+                        hitEffect = despawnEffect = Fx.hitBulletColor;
+                    }};
+
+                }});
+
                 parts.add(
                         new RegionPart("-leg-" + 1) {{
-                            moves.add(new PartMove(p -> Mathf.absin( 30f, 1f), -2, -2, 20));
-                            x = -20f;
-                            y = -2f;
+                            moves.add(new PartMove(p -> Mathf.absin( 30f, 1f), -2, -3, 20));
+                            x = -21f;
+                            y = -3f;
                             rotation = -10;
                             layerOffset = -0.01F;
                             mirror = true;
                         }},
                         new RegionPart("-leg-" + 2) {{
-                            moves.add(new PartMove(p -> Mathf.absin(32f, 1f), -2, -2, 20));
-                            x = -24f;
-                            y = -15f;
+                            moves.add(new PartMove(p -> Mathf.absin(31f, 1f), 1, -3, 20));
+                            x = -26f;
+                            y = -16f;
+                            rotation = -10;
+                            layerOffset = -0.01F;
+                            mirror = true;
+                        }},
+                        new RegionPart("-leg-" + 3) {{
+                            moves.add(new PartMove(p -> Mathf.absin(32f, 1f), -1, -3, 20));
+                            x = -23f;
+                            y = -31f;
+                            rotation = -10;
+                            layerOffset = -0.01F;
+                            mirror = true;
+                        }},
+                        new RegionPart("-leg-" + 4) {{
+                            moves.add(new PartMove(p -> Mathf.absin(33f, 1f), 1, -2, 20));
+                            x = -19f;
+                            y = -40f;
                             rotation = -10;
                             layerOffset = -0.01F;
                             mirror = true;
