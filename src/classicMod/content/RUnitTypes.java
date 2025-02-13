@@ -111,7 +111,7 @@ public class RUnitTypes {
 
                 }});
 
-                parts.add(
+                parts.addAll(
                         new RegionPart("-leg-" + 1) {{
                             moves.add(new PartMove(p -> Mathf.absin( 30f, 1f), -2, -3, 20));
                             x = -21f;
@@ -143,6 +143,23 @@ public class RUnitTypes {
                             rotation = -10;
                             layerOffset = -0.01F;
                             mirror = true;
+                        }},
+
+                        new RegionPart("-prot-" + 1) {{
+                            moves.add(new PartMove(p -> Mathf.absin(30f, 1f), -3, -5, 20));
+                            x = -24f;
+                            y = 15f;
+                            rotation = 10;
+                            layerOffset = -0.01F;
+                            mirror = false;
+                        }},
+                        new RegionPart("-prot-" + 2) {{
+                            moves.add(new PartMove(p -> Mathf.absin(29f, 1f), -3, -5, 20));
+                            x = -14f;
+                            y = 20f;
+                            rotation = 10;
+                            layerOffset = -0.02F;
+                            mirror = false;
                         }}
                 );
         }};
