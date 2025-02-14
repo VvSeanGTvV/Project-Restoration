@@ -496,7 +496,7 @@ public class WarpGate extends Block {
             super.write(write);
             write.b(toggle);
             write.bool(firstTime);
-            write.bool(onTransfer);
+            //write.bool(onTransfer);
             float otherX = (otherWarp != null) ? otherWarp.x : 0f;
             float otherY = (otherWarp != null) ? otherWarp.y : 0f;
 
