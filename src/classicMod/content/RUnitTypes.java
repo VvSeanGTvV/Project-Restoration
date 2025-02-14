@@ -84,8 +84,8 @@ public class RUnitTypes {
                 rotateSpeed = 1.0F;
 
                 weapons.add(new Weapon(internalMod + "-pallium-head") {{
-                    x = -2.5f;
-                    y = 38;
+                    x = -2f;
+                    y = 39;
                     reload = 10f;
                     rotateSpeed = 1.0F;
                     rotationLimit = 70f;
@@ -94,6 +94,7 @@ public class RUnitTypes {
                     inaccuracy = 10f;
                     mirror = top = false;
                     rotate = true;
+                    recoil = 0;
 
                     bullet = new LaserBulletType(16.0F) {{
                         //backSprite = sprite = "bullet";
@@ -159,6 +160,22 @@ public class RUnitTypes {
                             y = 20f;
                             rotation = 10;
                             layerOffset = -0.02F;
+                            mirror = false;
+                        }},
+                        new RegionPart("-prot-" + 3) {{
+                            moves.add(new PartMove(p -> Mathf.absin(29f, 1f), 3, -5, -20));
+                            x = 14f;
+                            y = 20f;
+                            rotation = -10;
+                            layerOffset = -0.02F;
+                            mirror = false;
+                        }},
+                        new RegionPart("-prot-" + 4) {{
+                            moves.add(new PartMove(p -> Mathf.absin(30f, 1f), 3, -5, -20));
+                            x = 24f;
+                            y = 13f;
+                            rotation = -10;
+                            layerOffset = -0.01F;
                             mirror = false;
                         }}
                 );
