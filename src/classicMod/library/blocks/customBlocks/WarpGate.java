@@ -331,7 +331,7 @@ public class WarpGate extends Block {
         }
 
         public WarpGate.WarpGateBuild findLink(int value) {
-            ObjectSet<WarpGate.WarpGateBuild> teles = teleporters[team.id][value];
+            /*ObjectSet<WarpGate.WarpGateBuild> teles = teleporters[team.id][value];
             Seq<WarpGate.WarpGateBuild> entries = teles.toSeq();
             if (entry >= entries.size) entry = 0;
             if (entry == entries.size - 1) {
@@ -347,6 +347,30 @@ public class WarpGate extends Block {
                         return null;
                     }
                     if (!(other.OutputStackHold.total() >= other.block.itemCapacity) && other.isValid()) return other;
+                }
+                if (entry >= entries.size) entry = 0;
+            }*/
+
+            Seq<Building> entries = team.data().buildings.copy().removeAll(b -> (b instanceof WarpGateBuild warpGateBuild && warpGateBuild.toggle != this.toggle));
+
+            if (entry >= entries.size) entry = 0;
+            if (entry == entries.size - 1) {
+                Building other = entries.get(entry);
+                if (other == this) entry = 0;
+            }
+
+            for (int i = entry, len = entries.size; i < len; i++) {
+                if (entries.get(i) instanceof WarpGateBuild warpGateBuild) {
+                    WarpGate.WarpGateBuild other = warpGateBuild;
+                    if (other != this) {
+                        entry = i + 1;
+                        if (!other.isValid() && teleporters[team.id][toggle].contains(other)) {
+                            teleporters[team.id][toggle].remove(other);
+                            return null;
+                        }
+                        if (!(other.OutputStackHold.total() >= other.block.itemCapacity) && other.isValid())
+                            return other;
+                    }
                 }
                 if (entry >= entries.size) entry = 0;
             }
@@ -464,7 +488,7 @@ public class WarpGate extends Block {
 
         @Override
         public byte version(){
-            return 1;
+            return 2;
         }
 
         @Override
@@ -510,6 +534,38 @@ public class WarpGate extends Block {
                 toggle = read.b();
                 firstTime = read.bool();
                 onTransfer = read.bool();
+                otherX = read.f();
+                otherY = read.f();
+
+                if (toggle > 0) {
+                    if (!teleporters[team.id][toggle].contains(this))
+                        teleporters[team.id][toggle].add(this);
+                    else {
+                        teleporters[previousTeam.id][toggle].remove(this);
+                        teleporters[team.id][toggle].add(this);
+                    }
+                }
+                teleporting = false;
+
+                Seq<Item> allItems = Vars.content.items();
+                int itemSize = allItems.size;
+                Object[] itemArray = allItems.items;
+
+                for (int ii = 0; ii < itemSize; ++ii) {
+                    Item item = (Item) itemArray[ii];
+                    int val = read.b();
+                    if (val > 0) OutputStackHold.add(item, val);
+                }
+            }
+
+            if (revision == 2) { //for Build 13
+                teleProgress %= 1f;
+                duration = 0f;
+                otherWarp = null;
+
+                toggle = read.b();
+                firstTime = read.bool();
+                onTransfer = false;
                 otherX = read.f();
                 otherY = read.f();
 
