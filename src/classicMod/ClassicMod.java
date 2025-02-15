@@ -40,7 +40,7 @@ import static mindustry.Vars.*;
 
 public class ClassicMod extends Mod{
     /** Mod's current Version **/
-    public static String ModVersion = "5.0 Pre-Alpha";
+    public static String ModVersion = "5.0 Alpha";
     /** Mod's current Build **/
     public static final String BuildVer = "13";
     /** Mod's internal name **/
@@ -54,13 +54,14 @@ public class ClassicMod extends Mod{
     static void defaultBackground(StaticImageBackground staticImageBackground) {
         staticImageBackground.image.add("ohno");
         staticImageBackground.imageData.put("ohno", atlas.find("ohno"));
-        staticImageBackground.image.add("router");
-        staticImageBackground.imageData.put("router", atlas.find("router"));
+        /*for (var thin : content.blocks()) {
+            //staticImageBackground.image.add("ohno");
+            //staticImageBackground.imageData.put("ohno", atlas.find("ohno"));
+            staticImageBackground.image.add(thin.name);
+            staticImageBackground.imageData.put(thin.name, atlas.find(thin.name));
+        }*/
     }
     public ClassicMod(){
-
-
-        //Events.on();
         Events.on(ClientLoadEvent.class, e -> {
             try {
                 staticImageBackground = new StaticImageBackground();
