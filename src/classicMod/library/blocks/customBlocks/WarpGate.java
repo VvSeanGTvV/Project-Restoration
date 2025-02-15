@@ -331,7 +331,7 @@ public class WarpGate extends Block {
         }
 
         public WarpGate.WarpGateBuild findLink(int value) {
-            /*ObjectSet<WarpGate.WarpGateBuild> teles = teleporters[team.id][value];
+            ObjectSet<WarpGate.WarpGateBuild> teles = teleporters[team.id][value];
             Seq<WarpGate.WarpGateBuild> entries = teles.toSeq();
             if (entry >= entries.size) entry = 0;
             if (entry == entries.size - 1) {
@@ -349,9 +349,9 @@ public class WarpGate extends Block {
                     if (!(other.OutputStackHold.total() >= other.block.itemCapacity) && other.isValid()) return other;
                 }
                 if (entry >= entries.size) entry = 0;
-            }*/
+            }
 
-            Seq<Building> entries = team.data().buildings.copy().removeAll(b -> (b instanceof WarpGateBuild warpGateBuild && warpGateBuild.toggle != this.toggle));
+            /*Seq<Building> entries = team.data().buildings.copy().removeAll(b -> (b instanceof WarpGateBuild warpGateBuild && warpGateBuild.toggle != this.toggle));
 
             if (entry >= entries.size) entry = 0;
             if (entry == entries.size - 1) {
@@ -373,7 +373,7 @@ public class WarpGate extends Block {
                     }
                 }
                 if (entry >= entries.size) entry = 0;
-            }
+            }*/
             return null;
         }
 
