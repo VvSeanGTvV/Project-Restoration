@@ -419,8 +419,6 @@ public class RUnitTypes {
             controller = u -> new SteamHugAI();
             health = 20;
 
-            baseRegion = legRegion = Core.atlas.white();
-
             constructor = CrawlUnit::create;
         }};
 
