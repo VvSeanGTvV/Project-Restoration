@@ -4,6 +4,7 @@ import arc.Core;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.struct.Seq;
+import arc.util.Log;
 import mindustry.entities.*;
 import mindustry.gen.Unit;
 
@@ -16,6 +17,10 @@ public class CausticMine extends NeoplasmBlock {
 
     public CausticMine(String name) {
         super(name);
+
+        destructible = true;
+        solid = false;
+        targetable = false;
     }
 
     public class CausticMineBuild extends NeoplasmBuilding {
@@ -24,20 +29,27 @@ public class CausticMine extends NeoplasmBlock {
         @Override
         public void unitOn(Unit unit) {
             if (unit.team != this.team) {
-                if (explosionEffect != null) explosionEffect.at(this.x, this.y, (explosionColor != null) ? explosionColor : Color.white);
                 triggered();
+
+                while (Units.closestEnemy(team, x, y, 60f, u -> !inRange.contains(u)) != null) {
+                    inRange.add(Units.closestEnemy(team, x, y, 60f, u -> !inRange.contains(u)));
+                }
+
+                for (var uni : inRange){
+                    uni.damage(damage);
+                }
+
                 damage(health);
             }
         }
 
-        public void triggered() {
-            while (Units.closestEnemy(team, x, y, 120f, u -> inRange.contains(u)) != null) {
-                inRange.add(Units.closestEnemy(team, x, y, 120f, u -> inRange.contains(u)));
-            }
+        @Override
+        public void drawCracks(){
+            //no
+        }
 
-            for (var uni : inRange){
-                uni.damage(damage);
-            }
+        public void triggered() {
+            if (explosionEffect != null) explosionEffect.at(this.x, this.y, (explosionColor != null) ? explosionColor : Color.white);
         }
 
         @Override
