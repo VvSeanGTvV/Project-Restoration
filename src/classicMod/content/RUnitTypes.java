@@ -415,11 +415,17 @@ public class RUnitTypes {
         };
 
         blob = new NeoplasmUnitType("vesicle"){{
+            constructor = CrawlUnit::create;
             useUnitCap = false;
+
+
             controller = u -> new SteamHugAI();
             health = 20;
 
-            constructor = CrawlUnit::create;
+            omniMovement = false;
+            targetAir = false;
+
+            drawBody = true;
         }};
 
         matte = new OrnitopterUnitType("matte"){{
