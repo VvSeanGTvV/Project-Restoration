@@ -359,7 +359,7 @@ public class ClassicMod extends Mod{
             //t.checkPref("use-custom-logo", false);
 
             t.pref(new UIExtended.Separator("restored-annoying-window"));
-            t.pref(new UIExtended.ButtonSetting((!settings.getBool("ignore-update")) ? "check-update" : "check-only", Icon.up, () -> AutoUpdate.check(settings.getBool("ignore-update")), 32, true));
+            t.pref(new UIExtended.ButtonSetting("check-update" , Icon.up, () -> AutoUpdate.check(settings.getBool("ignore-update")), 32, true));
             t.checkPref("ignore-warning", false);
             t.checkPref("ignore-update", false);
 

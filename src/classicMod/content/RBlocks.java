@@ -33,6 +33,7 @@ import mindustry.world.blocks.payloads.PayloadMassDriver;
 import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.blocks.storage.*;
+import mindustry.world.blocks.units.UnitAssembler;
 import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
@@ -90,6 +91,7 @@ public class RBlocks {
     heatReactor, //Heat Producers - Erekir - Prototype [v7-dev]
 
     slagCentrifuge, cellSynthesisChamber, //Generic Crafters - Erekir - Prototype [v7-dev]
+    tankAssembler,
     reinforcedSafe, coreAegis, //Storage - Erekir - Prototype [v7-dev]
     surgeDuct, //Distribution - Erekir - Prototype [v7-dev]
     burstDrill, //Drill - Erekir - Prototype [v7-dev]
@@ -225,7 +227,7 @@ public class RBlocks {
             consumePower(1.3f);
         }};
 
-        //UnitFactory
+        // Unit Factory
         wraithFactory = new LegacyUnitFactory("wraith-factory") {{
             requirements(Category.units, ItemStack.with(Items.titanium, 30, Items.lead, 40, Items.silicon, 45));
             size = 2;
@@ -366,7 +368,8 @@ public class RBlocks {
 
             droneType = RUnitTypes.effectDrone;
         }};
-
+        
+        // Battery
         batteryMedium = new Battery("battery-medium"){{
             requirements(Category.power, with(Items.lead, 25, Items.graphite, 20, Items.silicon, 20));
             size = 2;
@@ -374,7 +377,7 @@ public class RBlocks {
             baseExplosiveness = 3f;
         }};
 
-        //Pump
+        // Pump
         thermalPump = new ThermalPump("thermal-pump"){{
             requirements(Category.liquid, with(Items.copper, 90, Items.metaglass, 90, Items.silicon, 45, Items.titanium, 50, Items.thorium, 45));
             pumpAmount = 0.20f;
@@ -386,7 +389,7 @@ public class RBlocks {
             squareSprite = false;
         }};
 
-        //Wall
+        // Wall
         int wallHealthMultiplier = 4;
         insulatorWall = new Wall("insulator-wall") {{
             requirements(Category.defense, ItemStack.with(Items.graphite, 10, Items.lead, 4));
