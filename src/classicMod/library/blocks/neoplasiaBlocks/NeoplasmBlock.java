@@ -355,15 +355,7 @@ public class NeoplasmBlock extends Block {
                 //liquids.remove(blood, drain); //TODO something
             }
 
-            if (!source){
-                liquidPressure -= delta() / 100;
-                for(int i = 0; i <proximity.size; ++i) {
-                    Building other = proximity.get((i) % proximity.size);
-                    if (other instanceof NeoplasmBuilding) {
-                        liquidPressure = other.block.liquidPressure;
-                    }
-                }
-            }
+
 
             if (grown) {
 
@@ -401,12 +393,14 @@ public class NeoplasmBlock extends Block {
                 }
                 if (ready || alreadyBeat && !source) beatTimer += delta();
 
-
                 if (beat > 1.05f) {
-                    beat = Mathf.lerpDelta(beat, 1f, 0.25f);
+                    beat -= delta() / 10;
                 } else {
                     if (beat > 1) {
                         updateAfterBeat();
+                        beat = 1;
+                    }
+                    if (beat < 1){
                         beat = 1;
                     }
                 }

@@ -212,6 +212,7 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
                         nearTiles.sort(tile1 -> tile1.dst(getClosestOre()));
                         nTile = nearTiles.get(0);
                     }
+                    
                     if (nTile != null) {
                         int rot = this.tile.relativeTo(nTile);
                         if (!CantReplace(nTile.block())) nTile.setBlock(RBlocks.cord, team);
@@ -245,7 +246,7 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
         }
         @Nullable
         public Tile getClosestOre() {
-            Seq<Tile> avaliableOres = PathfinderExtended.Ores.copy();
+            Seq<Tile> avaliableOres = PathfinderExtended.Ores;
             return Geometry.findClosest(x, y, avaliableOres);
         }
 
@@ -265,6 +266,9 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
             if (prev != null && retry >= 5){
                 if (task == PathfinderExtended.fieldVent) {
                     task = PathfinderExtended.fieldOres;
+                    retry = 0;
+                } else if (task == Pathfinder.fieldCore) {
+                    task = PathfinderExtended.fieldCore;
                     retry = 0;
                 } else
                 if (!prev.ignorePath.contains(facingRot)) prev.ignorePath.add(facingRot);
