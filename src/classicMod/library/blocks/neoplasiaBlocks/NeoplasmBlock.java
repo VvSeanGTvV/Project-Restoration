@@ -52,7 +52,7 @@ public class NeoplasmBlock extends Block {
 
         boolean grown = false, initalized = false;
         float beat = 1, beatTimer = 0, priority = 0, deathTimer = 0, timer = 0;
-        boolean ready = false, alreadyBeat = false, grow = false;
+        boolean ready = false, alreadyBeat = false, grow = false, reset = false;
 
         @Override
         public void draw() {
@@ -391,7 +391,7 @@ public class NeoplasmBlock extends Block {
                         beatTimer = 0;
                     }
                 }
-                if (ready || alreadyBeat && !source) beatTimer += delta();
+                if (ready || alreadyBeat && !source) beatTimer += delta() / 1.5f;
 
                 if (beat > 1.05f) {
                     beat -= delta() / 10;

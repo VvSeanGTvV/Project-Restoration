@@ -212,13 +212,18 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
                         nearTiles.sort(tile1 -> tile1.dst(getClosestOre()));
                         nTile = nearTiles.get(0);
                     }
+
+                    if (task == Pathfinder.fieldCore && closestEnemyCore() != null){
+                        nearTiles.sort(tile1 -> tile1.dst(closestEnemyCore()));
+                        nTile = nearTiles.get(0);
+                    }
                     
                     if (nTile != null) {
                         int rot = this.tile.relativeTo(nTile);
                         if (!CantReplace(nTile.block())) nTile.setBlock(RBlocks.cord, team);
                         if (nTile.build != null && nTile.build instanceof CordBuild cordBuild) {
                             cordBuild.task = Mathf.randomBoolean(0.98f) ? task :
-                                    Mathf.randomBoolean(0.5f) ? PathfinderExtended.fieldOres : PathfinderExtended.fieldVent;
+                                    Mathf.randomBoolean() ? PathfinderExtended.fieldOres : Mathf.randomBoolean() ? Pathfinder.fieldCore : PathfinderExtended.fieldVent;
                             cordBuild.facingRot = rot;
                             cordBuild.prev = this;
                         }
@@ -238,7 +243,7 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
             Tile tile = this.tile;
             if (tile != null) {
                 Tile targetTile = Vars.pathfinder.getTargetTile(tile, Vars.pathfinder.getField(team, costType, pathTarget));
-                if (tile != targetTile && (costType != 2 || targetTile.floor().isLiquid)) {
+                if (tile != targetTile) {
                     return targetTile;
                 }
             }
@@ -250,7 +255,6 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
             return Geometry.findClosest(x, y, avaliableOres);
         }
 
-
         @Nullable
         public Tile getClosestVent() {
             Seq<Tile> avaliableVents = PathfinderExtended.SteamVents.copy().removeAll(tile -> tile.build instanceof CausticHeart.HeartBuilding);
@@ -261,14 +265,25 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
         @Override
         public void update() {
             super.update();
+
+            if (back() instanceof NeoplasmBuilding neoplasmBuilding){
+                if (neoplasmBuilding.reset){
+                    reset = true;
+                }
+            }
+            if (reset){
+                ready = alreadyBeat = grow = false;
+                beatTimer = 0f;
+                reset = false;
+            }
             if (Queue.size > 0) coverQueue(pipe);
 
             if (prev != null && retry >= 5){
                 if (task == PathfinderExtended.fieldVent) {
                     task = PathfinderExtended.fieldOres;
                     retry = 0;
-                } else if (task == Pathfinder.fieldCore) {
-                    task = PathfinderExtended.fieldCore;
+                } else if (task == PathfinderExtended.fieldOres) {
+                    task = Pathfinder.fieldCore;
                     retry = 0;
                 } else
                 if (!prev.ignorePath.contains(facingRot)) prev.ignorePath.add(facingRot);
@@ -495,6 +510,7 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
                 if (mask != null && mask.build instanceof NeoplasmBuilding neoplasmBuilding) {
                     bit |= 1 << (i);
                     neoplasmBuilding.ready = neoplasmBuilding.alreadyBeat = neoplasmBuilding.grow = false;
+                    neoplasmBuilding.reset = true;
                     neoplasmBuilding.beatTimer = 0f;
                 }
             }
