@@ -35,17 +35,16 @@ public class SuicideBomberAI extends NeoplasmAIController {
             target = core;
         }
         if (target != null){
-            boolean move = true;
             rotate = true;
             shoot = (unit.tileOn() != null && unit.tileOn().build != null && unit.tileOn().build.team != unit.team);
 
             //stop moving toward the drop zone if applicable
-            if(core == null && state.rules.waves && unit.team == state.rules.defaultTeam){
+            /*if(core == null && state.rules.waves && unit.team == state.rules.defaultTeam){
                 Tile spawner = getClosestSpawner();
                 if(spawner != null && unit.within(spawner, state.rules.dropZoneRadius + 120f)){
-                    move = false;
+                    // TODO smth
                 }
-            }
+            }*/
 
             unit.movePref(vec.set(target).sub(unit).limit(unit.speed()));
         }

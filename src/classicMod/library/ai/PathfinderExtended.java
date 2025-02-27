@@ -3,6 +3,7 @@ package classicMod.library.ai;
 import arc.Events;
 import arc.math.geom.QuadTree;
 import arc.struct.*;
+import arc.util.Log;
 import classicMod.library.blocks.legacyBlocks.LegacyCommandCenter;
 import classicMod.library.blocks.neoplasiaBlocks.CausticHeart;
 import mindustry.Vars;
@@ -11,6 +12,8 @@ import mindustry.game.EventType;
 import mindustry.gen.Building;
 import mindustry.world.Tile;
 import mindustry.world.meta.Attribute;
+
+import java.util.*;
 
 public class PathfinderExtended extends Pathfinder {
     public static final int fieldVent = 1, fieldCommandCenter = 2, fieldOres = 3;
@@ -71,9 +74,7 @@ public class PathfinderExtended extends Pathfinder {
     public static class OresField extends Flowfield {
         //public Item OreTarget;
 
-        public OresField() {
-            refreshRate = 900; //for Optimization purpose
-        }
+        public OresField() {}
 
         protected void getPositions(IntSeq out) {
             for (Tile tile : Ores) {
@@ -83,8 +84,22 @@ public class PathfinderExtended extends Pathfinder {
     }
 
     public static void preloadAddons(){
-        Events.on(EventType.WorldLoadEndEvent.class, (event) -> {
+        Events.on(EventType.WorldLoadEvent.class, (event) -> {
+            Iterator tileIterator = Vars.world.tiles.iterator();
+
+            while(tileIterator.hasNext()) {
+                Tile tile = (Tile) tileIterator.next();
+                var item = tile.drop();
+                if (item == null){
+                    item = tile.wallDrop(); // TODO wall ore func
+                }
+                if (item != null){
+                    Ores.add(tile);
+                    Log.info(tile);
+                }
+            }
             for (Tile tile : Vars.world.tiles) {
+
                 if (tile.floor() == null) continue;
                 if (tile.floor().attributes.get(Attribute.steam) >= 1f) {
                     float steam = 0f;
@@ -99,10 +114,6 @@ public class PathfinderExtended extends Pathfinder {
                     if (steam >= 9f) {
                         SteamVents.add(tile);
                     }
-                }
-
-                if ((tile.floor() != null && tile.floor().itemDrop != null) || (tile.block() != null && tile.block().itemDrop != null)){
-                    Ores.add(tile);
                 }
             }
         });

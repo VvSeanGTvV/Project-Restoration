@@ -232,11 +232,6 @@ public class RSerpuloTechTree {
             });
         });
 
-        // Launchpad
-        /*margeNode(planetaryTerminal, () -> {
-            nodePlanetary(onset, RBlocks.interplanetaryAccelerator, () -> {});
-        });*/
-
         margeNode(launchPad, () -> {
             node(launchPadLarge, () -> {
                 node(RBlocks.interplanetaryAccelerator, Seq.with(new SectorComplete(planetaryTerminal))); //Endgame bois
@@ -290,9 +285,5 @@ public class RSerpuloTechTree {
 
     private static void nodeProduce(UnlockableContent content){
         nodeProduce(content, Seq.with(), () -> {});
-    }
-
-    private static void nodePlanetary(UnlockableContent content, UnlockableContent thisOne, Runnable children){
-            node(content, Seq.with(new VisualObjectives.LaunchedPlanetaryAccelerator(thisOne)), children);
     }
 }

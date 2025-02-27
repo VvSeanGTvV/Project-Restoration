@@ -112,6 +112,10 @@ public class NeoplasmBlock extends Block {
         }
 
         public boolean passable(Tile tile, boolean checkWall){
+            return passable(tile, checkWall, false);
+        }
+
+        public boolean passable(Tile tile, boolean checkWall, boolean checkOre){
             if (tile == null) return false;
 
             Block block = tile.block();
@@ -120,6 +124,7 @@ public class NeoplasmBlock extends Block {
 
             return !(
                             (block instanceof StaticWall && checkWall && block.itemDrop == null) ||
+                            (block instanceof StaticWall && checkOre && block.itemDrop != null) ||
                             block == pipe
                     )
                     && (
@@ -211,7 +216,7 @@ public class NeoplasmBlock extends Block {
                 int rand = Mathf.random(0, proximityTiles.size);
                 Tile tile = proximityTiles.get(rand % proximityTiles.size);
                 if (tile != null) {
-                    if (tile.build == null && passable(tile, true)) {
+                    if (tile.build == null && passable(tile, true, true)) {
                         tile.setBlock(block, team);
                         if (tile.build != null && tile.build instanceof CausticCord.CordBuild cordBuild) {
                             cordBuild.facingRot = cordBuild.relativeTo(this.tile);

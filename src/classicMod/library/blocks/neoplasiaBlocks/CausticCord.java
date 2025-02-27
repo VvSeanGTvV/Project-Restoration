@@ -76,7 +76,7 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
         int facingRot = 1;
         public float progress;
         public Seq<Integer> ignorePath = new Seq<>();
-        public int retry = 0;
+        public int retry = 0, growRestart = 0;
         
 
         public Seq<Tile> Queue = new Seq<>();
@@ -156,6 +156,7 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
         public void growCord(Block block) {
 
             retry++;
+            growRestart++;
             for (int a = 0; a < 4; a++) {
                 Tile man = nearbyTile(Mathf.mod(facingRot + a, 4));
                 if (man != null && backTile() != null && backTile() != man){
@@ -168,6 +169,7 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
 
             task = (task != 0) ? task : PathfinderExtended.fieldVent;
             Tile next = pathfind(task);
+            Log.info(task);
             if (
                     passable(next, true)
                     && !ignorePath.contains(facingRot)
@@ -208,9 +210,14 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
                         nearTiles.sort(tile1 -> tile1.dst(getClosestVent()));
                         nTile = nearTiles.get(0);
                     }
-                    if (task == PathfinderExtended.fieldOres && getClosestOre() != null){
-                        nearTiles.sort(tile1 -> tile1.dst(getClosestOre()));
-                        nTile = nearTiles.get(0);
+                    var items = Vars.content.items();
+                    for (Item item : items) {
+                        if (task == PathfinderExtended.fieldOres && Vars.indexer.findClosestOre(x, y, item) != null) {
+                            nearTiles.sort(tile1 -> tile1.dst(Vars.indexer.findClosestOre(x, y, item)));
+                            nTile = nearTiles.get(0);
+                            Log.info(Vars.indexer.findClosestOre(x, y, item));
+                            break;
+                        }
                     }
 
                     if (task == Pathfinder.fieldCore && closestEnemyCore() != null){
@@ -227,6 +234,7 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
                             cordBuild.facingRot = rot;
                             cordBuild.prev = this;
                         }
+                        growRestart = 0;
                     }
                 }
             }
@@ -235,7 +243,7 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
 
         @Override
         public boolean deathImminent() {
-            return super.deathImminent() || retry >= 5;
+            return super.deathImminent();
         }
 
         public Tile pathfind(int pathTarget) {
@@ -251,7 +259,7 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
         }
         @Nullable
         public Tile getClosestOre() {
-            Seq<Tile> avaliableOres = PathfinderExtended.Ores;
+            Seq<Tile> avaliableOres = PathfinderExtended.Ores.copy().removeAll(tile -> tile.build instanceof NeoplasmBuilding);
             return Geometry.findClosest(x, y, avaliableOres);
         }
 
@@ -271,23 +279,22 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
                     reset = true;
                 }
             }
-            if (reset){
-                ready = alreadyBeat = grow = false;
-                beatTimer = 0f;
-                reset = false;
-            }
             if (Queue.size > 0) coverQueue(pipe);
 
-            if (prev != null && retry >= 5){
+            if (growRestart >= 2){
                 if (task == PathfinderExtended.fieldVent) {
                     task = PathfinderExtended.fieldOres;
-                    retry = 0;
+                    growRestart = 0;
                 } else if (task == PathfinderExtended.fieldOres) {
                     task = Pathfinder.fieldCore;
-                    retry = 0;
-                } else
-                if (!prev.ignorePath.contains(facingRot)) prev.ignorePath.add(facingRot);
+                    growRestart = 0;
+                } else {
+                    task = PathfinderExtended.fieldVent;
+                    growRestart = 0;
+                }
+                //if (!prev.ignorePath.contains(facingRot)) prev.ignorePath.add(facingRot);
             }
+
             this.block.nearbySide(tile.x, tile.y, Mathf.mod(facingRot, 4), 0, Tmp.p1);
             int dx = (Geometry.d4x(facingRot) > 0) ? 1 : 0;
             int dy = (Geometry.d4y(facingRot) > 0) ? 1 : 0;
@@ -319,7 +326,7 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
         @Override
         public void updateBeat() {
             boolean cordMode = true;
-            if (grow) { //TODO some AI strategy block
+            if (grow && !reset) { //TODO some AI strategy block
                 if (
                         (items.has(Items.beryllium) &&
                         left() == null &&
@@ -369,11 +376,11 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
                     }
                 }
 
-                if ((Units.closestEnemy(team, x, y, 440f, u -> u.type.killable && u.type.hittable && u.range() > 240f) != null) ||
-                        (Units.findEnemyTile(team, x, y, 440f, b -> b.isValid() && (
-                                b instanceof Turret.TurretBuild turretBuild && turretBuild.range() >= 200f)
+                if ((Units.closestEnemy(team, x, y, 640f, u -> u.type.killable && u.type.hittable && u.range() > 440f) != null) ||
+                        (Units.findEnemyTile(team, x, y, 640f, b -> b.isValid() && (
+                                b instanceof Turret.TurretBuild turretBuild && turretBuild.range() >= 400f)
                         ) != null)) {
-                    boolean tooClose = Units.closestBuilding(team, x, y, 440f, b -> (b instanceof CausticTurret.CausticTurretBuild && b.block == RBlocks.pore)) != null;
+                    boolean tooClose = Units.closestBuilding(team, x, y, 240f, b -> (b instanceof CausticTurret.CausticTurretBuild && b.block == RBlocks.pore)) != null;
                     if (!tooClose) {
                         ReplaceTo(RBlocks.pore);
                         cordMode = false;
@@ -401,6 +408,11 @@ public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
                         cordMode = false;
                     }
                 } if (cordMode) growCord(RBlocks.cord);
+            }
+            if (reset){
+                ready = alreadyBeat = grow = false;
+                beatTimer = 0f;
+                reset = false;
             }
             super.updateBeat();
         }
