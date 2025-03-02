@@ -85,17 +85,14 @@ public class PathfinderExtended extends Pathfinder {
 
     public static void preloadAddons(){
         Events.on(EventType.WorldLoadEvent.class, (event) -> {
-            Iterator tileIterator = Vars.world.tiles.iterator();
 
-            while(tileIterator.hasNext()) {
-                Tile tile = (Tile) tileIterator.next();
+            for (Tile tile : Vars.world.tiles) {
                 var item = tile.drop();
-                if (item == null){
+                if (item == null) {
                     item = tile.wallDrop(); // TODO wall ore func
                 }
-                if (item != null){
+                if (item != null) {
                     Ores.add(tile);
-                    Log.info(tile);
                 }
             }
             for (Tile tile : Vars.world.tiles) {

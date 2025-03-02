@@ -38,11 +38,11 @@ public class UIExtended {
         Techtree = new TechTreeDialog();
         staticImageManager = new StaticImageManager();
         newLaunchDialog = new NewLaunchDialog();
-        menuNewFragment = new MenuNewFragment();
+        //menuNewFragment = new MenuNewFragment();
         creditsCutsceneDialog = new CreditsCutsceneDialog();
         aboutNewDialog = new AboutNewDialog();
 
-        menuNewFragment.build(Vars.ui.menuGroup);
+        //menuNewFragment.build(Vars.ui.menuGroup);
     }
 
     public static void postInit(){

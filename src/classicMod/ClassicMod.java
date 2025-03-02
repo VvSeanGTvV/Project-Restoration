@@ -86,15 +86,19 @@ public class ClassicMod extends Mod{
             getContributors();
             graphics.setTitle(settings.getAppName() + " | " + resMod.meta.displayName + " " + BuildVer);
 
+            ui.menufrag.addButton(Core.bundle.get("credits"), Icon.info, () -> {
+                UIExtended.creditsCutsceneDialog.show();
+            });
+
             Time.runTask(10f, () -> {
                 UIExtended.postInit();
-                Reflect.set(MenuFragment.class, ui.menufrag, "container", UIExtended.menuNewFragment.container);
+                //Reflect.set(MenuFragment.class, ui.menufrag, "container", UIExtended.menuNewFragment.container);
 
                 if (usePlanetBG) {
                     if (uselastPlanet) {
-                        Reflect.set(MenuNewFragment.class, UIExtended.menuNewFragment, "renderer", new MainMenuRenderer(SortedPlanet));
+                        Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(SortedPlanet));
                     } else {
-                        Reflect.set(MenuNewFragment.class, UIExtended.menuNewFragment, "renderer", new MainMenuRenderer(random));
+                        Reflect.set(MenuFragment.class, ui.menufrag, "renderer", new MainMenuRenderer(random));
                     }
                 } else {
                     loadStaticBackground();
@@ -219,7 +223,7 @@ public class ClassicMod extends Mod{
     public void loadStaticBackground() {
         if (settings.getBool("use-staticmenu")) {
             if(!headless) {
-                Reflect.set(UIExtended.menuNewFragment, "renderer", new MainMenuRenderer(staticImageBackground));
+                Reflect.set(ui.menufrag, "renderer", new MainMenuRenderer(staticImageBackground));
             } else {
                 Log.warn("Headless detected! Background loading skipped.");
                 Log.infoTag("Project: Restoration", "Headless detected! Background loading skipped.");
