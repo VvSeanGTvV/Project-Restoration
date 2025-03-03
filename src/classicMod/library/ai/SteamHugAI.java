@@ -47,7 +47,7 @@ public class SteamHugAI extends NeoplasmAIController {
                 float dstance = nearDanger.dst(tile);
                 //Log.info(DodgeTile + "|" + nearDanger.dst(targetTile));
                 if (dstance < 80f){
-                    targetTile = getClosestTarget(10, nearDanger, targetDestination);
+                    targetTile = getClosestTarget(15, nearDanger, targetDestination);
                     if (targetTile == null) stucked = true;
                 }
             }
