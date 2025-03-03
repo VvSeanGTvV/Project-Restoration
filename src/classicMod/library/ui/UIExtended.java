@@ -215,10 +215,10 @@ public class UIExtended {
 
         @Override
         public void add(SettingsMenuDialog.SettingsTable table) {
-            Events.on(EventTypeExtended.UpdateModInformation.class, e -> {
+            /*Events.on(EventTypeExtended.UpdateModInformation.class, e -> {
                 overBuild.set(e.overBuild);
                 rebuildInformation();
-            });
+            });*/
 
 
             if (center) table.add(info).center(); else table.add(info);

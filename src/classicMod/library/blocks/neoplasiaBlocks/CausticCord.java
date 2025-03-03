@@ -7,7 +7,6 @@ import arc.math.geom.*;
 import arc.struct.Seq;
 import arc.util.*;
 import arc.util.io.*;
-import classicMod.AutotilerPlus;
 import classicMod.content.RBlocks;
 import classicMod.library.ai.PathfinderExtended;
 import mindustry.Vars;
@@ -24,7 +23,7 @@ import mindustry.world.meta.*;
 
 import static mindustry.Vars.itemSize;
 
-public class CausticCord extends NeoplasmBlock implements AutotilerPlus {
+public class CausticCord extends NeoplasmBlock implements Autotiler {
     public TextureRegion[] tiles;
     public TextureRegion[][] regions;
 

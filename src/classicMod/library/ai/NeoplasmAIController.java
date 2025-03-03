@@ -13,15 +13,23 @@ import mindustry.world.Tile;
 
 public class NeoplasmAIController extends AIController {
 
-    public Seq<Tile> DodgeTile = new Seq<>(); // TODO thus
+    public Seq<Tile> DodgeTile = new Seq<>();
+    public Seq<Unit> groups = new Seq<>();
 
-    public boolean update;
+    public boolean ignore;
 
     @Override
     public void updateUnit() {
-        
-        Unit uNeo = Units.closest(unit.team, unit.x, unit.y, u -> u.controller() instanceof NeoplasmAIController);
+        Unit neo = Units.closest(unit.team, unit.x, unit.y, u -> u.controller() instanceof NeoplasmAIController && !groups.contains(u) && u != this.unit);
+        if (neo != null) groups.add(neo);
 
+        for (var neoplasm : groups){
+            if (neoplasm == null) continue;
+            if (neoplasm.tileOn() != null && neoplasm.dead){
+                DodgeTile.add(neoplasm.tileOn());
+                groups.remove(neoplasm);
+            }
+        }
         super.updateUnit();
     }
 
@@ -32,7 +40,19 @@ public class NeoplasmAIController extends AIController {
         return (vent != null && !(vent.build instanceof CausticHeart.HeartBuilding)) ? vent : null;
     }
 
-    public Tile getClosestTarget(int range){
+    public Tile closestDanger(Tile tile){
+        Tile lowestTile = null;
+        float lowest = Float.MAX_VALUE;
+        for (var danger : DodgeTile){
+            if (danger.dst(tile) < lowest){
+                lowest = danger.dst(tile);
+                lowestTile = danger;
+            }
+        }
+        return lowestTile;
+    }
+
+    public Tile getClosestTarget(int range, Tile closestDanger, Tile targetTile){
         int r = (range % 2 == 1) ? range + 1 : range;
         int mid = r/2;
         Seq<Tile> avaliableLand = new Seq<>();
@@ -50,7 +70,8 @@ public class NeoplasmAIController extends AIController {
         }
 
         if (avaliableLand.size <= 0) return null;
-        avaliableLand.sort(tile -> tile.dst(target));
+        avaliableLand.removeAll(tile -> closestDanger.dst(tile) < 80);
+        avaliableLand.sort(tile -> tile.dst(targetTile));
 
         return avaliableLand.first();
     }
@@ -62,7 +83,7 @@ public class NeoplasmAIController extends AIController {
         if (tile != null) {
             Tile targetTile = Vars.pathfinder.getTargetTile(tile, Vars.pathfinder.getField(this.unit.team, costType, pathTarget));
             if (tile != targetTile && (costType != 2 || targetTile.floor().isLiquid)) {
-                if (DodgeTile.contains(targetTile)) targetTile = getClosestTarget(240);
+                //if (DodgeTile.contains(targetTile)) targetTile = getClosestTarget(240);
                 this.unit.movePref(vec.trns(this.unit.angleTo(targetTile.worldx(), targetTile.worldy()), this.unit.speed()));
             }
         }

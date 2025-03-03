@@ -51,7 +51,7 @@ public class AutoUpdate {
 
             //check if Build is not in the latest
             overBuild = (modBuild > latestBuild);
-            Events.fire(new EventTypeExtended.UpdateModInformation(overBuild, latestBuild));
+            // Events.fire(new EventTypeExtended.UpdateModInformation(overBuild, latestBuild));
             if (modBuild < latestBuild && !checkOnly)
             {ui.showCustomConfirm(
                     "@updater.restored-mind.name", bundle.format("updater.restored-mind.info", mod.meta.version, latest),
