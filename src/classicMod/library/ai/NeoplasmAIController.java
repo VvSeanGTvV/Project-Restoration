@@ -1,5 +1,6 @@
 package classicMod.library.ai;
 
+import arc.math.Mathf;
 import arc.math.geom.Geometry;
 import arc.struct.Seq;
 import arc.util.*;
@@ -8,8 +9,9 @@ import mindustry.Vars;
 import mindustry.content.Blocks;
 import mindustry.entities.Units;
 import mindustry.entities.units.AIController;
-import mindustry.gen.Unit;
+import mindustry.gen.*;
 import mindustry.world.Tile;
+import mindustry.world.blocks.defense.turrets.Turret;
 
 public class NeoplasmAIController extends AIController {
 
@@ -26,7 +28,7 @@ public class NeoplasmAIController extends AIController {
         for (var neoplasm : groups){
             if (neoplasm == null) continue;
             if (neoplasm.tileOn() != null && neoplasm.dead){
-                DodgeTile.add(neoplasm.tileOn());
+                if (neoplasm.controller() instanceof NeoplasmAIController neoplasmAIController && !neoplasmAIController.ignore) DodgeTile.add(neoplasm.tileOn());
                 groups.remove(neoplasm);
             }
         }
@@ -34,10 +36,19 @@ public class NeoplasmAIController extends AIController {
     }
 
     @Nullable
-    public Tile getClosestVent() {
+    public Tile getClosestVent(boolean dontPlaceNearDangerous) {
         Seq<Tile> avaliableVents = PathfinderExtended.SteamVents.copy().removeAll(tile -> tile.build instanceof CausticHeart.HeartBuilding);
         Tile vent = Geometry.findClosest(this.unit.x, this.unit.y, avaliableVents);
+
+        Building nearbyEnemyTile = Units.findEnemyTile(this.unit.team, vent.getX(), vent.getY(), 240f, building -> !building.dead);
+        if (dontPlaceNearDangerous && nearbyEnemyTile != null) avaliableVents = PathfinderExtended.SteamVents.copy().removeAll(tile -> tile.dst(nearbyEnemyTile) <= 80f);
+        vent = Geometry.findClosest(this.unit.x, this.unit.y, avaliableVents);
         return (vent != null && !(vent.build instanceof CausticHeart.HeartBuilding)) ? vent : null;
+    }
+
+    @Nullable
+    public Tile getClosestVent() {
+        return getClosestVent(false);
     }
 
     public Tile closestDanger(Tile tile){
@@ -53,12 +64,11 @@ public class NeoplasmAIController extends AIController {
     }
 
     public Tile getClosestTarget(int range, Tile closestDanger, Tile targetTile){
-        int r = (range % 2 == 1) ? range + 1 : range;
-        int mid = r/2;
+        int mid = Mathf.floor((float) range / 2);
         Seq<Tile> avaliableLand = new Seq<>();
 
-        for (int y = -mid; y < r; y++){
-            for (int x = -mid; x < r; x++){
+        for (int y = -mid; y < range; y++){
+            for (int x = -mid; x < range; x++){
                 Tile tile = Vars.world.tile(unit.tileX() + x, unit.tileY() + y);
                 if (
                         tile != null
@@ -71,8 +81,10 @@ public class NeoplasmAIController extends AIController {
 
         if (avaliableLand.size <= 0) return null;
         avaliableLand.removeAll(tile -> closestDanger.dst(tile) < 80);
+        avaliableLand.removeAll(tile -> this.unit.dst(tile) < 80);
         avaliableLand.sort(tile -> tile.dst(targetTile));
 
+        if (avaliableLand.size <= 0) return null;
         return avaliableLand.first();
     }
 

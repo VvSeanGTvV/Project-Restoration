@@ -60,7 +60,7 @@ public class HelperBlobAI extends NeoplasmAIController {
     @Override
     public void updateMovement() {
         Unit blob = Units.closest(unit.team, unit.x, unit.y, u -> u.controller() instanceof SteamHugAI hug && hug.stucked);
-        Tile targetTile = getClosestVent();
+        Tile targetTile = getClosestVent(true);
         if(unit instanceof PayloadUnit payloadUnit && timer <= 0) {
             int range = 160;
             if (stage == 2 && blob != null){

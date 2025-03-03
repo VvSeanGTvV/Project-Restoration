@@ -43,14 +43,15 @@ public class SteamHugAI extends NeoplasmAIController {
 
 
             if (nearDanger != null) {
-                float dstance = nearDanger.dst(this.unit);
-                Log.info(DodgeTile + "|" + nearDanger.dst(targetTile));
+                float dstance = nearDanger.dst(tile);
+                //Log.info(DodgeTile + "|" + nearDanger.dst(targetTile));
                 if (dstance < 80f){
-                    targetTile = getClosestTarget(30, nearDanger, targetTile);
+                    targetTile = getClosestTarget(10, nearDanger, targetDestination);
+                    if (targetTile == null) stucked = true;
                 }
             }
 
-            if (tile != targetTile && (costType != 2 || targetTile.floor().isLiquid)) {
+            if (targetTile != null && tile != targetTile && (costType != 2 || targetTile.floor().isLiquid)) {
                 this.unit.movePref(vec.trns(this.unit.angleTo(targetTile.worldx(), targetTile.worldy()), this.unit.speed()));
             } else {
                 stucked = true;
