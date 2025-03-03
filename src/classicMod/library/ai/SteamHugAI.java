@@ -21,7 +21,8 @@ public class SteamHugAI extends NeoplasmAIController {
             targetDestination = closestVent;
             pathfind(PathfinderExtended.fieldVent);
         } else {
-
+            ignore = true;
+            unit.kill();
         }
         faceMovement();
         Tile tile = unit.tileOn();

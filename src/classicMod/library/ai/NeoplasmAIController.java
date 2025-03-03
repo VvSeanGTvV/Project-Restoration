@@ -10,7 +10,7 @@ import mindustry.content.Blocks;
 import mindustry.entities.Units;
 import mindustry.entities.units.AIController;
 import mindustry.gen.*;
-import mindustry.world.Tile;
+import mindustry.world.*;
 import mindustry.world.blocks.defense.turrets.Turret;
 
 public class NeoplasmAIController extends AIController {
@@ -41,7 +41,7 @@ public class NeoplasmAIController extends AIController {
         Tile vent = Geometry.findClosest(this.unit.x, this.unit.y, avaliableVents);
 
         Building nearbyEnemyTile = Units.findEnemyTile(this.unit.team, vent.getX(), vent.getY(), 240f, building -> !building.dead);
-        if (dontPlaceNearDangerous && nearbyEnemyTile != null) avaliableVents = PathfinderExtended.SteamVents.copy().removeAll(tile -> tile.dst(nearbyEnemyTile) <= 80f);
+        if (dontPlaceNearDangerous && nearbyEnemyTile != null) avaliableVents = avaliableVents.copy().removeAll(tile -> tile.dst(nearbyEnemyTile) <= 80f);
         vent = Geometry.findClosest(this.unit.x, this.unit.y, avaliableVents);
         return (vent != null && !(vent.build instanceof CausticHeart.HeartBuilding)) ? vent : null;
     }

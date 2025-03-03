@@ -168,7 +168,6 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
 
             task = (task != 0) ? task : PathfinderExtended.fieldVent;
             Tile next = pathfind(task);
-            Log.info(task);
             if (
                     passable(next, true)
                     && !ignorePath.contains(facingRot)
@@ -214,7 +213,7 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
                         if (task == PathfinderExtended.fieldOres && Vars.indexer.findClosestOre(x, y, item) != null) {
                             nearTiles.sort(tile1 -> tile1.dst(Vars.indexer.findClosestOre(x, y, item)));
                             nTile = nearTiles.get(0);
-                            Log.info(Vars.indexer.findClosestOre(x, y, item));
+                            //Log.info(Vars.indexer.findClosestOre(x, y, item));
                             break;
                         }
                     }
