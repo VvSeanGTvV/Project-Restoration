@@ -28,7 +28,7 @@ public class NeoplasmAIController extends AIController {
         for (var neoplasm : groups){
             if (neoplasm == null) continue;
             if (neoplasm.tileOn() != null && neoplasm.dead){
-                if (neoplasm.controller() instanceof NeoplasmAIController neoplasmAIController && !neoplasmAIController.ignore) DodgeTile.add(neoplasm.tileOn());
+                if (neoplasm.controller() instanceof NeoplasmAIController neoplasmAIController && !neoplasmAIController.ignore && !DodgeTile.contains(neoplasm.tileOn())) DodgeTile.add(neoplasm.tileOn());
                 groups.remove(neoplasm);
             }
         }
@@ -63,7 +63,7 @@ public class NeoplasmAIController extends AIController {
         return lowestTile;
     }
 
-    public Tile getClosestTarget(int range, Tile closestDanger, Tile targetTile){
+    public Tile getClosestTarget(int range, Tile closestDanger, Tile targetTile, Unit unit){
         int mid = Mathf.floor((float) range / 2);
         Seq<Tile> avaliableLand = new Seq<>();
 
@@ -81,11 +81,26 @@ public class NeoplasmAIController extends AIController {
 
         if (avaliableLand.size <= 0) return null;
         avaliableLand.removeAll(tile -> closestDanger.dst(tile) < 80);
-        avaliableLand.removeAll(tile -> this.unit.dst(tile) < 80);
+        avaliableLand.removeAll(tile -> this.unit.dst(tile) < 10 && this.unit.dst(tile) > 100);
         avaliableLand.sort(tile -> tile.dst(targetTile));
 
         if (avaliableLand.size <= 0) return null;
         return avaliableLand.first();
+    }
+
+    public void routeAir(){
+        Tile tile = this.unit.tileOn();
+        Tile targetTile = target.tileOn();
+        Tile nearDanger = closestDanger(tile);
+
+
+        if (nearDanger != null && targetTile != null) {
+            float dstance = nearDanger.dst(tile);
+            if (dstance < 80f){
+                targetTile = getClosestTarget(15, nearDanger, targetTile, unit);
+            }
+        }
+        if (targetTile != null && tile != targetTile) unit.movePref(vec.set(targetTile).sub(unit).limit(unit.speed()));
     }
 
     @Override
@@ -94,8 +109,18 @@ public class NeoplasmAIController extends AIController {
         Tile tile = this.unit.tileOn();
         if (tile != null) {
             Tile targetTile = Vars.pathfinder.getTargetTile(tile, Vars.pathfinder.getField(this.unit.team, costType, pathTarget));
-            if (tile != targetTile && (costType != 2 || targetTile.floor().isLiquid)) {
-                //if (DodgeTile.contains(targetTile)) targetTile = getClosestTarget(240);
+            Tile nearDanger = closestDanger(tile);
+
+
+            if (nearDanger != null) {
+                float dstance = nearDanger.dst(tile);
+                if (dstance < 80f){
+                    targetTile = getClosestTarget(15, nearDanger, targetTile, unit);
+                    if (targetTile == null) DodgeTile.remove(nearDanger);
+                }
+            }
+
+            if (targetTile != null && tile != targetTile && (costType != 2 || targetTile.floor().isLiquid)) {
                 this.unit.movePref(vec.trns(this.unit.angleTo(targetTile.worldx(), targetTile.worldy()), this.unit.speed()));
             }
         }

@@ -37,8 +37,9 @@ public class SuicideBomberAI extends NeoplasmAIController {
         if (target != null){
             rotate = true;
 
-            ignore = (unit.tileOn() != null && unit.tileOn().build != null && unit.tileOn().build.team != unit.team);
+            ignore = (unit.tileOn() != null && unit.tileOn().build != null && unit.tileOn().build.team != unit.team && !unit.dead);
             shoot = ignore;
+            Log.info(ignore + "|" + DodgeTile);
 
             //stop moving toward the drop zone if applicable
             /*if(core == null && state.rules.waves && unit.team == state.rules.defaultTeam){
@@ -48,12 +49,13 @@ public class SuicideBomberAI extends NeoplasmAIController {
                 }
             }*/
 
-            unit.movePref(vec.set(target).sub(unit).limit(unit.speed()));
+            routeAir();
         }
 
         unit.controlWeapons(rotate, shoot);
 
-        faceTarget();
+        faceMovement();
+        super.updateUnit();
     }
 
     protected void targetClosestEnemyFlag(BlockFlag flag){
