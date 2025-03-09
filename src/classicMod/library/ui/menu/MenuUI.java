@@ -40,14 +40,14 @@ public class MenuUI {
         }};
         random = new SpaceMenuBackground() {{
             params = new PlanetParams() {{
-                Seq<Planet> visible = Vars.content.planets().copy().filter(p -> p.visible);
+                Seq<Planet> visible = Vars.content.planets().copy().retainAll(p -> p.visible);
                 planet = visible.get(Mathf.floor((float) (Math.random() * visible.size)));
             }};
         }};
 
         SortedPlanet = new SpaceMenuBackground() {{
             params = new PlanetParams() {{ //Support test for modded planets! +it's sorted into planets so ;)
-                Seq<Planet> visible = Vars.content.planets().copy().filter(p -> p.visible);
+                Seq<Planet> visible = Vars.content.planets().copy().retainAll(p -> p.visible);
                 if(lastPlanet != null) {
                     for (var c : visible) {
                         if (c.name == lastPlanet.name) {
@@ -57,7 +57,7 @@ public class MenuUI {
                     }
                 }else{
                     params = new PlanetParams() {{
-                        Seq<Planet> visible = Vars.content.planets().copy().filter(p -> p.visible);
+                        Seq<Planet> visible = Vars.content.planets().copy().retainAll(p -> p.visible);
                         planet = visible.get(Mathf.floor((float) (Math.random() * visible.size)));
                     }};
                 }
