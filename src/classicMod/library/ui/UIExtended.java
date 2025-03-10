@@ -180,54 +180,6 @@ public class UIExtended {
         }
     }
 
-    public static class ModInformation extends SettingsMenuDialog.SettingsTable.Setting {
-        boolean center;
-        AtomicBoolean overBuild = new AtomicBoolean(!AutoUpdate.overBuild);
-        Table info = new Table();
-
-        public ModInformation(String name, boolean center) {
-            super(name);
-            this.center = center;
-        }
-
-        public void rebuildInformation(){
-            info.clear();
-            info.add("Mod Version: "+ModVersion).color(Pal.lightishGray).padTop(4f).row();
-            info.add("Build Version: "+BuildVer).color(Pal.lightishGray).padTop(4f).row();
-            info.add(new Table(){{
-                add("Latest Release: ").color((!overBuild.get()) ? Pal.lightishGray : Pal.redLight);
-                if (!overBuild.get()) add(new Image(Icon.ok)).color(Pal.heal).size(16f).center(); else add(new Image(Icon.cancel)).color(Pal.remove).size(16f).center();
-            }}).padTop(4f).row();
-            info.add(new Table(){{
-                add("Development Release: ").color((overBuild.get()) ? Pal.lightishGray : Pal.redLight);
-                if (overBuild.get()) add(new Image(Icon.ok)).color(Pal.heal).size(16f).center(); else add(new Image(Icon.cancel)).color(Pal.remove).size(16f).center();
-            }}).padTop(4f).row();
-
-            if (false) {
-                for (var key : icons.keys()) {
-                    var ico = icons.get(key);
-                    info.add(new Image(ico));
-                    info.add(" | " + key);
-                    info.row();
-                }
-            }
-        }
-
-        @Override
-        public void add(SettingsMenuDialog.SettingsTable table) {
-            /*Events.on(EventTypeExtended.UpdateModInformation.class, e -> {
-                overBuild.set(e.overBuild);
-                rebuildInformation();
-            });*/
-
-
-            if (center) table.add(info).center(); else table.add(info);
-            rebuildInformation();
-            table.row();
-
-        }
-    }
-
     public static class Banner extends SettingsMenuDialog.SettingsTable.Setting { //This is from ArchiveDustry-Java!
         float width;
 

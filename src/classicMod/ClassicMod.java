@@ -21,6 +21,7 @@ import mindustry.ai.types.CommandAI;
 import mindustry.game.EventType;
 import mindustry.game.EventType.ClientLoadEvent;
 import mindustry.gen.*;
+import mindustry.graphics.Pal;
 import mindustry.mod.Mod;
 import mindustry.mod.Mods.LoadedMod;
 import mindustry.type.*;
@@ -32,6 +33,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 import static arc.Core.*;
+import static classicMod.AutoUpdate.overBuild;
 import static classicMod.library.ui.dialog.StaticImageManager.rebuildManager;
 import static classicMod.library.ui.menu.MenuUI.*;
 import static mindustry.Vars.*;
@@ -255,7 +257,6 @@ public class ClassicMod extends Mod{
     }
 
     boolean isChangedDirectory = false;
-
     boolean isValidExtension(Seq<String> acceptedExtension,  Fi file) {
         //Log.info(file.name());
         boolean hasExtension = false;
@@ -390,7 +391,18 @@ public class ClassicMod extends Mod{
             t.pref(new UIExtended.Separator("restored-information"));
             t.row();
             t.pref(new UIExtended.ButtonSetting(getModBundle.get(resMod.meta.name + "-debug.unlock"), Icon.lockOpen, () -> UIExtended.contentUnlockDebugDialog.show(), 32, true));
-            t.pref(new UIExtended.ModInformation("restored-mod-information", true));
+            t.add(new Table(info -> {
+                info.add("Mod Version: "+ModVersion).color(Pal.lightishGray).padTop(4f).row();
+                info.add("Build Version: "+BuildVer).color(Pal.lightishGray).padTop(4f).row();
+                info.add(new Table(){{
+                    add("Latest Release: ").color((!overBuild) ? Pal.lightishGray : Pal.redLight);
+                    if (!overBuild) add(new Image(Icon.ok)).color(Pal.heal).size(16f).center(); else add(new Image(Icon.cancel)).color(Pal.remove).size(16f).center();
+                }}).padTop(4f).row();
+                info.add(new Table(){{
+                    add("Development Release: ").color((overBuild) ? Pal.lightishGray : Pal.redLight);
+                    if (overBuild) add(new Image(Icon.ok)).color(Pal.heal).size(16f).center(); else add(new Image(Icon.cancel)).color(Pal.remove).size(16f).center();
+                }}).padTop(4f).row();
+            }));
             if (!settings.has("unlocks" + "-launched-planetary")) settings.put("unlocks" + "-launched-planetary", false);
             //t.add(resMod.meta.displayName+" - Info").padTop(4f).row();
             //t.checkPref("launched-planetary", false);

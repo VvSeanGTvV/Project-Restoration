@@ -28,7 +28,15 @@ public class NeoplasmAIController extends AIController {
         for (var neoplasm : groups){
             if (neoplasm == null) continue;
             if (neoplasm.tileOn() != null && neoplasm.dead){
-                if (neoplasm.controller() instanceof NeoplasmAIController neoplasmAIController && !neoplasmAIController.ignore && !DodgeTile.contains(neoplasm.tileOn())) DodgeTile.add(neoplasm.tileOn());
+                if (neoplasm.controller() instanceof NeoplasmAIController neoplasmAIController && !neoplasmAIController.ignore && !DodgeTile.contains(neoplasm.tileOn())) {
+                    Tile ondeadTile = neoplasm.tileOn();
+                    DodgeTile.add(ondeadTile);
+                    for (var point : Geometry.d4){
+                        Tile externalTile = Vars.world.tile(ondeadTile.x + point.x, ondeadTile.y + point.y);
+                        if (!DodgeTile.contains(externalTile)) DodgeTile.add(externalTile);
+                    }
+
+                }
                 groups.remove(neoplasm);
             }
         }
@@ -51,16 +59,9 @@ public class NeoplasmAIController extends AIController {
         return getClosestVent(false);
     }
 
-    public Tile closestDanger(Tile tile){
-        Tile lowestTile = null;
-        float lowest = Float.MAX_VALUE;
-        for (var danger : DodgeTile){
-            if (danger.dst(tile) < lowest){
-                lowest = danger.dst(tile);
-                lowestTile = danger;
-            }
-        }
-        return lowestTile;
+    public Tile closestDanger(){
+        if (DodgeTile.size <= 0 || DodgeTile.isEmpty()) return null;
+        return DodgeTile.copy().sort(tile1 -> tile1.dst(this.unit)).get(0);
     }
 
     public Tile getClosestTarget(int range, Tile closestDanger, Tile targetTile, Unit unit){
@@ -91,7 +92,7 @@ public class NeoplasmAIController extends AIController {
     public void routeAir(){
         Tile tile = this.unit.tileOn();
         Tile targetTile = target.tileOn();
-        Tile nearDanger = closestDanger(tile);
+        Tile nearDanger = closestDanger();
 
 
         if (nearDanger != null && targetTile != null) {
@@ -109,9 +110,7 @@ public class NeoplasmAIController extends AIController {
         Tile tile = this.unit.tileOn();
         if (tile != null) {
             Tile targetTile = Vars.pathfinder.getTargetTile(tile, Vars.pathfinder.getField(this.unit.team, costType, pathTarget));
-            Tile nearDanger = closestDanger(tile);
-
-
+            Tile nearDanger = closestDanger();
             if (nearDanger != null) {
                 float dstance = nearDanger.dst(tile);
                 if (dstance < 80f){

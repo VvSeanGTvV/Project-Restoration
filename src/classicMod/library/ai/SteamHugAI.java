@@ -40,7 +40,7 @@ public class SteamHugAI extends NeoplasmAIController {
         Tile tile = this.unit.tileOn();
         if (tile != null) {
             Tile targetTile = Vars.pathfinder.getTargetTile(tile, Vars.pathfinder.getField(this.unit.team, costType, pathTarget));
-            Tile nearDanger = closestDanger(tile);
+            Tile nearDanger = closestDanger();
 
 
             if (nearDanger != null) {

@@ -4,7 +4,7 @@ import arc.Core;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
 import arc.math.geom.*;
-import arc.struct.Seq;
+import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
 import classicMod.content.RBlocks;
@@ -140,6 +140,11 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
                 Draw.rect(current.fullIcon, x, y, itemSize, itemSize);
             }
 
+
+
+            // Get the sprite from the atlas
+            //Draw.rect(, x, y, rotation);
+            TextureRegion region = sliced(Core.atlas.find(name + "-" + blendbits), SliceMode.none);
             drawAt(x, y, blendbits, rotation, SliceMode.none);
             Draw.color();
 
@@ -332,8 +337,8 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
                         ||
                                 (getTotal(Items.beryllium, 3) >= 3)
                 ){
-                    if (Mathf.randomBoolean(0.5f)) ReplaceTo(RBlocks.renaleSpawner);
-                    else if (Mathf.randomBoolean(0.5f)) ReplaceTo(RBlocks.walkySpawner);
+                    if (Mathf.chance(0.5f)) ReplaceTo(RBlocks.renaleSpawner);
+                    else if (Mathf.chance(0.5f)) ReplaceTo(RBlocks.walkySpawner);
                     else ReplaceTo(RBlocks.oxideCrafter);
                     cordMode = false;
                 }
@@ -346,7 +351,7 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
                                 ((getTotal(Items.graphite, 3) >= 3))
 
                 ){
-                    if (Mathf.randomBoolean(0.5f)) ReplaceTo(RBlocks.muleSpawner);
+                    if (Mathf.chance(0.5f)) ReplaceTo(RBlocks.muleSpawner);
                     else ReplaceTo(RBlocks.squidSpawner);
                     cordMode = false;
                 }
@@ -374,7 +379,7 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
                     }
                 }
 
-                if ((Units.closestEnemy(team, x, y, 640f, u -> u.type.killable && u.type.hittable && u.range() > 440f) != null) ||
+                if ((Units.closestEnemy(team, x, y, 640f, u -> u.type.killable && u.type.hittable && u.range() > 240f) != null) ||
                         (Units.findEnemyTile(team, x, y, 640f, b -> b.isValid() && (
                                 b instanceof Turret.TurretBuild turretBuild && turretBuild.range() >= 400f)
                         ) != null)) {
@@ -420,8 +425,8 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
             if (current != null){
                 Seq<NeoplasmBuilding> avaliable = new Seq<>();
                 for (int i = 0; i < 4; i++){
-                    NeoplasmBuilding dest = getNeoplasia(nearby(Mathf.mod(facingRot + i, 4)));
-                    //NeoplasmBuilding dest = getNeoplasia(nearby(facingRot + i));
+                    NeoplasmBuilding dest = getNeoplasm(nearby(Mathf.mod(facingRot + i, 4)));
+                    //NeoplasmBuilding dest = getNeoplasm(nearby(facingRot + i));
                     Item item = items.first();
                     if (validBuilding(dest, item)) avaliable.add(dest);
                 }
@@ -487,17 +492,17 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
 
         @Override
         public void takeBlood() {
-            NeoplasmBuilding behind = getNeoplasia(back());
+            NeoplasmBuilding behind = getNeoplasm(back());
             if (behind != null && liquids.get(blood) < liquidCapacity) {
                 moveFromLiquid(behind, blood);
             }
 
-            NeoplasmBuilding left = getNeoplasia(left());
+            NeoplasmBuilding left = getNeoplasm(left());
             if (left != null && liquids.get(blood) < liquidCapacity) {
                 moveFromLiquid(left, blood);
             }
 
-            NeoplasmBuilding right = getNeoplasia(right());
+            NeoplasmBuilding right = getNeoplasm(right());
             if (right != null && liquids.get(blood) < liquidCapacity) {
                 moveFromLiquid(right, blood);
             }
@@ -505,8 +510,11 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
 
         protected void drawAt(float x, float y, int bits, float rotation, Autotiler.SliceMode slice) {
             Draw.z(Layer.blockUnder);
+
             drawBeat(xscl, yscl);
             Draw.rect(sliced(Core.atlas.find(name + "-" + bits), slice), x, y, rotation);
+
+            // Reset drawing properties
             Draw.color();
             Draw.scl();
         }
@@ -516,9 +524,13 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
 
             int bit = 0;
             for (int i = 0; i < 8; i++){
-                Tile mask = Vars.world.tile(tile.x + Geometry.d8(i).x, tile.y + Geometry.d8(i).y);
-                if (mask != null && mask.build instanceof NeoplasmBuilding neoplasmBuilding) {
-                    bit |= 1 << (i);
+                // Get the neighboring tile using Geometry.d8(i)
+                Tile neighborTile = Vars.world.tile(tile.x + Geometry.d8(i).x, tile.y + Geometry.d8(i).y);
+
+                // Check if the neighboring tile exists and contains a NeoplasmBuilding
+                if (neighborTile != null && neighborTile.build instanceof NeoplasmBuilding neoplasmBuilding) {
+                    // Set the corresponding bit for the neighbor
+                    bit |= 1 << i;
                     neoplasmBuilding.ready = neoplasmBuilding.alreadyBeat = neoplasmBuilding.grow = false;
                     neoplasmBuilding.reset = true;
                     neoplasmBuilding.beatTimer = 0f;
