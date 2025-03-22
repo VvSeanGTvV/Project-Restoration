@@ -171,9 +171,63 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
                 }
             }
 
+
+            // TODO better cordAI
             task = (task != 0) ? task : PathfinderExtended.fieldVent;
             Tile next = pathfind(task);
-            if (
+
+            Seq<Tile> nearTiles = new Seq<>(4);
+            if (next != null) {
+                for (var d : Geometry.d4) {
+                    Tile dTile = Vars.world.tile(next.x + d.x, next.y + d.y);
+                    int rot = this.tile.relativeTo(dTile);
+                    Tile nearRight = dTile.nearby(Mathf.mod(rot + 1, 4));
+                    Tile nearLeft = dTile.nearby(Mathf.mod(rot - 1, 4));
+                    if (
+                            passable(dTile, true)
+                            && passable(nearRight, false)
+                            && passable(nearLeft, false)
+                            && dTile.relativeTo(this.tile) != -1
+                    ) {
+                        nearTiles.add(dTile);
+                    }
+                }
+            }
+            if (nearTiles.size > 0) {
+                Tile nTile = null;
+                if (task == PathfinderExtended.fieldVent && getClosestVent() != null) {
+                    nearTiles.sort(tile1 -> tile1.dst(getClosestVent()));
+                    nTile = nearTiles.get(0);
+                }
+                var items = Vars.content.items();
+                for (Item item : items) {
+                    if (task == PathfinderExtended.fieldOres && Vars.indexer.findClosestOre(x, y, item) != null) {
+                        nearTiles.sort(tile1 -> tile1.dst(Vars.indexer.findClosestOre(x, y, item)));
+                        nTile = nearTiles.get(0);
+                        //Log.info(Vars.indexer.findClosestOre(x, y, item));
+                        break;
+                    }
+                }
+
+                if (task == Pathfinder.fieldCore && closestEnemyCore() != null){
+                    nearTiles.sort(tile1 -> tile1.dst(closestEnemyCore()));
+                    nTile = nearTiles.get(0);
+                }
+
+                if (nTile != null) {
+                    int rot = this.tile.relativeTo(nTile);
+                    if (!CantReplace(nTile.block())) nTile.setBlock(RBlocks.cord, team);
+                    if (nTile.build != null && nTile.build instanceof CordBuild cordBuild) {
+                        cordBuild.task = Mathf.randomBoolean(0.98f) ? task :
+                                Mathf.randomBoolean() ? PathfinderExtended.fieldOres : Mathf.randomBoolean() ? Pathfinder.fieldCore : PathfinderExtended.fieldVent;
+                        cordBuild.facingRot = rot;
+                        cordBuild.prev = this;
+                    }
+                    growRestart = 0;
+                }
+            }
+
+            /*if (
                     passable(next, true)
                     && !ignorePath.contains(facingRot)
             ){
@@ -240,7 +294,7 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
                         growRestart = 0;
                     }
                 }
-            }
+            }*/
             super.growCord(block);
         }
 
