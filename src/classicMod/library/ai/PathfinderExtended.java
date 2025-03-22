@@ -8,9 +8,10 @@ import classicMod.library.blocks.legacyBlocks.LegacyCommandCenter;
 import classicMod.library.blocks.neoplasiaBlocks.CausticHeart;
 import mindustry.Vars;
 import mindustry.ai.Pathfinder;
+import mindustry.content.Blocks;
 import mindustry.game.EventType;
 import mindustry.gen.Building;
-import mindustry.world.Tile;
+import mindustry.world.*;
 import mindustry.world.meta.Attribute;
 
 import java.util.*;
@@ -97,7 +98,7 @@ public class PathfinderExtended extends Pathfinder {
             }
             for (Tile tile : Vars.world.tiles) {
 
-                if (tile.floor() == null) continue;
+                if (tile.floor() == null || tile.block() != Blocks.air) continue;
                 if (tile.floor().attributes.get(Attribute.steam) >= 1f) {
                     float steam = 0f;
                     for (int dy = -1; dy < 2; dy++) {

@@ -36,7 +36,7 @@ goto START
 
 :executeMindustry
 title Mindustry
-set mindustry=D:\user\Downloads\Mindustry-BE-Desktop-25702.jar
+set mindustry=D:\user\Downloads\mindustry-windows-64-bit\Mindustry.exe
 echo autorun to %mindustry%
 set stage=3
 %mindustry%
