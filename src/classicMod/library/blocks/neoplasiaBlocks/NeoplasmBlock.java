@@ -119,8 +119,7 @@ public class NeoplasmBlock extends Block {
 
             return !(
                             (block instanceof StaticWall && checkWall && block.itemDrop == null) ||
-                            (block instanceof StaticWall && checkOre && block.itemDrop != null) ||
-                            block == pipe
+                            (block instanceof StaticWall && checkOre && block.itemDrop != null)
                     )
                     && (
                             block == Blocks.air
@@ -346,65 +345,70 @@ public class NeoplasmBlock extends Block {
 
         @Override
         public void update() {
-            float delta = delta(); // Store delta to avoid repeated calls
 
-            //takeBlood();
-            timer += delta;
-            previousBeat += delta;
-
+            takeBlood();
+            timer += delta();
+            previousBeat += delta();
             if (timer >= 10f) {
                 timer = 0;
-                // liquids.remove(blood, drain); // TODO: Implement or remove
+                //liquids.remove(blood, drain); //TODO something
             }
 
-            if (grown) {
-                // Handle death logic
-                if (deathImminent()) {
-                    deathTimer += delta;
-                    if (deathTimer >= 5) {
-                        death();
-                    }
-                } else {
-                    deathTimer = 0;
-                }
 
-                // Check proximity for NeoplasmBuilding
-                alreadyBeat = !(delayTimer <= 0.1f);
-                for (int i = 0; i < proximity.size; i++) {
-                    Building other = proximity.get(i);
+
+            if (grown) {
+
+
+                if (deathImminent()) deathTimer += delta();
+                else deathTimer = 0;
+                if (deathTimer >= 5) death();
+
+                for(int i = 0; i <proximity.size; ++i) {
+                    Building other = proximity.get((i) % proximity.size);
                     if (other instanceof NeoplasmBuilding neoplasmBuilding) {
-                        if (neoplasmBuilding.beat >= 1.2f && !source && !alreadyBeat && !neoplasmBuilding.deathImminent()) {
-                            if (delayTimer <= 0f) {
-                                // Introduce a delay before reacting
-                                ready = true;
-                                grow = true;
-                                beat = 1.5f;
-                                delayTimer = beat * 10f; // Set a delay before the next cord can react
-                                updateBeat();
-                            }
+                        if (neoplasmBuilding.beat >= 1.2f && !source && !alreadyBeat && !neoplasmBuilding.deathImminent() && isGrown() && neoplasmBuilding.isGrown()) {
+                            ready = true;
+                            grow = true;
                         }
                     }
                 }
-                if (delayTimer > 0f) delayTimer -= delta; // Decrease the delay timer
 
+                if (ready && !alreadyBeat) {
+                    if (beatTimer >= 2) {
+                        if (priority > 0) priority -= 1;
+                        updateBeat();
+                        beatTimer = 0;
+                        ready = false;
+                        alreadyBeat = true;
+                        beat = 1.5f;
+                    }
+                }
 
+                if (alreadyBeat) {
+                    if (beatTimer >= 10) {
+                        alreadyBeat = false;
+                        beatTimer = 0;
+                    }
+                }
+                if (ready || alreadyBeat && !source) beatTimer += delta() / 1.5f;
 
-                // Update beat value
                 if (beat > 1.05f) {
-                    beat -= delta / 10;
-                } else if (beat > 1) {
-                    updateAfterBeat();
-                    beat = 1;
-                } else if (beat < 1) {
-                    beat = 1;
-                }
-            } else {
-                // Handle initialization and growth logic
-                if ((tile.floor().attributes.get(Attribute.steam) >= 1 || tile.drop() != null)) {
-                    if (isCord && tile.drop() != null) coverOre(drill);
-                    if (isCord && tile.floor().attributes.get(Attribute.steam) >= 1) coverVent(core, pipe);
+                    beat -= delta() / 10;
+                } else {
+                    if (beat > 1) {
+                        updateAfterBeat();
+                        beat = 1;
+                    }
+                    if (beat < 1){
+                        beat = 1;
+                    }
                 }
 
+            } else {
+                if ((this.tile.floor().attributes.get(Attribute.steam) >= 1 || tile.drop() != null) && this instanceof CausticCord.CordBuild) {
+                    if (isCord && tile.drop() != null) coverOre(drill);
+                    if (isCord && this.tile.floor().attributes.get(Attribute.steam) >= 1) coverVent(core, pipe);
+                }
                 if (!initalized) {
                     beat = (float) -block.size / (block.size + 1.25f);
                     initalized = true;
@@ -412,8 +416,10 @@ public class NeoplasmBlock extends Block {
                     beat = Mathf.lerpDelta(beat, 1f, 0.1f);
                     if (beat >= 0.95f) {
                         beat = 1f;
+
                         ready = alreadyBeat = grow = false;
                         beatTimer = 0f;
+
                         grown = true;
                     }
                 }

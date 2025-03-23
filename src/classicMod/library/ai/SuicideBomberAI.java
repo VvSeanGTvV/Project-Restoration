@@ -39,7 +39,6 @@ public class SuicideBomberAI extends NeoplasmAIController {
 
             ignore = (unit.tileOn() != null && unit.tileOn().build != null && unit.tileOn().build.team != unit.team && !unit.dead);
             shoot = ignore;
-            Log.info(ignore + "|" + DodgeTile);
 
             //stop moving toward the drop zone if applicable
             /*if(core == null && state.rules.waves && unit.team == state.rules.defaultTeam){

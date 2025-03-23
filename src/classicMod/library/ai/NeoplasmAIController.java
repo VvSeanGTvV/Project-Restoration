@@ -31,7 +31,7 @@ public class NeoplasmAIController extends AIController {
                 if (neoplasm.controller() instanceof NeoplasmAIController neoplasmAIController && !neoplasmAIController.ignore && !DodgeTile.contains(neoplasm.tileOn())) {
                     Tile ondeadTile = neoplasm.tileOn();
                     DodgeTile.add(ondeadTile);
-                    for (var point : Geometry.d4){
+                    for (var point : Geometry.d8){
                         Tile externalTile = Vars.world.tile(ondeadTile.x + point.x, ondeadTile.y + point.y);
                         if (!DodgeTile.contains(externalTile)) DodgeTile.add(externalTile);
                     }

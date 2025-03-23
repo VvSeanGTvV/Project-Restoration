@@ -7,11 +7,11 @@ import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
-import classicMod.content.RBlocks;
-import classicMod.library.ai.PathfinderExtended;
+import classicMod.content.*;
+import classicMod.library.ai.*;
 import mindustry.Vars;
 import mindustry.ai.*;
-import mindustry.content.Items;
+import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.gen.Building;
 import mindustry.graphics.*;
@@ -173,53 +173,25 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
 
 
             // TODO better cordAI
-            task = (task != 0) ? task : PathfinderExtended.fieldVent;
+            task = (task != 0) ? task : PathfinderCustom.fieldVent;
             Tile next = pathfind(task);
 
-            Seq<Tile> nearTiles = new Seq<>(4);
-            if (next != null) {
-                for (var d : Geometry.d4) {
-                    Tile dTile = Vars.world.tile(next.x + d.x, next.y + d.y);
-                    int rot = this.tile.relativeTo(dTile);
-                    Tile nearRight = dTile.nearby(Mathf.mod(rot + 1, 4));
-                    Tile nearLeft = dTile.nearby(Mathf.mod(rot - 1, 4));
-                    if (
-                            passable(dTile, true)
-                            && passable(nearRight, false)
-                            && passable(nearLeft, false)
-                            && dTile.relativeTo(this.tile) != -1
-                    ) {
-                        nearTiles.add(dTile);
-                    }
-                }
-            }
-            if (nearTiles.size > 0) {
-                Tile nTile = null;
-                if (task == PathfinderExtended.fieldVent && getClosestVent() != null) {
-                    nearTiles.sort(tile1 -> tile1.dst(getClosestVent()));
-                    nTile = nearTiles.get(0);
-                }
-                var items = Vars.content.items();
-                for (Item item : items) {
-                    if (task == PathfinderExtended.fieldOres && Vars.indexer.findClosestOre(x, y, item) != null) {
-                        nearTiles.sort(tile1 -> tile1.dst(Vars.indexer.findClosestOre(x, y, item)));
-                        nTile = nearTiles.get(0);
-                        //Log.info(Vars.indexer.findClosestOre(x, y, item));
-                        break;
-                    }
-                }
 
-                if (task == Pathfinder.fieldCore && closestEnemyCore() != null){
-                    nearTiles.sort(tile1 -> tile1.dst(closestEnemyCore()));
-                    nTile = nearTiles.get(0);
-                }
+            if (
+                    passable(next, true)
 
-                if (nTile != null) {
-                    int rot = this.tile.relativeTo(nTile);
-                    if (!CantReplace(nTile.block())) nTile.setBlock(RBlocks.cord, team);
-                    if (nTile.build != null && nTile.build instanceof CordBuild cordBuild) {
+            ) {
+                int rot = this.tile.relativeTo(next);
+                Tile nearRight = next.nearby(Mathf.mod(rot + 1, 4));
+                Tile nearLeft = next.nearby(Mathf.mod(rot - 1, 4));
+                if (
+                        passable(nearRight, false)
+                        && passable(nearLeft, false)
+                ) {
+                    if (!CantReplace(next.block())) next.setBlock(RBlocks.cord, team);
+                    if (next.build != null && next.build instanceof CordBuild cordBuild) {
                         cordBuild.task = Mathf.randomBoolean(0.98f) ? task :
-                                Mathf.randomBoolean() ? PathfinderExtended.fieldOres : Mathf.randomBoolean() ? Pathfinder.fieldCore : PathfinderExtended.fieldVent;
+                                Mathf.randomBoolean() ? PathfinderCustom.fieldOres : Mathf.randomBoolean() ? PathfinderCustom.fieldCore : PathfinderExtended.fieldVent;
                         cordBuild.facingRot = rot;
                         cordBuild.prev = this;
                     }
@@ -231,7 +203,6 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
                     passable(next, true)
                     && !ignorePath.contains(facingRot)
             ){
-                Seq<Tile> nearTiles = new Seq<>(4);
                 for (var d : Geometry.d4) {
                     Tile dTile = Vars.world.tile(next.x + d.x, next.y + d.y);
                     int rot = this.tile.relativeTo(dTile);
@@ -287,7 +258,7 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
                         if (!CantReplace(nTile.block())) nTile.setBlock(RBlocks.cord, team);
                         if (nTile.build != null && nTile.build instanceof CordBuild cordBuild) {
                             cordBuild.task = Mathf.randomBoolean(0.98f) ? task :
-                                    Mathf.randomBoolean() ? PathfinderExtended.fieldOres : Mathf.randomBoolean() ? Pathfinder.fieldCore : PathfinderExtended.fieldVent;
+                                    Mathf.randomBoolean() ? PathfinderCustom.fieldOres : Mathf.randomBoolean() ? PathfinderCustom.fieldCore : PathfinderExtended.fieldVent;
                             cordBuild.facingRot = rot;
                             cordBuild.prev = this;
                         }
@@ -307,7 +278,7 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
             int costType = Pathfinder.costGround;
             Tile tile = this.tile;
             if (tile != null) {
-                Tile targetTile = Vars.pathfinder.getTargetTile(tile, Vars.pathfinder.getField(team, costType, pathTarget));
+                Tile targetTile = RVars.pathfinderCustom.getTargetTile(tile, RVars.pathfinderCustom.getField(team, costType, pathTarget));
                 if (tile != targetTile) {
                     return targetTile;
                 }
@@ -322,7 +293,7 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
 
         @Nullable
         public Tile getClosestVent() {
-            Seq<Tile> avaliableVents = PathfinderExtended.SteamVents.copy().removeAll(tile -> tile.build instanceof CausticHeart.HeartBuilding);
+            Seq<Tile> avaliableVents = PathfinderExtended.SteamVents.copy().removeAll(tile -> tile.build instanceof CausticHeart.HeartBuilding || tile.block() != Blocks.air);
             Tile vent = Geometry.findClosest(x, y, avaliableVents);
             return (vent != null && !(vent.build instanceof CausticHeart.HeartBuilding)) ? vent : null;
         }
@@ -339,14 +310,14 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
             if (Queue.size > 0) coverQueue(pipe);
 
             if (growRestart >= 2){
-                if (task == PathfinderExtended.fieldVent) {
-                    task = PathfinderExtended.fieldOres;
+                if (task == PathfinderCustom.fieldVent) {
+                    task = PathfinderCustom.fieldOres;
                     growRestart = 0;
-                } else if (task == PathfinderExtended.fieldOres) {
-                    task = Pathfinder.fieldCore;
+                } else if (task == PathfinderCustom.fieldOres) {
+                    task = PathfinderCustom.fieldCore;
                     growRestart = 0;
                 } else {
-                    task = PathfinderExtended.fieldVent;
+                    task = PathfinderCustom.fieldVent;
                     growRestart = 0;
                 }
                 //if (!prev.ignorePath.contains(facingRot)) prev.ignorePath.add(facingRot);
