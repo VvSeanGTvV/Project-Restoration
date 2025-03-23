@@ -64,6 +64,7 @@ public class ClassicMod extends Mod{
         }*/
     }
     public ClassicMod(){
+        RVars.init_RVars();
         Events.on(ClientLoadEvent.class, e -> {
             try {
                 staticImageBackground = new StaticImageBackground();

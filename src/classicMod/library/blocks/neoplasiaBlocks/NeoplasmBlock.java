@@ -118,8 +118,9 @@ public class NeoplasmBlock extends Block {
             if (tile.floor() != null && tile.floor().liquidDrop != null) return false;
 
             return !(
-                            (block instanceof StaticWall && checkWall && block.itemDrop == null) ||
-                            (block instanceof StaticWall && checkOre && block.itemDrop != null)
+                            (block instanceof StaticWall && checkWall && block.itemDrop == null)
+                            || (block instanceof StaticWall && checkOre && block.itemDrop != null)
+                            //|| block == pipe
                     )
                     && (
                             block == Blocks.air
