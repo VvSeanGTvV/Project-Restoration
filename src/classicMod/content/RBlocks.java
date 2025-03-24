@@ -886,7 +886,7 @@ public class RBlocks {
 
         pore = new CausticTurret("neoplasm-pore"){{
             requirements(Category.distribution, with(Items.beryllium, 1));
-            range = 440f;
+            range = 640f;
             bulletCount = 1;
             perBeat = 5;
             bulletType = new BasicBulletType(0f, 1) {{
