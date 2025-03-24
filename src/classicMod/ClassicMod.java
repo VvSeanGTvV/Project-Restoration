@@ -44,7 +44,7 @@ public class ClassicMod extends Mod{
     /** Mod's current Version **/
     public static String ModVersion = "5.0 Alpha";
     /** Mod's current Build **/
-    public static final String BuildVer = "13";
+    public static final String BuildVer = "14";
     /** Mod's internal name **/
     public static String internalMod = "restored-mind";
     public static LoadedMod resMod = mods.locateMod(internalMod);
