@@ -277,7 +277,7 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
             int costType = Pathfinder.costGround;
             Tile tile = this.tile;
             if (tile != null) {
-                Tile targetTile = RVars.pathfinderCustom.getTargetTile(tile, RVars.pathfinderCustom.getField(team, costType, pathTarget));
+                Tile targetTile = RVars.pathfinderCustom.getTargetTileD4(tile, RVars.pathfinderCustom.getField(team, costType, pathTarget));
                 if (tile != targetTile) {
                     return targetTile;
                 }

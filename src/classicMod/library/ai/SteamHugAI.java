@@ -1,7 +1,7 @@
 package classicMod.library.ai;
 
 import arc.util.*;
-import classicMod.content.RBlocks;
+import classicMod.content.*;
 import classicMod.library.blocks.neoplasiaBlocks.CausticHeart;
 import mindustry.Vars;
 import mindustry.world.Tile;
@@ -19,7 +19,7 @@ public class SteamHugAI extends NeoplasmAIController {
         Tile closestVent = getClosestVent();
         if (closestVent != null){
             targetDestination = closestVent;
-            pathfind(PathfinderExtended.fieldVent);
+            pathfind(PathfinderCustom.fieldVent);
         } else {
             ignore = true;
             unit.kill();
@@ -39,17 +39,7 @@ public class SteamHugAI extends NeoplasmAIController {
         int costType = this.unit.pathType();
         Tile tile = this.unit.tileOn();
         if (tile != null) {
-            Tile targetTile = Vars.pathfinder.getTargetTile(tile, Vars.pathfinder.getField(this.unit.team, costType, pathTarget));
-            Tile nearDanger = closestDanger();
-
-
-            if (nearDanger != null) {
-                float dstance = nearDanger.dst(tile);
-                if (dstance < 80f){
-                    targetTile = getClosestTarget(15, nearDanger, targetDestination, unit);
-                    if (targetTile == null) stucked = true;
-                }
-            }
+            Tile targetTile = RVars.pathfinderCustom.getTargetTileDodge(tile, RVars.pathfinderCustom.getField(this.unit.team, costType, pathTarget), DodgeTile);
 
             if (targetTile != null && tile != targetTile && (costType != 2 || targetTile.floor().isLiquid)) {
                 this.unit.movePref(vec.trns(this.unit.angleTo(targetTile.worldx(), targetTile.worldy()), this.unit.speed()));

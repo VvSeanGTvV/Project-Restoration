@@ -11,6 +11,7 @@ import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import classicMod.content.RVars;
+import classicMod.library.DirectionalGenerator;
 import classicMod.library.blocks.neoplasiaBlocks.CausticHeart;
 import mindustry.Vars;
 import mindustry.ai.Pathfinder;
@@ -266,7 +267,7 @@ public class PathfinderCustom implements Runnable {
     }
 
     @Nullable
-    public Tile getTargetTile(Tile tile, Flowfield path) {
+    public Tile getTargetTileD4(Tile tile, Flowfield path) {
         if (tile == null) {
             return null;
         } else if (!path.initialized) {
@@ -309,6 +310,99 @@ public class PathfinderCustom implements Runnable {
             }
 
             if (current != null && tl != -1 && (path.cost != ((PathCost[])costTypes.items)[0] || !current.dangerous() || tile.dangerous())) {
+                return current;
+            } else {
+                return tile;
+            }
+        }
+    }
+
+    @Nullable
+    public Tile getTargetTileDodge(Tile tile, Flowfield path, Seq<Tile> dangerTile) {
+        if (tile == null) {
+            return null;
+        } else if (!path.initialized) {
+            return tile;
+        } else {
+            if (path.refreshRate > 0 && Time.timeSinceMillis(path.lastUpdateTime) > (long)path.refreshRate) {
+                path.lastUpdateTime = Time.millis();
+                this.tmpArray.clear();
+                path.getPositions(this.tmpArray);
+                synchronized(path.targets) {
+                    if (path.targets.size != 1 || this.tmpArray.size != 1 || path.targets.first() != this.tmpArray.first()) {
+                        path.updateTargetPositions();
+                        this.queue.post(() -> {
+                            this.updateTargets(path);
+                        });
+                    }
+                }
+            }
+
+            int[] values = path.hasComplete ? path.completeWeights : path.weights;
+            int apos = tile.array();
+            int value = values[apos];
+            Tile current = null, danger = null;
+            int tl = 0;
+            Point2[] var8 = DirectionalGenerator.generateDirections(6, false);
+            int var9 = var8.length;
+
+            if (dangerTile.size > 0){
+                danger = dangerTile.copy().sort(tile1 -> tile1.dst(tile)).get(0);
+            }
+
+            for(int var10 = 0; var10 < var9; ++var10) {
+                Point2 point = var8[var10];
+                int dx = tile.x + point.x;
+                int dy = tile.y + point.y;
+                Tile other = Vars.world.tile(dx, dy);
+                if (other != null) {
+                    if (danger == null) {
+                        int packed = Vars.world.packArray(dx, dy);
+                        if (values[packed] < value && (current == null || values[packed] < tl) && path.passable(packed) && (point.x == 0 || point.y == 0 || path.passable(Vars.world.packArray(tile.x + point.x, tile.y)) && path.passable(Vars.world.packArray(tile.x, tile.y + point.y)))) {
+                            current = other;
+                            tl = values[packed];
+                        }
+                    } else {
+                        if (danger.dst(other) > 40){
+                            int packed = Vars.world.packArray(dx, dy);
+                            if (values[packed] < value && (current == null || values[packed] < tl) && path.passable(packed) && (point.x == 0 || point.y == 0 || path.passable(Vars.world.packArray(tile.x + point.x, tile.y)) && path.passable(Vars.world.packArray(tile.x, tile.y + point.y)))) {
+                                current = other;
+                                tl = values[packed];
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (current != null && tl != -1 && (path.cost != ((PathCost[])costTypes.items)[0] || !current.dangerous() || tile.dangerous())) {
+                /*Tile danger;
+                Tile finalCurrent = current;
+                if (dangerTile.size > 0) {
+                    dangerTile.sort(tile1 -> tile1.dst(finalCurrent));
+                    danger = dangerTile.get(0);
+                } else {
+                    danger = null;
+                }
+                if (danger != null){
+                    int size = 4;
+                    int div = size / 2;
+                    Seq<Tile> closestTile = new Seq<>(size*size);
+
+                    for (int y = -div; y < size; y++){
+                        for (int x = -div; x < size; x++){
+                            closestTile.add(Vars.world.tile(x + current.x, y + current.y));
+                        }
+                    }
+                    closestTile.removeAll(tile1 -> tile1.dst(danger) < 40f);
+                    closestTile.sort(tile1 -> tile1.dst(finalCurrent));
+                    if (closestTile.size > 0) {
+                        return closestTile.get(0);
+                    } else {
+                        return current;
+                    }
+                } else {
+                    return current;
+                }*/
                 return current;
             } else {
                 return tile;

@@ -4,6 +4,7 @@ import arc.math.Mathf;
 import arc.math.geom.Geometry;
 import arc.struct.Seq;
 import arc.util.*;
+import classicMod.content.RVars;
 import classicMod.library.blocks.neoplasiaBlocks.CausticHeart;
 import mindustry.Vars;
 import mindustry.content.Blocks;
@@ -110,7 +111,7 @@ public class NeoplasmAIController extends AIController {
         int costType = this.unit.pathType();
         Tile tile = this.unit.tileOn();
         if (tile != null) {
-            Tile targetTile = Vars.pathfinder.getTargetTile(tile, Vars.pathfinder.getField(this.unit.team, costType, pathTarget));
+            Tile targetTile = RVars.pathfinderCustom.getTargetTileDodge(tile, RVars.pathfinderCustom.getField(this.unit.team, costType, pathTarget), DodgeTile);
             Tile nearDanger = closestDanger();
             if (nearDanger != null) {
                 float dstance = nearDanger.dst(tile);
