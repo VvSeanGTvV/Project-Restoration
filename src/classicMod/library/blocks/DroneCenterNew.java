@@ -22,8 +22,6 @@ import mindustry.world.meta.*;
 import static mindustry.Vars.*;
 
 public class DroneCenterNew extends Block {
-
-    //public int unitsMax = 4; TODO make this happen
     /**
      * Unit Type
      **/
