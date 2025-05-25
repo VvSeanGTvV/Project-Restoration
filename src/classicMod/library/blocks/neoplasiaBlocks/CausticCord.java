@@ -467,8 +467,8 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
             float x0 = x - w / 2f;
             float y0 = y - h / 2f;
 
-            boolean flipY = !(facingRot == 0 || facingRot == 1);
-            boolean flipX = !(facingRot == 1 || facingRot == 2);
+            boolean flipY = !(facingRot == 1);
+            boolean flipX = !(facingRot == 3);
 
             float stretchFactor = 6f; // or whatever feels right
             float stretchFront = (((front() instanceof NeoplasmBuilding neo) ? (neo.beat - 1) : 0f)) * stretchFactor;
