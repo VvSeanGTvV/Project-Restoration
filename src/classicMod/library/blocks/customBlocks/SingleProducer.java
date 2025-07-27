@@ -55,7 +55,7 @@ public class SingleProducer extends BlockProducer {
             if (produce) {
                 progress += buildSpeed * edelta();
 
-                if (progress >= recipe.buildCost) {
+                if (progress >= recipe.buildTime) {
                     consume();
                     payload = new BuildPayload(recipe, team);
                     payload.block().placeEffect.at(x, y, payload.size() / tilesize);

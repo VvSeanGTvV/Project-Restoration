@@ -2,6 +2,7 @@ package classicMod.library.ui.dialog;
 
 import arc.*;
 import arc.graphics.g2d.*;
+import arc.input.KeyBind;
 import arc.math.Mathf;
 import arc.math.geom.*;
 import arc.scene.style.*;
@@ -12,6 +13,7 @@ import mindustry.content.Planets;
 import mindustry.gen.*;
 import mindustry.graphics.g3d.*;
 import mindustry.ui.Styles;
+import mindustry.input.Binding;
 
 import java.util.Objects;
 
@@ -87,20 +89,13 @@ public class CreditsCutsceneDialog extends Dialog {
 
     //ScrollPane pane = new ScrollPane(in);
 
-    KeyBinds.KeyBind MenuKeybind;
-
-    KeyBinds.KeyBind findKeybind(String name){
-        for (var keybind : keybinds.getKeybinds()){
-            if (Objects.equals(keybind.name(), name)) return keybind;
-        }
-        return null;
-    }
+    KeyBind MenuKeybind;
 
     boolean hidden;
     public CreditsCutsceneDialog() {
         super();
 
-        MenuKeybind = findKeybind("menu");
+        MenuKeybind = Binding.menu;
     }
 
     public void addCloseListener() {
@@ -127,11 +122,11 @@ public class CreditsCutsceneDialog extends Dialog {
 
         setStyle(baller);
 
-        if (input.keyDown(keybinds.get(MenuKeybind).key)) FinishedCredits();
+        if (input.keyDown(MenuKeybind)) FinishedCredits();
         if (app.isMobile()) {
 
             if (app.isAndroid()) {
-                if (input.keyDown(keybinds.get(MenuKeybind).key)) FinishedCredits();
+                if (input.keyDown(MenuKeybind)) FinishedCredits();
             }
 
             if (firstTap) {
@@ -197,7 +192,7 @@ public class CreditsCutsceneDialog extends Dialog {
 
     public void drawEsc(float centerX){
         String keybind = getModBundle.get(resMod.meta.name + "-credits.mobile" + app.isMobile());
-        String keybindNotification = (!(app.isMobile())) ? keybinds.get(MenuKeybind).key.toString().toUpperCase() + " " + keybind : keybind;
+        String keybindNotification = (!(app.isMobile())) ? MenuKeybind.value.key.toString().toUpperCase() + " " + keybind : keybind;
         //if (!once && !hidden) { staticTable.add(keybindNotification); once = true; }
 
         if (app.isMobile()) {

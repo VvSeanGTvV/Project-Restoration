@@ -3,7 +3,7 @@ set builded=0
 set copied=0
 
 set modsLocation=%APPDATA%\Mindustry\mods
-set mindustry=D:\user\Downloads\mindustry-windows-64-bit\Mindustry.exe
+set mindustry=D:\gombo\Documents\Mindustry\150.jar
 @echo off
 
 
@@ -32,8 +32,8 @@ goto START
 echo located %modsLocation%
 
 cd build\libs\
-copy ConceptMDesktop.jar %modsLocation%
-if exist ConceptMDesktop.jar del ConceptMDesktop.jar
+copy Project-RestorationDesktop.jar %modsLocation%
+if exist Project-RestorationDesktop.jar del Project-RestorationDesktop.jar
 cd ..\..\
 
 set stage=2

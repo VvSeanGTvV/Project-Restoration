@@ -230,7 +230,7 @@ public class PayloadMassDriverOld extends PayloadBlock {
                     targetSize = recPayload == null ? currentShooter().getPayload().size() : recPayload.size();
                 }
                 //align to shooter rotation
-                turretRotation = Angles.moveToward(turretRotation, tile.angleTo(currentShooter()), rotateSpeed * efficiency());
+                turretRotation = Angles.moveToward(turretRotation, tile.angleTo(currentShooter()), rotateSpeed * efficiency);
             } else if (state == shooting) {
                 //if there's nothing to shoot at OR someone wants to shoot at this thing, bail
                 if (!hasLink || (!waitingShooters.isEmpty() && payload == null)) {
@@ -259,7 +259,7 @@ public class PayloadMassDriverOld extends PayloadBlock {
                     }
                     if (reload <= 0) {
                         //align to target location
-                        turretRotation = Angles.moveToward(turretRotation, targetRotation, rotateSpeed * efficiency());
+                        turretRotation = Angles.moveToward(turretRotation, targetRotation, rotateSpeed * efficiency);
                         //fire when it's the first in the queue and angles are ready.
                         if (other.currentShooter() == this &&
                                 other.state == accepting &&
@@ -391,7 +391,7 @@ public class PayloadMassDriverOld extends PayloadBlock {
             }
             if (linkValid()) {
                 Building target = world.build(link);
-                Drawf.circles(target.x, target.y, (target.block().size / 2f + 1) * tilesize + sin - 2f, Pal.place);
+                Drawf.circles(target.x, target.y, (target.block.size / 2f + 1) * tilesize + sin - 2f, Pal.place);
                 Drawf.arrow(x, y, target.x, target.y, size * tilesize + sin, 4f + sin);
             }
             Drawf.dashCircle(x, y, range, Pal.accent);

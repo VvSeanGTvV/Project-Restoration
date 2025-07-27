@@ -80,8 +80,8 @@ public class RItems extends Items {
 
         Items.erekirItems.add(scrap);
         Items.serpuloItems.add(new Item[]{electrum, denseAlloy, goldPowder});
-        Planets.erekir.hiddenItems.remove(scrap);
-        Planets.erekir.hiddenItems.add(new Item[]{electrum, denseAlloy, goldPowder});
+        //Planets.erekir.hiddenItems.remove(scrap);
+        //Planets.erekir.hiddenItems.add(new Item[]{electrum, denseAlloy, goldPowder});
 
         classicItems.addAll(stone, uranium, dirium, steel, iron, titanium);
         classicOnlyItems.add(classicItems).removeAll(i -> !(classicItems.contains(i)));

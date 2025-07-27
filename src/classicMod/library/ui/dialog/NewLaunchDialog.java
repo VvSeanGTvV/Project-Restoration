@@ -85,7 +85,7 @@ public class NewLaunchDialog extends Dialog {
             }
 
             public boolean keyDown(InputEvent event, KeyCode key) {
-                if (event.targetActor != NewLaunchDialog.this || key != KeyCode.escape && key != KeyCode.back && key != Core.keybinds.get(Binding.planet_map).key) {
+                if (event.targetActor != NewLaunchDialog.this || key != KeyCode.escape && key != KeyCode.back && key != Binding.planetMap.value.key) {
                     return false;
                 } else {
                     /*if (NewLaunchDialog.this.showing() && NewLaunchDialog.this.newPresets.size > 1) {

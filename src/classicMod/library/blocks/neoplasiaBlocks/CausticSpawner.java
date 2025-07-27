@@ -69,9 +69,7 @@ public class CausticSpawner extends NeoplasmBlock {
                     }
                 }
             }
-            float fl = (hasItems) ? 1f : 0f;
-            efficiency(fl);
-            efficiency = fl;
+            efficiency = (hasItems) ? 1f : 0f;
         }
 
         @Override

@@ -18,6 +18,7 @@ import mindustry.world.meta.*;
 import mindustry.core.*;
 
 import static mindustry.Vars.*;
+import static mindustry.type.ItemStack.with;
 import static mindustry.world.meta.StatValues.*;
 
 public class ExtendedStat {
@@ -102,7 +103,7 @@ public class ExtendedStat {
                     bt.left().top().defaults().padRight(3).left();
                     bt.table(title -> {
                         float padOffset = 10;
-                        title.add(new ItemDisplay(t.item, t.amount, false)).padRight(4).right();
+                        title.add(new ItemsDisplay()).padRight(4).right();
                         //title.image(icon(t.item)).size(3 * 8).padRight(4).right().scaling(Scaling.fit).top();
                         title.add(t.item.localizedName).padRight(4 + t.amount > 99 ? padOffset + 4 : padOffset + 0).left().center();
                         //title.add(String.valueOf(t.amount));

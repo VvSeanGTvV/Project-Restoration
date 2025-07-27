@@ -41,7 +41,7 @@ public class ReplacementFlyingAI extends RallyAI {
             }
             if (target == null) {
                 NearbyCenter();
-                building = Units.closestBuilding(unit.team, unit.x, unit.y, MaximumRangeCommand, b -> (b instanceof LegacyCommandCenter.LegacyCommandCenterBuild lccb) && b.isValid() && !(b.isNull()) && RallyAI.UnitState.all[lccb.config()] == this.state);
+                building = Units.closestBuilding(unit.team, unit.x, unit.y, MaximumRangeCommand, b -> (b instanceof LegacyCommandCenter.LegacyCommandCenterBuild lccb) && b.isValid() && RallyAI.UnitState.all[lccb.config()] == this.state);
                 if (building != null) {
                     circleBlock(65f + Mathf.randomSeed(unit.id) * 100);
                     target = building;

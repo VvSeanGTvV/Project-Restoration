@@ -232,9 +232,11 @@ public class RSerpuloTechTree {
             });
         });
 
-        margeNode(launchPad, () -> {
-            node(launchPadLarge, () -> {
-                node(RBlocks.interplanetaryAccelerator, Seq.with(new SectorComplete(planetaryTerminal))); //Endgame bois
+        margeNode(advancedLaunchPad, () -> {
+            node(legacylaunchPad, () -> {
+                node(launchPadLarge, () -> {
+                    node(RBlocks.interplanetaryAccelerator, Seq.with(new SectorComplete(planetaryTerminal))); //Endgame bois
+                });
             });
         });
 

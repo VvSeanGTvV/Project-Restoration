@@ -26,6 +26,7 @@ import mindustry.world.meta.*;
 import java.util.Iterator;
 
 import static classicMod.library.ai.PathfinderExtended.*;
+import static mindustry.Vars.state;
 
 public class PathfinderCustom implements Runnable {
     private static final long maxUpdate = Time.millisToNanos(8L);
@@ -123,51 +124,64 @@ public class PathfinderCustom implements Runnable {
         this.cache = new Flowfield[256][5][5];
     }
 
-    public int packTile(Tile tile) {
-        boolean nearLiquid = false;
-        boolean nearSolid = false;
-        boolean nearLegSolid = false;
-        boolean nearGround = false;
-        boolean solid = tile.solid();
-        boolean allDeep = tile.floor().isDeep();
+    /** Packs a tile into its internal representation. */
+    public int packTile(Tile tile){
+        boolean nearLiquid = false, nearSolid = false, nearLegSolid = false, nearGround = false, solid = tile.solid(), allDeep = tile.floor().isDeep(), nearDeep = allDeep;
 
-        int tid;
-        for(tid = 0; tid < 4; ++tid) {
-            Tile other = tile.nearby(tid);
-            if (other != null) {
+        for(int i = 0; i < 4; i++){
+            Tile other = tile.nearby(i);
+            if(other != null){
                 Floor floor = other.floor();
                 boolean osolid = other.solid();
-                if (floor.isLiquid) {
-                    nearLiquid = true;
-                }
-
-                if (osolid && !other.block().teamPassable) {
-                    nearSolid = true;
-                }
-
-                if (!floor.isLiquid) {
-                    nearGround = true;
-                }
-
-                if (!floor.isDeep()) {
+                if(floor.isLiquid && floor.isDeep()) nearLiquid = true;
+                //TODO potentially strange behavior when teamPassable is false for other teams?
+                if(osolid && !other.block().teamPassable) nearSolid = true;
+                if(!floor.isLiquid) nearGround = true;
+                if(!floor.isDeep()){
                     allDeep = false;
+                }else{
+                    nearDeep = true;
                 }
+                if(other.legSolid()) nearLegSolid = true;
 
-                if (other.legSolid()) {
-                    nearLegSolid = true;
-                }
-
-                if (solid && !tile.block().teamPassable) {
-                    int[] var10000 = this.tiles;
-                    int var10001 = other.array();
-                    var10000[var10001] |= 2097152;
+                //other tile is now near solid
+                if(solid && !tile.block().teamPassable && other.array() < tiles.length){
+                    tiles[other.array()] |= PathTile.bitMaskNearSolid;
                 }
             }
         }
 
-        tid = tile.getTeamID();
-        return PathTile.get(tile.build != null && solid && !(tile.block() instanceof CoreBlock) ? Math.min((int)(tile.build.health / 40.0F), 80) : 0, tid == 0 && tile.build != null && Vars.state.rules.coreCapture ? 255 : tid, solid, tile.floor().isLiquid, tile.legSolid(), nearLiquid, nearGround, nearSolid, nearLegSolid, tile.floor().isDeep(), tile.floor().damageTaken > 1.0E-5F, allDeep, tile.block().teamPassable);
+        //check diagonals for allDeep
+        if(allDeep){
+            for(int i = 0; i < 4; i++){
+                Tile other = tile.nearby(Geometry.d8edge[i]);
+                if(other != null && !other.floor().isDeep()){
+                    allDeep = false;
+                    break;
+                }
+            }
+        }
+
+        int tid = tile.getTeamID();
+
+        return PathTile.get(
+                tile.build == null || !solid || tile.block() instanceof CoreBlock ? 0 : Math.min((int)(tile.build.health / 40), 80),
+                tid == 0 && tile.build != null && state.rules.coreCapture ? 255 : tid, //use teamid = 255 when core capture is enabled to mark out derelict structures
+                solid,
+                tile.floor().isLiquid,
+                tile.legSolid(),
+                nearLiquid,
+                nearGround,
+                nearSolid,
+                nearLegSolid,
+                tile.floor().isDeep(),
+                tile.floor().damages(),
+                allDeep,
+                nearDeep,
+                tile.block().teamPassable
+        );
     }
+
 
     public int get(int x, int y) {
         return this.tiles[x + y * wwidth];

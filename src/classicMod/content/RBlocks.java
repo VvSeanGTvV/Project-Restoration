@@ -7,6 +7,7 @@ import arc.math.*;
 import arc.struct.Seq;
 import classicMod.library.ai.MissileTargetAI;
 import classicMod.library.blocks.*;
+import classicMod.library.blocks.DuctJunction;
 import classicMod.library.blocks.customBlocks.*;
 import classicMod.library.blocks.legacyBlocks.*;
 import classicMod.library.blocks.neoplasiaBlocks.*;
@@ -96,6 +97,7 @@ public class RBlocks {
     surgeDuct, //Distribution - Erekir - Prototype [v7-dev]
     burstDrill, //Drill - Erekir - Prototype [v7-dev]
 
+    legacylaunchPad, //Launchpads - [v7]
     droneCenter, payloadLaunchpad, commandCenter, payloadPropulsionTower, //TEMPORARY TESTING
 
     fracture, horde, chrome, tinyBreach, //Turrets - Erekir - Prototype [v7-dev]
@@ -1108,7 +1110,7 @@ public class RBlocks {
             consumeLiquid(Liquids.water, 0.2f);
         }};
 
-        largeCliffCrusher = new NewWallCrafter("large-cliff-crusher"){{
+        /*largeCliffCrusher = new WallCrafter("large-cliff-crusher"){{
             requirements(Category.production, with(Items.silicon, 80, Items.surgeAlloy, 15, Items.beryllium, 100, Items.tungsten, 50));
             consumePower(30 / 60f);
 
@@ -1128,7 +1130,7 @@ public class RBlocks {
 
             //alternatively, boost using nitrogen:
             //consumeLiquid(Liquids.nitrogen, 3f / 60f).boost();
-        }};
+        }};*/
 
 
         //Turrets
@@ -1813,7 +1815,18 @@ public class RBlocks {
             itemCapacity = 300;
             launchTime = 60f * 35;
             hasPower = true;
+            acceptMultipleItems = true;
             consumePower(6f);
+        }};
+
+        legacylaunchPad = new LaunchPad("launch-pad"){{
+            requirements(Category.effect, BuildVisibility.campaignOnly, with(Items.copper, 350, Items.silicon, 140, Items.lead, 200, Items.titanium, 150));
+            size = 3;
+            itemCapacity = 100;
+            launchTime = 60f * 20;
+            hasPower = true;
+            acceptMultipleItems = true;
+            consumePower(4f);
         }};
 
         commandCenter = new LegacyCommandCenter("command-center"){{

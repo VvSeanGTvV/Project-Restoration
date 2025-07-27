@@ -328,7 +328,7 @@ public class RBullets {
             @Override
             public void init(Bullet b){
                 for(int i = 0; i < rays; i++){
-                    Damage.collideLine(b, b.team, hitEffect, b.x, b.y, b.rotation(), rayLength - Math.abs(i - (rays / 2)) * 20f);
+                    Damage.collideLine(b, b.team, b.x, b.y, b.rotation(), rayLength - Math.abs(i - (rays / 2)) * 20f);
                 }
             }
 

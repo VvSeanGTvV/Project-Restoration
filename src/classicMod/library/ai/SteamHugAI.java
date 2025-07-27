@@ -36,7 +36,7 @@ public class SteamHugAI extends NeoplasmAIController {
     @Override
     public void pathfind(int pathTarget) {
         stucked = false;
-        int costType = this.unit.pathType();
+        int costType = this.unit.type.flowfieldPathType;
         Tile tile = this.unit.tileOn();
         if (tile != null) {
             Tile targetTile = RVars.pathfinderCustom.getTargetTileDodge(tile, RVars.pathfinderCustom.getField(this.unit.team, costType, pathTarget), DodgeTile);

@@ -3,7 +3,9 @@ package classicMod.library.blocks;
 import arc.*;
 import arc.Graphics.Cursor;
 import arc.Graphics.Cursor.SystemCursor;
+import arc.graphics.Blending;
 import arc.graphics.Color;
+import arc.graphics.Texture;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.scene.ui.layout.*;
@@ -16,6 +18,7 @@ import mindustry.content.*;
 import mindustry.core.UI;
 import mindustry.ctype.UnlockableContent;
 import mindustry.entities.Effect;
+import mindustry.entities.Lightning;
 import mindustry.entities.units.UnitController;
 import mindustry.game.EventType.*;
 import mindustry.game.Schematic;
@@ -53,6 +56,13 @@ public class NewAccelerator extends Block {
 
     public float launchTime = 60f * 10f;
     public float buildTime = 60f * 2f;
+
+    public int launchLightning = 20;
+    public Color lightningColor = Pal.accent;
+    public float lightningDamage = 40;
+    public float lightningOffset = 24f;
+    public int lightningLengthMin = 5, lightningLengthMax = 25;
+    //public double lightningLaunchChance = 0.8;
 
     public float thrusterLength = 14f / 4f;
     //TODO dynamic
@@ -148,6 +158,8 @@ public class NewAccelerator extends Block {
         float originMinZoom, originMaxZoom;
         int stageLaunch = 0;
         boolean reset = true;
+        protected float cloudSeed = Mathf.random(1f);
+        float cameraScl = renderer.getDisplayScale();
 
         @Override
         public boolean shouldAutoTarget() {
@@ -277,13 +289,17 @@ public class NewAccelerator extends Block {
                 if (stageLaunch == 1) {
                     launchOppositeAnimation = Mathf.clamp(launchOppositeAnimation - 0.01f * Time.delta);
                     if (launchAnimation < 0.01f) {
-                        Effect.shake(3f, 3f, this);
+                        Effect.shake(10f, 14f, this);
                         //settings.put("unlocks" + "-launched-planetary", true);
                     }
 
                     if (launchAnimation < 0.0001f) {
                         Fx.coreLaunchConstruct.at(x, y, launchBlock.size);
-                        RFx.launchAccelerator.at(x, y);
+                        Fx.launchAccelerator.at(x, y);
+
+
+                        //Fx.coreLaunchConstruct.at(x, y, launchBlock.size);
+                        //RFx.launchAccelerator.at(x, y);
                     }
 
                     zoomStyle = Interp.pow3In.apply(Scl.scl(0.02f), Scl.scl(maxScaleZoom), Mathf.clamp(1f - launchpadTimer * 2f));
@@ -363,6 +379,10 @@ public class NewAccelerator extends Block {
             float warpSquareStroke = 1.25f;
 
             if (stageLaunchAnimation == 0) {
+                Draw.blend(Blending.additive);
+                Fill.light(x, y, 15, launchBlock.size * tilesize * 1f, Tmp.c2.set(Pal.accent).a(launchTime / 30f), Tmp.c1.set(Pal.accent).a(0f));
+                Draw.blend();
+
                 Draw.rect(launchBlock.uiIcon, x, y);
 
                 Color epic = new Color(team.color.r, team.color.g, team.color.b, Mathf.clamp(launchAnimation));
@@ -411,7 +431,6 @@ public class NewAccelerator extends Block {
                     float length = 26f * Opposite;
                     Draw.rect(arrowRegion, x + Angles.trnsx(rot, length), y + Angles.trnsy(rot, length), rot + 180f);
                 }
-
             }
 
             Draw.reset();
@@ -445,37 +464,68 @@ public class NewAccelerator extends Block {
 
         //damn
         public void DrawCoreLaunch() {
+            var clouds = Core.assets.get("sprites/clouds.png", Texture.class);
+            float fin = 1f - (launchpadTimer*1.5f);
+            float fout = 1f - fin;
+            float scl = Scl.scl(4f) / cameraScl;
+            float pfin = Interp.pow3Out.apply(fin), pf = Interp.pow2In.apply(fout);
+
+            //draw particles
+            Draw.color(Pal.lightTrail);
+            Angles.randLenVectors(1, pfin, 100, 800f * scl * pfin, (ax, ay, ffin, ffout) -> {
+                Lines.stroke(scl * ffin * pf * 3f);
+                Lines.lineAngle(x + ax, y + ay, Mathf.angle(ax, ay), (ffin * 20 + 1f) * scl);
+            });
+            Draw.color();
+
+            if(state.rules.cloudColor.a > 0.0001f){
+                float scaling = CoreBlock.cloudScaling;
+                float sscl = Math.max(1f + Mathf.clamp(fin + CoreBlock.cfinOffset) * CoreBlock.cfinScl, 0f) * cameraScl;
+
+                Tmp.tr1.set(clouds);
+                Tmp.tr1.set(
+                        (Core.camera.position.x - Core.camera.width/2f * sscl) / scaling,
+                        (Core.camera.position.y - Core.camera.height/2f * sscl) / scaling,
+                        (Core.camera.position.x + Core.camera.width/2f * sscl) / scaling,
+                        (Core.camera.position.y + Core.camera.height/2f * sscl) / scaling);
+
+                Tmp.tr1.scroll(10f * cloudSeed, 10f * cloudSeed);
+
+                Draw.alpha(Mathf.sample(CoreBlock.cloudAlphas, fin + CoreBlock.calphaFinOffset) * CoreBlock.cloudAlpha);
+                Draw.mixcol(state.rules.cloudColor, state.rules.cloudColor.a);
+                Draw.rect(Tmp.tr1, Core.camera.position.x, Core.camera.position.y, Core.camera.width, Core.camera.height);
+                Draw.reset();
+            }
 
             float thrustTimer = Interp.pow2In.apply(Mathf.clamp(launchpadPrepTimer));
             //float cx = cx(), cy = y;
             float rotation = launchpadTimer * (130f + Mathf.randomSeedRange(id(), 50f));
             float thrustOpen = 0.25f;
             float thrusterFrame = thrustTimer >= thrustOpen ? 1f : thrustTimer / thrustOpen;
-            float scl = Scl.scl(4f) / renderer.getDisplayScale();
+            float cscl = Scl.scl(4f) / renderer.getDisplayScale();
 
             Draw.z(Layer.weather - 1);
 
             float thrusterSize = Mathf.sample(thrusterSizes, (launchpadPrepTimer / 1.5f));
 
             float size = launchBlock.size;
-            float strength = ((1f + (size - 3) / 2.5f) * scl * thrusterSize * (0.95f + Mathf.absin(2f, 0.1f)));
-            float offset = (size - 3) * 3f * scl;
+            float strength = ((1f + (size - 3) / 2.5f) * cscl * thrusterSize * (0.95f + Mathf.absin(2f, 0.1f)));
+            float offset = (size - 3) * 3f * cscl;
 
             float rotOffset = 1f + launchpadTimer / 1.35f;
             for (int i = 0; i < 4; i++) {
                 Tmp.v1.trns(i * 90 + rotation * rotOffset, 1f);
 
-                Tmp.v1.setLength((size * tilesize / 2f + 1f) * scl + strength * 2f + offset);
+                Tmp.v1.setLength((size * tilesize / 2f + 1f) * cscl + strength * 2f + offset);
                 Draw.color(Pal.accent);
                 Fill.circle(Tmp.v1.x + x, Tmp.v1.y + y, 6f * strength);
 
-                Tmp.v1.setLength((size * tilesize / 2f + 1f) * scl + strength * 0.5f + offset);
+                Tmp.v1.setLength((size * tilesize / 2f + 1f) * cscl + strength * 0.5f + offset);
                 Draw.color(Color.white);
                 Fill.circle(Tmp.v1.x + x, Tmp.v1.y + y, 3.5f * strength);
             }
 
-            Draw.scl(scl);
-
+            Draw.scl(cscl);
 
             drawLandingThrusters(x, y, rotation * rotOffset, thrusterFrame);
 
@@ -485,8 +535,8 @@ public class NewAccelerator extends Block {
             drawLandingThrusters(x, y, rotation * rotOffset, thrusterFrame);
             Draw.alpha(1f);
 
-            drawShockwave(x, y, scl, 6f, 50f, Mathf.clamp(shockwaveTimer * 4f));
-            drawShockwave(x, y, scl, 3f, 50f, Mathf.clamp(shockwaveTimer * 3f));
+            drawShockwave(x, y, cscl, 6f, 50f, Mathf.clamp(shockwaveTimer * 4f));
+            drawShockwave(x, y, cscl, 3f, 50f, Mathf.clamp(shockwaveTimer * 3f));
 
             if (launchpadPrepTimer >= 0.05f) {
                 tile.getLinkedTiles(t -> {

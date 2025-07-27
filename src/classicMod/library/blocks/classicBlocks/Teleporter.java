@@ -167,7 +167,7 @@ public class Teleporter extends Block{
             if(toggle == -1) return false;
             target = findLink(toggle);
             if(target == null) return false;
-            return source != this && canConsume() && Mathf.zero(1 - efficiency()) && target.items.total() < target.getMaximumAccepted(item);
+            return source != this && canConsume() && Mathf.zero(1 - efficiency) && target.items.total() < target.getMaximumAccepted(item);
         }
 
         @Override

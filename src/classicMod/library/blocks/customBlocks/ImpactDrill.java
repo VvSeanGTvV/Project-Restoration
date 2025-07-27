@@ -92,7 +92,7 @@ public class ImpactDrill extends Drill{
 
                 warmup = Mathf.lerpDelta(warmup, warmupTime, efficiency);
                 float wlD = (warmup / warmupTime);
-                float speed = efficiency() * (wlD);
+                float speed = efficiency * (wlD);
                 timeDrilled += speed;
 
                 if (warmup >= warmupTime) {

@@ -42,7 +42,7 @@ import static mindustry.Vars.*;
 
 public class ClassicMod extends Mod{
     /** Mod's current Version **/
-    public static String ModVersion = "5.0 Alpha";
+    public static String ModVersion = "5.0 Alpha (v8)";
     /** Mod's current Build **/
     public static final String BuildVer = "14";
     /** Mod's internal name **/

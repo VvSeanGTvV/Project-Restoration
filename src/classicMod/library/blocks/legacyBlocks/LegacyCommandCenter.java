@@ -180,10 +180,10 @@ public class LegacyCommandCenter extends Block {
                         if (targetClosest(targetM) != null) {
                             var target = targetClosest(targetM);
                             if (target != null && targetM.hasWeapons()) {
-                                ai.command = targetM.type.defaultCommand == null ? targetM.type.commands[0] : targetM.type.defaultCommand;
+                                ai.command = targetM.type.defaultCommand == null ? targetM.type.commands.get(0) : targetM.type.defaultCommand;
                             }
                         } else {
-                            var building = Units.closestBuilding(targetM.team, targetM.x, targetM.y, MaximumRangeCommand, b -> (b instanceof LegacyCommandCenter.LegacyCommandCenterBuild) && b.isValid() && !(b.isNull()));
+                            var building = Units.closestBuilding(targetM.team, targetM.x, targetM.y, MaximumRangeCommand, b -> (b instanceof LegacyCommandCenter.LegacyCommandCenterBuild) && b.isValid());
                             if (targetM.isFlying()) ai.circle(building, 65f + Mathf.randomSeed(targetM.id) * 100);
                             else {
                                 ai.pathfind(PathfinderExtended.fieldCommandCenter);
@@ -195,7 +195,7 @@ public class LegacyCommandCenter extends Block {
                         }
                     }
                     if (Objects.equals(CommandSelect, "attack")) {
-                        ai.command = targetM.type.defaultCommand == null ? targetM.type.commands[0] : targetM.type.defaultCommand;
+                        ai.command = targetM.type.defaultCommand == null ? targetM.type.commands.get(0) : targetM.type.defaultCommand;
                     }
                 }
             }

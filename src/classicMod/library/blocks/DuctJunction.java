@@ -11,17 +11,19 @@ import arc.util.io.*;
 import mindustry.entities.units.BuildPlan;
 import mindustry.gen.*;
 import mindustry.graphics.Layer;
+import mindustry.io.TypeIO;
 import mindustry.type.Item;
 import mindustry.world.Block;
 import mindustry.world.blocks.distribution.Junction;
 import mindustry.world.meta.BlockGroup;
+import mindustry.world.meta.Stat;
 
 import static mindustry.Vars.*;
 
 public class DuctJunction extends Block {
     public float speed = 5.0F;
-    public int capacity = 6;
     public Color transparentColor = new Color(0.4F, 0.4F, 0.4F, 0.1F);
+    public TextureRegion bottomRegion;
 
     public DuctJunction(String name) {
         super(name);
@@ -42,6 +44,13 @@ public class DuctJunction extends Block {
     }
 
     @Override
+    public void load(){
+        super.load();
+        squareSprite = true;
+        bottomRegion = Core.atlas.find(name + "-bottom");
+    }
+
+    @Override
     protected TextureRegion[] icons() {
         return new TextureRegion[]{Core.atlas.find(name + "-bottom"), Core.atlas.find(name)};
     }
@@ -53,178 +62,125 @@ public class DuctJunction extends Block {
         Draw.rect(name, plan.drawx(), plan.drawy(), (float)(plan.rotation * 90));
     }
 
-    public class DuctJunctionBuild extends Building {
-        public final itemData[][] itemBuffer = new itemData[4][capacity];
-        public final int[] index = new int[5];
+    @Override
+    public void init() {
+        super.init();
+        stats.remove(Stat.itemCapacity);
+    }
 
-        boolean validBuilding(Building dest, Item item){
-            if (item == null || dest == null) return false;
-            return dest.acceptItem(this, item) && dest.team == this.team;
+    public class DuctJunctionBuild extends Building {
+        Item[] itemdata = new Item[4];
+        float[] times = new float[4];
+
+
+        @Override
+        public void draw(){
+            Draw.z(Layer.blockUnder);
+            Draw.rect(bottomRegion, x, y);
+
+            Draw.z(Layer.blockUnder + 0.1f);
+
+            for(int i = 0; i < 4; i++){
+                Item current = itemdata[i];
+
+                if(current != null){
+                    float progress = (Mathf.clamp((times[i] + 1f) / (2f - 1f/speed)) - 0.5f) * 2f;
+
+                    Draw.rect(current.fullIcon,
+                            x + Geometry.d4x(i) * tilesize / 2f * progress,
+                            y + Geometry.d4y(i) * tilesize / 2f * progress,
+                            itemSize, itemSize
+                    );
+                }
+            }
+
+            Draw.color(transparentColor);
+            Draw.rect(bottomRegion, x, y);
+            Draw.color();
+
+            Draw.z(Layer.blockUnder + 0.2f);
+
+            Draw.rect(region, x, y);
         }
 
         @Override
-        public void updateTile() {
-            for (int i = 0; i < 4; ++i) {
-                if (index[i] > 0) {
-                    itemData data = itemBuffer[i][0];
-                    if (index[i] > capacity) {
-                        index[i] = capacity;
-                    }
+        public void updateTile(){
+            float inc = edelta() / speed * 2f;
 
-                    float progress = data.progress;
+            for(int i = 0; i < 4; i++){
+                Item item = itemdata[i];
+                if(item != null){
 
-                    Building dest = nearby(data.rotation);
-                    progress += edelta() / (speed + 0.05f) * 2f;
+                    times[i] += inc;
+                    if(times[i] >= (1f - 1f/speed)){
+                        Building next = nearby(i);
 
-                    data.updateProgress((dest == null) ? 0f : progress);
-                    if (dest != null) {
-                        if (progress >= 2f - 1F) {
-                            Item item = data.item;
-                            if (item != null && validBuilding(dest, item)) {
-                                dest.handleItem(this, item);
-                                //itemBuffer[i][t - 1] = null;
-                                //itemBuffer[i][index[i]] = null;
-                                for (int a = 0; a < itemBuffer[i].length; a++){
-                                    if (a == 0) itemBuffer[i][a] = null;
-                                    else itemBuffer[i][a - 1] = itemBuffer[i][a];
-                                }
-                                index[i]--;
-                                //itemDataSeq.remove(data);
-                            }
+                        if(next != null && next.team == team && next.acceptItem(this, item)){
+                            next.handleItem(this, item);
+                            itemdata[i] = null;
+                            items.remove(item, 1);
+                            times[i] %= (1f - 1f/speed);
                         }
                     }
+                }else{
+                    //TODO: reset progress or not?
+                    times[i] = 0f;
                 }
-                //Log.info(totalNonNull(i) + " | " + index[i]);
             }
-
         }
 
-        public int acceptStack(Item item, int amount, Teamc source) {
+        @Override
+        public void handleItem(Building source, Item item){
+            int relative = source.relativeTo(tile);
+            if(relative == -1) return;
+            itemdata[relative] = item;
+            times[relative] = -1f;
+            items.add(item, 1);
+        }
+
+        @Override
+        public boolean acceptItem(Building source, Item item){
+            int relative = source.relativeTo(tile);
+
+            if(relative == -1 || itemdata[relative] != null) return false;
+            Building to = nearby(relative);
+            return to != null && to.team == team;
+        }
+
+        @Override
+        public int acceptStack(Item item, int amount, Teamc source){
             return 0;
         }
 
         @Override
-        public void handleItem(Building source, Item item) {
-            int relative = source.relativeTo(this.tile);
-            if (relative != -1){
-                itemBuffer[relative][index[relative]++] = new itemData(item, relative);
-            }
-        }
-
-        int totalNonNull(int dir){
-            int number = 0;
-            for (var data : itemBuffer[dir]){
-                if (data != null) number++;
-            }
-            return number;
-        }
-
-        boolean accepts(int dir, int maximum){
-            return index[dir] < itemBuffer[dir].length;
-        }
-        @Override
-        public boolean acceptItem(Building source, Item item) {
-            int relative = source.relativeTo(this.tile);
-            if (relative != -1 && accepts(relative, capacity)){
-                Building to = nearby(relative);
-                return to != null && to.team == this.team && to.acceptItem(this, item);
-            } else {
-                return false;
-            }
-        }
-
-        @Override
-        public void draw() {
-            Draw.z(Layer.blockUnder);
-            Draw.rect(name + "-bottom", x, y);
-
-            drawItems();
-
-            Draw.z(Layer.blockUnder + 0.2f);
-            Draw.color(transparentColor);
-            Draw.rect(name + "-bottom", x, y, rotation);
-            Draw.color();
-            Draw.rect(name, x, y);
-
-            Draw.reset();
-        }
-
-        public void drawItems(){
-            for(int i = 0; i < 4; ++i){
-                for(var data : itemBuffer[i]){
-                    if (data == null) continue;
-
-                    Draw.z(29.6F);
-                    float progress = data.progress;
-                    int r = data.rotation;
-                    int recDir = r - 2;
-                    Item current = data.item;
-                    Tmp.v1.set(Geometry.d4x(recDir) * tilesize / 2f, Geometry.d4y(recDir) * tilesize / 2f)
-                            .lerp(Geometry.d4x(r) * tilesize / 2f, Geometry.d4y(r) * tilesize / 2f,
-                                    Mathf.clamp((progress + 1f) / 2f));
-                    Tmp.v2.set(Geometry.d4x(r) * 0.95f, Geometry.d4y(r) * 0.95f).lerp(Vec2.ZERO, Mathf.clamp((progress + 1f) / 2f));
-
-                    Draw.rect(current.fullIcon, x + Tmp.v1.x - Tmp.v2.x, y + Tmp.v1.y - Tmp.v2.y, itemSize, itemSize);
+        public int removeStack(Item item, int amount){
+            int removed = 0;
+            for(int i = 0; i < 4 && amount > 0; i++){
+                if(itemdata[i] == item){
+                    amount --;
+                    removed ++;
+                    itemdata[i] = null;
+                    items.remove(item, 1);
                 }
             }
-
+            return removed;
         }
 
         @Override
-        public void write(Writes write) {
+        public void write(Writes write){
             super.write(write);
-
-            for(int r = 0; r < 4; ++r) {
-                write.i(index[r]);
-                for (var data : itemBuffer[r]) {
-                    if (data == null) continue;
-                    write.i(data.rotation);
-                    write.i(data.item.id);
-                    write.f(data.progress);
-                }
+            for(int i = 0; i < 4; i++){
+                write.f(times[i]);
+                TypeIO.writeItem(write, itemdata[i]);
             }
         }
 
         @Override
-        public void read(Reads read, byte revision) {
+        public void read(Reads read, byte revision){
             super.read(read, revision);
-
-            for(int r = 0; r < 4; ++r) {
-                int size = read.i();
-                index[r] = size;
-                for (int i = 0; i < size; i++) {
-                    if (size < itemBuffer[r].length) {
-                        int a = read.i();
-                        int id = read.i();
-                        Item item = content.item(id);
-                        float progress = read.f();
-                        itemBuffer[r][i] = new itemData(item, a, progress);
-                    }
-                    //itemDataSeq.add(new itemData(item, r, progress));
-                }
-            }
-        }
-
-        public class itemData {
-            int rotation;
-            float progress;
-            Item item;
-
-            public itemData(Item item, int rotation, float progress){
-                this.rotation = rotation;
-                this.progress = progress;
-                this.item = item;
-            }
-
-            public itemData(Item item, int rotation){
-                this.rotation = rotation;
-                this.progress = -1f;
-                this.item = item;
-            }
-
-
-            public void updateProgress(float progress){
-                this.progress = progress;
+            for(int i = 0; i < 4; i++){
+                times[i] = read.f();
+                itemdata[i] = TypeIO.readItem(read);
             }
         }
     }
