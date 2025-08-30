@@ -16,13 +16,11 @@ public class MantisTail implements Cloneable{
     public TextureRegion TailBegin, TailMiddle, TailEnd;
     public TextureRegion TailBody, TailBodyEnd;
     public TextureRegion TailBodyOutline, TailBodyEndOutline;
-    public Func<MantisTail, MantisMountTail> mountType;
-
     public float timer, lastRot, lastRotEnd, rot, rotEnd;
+    public Func<MantisTail, MantisMountTail> mountType = MantisMountTail::new;
 
     public float shadowElevation = -1f;
     public float shadowElevationScl = 1f;
-
 
     public Vec2 TailOffsetBegin = new Vec2(0f, -7.25f);
     public float[] AngleOffset = new float[]{0f, 0f};
@@ -31,7 +29,6 @@ public class MantisTail implements Cloneable{
 
     public MantisTail(String name){
         spriteName = name;
-        mountType = MantisMountTail::new;
     }
 
     public void load() {
@@ -47,12 +44,7 @@ public class MantisTail implements Cloneable{
     }
 
     public void update(Unit unit){
-        timer += Time.delta / 20f;
-        rot = Mathf.slerpDelta(rot, unit.rotation, 0.35f + tailRotationSpeed);
-        rotEnd = Mathf.slerpDelta(rotEnd, unit.rotation, 0.15f + tailRotationSpeed);
 
-        lastRot = (unit.rotation >= 180f) ? rot - 360f : rot;
-        lastRotEnd = (unit.rotation >= 180f) ? rotEnd - 360f : rotEnd;
     }
 
     @Override

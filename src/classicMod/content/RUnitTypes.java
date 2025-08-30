@@ -475,6 +475,9 @@ public class RUnitTypes {
             Tails.addAll(new MantisTail(name + "-tail"){{
                 tailRotationSpeed = -0.05f;
             }});
+            /*Tails.addAll(new MantisTail(name + "-tail"){{
+                tailRotationSpeed = -0.05f;
+            }}).each(tail -> MountTails.add(tail.mountType.get(tail)));*/
 
             flying = true;
         }};
@@ -1458,6 +1461,8 @@ public class RUnitTypes {
             canBoost = false;
             constructor = MechUnit::create;
             controller = u -> new SuicideAI();
+
+            targetAir = false;
 
             weapons.add(new Weapon() {{
                 reload = 6f;

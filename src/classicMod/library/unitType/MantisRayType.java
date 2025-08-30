@@ -15,6 +15,7 @@ import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.type.weapons.RepairBeamWeapon;
 import mindustry.world.blocks.environment.Floor;
+import classicMod.library.unitType.MantisTail.*;
 
 import static mindustry.Vars.world;
 
@@ -25,12 +26,23 @@ public class MantisRayType extends UnitType {
 
     public MantisRayType(String name) {
         super(name);
+
     }
 
     @Override
     public void update(Unit unit) {
         super.update(unit);
-        Tails.each(tail -> tail.update(unit));
+        //Tails.each(tail -> tail.update(unit));
+        for (MantisTail mount : Tails) {
+            mount.update(unit);
+
+            mount.timer += Time.delta / 20f;
+            mount.rot = Mathf.slerpDelta(mount.rot, unit.rotation, 0.35f + mount.tailRotationSpeed);
+            mount.rotEnd = Mathf.slerpDelta(mount.rotEnd, unit.rotation, 0.15f + mount.tailRotationSpeed);
+
+            mount.lastRot = (unit.rotation >= 180f) ? mount.rot - 360f : mount.rot;
+            mount.lastRotEnd = (unit.rotation >= 180f) ? mount.rotEnd - 360f : mount.rotEnd;
+        }
     }
 
     @Override
@@ -42,9 +54,7 @@ public class MantisRayType extends UnitType {
     public void load() {
         super.load();
         eye = Core.atlas.find(name + "-eye");
-        for (MantisTail Tail : Tails) {
-            Tail.load();
-        }
+        Tails.each(MantisTail::load);
     }
 
     @Override
@@ -128,7 +138,7 @@ public class MantisRayType extends UnitType {
         drawShadowTexture(unit, Tail.TailBodyEndOutline, unit.x - Tmp.v1.x, unit.y - Tmp.v1.y, unit.rotation + lRot1 - 90);
     }
 
-    public void drawWholeTail(Unit unit, MantisTail Tail){
+    public void drawWholeTail(Unit unit, MantisTail Tail) {
         float z = Draw.z();
         Draw.z(z + Tail.layerOffset);
         drawTailShadow(unit, Tail);
@@ -141,7 +151,6 @@ public class MantisRayType extends UnitType {
 
         Draw.z(z);
     }
-
 
     public void drawBody(Unit unit) {
         applyColor(unit);
