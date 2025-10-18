@@ -16,7 +16,6 @@ public class MantisTail implements Cloneable{
     public TextureRegion TailBegin, TailMiddle, TailEnd;
     public TextureRegion TailBody, TailBodyEnd;
     public TextureRegion TailBodyOutline, TailBodyEndOutline;
-    public float timer, lastRot, lastRotEnd, rot, rotEnd;
     public Func<MantisTail, MantisMountTail> mountType = MantisMountTail::new;
 
     public float shadowElevation = -1f;
@@ -43,8 +42,13 @@ public class MantisTail implements Cloneable{
         TailBodyEndOutline = Core.atlas.find(spriteName + "-end-outline");
     }
 
-    public void update(Unit unit){
+    public void update(Unit unit, MantisMountTail mountTail){
+        mountTail.timer += Time.delta / 20f;
+        mountTail.rot = Mathf.slerpDelta(mountTail.rot, unit.rotation, 0.35f + tailRotationSpeed);
+        mountTail.rotEnd = Mathf.slerpDelta(mountTail.rotEnd, unit.rotation, 0.15f + tailRotationSpeed);
 
+        mountTail.lastRot = (unit.rotation >= 180f) ? mountTail.rot - 360f : mountTail.rot;
+        mountTail.lastRotEnd = (unit.rotation >= 180f) ? mountTail.rotEnd - 360f : mountTail.rotEnd;
     }
 
     @Override
@@ -61,6 +65,7 @@ public class MantisTail implements Cloneable{
     public static class MantisMountTail {
         /** Float variable associated with this mount */
         public MantisTail tail;
+        public float timer, lastRot, lastRotEnd, rot, rotEnd;
 
         public MantisMountTail(MantisTail tail) {
             this.tail = tail;

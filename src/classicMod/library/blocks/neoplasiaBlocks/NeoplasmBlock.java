@@ -194,7 +194,7 @@ public class NeoplasmBlock extends Block {
                 for (int dy = 0; dy < 2; dy++) {
                     for (int dx = 0; dx < 2; dx++) {
                         Tile tile = Vars.world.tile(this.tile.x + dx, this.tile.y + dy);
-                        if (tile.floor() != null && (tile.build == null || tile.build instanceof CausticCord.CordBuild)) {
+                        if (tile != null && tile.floor() != null && (tile.build == null || tile.build instanceof CausticCord.CordBuild)) {
                             ore += (tile.drop() != null) ? 1 : 0;
                         }
                     }
