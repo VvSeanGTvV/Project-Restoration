@@ -10,6 +10,7 @@ import classicMod.content.RVars;
 import classicMod.library.GeometryPlus;
 import classicMod.library.blocks.neoplasiaBlocks.CausticHeart;
 import mindustry.Vars;
+import mindustry.ai.Pathfinder;
 import mindustry.content.Blocks;
 import mindustry.entities.Units;
 import mindustry.entities.units.AIController;

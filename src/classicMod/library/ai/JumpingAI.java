@@ -3,6 +3,7 @@ package classicMod.library.ai;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import classicMod.library.unitType.JumpingUnitType;
+import classicMod.library.unitType.unit.JumpingUnit;
 import mindustry.Vars;
 import mindustry.ai.Pathfinder;
 import mindustry.content.Fx;
@@ -18,11 +19,8 @@ import static mindustry.Vars.*;
 public class JumpingAI extends AIController {
 
     protected static final Vec2 v1 = new Vec2();
-    public float timing;
-    public float timingY;
     public boolean stopMoving;
-    public boolean hit;
-    public float hitDelay;
+
     public Effect Stomp;
     public Tile[][] TileUniformUnitSurround;
     boolean once;
@@ -47,28 +45,16 @@ public class JumpingAI extends AIController {
 
     @Override
     public void updateMovement() {
-
-        if (unit.type instanceof JumpingUnitType Ju) {
-            Stomp = Ju.StompEffect;
+        if (unit instanceof JumpingUnit Ju) {
             Building core = unit.closestEnemyCore();
 
             if ((core == null || !unit.within(core, 0.5f))) {
-                boolean move = (Ju.getTimingSine(this) >= 0.5f && !hit);
+                boolean move = (Mathf.sin(Ju.timing) >= 0.5f && !Ju.hit);
                 stopMoving = false;
 
-                if (lastHealth > unit.health) {
-                    hit = true;
+                if (Ju.hit) {
                     stopMoving = true;
                     move = false;
-
-                    if (hitDelay >= 2f) {
-                        hit = false;
-                        lastHealth = unit.health;
-                        hitDelay = 0;
-                    }
-                }
-                if (lastHealth < unit.health) {
-                    lastHealth = unit.health;
                 }
 
 
@@ -90,47 +76,49 @@ public class JumpingAI extends AIController {
                     stopMoving = true;
                 }
 
-                if (!move && !once) {
-                    SurroundingBlock(size);
-                    if (isSurroundedBlockEnemy(size, unit.team)) {
-                        Wave(Ju);
-
-                        for (int x = 0; x < 3; x++) {
-                            for (int y = 0; y < 3; y++) {
-                                DamageBuild(TileUniformUnitSurround[y][x].build);
-                            }
-                        }
-                    }
-
-                    if (Ju.healPercent / 60f > 0f && Ju.healRange > 0f) {
-                        var baller = Units.closest(unit.team, unit.x, unit.y, Ju.healRange, u -> u.isValid() && u.health < u.maxHealth && u != this.unit);
-                        if (baller != null) {
-                            Fx.heal.at(baller);
-                            baller.heal(Ju.healPercent / 60f);
-                        }
-                    }
-
-                    if (TileOn() != null) {
-                        if (FloorOn() != null) {
-                            Fx.unitLand.at(unit.x, unit.y, FloorOn().isLiquid ? 1f : 0.5f, TileOn().floor().mapColor);
-                        } else {
-                            Fx.unitLand.at(unit.x, unit.y, 1f, TileOn().floor().mapColor);
-                        }
-                    }
-                    once = true;
-                }
-                if (move && once && !stopMoving) {
-                    once = false;
-                }
-
                 if (move && !stopMoving) {
                     pathfind(Pathfinder.fieldCore, Pathfinder.costGround);
                 }
                 faceMovement();
+
+                if (unit.type instanceof JumpingUnitType Jua){
+                    if (!move && !once) {
+                        SurroundingBlock(size);
+                        if (isSurroundedBlockEnemy(size, unit.team)) {
+                            Jua.Wave(unit);
+
+                            for (int x = 0; x < 3; x++) {
+                                for (int y = 0; y < 3; y++) {
+                                    DamageBuild(TileUniformUnitSurround[y][x].build);
+                                }
+                            }
+                        }
+
+                        if (Jua.healPercent / 60f > 0f && Jua.healRange > 0f) {
+                            var baller = Units.closest(unit.team, unit.x, unit.y, Jua.healRange, u -> u.isValid() && u.health < u.maxHealth && u != this.unit);
+                            if (baller != null) {
+                                Fx.heal.at(baller);
+                                baller.heal(Jua.healPercent / 60f);
+                            }
+                        }
+
+                        if (TileOn() != null) {
+                            if (FloorOn() != null) {
+                                Fx.unitLand.at(unit.x, unit.y, FloorOn().isLiquid ? 1f : 0.5f, TileOn().floor().mapColor);
+                            } else {
+                                Fx.unitLand.at(unit.x, unit.y, 1f, TileOn().floor().mapColor);
+                            }
+                        }
+                        once = true;
+                    }
+                    if (move && once && !stopMoving) {
+                        once = false;
+                    }
+                }
             }
-        } else {
-            unit.remove();
         }
+
+
     }
 
     void SurroundingBlock(int size) {
@@ -223,14 +211,6 @@ public class JumpingAI extends AIController {
         if (tile == targetTile || (costType == Pathfinder.costNaval && !targetTile.floor().isLiquid)) return;
 
         unit.movePref(vec.trns(unit.angleTo(targetTile.worldx(), targetTile.worldy()), unit.speed()));
-    }
-
-    public void Wave(JumpingUnitType Ju) {
-        if (Ju != null) {
-            if (Ju.StompExplosion) Ju.StompExplosionEffect.at(unit.x, unit.y, 0f, Ju.StompColor);
-            Ju.StompEffect.at(unit.x, unit.y, 10f, Ju.StompColor);
-            //ExtendedFx.dynamicWave.at(unit.x, unit.y, 10f, Color.valueOf("ffd27e"));
-        }
     }
 
     public void DamageBuild(Building b) {

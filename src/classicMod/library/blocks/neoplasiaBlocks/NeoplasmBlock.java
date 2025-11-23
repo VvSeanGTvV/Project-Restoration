@@ -19,6 +19,8 @@ import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.meta.Attribute;
 
+import static classicMod.content.RVars.CordCanDrill;
+
 public class NeoplasmBlock extends Block {
 
     public boolean source = false;
@@ -195,7 +197,7 @@ public class NeoplasmBlock extends Block {
                     for (int dx = 0; dx < 2; dx++) {
                         Tile tile = Vars.world.tile(this.tile.x + dx, this.tile.y + dy);
                         if (tile != null && tile.floor() != null && (tile.build == null || tile.build instanceof CausticCord.CordBuild)) {
-                            ore += (tile.drop() != null) ? 1 : 0;
+                            ore += (tile.drop() != null && CordCanDrill.contains(tile.drop())) ? 1 : 0;
                         }
                     }
                 }

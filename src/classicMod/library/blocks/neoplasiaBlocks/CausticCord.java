@@ -25,6 +25,8 @@ import mindustry.world.meta.*;
 
 import java.awt.*;
 
+import static classicMod.content.RVars.CordCanDrill;
+import static classicMod.content.RVars.pathfinderCustom;
 import static mindustry.Vars.itemSize;
 
 public class CausticCord extends NeoplasmBlock implements Autotiler {
@@ -205,10 +207,10 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
         }
 
         public Tile pathfind(int pathTarget) {
-            int costType = Pathfinder.costGround;
+            int costType = Pathfinder.costNeoplasm;
             Tile tile = this.tile;
             if (tile != null) {
-                Tile targetTile = RVars.pathfinderCustom.getTargetTileD4(tile, RVars.pathfinderCustom.getField(team, costType, pathTarget));
+                Tile targetTile = pathfinderCustom.getTargetTileD4(tile, pathfinderCustom.getField(team, costType, pathTarget));
                 if (tile != targetTile) {
                     return targetTile;
                 }
@@ -248,7 +250,7 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
             if (other != null && other.solid()) {
                 int spaces = calculateSpaces(drill.size, other.x, other.y);
                 Item drop = other.wallDrop();
-                if (drop != null && spaces >= drill.size * drill.size) {
+                if (drop != null && spaces >= drill.size * drill.size && CordCanDrill.contains(drop)) {
                     tile.setBlock(RBlocks.neoplasiaDrill, team);
                 }
             }

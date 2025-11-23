@@ -73,6 +73,7 @@ public class TentacleUnitType extends UnitType {
         //const vec1 = new Vec2();
         //const vec2 = new Vec2();
         //const tPos = new Vec2();
+        applyColor(unit);
         tPos.trns(unit.rotation + offsetAngle - 90, offsetX, startingLength + offsetY);
         //var angleCorrection = -lineageCalculate(vec1, tPos);
         vec2.trns(unit.rotation + offsetAngle - 90, offsetX, startingLength + offsetY);

@@ -7,6 +7,7 @@ import arc.math.Mathf;
 import arc.util.Time;
 import classicMod.content.RFx;
 import classicMod.library.ai.JumpingAI;
+import classicMod.library.unitType.unit.JumpingUnit;
 import mindustry.entities.Effect;
 import mindustry.gen.Unit;
 import mindustry.graphics.*;
@@ -30,10 +31,12 @@ public class JumpingUnitType extends UnitType {
 
     public float healPercent = 0f;
     public float healRange = 0f;
-    boolean flip;
+
+    boolean flip, once;
 
     public JumpingUnitType(String name) {
         super(name);
+        constructor = JumpingUnit::new;
         controller = u -> new JumpingAI();
         outlineRadius = 1;
         flying = false;
@@ -44,23 +47,24 @@ public class JumpingUnitType extends UnitType {
     }
 
     @Override
+    public void update(Unit unit) {
+        super.update(unit);
+        if (unit instanceof JumpingUnit Ju) {
+            if (!once && Mathf.sin(Ju.timing) >= 0.5f) {
+                once = true;
+            } else {
+                once = false;
+            }
+        }
+    }
+
+    @Override
     public void setStats() {
         stats.add(Stat.health, health);
         stats.add(Stat.size, StatValues.squared(hitSize / tilesize, StatUnit.blocks));
         if (healPercent > 0f && healRange > 0f) {
             stats.add(Stat.healing, healPercent, StatUnit.percent);
             stats.add(Stat.range, squaredRange((healRange / tilesize), StatUnit.blocks));
-        }
-    }
-
-    @Override
-    public void update(Unit unit) {
-        if (unit.controller() instanceof JumpingAI ai) {
-            ai.timing += 0.15f * Time.delta;
-            if (getTimingSine(ai) > 0f) {
-                ai.timingY -= 0.275f * Time.delta;
-            }
-            if (ai.hit) ai.hitDelay += fdelta(100f, 60f);
         }
     }
 
@@ -76,19 +80,19 @@ public class JumpingUnitType extends UnitType {
 
     @Override
     public void draw(Unit unit) {
-        if (unit.controller() instanceof JumpingAI ai) {
-            ouch = Core.atlas.find(name + "-hit");
-            body = Core.atlas.find(name);
-            outlineOuchRegion = Core.atlas.find(name + "-hit-outline");
-            bodyOutline = Core.atlas.find(name + "-outline");
-            Draw.reset();
+        ouch = Core.atlas.find(name + "-hit");
+        body = Core.atlas.find(name);
+        outlineOuchRegion = Core.atlas.find(name + "-hit-outline");
+        bodyOutline = Core.atlas.find(name + "-outline");
+        Draw.reset();
 
-            int direction = Mathf.round((unit.rotation / 90) % 4);
-            if (!(direction == 1 || direction == 3)) flip = (direction == 0);
-            Draw.xscl = Mathf.sign(flip);
+        int direction = Mathf.round((unit.rotation / 90) % 4);
+        if (!(direction == 1 || direction == 3)) flip = (direction == 0);
+        Draw.xscl = Mathf.sign(flip);
+        Draw.z(Layer.groundUnit);
+
+        if (unit instanceof JumpingUnit ai) {
             var sine = Mathf.sin(ai.timing);
-            Draw.z(Layer.groundUnit);
-
             applyColor(unit);
             if (sine < -0.85f) {
                 ai.timing = 2f;
@@ -112,10 +116,10 @@ public class JumpingUnitType extends UnitType {
                     Draw.rect(ouch, unit.x, unit.y + 2, (((float) ouch.width / 2) * Mathf.sign(flip)), ((float) ouch.height / 2));
                 }
             }
-
-            Draw.reset();
-            Draw.xscl = -1f;
         }
+
+        Draw.reset();
+        Draw.xscl = -1f;
     }
 
     public void drawOuchOutline(Unit unit, float xscl) {
@@ -125,6 +129,12 @@ public class JumpingUnitType extends UnitType {
             Draw.rect(outlineOuchRegion, unit.x, unit.y + 2, (((float) ouch.width / 2) * xscl), (float) ouch.height / 2);
             Draw.reset();
         }
+    }
+
+    public void Wave(Unit unit) {
+        if (StompExplosion) StompExplosionEffect.at(unit.x, unit.y, 0f, StompColor);
+        StompEffect.at(unit.x, unit.y, 10f, StompColor);
+        //ExtendedFx.dynamicWave.at(unit.x, unit.y, 10f, Color.valueOf("ffd27e"));
     }
 
     @Override
@@ -150,9 +160,5 @@ public class JumpingUnitType extends UnitType {
 
             packer.add(MultiPacker.PageType.main, regionName + "-outline", outlined);
         }
-    }
-
-    public float getTimingSine(JumpingAI ai) {
-        return Mathf.sin(ai.timing);
     }
 }

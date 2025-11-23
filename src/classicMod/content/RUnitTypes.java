@@ -418,10 +418,12 @@ public class RUnitTypes {
             constructor = CrawlUnit::create;
             useUnitCap = false;
 
-
-            controller = u -> new SteamHugAI();
+            //controller = u -> new SteamHugAI();
+            aiController = SteamHugAI::new;
             health = 20;
+            segments = 0;
 
+            crushDamage = 0.5f;
             omniMovement = false;
             targetAir = false;
 

@@ -241,7 +241,7 @@ public class CreditsCutsceneDialog extends Dialog {
         backgroundG.draw(0, 0, graphics.getWidth(), graphics.getHeight());
 
         if (stage == 0){
-            int maxLimit = 5;
+            int maxLimit = 6;
             float fadeTime = 1f;
 
             state.planet = Planets.sun;
@@ -266,7 +266,7 @@ public class CreditsCutsceneDialog extends Dialog {
             }
         }
         if (stage == 1) {
-            int maxLimit = 7;
+            int maxLimit = 8;
             float fadeTime = 1f;
 
             contributeY += Time.delta * 2;
