@@ -4,6 +4,7 @@ import arc.Core;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
+import arc.util.Log;
 import arc.util.Time;
 import classicMod.content.RFx;
 import classicMod.library.ai.JumpingAI;
@@ -36,7 +37,7 @@ public class JumpingUnitType extends UnitType {
 
     public JumpingUnitType(String name) {
         super(name);
-        constructor = JumpingUnit::new;
+        constructor = JumpingUnit::create;
         controller = u -> new JumpingAI();
         outlineRadius = 1;
         flying = false;
@@ -55,6 +56,7 @@ public class JumpingUnitType extends UnitType {
             } else {
                 once = false;
             }
+
         }
     }
 
@@ -76,6 +78,7 @@ public class JumpingUnitType extends UnitType {
         body = Core.atlas.find(name);
         outlineOuchRegion = Core.atlas.find(name + "-hit-outline");
         bodyOutline = Core.atlas.find(name + "-outline");
+
     }
 
     @Override

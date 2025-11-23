@@ -25,16 +25,6 @@ public class JumpingAI extends AIController {
     public Tile[][] TileUniformUnitSurround;
     boolean once;
     int size = 3;
-    private float lastHealth;
-    private float lH;
-    private boolean inraged;
-    private Teamc targetInraged;
-
-    @Override
-    public void init() {
-        super.init();
-        lastHealth = unit.health;
-    }
 
     @Override
     public void updateVisuals() {
@@ -117,8 +107,6 @@ public class JumpingAI extends AIController {
                 }
             }
         }
-
-
     }
 
     void SurroundingBlock(int size) {

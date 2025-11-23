@@ -1,6 +1,7 @@
 package classicMod.library.unitType.unit;
 
 import arc.math.Mathf;
+import arc.util.Log;
 import arc.util.Time;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
@@ -10,7 +11,7 @@ import mindustry.gen.*;
 import static classicMod.library.ui.UIExtended.fdelta;
 
 
-public class JumpingUnit extends MechUnit  {
+public class JumpingUnit extends MechUnit {
     public float timing;
     public float timingY;
     public boolean stopMoving;
@@ -18,11 +19,12 @@ public class JumpingUnit extends MechUnit  {
     public float hitDelay;
     public float lastHealth;
 
-    public float healPercent = 0f;
-    public float healRange = 0f;
-
     public JumpingUnit() {
         super();
+    }
+
+    public static JumpingUnit create() {
+        return new JumpingUnit();
     }
 
     @Override
