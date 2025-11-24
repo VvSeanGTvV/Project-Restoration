@@ -16,6 +16,7 @@ import classicMod.library.ai.*;
 import classicMod.library.ui.UIExtended;
 import classicMod.library.ui.dialog.*;
 import classicMod.library.ui.menu.*;
+import classicMod.library.unitType.unit.JumpingUnit;
 import mindustry.Vars;
 import mindustry.ai.types.CommandAI;
 import mindustry.game.EventType;
@@ -34,6 +35,7 @@ import java.util.Objects;
 
 import static arc.Core.*;
 import static classicMod.AutoUpdate.overBuild;
+import static classicMod.content.RVars.idcMap;
 import static classicMod.library.ui.dialog.StaticImageManager.rebuildManager;
 import static classicMod.library.ui.menu.MenuUI.*;
 import static mindustry.Vars.*;
@@ -237,6 +239,9 @@ public class ClassicMod extends Mod{
 
     @Override
     public void init() {
+        // register all custom constructors
+        registerConstructors();
+
         if (settings.getBool("use-planetmenu")) MenuUI.load();
         AutoUpdate.load();
         AutoUpdate.check(settings.getBool("ignore-update"));
@@ -458,8 +463,14 @@ public class ClassicMod extends Mod{
         }
     }
 
+    public void registerConstructors(){
+        int jumperID = EntityMapping.register("jumper", JumpingUnit::new);
+        Log.info("registered jumper:" + jumperID);
+    }
+
     @Override
     public void loadContent(){
+
         // Load contents
         new RItems().load();
         new OverridableContent().loadOverride();

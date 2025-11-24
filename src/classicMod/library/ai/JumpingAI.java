@@ -2,7 +2,9 @@ package classicMod.library.ai;
 
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
+import arc.util.Log;
 import classicMod.library.unitType.JumpingUnitType;
+import classicMod.library.unitType.unit.Jumperc;
 import classicMod.library.unitType.unit.JumpingUnit;
 import mindustry.Vars;
 import mindustry.ai.Pathfinder;
@@ -35,17 +37,16 @@ public class JumpingAI extends AIController {
 
     @Override
     public void updateMovement() {
-        if (unit instanceof JumpingUnit Ju) {
+        if (unit instanceof Jumperc ai) {
+            float timing = ai.timing();
+            boolean hit = ai.hit();
+
             Building core = unit.closestEnemyCore();
 
             if ((core == null || !unit.within(core, 0.5f))) {
-                boolean move = (Mathf.sin(Ju.timing) >= 0.5f && !Ju.hit);
-                stopMoving = false;
+                boolean move = (Mathf.sin(timing) >= 0.5f && !hit);
 
-                if (Ju.hit) {
-                    stopMoving = true;
-                    move = false;
-                }
+                stopMoving = hit;
 
 
                 if (state.rules.waves && unit.team == state.rules.defaultTeam) {
@@ -70,6 +71,7 @@ public class JumpingAI extends AIController {
                     pathfind(Pathfinder.fieldCore, Pathfinder.costGround);
                 }
                 faceMovement();
+                ai.stopMoving(stopMoving);
 
                 if (unit.type instanceof JumpingUnitType Jua){
                     if (!move && !once) {

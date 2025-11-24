@@ -1,5 +1,6 @@
 package classicMod.content;
 
+import arc.struct.ObjectMap;
 import arc.struct.Seq;
 import classicMod.library.ai.*;
 import mindustry.Vars;
@@ -13,6 +14,9 @@ public class RVars extends Vars {
     public static String CommandOrigin = "attack"; //Public Command Center
     public static RallyAI.UnitState PublicState = RallyAI.UnitState.attack; //Public UnitState
     public static String empty = "restored-mind-nullTexture"; //empty
+
+    /** constructors id registered custom **/
+    public static ObjectMap<String, Integer> idcMap = new ObjectMap<>();
 
     public static PathfinderCustom pathfinderCustom;
 

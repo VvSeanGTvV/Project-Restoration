@@ -8,8 +8,14 @@ import arc.util.Log;
 import arc.util.Time;
 import classicMod.content.RFx;
 import classicMod.library.ai.JumpingAI;
+import classicMod.library.unitType.unit.Jumperc;
 import classicMod.library.unitType.unit.JumpingUnit;
+import mindustry.ai.types.CommandAI;
 import mindustry.entities.Effect;
+import mindustry.game.Team;
+import mindustry.gen.EntityMapping;
+import mindustry.gen.Mechc;
+import mindustry.gen.TimedKillc;
 import mindustry.gen.Unit;
 import mindustry.graphics.*;
 import mindustry.type.UnitType;
@@ -33,11 +39,11 @@ public class JumpingUnitType extends UnitType {
     public float healPercent = 0f;
     public float healRange = 0f;
 
-    boolean flip, once;
+    boolean flip;
 
     public JumpingUnitType(String name) {
         super(name);
-        constructor = JumpingUnit::create;
+        constructor = JumpingUnit::new;
         controller = u -> new JumpingAI();
         outlineRadius = 1;
         flying = false;
@@ -47,18 +53,31 @@ public class JumpingUnitType extends UnitType {
         //lowAltitude = drawCell = isEnemy = false;
     }
 
-    @Override
-    public void update(Unit unit) {
-        super.update(unit);
-        if (unit instanceof JumpingUnit Ju) {
-            if (!once && Mathf.sin(Ju.timing) >= 0.5f) {
-                once = true;
-            } else {
-                once = false;
-            }
-
+    /*@Override
+    public Unit create(Team team) {
+        Unit unit = constructor.get(); //FORCE CREATE (for some reason constructor gets brok)
+        unit.team = team;
+        unit.setType(this);
+        if(unit.controller() instanceof CommandAI command && defaultCommand != null){
+            command.command = defaultCommand;
         }
-    }
+        for(var ability : unit.abilities){
+            ability.created(unit);
+        }
+        unit.ammo = ammoCapacity; //fill up on ammo upon creation
+        unit.elevation = flying ? 1f : 0;
+        unit.heal();
+        if(unit instanceof TimedKillc u){
+            u.lifetime(lifetime);
+        }
+
+        Jumperc u = (Jumperc) unit;
+        u.stompEffect(StompEffect);
+        u.stompEffectExplosion(StompExplosionEffect);
+        u.stompColor(StompColor);
+
+        return unit;
+    }*/
 
     @Override
     public void setStats() {
@@ -73,6 +92,13 @@ public class JumpingUnitType extends UnitType {
     @Override
     public void init() {
         super.init();
+        if(EntityMapping.map(name) != null) {
+            EntityMapping.nameMap.remove(name);
+            EntityMapping.nameMap.put(name, JumpingUnit::new);
+            //EntityMapping.register(name, JumpingUnit::new);
+            constructor = EntityMapping.map(name);
+        }
+
 
         ouch = Core.atlas.find(name + "-hit");
         body = Core.atlas.find(name);
@@ -94,27 +120,28 @@ public class JumpingUnitType extends UnitType {
         Draw.xscl = Mathf.sign(flip);
         Draw.z(Layer.groundUnit);
 
-        if (unit instanceof JumpingUnit ai) {
-            var sine = Mathf.sin(ai.timing);
+        if (unit instanceof Jumperc ai) {
+            float timing = ai.timing();
+            float timingY = ai.timingY();
+            boolean stopMoving = ai.stopMoving();
+            boolean hit = ai.hit();
+
+            var sine = Mathf.sin(timing);
             applyColor(unit);
-            if (sine < -0.85f) {
-                ai.timing = 2f;
-                ai.timingY = 0.5f;
-            }
-            if ((sine > 0f && !ai.stopMoving) && !onlySlide) {
-                var Ysine = Mathf.sin(Mathf.sin(ai.timingY) * 3);
-                if (!ai.hit) {
+            if ((sine > 0f && !stopMoving) && !onlySlide) {
+                var Ysine = Mathf.sin(Mathf.sin(timingY) * 3);
+                if (!hit) {
                     Draw.rect(body, unit.x, unit.y + 2 + Ysine * 3, (((float) body.width / 2) + sine * 5) * Mathf.sign(flip), ((float) body.height / 2) - sine * 10);
                 }
-                if (ai.hit) {
+                if (hit) {
                     drawOuchOutline(unit, Mathf.sign(flip));
                     Draw.rect(ouch, unit.x, unit.y + 2 + Ysine * 3, (((float) ouch.width / 2) + sine * 5) * Mathf.sign(flip), ((float) ouch.height / 2) - sine * 10);
                 }
             } else {
-                if (!ai.hit) {
+                if (!hit) {
                     Draw.rect(body, unit.x, unit.y + 2, (((float) body.width / 2) * Mathf.sign(flip)), (float) body.height / 2);
                 }
-                if (ai.hit) {
+                if (hit) {
                     drawOuchOutline(unit, Mathf.sign(flip));
                     Draw.rect(ouch, unit.x, unit.y + 2, (((float) ouch.width / 2) * Mathf.sign(flip)), ((float) ouch.height / 2));
                 }
