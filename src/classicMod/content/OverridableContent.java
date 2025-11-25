@@ -10,5 +10,7 @@ public class OverridableContent {
 
         Blocks.craters.itemDrop = RItems.stone;
         Blocks.craters.playerUnmineable = true;
+
+        Blocks.grass.attributes.set(RAttribute.grass, 0.15f);
     }
 }

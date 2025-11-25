@@ -52,7 +52,7 @@ public class RBlocks {
     rtgGenerator, //Power [Classic-Hybrid]
 
     warpGate, laserConveyor, // Transportation [v4]
-    stoneMelter, stoneFormer, denseSmelter, arcSmelter, alloySmelter,  stoneSeparator, centrifuge, //Production [v4]
+    stoneMelter, stoneFormer, denseSmelter, arcSmelter, alloySmelter,  stoneSeparator, centrifuge, bioCompressor, growthChamber, //Production [v4]
     fuseMKII, fuseMKI, salvoAlpha, teslaTurret, arcAir, chainTurret, cycloneb57, rippleb41, //Turret [v4]
     plasmaDrill, nuclearDrill, poweredDrill, //Drills [v4]
     wallDense, wallDenseLarge, //Wall [v4]
@@ -587,7 +587,8 @@ public class RBlocks {
                         }}
                 );
 
-                consumeFuels(with(Items.blastCompound, 1));
+                consumeFuels(Items.blastCompound.flammability);
+                //consumeFuels(with(Items.blastCompound, 1));
                 consumePower(4.1f);
                 consumeItems(with(Items.titanium, 5, Items.silicon, 1));
             }
@@ -598,7 +599,7 @@ public class RBlocks {
             requirements(Category.crafting, with(Items.copper, 100));
             outputItem = new ItemStack(RItems.denseAlloy, 1);
             consumeItems(with(Items.copper, 1, Items.lead, 2));
-            consumeFuels(with(Items.coal, 1));
+            //consumeFuels(0.3f);
 
             burnEffect = Fx.coalSmeltsmoke;
             updateEffect = RFx.smeltsmoke;
@@ -639,7 +640,7 @@ public class RBlocks {
             health = 90;
             outputItem = new ItemStack(RItems.dirium, 1);
             consumeItems(with(Items.titanium, 1, Items.lead, 1));
-            consumeFuels(with(Items.coal, 1));
+            //consumeFuels(0.3f);
 
             burnEffect = Fx.coalSmeltsmoke;
             updateEffect = RFx.smeltsmoke;
@@ -690,6 +691,63 @@ public class RBlocks {
 
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawRegion("-spinner", 3, true), new DrawDefault());
         }};
+
+        bioCompressor = new GenericCrafter("compressor"){{
+            requirements(Category.crafting, with(RItems.denseAlloy, 25, Items.silicon, 30));
+            liquidCapacity = 60f;
+            craftTime = 20f;
+            outputLiquid = new LiquidStack(Liquids.oil, 18f / 60f);
+            size = 2;
+            health = 320;
+            hasLiquids = true;
+            hasPower = true;
+            craftEffect = Fx.none;
+            drawer = new DrawMulti(
+                    new DrawRegion("-bottom"),
+                    new DrawPistons(){{
+                        sinMag = 1f;
+                    }},
+                    new DrawDefault(),
+                    new DrawLiquidRegion(),
+                    new DrawRegion("-top")
+            );
+
+            consumeItem(RItems.biomatter, 1);
+            consumePower(0.7f);
+        }};
+
+        growthChamber = new AttributeCrafter("growth-chamber"){{
+            requirements(Category.production, with(Items.lead, 25, RItems.denseAlloy, 15, Items.silicon, 10));
+            outputItem = new ItemStack(RItems.biomatter, 1);
+            craftTime = 120;
+            size = 2;
+            hasLiquids = true;
+            hasPower = true;
+            hasItems = true;
+            liquidCapacity = 80f;
+
+            craftEffect = Fx.none;
+            envRequired |= Env.terrestrial;
+            attribute = RAttribute.grass;
+
+            legacyReadWarmup = true;
+
+            DrawCultivator drawCultivatorGrass = new DrawCultivator();
+            drawCultivatorGrass.plantColor = Color.valueOf("557949");
+            drawCultivatorGrass.plantColorLight = Color.valueOf("73a75f");
+            drawer = new DrawMulti(
+                    new DrawRegion("-bottom"),
+                    new DrawLiquidTile(Liquids.water),
+                    new DrawDefault(),
+                    drawCultivatorGrass,
+                    new DrawRegion("-top")
+            );
+            maxBoost = 2f;
+
+            consumePower(80f / 60f);
+            consumeLiquid(Liquids.water, 22f / 60f);
+        }};
+
 
         heatReactor = new HeatProducer("heat-reactor"){{
             requirements(Category.crafting, with(Items.oxide, 70, Items.graphite, 20, Items.carbide, 10, Items.thorium, 80));

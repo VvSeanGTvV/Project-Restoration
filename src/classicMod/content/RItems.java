@@ -11,7 +11,7 @@ public class RItems extends Items {
             electrum, goldPowder, silver,
 
             //v4 items
-            denseAlloy,
+            denseAlloy, biomatter,
 
             //v4 & Classic Hybrid Items
             stone,
@@ -42,6 +42,9 @@ public class RItems extends Items {
             cost = 2f;
         }};
 
+        biomatter = new Item("biomatter", Color.valueOf("648b55")){{
+            flammability = 1.25f;
+        }};
 
         denseAlloy = new Item("dense-alloy", Color.valueOf("b2c6d2")){{
             cost = 1f;

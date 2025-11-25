@@ -103,8 +103,8 @@ public class ExtendedStat {
                     bt.left().top().defaults().padRight(3).left();
                     bt.table(title -> {
                         float padOffset = 10;
-                        title.add(new ItemsDisplay()).padRight(4).right();
-                        //title.image(icon(t.item)).size(3 * 8).padRight(4).right().scaling(Scaling.fit).top();
+                        //title.add(new ItemsDisplay()).padRight(4).right();
+                        title.image(t.item.uiIcon).size(3 * 8).padRight(4).right().scaling(Scaling.fit).top();
                         title.add(t.item.localizedName).padRight(4 + t.amount > 99 ? padOffset + 4 : padOffset + 0).left().center();
                         //title.add(String.valueOf(t.amount));
                     });
@@ -142,4 +142,31 @@ public class ExtendedStat {
         };
     }
 
+    public static boolean hasItem(Item item, Seq<ItemStack> stacks){
+        boolean yes = false;
+        for (ItemStack itemStack : stacks)
+        {
+            yes = itemStack.item == item;
+            if (yes) break;
+        }
+        return yes;
+    }
+
+    public static StatValue items(float timePeriod, Seq<ItemStack> stacks){
+        return table -> {
+            Seq<Item> list = content.items().select(i -> hasItem(i, stacks) && i.unlockedNow() && !i.isHidden());
+
+            for(int i = 0; i < list.size; i++){
+                table.row();
+                int finalI = i;
+                table.table(Styles.grayPanel, bt -> {
+                    Item item = list.get(finalI);
+                    bt.table(title -> title.left().add(timePeriod <= 0 ? displayItem(item) : displayItem(item, 1, timePeriod, true)).padRight(5)).grow().left();
+                    bt.table(stata -> stata.right().add(Core.bundle.format("stat.efficiency", (item.flammability) * 100))).grow().right();
+                }).padLeft(5).padTop(5).padBottom(5).growX().margin(10);
+
+                table.row();
+            }
+        };
+    }
 }

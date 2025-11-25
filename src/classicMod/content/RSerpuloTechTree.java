@@ -28,6 +28,14 @@ public class RSerpuloTechTree {
             node(RBlocks.rtgGenerator);
         });
 
+        margeNode(cultivator, () -> {
+            node(growthChamber);
+        });
+
+        margeNode(sporePress, () -> {
+            node(bioCompressor);
+        });
+
         margeNode(combustionGenerator, () -> {
             node(shineGenerator);
             node(draugFactory, () -> {

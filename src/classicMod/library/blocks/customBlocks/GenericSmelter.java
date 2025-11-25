@@ -4,9 +4,12 @@ import arc.Core;
 import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
+import arc.struct.ObjectFloatMap;
+import arc.struct.Seq;
 import arc.util.*;
 import arc.util.io.*;
 import classicMod.content.*;
+import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.entities.Effect;
 import mindustry.gen.Building;
@@ -14,6 +17,8 @@ import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.ui.Bar;
 import mindustry.world.blocks.production.GenericCrafter;
+import mindustry.world.consumers.ConsumeItemEfficiency;
+import mindustry.world.consumers.ConsumeItemFilter;
 import mindustry.world.meta.*;
 
 public class GenericSmelter extends GenericCrafter {
@@ -23,6 +28,7 @@ public class GenericSmelter extends GenericCrafter {
      * How long does a fuel last per item.
      **/
     public float burnTime = 60f;
+
     /**
      * Flame Color upon a fuel burn.
      **/
@@ -33,7 +39,12 @@ public class GenericSmelter extends GenericCrafter {
      **/
     public Effect burnEffect = RFx.fuelburn;
 
-    private @Nullable ItemStack[] fuelItems;
+    /**
+     * minimum flammability for it to be useable.
+     **/
+    private float minFlammability = 1f;
+
+    private final Seq<ItemStack> fuelItems = new Seq<>();
 
     public GenericSmelter(String name) {
         super(name);
@@ -43,19 +54,36 @@ public class GenericSmelter extends GenericCrafter {
     @Override
     public void setBars() {
         super.setBars();
-        addBar("fuel-left", (GenericSmelter.GenericSmelterBuild e) -> new Bar(Core.bundle.format("bar.fuel-left"), Pal.ammo, e::progress));
+        addBar("fuel-left", (GenericSmelterBuild e) -> new Bar(Core.bundle.format("bar.fuel-left"), Pal.ammo, e::progress));
     }
 
-    public void consumeFuels(ItemStack[] itemStacks){
-        if(itemStacks != null) fuelItems = itemStacks;
+    /**
+     * What items can be consumable to be used as fuel.
+     * @param minFlammability Minimum flammability for it to work.
+     * @param amount How much it consume per fuel.
+     **/
+    public void consumeFuels(float minFlammability, int amount){
+        this.minFlammability = minFlammability;
+        for (Item item : Vars.content.items()) {
+            if (item.flammability >= minFlammability)
+                fuelItems.add(new ItemStack(item, amount));
+        }
+    }
+
+    /**
+     * What items can be consumable to be used as fuel. (defaults amount of 1/fuel)
+     * @param minFlammability Minimum flammability for it to work.
+     **/
+    public void consumeFuels(float minFlammability){
+        consumeFuels(minFlammability, 1);
     }
 
     @Override
     public void setStats() {
         stats.timePeriod = craftTime;
         super.setStats();
-        if (fuelItems != null) {
-            stats.add(ExtendedStat.fuel, StatValues.items(burnTime, fuelItems));
+        if (fuelItems != null && fuelItems.size != 0) {
+            stats.add(ExtendedStat.fuel, ExtendedStat.items(burnTime, fuelItems));
         }
         stats.remove(Stat.productionTime);
 
@@ -66,8 +94,9 @@ public class GenericSmelter extends GenericCrafter {
 
     @Override
     public void init() {
-        if (fuelItems == null && defaultFuelItem != null) {
-            fuelItems = new ItemStack[]{defaultFuelItem};
+
+        if (fuelItems == null || fuelItems.size == 0) {
+            consumeFuels(this.minFlammability);
         }
 
         if (outputItems != null) hasItems = true;
@@ -76,9 +105,13 @@ public class GenericSmelter extends GenericCrafter {
         super.init();
     }
 
+    @Override
+    public void afterPatch() {
+        super.afterPatch();
+    }
+
     public class GenericSmelterBuild extends GenericCrafterBuild {
-        public float fuelProgress;
-        public float activeScl;
+        public float fuelProgress, activeScl, efficiencyMultiplier = 1f, itemDurationMultiplier = 1;
         protected boolean accepted;
 
         public float progress() {
@@ -88,43 +121,59 @@ public class GenericSmelter extends GenericCrafter {
 
         @Override
         public boolean acceptItem(Building source, Item item) {
-            accepted = false;
-            for (ItemStack itemStack : fuelItems) {
-                accepted = itemStack.item.equals(item) && this.items.get(itemStack.item) < this.getMaximumAccepted(itemStack.item);
-            }
+            accepted = item.flammability >= minFlammability && this.items.get(item) < this.getMaximumAccepted(item);
             return accepted || this.block.consumesItem(item) && this.items.get(item) < this.getMaximumAccepted(item);
         }
 
         /**
          * Consumes fuel/item only and can be useful for GenericSmelter.
-         * @param item Gets the item and consume that specific fuel, including with item amount.
+         * @param itemStack Gets the item and consume that specific fuel, including with item amount.
          **/
-        public void consumeFuel(ItemStack[] item) {
-            for (ItemStack itemStack : item) {
-                Item it1 = itemStack.item;
-                this.items.remove(it1, itemStack.amount);
-            }
+        public void consumeFuel(ItemStack itemStack) {
+            Item it1 = itemStack.item;
+            this.items.remove(it1, itemStack.amount);
         }
 
-        public boolean hasFuel(ItemStack[] fuelItemStack){
-            return this.items.has(fuelItemStack);
+        public boolean hasFuel(Seq<ItemStack> fuelItemStack){
+            boolean yes = false;
+            for (ItemStack itemStack : fuelItemStack)
+            {
+                yes = this.items.has(itemStack.item, itemStack.amount);
+                if (yes) break;
+            }
+            return yes;
+        }
+
+        public ItemStack getFirst(Seq<ItemStack> fuelItemStack){
+            ItemStack first = null;
+            for (ItemStack itemStack : fuelItemStack)
+            {
+                boolean yes = this.items.has(itemStack.item, itemStack.amount);
+                if (yes) {
+                    first = itemStack;
+                    break;
+                }
+            }
+            return first;
         }
 
         @Override
         public void updateTile() {
+            Log.info(hasFuel(fuelItems));
             if (efficiency > 0 && hasFuel(fuelItems)) {
-                //if (this.items.has(fuelItems)) {
-                    activeScl = Mathf.lerpDelta(activeScl, warmupTarget(), warmupSpeed);
-                    fuelProgress += getProgressIncrease(burnTime);
-                    if (fuelProgress >= 1f) {
-                        consumeFuel(fuelItems);
-                        fuelProgress %= 1f;
-                        burnEffect.at(this.x + Mathf.range(2f), this.y + Mathf.range(2f));
-                    }
-                //}
+                activeScl = Mathf.lerpDelta(activeScl, warmupTarget(), warmupSpeed);
+                fuelProgress += getProgressIncrease(burnTime);
+                efficiencyMultiplier = getFirst(fuelItems).item.flammability;
+                if (fuelProgress >= 1f) {
+                    consumeFuel(getFirst(fuelItems));
+                    fuelProgress %= 1f;
+                    burnEffect.at(this.x + Mathf.range(2f), this.y + Mathf.range(2f));
+                }
+                float productionEfficiency = efficiency * efficiencyMultiplier;
 
 
-                progress += getProgressIncrease(craftTime);
+
+                progress += getProgressIncrease(craftTime) * productionEfficiency;
                 warmup = Mathf.approachDelta(warmup, warmupTarget(), warmupSpeed);
 
                 //continuously output based on efficiency

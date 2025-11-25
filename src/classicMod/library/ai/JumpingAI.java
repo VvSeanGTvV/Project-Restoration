@@ -149,7 +149,7 @@ public class JumpingAI extends AIController {
                     var v = TileUniformUnitSurround[y][x];
                     if (v != null) {
                         if (!(v.block() instanceof Floor || v.block() instanceof StaticWall || v.block() instanceof StaticTree || v.block() instanceof Prop))
-                            yeet += Mathf.sign(TileUniformUnitSurround[y][x] != null && TileUniformUnitSurround[y][x].build.team != team);
+                            yeet += Mathf.sign(TileUniformUnitSurround[y][x] != null && TileUniformUnitSurround[y][x].build != null && TileUniformUnitSurround[y][x].build.team != team);
                     }
                 }
             }
