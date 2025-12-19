@@ -21,4 +21,19 @@ public class RSounds {
     public static Sound pew = Vars.tree.loadSound("v5_sounds_pew");
     public static Sound boom = Vars.tree.loadSound("v5_sounds_boom");
     public static Sound respawn = Vars.tree.loadSound("v5_sounds_respawn");
+
+    public static Sound shotgun = Vars.tree.loadSound("shotgun");
+    public static Sound shootSnap = Vars.tree.loadSound("shootSnap");
+    public static Sound largeCannon = Vars.tree.loadSound("largeCannon");
+    public static Sound bolt = Vars.tree.loadSound("bolt");
+    public static Sound laser = Vars.tree.loadSound("laser");
+    public static Sound flame = Vars.tree.loadSound("flame");
+    public static Sound artillery = Vars.tree.loadSound("artillery");
+    public static Sound largeExplosion = Vars.tree.loadSound("largeExplosion");
+    public static Sound missile = Vars.tree.loadSound("missile");
+    public static Sound missileTrail = Vars.tree.loadSound("missileTrail");
+    public static Sound shootBig = Vars.tree.loadSound("shootBig");
+    public static Sound spark = Vars.tree.loadSound("spark");
+    public static Sound lasershoot = Vars.tree.loadSound("lasershoot");
+    public static Sound pewc = Vars.tree.loadSound("pew");
 }

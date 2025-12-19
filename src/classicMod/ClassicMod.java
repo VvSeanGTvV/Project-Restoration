@@ -36,6 +36,7 @@ import java.util.Objects;
 import static arc.Core.*;
 import static classicMod.AutoUpdate.overBuild;
 import static classicMod.content.RVars.idcMap;
+import static classicMod.content.RVars.useNewSound;
 import static classicMod.library.ui.dialog.StaticImageManager.rebuildManager;
 import static classicMod.library.ui.menu.MenuUI.*;
 import static mindustry.Vars.*;
@@ -44,9 +45,9 @@ import static mindustry.Vars.*;
 
 public class ClassicMod extends Mod{
     /** Mod's current Version **/
-    public static String ModVersion = "5.0 Beta";
+    public static String ModVersion = "6.0 Beta";
     /** Mod's current Build **/
-    public static final String BuildVer = "15";
+    public static final String BuildVer = "16";
     /** Mod's internal name **/
     public static String internalMod = "restored-mind";
     public static LoadedMod resMod = mods.locateMod(internalMod);
@@ -383,6 +384,9 @@ public class ClassicMod extends Mod{
                 t.checkPref("beta-update", false);
             }
 
+            t.pref(new UIExtended.Separator("restored-content-menu"));
+            t.checkPref("content-use-new-sound", false);
+
             t.row();
             if(false) { //useless
                 t.pref(new UIExtended.Separator("restored-content-addon"));
@@ -472,6 +476,7 @@ public class ClassicMod extends Mod{
     public void loadContent(){
 
         // Load contents
+        useNewSound = settings.getBool("content-use-new-sound");
         new RItems().load();
         new OverridableContent().loadOverride();
         new RBullets().load();

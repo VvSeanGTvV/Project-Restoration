@@ -15,6 +15,7 @@ public class RVars extends Vars {
     public static RallyAI.UnitState PublicState = RallyAI.UnitState.attack; //Public UnitState
     public static String empty = "restored-mind-nullTexture"; //empty
 
+    public static boolean useNewSound = false;
     /** constructors id registered custom **/
     public static ObjectMap<String, Integer> idcMap = new ObjectMap<>();
 

@@ -3,7 +3,7 @@ set builded=0
 set copied=0
 set modinternalName=Project-Restoration
 set MindustryDir=D:\gombo\Documents\Mindustry
-set MindustryVersion=153
+set MindustryVersion=154_2
 
 set defLaunchFail=launchid.dat
 set defLocation=%~dp0

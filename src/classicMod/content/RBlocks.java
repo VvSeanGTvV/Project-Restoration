@@ -41,6 +41,7 @@ import mindustry.world.meta.*;
 
 import static classicMod.content.RBullets.*;
 import static classicMod.content.RSounds.*;
+import static classicMod.content.RVars.useNewSound;
 import static mindustry.content.Blocks.coreBastion;
 import static mindustry.type.ItemStack.with;
 
@@ -979,9 +980,9 @@ public class RBlocks {
 
                     missileAccelTime = 50f;
                     lowAltitude = true;
-                    loopSound = Sounds.missileTrail;
+                    loopSound = RSounds.missileTrail;
                     loopSoundVolume = 0.6f;
-                    deathSound = Sounds.largeExplosion;
+                    deathSound = RSounds.largeExplosion;
                     targetAir = true;
 
                     fogRadius = 6f;
@@ -1324,7 +1325,7 @@ public class RBlocks {
             coolant = consumeCoolant(0.3f);
 
             scaledHealth = 130;
-            shootSound = Sounds.artillery;
+            shootSound = RSounds.artillery;
         }};
 
         cycloneb57 = new ItemTurret("cyclone-b57"){{
@@ -1365,7 +1366,7 @@ public class RBlocks {
             rotateSpeed = 10f;
             inaccuracy = 11f;
             shootCone = 30f;
-            shootSound = Sounds.shootSnap;
+            shootSound = RSounds.shootSnap;
             coolant = consumeCoolant(0.3f);
 
             scaledHealth = 145;
@@ -1380,7 +1381,7 @@ public class RBlocks {
                     Items.surgeAlloy, fuseShot
             );
             shoot = new ShootSpread(3, 20.0F);
-            shootSound = Sounds.shotgun;
+            shootSound = RSounds.shotgun;
 
             coolant = consumeCoolant(0.35f);
             reload = 40f;
@@ -1398,7 +1399,7 @@ public class RBlocks {
             ammo(
                     RItems.denseAlloy, fuseShot
             );
-            shootSound = Sounds.shotgun;
+            shootSound = RSounds.shotgun;
             reload = 50f;
             shake = 4f;
             range = 80f;
@@ -1422,7 +1423,7 @@ public class RBlocks {
             recoil = 1f;
             size = 1;
             health = 260;
-            shootSound = Sounds.spark;
+            shootSound = RSounds.spark;
             consumePower(3.3f);
             coolant = consumeCoolant(0.1f);
         }};
@@ -1439,7 +1440,7 @@ public class RBlocks {
                 status = StatusEffects.shocked;
                 statusDuration = 60 * 8f;
             }};
-            shootSound = Sounds.spark; //tesla
+            shootSound = RSounds.spark; //tesla
             smokeEffect = Fx.none;
 
             shootEffect = Fx.lightningShoot;
@@ -1546,7 +1547,7 @@ public class RBlocks {
 
         horde = new ItemTurretV6("horde"){{
             requirements(Category.turret, with(Items.tungsten, 35, Items.silicon, 35));
-            shootSound = Sounds.missile;
+            shootSound = useNewSound ? Sounds.shootMissileShort : missile;
             ammo(
                     Items.scrap, new MissileBulletType(4.5f, 30){{
                         inaccuracy = 0.25f;

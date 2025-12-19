@@ -9,6 +9,7 @@ import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
 import classicMod.content.ExtendedStat;
+import classicMod.content.RSounds;
 import classicMod.library.MathE;
 import classicMod.library.blocks.legacyBlocks.LegacyUnitFactory;
 import mindustry.Vars;
@@ -224,9 +225,9 @@ public class EMP extends Block {
                 Building b = Units.findEnemyTile(team, x, y, range, building -> (building instanceof BaseShield.BaseShieldBuild && isValidTarget(building) && !disabled.contains(building) && building.efficiency >= 1f));
                 if (b != null) {
                     effect.at(this);
-                    Sounds.spark.at(this);
+                    RSounds.spark.at(this);
 
-                    Sounds.spark.at(b);
+                    RSounds.spark.at(b);
                     breakEffect.at(b);
                     b.enabled = false;
 

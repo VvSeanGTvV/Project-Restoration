@@ -11,13 +11,13 @@ author: "VvSeanGtvV"
 main: "classicMod.ClassicMod"
 
 #the mod description as seen in the mod dialog
-description: "A Mindustry builds including some classic ones are added to Mindustry v7!"
+description: "A Mindustry builds including some classic ones are added to Mindustry v8!"
 
 #the mod version
-version: 0.5.0 Beta
+version: 0.6.0 Beta
 
 #the minimum game build required to run this mod
-minGameVersion: 150
+minGameVersion: 154
 
 #this is a java mod
 java: true
