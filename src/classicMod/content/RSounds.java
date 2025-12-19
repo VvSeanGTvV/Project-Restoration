@@ -22,6 +22,17 @@ public class RSounds {
     public static Sound boom = Vars.tree.loadSound("v5_sounds_boom");
     public static Sound respawn = Vars.tree.loadSound("v5_sounds_respawn");
 
+    //v146
+
+    //ui sfx
+    public static Sound back = Vars.tree.loadSound("back");
+
+    // bl/un sfx
+    public static Sound respawning = Vars.tree.loadSound("respawning");
+    public static Sound smelter = Vars.tree.loadSound("smelter");
+    public static Sound mediumCannon = Vars.tree.loadSound("mediumCannon");
+    public static Sound titanExplosion = Vars.tree.loadSound("titanExplosion");
+    public static Sound shootAltLong = Vars.tree.loadSound("shootAltLong");
     public static Sound shotgun = Vars.tree.loadSound("shotgun");
     public static Sound shootSnap = Vars.tree.loadSound("shootSnap");
     public static Sound largeCannon = Vars.tree.loadSound("largeCannon");

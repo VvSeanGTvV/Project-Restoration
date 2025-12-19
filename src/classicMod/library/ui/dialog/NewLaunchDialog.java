@@ -58,7 +58,8 @@ public class NewLaunchDialog extends Dialog {
                 Vars.state.set(GameState.State.playing);
             }
 
-            Sounds.back.play();
+            Sounds.uiBack.play();
+            //Sounds.back.play();
         });
         this.shown(() -> {
             if (this.shouldPause && Vars.state.isGame() && !Vars.net.active()) {

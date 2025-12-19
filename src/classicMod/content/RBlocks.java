@@ -1671,7 +1671,7 @@ public class RBlocks {
                     }});
                 }};
                 shootY = -3f;
-                shootSound = Sounds.shootAltLong;
+                shootSound = useNewSound ? Sounds.shootFuse : RSounds.shootAltLong;
                 shake = 1f;
                 shootLength = 5f;
                 outlineColor = Pal.darkOutline;
@@ -1707,7 +1707,7 @@ public class RBlocks {
                         splashDamage = 315f;
                         backColor = hitColor = trailColor = Pal.berylShot;
                         frontColor = Color.valueOf("f0ffde");
-                        hitSound = Sounds.titanExplosion;
+                        hitSound = useNewSound ? Sounds.explosionTitan : RSounds.titanExplosion;
 
                         status = StatusEffects.blasted;
 
@@ -1762,7 +1762,7 @@ public class RBlocks {
                         buildingDamageMultiplier = 0.6f;
                     }}*/
             );
-            shootSound = Sounds.mediumCannon;
+            shootSound = useNewSound ? Sounds.shootTank : RSounds.mediumCannon;
 
             targetAir = false;
             squareSprite = false;
@@ -1820,7 +1820,7 @@ public class RBlocks {
             powerProduction = 3f;
             itemDuration = 80f;
 
-            ambientSound = Sounds.smelter;
+            ambientSound = RSounds.smelter;
             ambientSoundVolume = 0.03f;
             generateEffect = Fx.generatespark;
 

@@ -16,6 +16,7 @@ import mindustry.world.*;
 import mindustry.world.blocks.ControlBlock;
 import mindustry.world.meta.*;
 
+import static classicMod.content.RVars.useNewSound;
 import static mindustry.Vars.*;
 
 //Created by: NullPointerException#7763 at Discord!
@@ -35,7 +36,7 @@ public class MechPad extends Block {
         update = true;
         solid = false;
         hasPower = true;
-        ambientSound = Sounds.respawning;
+        ambientSound = RSounds.respawning;
         finishedSounds = RSounds.respawn;
     }
 
