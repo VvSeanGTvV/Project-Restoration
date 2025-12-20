@@ -1877,7 +1877,7 @@ public class RUnitTypes {
             treadRects = new Rect[]{new Rect(22f - 154f/2f, 16f - 154f/2, 28f, 130f)};
 
             weapons.add(new Weapon(internalMod + "-howit-weapon"){{
-                shootSound = useNewSound ? Sounds.shootStell : RSounds.bolt;
+                shootSound = useNewSound ? Sounds.shootArtillerySmall : RSounds.bolt;
                 layerOffset = 0.0001f;
                 reload = 120f;
                 shootY = 7f;

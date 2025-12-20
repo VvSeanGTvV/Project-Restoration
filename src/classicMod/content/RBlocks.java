@@ -1234,11 +1234,14 @@ public class RBlocks {
                     RItems.denseAlloy, new ArtilleryBulletType(3f, 0, "shell"){{
                         hitEffect = Fx.flakExplosion;
                         knockback = 0.8f;
-                        lifetime = 50f;
+                        lifetime = 60f;
                         width = height = 11f;
                         collidesTiles = false;
                         splashDamageRadius = 25f;
-                        splashDamage = 33f;
+                        splashDamage = 32f;
+
+                        frontColor = Color.valueOf("d0e5ef");
+                        backColor = Color.valueOf("6b719b");
                     }},
 
                     Items.silicon, new ArtilleryBulletType(3f, 0, "shell"){{
@@ -1275,9 +1278,9 @@ public class RBlocks {
                         width = height = 14f;
                         collidesTiles = false;
                         splashDamageRadius = 45f;
-                        splashDamage = 50f;
-                        backColor = Pal.missileYellowBack;
-                        frontColor = Pal.missileYellow;
+                        splashDamage = 52f;
+                        backColor = Pal.blastAmmoFront;
+                        frontColor = Pal.blastAmmoBack;
                         reloadMultiplier = 1.6f;
 
                         status = StatusEffects.blasted;
@@ -1480,7 +1483,7 @@ public class RBlocks {
                     }}
             );
             size = 2;
-            shootSound = bigshot;
+            shootSound = useNewSound ? Sounds.shootCyclone : bigshot;
             shootEffect = RFx.chainshot;
             smokeEffect = Fx.none;
             health = 430;
@@ -1531,6 +1534,7 @@ public class RBlocks {
 
             drawer = new DrawTurret("reinforced-");
             shootLength = 0f;
+            shootY = -3;
             outlineColor = Pal.darkOutline;
             size = 2;
             envEnabled |= Env.space;
@@ -1547,7 +1551,7 @@ public class RBlocks {
 
         horde = new ItemTurretV6("horde"){{
             requirements(Category.turret, with(Items.tungsten, 35, Items.silicon, 35));
-            shootSound = useNewSound ? Sounds.shootMissileShort : missile;
+            shootSound = Sounds.shootMissileSmall;
             ammo(
                     Items.scrap, new MissileBulletType(4.5f, 30){{
                         inaccuracy = 0.25f;
@@ -1670,8 +1674,8 @@ public class RBlocks {
                         heatProgress = PartProgress.heat.blend(PartProgress.warmup, 0.5f);
                     }});
                 }};
-                shootY = -3f;
-                shootSound = useNewSound ? Sounds.shootFuse : RSounds.shootAltLong;
+                shootY = -2.5f;
+                shootSound = RSounds.shootFracture;
                 shake = 1f;
                 shootLength = 5f;
                 outlineColor = Pal.darkOutline;
@@ -1707,7 +1711,7 @@ public class RBlocks {
                         splashDamage = 315f;
                         backColor = hitColor = trailColor = Pal.berylShot;
                         frontColor = Color.valueOf("f0ffde");
-                        hitSound = useNewSound ? Sounds.explosionTitan : RSounds.titanExplosion;
+                        hitSound = Sounds.explosionTitan;
 
                         status = StatusEffects.blasted;
 
@@ -1762,7 +1766,7 @@ public class RBlocks {
                         buildingDamageMultiplier = 0.6f;
                     }}*/
             );
-            shootSound = useNewSound ? Sounds.shootTank : RSounds.mediumCannon;
+            shootSound = Sounds.shootTank;
 
             targetAir = false;
             squareSprite = false;

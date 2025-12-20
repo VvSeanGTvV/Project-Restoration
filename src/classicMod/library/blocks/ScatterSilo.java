@@ -23,7 +23,7 @@ import static mindustry.Vars.*;
 public class ScatterSilo extends Block {
 
     public Effect siloLaunch = RFx.siloLaunchEffect;
-    public Sound shootSound = Sounds.shoot;
+    public Sound shootSound = Sounds.shootScatter;
     public Effect shootEffect;
 
     public float range = 60f;
