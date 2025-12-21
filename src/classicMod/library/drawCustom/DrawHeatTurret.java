@@ -123,6 +123,7 @@ public class DrawHeatTurret extends DrawBlock {
 
         Drawf.additive(heat, block.heatColor.write(Tmp.c1).a(build.heatFrac()), build.x + build.recoilOffset.x, build.y + build.recoilOffset.y, build.drawrot(), heatLayer);
         Drawf.additive(heat, block.heatColor.write(Tmp.c1).a(build.heatFrac()), build.x + build.recoilOffset.x, build.y + build.recoilOffset.y, build.drawrot(), heatLayer);
+        Drawf.additive(heat, block.heatColor.write(Tmp.c1).a(build.heatFrac()), build.x + build.recoilOffset.x, build.y + build.recoilOffset.y, build.drawrot(), heatLayer);
     }
 
     /** Load any relevant texture regions. */

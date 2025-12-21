@@ -54,7 +54,6 @@ public class HeatedItemTurret extends ItemTurret {
             //heat approaches target at the same speed regardless of efficiency
             multiplier = 1f + ((coolant.consumes(liquids.current()) && this.liquids.get(liquids.current()) > 0f) ? coolant.amount * (this.liquids.get(liquids.current()) / this.block.liquidCapacity) * coolantMultiplier * liquids.current().heatCapacity : 0f);
             if (warmth > 0 && !isActive() || isHot) warmth = Mathf.approachDelta(warmth, 0f, (heatPerShot / 5f) * multiplier * delta());
-            Log.info(multiplier + " | liq : " + liquids.current() + " | " + (liquids.current().heatCapacity / 0.4f));
 
             if (warmth >= heatMaximum) {
                 isHot = true;
