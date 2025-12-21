@@ -13,6 +13,8 @@ import classicMod.library.blocks.legacyBlocks.*;
 import classicMod.library.blocks.neoplasiaBlocks.*;
 import classicMod.library.blocks.v6devBlocks.*;
 import classicMod.library.bullets.*;
+import classicMod.library.drawCustom.DrawHeatTurret;
+import classicMod.library.pattern.ShootBarrelMirror;
 import classicMod.library.unitType.MissileSmokeUnitType;
 import mindustry.content.*;
 import mindustry.entities.abilities.*;
@@ -1457,7 +1459,7 @@ public class RBlocks {
             playerControllable = true;
         }};
 
-        chainTurret = new MirroredItemTurret("chain-turret"){{
+        chainTurret = new HeatedItemTurret("chain-turret"){{
             requirements(Category.turret, with(Items.titanium, 50, RItems.dirium, 80, Items.lead, 100));
             //ammo(Items.thorium, chain);
             ammo(
@@ -1483,6 +1485,13 @@ public class RBlocks {
                     }}
             );
             size = 2;
+            shoot = new ShootBarrelMirror(){{
+                    barrels = new float[]{
+                            3.5f, -1.25f, 0
+                    };
+            }};
+            drawer = new DrawHeatTurret();
+            heatPerShot = 5f;
             shootSound = useNewSound ? Sounds.shootCyclone : bigshot;
             shootEffect = RFx.chainshot;
             smokeEffect = Fx.none;
