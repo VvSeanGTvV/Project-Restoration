@@ -87,7 +87,7 @@ public class HeatedItemTurret extends ItemTurret {
         @Override
         protected void bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover) {
             queuedBullets --;
-            warmth += heatPerShot * delta(); //Mathf.approachDelta(heat, heatOutput * efficiency, warmupRate * delta());
+            warmth += heatPerShot * delta() * (type.ammoMultiplier / 3f); //Mathf.approachDelta(heat, heatOutput * efficiency, warmupRate * delta());
 
             if(isHot || dead || (!consumeAmmoOnce && !hasAmmo())) return;
 
