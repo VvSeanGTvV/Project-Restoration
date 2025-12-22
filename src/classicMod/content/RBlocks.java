@@ -50,6 +50,7 @@ import static mindustry.type.ItemStack.with;
 public class RBlocks {
     public static Block
     crucible, //Production - classic
+    stoneDrill, copperDrill, coalDrill, titaniumDrill, thoriumDrill, omniDrill, //Drill [Classic]
     wallDirium, wallComposite, wallDiriumLarge, wallShieldedTitanium,//Wall - classic
 
     rtgGenerator, //Power [Classic-Hybrid]
@@ -111,7 +112,67 @@ public class RBlocks {
     ;
 
     public void load() {
+        stoneDrill = new SingleDrill("stone-drill"){{
+            requirements(Category.production, with(RItems.stone, 12));
+            drillTime = 4*60;
+            health = 40;
+            requiredItem = RItems.stone;
+        }};
 
+        copperDrill = new SingleDrill("copper-drill"){{
+            requirements(Category.production, with(RItems.stone, 25));
+            drillTime = 5*60;
+            health = 40;
+            requiredItem = Items.copper;
+            drawIconItem = true;
+        }};
+
+        thoriumDrill = new SingleDrill("thorium-drill"){{
+            requirements(Category.production, with(RItems.denseAlloy, 40, RItems.lead, 40));
+            drillTime = 7*60;
+            health = 40;
+            requiredItem = Items.thorium;
+            drawIconItem = true;
+        }};
+
+        titaniumDrill = new SingleDrill("titanium-drill"){{
+            requirements(Category.production, with(RItems.denseAlloy, 50, Items.lead, 50));
+            drillTime = 7*60;
+            health = 40;
+            requiredItem = Items.titanium;
+            drawIconItem = true;
+        }};
+
+        coalDrill = new SingleDrill("coal-drill"){{
+            requirements(Category.production, with(RItems.stone, 25, RItems.copper, 40));
+            drillTime = 6*60;
+            health = 40;
+            requiredItem = Items.coal;
+            drawIconItem = true;
+        }};
+
+        omniDrill = new Drill("omni-drill"){
+            {
+                requirements(Category.production, with(Items.titanium, 40, RItems.dirium, 40));
+                health = 40;
+                drillTime = 4*60;
+                drillEffect = RFx.spark;
+                //acceptedItems = new Item[]{Items.titanium, Items.coal, ClassicItems.iron, ClassicItems.uranium, ClassicItems.stone};
+                tier = RItems.uranium.hardness;
+                drawRim = false;
+                drawMineItem = true;
+                drawSpinSprite = true;
+            }
+
+            @Override
+            public void load() {
+                super.load();
+                itemRegion = Core.atlas.find("restored-mind-drill-middle");
+                region = Core.atlas.find("restored-mind-drill-bottom");
+                rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
+                topRegion = Core.atlas.find("restored-mind-omni-rim");
+            }
+        };
         //Enviroment
         /*yellowCoral = new SeaBush("yellowcoral") {
             {

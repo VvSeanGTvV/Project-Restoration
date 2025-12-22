@@ -1,9 +1,15 @@
 package classicMod.library.blocks.customBlocks;
 
 import arc.Core;
+import arc.graphics.Pixmap;
+import arc.graphics.Pixmaps;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
+import arc.util.Log;
+import arc.util.Nullable;
 import classicMod.content.RFx;
+import classicMod.uCoreGraphics.RPixmaps;
+import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.graphics.*;
 import mindustry.type.Item;
@@ -38,7 +44,7 @@ public class SingleDrill extends Drill {
         updateEffect = Fx.none;
         hasLiquids = false;
         drawRim = false;
-        drawMineItem = true;
+        drawMineItem = false;
         drawSpinSprite = true;
     }
 
@@ -49,18 +55,27 @@ public class SingleDrill extends Drill {
         region = Core.atlas.find("restored-mind-drill-bottom");
         rotatorRegion = Core.atlas.find("restored-mind-drill-rotator");
         topRegion = Core.atlas.find("restored-mind-default-rim");
-        if (drawIconItem) {
-            if (!Objects.equals(requiredItem.localizedName, requiredItem.name)) {
-                icoItem = Core.atlas.find("restored-mind-drill-icon-" + requiredItem.localizedName);
-            } else {
-                drawIconItem = false; //Just turn to disable when it doesn't find it
-            }
+        icoItem = Core.atlas.find("restored-mind-drill-border-" + requiredItem.name);
+    }
+
+    @Override
+    public void createIcons(MultiPacker packer) {
+        super.createIcons(packer);
+
+        var atlasA = Core.atlas.find("restored-mind-drill-border").asAtlas();
+        if (atlasA != null) {
+            String regionName = atlasA.name;
+            Pixmap outlined = RPixmaps.replaceWhite(Core.atlas.getPixmap(atlasA), requiredItem.color);
+
+            Drawf.checkBleed(outlined);
+
+            packer.add(MultiPacker.PageType.main, regionName + "-" + requiredItem.name, outlined);
         }
     }
 
     @Override
     public TextureRegion[] icons() {
-        if (drawIconItem) return new TextureRegion[]{region, rotatorRegion, topRegion, icoItem};
+        if (drawIconItem) return new TextureRegion[]{region, rotatorRegion, topRegion};
         return new TextureRegion[]{region, rotatorRegion, topRegion};
     }
 
@@ -75,12 +90,16 @@ public class SingleDrill extends Drill {
 
     @Override
     public void drawPlace(int x, int y, int rotation, boolean valid) {
-        //super.drawPlace(x, y, rotation, valid);
+        super.drawPlace(x, y, rotation, valid);
+
+        Tile tile = world.tile(x, y);
+        if(tile == null) return;
+        float s = iconSmall / 4f;
 
         Draw.rect(region, x, y);
         Draw.rect(rotatorRegion, x, y);
         Draw.rect(topRegion, x, y);
-        if (drawIconItem && valid) Draw.rect(icoItem, x, y);
+        if (drawIconItem && valid) Draw.rect(icoItem, x, y, s, s);
     }
 
     @Override
