@@ -4,6 +4,7 @@ import arc.Core;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
+import arc.struct.Seq;
 import arc.util.Log;
 import arc.util.Time;
 import classicMod.content.RFx;
@@ -43,7 +44,6 @@ public class JumpingUnitType extends UnitType {
 
     public JumpingUnitType(String name) {
         super(name);
-        constructor = JumpingUnit::new;
         controller = u -> new JumpingAI();
         outlineRadius = 1;
         flying = false;
@@ -52,32 +52,6 @@ public class JumpingUnitType extends UnitType {
         logicControllable = playerControllable = allowedInPayloads = false;
         //lowAltitude = drawCell = isEnemy = false;
     }
-
-    /*@Override
-    public Unit create(Team team) {
-        Unit unit = constructor.get(); //FORCE CREATE (for some reason constructor gets brok)
-        unit.team = team;
-        unit.setType(this);
-        if(unit.controller() instanceof CommandAI command && defaultCommand != null){
-            command.command = defaultCommand;
-        }
-        for(var ability : unit.abilities){
-            ability.created(unit);
-        }
-        unit.ammo = ammoCapacity; //fill up on ammo upon creation
-        unit.elevation = flying ? 1f : 0;
-        unit.heal();
-        if(unit instanceof TimedKillc u){
-            u.lifetime(lifetime);
-        }
-
-        Jumperc u = (Jumperc) unit;
-        u.stompEffect(StompEffect);
-        u.stompEffectExplosion(StompExplosionEffect);
-        u.stompColor(StompColor);
-
-        return unit;
-    }*/
 
     @Override
     public void setStats() {
@@ -92,19 +66,18 @@ public class JumpingUnitType extends UnitType {
     @Override
     public void init() {
         super.init();
-        if(EntityMapping.map(name) != null) {
+        /*if(EntityMapping.map(name) != null) {
             EntityMapping.nameMap.remove(name);
             EntityMapping.nameMap.put(name, JumpingUnit::new);
             //EntityMapping.register(name, JumpingUnit::new);
             constructor = EntityMapping.map(name);
-        }
+        }*/
 
 
         ouch = Core.atlas.find(name + "-hit");
         body = Core.atlas.find(name);
         outlineOuchRegion = Core.atlas.find(name + "-hit-outline");
         bodyOutline = Core.atlas.find(name + "-outline");
-
     }
 
     @Override
@@ -123,27 +96,20 @@ public class JumpingUnitType extends UnitType {
         if (unit instanceof Jumperc ai) {
             float timing = ai.timing();
             float timingY = ai.timingY();
-            boolean stopMoving = ai.stopMoving();
             boolean hit = ai.hit();
 
             var sine = Mathf.sin(timing);
             applyColor(unit);
-            if ((sine > 0f && !stopMoving) && !onlySlide) {
-                var Ysine = Mathf.sin(Mathf.sin(timingY) * 3);
-                if (!hit) {
-                    Draw.rect(body, unit.x, unit.y + 2 + Ysine * 3, (((float) body.width / 2) + sine * 5) * Mathf.sign(flip), ((float) body.height / 2) - sine * 10);
-                }
-                if (hit) {
-                    drawOuchOutline(unit, Mathf.sign(flip));
-                    Draw.rect(ouch, unit.x, unit.y + 2 + Ysine * 3, (((float) ouch.width / 2) + sine * 5) * Mathf.sign(flip), ((float) ouch.height / 2) - sine * 10);
-                }
+            if (hit) {
+                drawOuchOutline(unit, Mathf.sign(flip));
+                applyColor(unit);
+                Draw.rect(ouch, unit.x, unit.y + 2, (((float) ouch.width / 2) * Mathf.sign(flip)), ((float) ouch.height / 2));
             } else {
-                if (!hit) {
+                if ((sine > 0f) && !onlySlide) {
+                    var Ysine = Mathf.sin(Mathf.sin(timingY) * 3);
+                    Draw.rect(body, unit.x, unit.y + 2 + Ysine * 3, (((float) body.width / 2) + sine * 5) * Mathf.sign(flip), ((float) body.height / 2) - sine * 10);
+                } else {
                     Draw.rect(body, unit.x, unit.y + 2, (((float) body.width / 2) * Mathf.sign(flip)), (float) body.height / 2);
-                }
-                if (hit) {
-                    drawOuchOutline(unit, Mathf.sign(flip));
-                    Draw.rect(ouch, unit.x, unit.y + 2, (((float) ouch.width / 2) * Mathf.sign(flip)), ((float) ouch.height / 2));
                 }
             }
         }
@@ -169,8 +135,7 @@ public class JumpingUnitType extends UnitType {
 
     @Override
     public void createIcons(MultiPacker packer) {
-        super.createIcons(packer);
-
+        Seq<Pixmap> toDispose = new Seq<>();
         var atlasA = Core.atlas.find(name + "-hit").asAtlas();
         if (atlasA != null) {
             String regionName = atlasA.name;
@@ -179,16 +144,21 @@ public class JumpingUnitType extends UnitType {
             Drawf.checkBleed(outlined);
 
             packer.add(MultiPacker.PageType.main, regionName + "-outline", outlined);
+            toDispose.add(outlined);
         }
 
         var atlasB = Core.atlas.find(name).asAtlas();
         if (atlasB != null) {
             String regionName = atlasB.name;
-            Pixmap outlined = Pixmaps.outline(Core.atlas.getPixmap(Core.atlas.find(name)), outlineColor, outlineRadius);
+            Pixmap out = Pixmaps.outline(Core.atlas.getPixmap(Core.atlas.find(name)), outlineColor, outlineRadius);
 
-            Drawf.checkBleed(outlined);
+            Drawf.checkBleed(out);
 
-            packer.add(MultiPacker.PageType.main, regionName + "-outline", outlined);
+            packer.add(MultiPacker.PageType.main, regionName + "-outline", out);
+            toDispose.add(out);
         }
+
+        toDispose.each(Pixmap::dispose);
+        super.createIcons(packer);
     }
 }

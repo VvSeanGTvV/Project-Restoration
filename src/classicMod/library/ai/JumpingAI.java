@@ -3,6 +3,7 @@ package classicMod.library.ai;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.util.Log;
+import arc.util.Time;
 import classicMod.library.unitType.JumpingUnitType;
 import classicMod.library.unitType.unit.Jumperc;
 import classicMod.library.unitType.unit.JumpingUnit;
@@ -43,6 +44,8 @@ public class JumpingAI extends AIController {
 
             Building core = unit.closestEnemyCore();
 
+
+
             if ((core == null || !unit.within(core, 0.5f))) {
                 boolean move = (Mathf.sin(timing) >= 0.5f && !hit);
 
@@ -71,7 +74,6 @@ public class JumpingAI extends AIController {
                     pathfind(Pathfinder.fieldCore, Pathfinder.costGround);
                 }
                 faceMovement();
-                ai.stopMoving(stopMoving);
 
                 if (unit.type instanceof JumpingUnitType Jua){
                     if (!move && !once) {

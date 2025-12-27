@@ -5,6 +5,7 @@ import arc.graphics.Pixmap;
 import arc.graphics.Pixmaps;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
+import arc.struct.Seq;
 import arc.util.Log;
 import arc.util.Nullable;
 import classicMod.content.RFx;
@@ -32,6 +33,7 @@ public class SingleDrill extends Drill {
     public TextureRegion region;
     public TextureRegion rotatorRegion;
     public TextureRegion icoItem;
+
     /**
      * Draws the custom icon for the drill's icon
      **/
@@ -60,22 +62,24 @@ public class SingleDrill extends Drill {
 
     @Override
     public void createIcons(MultiPacker packer) {
-        super.createIcons(packer);
-
+        Seq<Pixmap> toDispose = new Seq<>();
         var atlasA = Core.atlas.find("restored-mind-drill-border").asAtlas();
         if (atlasA != null) {
             String regionName = atlasA.name;
-            Pixmap outlined = RPixmaps.replaceWhite(Core.atlas.getPixmap(atlasA), requiredItem.color);
+            Pixmap out = RPixmaps.replaceWhite(Core.atlas.getPixmap(atlasA), requiredItem.color);
 
-            Drawf.checkBleed(outlined);
+            Drawf.checkBleed(out);
 
-            packer.add(MultiPacker.PageType.main, regionName + "-" + requiredItem.name, outlined);
+            packer.add(MultiPacker.PageType.main, regionName + "-" + requiredItem.name, out);
         }
+
+        toDispose.each(Pixmap::dispose);
+        super.createIcons(packer);
     }
 
     @Override
     public TextureRegion[] icons() {
-        if (drawIconItem) return new TextureRegion[]{region, rotatorRegion, topRegion};
+        if (drawIconItem) return new TextureRegion[]{region, rotatorRegion, topRegion, Core.atlas.find("restored-mind-drill-border-" + requiredItem.name)};
         return new TextureRegion[]{region, rotatorRegion, topRegion};
     }
 

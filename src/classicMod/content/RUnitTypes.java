@@ -10,6 +10,7 @@ import classicMod.library.ai.*;
 import classicMod.library.bullets.*;
 import classicMod.library.drawCustom.CircleForceDraw;
 import classicMod.library.unitType.*;
+import classicMod.library.unitType.unit.JumpingUnit;
 import mindustry.Vars;
 import mindustry.ai.types.*;
 import mindustry.content.*;
@@ -489,7 +490,7 @@ public class RUnitTypes {
             health = 200f;
             hitSize = 10f;
 
-            constructor = MechUnit::create;
+            constructor = JumpingUnit::create;
         }};
 
         crawlerChan = new JumpingUnitType("crawlerchan"){{
@@ -498,7 +499,7 @@ public class RUnitTypes {
 
             StompColor = Color.valueOf("edadff");
 
-            constructor = MechUnit::create;
+            constructor = JumpingUnit::create;
         }};
 
         boulderChan = new JumpingUnitType("boulderchan"){{
@@ -506,7 +507,7 @@ public class RUnitTypes {
             hitSize = 10f;
 
             onlySlide = true; //hehehehehehehehehehheheheheheheheehehehehehehehehehehhehehehehehehehehhehehehehaw
-            constructor = MechUnit::create;
+            constructor = JumpingUnit::create;
         }};
 
         monoChan = new JumpingUnitType("monochan"){{
@@ -519,7 +520,7 @@ public class RUnitTypes {
             healPercent = 10f;
             healRange = 30f;
 
-            constructor = MechUnit::create;
+            constructor = JumpingUnit::create;
         }};
 
         octChan = new JumpingUnitType("octchan"){{
@@ -532,7 +533,7 @@ public class RUnitTypes {
             healPercent = 12f;
             healRange = 40f;
 
-            constructor = MechUnit::create;
+            constructor = JumpingUnit::create;
         }};
 
         oxynoeChan = new JumpingUnitType("oxynoechan"){{
@@ -558,7 +559,7 @@ public class RUnitTypes {
             healPercent = 12f;
             healRange = 60f;
 
-            constructor = MechUnit::create;
+            constructor = JumpingUnit::create;
         }};
 
         seiChan = new JumpingUnitType("seichan"){{
@@ -567,7 +568,7 @@ public class RUnitTypes {
 
             StompColor = Color.valueOf("ffa665");
 
-            constructor = MechUnit::create;
+            constructor = JumpingUnit::create;
         }};
 
         zenithChan = new JumpingUnitType("zenithchan"){{
@@ -576,7 +577,7 @@ public class RUnitTypes {
 
             StompColor = Color.valueOf("ffcc8a");
 
-            constructor = MechUnit::create;
+            constructor = JumpingUnit::create;
         }};
 
         azathoth = new TentacleUnitType("azathoth"){{

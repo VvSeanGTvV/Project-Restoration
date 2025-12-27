@@ -21,10 +21,8 @@ public interface Jumperc extends Builderc, Drawc, ElevationMovec, Entityc, Healt
 
     float timingY();
 
-    boolean stopMoving();
-    void stopMoving(boolean var1);
-
     boolean hit();
+    void hit(boolean var1);
 
     float hitDelay();
 

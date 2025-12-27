@@ -33,7 +33,9 @@ public class RSerpuloTechTree {
         });
 
         margeNode(sporePress, () -> {
-            node(bioCompressor);
+            node(bioCompressor, Seq.with(
+                    new Research(RItems.biomatter)
+            ));
         });
 
         margeNode(combustionGenerator, () -> {
@@ -157,6 +159,18 @@ public class RSerpuloTechTree {
 
         // Drills
         margeNode(pneumaticDrill, () -> {
+            node(stoneDrill, () -> {
+                node(copperDrill, Seq.with(
+                        new Research(RItems.stone)
+                ), () -> {
+                    node(coalDrill, Seq.with(
+                            new Research(Items.coal)
+                    ));
+                    node(titaniumDrill, Seq.with(
+                            new Research(RItems.denseAlloy)
+                    ));
+                });
+            });
             node(stoneSeparator, Seq.with(
                     new OnSector(ruinousShores),
                     new Research(Items.coal),
@@ -175,8 +189,18 @@ public class RSerpuloTechTree {
             });
         });
 
+        margeNode(laserDrill, () -> {
+            node(thoriumDrill, Seq.with(
+                    new Research(Items.thorium),
+                    new Research(RItems.denseAlloy)
+            ));
+        });
+
         margeNode(blastDrill, () -> {
             node(areaExtractor);
+            node(omniDrill, Seq.with(
+                    new Research(RItems.dirium)
+            ));
         });
 
         // Walls
@@ -214,6 +238,10 @@ public class RSerpuloTechTree {
             nodeProduce(RItems.stone, () -> {
 
             });
+        });
+
+        margeNode(Items.sporePod, () -> {
+            node(RItems.biomatter);
         });
 
         margeNode(Items.titanium, () -> {

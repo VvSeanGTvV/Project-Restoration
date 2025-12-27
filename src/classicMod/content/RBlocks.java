@@ -117,6 +117,8 @@ public class RBlocks {
             drillTime = 4*60;
             health = 40;
             requiredItem = RItems.stone;
+
+            consumeLiquid(Liquids.water, 0.05f).boost();
         }};
 
         copperDrill = new SingleDrill("copper-drill"){{
@@ -125,43 +127,54 @@ public class RBlocks {
             health = 40;
             requiredItem = Items.copper;
             drawIconItem = true;
+
+            consumeLiquid(Liquids.water, 0.05f).boost();
         }};
 
         thoriumDrill = new SingleDrill("thorium-drill"){{
             requirements(Category.production, with(RItems.denseAlloy, 40, RItems.lead, 40));
             drillTime = 7*60;
-            health = 40;
+            health = 80;
             requiredItem = Items.thorium;
             drawIconItem = true;
+
+            consumeLiquid(Liquids.water, 0.1f).boost();
         }};
 
         titaniumDrill = new SingleDrill("titanium-drill"){{
             requirements(Category.production, with(RItems.denseAlloy, 50, Items.lead, 50));
             drillTime = 7*60;
-            health = 40;
+            health = 80;
             requiredItem = Items.titanium;
             drawIconItem = true;
+
+            consumeLiquid(Liquids.water, 0.08f).boost();
         }};
 
         coalDrill = new SingleDrill("coal-drill"){{
             requirements(Category.production, with(RItems.stone, 25, RItems.copper, 40));
             drillTime = 6*60;
-            health = 40;
+            health = 60;
             requiredItem = Items.coal;
             drawIconItem = true;
+
+            consumeLiquid(Liquids.water, 0.08f).boost();
         }};
 
         omniDrill = new Drill("omni-drill"){
             {
-                requirements(Category.production, with(Items.titanium, 40, RItems.dirium, 40));
-                health = 40;
+                requirements(Category.production, with(Items.titanium, 40, RItems.dirium, 55));
+                health = 120;
                 drillTime = 4*60;
                 drillEffect = RFx.spark;
+                consumePower(0.5f);
                 //acceptedItems = new Item[]{Items.titanium, Items.coal, ClassicItems.iron, ClassicItems.uranium, ClassicItems.stone};
                 tier = RItems.uranium.hardness;
                 drawRim = false;
                 drawMineItem = true;
                 drawSpinSprite = true;
+
+                consumeLiquid(Liquids.water, 1f).boost();
             }
 
             @Override

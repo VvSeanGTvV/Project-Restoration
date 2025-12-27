@@ -240,8 +240,6 @@ public class ClassicMod extends Mod{
 
     @Override
     public void init() {
-        // register all custom constructors
-        registerConstructors();
 
         if (settings.getBool("use-planetmenu")) MenuUI.load();
         AutoUpdate.load();
@@ -469,11 +467,12 @@ public class ClassicMod extends Mod{
 
     public void registerConstructors(){
         int jumperID = EntityMapping.register("jumper", JumpingUnit::new);
-        Log.info("registered jumper:" + jumperID);
+        Log.info("registered jumper: " + jumperID);
     }
 
     @Override
     public void loadContent(){
+        registerConstructors();
 
         // Load contents
         useNewSound = settings.getBool("content-use-new-sound");

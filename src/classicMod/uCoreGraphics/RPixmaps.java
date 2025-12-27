@@ -4,6 +4,7 @@ import arc.graphics.Color;
 import arc.graphics.Pixmap;
 import arc.graphics.Pixmaps;
 import arc.graphics.g2d.PixmapRegion;
+import arc.graphics.g2d.TextureRegion;
 import arc.util.Tmp;
 
 public class RPixmaps extends Pixmaps {
