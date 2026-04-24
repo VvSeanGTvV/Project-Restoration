@@ -37,35 +37,36 @@ public class SteamHugAI extends NeoplasmAIController {
     public void pathfind(int pathTarget) {
         stucked = false;
 
-        int costType = this.unit.type.flowfieldPathType;
-        Tile tile = this.unit.tileOn();
-        if (tile == null) return;
-
-        // Try to find a normal path target avoiding DodgeTile
-        Tile targetTile = RVars.pathfinderCustom.getTargetTileDodge(
-                tile,
-                RVars.pathfinderCustom.getField(this.unit.team, costType, pathTarget),
-                DodgeTile
-        );
-
-        // Fallback logic if path is blocked or null
-        if (targetTile == null || tile == targetTile) {
-            // Try escaping to the edge of the danger zone
-            targetTile = getEdgeEscapeTile();
-
-            // Still stuck? Mark as stucked
-            if (targetTile == null || tile == targetTile) {
-                stucked = true;
-                return;
-            }
+        Tile tile = unit.tileOn();
+        if (tile == null) {
+            stucked = true;
+            return;
         }
 
-        // Move toward target if valid
+        int costType = unit.type.flowfieldPathType;
+
+        // 1. Get flowfield target (ThreatMap + PheromoneMap aware)
+        PathfinderCustom.Flowfield field =
+                classicMod.content.RVars.pathfinderCustom.getField(unit.team, costType, pathTarget);
+
+        Tile targetTile =
+                classicMod.content.RVars.pathfinderCustom.getTargetTile(tile, field, true);
+
+        // 2. If the pathfinder returns null or self, try danger‑edge escape
+        if (targetTile == null || targetTile == tile) {
+            targetTile = getEdgeEscapeTile();
+        }
+
+        // 3. If still null, we are stuck
+        if (targetTile == null || targetTile == tile) {
+            stucked = true;
+            return;
+        }
+
+        // 4. Move toward target tile
         if (costType != 2 || targetTile.floor().isLiquid) {
-            this.unit.movePref(vec.trns(
-                    this.unit.angleTo(targetTile.worldx(), targetTile.worldy()),
-                    this.unit.speed()
-            ));
+            float angle = unit.angleTo(targetTile.worldx(), targetTile.worldy());
+            unit.movePref(vec.trns(angle, unit.speed()));
         }
     }
 }

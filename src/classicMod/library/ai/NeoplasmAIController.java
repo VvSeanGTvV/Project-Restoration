@@ -5,10 +5,10 @@ import arc.math.geom.Geometry;
 import arc.math.geom.Point2;
 import arc.struct.ObjectSet;
 import arc.struct.Seq;
-import arc.util.*;
-import classicMod.content.RVars;
+import arc.util.Time;
 import classicMod.library.GeometryPlus;
 import classicMod.library.blocks.neoplasiaBlocks.CausticHeart;
+import classicMod.library.neoplasm.ThreatMap;
 import mindustry.Vars;
 import mindustry.ai.Pathfinder;
 import mindustry.content.Blocks;
@@ -18,23 +18,24 @@ import mindustry.gen.*;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.turrets.Turret;
 
+import static classicMod.content.RVars.pathfinderCustom;
+
 public class NeoplasmAIController extends AIController {
 
+    // tiles to avoid (explosions, dead neoplasm, etc.)
     public Seq<Tile> DodgeTile = new Seq<>();
     public Seq<Unit> groups = new Seq<>();
 
     public boolean ignore;
 
-    private Tile currentSafeTarget = null;
-    private float rerouteCooldown = 0f; // Time left before recomputing a new safe tile
+    private float rerouteCooldown = 0f;
 
-    // Use ObjectSet for fast lookup
     public ObjectSet<Unit> knownNeoplasms = new ObjectSet<>();
     public Seq<Unit> neoplasmGroup = new Seq<>();
 
     @Override
     public void updateUnit() {
-        // Look for nearby untracked neoplasms
+        // discover nearby neoplasm units to track
         Unit neo = Units.closest(unit.team, unit.x, unit.y, u ->
                 u.controller() instanceof NeoplasmAIController &&
                         !knownNeoplasms.contains(u) &&
@@ -46,54 +47,59 @@ public class NeoplasmAIController extends AIController {
             neoplasmGroup.add(neo);
         }
 
+        // handle dead neoplasms -> add their area to DodgeTile
         Seq<Unit> toRemove = new Seq<>();
-
         for (var neoplasm : neoplasmGroup) {
             if (neoplasm == null || !neoplasm.dead) continue;
 
             Tile deadTile = neoplasm.tileOn();
             if (deadTile != null && neoplasm.controller() instanceof NeoplasmAIController ai && !ai.ignore) {
-                // Add central and surrounding tiles if not already in DodgeTile
-                for (var point : GeometryPlus.d8plus) { // includes center + 8 surrounding
+                for (var point : GeometryPlus.d8plus) {
                     Tile t = Vars.world.tile(deadTile.x + point.x, deadTile.y + point.y);
                     if (t != null) DodgeTile.addUnique(t);
                 }
             }
 
-            // Remove from group tracking
             toRemove.add(neoplasm);
             knownNeoplasms.remove(neoplasm);
         }
-
         neoplasmGroup.removeAll(toRemove);
 
+        if (rerouteCooldown > 0f) rerouteCooldown -= Time.delta;
 
-        if (rerouteCooldown > 0) rerouteCooldown -= Time.delta;
         super.updateUnit();
     }
 
-    @Nullable
-    public Tile getClosestVent(boolean dontPlaceNearDangerous) {
-        Seq<Tile> avaliableVents = PathfinderExtended.SteamVents.copy().removeAll(tile -> tile.build instanceof CausticHeart.HeartBuilding || tile.block() != Blocks.air);
-        Tile vent = Geometry.findClosest(this.unit.x, this.unit.y, avaliableVents);
+    // ---------- VENT TARGETING ----------
 
+    public Tile getClosestVent(boolean dontPlaceNearDangerous) {
+        Seq<Tile> avaliableVents = PathfinderExtended.SteamVents.copy()
+                .removeAll(tile -> tile.build instanceof CausticHeart.HeartBuilding || tile.block() != Blocks.air);
+
+        Tile vent = Geometry.findClosest(this.unit.x, this.unit.y, avaliableVents);
         if (vent == null) return null;
+
         Building nearbyEnemyTile = Units.findEnemyTile(this.unit.team, vent.getX(), vent.getY(), 240f, building -> !building.dead);
-        if (dontPlaceNearDangerous && nearbyEnemyTile != null) avaliableVents = avaliableVents.copy().removeAll(tile -> tile.dst(nearbyEnemyTile) <= 80f);
-        vent = Geometry.findClosest(this.unit.x, this.unit.y, avaliableVents);
+        if (dontPlaceNearDangerous && nearbyEnemyTile != null) {
+            avaliableVents = avaliableVents.copy().removeAll(tile -> tile.dst(nearbyEnemyTile) <= 80f);
+            vent = Geometry.findClosest(this.unit.x, this.unit.y, avaliableVents);
+        }
+
         return (vent != null && !(vent.build instanceof CausticHeart.HeartBuilding)) ? vent : null;
     }
 
-    @Nullable
     public Tile getClosestVent() {
         return getClosestVent(false);
     }
 
+    // ---------- DANGER HANDLING ----------
+
     public Tile closestDanger(){
-        if (DodgeTile.size <= 0 || DodgeTile.isEmpty()) return null;
+        if (DodgeTile.isEmpty()) return null;
         return DodgeTile.copy().sort(tile1 -> tile1.dst(this.unit)).get(0);
     }
 
+    /** Find a safe tile near targetTile, away from closestDanger. */
     public Tile getClosestTarget(int range, Tile closestDanger, Tile targetTile, Unit unit){
         int mid = Mathf.floor((float) range / 2);
         Seq<Tile> avaliableLand = new Seq<>();
@@ -101,25 +107,31 @@ public class NeoplasmAIController extends AIController {
         for (int y = -mid; y < range; y++){
             for (int x = -mid; x < range; x++){
                 Tile tile = Vars.world.tile(unit.tileX() + x, unit.tileY() + y);
-                if (
-                        tile != null
-                                && tile.block() == Blocks.air
-                                && tile.floor() != null
-                                && !tile.floor().isLiquid
-                ) avaliableLand.add(tile);
+                if (tile != null &&
+                        tile.block() == Blocks.air &&
+                        tile.floor() != null &&
+                        !tile.floor().isLiquid) {
+                    avaliableLand.add(tile);
+                }
             }
         }
 
-        if (avaliableLand.size <= 0) return null;
-        avaliableLand.removeAll(tile -> closestDanger.dst(tile) < 80);
-        avaliableLand.removeAll(tile -> this.unit.dst(tile) < 10 && this.unit.dst(tile) > 100);
-        avaliableLand.sort(tile -> tile.dst(targetTile));
+        if (avaliableLand.isEmpty()) return null;
 
-        if (avaliableLand.size <= 0) return null;
-        return avaliableLand.first();
+        if (closestDanger != null) {
+            avaliableLand.removeAll(tile -> closestDanger.dst(tile) < 80f);
+        }
+
+        avaliableLand.removeAll(tile -> {
+            float d = unit.dst(tile);
+            return d < 10f || d > 100f;
+        });
+
+        avaliableLand.sort(tile -> tile.dst(targetTile));
+        return avaliableLand.isEmpty() ? null : avaliableLand.first();
     }
 
-    @Nullable
+    /** Tile on the edge of danger cluster. */
     public Tile getEdgeEscapeTile(){
         Seq<Tile> candidates = new Seq<>();
 
@@ -139,15 +151,18 @@ public class NeoplasmAIController extends AIController {
         }
 
         if(candidates.isEmpty()) return null;
-        return candidates.sort(tile -> tile.dst(unit)).first(); // Closest edge tile
+        return candidates.sort(tile -> tile.dst(unit)).first();
     }
+
+    // ---------- AIR ROUTING (OPTIONAL USE) ----------
 
     public void routeAir(){
         Tile tile = this.unit.tileOn();
+        if (tile == null) return;
+
         Tile targetTile = target != null ? target.tileOn() : null;
         Tile nearDanger = closestDanger();
 
-        // Reroute if too close to danger
         if (nearDanger != null && targetTile != null) {
             float distance = nearDanger.dst(tile);
             if (distance < 80f){
@@ -155,17 +170,17 @@ public class NeoplasmAIController extends AIController {
                 if (safeTarget != null){
                     targetTile = safeTarget;
                 } else {
-                    // Use edge escape if can't find a good safe target
                     targetTile = getEdgeEscapeTile();
                 }
             }
         }
 
-        // Move toward safe target
         if (targetTile != null && tile != targetTile){
             unit.movePref(vec.set(targetTile).sub(unit).limit(unit.speed()));
         }
     }
+
+    // ---------- MAIN PATHFIND USING NEW PATHFINDER ----------
 
     @Override
     public void pathfind(int pathTarget) {
@@ -173,41 +188,54 @@ public class NeoplasmAIController extends AIController {
         Tile tile = this.unit.tileOn();
         if (tile == null) return;
 
-        // Attempt to get a pathfinding target tile avoiding DodgeTile
-        Tile targetTile = RVars.pathfinderCustom.getTargetTileDodge(
-                tile,
-                RVars.pathfinderCustom.getField(this.unit.team, costType, pathTarget),
-                DodgeTile
-        );
+        // base flowfield target
+        PathfinderCustom.Flowfield field = pathfinderCustom.getField(this.unit.team, costType, pathTarget);
+        Tile targetTile = pathfinderCustom.getTargetTile(tile, field, true);
 
         Tile nearDanger = closestDanger();
 
-        // Try rerouting if near danger
+        // if near a DodgeTile danger, try to reroute locally
         if (nearDanger != null) {
             float distance = nearDanger.dst(tile);
-            if (distance < 80f) {
+            if (distance < 80f && rerouteCooldown <= 0f) {
                 Tile safeTarget = getClosestTarget(15, nearDanger, targetTile, unit);
                 if (safeTarget != null) {
                     targetTile = safeTarget;
                 } else {
-                    // Fallback: move to tile on edge of danger zone
-                    targetTile = getEdgeEscapeTile();
+                    Tile edge = getEdgeEscapeTile();
+                    if (edge != null) targetTile = edge;
                 }
-
-                // Optional: remove the danger if no alternative found
-                if (targetTile == null) {
-                    DodgeTile.remove(nearDanger);
-                }
+                rerouteCooldown = 20f; // small cooldown to avoid constant recompute
             }
         }
 
+        // extra safety: avoid very high ThreatMap tiles if possible
+        if (targetTile != null && ThreatMap.get(targetTile) > 120) {
+            Tile best = null;
+            float bestScore = Float.POSITIVE_INFINITY;
+
+            for (Point2 p : Geometry.d8) {
+                Tile n = Vars.world.tile(targetTile.x + p.x, targetTile.y + p.y);
+                if (n == null) continue;
+                if (n.block() != Blocks.air || (n.floor() != null && n.floor().isLiquid)) continue;
+
+                float threat = ThreatMap.get(n);
+                float dist = n.dst(tile);
+                float score = threat * 2f + dist;
+                if (score < bestScore) {
+                    bestScore = score;
+                    best = n;
+                }
+            }
+
+            if (best != null) targetTile = best;
+        }
+
         if (targetTile != null && tile != targetTile) {
-            // Only move if it's a valid move (don't path to self)
-            if (costType != 2 || targetTile.floor().isLiquid) {
-                this.unit.movePref(vec.trns(
-                        this.unit.angleTo(targetTile.worldx(), targetTile.worldy()),
-                        this.unit.speed()
-                ));
+            // for naval, ensure target is liquid; otherwise normal
+            if (costType != Pathfinder.costNaval || targetTile.floor().isLiquid) {
+                float angle = unit.angleTo(targetTile.worldx(), targetTile.worldy());
+                unit.movePref(vec.trns(angle, unit.speed()));
             }
         }
     }
