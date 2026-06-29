@@ -174,8 +174,8 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
             }
 
             boolean nearTarget =
-                    (task == PathfinderCustom.fieldVent && next.floor().attributes.get(Attribute.steam) > 0) ||
-                            (task == PathfinderCustom.fieldCore && Units.findEnemyTile(team, next.x, next.y, 200f, b -> true) != null);
+                    (task == PathfinderV2.fieldVent && next.floor().attributes.get(Attribute.steam) > 0) ||
+                            (task == PathfinderV2.fieldCore && Units.findEnemyTile(team, next.x, next.y, 200f, b -> true) != null);
 
             return phero > 0.2f || nearTarget;
         }
@@ -229,7 +229,7 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
             int costType = Pathfinder.costNeoplasm;
             Tile tile = this.tile;
             if (tile != null) {
-                Tile targetTile = pathfinderCustom.getTargetTileD4(tile, pathfinderCustom.getField(team, costType, pathTarget));
+                Tile targetTile = pathfinderCustom.getTargetTile(tile, pathfinderCustom.getField(team, costType, pathTarget), false);
                 if (tile != targetTile) {
                     return targetTile;
                 }
@@ -240,7 +240,7 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
         public Tile pathfindFrom(Tile from, int pathTarget){
             int costType = Pathfinder.costNeoplasm;
             if (from != null) {
-                Tile targetTile = pathfinderCustom.getTargetTileD4(from, pathfinderCustom.getField(team, costType, pathTarget));
+                Tile targetTile = pathfinderCustom.getTargetTile(from, pathfinderCustom.getField(team, costType, pathTarget), false);
                 if (from != targetTile) {
                     return targetTile;
                 }
@@ -254,12 +254,12 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
             growRestart++;
 
             // task escalation
-            if (task <= 0) task = PathfinderCustom.fieldVent;
+            if (task <= 0) task = PathfinderV2.fieldVent;
 
             if (growRestart >= 3) {
-                if (task == PathfinderCustom.fieldVent) task = PathfinderCustom.fieldOres;
-                else if (task == PathfinderCustom.fieldOres) task = PathfinderCustom.fieldCore;
-                else task = PathfinderCustom.fieldVent;
+                if (task == PathfinderV2.fieldVent) task = PathfinderV2.fieldOres;
+                else if (task == PathfinderV2.fieldOres) task = PathfinderV2.fieldCore;
+                else task = PathfinderV2.fieldVent;
                 growRestart = 0;
             }
 
@@ -322,12 +322,12 @@ public class CausticCord extends NeoplasmBlock implements Autotiler {
             if (Queue.size > 0) coverQueue(pipe);
 
             if (growRestart >= 2){
-                if (task == PathfinderCustom.fieldVent) {
-                    task = PathfinderCustom.fieldOres;
-                } else if (task == PathfinderCustom.fieldOres) {
-                    task = PathfinderCustom.fieldCore;
+                if (task == PathfinderV2.fieldVent) {
+                    task = PathfinderV2.fieldOres;
+                } else if (task == PathfinderV2.fieldOres) {
+                    task = PathfinderV2.fieldCore;
                 } else {
-                    task = PathfinderCustom.fieldVent;
+                    task = PathfinderV2.fieldVent;
                 }
                 growRestart = 0;
             }

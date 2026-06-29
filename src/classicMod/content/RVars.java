@@ -19,7 +19,7 @@ public class RVars extends Vars {
     /** constructors id registered custom **/
     public static ObjectMap<String, Integer> idcMap = new ObjectMap<>();
 
-    public static PathfinderCustom pathfinderCustom;
+    public static PathfinderV2 pathfinderCustom;
 
     /** What neoplasm can drill, this is important to prevent drilling unnecessary ores.
      * TODO: Probably dynamic would be good here
@@ -38,6 +38,6 @@ public class RVars extends Vars {
     }
 
     public static void init_RVars() {
-        pathfinderCustom = new PathfinderCustom();
+        pathfinderCustom = new PathfinderV2();
     }
 }

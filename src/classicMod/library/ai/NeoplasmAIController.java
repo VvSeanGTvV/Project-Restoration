@@ -189,7 +189,7 @@ public class NeoplasmAIController extends AIController {
         if (tile == null) return;
 
         // base flowfield target
-        PathfinderCustom.Flowfield field = pathfinderCustom.getField(this.unit.team, costType, pathTarget);
+        PathfinderV2.Flowfield field = pathfinderCustom.getField(this.unit.team, costType, pathTarget);
         Tile targetTile = pathfinderCustom.getTargetTile(tile, field, true);
 
         Tile nearDanger = closestDanger();

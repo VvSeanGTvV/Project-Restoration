@@ -19,7 +19,7 @@ public class SteamHugAI extends NeoplasmAIController {
         Tile closestVent = getClosestVent();
         if (closestVent != null){
             targetDestination = closestVent;
-            pathfind(PathfinderCustom.fieldVent);
+            pathfind(PathfinderV2.fieldVent);
         } else {
             ignore = true;
             unit.kill();
@@ -46,7 +46,7 @@ public class SteamHugAI extends NeoplasmAIController {
         int costType = unit.type.flowfieldPathType;
 
         // 1. Get flowfield target (ThreatMap + PheromoneMap aware)
-        PathfinderCustom.Flowfield field =
+        PathfinderV2.Flowfield field =
                 classicMod.content.RVars.pathfinderCustom.getField(unit.team, costType, pathTarget);
 
         Tile targetTile =

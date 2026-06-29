@@ -983,6 +983,7 @@ public class RUnitTypes {
 
 
             weapons.add(new Weapon() {{
+                minShootVelocity = 1f;
                 x = 0f;
                 y = 2f;
                 top = true;

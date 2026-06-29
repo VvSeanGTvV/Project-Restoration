@@ -7,6 +7,8 @@ import mindustry.game.Objectives.*;
 import mindustry.type.ItemStack;
 
 import static classicMod.content.RBlocks.*;
+import static classicMod.content.RItems.silver;
+import static classicMod.content.RSectorPresents.silverCrags;
 import static mindustry.content.Blocks.*;
 import static mindustry.content.SectorPresets.*;
 import static mindustry.content.TechTree.*;
@@ -18,7 +20,7 @@ public class RSerpuloTechTree {
 
         // Sector
         margeNode(frozenForest, () -> {
-            node(RSectorPresents.silverCrags, Seq.with(
+            node(silverCrags, Seq.with(
                     new SectorComplete(frozenForest)
             ));
         });
@@ -57,7 +59,10 @@ public class RSerpuloTechTree {
                     });
 
                     node(wraithFactory, () -> {
-                        node(chromeWraithFactory);
+                        node(chromeWraithFactory, Seq.with(
+                                new SectorComplete(silverCrags),
+                                new Produce(silver)
+                        ));
                         node(ghoulFactory, () -> {
                             node(revenantFactory, () -> {
 
@@ -245,7 +250,7 @@ public class RSerpuloTechTree {
         });
 
         margeNode(Items.titanium, () -> {
-            nodeProduce(RItems.silver);
+            nodeProduce(silver);
             nodeProduce(RItems.electrum, () -> {
 
             });

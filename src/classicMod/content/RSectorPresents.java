@@ -13,8 +13,11 @@ public class RSectorPresents extends SectorPresets {
 
     public static void load() {
         silverCrags = new SectorPreset("silverCrags", Planets.serpulo, 25) {{
-
-            captureWave = 15;
+            rules = rules -> {
+                rules.waves = true; // bruh forgor to set this while editing the map
+                rules.winWave = 25;
+                rules.solarMultiplier = 1.5f;
+            };
             difficulty = 3;
         }};
     }
